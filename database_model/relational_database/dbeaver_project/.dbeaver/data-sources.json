@@ -1,0 +1,42 @@
+{
+	"folders": {},
+	"connections": {
+		"postgres-jdbc-1930dfbbc0c-7800a991607d6dc2": {
+			"provider": "postgresql",
+			"driver": "postgres-jdbc",
+			"name": "postgres",
+			"configuration": {
+				"host": "localhost",
+				"port": "5432",
+				"database": "postgres",
+				"url": "jdbc:postgresql://localhost:5432/postgres",
+				"configurationType": "MANUAL",
+				"home": "/usr/lib/postgresql/15",
+				"type": "dev",
+				"closeIdleConnection": true,
+				"provider-properties": {
+					"@dbeaver-show-non-default-db@": "false",
+					"@dbeaver-chosen-role@": ""
+				},
+				"auth-model": "native"
+			}
+		}
+	},
+	"virtual-models": {"postgres-jdbc-1930dfbbc0c-7800a991607d6dc2":{"engineering-thesis":{"public":{"@properties":{"erd.diagram.state":{"serialized":"\u003cdiagram version\u003d\"1\" name\u003d\"empty\" time\u003d\"202411092108\"\u003e\u003centities\u003e\u003cdata-source id\u003d\"postgres-jdbc-1930dfbbc0c-7800a991607d6dc2\"\u003e\u003centity id\u003d\"1\" name\u003d\"service\" fq-name\u003d\"public.service\" order\u003d\"0\" font\u003d\"Segoe UI:9:0\" x\u003d\"420\" y\u003d\"640\"\u003e\u003cpath name\u003d\"public\"/\u003e\u003cpath name\u003d\"engineering-thesis\"/\u003e\u003c/entity\u003e\u003centity id\u003d\"2\" name\u003d\"staff_member\" fq-name\u003d\"public.staff_member\" order\u003d\"1\" font\u003d\"Segoe UI:9:0\" x\u003d\"40\" y\u003d\"400\"\u003e\u003cpath name\u003d\"public\"/\u003e\u003cpath name\u003d\"engineering-thesis\"/\u003e\u003c/entity\u003e\u003centity id\u003d\"3\" name\u003d\"customer\" fq-name\u003d\"public.customer\" order\u003d\"2\" font\u003d\"Segoe UI:9:0\" x\u003d\"140\" y\u003d\"260\"\u003e\u003cpath name\u003d\"public\"/\u003e\u003cpath name\u003d\"engineering-thesis\"/\u003e\u003c/entity\u003e\u003centity id\u003d\"4\" name\u003d\"admin_role\" fq-name\u003d\"public.admin_role\" order\u003d\"3\" font\u003d\"Segoe UI:9:0\" x\u003d\"580\" y\u003d\"460\"\u003e\u003cpath name\u003d\"public\"/\u003e\u003cpath name\u003d\"engineering-thesis\"/\u003e\u003c/entity\u003e\u003centity id\u003d\"5\" name\u003d\"user\" fq-name\u003d\"public.\u0026quot;user\u0026quot;\" order\u003d\"4\" font\u003d\"Segoe UI:9:0\" x\u003d\"640\" y\u003d\"180\"\u003e\u003cpath name\u003d\"public\"/\u003e\u003cpath name\u003d\"engineering-thesis\"/\u003e\u003c/entity\u003e\u003centity id\u003d\"6\" name\u003d\"service_provider\" fq-name\u003d\"public.service_provider\" order\u003d\"5\" font\u003d\"Segoe UI:9:0\" x\u003d\"640\" y\u003d\"40\"\u003e\u003cpath name\u003d\"public\"/\u003e\u003cpath name\u003d\"engineering-thesis\"/\u003e\u003c/entity\u003e\u003centity id\u003d\"7\" name\u003d\"service_employee\" fq-name\u003d\"public.service_employee\" order\u003d\"6\" font\u003d\"Segoe UI:9:0\" x\u003d\"40\" y\u003d\"40\"\u003e\u003cpath name\u003d\"public\"/\u003e\u003cpath name\u003d\"engineering-thesis\"/\u003e\u003c/entity\u003e\u003centity id\u003d\"8\" name\u003d\"seller\" fq-name\u003d\"public.seller\" order\u003d\"7\" border-width\u003d\"3\" font\u003d\"Segoe UI:9:0\" x\u003d\"740\" y\u003d\"360\"\u003e\u003cpath name\u003d\"public\"/\u003e\u003cpath name\u003d\"engineering-thesis\"/\u003e\u003c/entity\u003e\u003c/data-source\u003e\u003c/entities\u003e\u003crelations\u003e\u003crelation name\u003d\"staff_member_admin_role_fk\" fq-name\u003d\"public.staff_member.staff_member_admin_role_fk\" type\u003d\"fk\" pk-ref\u003d\"4\" fk-ref\u003d\"2\"/\u003e\u003crelation name\u003d\"buyer_user_fk\" fq-name\u003d\"public.customer.buyer_user_fk\" type\u003d\"fk\" pk-ref\u003d\"5\" fk-ref\u003d\"3\"/\u003e\u003crelation name\u003d\"service_employee_user_fk\" fq-name\u003d\"public.service_employee.service_employee_user_fk\" type\u003d\"fk\" pk-ref\u003d\"5\" fk-ref\u003d\"7\"/\u003e\u003crelation name\u003d\"service_employee_service_provider_fk\" fq-name\u003d\"public.service_employee.service_employee_service_provider_fk\" type\u003d\"fk\" pk-ref\u003d\"6\" fk-ref\u003d\"7\"/\u003e\u003c/relations\u003e\u003c/diagram\u003e"}},":staff_member":{"properties":{"erd.diagram.state":{"serialized":"\u003cdiagram version\u003d\"1\" name\u003d\"empty\" time\u003d\"202411091956\"\u003e\u003centities\u003e\u003cdata-source id\u003d\"postgres-jdbc-1930dfbbc0c-7800a991607d6dc2\"\u003e\u003centity id\u003d\"1\" name\u003d\"staff_member\" fq-name\u003d\"public.staff_member\" order\u003d\"0\" color-bg\u003d\"255,128,64\" font\u003d\"Segoe UI:9:0\" x\u003d\"1020\" y\u003d\"100\"\u003e\u003cpath name\u003d\"public\"/\u003e\u003cpath name\u003d\"engineering-thesis\"/\u003e\u003c/entity\u003e\u003centity id\u003d\"2\" name\u003d\"admin_role\" fq-name\u003d\"public.admin_role\" order\u003d\"1\" font\u003d\"Segoe UI:9:0\" x\u003d\"1020\" y\u003d\"580\"\u003e\u003cpath name\u003d\"public\"/\u003e\u003cpath name\u003d\"engineering-thesis\"/\u003e\u003c/entity\u003e\u003centity id\u003d\"3\" name\u003d\"end_user\" fq-name\u003d\"public.end_user\" order\u003d\"2\" font\u003d\"Segoe UI:9:0\" x\u003d\"280\" y\u003d\"60\"\u003e\u003cpath name\u003d\"public\"/\u003e\u003cpath name\u003d\"engineering-thesis\"/\u003e\u003c/entity\u003e\u003centity id\u003d\"4\" name\u003d\"service\" fq-name\u003d\"public.service\" order\u003d\"3\" font\u003d\"Segoe UI:9:0\" x\u003d\"360\" y\u003d\"680\"\u003e\u003cpath name\u003d\"public\"/\u003e\u003cpath name\u003d\"engineering-thesis\"/\u003e\u003c/entity\u003e\u003centity id\u003d\"5\" name\u003d\"seller\" fq-name\u003d\"public.seller\" order\u003d\"4\" font\u003d\"Segoe UI:9:0\" x\u003d\"520\" y\u003d\"280\"\u003e\u003cpath name\u003d\"public\"/\u003e\u003cpath name\u003d\"engineering-thesis\"/\u003e\u003c/entity\u003e\u003centity id\u003d\"6\" name\u003d\"buyer\" fq-name\u003d\"public.buyer\" order\u003d\"5\" font\u003d\"Segoe UI:9:0\" x\u003d\"80\" y\u003d\"280\"\u003e\u003cpath name\u003d\"public\"/\u003e\u003cpath name\u003d\"engineering-thesis\"/\u003e\u003c/entity\u003e\u003c/data-source\u003e\u003c/entities\u003e\u003crelations\u003e\u003crelation name\u003d\"staff_member_admin_role_fk\" fq-name\u003d\"public.staff_member.staff_member_admin_role_fk\" type\u003d\"fk\" pk-ref\u003d\"2\" fk-ref\u003d\"1\"/\u003e\u003crelation name\u003d\"seller_end_user_fk\" fq-name\u003d\"public.seller.seller_end_user_fk\" type\u003d\"fk\" pk-ref\u003d\"3\" fk-ref\u003d\"5\"/\u003e\u003crelation name\u003d\"buyer_end_user_fk\" fq-name\u003d\"public.buyer.buyer_end_user_fk\" type\u003d\"fk\" pk-ref\u003d\"3\" fk-ref\u003d\"6\"/\u003e\u003c/relations\u003e\u003c/diagram\u003e"}}}}}}},
+	"connection-types": {
+		"dev": {
+			"name": "Development",
+			"color": "255,255,255",
+			"description": "Regular development database",
+			"auto-commit": true,
+			"confirm-execute": false,
+			"confirm-data-change": false,
+			"smart-commit": false,
+			"smart-commit-recover": true,
+			"auto-close-transactions": true,
+			"close-transactions-period": 1800,
+			"auto-close-connections": true,
+			"close-connections-period": 14400
+		}
+	}
+}
