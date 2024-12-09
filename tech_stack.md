@@ -22,6 +22,8 @@ Database:
 
 Containerization: Docker 27.4.0
 
+Load balancer: Nginx 1.27.3
+
 Commit formatting:
 - Commitlint 19.5.0
 - Husky 9.1.6
