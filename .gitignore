@@ -1,2 +1,5 @@
 # DBeaver
 **/.dbeaver/credentials-config.json
+
+# npm
+node_modules
