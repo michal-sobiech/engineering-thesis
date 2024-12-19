@@ -26,6 +26,13 @@ public class CustomerService {
                                     .email(dto.getEmail())
                                     .passwordHash("d34db33f")
                                     .build();
-        return customerRepository.save(customer);
+
+//        Customer customer = new Customer();
+//        customer.setFirstName(dto.getFirstName());
+//        customer.setLastName(dto.getLastName());
+//        customer.setEmail(dto.getEmail());
+//        customer.setPasswordHash(dto.getPassword());
+        customer = customerRepository.save(customer);
+        return customer;
     }
 }
