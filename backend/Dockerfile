@@ -4,6 +4,6 @@ RUN apt-get update && apt-get install -y maven curl
 
 COPY ./ /backend
 WORKDIR /backend
-RUN [ "mvn", "dependency:resolve" ]
+RUN [ "mvn", "install", "-DskipCompile", "-DskipTests" ]
 
-ENTRYPOINT [ "mvn", "spring-boot:run" ]
+CMD [ "mvn", "spring-boot:run" ]
