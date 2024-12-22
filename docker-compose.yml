@@ -1,19 +1,40 @@
-x-backend-env-vars: &backend_env_vars
-  DB_NAME: ${DB_NAME}
-  DB_USER: ${DB_BE_USER}
-  DB_PASSWORD: ${DB_BE_PASSWORD}
+x-backend-shared-config: &backend_shared_config
+  build:
+    context: ./backend
+  environment:
+    DB_NAME: ${DB_NAME}
+    DB_USER: ${DB_BE_USER}
+    DB_PASSWORD: ${DB_BE_PASSWORD}
+  healthcheck:
+    test: [ "CMD", "curl", "-f", "http://localhost" ]
+    interval: 30s
+    timeout: 10s
+    retries: 3
+    start_period: 20s
+    start_interval: 5s 
+  networks:
+    - nginx_and_backend
+    - backend_and_database
 
-x-backend-healthcheck: &backend_healthcheck
-  test: [ "CMD", "curl", "-f", "http://localhost" ]
-  interval: 30s
-  timeout: 10s
-  retries: 3
-  start_period: 20s
-  start_interval: 5s 
-
-x-backend-networks: &backend_networks
-  - nginx_and_backend
-  - backend_and_database
+x-database-shared-config: &database_shared_config
+  image: postgres:latest
+  environment:
+    POSTGRES_PASSWORD: ${DB_ROOT_PASSWORD}
+    POSTGRES_DB: ${DB_NAME}
+    DB_BE_USER: ${DB_BE_USER}
+    DB_BE_PASSWORD: ${DB_BE_PASSWORD}
+    DB_REPLICA_USER: ${DB_REPLICA_USER}
+    DB_REPLICA_PASSWORD: ${DB_REPLICA_PASSWORD}
+    DB_INIT_COMPLETE: 0
+  healthcheck:
+    test: [ "CMD-SHELL", "[ -f /etc/postgresql/db_init_status.env ] && grep -q \"DB_INIT_COMPLETE=1\" /etc/postgresql/db_init_status.env" ]
+    interval: 30s
+    timeout: 10s
+    retries: 3
+    start_period: 20s
+    start_interval: 5s 
+  networks:
+    - backend_and_database
 
 services:
   frontend:
@@ -24,7 +45,8 @@ services:
     environment:
       NGINX_HOST: nginx
     depends_on:
-      - nginx
+      nginx:
+        condition: service_healthy
 
   nginx:
     build:
@@ -32,8 +54,10 @@ services:
     ports:
       - 8000:80
     depends_on:
-      - backend_1
-      - backend_2
+      backend_1:
+        condition: service_healthy
+      backend_2:
+        condition: service_healthy
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost" ]
       interval: 30s
@@ -47,43 +71,41 @@ services:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
 
   backend_1:
-    build:
-      context: ./backend
     ports:
       - 8080:80
-    environment: *backend_env_vars
-    healthcheck: *backend_healthcheck
-    networks: *backend_networks
+    <<: *backend_shared_config
 
   backend_2:
-    build:
-      context: ./backend
     ports:
       - 8081:80
-    environment: *backend_env_vars
-    healthcheck: *backend_healthcheck
-    networks: *backend_networks
+    <<: *backend_shared_config
 
-  database:
-    image: postgres:latest
+  database_primary:
     ports:
       - 5433:5432
-    environment:
-      POSTGRES_PASSWORD: ${DB_ROOT_PASSWORD}
-      POSTGRES_DB: ${DB_NAME}
-      DB_BE_USER: ${DB_BE_USER}
-      DB_BE_PASSWORD: ${DB_BE_PASSWORD}
-    healthcheck:
-      test: [ "CMD", "pg_isready", "-U", "$DB_BE_PASSWORD", "-d", "$DB_NAME"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 20s
-      start_interval: 5s 
-    networks:
-      - backend_and_database
     volumes:
-      - ./database/init_scripts:/docker-entrypoint-initdb.d/:ro
+      - ./database/shared/init_scripts/ddl.sql:/docker-entrypoint-initdb.d/01-ddl.sql:ro
+      - ./database/shared/init_scripts/create_replica_user.sh:/docker-entrypoint-initdb.d/02-create_replica_user.sh:ro
+      - ./database/shared/init_scripts/create_backend_user.sh:/docker-entrypoint-initdb.d/03-create_backend_user.sh:ro
+      - ./database/primary/init_scripts/finish_init.sh:/docker-entrypoint-initdb.d/04-finish_init.sh:ro
+
+      - ./database/primary/postgresql.conf:/etc/postgresql/postgresql.conf:ro
+      - ./database/primary/pg_hba.conf:/etc/postgresql/pg_hba.conf:ro
+    command: postgres -c config_file=/etc/postgresql/postgresql.conf -c hba_file=/etc/postgresql/pg_hba.conf
+    <<: *database_shared_config
+
+  database_replica:
+    ports:
+      - 5434:5432
+    depends_on:
+      database_primary:     
+        condition: service_healthy
+    volumes:
+      - ./database/shared/init_scripts/ddl.sql:/docker-entrypoint-initdb.d/01-ddl.sql:ro
+      - ./database/replica/init_scripts/create_subscription.sh:/docker-entrypoint-initdb.d/02-create_subscription.sh:ro
+      - ./database/shared/init_scripts/create_replica_user.sh:/docker-entrypoint-initdb.d/03-create_replica_user.sh:ro
+      - ./database/shared/init_scripts/create_backend_user.sh:/docker-entrypoint-initdb.d/04-create_backend_user.sh:ro
+    <<: *database_shared_config
 
 networks:
   nginx_and_backend:
