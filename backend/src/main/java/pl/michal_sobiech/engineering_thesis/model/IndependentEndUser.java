@@ -1,6 +1,9 @@
 package pl.michal_sobiech.engineering_thesis.model;
 
+import java.io.Serializable;
+
 import org.hibernate.annotations.Collate;
+import org.springframework.data.redis.core.RedisHash;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -23,7 +26,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public class IndependentEndUser {
+public class IndependentEndUser implements Serializable {
 
     @Id
     @Column(name = "independent_end_user_id")

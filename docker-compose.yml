@@ -5,6 +5,11 @@ x-backend-shared-config: &backend_shared_config
     DB_NAME: ${DB_NAME}
     DB_USER: ${DB_BE_USER}
     DB_PASSWORD: ${DB_BE_PASSWORD}
+  depends_on:
+    database_primary:
+      condition: service_healthy
+    database_replica:
+      condition: service_healthy
   healthcheck:
     test: [ "CMD", "curl", "-f", "http://localhost" ]
     interval: 30s
@@ -87,7 +92,7 @@ services:
       - ./database/shared/init_scripts/ddl.sql:/docker-entrypoint-initdb.d/01-ddl.sql:ro
       - ./database/shared/init_scripts/create_replica_user.sh:/docker-entrypoint-initdb.d/02-create_replica_user.sh:ro
       - ./database/shared/init_scripts/create_backend_user.sh:/docker-entrypoint-initdb.d/03-create_backend_user.sh:ro
-      - ./database/primary/init_scripts/finish_init.sh:/docker-entrypoint-initdb.d/04-finish_init.sh:ro
+      - ./database/shared/init_scripts/finish_init.sh:/docker-entrypoint-initdb.d/04-finish_init.sh:ro
 
       - ./database/primary/postgresql.conf:/etc/postgresql/postgresql.conf:ro
       - ./database/primary/pg_hba.conf:/etc/postgresql/pg_hba.conf:ro
@@ -105,7 +110,30 @@ services:
       - ./database/replica/init_scripts/create_subscription.sh:/docker-entrypoint-initdb.d/02-create_subscription.sh:ro
       - ./database/shared/init_scripts/create_replica_user.sh:/docker-entrypoint-initdb.d/03-create_replica_user.sh:ro
       - ./database/shared/init_scripts/create_backend_user.sh:/docker-entrypoint-initdb.d/04-create_backend_user.sh:ro
+      - ./database/shared/init_scripts/finish_init.sh:/docker-entrypoint-initdb.d/05-finish_init.sh:ro
     <<: *database_shared_config
+
+  database_cache:
+    image: redis:latest
+    ports:
+      - 6379:6379
+    depends_on:
+      database_primary:
+        condition: service_healthy
+      database_replica:
+        condition: service_healthy
+    networks:
+      - backend_and_database
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+      start_interval: 5s
+    volumes:
+      - ./database/cache/redis.conf:/etc/redis/redis.conf:ro
+    command: [ "redis-server", "/etc/redis/redis.conf" ]
 
 networks:
   nginx_and_backend:

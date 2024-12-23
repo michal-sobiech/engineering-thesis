@@ -10,6 +10,5 @@ import pl.michal_sobiech.engineering_thesis.model.Customer;
 
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
-    Optional<Customer> findById(Long id);
-
+    Optional<Customer> findById(long id);
 }
