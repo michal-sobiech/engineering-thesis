@@ -37,12 +37,32 @@
 		"postgres-jdbc-193e46e5cfd-76c31ac453fede9": {
 			"provider": "postgresql",
 			"driver": "postgres-jdbc",
-			"name": "docker backendu",
+			"name": "docker primary",
 			"configuration": {
 				"host": "localhost",
 				"port": "5432",
 				"database": "postgres",
 				"url": "jdbc:postgresql://localhost:5433/engineering_thesis_prod",
+				"configurationType": "URL",
+				"home": "/usr/lib/postgresql/15",
+				"type": "dev",
+				"closeIdleConnection": true,
+				"provider-properties": {
+					"@dbeaver-show-non-default-db@": "false",
+					"@dbeaver-chosen-role@": ""
+				},
+				"auth-model": "native"
+			}
+		},
+		"postgres-jdbc-193ef9de183-2ae6317747ec295": {
+			"provider": "postgresql",
+			"driver": "postgres-jdbc",
+			"name": "docker replica",
+			"configuration": {
+				"host": "localhost",
+				"port": "5432",
+				"database": "postgres",
+				"url": "jdbc:postgresql://localhost:5434/engineering_thesis_prod",
 				"configurationType": "URL",
 				"home": "/usr/lib/postgresql/15",
 				"type": "dev",

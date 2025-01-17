@@ -1,0 +1,1 @@
+GRANT ALL PRIVILEGES ON ALL sequences IN SCHEMA public TO app;
