@@ -19,7 +19,7 @@ Frontend:
 Database:
 - Relational: PostgreSQL: 15.8
 - Non-relational: MongoDB 8
-- Cachowanie: Redis 5.1.0
+- Cache: Redis 5.1.0
 
 Containerization: Docker 27.4.0
 
