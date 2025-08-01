@@ -2,42 +2,29 @@ package pl.michal_sobiech.engineering_thesis.model;
 
 import java.io.Serializable;
 
-import org.hibernate.annotations.Collate;
-import org.springframework.data.redis.core.RedisHash;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
-import jakarta.persistence.SequenceGenerator;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
-
+import lombok.RequiredArgsConstructor;
 
 @Data
-@SuperBuilder
-@NoArgsConstructor
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
 public class IndependentEndUser implements Serializable {
 
     @Id
     @Column(name = "independent_end_user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private final long id;
 
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String passwordHash;
+    private final String firstName;
+    private final String lastName;
+    private final String email;
+    private final String passwordHash;
 
     @Column(insertable = false)
-    private Long userId;
+    private final long userId;
 }
