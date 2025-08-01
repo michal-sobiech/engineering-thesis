@@ -5,10 +5,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.Builder;
 import lombok.Data;
 
-@Data
 @Entity
+@Data
+@Builder
 public class IndependentEndUser {
 
     @Id
@@ -21,6 +23,4 @@ public class IndependentEndUser {
     private final String email;
     private final String passwordHash;
 
-    @Column(insertable = false)
-    private final long userId;
 }

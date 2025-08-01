@@ -2,11 +2,9 @@ package pl.michal_sobiech.engineering_thesis.service;
 
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.dto.CustomerCreateDTO;

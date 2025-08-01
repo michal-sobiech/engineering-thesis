@@ -1,4 +1,4 @@
-package pl.michal_sobiech.engineering_thesis.model;
+package pl.michal_sobiech.engineering_thesis.entrepreneur;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -8,10 +8,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
+import lombok.Builder;
 import lombok.Data;
+import pl.michal_sobiech.engineering_thesis.model.IndependentEndUser;
 
-@Data
 @Entity
+@Data
+@Builder
 public class Entrepreneur {
 
     @Id
