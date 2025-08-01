@@ -18,7 +18,7 @@ import pl.michal_sobiech.engineering_thesis.service.CustomerService;
 
 @RestController
 public class CustomerController {
-    
+
     @Autowired
     CustomerService customerService;
 
@@ -36,8 +36,7 @@ public class CustomerController {
         if (customer.isPresent()) {
             CustomerResponseDTO dto = CustomerExtension.makeCustomerResponseDTO(customer.get());
             return ResponseEntity.ok(dto);
-        }
-        else {
+        } else {
             return ResponseEntity.notFound().build();
         }
 
