@@ -1,6 +1,4 @@
-package pl.michal_sobiech.engineering_thesis.dto.create_entrepreneur;
-
-import pl.michal_sobiech.engineering_thesis.entrepreneur.Entrepreneur;
+package pl.michal_sobiech.engineering_thesis.entrepreneur;
 
 public record CreateEntrepreneurResponse(
 

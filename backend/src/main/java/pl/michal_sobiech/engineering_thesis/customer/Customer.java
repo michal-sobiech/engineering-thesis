@@ -10,7 +10,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import lombok.Builder;
 import lombok.Data;
-import pl.michal_sobiech.engineering_thesis.model.IndependentEndUser;
+import pl.michal_sobiech.engineering_thesis.independent_end_user.IndependentEndUser;
 
 @Entity
 @Data

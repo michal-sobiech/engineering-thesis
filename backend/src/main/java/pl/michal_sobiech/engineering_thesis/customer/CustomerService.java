@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.model.IndependentEndUser;
-import pl.michal_sobiech.engineering_thesis.repository.IndependentEndUserRepository;
+import pl.michal_sobiech.engineering_thesis.independent_end_user.IndependentEndUser;
+import pl.michal_sobiech.engineering_thesis.independent_end_user.IndependentEndUserRepository;
 
 @Service
 @RequiredArgsConstructor

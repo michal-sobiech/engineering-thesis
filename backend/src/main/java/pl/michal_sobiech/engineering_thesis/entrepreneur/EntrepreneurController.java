@@ -5,8 +5,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.dto.create_entrepreneur.CreateEntrepreneurRequest;
-import pl.michal_sobiech.engineering_thesis.dto.create_entrepreneur.CreateEntrepreneurResponse;
 
 @RestController
 @RequiredArgsConstructor

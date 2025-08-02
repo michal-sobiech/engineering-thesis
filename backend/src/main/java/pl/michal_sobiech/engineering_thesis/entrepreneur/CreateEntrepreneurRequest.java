@@ -1,14 +1,14 @@
-package pl.michal_sobiech.engineering_thesis.dto.create_entrepreneur;
+package pl.michal_sobiech.engineering_thesis.entrepreneur;
 
 public record CreateEntrepreneurRequest(
 
-        String firstName,
+                String firstName,
 
-        String lastName,
+                String lastName,
 
-        String email,
+                String email,
 
-        String passwordHash
+                String passwordHash
 
 ) {
 

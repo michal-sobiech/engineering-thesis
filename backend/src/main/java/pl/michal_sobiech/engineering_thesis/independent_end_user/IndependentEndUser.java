@@ -1,4 +1,4 @@
-package pl.michal_sobiech.engineering_thesis.model;
+package pl.michal_sobiech.engineering_thesis.independent_end_user;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
