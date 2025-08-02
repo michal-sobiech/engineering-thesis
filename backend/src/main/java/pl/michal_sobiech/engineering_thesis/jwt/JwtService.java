@@ -22,9 +22,9 @@ public class JwtService {
     private final Duration tokenDuration;
 
     public JwtService(JwtProperties properties) {
-        this.secretKey = createSecretKey(properties.getSecret());
-        this.signingAlgorithm = createAlgorithm(properties.getSigningAlgorithmType());
-        this.tokenDuration = properties.getTokenDuration();
+        this.secretKey = createSecretKey(properties.secret());
+        this.signingAlgorithm = createAlgorithm(properties.signingAlgorithmType());
+        this.tokenDuration = properties.tokenDuration();
     }
 
     public String generateToken(GenerateJwtTokenRequest request) {
