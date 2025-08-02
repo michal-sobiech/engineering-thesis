@@ -1,4 +1,4 @@
-package pl.michal_sobiech.engineering_thesis.model;
+package pl.michal_sobiech.engineering_thesis.customer;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -10,6 +10,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import lombok.Builder;
 import lombok.Data;
+import pl.michal_sobiech.engineering_thesis.model.IndependentEndUser;
 
 @Entity
 @Data
@@ -20,8 +21,6 @@ public class Customer {
     @Column(name = "customer_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private final long id;
-
-    private final long paymentMethodId;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "independent_end_user_id")
