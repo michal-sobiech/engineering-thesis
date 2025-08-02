@@ -18,17 +18,17 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @PostMapping("/create_customer")
-    public CustomerDto createCustomer(@RequestBody CreateCustomerRequest request) {
+    public CustomerResponse createCustomer(@RequestBody CreateCustomerRequest request) {
         Customer customer = customerService.createCustomer(request);
-        return CustomerDto.from(customer);
+        return CustomerResponse.from(customer);
     }
 
     @GetMapping("/get_customer")
-    public ResponseEntity<CustomerDto> getCustomer(@RequestParam long id) {
+    public ResponseEntity<CustomerResponse> getCustomer(@RequestParam long id) {
         Optional<Customer> customer = customerService.getCustomer(id);
 
         if (customer.isPresent()) {
-            CustomerDto dto = CustomerDto.from(customer.get());
+            CustomerResponse dto = CustomerResponse.from(customer.get());
             return ResponseEntity.ok(dto);
         } else {
             return ResponseEntity.notFound().build();
