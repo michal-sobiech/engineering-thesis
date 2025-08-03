@@ -4,7 +4,8 @@ import java.time.Instant;
 
 public record GenerateJwtTokenRequest(
 
-        String username,
+        String subject,
+        String scope,
         Instant expiration
 
 ) {

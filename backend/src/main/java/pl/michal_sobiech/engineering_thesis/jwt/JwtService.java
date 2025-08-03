@@ -9,6 +9,9 @@ import javax.crypto.SecretKey;
 
 import org.springframework.stereotype.Service;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SecureDigestAlgorithm;
@@ -32,11 +35,24 @@ public class JwtService {
         Instant expiration = now.plus(tokenDuration);
 
         return Jwts.builder()
-                .subject(request.username())
+                .subject(request.subject())
+                .claim("scope", request.scope())
                 .issuedAt(Date.from(now))
                 .expiration(Date.from(expiration))
                 .signWith(secretKey, signingAlgorithm)
                 .compact();
+    }
+
+    public JwtToken parseToken(String jwtToken) {
+        JwtParser parser = Jwts.parser().decryptWith(secretKey).build();
+        Jws<Claims> jws = parser.parseSignedClaims(jwtToken);
+        Claims claims = jws.getPayload();
+
+        String scope = claims.get("scope", String.class);
+        String subject = claims.getSubject();
+        Instant issuedAt = claims.getIssuedAt().toInstant();
+        Instant expiration = claims.getExpiration().toInstant();
+        return new JwtToken(scope, subject, issuedAt, expiration);
     }
 
     private SecretKey createSecretKey(Secret<String> secret) {
