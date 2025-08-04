@@ -15,9 +15,12 @@ public class CorsSetupper {
     private final CorsConfigurationSource corsConfigurationSource;
 
     public HttpSecurity setUpCors(HttpSecurity httpSecurity) {
-        Customizer<CorsConfigurer<HttpSecurity>> customizer = configurer -> configurer
-                .configurationSource(corsConfigurationSource);
+        var customizer = createCustomizer();
         return setCustomizer(httpSecurity, customizer);
+    }
+
+    private Customizer<CorsConfigurer<HttpSecurity>> createCustomizer() {
+        return configurer -> configurer.configurationSource(corsConfigurationSource);
     }
 
     private HttpSecurity setCustomizer(HttpSecurity httpSecurity,
