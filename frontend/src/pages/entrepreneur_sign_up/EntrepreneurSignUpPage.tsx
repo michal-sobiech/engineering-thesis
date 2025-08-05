@@ -4,7 +4,7 @@ import styles from "./EntrepreneurSignUpPage.module.scss";
 
 const EntrepreneurSignUpPage = () => {
     return <div className={styles.page}>
-        <SignUpPanel />;
+        <SignUpPanel />
     </div >
 }
 
