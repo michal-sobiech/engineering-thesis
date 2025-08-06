@@ -1,7 +1,7 @@
 interface PasswordFieldProps {
-    className: string,
     password: string,
     setPassword: React.Dispatch<React.SetStateAction<string>>
+    label: string,
 }
 
 export default PasswordFieldProps;

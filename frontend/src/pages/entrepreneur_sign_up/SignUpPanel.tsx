@@ -1,20 +1,24 @@
 
+import { Flex } from "@chakra-ui/react";
 import { useState } from "react";
-import LabeledButton from "../../components/labeled_button";
+import LabeledButton from "../../components/LabeledButton";
 import PasswordField from "../../components/password_field/PasswordField";
 import UsernameField from "../../components/username_field/UsernameField";
-import styles from "./EntrepreneurSignUpPage.module.scss";
 
 const SignUpPanel = () => {
     const [username, setUsername] = useState<string>("");
+    const [usernameLabel, setUsernameLabel] = useState<string>("aaa");
+
     const [password, setPassword] = useState<string>("");
+    const [passwordLabel, setPasswordLabel] = useState<string>("");
+
     const [status, setStatus] = useState<string>("")
 
-    return <div className={styles["sign-up-panel"]}>
-        <UsernameField className={styles["sign-up-panel__username-field"]} username={username} setUsername={setUsername} />
-        <PasswordField className={styles["sign-up-panel__password-field"]} password={password} setPassword={setPassword} />
+    return <Flex bg="white" p="5" rounded="lg" shadow="lg" direction="column" gap="10px">
+        <UsernameField {...{ username, setUsername, label: usernameLabel }} />
+        <PasswordField {...{ password, setPassword, label: passwordLabel }} />
         <LabeledButton />
-    </div>;
+    </Flex>;
 
 };
 
