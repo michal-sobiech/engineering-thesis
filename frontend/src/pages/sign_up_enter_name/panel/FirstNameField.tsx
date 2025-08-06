@@ -1,19 +1,19 @@
 import { Flex, Input, Text } from "@chakra-ui/react";
-import PasswordFieldProps from "./props";
+import LabeledTextFieldProps from "../../../common/LabeledTextFieldProps";
 
-const PasswordField = ({ password, setPassword, label }: PasswordFieldProps) => {
+const FirstNameField = ({ text, setText, label }: LabeledTextFieldProps) => {
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setPassword(event.target.value);
-    }
+        setText(event.target.value);
+    };
 
     return <Flex direction="column">
         <Input
-            type="password"
-            name="password"
-            value={password}
+            type="text"
+            name="first_name"
+            placeholder="First name"
+            value={text}
             onChange={handleChange}
-            placeholder="Password"
             required
         />
         <Text display="inline-block"
@@ -22,7 +22,8 @@ const PasswordField = ({ password, setPassword, label }: PasswordFieldProps) => 
             textIndent="0.5em">
             {label}
         </Text>
-    </Flex>;
+    </Flex>
+
 }
 
-export default PasswordField;
+export default FirstNameField;

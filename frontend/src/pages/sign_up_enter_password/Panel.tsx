@@ -1,9 +1,8 @@
 
 import { Flex } from "@chakra-ui/react";
 import { useState } from "react";
-import LabeledButton from "../../components/LabeledButton";
-import PasswordField from "../../components/password_field/PasswordField";
-import UsernameField from "../../components/username_field/UsernameField";
+import CreateAccountButton from "./CreateAccountButton";
+import PasswordField from "./PasswordField";
 
 const SignUpPanel = () => {
     const [username, setUsername] = useState<string>("");
@@ -19,12 +18,9 @@ const SignUpPanel = () => {
         rounded="lg"
         shadow="lg"
         direction="column"
-        gap="10px"
-        width="50vw"
-        height="60vh">
-        <UsernameField {...{ username, setUsername, label: usernameLabel }} />
-        <PasswordField {...{ password, setPassword, label: passwordLabel }} />
-        <LabeledButton />
+        gap="10px">
+        <PasswordField text={password} setText={setPassword} label={passwordLabel} />
+        <CreateAccountButton />
     </Flex>;
 
 };

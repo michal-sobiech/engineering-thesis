@@ -1,18 +1,18 @@
 import { Flex, Input, Text } from "@chakra-ui/react";
-import UsernameFieldProps from "./props";
+import LabeledTextFieldProps from "../../../common/LabeledTextFieldProps";
 
-const UsernameField = ({ username, setUsername, label }: UsernameFieldProps) => {
+const SurnameField = ({ text, setText, label }: LabeledTextFieldProps) => {
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setUsername(event.target.value);
+        setText(event.target.value);
     };
 
     return <Flex direction="column">
         <Input
             type="text"
-            name="username"
-            placeholder="Username"
-            value={username}
+            name="first_name"
+            placeholder="Surname"
+            value={text}
             onChange={handleChange}
             required
         />
@@ -26,4 +26,4 @@ const UsernameField = ({ username, setUsername, label }: UsernameFieldProps) => 
 
 }
 
-export default UsernameField;
+export default SurnameField;
