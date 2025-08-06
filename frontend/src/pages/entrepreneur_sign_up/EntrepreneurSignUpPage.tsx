@@ -1,11 +1,10 @@
+import { Center } from "@chakra-ui/react";
 import SignUpPanel from "./SignUpPanel";
 
-import styles from "./EntrepreneurSignUpPage.module.scss";
-
 const EntrepreneurSignUpPage = () => {
-    return <div className={styles.page}>
+    return <Center width="100vw" height="100vh">
         <SignUpPanel />
-    </div >
+    </Center >
 }
 
 export default EntrepreneurSignUpPage;

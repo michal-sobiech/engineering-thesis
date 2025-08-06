@@ -1,8 +1,8 @@
-import './App.css';
-import EntrepreneurSignUpPage from './pages/entrepreneur_sign_up/EntrepreneurSignUpPage';
+import SignUpSuccessPage from "./pages/sign_up_success/SignUpSuccessPage";
 
 function App() {
-  return <EntrepreneurSignUpPage />;
+  return <SignUpSuccessPage />;
+  // return <EntrepreneurSignUpPage />;
 }
 
 export default App;
