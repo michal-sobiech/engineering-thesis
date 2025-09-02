@@ -1,5 +1,5 @@
 import { Flex, Input, Text } from "@chakra-ui/react";
-import LabeledTextFieldProps from "../../common/LabeledTextFieldProps";
+import LabeledTextFieldProps from "./LabeledTextFieldProps";
 
 const PasswordField = ({ text, setText, label }: LabeledTextFieldProps) => {
 
@@ -17,9 +17,9 @@ const PasswordField = ({ text, setText, label }: LabeledTextFieldProps) => {
             required
         />
         <Text display="inline-block"
-            fontSize="0.75rem"
+            fontSize="xs"
             minHeight="0.75rem"
-            textIndent="0.5em">
+            textIndent="0.75rem">
             {label}
         </Text>
     </Flex>

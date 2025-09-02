@@ -7,14 +7,16 @@
 
 import { ChakraProvider } from "@chakra-ui/react";
 import { system } from "./config/system-config";
-import SignUpSuccessPage from "./pages/sign_up_success/SignUpSuccessPage";
+import LogInPage from "./pages/log_in/LogInPage";
+// import SignUpSuccessPage from "./pages/sign_up_success/SignUpSuccessPage";
 
 function App() {
   // return <SignUpEnterEmailPage />;
   // return <SignUpEnterNamePage />;
   // return <SignUpEnterPasswordPage />;
   return <ChakraProvider value={system}>
-    <SignUpSuccessPage />;
+    {/* <SignUpSuccessPage />; */}
+    <LogInPage />
   </ChakraProvider>
 }
 

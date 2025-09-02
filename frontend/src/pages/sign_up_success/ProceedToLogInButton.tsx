@@ -1,9 +1,8 @@
 import { Button } from "@chakra-ui/react";
-import colors from "../../colors";
 
 const ProceedToLogInButton = () => {
     return <Button
-        bg={colors.blue}
+        bg="primary.blue"
         p="5"
         rounded="lg"
         shadow="lg"

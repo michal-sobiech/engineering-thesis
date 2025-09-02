@@ -1,6 +1,6 @@
 import { Flex, Text } from "@chakra-ui/react";
 import { useState } from "react";
-import EmailField from "./EmailField";
+import EmailField from "../../../common/EmailField";
 import LogInButton from "./LogInButton";
 
 const Panel = () => {

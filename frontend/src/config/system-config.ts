@@ -3,10 +3,17 @@ import { createSystem, defaultConfig, defineConfig } from "@chakra-ui/react";
 const systemConfig = defineConfig({
     theme: {
         tokens: {
+            colors: {
+                primary: {
+                    blue: { value: "#0000CC" },
+                    lightBlue: { value: "#0A0AFF" },
+                    lightGreen: { value: "#0fd20f" },
+                }
+            },
             fontSizes: {
-                xs: {
-                    value: "clamp(12px, 1.5vw, 14px)"
-                },
+                // xs: {
+                //     value: "clamp(12px, 1.5vw + 4px, 14px)"
+                // },
                 xl: {
                     value: "clamp(16px, 1.5vw, 24px)"
                 }
