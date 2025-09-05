@@ -8,7 +8,6 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ChakraProvider } from "@chakra-ui/react";
 import { system } from "./config/system-config";
 import LogInPage from "./pages/log_in/LogInPage";
-import SignUpEnterEmailPage from "./pages/sign_up_enter_email/SignUpChooseUsernamePage";
 import SignUpSuccessPage from "./pages/sign_up_success/SignUpSuccessPage";
 // import SignUpSuccessPage from "./pages/sign_up_success/SignUpSuccessPage";
 
@@ -23,7 +22,7 @@ function App() {
 
       </nav>
       <Routes>
-        <Route path="/" element={<SignUpEnterEmailPage />} />
+        <Route path="/" element={<LogInPage />} />
         <Route path="/success" element={<SignUpSuccessPage />} />
       </Routes>
       <LogInPage />

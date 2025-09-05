@@ -1,0 +1,112 @@
+openapi: 3.1.1
+info:
+  title: Engineering Thesis API
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+
+  schemas:
+    CreateUserRequest:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - email
+        - password
+      properties:
+        firstName:
+          type: string
+          example: Jan
+        lastName:
+          type: string
+          example: Kowalski
+        email:
+          type: string
+          example: jan.kowalski@test.com
+        password:
+          type: string
+          example: "5=2VPIzYHSIc0l4d1o&es]plB"
+    CreateUserResponse:
+      type: object
+      required:
+        - accessToken
+        - user
+      properties:
+        accessToken:
+          type: string
+        user:
+          type: object
+          required:
+            - firstName
+            - lastName
+            - email
+          properties:
+            firstName:
+              type: string
+              example: Jan
+            lastName:
+              type: string
+              example: Kowalski
+            email:
+              type: string
+              example: jan.kowalski@test.com
+  responses:
+    OK:
+      description: &OK_DESCRIPTION >
+        Ok
+    Created:
+      description: &CREATED_DESCRIPTION >
+        Created resource
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - message
+            properties:
+              message:
+                type: string
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - message
+            properties:
+              message:
+                type: string
+
+paths:
+  /independent-end-user:
+    post:
+      operationId: createIndependentEndUser
+      summary: Create an independent end user
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateUserRequest"
+      responses:
+        "201":
+          description: *CREATED_DESCRIPTION
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/CreateUserResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
