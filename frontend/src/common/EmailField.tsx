@@ -1,7 +1,8 @@
-import { Flex, Input, Text } from "@chakra-ui/react";
-import LabeledTextFieldProps from "./LabeledTextFieldProps";
+import { Flex, Input } from "@chakra-ui/react";
+import React from "react";
+import { TextFieldProps } from "./TextFieldProps";
 
-const EmailField = ({ text, setText, label }: LabeledTextFieldProps) => {
+const EmailField: React.FC<TextFieldProps> = ({ text, setText }) => {
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setText(event.target.value);
@@ -16,12 +17,6 @@ const EmailField = ({ text, setText, label }: LabeledTextFieldProps) => {
             onChange={handleChange}
             required
         />
-        <Text display="inline-block"
-            fontSize="xs"
-            minHeight="0.75rem"
-            textIndent="0.75rem">
-            {label}
-        </Text>
     </Flex>
 
 }

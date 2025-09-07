@@ -13,7 +13,7 @@ components:
       scheme: bearer
 
   schemas:
-    CreateUserRequest:
+    CreateIndependentEndUserRequest:
       type: object
       required:
         - firstName
@@ -33,7 +33,7 @@ components:
         password:
           type: string
           example: "5=2VPIzYHSIc0l4d1o&es]plB"
-    CreateUserResponse:
+    CreateIndependentEndUserResponse:
       type: object
       required:
         - accessToken
@@ -75,6 +75,17 @@ components:
             properties:
               message:
                 type: string
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - message
+            properties:
+              message:
+                type: string
     InternalServerError:
       description: Internal server error
       content:
@@ -88,8 +99,9 @@ components:
                 type: string
 
 paths:
-  /independent-end-user:
+  /independent-end-users:
     post:
+      tags: [IndependentEndUsers]
       operationId: createIndependentEndUser
       summary: Create an independent end user
       parameters: []
@@ -98,14 +110,49 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateUserRequest"
+              $ref: "#/components/schemas/CreateIndependentEndUserRequest"
       responses:
         "201":
           description: *CREATED_DESCRIPTION
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/CreateUserResponse"
+                "$ref": "#/components/schemas/CreateIndependentEndUserResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  /indpendents-end-users/exists:
+    get:
+      tags: [IndependentEndUsers]
+      operationId: checkIndependentEndUserEmailExists
+      parameters:
+        - description: Email to check
+          in: query
+          name: email
+          required: true
+          schema:
+            type: string
+            format: email
+      responses:
+        "200":
+          description: *OK_DESCRIPTION
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  isExisting:
+                    type: boolean
+                required: [isExisting]
+              examples:
+                yes:
+                  value:
+                    isExisting: true
+        "400":
+          $ref: "#/components/responses/BadRequest"
         "401":
           $ref: "#/components/responses/Unauthorized"
         "500":

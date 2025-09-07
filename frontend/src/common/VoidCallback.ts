@@ -1,0 +1,1 @@
+export type VoidCallback<T> = (value: T) => void | Promise<void>;

@@ -1,10 +1,10 @@
 import { Box, Center } from "@chakra-ui/react";
-import Panel from "./panel/Panel";
+import LogInPanel from "./panel/LogInPanel";
 
 const LogInPage = () => {
     return <Center height="100vh">
         <Box width="40vw">
-            <Panel />
+            <LogInPanel />
         </Box>
     </Center>;
 };

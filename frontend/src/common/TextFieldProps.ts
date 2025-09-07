@@ -1,9 +1,6 @@
 import { VoidCallback } from "./VoidCallback";
 
-interface LabeledTextFieldProps {
+export interface TextFieldProps {
     text: string,
     setText: VoidCallback<string>,
-    label?: string,
 }
-
-export default LabeledTextFieldProps;
