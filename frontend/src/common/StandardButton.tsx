@@ -1,18 +1,13 @@
-import { Button } from "@chakra-ui/react";
+import { Button, ButtonProps } from "@chakra-ui/react";
 import React from "react";
 
-export interface StandardButtonProps {
-    text: string,
-    onClick: React.MouseEventHandler<HTMLButtonElement>
-}
-
-export const StandardButton: React.FC<StandardButtonProps> = ({ text, onClick }) => {
+export const StandardButton: React.FC<ButtonProps> = ({ children, ...props }) => {
     return <Button
         background="primary.blue"
         padding="5"
         rounded="lg"
         shadow="lg"
-        onClick={onClick}>
-        {text}
+        {...props}>
+        {children}
     </Button>
 }

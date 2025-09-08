@@ -1,9 +1,8 @@
-
 import { Flex, Text } from "@chakra-ui/react";
-import PasswordField from "../../../common/PasswordField";
 import { useContextOrThrow } from "../../../utils/useContextOrThrow";
 import { signUpWizardContext } from "../wizard/SignUpWizardContext";
-import { CreateAccountButton } from "./CreateAccountButton";
+import { SignUpEnterPasswordButton } from "./SignUpEnterPasswordButton";
+import { SignUpEnterPasswordField } from "./SignUpEnterPasswordField";
 
 export const SignUpEnterPasswordPanel = () => {
     const { password, setPassword } = useContextOrThrow(signUpWizardContext);
@@ -17,7 +16,7 @@ export const SignUpEnterPasswordPanel = () => {
         <Text textAlign="center">
             Step 3: set a password
         </Text>
-        <PasswordField text={password} setText={setPassword} />
-        <CreateAccountButton />
+        <SignUpEnterPasswordField text={password} setText={setPassword} />
+        <SignUpEnterPasswordButton />
     </Flex>;
 };

@@ -1,7 +1,7 @@
 import { createContext } from "react";
 import { VoidCallback } from "../../../common/VoidCallback";
 
-export interface SignUpWizardContextData {
+export interface SignUpWizardContextValue {
     incrementStep: VoidCallback<void>,
     email: string,
     setEmail: VoidCallback<string>,
@@ -13,4 +13,4 @@ export interface SignUpWizardContextData {
     setPassword: VoidCallback<string>,
 }
 
-export const signUpWizardContext = createContext<SignUpWizardContextData | null>(null);
+export const signUpWizardContext = createContext<SignUpWizardContextValue | null>(null);

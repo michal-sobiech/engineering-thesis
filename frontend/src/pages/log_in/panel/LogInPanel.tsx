@@ -1,30 +1,32 @@
 import { Flex, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import EmailField from "../../../common/EmailField";
-import PasswordField from "../../../common/PasswordField";
+import { logInContext, LogInContextValue } from "../LogInContext";
+import { LogInButton } from "./LogInButton";
+import { LogInPasswordField } from "./LogInPasswordField";
 
 const LogInPanel = () => {
-    const [username, setUsername] = useState<string>("");
-    const [usernameLabel, setUsernameLabel] = useState<string>("aaa");
-
+    const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
-    const [passwordLabel, setPasswordLabel] = useState<string>("");
 
-    const [status, setStatus] = useState<string>("")
+    const contextValue: LogInContextValue = { email, password };
 
-    return <Flex bg="white"
-        p="5"
-        rounded="lg"
-        shadow="lg"
-        direction="column"
-        gap="10px">
-        <Text textAlign="center">
-            Log in
-        </Text>
-        <EmailField text={username} setText={setUsername} />
-        <PasswordField text={password} setText={setPassword} label={passwordLabel} />
-        {/* <ProceedToLogInButton /> */}
-    </Flex>;
+    return <logInContext.Provider value={contextValue}>
+        <Flex bg="white"
+            p="5"
+            rounded="lg"
+            shadow="lg"
+            direction="column"
+            gap="10px">
+            <Text textAlign="center">
+                Log in
+            </Text>
+            <EmailField text={email} setText={setEmail} />
+            <LogInPasswordField text={password} setText={setPassword} />
+            <LogInButton />
+        </Flex>
+    </logInContext.Provider>
+
 };
 
 export default LogInPanel;

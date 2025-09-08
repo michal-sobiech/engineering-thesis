@@ -5,3 +5,5 @@ export * from './CreateIndependentEndUserRequest';
 export * from './CreateIndependentEndUserResponse';
 export * from './CreateIndependentEndUserResponseUser';
 export * from './InlineObject';
+export * from './LogInIndependentEndUserRequest';
+export * from './LogInIndependentEndUserResponse';

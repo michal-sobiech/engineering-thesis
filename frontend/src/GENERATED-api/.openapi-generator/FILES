@@ -1,3 +1,4 @@
+apis/AuthApi.ts
 apis/IndependentEndUsersApi.ts
 apis/index.ts
 index.ts
@@ -6,5 +7,7 @@ models/CreateIndependentEndUserRequest.ts
 models/CreateIndependentEndUserResponse.ts
 models/CreateIndependentEndUserResponseUser.ts
 models/InlineObject.ts
+models/LogInIndependentEndUserRequest.ts
+models/LogInIndependentEndUserResponse.ts
 models/index.ts
 runtime.ts
