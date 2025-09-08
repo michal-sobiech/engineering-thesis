@@ -1,10 +1,10 @@
 import { Box, Center } from "@chakra-ui/react";
-import Panel from "./Panel";
+import { SignUpSuccessPanel } from "./SignUpSuccessPanel";
 
 const SignUpSuccessPage = () => {
     return <Center width="100vw" height="100vh">
         <Box>
-            <Panel />
+            <SignUpSuccessPanel />
         </Box>
     </Center>;
 }

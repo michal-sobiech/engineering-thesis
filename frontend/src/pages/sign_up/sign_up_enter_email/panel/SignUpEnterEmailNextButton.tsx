@@ -1,11 +1,7 @@
-import { Button } from "@chakra-ui/react";
+import { Button, ButtonProps } from "@chakra-ui/react";
 import React from "react";
 
-export interface SignUpEnterEmailNextButtonProps {
-    onClick: React.MouseEventHandler<HTMLButtonElement>,
-}
-
-export const SignUpEnterEmailNextButton: React.FC<SignUpEnterEmailNextButtonProps> = ({ onClick }) => {
+export const SignUpEnterEmailNextButton: React.FC<ButtonProps> = ({ children, ...props }) => {
     return <Button
         bg="primary.blue"
         p="5"
@@ -13,7 +9,7 @@ export const SignUpEnterEmailNextButton: React.FC<SignUpEnterEmailNextButtonProp
         shadow="lg"
         direction="column"
         gap="10px"
-        onClick={onClick}>
-        Next
+        {...props}>
+        {children}
     </Button>;
 }

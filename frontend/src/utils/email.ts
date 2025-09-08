@@ -1,4 +1,4 @@
-export function validateEmail(email: string): boolean {
+export function matchesEmailPattern(string: string): boolean {
     const pattern = /\S+@\S+\.\S+/;
-    return pattern.test(email);
+    return pattern.test(string);
 }

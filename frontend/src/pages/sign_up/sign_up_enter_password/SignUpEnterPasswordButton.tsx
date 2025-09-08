@@ -1,10 +1,10 @@
 import { Button } from "@chakra-ui/react";
-import { err, fromPromise, ok, Result } from "neverthrow";
+import { ResultAsync } from "neverthrow";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { independentEndUsersApi } from "../../../api/independent-end-users-api";
-import { validateEmail } from "../../../utils/email";
-import { fromResult } from "../../../utils/result";
+import { createDefaultResultfromPromise } from "../../../utils/result";
+import { toastError } from "../../../utils/toast";
 import { useContextOrThrow } from "../../../utils/useContextOrThrow";
 import { validatePassword } from "../../../utils/validate-password";
 import { signUpWizardContext } from "../wizard/SignUpWizardContext";
@@ -14,47 +14,25 @@ export const SignUpEnterPasswordButton = () => {
     const [loading, setLoading] = useState<boolean>(false);
 
     const onClick = async () => {
-        setLoading(true);
-        const result = tryToCreateAccount()
-        incrementStep();
-        // sleep
-        toast.error("Couldn't create account. Try again later.", { autoClose: 10000 });
-        setLoading(false);
+        const result = await tryToCreateAccount()
+        if (!result.isOk()) {
+            toastError(result.error);
+        } else {
+            toast.dismiss();
+            incrementStep();
+        }
     }
 
-    async function tryToCreateAccount(): Promise<Result<void, string>> {
-        const fieldsValidationResult = validateFields();
-        if (!fieldsValidationResult.isOk()) {
-            return fromResult(fieldsValidationResult);
-        }
-
-        const promise = createUser();
-        return fromPromise(promise, (e) => String(e));
+    function tryToCreateAccount(): ResultAsync<void, string> {
+        return validatePassword(password)
+            .asyncAndThen(createUser);
     }
 
-    function validateFields(): Result<void, string> {
-        if (email === "") {
-            return err("Email cannot be empty");
-        }
-
-        if (validateEmail(email)) {
-            return err("Given email does not fit email pattern");
-        }
-
-        if (password === "") {
-            return err("Password cannot be empty");
-        }
-
-        const passwordValidationResult = validatePassword(password);
-        if (!passwordValidationResult.isOk()) {
-            return passwordValidationResult;
-        }
-
-        return ok();
-    }
-
-    async function createUser(): Promise<void> {
-        await independentEndUsersApi.createIndependentEndUser({ email, firstName, lastName, password });
+    function createUser(): ResultAsync<void, string> {
+        const promise = independentEndUsersApi.createIndependentEndUser({ email, firstName, lastName, password });
+        let result = createDefaultResultfromPromise(promise);
+        const voidResult = result.map(() => { });
+        return voidResult;
     }
 
     return <Button
@@ -64,7 +42,8 @@ export const SignUpEnterPasswordButton = () => {
         shadow="lg"
         direction="column"
         gap="10px"
-        onClick={onClick}>
+        onClick={onClick}
+        disabled={loading}>
         Create account
     </Button>;
 }

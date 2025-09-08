@@ -1,8 +1,12 @@
 import { Flex, Text } from "@chakra-ui/react";
+import { err, ok, Result, ResultAsync } from "neverthrow";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { independentEndUsersApi } from "../../../../api/independent-end-users-api";
 import EmailField from "../../../../common/EmailField";
+import { matchesEmailPattern } from "../../../../utils/email";
+import { createDefaultResultfromPromise } from "../../../../utils/result";
+import { toastError } from "../../../../utils/toast";
 import { useContextOrThrow } from "../../../../utils/useContextOrThrow";
 import { signUpWizardContext } from "../../wizard/SignUpWizardContext";
 import { SignUpEnterEmailNextButton } from "./SignUpEnterEmailNextButton";
@@ -12,18 +16,12 @@ export const SignUpEnterEmailPanel = () => {
     const { incrementStep, email, setEmail } = useContextOrThrow(signUpWizardContext);
 
     const onNextButtonClick = async () => {
-        setLoading(true);
-        try {
-            const isEmailAvailable = await checkEmailAvailable(email);
-            if (isEmailAvailable) {
-                incrementStep();
-            } else {
-                toast.info("Chosen email address is not available", { autoClose: 10000 });
-            }
-        } catch {
-            toast.error("Couldn't check whether this email is available. Try again later");
-        } finally {
-            setLoading(false);
+        const result = await validateEmail(email);
+        if (!result.isOk()) {
+            toastError(result.error);
+        } else {
+            toast.dismiss();
+            incrementStep();
         }
     };
 
@@ -38,11 +36,26 @@ export const SignUpEnterEmailPanel = () => {
             Step 1: enter your email address
         </Text>
         <EmailField text={email} setText={setEmail} />
-        <SignUpEnterEmailNextButton onClick={onNextButtonClick} />
+        <SignUpEnterEmailNextButton
+            onClick={onNextButtonClick}
+            disabled={loading}>
+            Next
+        </SignUpEnterEmailNextButton>
     </Flex>
 }
 
-async function checkEmailAvailable(email: string): Promise<boolean> {
-    const { isExisting } = await independentEndUsersApi.checkIndependentEndUserEmailExists(email);
-    return isExisting;
+function validateEmail(email: string): ResultAsync<void, string> {
+    return doesEmailMatchPattern(email)
+        .asyncAndThen(() => checkEmailAvailable(email));
 }
+
+function doesEmailMatchPattern(email: string): Result<void, string> {
+    return matchesEmailPattern(email) ? ok() : err("Given email is not a valid email!");
+}
+
+function checkEmailAvailable(email: string): ResultAsync<void, string> {
+    const promise = independentEndUsersApi.checkIndependentEndUserEmailExists(email);
+    const result = createDefaultResultfromPromise(promise);
+    const voidResult = result.map(() => { });
+    return voidResult;
+} 

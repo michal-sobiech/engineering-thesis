@@ -6,7 +6,7 @@ import SignUpSuccessPage from "../sign_up_success/SignUpSuccessPage";
 import { signUpWizardContext } from "./SignUpWizardContext";
 
 export const SignUpWizard = () => {
-    const [step, setStep] = useState<number>(1);
+    const [step, setStep] = useState<number>(0);
 
     const [email, setEmail] = useState<string>("");
     const [firstName, setFirstName] = useState<string>("");

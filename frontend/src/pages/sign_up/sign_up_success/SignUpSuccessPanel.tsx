@@ -1,8 +1,8 @@
 import { Center, Flex } from "@chakra-ui/react";
-import Message from "./Message";
-import ProceedToLogInButton from "./ProceedToLogInButton";
+import SignUpSuccessButton from "./SignUpSuccessButton";
+import Message from "./SignUpSuccessMessage";
 
-const Panel = () => {
+export const SignUpSuccessPanel = () => {
     return <Flex bg="white"
         p="5"
         rounded="lg"
@@ -12,8 +12,6 @@ const Panel = () => {
         <Center>
             <Message />
         </Center>
-        <ProceedToLogInButton />
+        <SignUpSuccessButton />
     </Flex>;
 };
-
-export default Panel;

@@ -1,27 +1,27 @@
-import { useState } from "react";
+import { ResultAsync } from "neverthrow";
 import { StandardButton } from "../../../common/StandardButton";
-import { logIn } from "../../../utils/log-in";
+import { logInAndSetJwtToken } from "../../../utils/log-in";
+import { createDefaultResultfromPromise } from "../../../utils/result";
 import { toastError } from "../../../utils/toast";
 import { useContextOrThrow } from "../../../utils/useContextOrThrow";
 import { logInContext } from "../LogInContext";
 
 export const LogInButton = () => {
-    const [disabled, setDisabled] = useState<boolean>(false);
-
     const { email, password } = useContextOrThrow(logInContext);
 
     const onClick = async () => {
-        setDisabled(true);
-        try {
-            await logIn(email, password);
-        } catch (error) {
+        const result = await logIn(email, password);
+        if (!result.isOk()) {
             toastError("Couldn't log in. Try again later.");
-        } finally {
-            setDisabled(false);
         }
     }
 
-    return <StandardButton onClick={onClick} disabled={disabled}>
+    return <StandardButton onClick={onClick} >
         Log in
     </StandardButton>
+}
+
+function logIn(email: string, password: string): ResultAsync<void, string> {
+    const promise = logInAndSetJwtToken(email, password);
+    return createDefaultResultfromPromise(promise);
 }
