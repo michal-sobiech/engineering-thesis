@@ -14,6 +14,9 @@ const localStorageKeys = {
 
 export let authContext: AuthContext | null = null;
 
+export function useAuthContextOrRedirectToLogIn(): AuthContext | never {
+}
+
 export async function initStorage(): Promise<void> {
     const jwtToken = getJwtTokenFromLocalStorage();
     if (jwtToken !== null) {
