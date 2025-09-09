@@ -78,6 +78,35 @@ components:
         accessToken:
           type: string
           example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.KMUFsIDTnFmyG3nMiGM6H9FNFUROf3wh7SmqJp-QV30"
+    GetEntrepreneurEnterprisesResponseItem:
+      type: object
+      required:
+        - name
+        - id
+      properties:
+        name:
+          type: string
+          example: Hair Beauty Salon
+        id:
+          type: number
+          example: 123
+    GetEntrepreneurEnterprisesResponse:
+      type: array
+      items:
+        $ref: "#/components/schemas/GetEntrepreneurEnterprisesResponseItem"
+    GetMeResponseEnterpreneur:
+      type: object
+      required: [role, entrepreneurId]
+      properties:
+        role:
+          type: string
+          const: ENTREPRENEUR
+        entrepreneurId:
+          type: number
+          example: 234
+    GetMeResponse:
+      oneOf:
+        - $ref: "#/components/schemas/GetMeResponseEnterpreneur"
 
   responses:
     OK:
@@ -197,5 +226,50 @@ paths:
                 $ref: "#/components/schemas/LogInIndependentEndUserResponse"
         "400":
           $ref: "#/components/responses/BadRequest"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  /entrepreneurs/{entrepreneurId}/enterprises:
+    get:
+      tags: [Entrepreneurs]
+      operationId: getEntrepreneurEnterprises
+      security:
+        - JwtBearerAuth: []
+      parameters:
+        - name: entrepreneurId
+          in: path
+          required: true
+          description: Entrepreneur id
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: *OK_DESCRIPTION
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetEntrepreneurEnterprisesResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  /me:
+    get:
+      tags: [Me]
+      operationId: getMe
+      security:
+        - JwtBearerAuth: []
+      responses:
+        "200":
+          description: *OK_DESCRIPTION
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetMeResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
         "500":
           $ref: "#/components/responses/InternalServerError"

@@ -1,7 +1,7 @@
 import { ResultAsync } from "neverthrow";
 import { StandardButton } from "../../../common/StandardButton";
 import { logInAndSetJwtToken } from "../../../utils/log-in";
-import { createDefaultResultfromPromise } from "../../../utils/result";
+import { createDefaultResultAsyncfromPromise } from "../../../utils/result";
 import { toastError } from "../../../utils/toast";
 import { useContextOrThrow } from "../../../utils/useContextOrThrow";
 import { logInContext } from "../LogInContext";
@@ -23,5 +23,5 @@ export const LogInButton = () => {
 
 function logIn(email: string, password: string): ResultAsync<void, string> {
     const promise = logInAndSetJwtToken(email, password);
-    return createDefaultResultfromPromise(promise);
+    return createDefaultResultAsyncfromPromise(promise);
 }

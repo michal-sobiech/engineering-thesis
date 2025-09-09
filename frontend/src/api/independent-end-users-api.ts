@@ -1,4 +1,4 @@
 import { IndependentEndUsersApi } from "../GENERATED-api";
-import { config } from "./config";
+import { auhtorizedApiConfiguration } from "./config/authorized-api-config";
 
-export const independentEndUsersApi = new IndependentEndUsersApi(config)
+export const independentEndUsersApi = new IndependentEndUsersApi(auhtorizedApiConfiguration)

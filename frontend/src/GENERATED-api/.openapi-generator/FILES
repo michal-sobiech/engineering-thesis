@@ -1,11 +1,15 @@
 apis/AuthApi.ts
+apis/EntrepreneursApi.ts
 apis/IndependentEndUsersApi.ts
+apis/MeApi.ts
 apis/index.ts
 index.ts
 models/CheckIndependentEndUserEmailExists200Response.ts
 models/CreateIndependentEndUserRequest.ts
 models/CreateIndependentEndUserResponse.ts
 models/CreateIndependentEndUserResponseUser.ts
+models/GetEntrepreneurEnterprisesResponseItem.ts
+models/GetMeResponseEnterpreneur.ts
 models/InlineObject.ts
 models/LogInIndependentEndUserRequest.ts
 models/LogInIndependentEndUserResponse.ts

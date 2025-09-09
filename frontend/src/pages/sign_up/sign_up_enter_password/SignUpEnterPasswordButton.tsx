@@ -3,7 +3,7 @@ import { ResultAsync } from "neverthrow";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { independentEndUsersApi } from "../../../api/independent-end-users-api";
-import { createDefaultResultfromPromise } from "../../../utils/result";
+import { createDefaultResultAsyncfromPromise } from "../../../utils/result";
 import { toastError } from "../../../utils/toast";
 import { useContextOrThrow } from "../../../utils/useContextOrThrow";
 import { validatePassword } from "../../../utils/validate-password";
@@ -30,7 +30,7 @@ export const SignUpEnterPasswordButton = () => {
 
     function createUser(): ResultAsync<void, string> {
         const promise = independentEndUsersApi.createIndependentEndUser({ email, firstName, lastName, password });
-        let result = createDefaultResultfromPromise(promise);
+        let result = createDefaultResultAsyncfromPromise(promise);
         const voidResult = result.map(() => { });
         return voidResult;
     }
