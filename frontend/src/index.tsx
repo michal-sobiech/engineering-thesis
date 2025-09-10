@@ -1,20 +1,14 @@
-import { ChakraProvider, defaultSystem } from '@chakra-ui/react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
-import { initStorage } from './auth-context/storage';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-
-await initStorage();
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
 root.render(
-  <ChakraProvider value={defaultSystem}>
-    <App />
-  </ChakraProvider>
+  <App />
 );
 
 // If you want to start measuring performance in your app, pass a function

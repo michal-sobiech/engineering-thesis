@@ -1,6 +1,6 @@
 import { FC, ReactNode } from "react";
 import { Navigate } from "react-router";
-import { authContext } from "../auth-context/storage";
+import { useAuthContext } from "../hooks/useAuthContext";
 import { routes } from "./routes";
 
 export interface ProtectedRouteProps {
@@ -8,9 +8,12 @@ export interface ProtectedRouteProps {
 }
 
 export const ProtectedRoute: FC<ProtectedRouteProps> = ({ children }) => {
-    if (authContext !== null) {
-        return children;
+    const { auth } = useAuthContext();
+    if (auth !== null) {
+        return <>
+            {children}
+        </>;
     } else {
-        return <Navigate to={routes.LOG_IN} replace />;
+        return <Navigate to={routes.LOG_IN} />;
     }
 }
