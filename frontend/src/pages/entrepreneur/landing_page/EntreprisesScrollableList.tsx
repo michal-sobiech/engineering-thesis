@@ -2,16 +2,26 @@ import { Text } from "@chakra-ui/react";
 import { ResultAsync } from "neverthrow";
 import { ReactElement, useEffect, useState } from "react";
 import { entrepreneursApi } from "../../../api/entrepreneurs-api";
+import { AuthContextValue } from "../../../auth-context/authContext";
 import { ScrollableList } from "../../../common/scrollable-list/ScrollableList";
 import { GetEntrepreneurEnterprisesResponseItem } from "../../../GENERATED-api";
-import { useAuthOrRedirect } from "../../../hooks/useAuthContext";
-import { createDefaultResultAsyncfromPromise } from "../../../utils/result";
+import { useWithAuth } from "../../../hooks/useWithAuth";
+import { createDefaultResultAsyncfromPromise, fromNullable, fromResult } from "../../../utils/result";
 
 export const EnterprisesScrollableList = () => {
     const [itemsData, setItemsData] = useState<GetEntrepreneurEnterprisesResponseItem[] | null>(null);
+    const withAuth = useWithAuth();
 
     useEffect(() => {
-        fetchEnterprises().then(result => result.isOk() && setItemsData(result.value));
+        async function fetchAndSetItemsData(authContextValue: AuthContextValue): Promise<void> {
+            const entrepreneurId = fromNullable(authContextValue.auth).map(auth => auth.entrepreneurId);
+            const data = await fromResult(entrepreneurId).andThen(fetchEnterprisesData);
+            if (data.isOk()) {
+                setItemsData(data.value);
+            }
+        }
+
+        withAuth(fetchAndSetItemsData);
     }, []);
 
     return <ScrollableList>
@@ -19,9 +29,7 @@ export const EnterprisesScrollableList = () => {
     </ScrollableList>;
 }
 
-function fetchEnterprises(): ResultAsync<GetEntrepreneurEnterprisesResponseItem[], string> {
-    const auth = useAuthOrRedirect();
-    const entrepreneurId = auth.entrepreneurId;
+function fetchEnterprisesData(entrepreneurId: number): ResultAsync<GetEntrepreneurEnterprisesResponseItem[], string> {
     const promise = entrepreneursApi.getEntrepreneurEnterprises(entrepreneurId);
     return createDefaultResultAsyncfromPromise(promise);
 }

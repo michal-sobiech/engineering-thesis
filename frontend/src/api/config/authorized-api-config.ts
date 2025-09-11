@@ -1,5 +1,5 @@
 import { Configuration, ConfigurationParameters } from "../../GENERATED-api/runtime";
-import { useAuthContextOrRedirect } from "../../hooks/useAuthContext";
+import { useAuthContext } from "../../hooks/useAuthContext";
 import { basicApiConfig } from "./basic-api-config";
 
 export const authorizedApiConfigurationParameters: ConfigurationParameters = {
@@ -10,6 +10,6 @@ export const authorizedApiConfigurationParameters: ConfigurationParameters = {
 export const auhtorizedApiConfiguration = new Configuration(authorizedApiConfigurationParameters);
 
 function useJwtToken(): string {
-    const { auth } = useAuthContextOrRedirect();
-    return auth?.jwtToken || "";
+    const authContextValue = useAuthContext();
+    return authContextValue.auth?.jwtToken || "";
 }
