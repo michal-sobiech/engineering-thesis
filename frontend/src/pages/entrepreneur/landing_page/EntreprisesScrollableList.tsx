@@ -6,7 +6,7 @@ import { AuthContextValue } from "../../../auth-context/authContext";
 import { ScrollableList } from "../../../common/scrollable-list/ScrollableList";
 import { GetEntrepreneurEnterprisesResponseItem } from "../../../GENERATED-api";
 import { useWithAuth } from "../../../hooks/useWithAuth";
-import { createDefaultResultAsyncfromPromise, fromNullable, fromResult } from "../../../utils/result";
+import { defaultStringErrResultAsyncFromPromise, fromNullable, fromResult } from "../../../utils/result";
 
 export const EnterprisesScrollableList = () => {
     const [itemsData, setItemsData] = useState<GetEntrepreneurEnterprisesResponseItem[] | null>(null);
@@ -21,7 +21,7 @@ export const EnterprisesScrollableList = () => {
             }
         }
 
-        withAuth(fetchAndSetItemsData);
+        // withAuth(fetchAndSetItemsData);
     }, []);
 
     return <ScrollableList>
@@ -31,7 +31,7 @@ export const EnterprisesScrollableList = () => {
 
 function fetchEnterprisesData(entrepreneurId: number): ResultAsync<GetEntrepreneurEnterprisesResponseItem[], string> {
     const promise = entrepreneursApi.getEntrepreneurEnterprises(entrepreneurId);
-    return createDefaultResultAsyncfromPromise(promise);
+    return defaultStringErrResultAsyncFromPromise(promise);
 }
 
 function createItems(data: GetEntrepreneurEnterprisesResponseItem[]): ReactElement[] {

@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { independentEndUsersApi } from "../../../../api/independent-end-users-api";
 import EmailField from "../../../../common/EmailField";
 import { matchesEmailPattern } from "../../../../utils/email";
-import { createDefaultResultAsyncfromPromise } from "../../../../utils/result";
+import { defaultStringErrResultAsyncFromPromise } from "../../../../utils/result";
 import { toastError } from "../../../../utils/toast";
 import { useContextOrThrow } from "../../../../utils/useContextOrThrow";
 import { signUpWizardContext } from "../../wizard/SignUpWizardContext";
@@ -55,7 +55,7 @@ function doesEmailMatchPattern(email: string): Result<void, string> {
 
 function checkEmailAvailable(email: string): ResultAsync<void, string> {
     const promise = independentEndUsersApi.checkIndependentEndUserEmailExists(email);
-    const result = createDefaultResultAsyncfromPromise(promise);
+    const result = defaultStringErrResultAsyncFromPromise(promise);
     const voidResult = result.map(() => { });
     return voidResult;
 } 

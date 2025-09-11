@@ -1,3 +1,3 @@
-import { EntrepreneurAuthContext as EntrepreneurAuth } from "./EntrepreneurAuthContext";
+import { EntrepreneurAuth } from "./EntrepreneurAuth";
 
 export type Auth = EntrepreneurAuth;

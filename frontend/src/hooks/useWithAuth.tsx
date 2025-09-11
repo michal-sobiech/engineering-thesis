@@ -1,17 +1,19 @@
 import { useNavigate } from "react-router";
-import { AuthContextValue } from "../auth-context/authContext";
+import { Auth } from "../auth-context/Auth";
 import { routes } from "../router/routes";
 import { useAuthContext } from "./useAuthContext";
 
-export function useWithAuth(): (func: (authContextValue: AuthContextValue) => unknown) => void {
+export function useWithAuth(): (func: (auth: Auth) => unknown) => void {
     const authContextValue = useAuthContext();
     const navigate = useNavigate();
 
-    return (func: (authContextValue: AuthContextValue) => unknown) => {
+    return (func: (auth: Auth) => unknown) => {
         if (authContextValue.auth === null) {
+            console.log("NULL!!!");
             navigate(routes.LOG_IN, { replace: true });
         } else {
-            func(authContextValue);
+            console.log(authContextValue.auth)
+            func(authContextValue.auth);
         }
     }
 }

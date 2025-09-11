@@ -1,7 +1,15 @@
 import { err, errAsync, fromPromise as neverthrowFromPromise, ok, okAsync, Result, ResultAsync } from "neverthrow";
 
-export function createDefaultResultAsyncfromPromise<T>(promise: PromiseLike<T>): ResultAsync<T, string> {
+export function defaultStringErrResultAsyncFromPromise<T>(promise: PromiseLike<T>): ResultAsync<T, string> {
     return neverthrowFromPromise(promise, () => "Unexpected error. Please try again later.");
+}
+
+export function stringErrResultAsyncFromPromise<T>(promise: PromiseLike<T>): ResultAsync<T, string> {
+    return neverthrowFromPromise(promise, (e) => String(e));
+}
+
+export function errorErrResultAsyncFromPromise<T>(promise: PromiseLike<T>): ResultAsync<T, Error> {
+    return stringErrResultAsyncFromPromise(promise).mapErr((e) => new Error(e));
 }
 
 export function fromResult<T, E>(result: Result<T, E>): ResultAsync<T, E> {
@@ -18,4 +26,12 @@ export function fromNullable<T extends NonNullable<unknown>>(value: T | null | u
     } else {
         return err("Value is undefined");
     }
+}
+
+export function promiseResultToAsyncResult<T, E>(
+    promise: Promise<Result<T, E>>,
+    errorMapper: (error: unknown) => E,
+): ResultAsync<T, E> {
+    return ResultAsync.fromPromise(promise, errorMapper)
+        .andThen(nestedResult => fromResult(nestedResult));
 }

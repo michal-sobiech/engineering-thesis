@@ -6,7 +6,6 @@ const SignUpSuccessButton = () => {
     const navigate = useNavigate();
 
     const onClick = async () => {
-        console.log("eeee");
         navigate(routes.LOG_IN);
     }
 

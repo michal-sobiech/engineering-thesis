@@ -3,33 +3,29 @@ import { noAutoAuthMeApi } from "../api/no-Auto-auth-me-api";
 import { GetMeResponseEnterpreneur } from "../GENERATED-api";
 import { defaultDecodeJwtPayload, JwtToken } from "../utils/jwt";
 import { JwtPayload } from "../utils/JwtPayload";
-import { createDefaultResultAsyncfromPromise } from "../utils/result";
+import { defaultStringErrResultAsyncFromPromise, promiseResultToAsyncResult } from "../utils/result";
 import { Auth } from "./Auth";
-import { EntrepreneurAuthContext } from "./EntrepreneurAuthContext";
+import { EntrepreneurAuth } from "./EntrepreneurAuth";
 import { Role } from "./Role";
 
 const localStorageKeys = {
     JWT_TOKEN: "jwtToken",
 }
 
-export async function createInitialAuth(): Promise<Auth | null> {
+export async function createInitialAuth(): Promise<Result<Auth | null, Error>> {
     const jwtToken = getJwtTokenFromLocalStorage();
+    console.log("JWT:", jwtToken);
     if (jwtToken === null) {
-        return null;
+        return ok(null);
     }
-    return updateStorage(jwtToken);
+    return createAuth(jwtToken);
 }
 
-export async function updateStorage(jwtToken: JwtToken): Promise<Auth | null> {
-    const result = await createAuthUsingJwt(jwtToken);
-    if (result.isErr()) {
-        console.log(result.error);
-        return null;
-    }
-    return result.value;
+export function createAuth(jwtToken: JwtToken): ResultAsync<Auth, Error> {
+    return promiseResultToAsyncResult(createAuthAsync(jwtToken), e => new Error(String(e)))
 }
 
-async function createAuthUsingJwt(jwtToken: JwtToken): Promise<Result<Auth, Error>> {
+async function createAuthAsync(jwtToken: JwtToken): Promise<Result<Auth, Error>> {
     const jwtPayload = defaultDecodeJwtPayload(jwtToken);
     if (jwtPayload.isErr()) {
         return err(jwtPayload.error);
@@ -44,8 +40,16 @@ async function createAuthUsingJwt(jwtToken: JwtToken): Promise<Result<Auth, Erro
     return ok(authContext);
 }
 
-function getJwtTokenFromLocalStorage(): JwtToken | null {
+export function getJwtTokenFromLocalStorage(): JwtToken | null {
     return localStorage.getItem(localStorageKeys.JWT_TOKEN)
+}
+
+export function setJwtTokenInLocalStorage(jwtToken: JwtToken): void {
+    localStorage.setItem(localStorageKeys.JWT_TOKEN, jwtToken);
+}
+
+export function removeJwtTokenFromLocalStorage(): void {
+    localStorage.removeItem(localStorageKeys.JWT_TOKEN)
 }
 
 function fetchMe(jwtToken: JwtToken): ResultAsync<GetMeResponseEnterpreneur, string> {
@@ -55,7 +59,7 @@ function fetchMe(jwtToken: JwtToken): ResultAsync<GetMeResponseEnterpreneur, str
         }
     };
     const promise = noAutoAuthMeApi.getMe(initOverrides);
-    return createDefaultResultAsyncfromPromise(promise);
+    return defaultStringErrResultAsyncFromPromise(promise);
 }
 
 function buildAuthContext(jwtToken: JwtToken, jwtPayload: JwtPayload, me: GetMeResponseEnterpreneur): Auth {
@@ -64,10 +68,12 @@ function buildAuthContext(jwtToken: JwtToken, jwtPayload: JwtPayload, me: GetMeR
     // }
 }
 
-function buildEntrepreneurAuthContext(jwtToken: JwtToken, jwtPayload: JwtPayload, me: GetMeResponseEnterpreneur): EntrepreneurAuthContext {
+function buildEntrepreneurAuthContext(jwtToken: JwtToken, jwtPayload: JwtPayload, me: GetMeResponseEnterpreneur): EntrepreneurAuth {
     return {
         role: Role.ENTREPRENEUR,
         jwtToken,
+        firstName: me.firstName,
+        lastName: me.lastName,
         userId: jwtPayload.userId,
         entrepreneurId: me.entrepreneurId,
     };

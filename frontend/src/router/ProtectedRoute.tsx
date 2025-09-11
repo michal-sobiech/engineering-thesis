@@ -9,6 +9,8 @@ export interface ProtectedRouteProps {
 
 export const ProtectedRoute: FC<ProtectedRouteProps> = ({ children }) => {
     const authContext = useAuthContext();
+
+    console.log("Protected route")
     if (authContext.auth === null) {
         return <Navigate to={routes.LOG_IN} replace />;
     } else {

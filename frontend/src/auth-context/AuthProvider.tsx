@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
+import { fromNullable, fromResult } from "../utils/result";
 import { Auth } from "./Auth";
 import { authContext, AuthContextValue } from "./authContext";
-import { createInitialAuth } from "./storage";
+import { createAuth, getJwtTokenFromLocalStorage } from "./storage";
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [auth, setAuth] = useState<Auth | null>(null);
     useEffect(() => {
-        createInitialAuth().then(setAuth);
+        fromResult(fromNullable(getJwtTokenFromLocalStorage()))
+            .andThen(createAuth)
+            .map(setAuth);
     }, []);
     const contextValue: AuthContextValue = { auth, setAuth };
     console.log("AUTH", auth);

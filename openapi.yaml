@@ -77,7 +77,8 @@ components:
       properties:
         accessToken:
           type: string
-          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.KMUFsIDTnFmyG3nMiGM6H9FNFUROf3wh7SmqJp-QV30"
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEyMywiaXNzdWVkX2F0IjoxNzU3NTkyMDIyLCJleHBpcmVzX2F0IjoxNzU3NjEzNjIyfQ.R0wpPhA5v-z_NYELi8PLxji0EJFcD75B5_psMb8ZNcc"
+
     GetEntrepreneurEnterprisesResponseItem:
       type: object
       required:
@@ -96,11 +97,17 @@ components:
         $ref: "#/components/schemas/GetEntrepreneurEnterprisesResponseItem"
     GetMeResponseEnterpreneur:
       type: object
-      required: [role, entrepreneurId]
+      required: [role, firstName, lastName, entrepreneurId]
       properties:
         role:
           type: string
           const: ENTREPRENEUR
+        firstName:
+          type: string
+          example: Jan
+        lastName:
+          type: string
+          example: Kowalski
         entrepreneurId:
           type: number
           example: 234

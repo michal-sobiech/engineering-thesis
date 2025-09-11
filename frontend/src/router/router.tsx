@@ -3,6 +3,7 @@ import { EntrepreneurLandingPage } from "../pages/entrepreneur/landing_page/Entr
 import LogInPage from "../pages/log_in/LogInPage";
 import { SignUpWizard } from "../pages/sign_up/wizard/SignUpWizard";
 import { PageLayout } from "./PageLayout";
+import { ProtectedRoute } from "./ProtectedRoute";
 import { routes } from "./routes";
 
 export const router = createBrowserRouter([
@@ -24,7 +25,9 @@ export const router = createBrowserRouter([
             },
             {
                 path: routes.ENTREPRENEUR_LANDING_PAGE,
-                element: <EntrepreneurLandingPage />
+                element: <ProtectedRoute>
+                    <EntrepreneurLandingPage />
+                </ProtectedRoute>
             }
         ]
     }

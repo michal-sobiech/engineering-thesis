@@ -27,6 +27,18 @@ export interface GetMeResponseEnterpreneur {
     role: GetMeResponseEnterpreneurRoleEnum;
     /**
      * 
+     * @type {string}
+     * @memberof GetMeResponseEnterpreneur
+     */
+    firstName: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetMeResponseEnterpreneur
+     */
+    lastName: string;
+    /**
+     * 
      * @type {number}
      * @memberof GetMeResponseEnterpreneur
      */
@@ -48,6 +60,8 @@ export type GetMeResponseEnterpreneurRoleEnum = typeof GetMeResponseEnterpreneur
  */
 export function instanceOfGetMeResponseEnterpreneur(value: object): value is GetMeResponseEnterpreneur {
     if (!('role' in value) || value['role'] === undefined) return false;
+    if (!('firstName' in value) || value['firstName'] === undefined) return false;
+    if (!('lastName' in value) || value['lastName'] === undefined) return false;
     if (!('entrepreneurId' in value) || value['entrepreneurId'] === undefined) return false;
     return true;
 }
@@ -63,6 +77,8 @@ export function GetMeResponseEnterpreneurFromJSONTyped(json: any, ignoreDiscrimi
     return {
         
         'role': json['role'],
+        'firstName': json['firstName'],
+        'lastName': json['lastName'],
         'entrepreneurId': json['entrepreneurId'],
     };
 }
@@ -79,6 +95,8 @@ export function GetMeResponseEnterpreneurToJSONTyped(value?: GetMeResponseEnterp
     return {
         
         'role': value['role'],
+        'firstName': value['firstName'],
+        'lastName': value['lastName'],
         'entrepreneurId': value['entrepreneurId'],
     };
 }
