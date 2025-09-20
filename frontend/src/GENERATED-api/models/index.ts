@@ -1,6 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export * from './CheckIndependentEndUserEmailExists200Response';
+export * from './CreateEnterprise';
 export * from './CreateIndependentEndUserRequest';
 export * from './CreateIndependentEndUserResponse';
 export * from './CreateIndependentEndUserResponseUser';

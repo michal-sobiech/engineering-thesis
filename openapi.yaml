@@ -114,6 +114,26 @@ components:
     GetMeResponse:
       oneOf:
         - $ref: "#/components/schemas/GetMeResponseEnterpreneur"
+    CreateEnterprise:
+      type: object
+      required: [enterpriseName, description, location]
+      properties:
+        enterpriseName:
+          type: string
+          example: The Best Barbershop
+        description:
+          type: string
+          example: The new best barbershop in town.
+        location:
+          type: string
+          example: ul. Nowowiejska 15/19, Warasaw, Poland
+    CreateEnterpriseResponse:
+      type: object
+      required: []
+      properties:
+        enterpriseId:
+          type: number
+          example: 345
 
   responses:
     OK:
@@ -274,6 +294,27 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/GetMeResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  /entreprises:
+    post:
+      tags: [Enterprises]
+      operationId: createEnterprise
+      security:
+        - JwtBearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateEnterprise"
+      responses:
+        "201":
+          $ref: "#/components/responses/Created"
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":

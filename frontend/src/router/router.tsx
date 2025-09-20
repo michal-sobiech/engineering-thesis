@@ -1,4 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
+import { CreateEnterprisePage } from "../pages/entrepreneur/create_enterprise/CreateEnterprisePage";
 import { EntrepreneurLandingPage } from "../pages/entrepreneur/landing_page/EntrepreneurLandingPage";
 import LogInPage from "../pages/log_in/LogInPage";
 import { SignUpWizard } from "../pages/sign_up/wizard/SignUpWizard";
@@ -28,7 +29,14 @@ export const router = createBrowserRouter([
                 element: <ProtectedRoute>
                     <EntrepreneurLandingPage />
                 </ProtectedRoute>
-            }
+            },
+            {
+                path: routes.CREATE_ENTERPRISE,
+                // element: <ProtectedRoute>
+                //     <CreateEnterprisePage/>
+                // </ProtectedRoute>
+                element: <CreateEnterprisePage />
+            },
         ]
     }
 ])
