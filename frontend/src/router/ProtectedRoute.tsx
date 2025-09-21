@@ -1,6 +1,6 @@
 import { FC, ReactNode } from "react";
 import { Navigate } from "react-router";
-import { useAuthContext } from "../hooks/useAuthContext";
+import { auth } from "../auth-context/AuthProvider";
 import { routes } from "./routes";
 
 export interface ProtectedRouteProps {
@@ -8,11 +8,9 @@ export interface ProtectedRouteProps {
 }
 
 export const ProtectedRoute: FC<ProtectedRouteProps> = ({ children }) => {
-    const authContext = useAuthContext();
-
     console.log("Protected route")
-    console.log("Auth here", authContext.auth);
-    if (authContext.auth === null) {
+    console.log("Auth here", auth);
+    if (auth === null) {
         return <Navigate to={routes.LOG_IN} replace />;
     } else {
         return <>

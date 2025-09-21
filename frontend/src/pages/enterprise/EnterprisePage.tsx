@@ -8,6 +8,8 @@ import { errorErrResultAsyncFromPromise } from "../../utils/result";
 import { toInt } from "../../utils/string";
 
 export const EnterprisePage = () => {
+    console.log("EnterprisePAge.tsx");
+
     const { enterpriseId } = useParams<{ enterpriseId: string }>();
     const navigate = useNavigate();
 

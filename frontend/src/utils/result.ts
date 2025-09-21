@@ -19,13 +19,13 @@ export function fromResult<T, E>(result: Result<T, E>): ResultAsync<T, E> {
         : errAsync(result.error);
 }
 
-export function fromNullable<T extends NonNullable<unknown>>(value: T | null | undefined): Result<T, string> {
+export function assertDefined<T extends NonNullable<unknown>>(value: T | null | undefined): Result<T, Error> {
     if (value) {
         return ok(value);
     } else if (value === null) {
-        return err("Value is null");
+        return err(new Error("Value is null"));
     } else {
-        return err("Value is undefined");
+        return err(new Error("Value is undefined"));
     }
 }
 

@@ -34,8 +34,10 @@ export const CreateEnterprisePage = () => {
         console.log("JEST OK");
         const { enterpriseId } = result.value;
         // TODO put in a separate function?
+        console.log("eee");
         const path = generatePath(routes.ENTERPRISE, { enterpriseId })
-        navigate(routes.ENTERPRISE);
+        console.log(path);
+        navigate(path);
     }
 
     return <Center height="100vh">

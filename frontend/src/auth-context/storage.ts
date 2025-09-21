@@ -12,20 +12,20 @@ const localStorageKeys = {
     JWT_TOKEN: "jwtToken",
 }
 
-export async function createInitialAuth(): Promise<Result<Auth | null, Error>> {
-    const jwtToken = getJwtTokenFromLocalStorage();
-    console.log("JWT:", jwtToken);
-    if (jwtToken === null) {
-        return ok(null);
-    }
-    return createAuth(jwtToken);
-}
+// export async function createInitialAuth(): Promise<Result<Auth | null, Error>> {
+//     const jwtToken = getJwtTokenFromLocalStorage();
+//     console.log("JWT:", jwtToken);
+//     if (jwtToken === null) {
+//         return ok(null);
+//     }
+//     return createAuth(jwtToken);
+// }
 
 export function createAuth(jwtToken: JwtToken): ResultAsync<Auth, Error> {
     return promiseResultToAsyncResult(createAuthAsync(jwtToken), e => new Error(String(e)))
 }
 
-async function createAuthAsync(jwtToken: JwtToken): Promise<Result<Auth, Error>> {
+export async function createAuthAsync(jwtToken: JwtToken): Promise<Result<Auth, Error>> {
     const jwtPayload = defaultDecodeJwtPayload(jwtToken);
     if (jwtPayload.isErr()) {
         return err(jwtPayload.error);
@@ -36,8 +36,8 @@ async function createAuthAsync(jwtToken: JwtToken): Promise<Result<Auth, Error>>
         return err(new Error(me.error));
     }
 
-    const authContext = buildAuthContext(jwtToken, jwtPayload.value, me.value);
-    return ok(authContext);
+    const auth = buildAuthContext(jwtToken, jwtPayload.value, me.value);
+    return ok(auth);
 }
 
 export function getJwtTokenFromLocalStorage(): JwtToken | null {

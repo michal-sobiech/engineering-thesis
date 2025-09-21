@@ -1,21 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { fromNullable, fromResult } from "../utils/result";
+import { okAsync, ResultAsync } from "neverthrow";
+import { Cell } from "../utils/Cell";
 import { Auth } from "./Auth";
-import { authContext, AuthContextValue } from "./authContext";
 import { createAuth, getJwtTokenFromLocalStorage } from "./storage";
 
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-    const [auth, setAuth] = useState<Auth | null>(null);
-    useEffect(() => {
-        fromResult(fromNullable(getJwtTokenFromLocalStorage()))
-            .andTee(() => console.log("AGAIN"))
-            .andThen(createAuth)
-            .map(setAuth);
-    }, []);
-    const contextValue: AuthContextValue = { auth, setAuth };
-    console.log("AUTH", auth);
+export let auth: Cell<Auth | null> = { value: null };
 
-    return <authContext.Provider value={contextValue}>
-        {auth === null ? null : children}
-    </authContext.Provider>;
+export function loadAndSetAuth(): ResultAsync<void, Error> {
+    return loadAuth()
+        .map(authValue => { auth.value = authValue });
+}
+
+function loadAuth(): ResultAsync<Auth | null, Error> {
+    return okAsync(getJwtTokenFromLocalStorage())
+        .andThen(jwtToken => jwtToken !== null ? createAuth(jwtToken) : okAsync(null));
 }

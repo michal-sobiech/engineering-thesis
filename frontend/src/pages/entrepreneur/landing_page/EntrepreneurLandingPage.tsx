@@ -1,16 +1,12 @@
 import { Flex, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { Auth } from "../../../auth-context/Auth";
-import { useWithAuth } from "../../../hooks/useWithAuth";
+import { auth } from "../../../auth-context/AuthProvider";
 import { EnterprisesScrollableList } from "./EntreprisesScrollableList";
 
 export const EntrepreneurLandingPage = () => {
-    const withAuth = useWithAuth();
     const [firstName, setFirstName] = useState<string>("");
 
-    const setFirstNameUsingAuth = (auth: Auth) => setFirstName(auth.firstName);
-
-    useEffect(() => withAuth(setFirstNameUsingAuth), []);
+    useEffect(() => setFirstName(auth.value?.firstName || ""), []);
 
     return <Flex
         direction="column">
