@@ -2,14 +2,18 @@ import { Configuration, ConfigurationParameters } from "../../GENERATED-api/runt
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { basicApiConfig } from "./basic-api-config";
 
+console.log("authorized-api-config.ts")
+
+const authContextValue = useAuthContext();
+
 export const authorizedApiConfigurationParameters: ConfigurationParameters = {
     ...basicApiConfig,
-    accessToken: useJwtToken
+    accessToken: useJwtToken,
 };
 
 export const auhtorizedApiConfiguration = new Configuration(authorizedApiConfigurationParameters);
 
 function useJwtToken(): string {
-    const authContextValue = useAuthContext();
+    console.log("useJwtToken", authContextValue);
     return authContextValue.auth?.jwtToken || "";
 }

@@ -114,7 +114,7 @@ components:
     GetMeResponse:
       oneOf:
         - $ref: "#/components/schemas/GetMeResponseEnterpreneur"
-    CreateEnterprise:
+    CreateEnterpriseRequest:
       type: object
       required: [enterpriseName, description, location]
       properties:
@@ -129,12 +129,24 @@ components:
           example: ul. Nowowiejska 15/19, Warasaw, Poland
     CreateEnterpriseResponse:
       type: object
-      required: []
+      required: [enterpriseId]
       properties:
         enterpriseId:
           type: number
           example: 345
-
+    GetEnterpriseResponse:
+      type: object
+      required: [enterpriseName, description, location]
+      properties:
+        enterpriseName:
+          type: string
+          example: The Best Barbershop
+        description:
+          type: string
+          example: The new best barbershop in town.
+        location:
+          type: string
+          example: ul. Nowowiejska 15/19, Warasaw, Poland
   responses:
     OK:
       description: &OK_DESCRIPTION >
@@ -153,6 +165,7 @@ components:
             properties:
               message:
                 type: string
+                example: Unauthorized
     BadRequest:
       description: Bad request
       content:
@@ -164,6 +177,7 @@ components:
             properties:
               message:
                 type: string
+                example: Bad request
     InternalServerError:
       description: Internal server error
       content:
@@ -175,6 +189,7 @@ components:
             properties:
               message:
                 type: string
+                example: Internal server error
 
 paths:
   /independent-end-users:
@@ -311,13 +326,39 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateEnterprise"
+              $ref: "#/components/schemas/CreateEnterpriseRequest"
       responses:
         "201":
-          $ref: "#/components/responses/Created"
+          description: *CREATED_DESCRIPTION
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateEnterpriseResponse"
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":
           $ref: "#/components/responses/Unauthorized"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  /enterprises/{enterpriseId}:
+    get:
+      tags: [Enterprises]
+      operationId: getEnterprise
+      parameters:
+        - name: enterpriseId
+          in: path
+          required: true
+          description: Enterprise id
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: *OK_DESCRIPTION
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetEnterpriseResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
         "500":
           $ref: "#/components/responses/InternalServerError"

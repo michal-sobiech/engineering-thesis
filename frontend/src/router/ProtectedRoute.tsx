@@ -11,6 +11,7 @@ export const ProtectedRoute: FC<ProtectedRouteProps> = ({ children }) => {
     const authContext = useAuthContext();
 
     console.log("Protected route")
+    console.log("Auth here", authContext.auth);
     if (authContext.auth === null) {
         return <Navigate to={routes.LOG_IN} replace />;
     } else {

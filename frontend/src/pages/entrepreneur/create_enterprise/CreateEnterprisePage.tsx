@@ -1,10 +1,11 @@
 import { Center } from "@chakra-ui/react";
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { generatePath, useNavigate } from "react-router";
 import { StandardButton } from "../../../common/StandardButton";
 import { StanadardPanel } from "../../../common/StandardPanel";
 import { StandardTextArea } from "../../../common/StandardTextArea";
 import { StandardTextField } from "../../../common/StandardTextField";
+import { routes } from "../../../router/routes";
 import { createEnterprise } from "../../../utils/create-enterprise";
 import { toastError } from "../../../utils/toast";
 
@@ -16,6 +17,8 @@ export const CreateEnterprisePage = () => {
     const [location, setLocation] = useState<string>("");
 
     const handleButtonClick = async () => {
+        console.log("HELLOOO")
+
         if (enterpriseName === "") {
             toastError("Choose an enterprise name!");
             return;
@@ -27,7 +30,12 @@ export const CreateEnterprisePage = () => {
             return;
         }
 
-        // const navigate();
+
+        console.log("JEST OK");
+        const { enterpriseId } = result.value;
+        // TODO put in a separate function?
+        const path = generatePath(routes.ENTERPRISE, { enterpriseId })
+        navigate(routes.ENTERPRISE);
     }
 
     return <Center height="100vh">

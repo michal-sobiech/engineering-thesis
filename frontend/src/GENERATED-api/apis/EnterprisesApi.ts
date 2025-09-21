@@ -15,18 +15,34 @@
 
 import * as runtime from '../runtime';
 import type {
-  CreateEnterprise,
+  CreateEnterpriseRequest,
+  CreateEnterpriseResponse,
+  GetEnterpriseResponse,
   InlineObject,
+  InlineObject1,
+  InlineObject2,
 } from '../models/index';
 import {
-    CreateEnterpriseFromJSON,
-    CreateEnterpriseToJSON,
+    CreateEnterpriseRequestFromJSON,
+    CreateEnterpriseRequestToJSON,
+    CreateEnterpriseResponseFromJSON,
+    CreateEnterpriseResponseToJSON,
+    GetEnterpriseResponseFromJSON,
+    GetEnterpriseResponseToJSON,
     InlineObjectFromJSON,
     InlineObjectToJSON,
+    InlineObject1FromJSON,
+    InlineObject1ToJSON,
+    InlineObject2FromJSON,
+    InlineObject2ToJSON,
 } from '../models/index';
 
-export interface CreateEnterpriseRequest {
-    createEnterprise: CreateEnterprise;
+export interface CreateEnterpriseOperationRequest {
+    createEnterpriseRequest: CreateEnterpriseRequest;
+}
+
+export interface GetEnterpriseRequest {
+    enterpriseId: number;
 }
 
 /**
@@ -36,11 +52,11 @@ export class EnterprisesApi extends runtime.BaseAPI {
 
     /**
      */
-    async createEnterpriseRaw(requestParameters: CreateEnterpriseRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters['createEnterprise'] == null) {
+    async createEnterpriseRaw(requestParameters: CreateEnterpriseOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CreateEnterpriseResponse>> {
+        if (requestParameters['createEnterpriseRequest'] == null) {
             throw new runtime.RequiredError(
-                'createEnterprise',
-                'Required parameter "createEnterprise" was null or undefined when calling createEnterprise().'
+                'createEnterpriseRequest',
+                'Required parameter "createEnterpriseRequest" was null or undefined when calling createEnterprise().'
             );
         }
 
@@ -62,16 +78,52 @@ export class EnterprisesApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: CreateEnterpriseToJSON(requestParameters['createEnterprise']),
+            body: CreateEnterpriseRequestToJSON(requestParameters['createEnterpriseRequest']),
         }, initOverrides);
 
-        return new runtime.VoidApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => CreateEnterpriseResponseFromJSON(jsonValue));
     }
 
     /**
      */
-    async createEnterprise(createEnterprise: CreateEnterprise, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.createEnterpriseRaw({ createEnterprise: createEnterprise }, initOverrides);
+    async createEnterprise(createEnterpriseRequest: CreateEnterpriseRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CreateEnterpriseResponse> {
+        const response = await this.createEnterpriseRaw({ createEnterpriseRequest: createEnterpriseRequest }, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async getEnterpriseRaw(requestParameters: GetEnterpriseRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetEnterpriseResponse>> {
+        if (requestParameters['enterpriseId'] == null) {
+            throw new runtime.RequiredError(
+                'enterpriseId',
+                'Required parameter "enterpriseId" was null or undefined when calling getEnterprise().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+
+        let urlPath = `/enterprises/{enterpriseId}`;
+        urlPath = urlPath.replace(`{${"enterpriseId"}}`, encodeURIComponent(String(requestParameters['enterpriseId'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => GetEnterpriseResponseFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async getEnterprise(enterpriseId: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetEnterpriseResponse> {
+        const response = await this.getEnterpriseRaw({ enterpriseId: enterpriseId }, initOverrides);
+        return await response.value();
     }
 
 }

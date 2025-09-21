@@ -15,13 +15,16 @@
 
 import * as runtime from '../runtime';
 import type {
-  InlineObject,
+  InlineObject1,
+  InlineObject2,
   LogInIndependentEndUserRequest,
   LogInIndependentEndUserResponse,
 } from '../models/index';
 import {
-    InlineObjectFromJSON,
-    InlineObjectToJSON,
+    InlineObject1FromJSON,
+    InlineObject1ToJSON,
+    InlineObject2FromJSON,
+    InlineObject2ToJSON,
     LogInIndependentEndUserRequestFromJSON,
     LogInIndependentEndUserRequestToJSON,
     LogInIndependentEndUserResponseFromJSON,

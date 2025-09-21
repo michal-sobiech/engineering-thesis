@@ -1,7 +1,9 @@
 import { createBrowserRouter } from "react-router-dom";
+import { EnterprisePage } from "../pages/enterprise/EnterprisePage";
 import { CreateEnterprisePage } from "../pages/entrepreneur/create_enterprise/CreateEnterprisePage";
 import { EntrepreneurLandingPage } from "../pages/entrepreneur/landing_page/EntrepreneurLandingPage";
 import LogInPage from "../pages/log_in/LogInPage";
+import { MainPage } from "../pages/main_page/MainPage";
 import { SignUpWizard } from "../pages/sign_up/wizard/SignUpWizard";
 import { PageLayout } from "./PageLayout";
 import { ProtectedRoute } from "./ProtectedRoute";
@@ -14,7 +16,7 @@ export const router = createBrowserRouter([
         children: [
             {
                 index: true,
-                element: <LogInPage />
+                element: <MainPage />
             },
             {
                 path: routes.LOG_IN,
@@ -32,10 +34,13 @@ export const router = createBrowserRouter([
             },
             {
                 path: routes.CREATE_ENTERPRISE,
-                // element: <ProtectedRoute>
-                //     <CreateEnterprisePage/>
-                // </ProtectedRoute>
-                element: <CreateEnterprisePage />
+                element: <ProtectedRoute>
+                    <CreateEnterprisePage />
+                </ProtectedRoute>
+            },
+            {
+                path: routes.ENTERPRISE,
+                element: <EnterprisePage />
             },
         ]
     }

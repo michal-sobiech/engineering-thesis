@@ -17,12 +17,18 @@ import * as runtime from '../runtime';
 import type {
   GetMeResponseEnterpreneur,
   InlineObject,
+  InlineObject1,
+  InlineObject2,
 } from '../models/index';
 import {
     GetMeResponseEnterpreneurFromJSON,
     GetMeResponseEnterpreneurToJSON,
     InlineObjectFromJSON,
     InlineObjectToJSON,
+    InlineObject1FromJSON,
+    InlineObject1ToJSON,
+    InlineObject2FromJSON,
+    InlineObject2ToJSON,
 } from '../models/index';
 
 /**

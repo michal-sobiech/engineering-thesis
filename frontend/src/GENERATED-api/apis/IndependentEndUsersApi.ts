@@ -18,7 +18,8 @@ import type {
   CheckIndependentEndUserEmailExists200Response,
   CreateIndependentEndUserRequest,
   CreateIndependentEndUserResponse,
-  InlineObject,
+  InlineObject1,
+  InlineObject2,
 } from '../models/index';
 import {
     CheckIndependentEndUserEmailExists200ResponseFromJSON,
@@ -27,8 +28,10 @@ import {
     CreateIndependentEndUserRequestToJSON,
     CreateIndependentEndUserResponseFromJSON,
     CreateIndependentEndUserResponseToJSON,
-    InlineObjectFromJSON,
-    InlineObjectToJSON,
+    InlineObject1FromJSON,
+    InlineObject1ToJSON,
+    InlineObject2FromJSON,
+    InlineObject2ToJSON,
 } from '../models/index';
 
 export interface CheckIndependentEndUserEmailExistsRequest {

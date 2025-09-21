@@ -8,6 +8,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [auth, setAuth] = useState<Auth | null>(null);
     useEffect(() => {
         fromResult(fromNullable(getJwtTokenFromLocalStorage()))
+            .andTee(() => console.log("AGAIN"))
             .andThen(createAuth)
             .map(setAuth);
     }, []);
@@ -15,6 +16,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     console.log("AUTH", auth);
 
     return <authContext.Provider value={contextValue}>
-        {children}
+        {auth === null ? null : children}
     </authContext.Provider>;
 }
