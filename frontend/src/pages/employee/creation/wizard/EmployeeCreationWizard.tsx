@@ -1,4 +1,9 @@
 import { useState } from "react";
+import { EmployeeCreationEnterNamePage } from "../enter_name/EmployeeCreationEnterNamePage";
+import { EmployeeCreationEnterPasswordPage } from "../enter_password/EmployeeCreationEnterPasswordPage";
+import { EmployeeCreationEnterUsernamePage } from "../enter_username/EmployeeCreationEnterUsernamePage";
+import { EmployeeCreationSuccessPage } from "../success/EmployeeCreationSuccessPage";
+import { employeeCreationWizardContext } from "./EmployeeCreationWizardContext";
 
 export const EmployeeCreationWizard = () => {
     const [step, setStep] = useState<number>(0);
@@ -19,12 +24,12 @@ export const EmployeeCreationWizard = () => {
     };
 
     return (
-        <EmployeeCreationWizard.Provider value={contextValue} >
-            {step === 0 && <SignUpEnterEmailPage />}
-            {step === 1 && <SignUpEnterNamePage />}
-            {step === 2 && <SignUpEnterPasswordPage />}
-            {step === 3 && <SignUpSuccessPage />}
-        </EmployeeCreationWizard.Provider>
+        <employeeCreationWizardContext.Provider value={contextValue} >
+            {step === 0 && <EmployeeCreationEnterUsernamePage />}
+            {step === 1 && <EmployeeCreationEnterNamePage />}
+            {step === 2 && <EmployeeCreationEnterPasswordPage />}
+            {step === 3 && <EmployeeCreationSuccessPage />}
+        </employeeCreationWizardContext.Provider>
     );
 
 };

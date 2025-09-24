@@ -9,7 +9,7 @@ export interface StandardTextFieldProps {
     type?: string,
 }
 
-export const StandardTextField: React.FC<StandardTextFieldProps> = ({ text, setText, placeholder }) => {
+export const StandardTextField: React.FC<StandardTextFieldProps> = ({ text, setText, placeholder, type }) => {
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setText(event.target.value);
     };
@@ -18,6 +18,7 @@ export const StandardTextField: React.FC<StandardTextFieldProps> = ({ text, setT
         placeholder={placeholder}
         value={text}
         onChange={handleChange}
+        type={type}
         required
     />;
 };

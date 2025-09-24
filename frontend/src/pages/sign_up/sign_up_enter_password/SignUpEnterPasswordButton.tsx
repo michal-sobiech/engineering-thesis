@@ -3,7 +3,7 @@ import { ResultAsync } from "neverthrow";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { independentEndUsersApi } from "../../../api/independent-end-users-api";
-import { defaultStringErrResultAsyncFromPromise } from "../../../utils/result";
+import { errorErrResultAsyncFromPromise } from "../../../utils/result";
 import { toastError } from "../../../utils/toast";
 import { useContextOrThrow } from "../../../utils/useContextOrThrow";
 import { validatePassword } from "../../../utils/validate-password";
@@ -16,21 +16,21 @@ export const SignUpEnterPasswordButton = () => {
     const onClick = async () => {
         const result = await tryToCreateAccount()
         if (!result.isOk()) {
-            toastError(result.error);
+            toastError(result.error.message);
         } else {
             toast.dismiss();
             incrementStep();
         }
     }
 
-    function tryToCreateAccount(): ResultAsync<void, string> {
+    function tryToCreateAccount(): ResultAsync<void, Error> {
         return validatePassword(password)
             .asyncAndThen(createUser);
     }
 
-    function createUser(): ResultAsync<void, string> {
+    function createUser(): ResultAsync<void, Error> {
         const promise = independentEndUsersApi.createIndependentEndUser({ email, firstName, lastName, password });
-        let result = defaultStringErrResultAsyncFromPromise(promise);
+        let result = errorErrResultAsyncFromPromise(promise);
         const voidResult = result.map(() => { });
         return voidResult;
     }

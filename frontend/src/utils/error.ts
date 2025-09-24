@@ -1,1 +1,1 @@
-export const DEFAULT_ERROR_MESSAGE = "Unexpected error. Please try again later.";
+export const DEFAULT_ERROR_MESSAGE_FOR_USER = "Unexpected error. Please try again later.";

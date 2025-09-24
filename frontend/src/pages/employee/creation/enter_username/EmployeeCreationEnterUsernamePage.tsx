@@ -1,52 +1,64 @@
-import { Flex, Text } from "@chakra-ui/react";
+import { Center, Text } from "@chakra-ui/react";
 import { ResultAsync } from "neverthrow";
+import { useParams } from "react-router";
 import { toast } from "react-toastify";
 import { enterpriseEmployeesApi } from "../../../../api/enterprise-employees-api";
 import { StandardButton } from "../../../../common/StandardButton";
+import { StanadardPanel } from "../../../../common/StandardPanel";
 import { StandardTextField } from "../../../../common/StandardTextField";
-import { defaultStringErrResultAsyncFromPromise } from "../../../../utils/result";
+import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../../../utils/error";
+import { assertDefined, errorErrResultAsyncFromPromise, fromResult } from "../../../../utils/result";
+import { toInt } from "../../../../utils/string";
 import { toastError } from "../../../../utils/toast";
 import { useContextOrThrow } from "../../../../utils/useContextOrThrow";
 import { employeeCreationWizardContext } from "../wizard/EmployeeCreationWizardContext";
 
 export const EmployeeCreationEnterUsernamePage = () => {
-    const { enterpriseId, incrementStep, username, setUsername } = useContextOrThrow(employeeCreationWizardContext);
+    const { enterpriseId } = useParams<{ enterpriseId: string }>();
+    const { incrementStep, username, setUsername } = useContextOrThrow(employeeCreationWizardContext);
 
     const onNextButtonClick = async () => {
-        const result = await checkUsernameAvailable(enterpriseId, username);
-        if (!result.isOk()) {
-            toastError(result.error);
+        if (username === "") {
+            toastError("Username can't be empty");
+            return;
+        }
+
+        const result = await fromResult(assertDefined(enterpriseId))
+            .map(enterpriseId => toInt(enterpriseId))
+            .andThen(enterpriseId => assertDefined(enterpriseId))
+            .andThen(enterpriseId => checkUsernameAvailable(enterpriseId, username));
+        if (result.isOk()) {
+            if (result.value === true) {
+                toast.dismiss();
+                incrementStep();
+            } else {
+                toastError("Chosen username is not available");
+            }
         } else {
-            toast.dismiss();
-            incrementStep();
+            toastError(DEFAULT_ERROR_MESSAGE_FOR_USER);
         }
     };
 
-    return <Flex
-        bg="white"
-        p="5"
-        rounded="lg"
-        shadow="lg"
-        direction="column"
-        gap="10px">
-        <Text textAlign="center">
-            Step 1: enter username of the new employee
-        </Text>
-        <StandardTextField
-            text={username}
-            setText={setUsername}
-            placeholder="Username"
-        />
-        <StandardButton
-            onClick={onNextButtonClick}>
-            Next
-        </StandardButton>
-    </Flex >
+    return <Center height="100vh">
+        <StanadardPanel>
+            <Text textAlign="center">
+                Step 1: enter the username of the new employee
+            </Text>
+            <StandardTextField
+                text={username}
+                setText={setUsername}
+                placeholder="Username"
+            />
+            <StandardButton
+                onClick={onNextButtonClick}>
+                Next
+            </StandardButton>
+        </StanadardPanel >
+    </Center>;
 }
 
-function checkUsernameAvailable(enterpriseId: number, username: string): ResultAsync<void, string> {
+function checkUsernameAvailable(enterpriseId: number, username: string): ResultAsync<boolean, Error> {
     const promise = enterpriseEmployeesApi.checkEmployeeUsernameExists(enterpriseId, username);
-    const result = defaultStringErrResultAsyncFromPromise(promise);
-    const voidResult = result.map(() => { });
-    return voidResult;
+    return errorErrResultAsyncFromPromise(promise)
+        .map(response => response.isExisting);
 } 

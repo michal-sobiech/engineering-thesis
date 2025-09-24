@@ -1,8 +1,8 @@
 import { err, errAsync, fromPromise as neverthrowFromPromise, ok, okAsync, Result, ResultAsync } from "neverthrow";
-import { DEFAULT_ERROR_MESSAGE } from "./error";
+import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "./error";
 
 export function defaultStringErrResultAsyncFromPromise<T>(promise: PromiseLike<T>): ResultAsync<T, string> {
-    return neverthrowFromPromise(promise, () => DEFAULT_ERROR_MESSAGE);
+    return neverthrowFromPromise(promise, () => DEFAULT_ERROR_MESSAGE_FOR_USER);
 }
 
 export function stringErrResultAsyncFromPromise<T>(promise: PromiseLike<T>): ResultAsync<T, string> {

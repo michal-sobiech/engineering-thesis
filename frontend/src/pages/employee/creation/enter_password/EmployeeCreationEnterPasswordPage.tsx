@@ -4,15 +4,29 @@ import { enterpriseEmployeesApi } from "../../../../api/enterprise-employees-api
 import { StandardButton } from "../../../../common/StandardButton";
 import { StanadardPanel } from "../../../../common/StandardPanel";
 import { StandardTextField } from "../../../../common/StandardTextField";
+import { useIntParam } from "../../../../hooks/useIntParam";
 import { errorErrResultAsyncFromPromise } from "../../../../utils/result";
 import { toastError } from "../../../../utils/toast";
 import { useContextOrThrow } from "../../../../utils/useContextOrThrow";
+import { validatePassword } from "../../../../utils/validate-password";
 import { employeeCreationWizardContext } from "../wizard/EmployeeCreationWizardContext";
 
 export const EmployeeCreationEnterPasswordPage = () => {
-    const { incrementStep, enterpriseId, username, firstName, lastName, password, setPassword } = useContextOrThrow(employeeCreationWizardContext);
+    const enterpriseId = useIntParam("enterpriseId");
+    const { incrementStep, username, firstName, lastName, password, setPassword } = useContextOrThrow(employeeCreationWizardContext);
 
     const onNextButtonClick = async () => {
+        if (password === "") {
+            toastError("Please set a password");
+            return;
+        }
+
+        const passwordValidationResult = validatePassword(password);
+        if (passwordValidationResult.isErr()) {
+            toastError(passwordValidationResult.error.message);
+            return;
+        }
+
         const promise = enterpriseEmployeesApi.createEnterpriseEmployee(enterpriseId, { username, firstName, lastName, password });
         const result = await errorErrResultAsyncFromPromise(promise);
         if (!result.isOk()) {

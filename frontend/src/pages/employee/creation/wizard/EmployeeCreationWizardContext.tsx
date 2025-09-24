@@ -3,7 +3,6 @@ import { VoidCallback } from "../../../../common/VoidCallback";
 
 export interface EmployeeCreationWizardContextValue {
     incrementStep: VoidCallback<void>,
-    enterpriseId: number,
     username: string,
     setUsername: VoidCallback<string>,
     firstName: string,

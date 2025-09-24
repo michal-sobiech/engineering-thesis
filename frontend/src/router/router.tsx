@@ -1,4 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
+import { EmployeeCreationWizard } from "../pages/employee/creation/wizard/EmployeeCreationWizard";
 import { EnterprisePage } from "../pages/enterprise/EnterprisePage";
 import { CreateEnterprisePage } from "../pages/entrepreneur/create_enterprise/CreateEnterprisePage";
 import { EntrepreneurLandingPage } from "../pages/entrepreneur/landing_page/EntrepreneurLandingPage";
@@ -7,7 +8,7 @@ import { MainPage } from "../pages/main_page/MainPage";
 import { SignUpWizard } from "../pages/sign_up/wizard/SignUpWizard";
 import { PageLayout } from "./PageLayout";
 import { ProtectedRoute } from "./ProtectedRoute";
-import { routes } from "./routes";
+import { routeTemplates } from "./route-templates";
 
 export const router = createBrowserRouter([
     {
@@ -19,29 +20,33 @@ export const router = createBrowserRouter([
                 element: <MainPage />
             },
             {
-                path: routes.LOG_IN,
+                path: routeTemplates.logIn,
                 element: <LogInPage />
             },
             {
-                path: routes.SIGN_UP,
+                path: routeTemplates.signUp,
                 element: <SignUpWizard />
             },
             {
-                path: routes.ENTREPRENEUR_LANDING_PAGE,
+                path: routeTemplates.entrepreneurLandingPage,
                 element: <ProtectedRoute>
                     <EntrepreneurLandingPage />
                 </ProtectedRoute>
             },
             {
-                path: routes.CREATE_ENTERPRISE,
+                path: routeTemplates.createEnterprise,
                 element: <ProtectedRoute>
                     <CreateEnterprisePage />
                 </ProtectedRoute>
             },
             {
-                path: routes.ENTERPRISE,
+                path: routeTemplates.enterprise,
                 element: <EnterprisePage />
             },
+            {
+                path: routeTemplates.createEnterpriseEmployee,
+                element: <EmployeeCreationWizard />
+            }
         ]
     }
 ])

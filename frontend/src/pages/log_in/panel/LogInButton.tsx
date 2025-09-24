@@ -29,7 +29,7 @@ export const LogInButton = () => {
         const result = await logIn(email, password);
         console.log("Result isOk:", result.isOk());
         if (result.isOk()) {
-            navigate(routes.ENTREPRENEUR_LANDING_PAGE, { replace: true });
+            navigate(routes.entrepreneurLandingPage, { replace: true });
         } else {
             toastError("Couldn't log in. Try again later.");
         }

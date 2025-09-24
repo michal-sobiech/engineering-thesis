@@ -1,16 +1,18 @@
 import { Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate } from "react-router";
 import { enterprisesApi } from "../../api/enterprises-api";
+import { StandardButton } from "../../common/StandardButton";
 import { StanadardPanel } from "../../common/StandardPanel";
+import { useIntParam } from "../../hooks/useIntParam";
 import { routes } from "../../router/routes";
 import { errorErrResultAsyncFromPromise } from "../../utils/result";
-import { toInt } from "../../utils/string";
 
 export const EnterprisePage = () => {
-    console.log("EnterprisePAge.tsx");
+    console.log("EnterprisePage.tsx");
 
-    const { enterpriseId } = useParams<{ enterpriseId: string }>();
+    const enterpriseId = useIntParam("enterpriseId");
+
     const navigate = useNavigate();
 
     const [enterpriseName, setEnterpriseName] = useState<string>("");
@@ -19,21 +21,10 @@ export const EnterprisePage = () => {
 
     useEffect(() => {
         async function loadEnterpriseData(): Promise<void> {
-            if (enterpriseId === undefined) {
-                navigate(routes.MAIN_PAGE);
-                return;
-            }
-
-            const enterpriseIdAsInt = toInt(enterpriseId);
-            if (enterpriseIdAsInt === null) {
-                navigate(routes.MAIN_PAGE)
-                return;
-            }
-
-            const promise = enterprisesApi.getEnterprise(enterpriseIdAsInt);
+            const promise = enterprisesApi.getEnterprise(enterpriseId);
             const result = await errorErrResultAsyncFromPromise(promise);
             if (result.isErr()) {
-                navigate(routes.MAIN_PAGE)
+                navigate(routes.mainPage)
                 return;
             }
 
@@ -45,9 +36,17 @@ export const EnterprisePage = () => {
         loadEnterpriseData();
     }, []);
 
+    const onCreateEmployeeAccountClick = () => {
+        navigate(routes.createEnterpriseEmployee(enterpriseId))
+    }
+
     return <StanadardPanel>
         <Text>{enterpriseName}</Text>
         <Text>{enterpriseDescription}</Text>
         <Text>{enterpriseLocation}</Text>
+        <StandardButton
+            onClick={onCreateEmployeeAccountClick}>
+            Create an account for an employee of this enterprise
+        </StandardButton>
     </StanadardPanel>
 }

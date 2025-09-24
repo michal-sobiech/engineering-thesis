@@ -2,7 +2,7 @@ import { Button, ButtonProps } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { sleep } from "../utils/sleep";
 
-const DELAY_MS = 500;
+const DELAY_MS = 250;
 
 export const StandardButton: React.FC<ButtonProps> = ({ children, ...props }) => {
     const [disabled, setDisabled] = useState<boolean>(false);
@@ -10,8 +10,8 @@ export const StandardButton: React.FC<ButtonProps> = ({ children, ...props }) =>
     function decorateOnClick(onClick: React.MouseEventHandler<HTMLButtonElement>): React.MouseEventHandler<HTMLButtonElement> {
         return async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
             setDisabled(true);
-            onClick(event);
             await sleep(DELAY_MS);
+            onClick(event);
             setDisabled(false);
         }
     }

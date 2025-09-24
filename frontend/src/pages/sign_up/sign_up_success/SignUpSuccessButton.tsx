@@ -6,7 +6,7 @@ const SignUpSuccessButton = () => {
     const navigate = useNavigate();
 
     const onClick = async () => {
-        navigate(routes.LOG_IN);
+        navigate(routes.logIn);
     }
 
     return <StandardButton onClick={onClick}>

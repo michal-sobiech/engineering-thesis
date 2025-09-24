@@ -1,17 +1,13 @@
-import { Center, Flex } from "@chakra-ui/react";
+import { Center } from "@chakra-ui/react";
+import { StanadardPanel } from "../../../common/StandardPanel";
 import SignUpSuccessButton from "./SignUpSuccessButton";
 import Message from "./SignUpSuccessMessage";
 
 export const SignUpSuccessPanel = () => {
-    return <Flex bg="white"
-        p="5"
-        rounded="lg"
-        shadow="lg"
-        direction="column"
-        gap="10px">
+    return <StanadardPanel>
         <Center>
             <Message />
         </Center>
         <SignUpSuccessButton />
-    </Flex>;
+    </StanadardPanel>;
 };

@@ -1,6 +1,6 @@
 import { Center } from "@chakra-ui/react";
 import { useState } from "react";
-import { generatePath, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { StandardButton } from "../../../common/StandardButton";
 import { StanadardPanel } from "../../../common/StandardPanel";
 import { StandardTextArea } from "../../../common/StandardTextArea";
@@ -30,12 +30,9 @@ export const CreateEnterprisePage = () => {
             return;
         }
 
-
         console.log("JEST OK");
         const { enterpriseId } = result.value;
-        // TODO put in a separate function?
-        console.log("eee");
-        const path = generatePath(routes.ENTERPRISE, { enterpriseId })
+        const path = routes.enterprise(enterpriseId);
         console.log(path);
         navigate(path);
     }

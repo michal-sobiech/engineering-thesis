@@ -13,29 +13,17 @@
  */
 
 
-import * as runtime from '../runtime';
 import type {
-  CheckIndependentEndUserEmailExists200Response,
-  CreateEnterpriseEmployeeRequest,
-  CreateEnterpriseEmployeeResponse,
-  InlineObject,
-  InlineObject1,
-  InlineObject2,
+    CheckIndependentEndUserEmailExists200Response,
+    CreateEnterpriseEmployeeRequest,
+    CreateEnterpriseEmployeeResponse
 } from '../models/index';
 import {
     CheckIndependentEndUserEmailExists200ResponseFromJSON,
-    CheckIndependentEndUserEmailExists200ResponseToJSON,
-    CreateEnterpriseEmployeeRequestFromJSON,
     CreateEnterpriseEmployeeRequestToJSON,
-    CreateEnterpriseEmployeeResponseFromJSON,
-    CreateEnterpriseEmployeeResponseToJSON,
-    InlineObjectFromJSON,
-    InlineObjectToJSON,
-    InlineObject1FromJSON,
-    InlineObject1ToJSON,
-    InlineObject2FromJSON,
-    InlineObject2ToJSON,
+    CreateEnterpriseEmployeeResponseFromJSON
 } from '../models/index';
+import * as runtime from '../runtime';
 
 export interface CheckEmployeeUsernameExistsRequest {
     enterpriseId: number;
