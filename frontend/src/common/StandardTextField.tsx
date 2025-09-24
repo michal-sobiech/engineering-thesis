@@ -6,6 +6,7 @@ export interface StandardTextFieldProps {
     text: string,
     setText: VoidCallback<string>,
     placeholder: string,
+    type?: string,
 }
 
 export const StandardTextField: React.FC<StandardTextFieldProps> = ({ text, setText, placeholder }) => {

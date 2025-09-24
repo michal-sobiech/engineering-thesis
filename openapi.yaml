@@ -78,7 +78,6 @@ components:
         accessToken:
           type: string
           example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEyMywiaXNzdWVkX2F0IjoxNzU3NTkyMDIyLCJleHBpcmVzX2F0IjoxNzU3NjEzNjIyfQ.R0wpPhA5v-z_NYELi8PLxji0EJFcD75B5_psMb8ZNcc"
-
     GetEntrepreneurEnterprisesResponseItem:
       type: object
       required:
@@ -147,6 +146,51 @@ components:
         location:
           type: string
           example: ul. Nowowiejska 15/19, Warasaw, Poland
+    CreateEnterpriseEmployeeRequest:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - username
+        - password
+      properties:
+        firstName:
+          type: string
+          example: Jan
+        lastName:
+          type: string
+          example: Kowalski
+        username:
+          type: string
+          example: jan.kowalski.1
+        password:
+          type: string
+          example: "5=2VPIzYHSIc0l4d1o&es]plB"
+    CreateEnterpriseEmployeeResponse:
+      type: object
+      required:
+        - accessToken
+        - user
+      properties:
+        accessToken:
+          type: string
+        user:
+          type: object
+          required:
+            - firstName
+            - lastName
+            - username
+          properties:
+            firstName:
+              type: string
+              example: Jan
+            lastName:
+              type: string
+              example: Kowalski
+            username:
+              type: string
+              example: jan.kowalski.1
+
   responses:
     OK:
       description: &OK_DESCRIPTION >
@@ -358,6 +402,78 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/GetEnterpriseResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  /enterprises/{enterpriseId}/employees/exists:
+    get:
+      tags: [EnterpriseEmployees]
+      operationId: checkEmployeeUsernameExists
+      security:
+        - JwtBearerAuth: []
+      parameters:
+        - name: enterpriseId
+          in: path
+          required: true
+          description: Enterprise id
+          schema:
+            type: integer
+        - description: Username to check
+          in: query
+          name: username
+          required: true
+          schema:
+            type: string
+            example: jan.kowalski.1
+      responses:
+        "200":
+          description: *OK_DESCRIPTION
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  isExisting:
+                    type: boolean
+                required: [isExisting]
+              examples:
+                yes:
+                  value:
+                    isExisting: true
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  /enterprises/{enterpriseId}/employees:
+    post:
+      tags: [EnterpriseEmployees]
+      operationId: createEnterpriseEmployee
+      summary: Create enterprise employee
+      security:
+        - JwtBearerAuth: []
+      parameters:
+        - name: enterpriseId
+          in: path
+          required: true
+          description: Enterprise id
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateEnterpriseEmployeeRequest"
+      responses:
+        "201":
+          description: *CREATED_DESCRIPTION
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/CreateEnterpriseEmployeeResponse"
         "400":
           $ref: "#/components/responses/BadRequest"
         "500":

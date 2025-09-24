@@ -19,7 +19,7 @@ export const StandardButton: React.FC<ButtonProps> = ({ children, ...props }) =>
     props.onClick = props.onClick && decorateOnClick(props.onClick);
     props.disabled = disabled;
 
-    return < Button
+    return <Button
         background="primary.blue"
         padding="5"
         rounded="lg"

@@ -1,24 +1,17 @@
-import { Flex, Text } from "@chakra-ui/react";
+import { Text } from "@chakra-ui/react";
+import { StanadardPanel } from "../../../../common/StandardPanel";
 import { SignUpEnterNameNextButton } from "./SignUpEnterNameNextButton";
 import { SignUpFirstNameField } from "./SignUpFirstNameField";
 import SignUpLastNameField from "./SignUpLastNameField";
 
 export const SignUpEnterNamePanel = () => {
 
-    return <Flex
-        direction="column"
-        bg="white"
-        p="5"
-        rounded="lg"
-        shadow="lg"
-        gap="10px"
-        width="full"
-        height="full">
+    return <StanadardPanel>
         <Text textAlign="center">
             Step 2: enter your name
         </Text>
         <SignUpFirstNameField />
         <SignUpLastNameField />
         <SignUpEnterNameNextButton />
-    </Flex>;
+    </StanadardPanel>;
 }
