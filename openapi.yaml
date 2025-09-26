@@ -190,6 +190,30 @@ components:
             username:
               type: string
               example: jan.kowalski.1
+    LogInEnterpriseEmployeeRequest:
+      type: object
+      required:
+        - enterpriseId
+        - username
+        - password
+      properties:
+        enterpriseId:
+          type: number
+          example: 123
+        username:
+          type: string
+          example: jan.kowalski.1
+        password:
+          type: string
+          example: "5=2VPIzYHSIc0l4d1o&es]plB"
+    LogInEnterpriseEmployeeResponse:
+      type: object
+      required:
+        - accessToken
+      properties:
+        accessToken:
+          type: string
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEyMywiaXNzdWVkX2F0IjoxNzU3NTkyMDIyLCJleHBpcmVzX2F0IjoxNzU3NjEzNjIyfQ.R0wpPhA5v-z_NYELi8PLxji0EJFcD75B5_psMb8ZNcc"
 
   responses:
     OK:
@@ -296,6 +320,28 @@ paths:
     post:
       tags: [Auth]
       operationId: logInIndependentEndUser
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LogInIndependentEndUserRequest"
+      responses:
+        "200":
+          description: *OK_DESCRIPTION
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LogInIndependentEndUserResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  /auth/enterprise-employee/log-in:
+    post:
+      tags: [Auth]
+      operationId: logInEnterpriseEmployee
       security: []
       requestBody:
         required: true

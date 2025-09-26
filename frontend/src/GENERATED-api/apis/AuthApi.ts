@@ -31,6 +31,10 @@ import {
     LogInIndependentEndUserResponseToJSON,
 } from '../models/index';
 
+export interface LogInEnterpriseEmployeeRequest {
+    logInIndependentEndUserRequest: LogInIndependentEndUserRequest;
+}
+
 export interface LogInIndependentEndUserOperationRequest {
     logInIndependentEndUserRequest: LogInIndependentEndUserRequest;
 }
@@ -39,6 +43,43 @@ export interface LogInIndependentEndUserOperationRequest {
  * 
  */
 export class AuthApi extends runtime.BaseAPI {
+
+    /**
+     */
+    async logInEnterpriseEmployeeRaw(requestParameters: LogInEnterpriseEmployeeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<LogInIndependentEndUserResponse>> {
+        if (requestParameters['logInIndependentEndUserRequest'] == null) {
+            throw new runtime.RequiredError(
+                'logInIndependentEndUserRequest',
+                'Required parameter "logInIndependentEndUserRequest" was null or undefined when calling logInEnterpriseEmployee().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+
+        let urlPath = `/auth/enterprise-employee/log-in`;
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: LogInIndependentEndUserRequestToJSON(requestParameters['logInIndependentEndUserRequest']),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => LogInIndependentEndUserResponseFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async logInEnterpriseEmployee(logInIndependentEndUserRequest: LogInIndependentEndUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<LogInIndependentEndUserResponse> {
+        const response = await this.logInEnterpriseEmployeeRaw({ logInIndependentEndUserRequest: logInIndependentEndUserRequest }, initOverrides);
+        return await response.value();
+    }
 
     /**
      */

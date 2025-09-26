@@ -1,6 +1,7 @@
-import { Flex, Text } from "@chakra-ui/react";
+import { Text } from "@chakra-ui/react";
 import { useState } from "react";
 import EmailField from "../../../common/EmailField";
+import { StanadardPanel } from "../../../common/StandardPanel";
 import { logInContext, LogInContextValue } from "../LogInContext";
 import { LogInButton } from "./LogInButton";
 import { LogInPasswordField } from "./LogInPasswordField";
@@ -12,19 +13,14 @@ const LogInPanel = () => {
     const contextValue: LogInContextValue = { email, password };
 
     return <logInContext.Provider value={contextValue}>
-        <Flex bg="white"
-            p="5"
-            rounded="lg"
-            shadow="lg"
-            direction="column"
-            gap="10px">
+        <StanadardPanel>
             <Text textAlign="center">
                 Log in
             </Text>
             <EmailField text={email} setText={setEmail} />
             <LogInPasswordField text={password} setText={setPassword} />
             <LogInButton />
-        </Flex>
+        </StanadardPanel>
     </logInContext.Provider>
 
 };

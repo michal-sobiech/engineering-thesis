@@ -21,6 +21,8 @@ models/GetMeResponseEnterpreneur.ts
 models/InlineObject.ts
 models/InlineObject1.ts
 models/InlineObject2.ts
+models/LogInEnterpriseEmployeeRequest.ts
+models/LogInEnterpriseEmployeeResponse.ts
 models/LogInIndependentEndUserRequest.ts
 models/LogInIndependentEndUserResponse.ts
 models/index.ts
