@@ -2,7 +2,7 @@ import { Text } from "@chakra-ui/react";
 import { ResultAsync } from "neverthrow";
 import { ReactElement, useEffect, useState } from "react";
 import { entrepreneursApi } from "../../../api/entrepreneurs-api";
-import { auth } from "../../../auth-context/AuthProvider";
+import { auth } from "../../../auth/AuthProvider";
 import { ScrollableList } from "../../../common/scrollable-list/ScrollableList";
 import { GetEntrepreneurEnterprisesResponseItem } from "../../../GENERATED-api";
 import { assertDefined, defaultStringErrResultAsyncFromPromise, fromResult } from "../../../utils/result";

@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom/client';
 import App from './App';
-import { auth, loadAndSetAuth } from './auth-context/AuthProvider';
+import { auth, loadAndSetAuth } from './auth/AuthProvider';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 

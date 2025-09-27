@@ -13,7 +13,7 @@ function assertDefinedWithMessage<T>(value: T, exceptionMessage: string): NonNul
 }
 
 function assertDefinedNoMessage<T>(value: T): NonNullable<T> {
-    const exceptionMessage = "Missing value";
+    const exceptionMessage = "Value is nullable but shouldn't be";
     return assertDefined(value, exceptionMessage);
 }
 

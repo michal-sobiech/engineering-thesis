@@ -1,5 +1,4 @@
-import { removeJwtTokenFromLocalStorage } from "../auth-context/storage";
-
+import { removeJwtTokenFromLocalStorage } from "../auth/storage";
 
 export function logOut(): void {
     removeJwtTokenFromLocalStorage();

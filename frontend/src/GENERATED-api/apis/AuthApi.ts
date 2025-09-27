@@ -17,6 +17,8 @@ import * as runtime from '../runtime';
 import type {
   InlineObject1,
   InlineObject2,
+  LogInEnterpriseEmployeeRequest,
+  LogInEnterpriseEmployeeResponse,
   LogInIndependentEndUserRequest,
   LogInIndependentEndUserResponse,
 } from '../models/index';
@@ -25,14 +27,18 @@ import {
     InlineObject1ToJSON,
     InlineObject2FromJSON,
     InlineObject2ToJSON,
+    LogInEnterpriseEmployeeRequestFromJSON,
+    LogInEnterpriseEmployeeRequestToJSON,
+    LogInEnterpriseEmployeeResponseFromJSON,
+    LogInEnterpriseEmployeeResponseToJSON,
     LogInIndependentEndUserRequestFromJSON,
     LogInIndependentEndUserRequestToJSON,
     LogInIndependentEndUserResponseFromJSON,
     LogInIndependentEndUserResponseToJSON,
 } from '../models/index';
 
-export interface LogInEnterpriseEmployeeRequest {
-    logInIndependentEndUserRequest: LogInIndependentEndUserRequest;
+export interface LogInEnterpriseEmployeeOperationRequest {
+    logInEnterpriseEmployeeRequest: LogInEnterpriseEmployeeRequest;
 }
 
 export interface LogInIndependentEndUserOperationRequest {
@@ -46,11 +52,11 @@ export class AuthApi extends runtime.BaseAPI {
 
     /**
      */
-    async logInEnterpriseEmployeeRaw(requestParameters: LogInEnterpriseEmployeeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<LogInIndependentEndUserResponse>> {
-        if (requestParameters['logInIndependentEndUserRequest'] == null) {
+    async logInEnterpriseEmployeeRaw(requestParameters: LogInEnterpriseEmployeeOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<LogInEnterpriseEmployeeResponse>> {
+        if (requestParameters['logInEnterpriseEmployeeRequest'] == null) {
             throw new runtime.RequiredError(
-                'logInIndependentEndUserRequest',
-                'Required parameter "logInIndependentEndUserRequest" was null or undefined when calling logInEnterpriseEmployee().'
+                'logInEnterpriseEmployeeRequest',
+                'Required parameter "logInEnterpriseEmployeeRequest" was null or undefined when calling logInEnterpriseEmployee().'
             );
         }
 
@@ -68,16 +74,16 @@ export class AuthApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: LogInIndependentEndUserRequestToJSON(requestParameters['logInIndependentEndUserRequest']),
+            body: LogInEnterpriseEmployeeRequestToJSON(requestParameters['logInEnterpriseEmployeeRequest']),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => LogInIndependentEndUserResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => LogInEnterpriseEmployeeResponseFromJSON(jsonValue));
     }
 
     /**
      */
-    async logInEnterpriseEmployee(logInIndependentEndUserRequest: LogInIndependentEndUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<LogInIndependentEndUserResponse> {
-        const response = await this.logInEnterpriseEmployeeRaw({ logInIndependentEndUserRequest: logInIndependentEndUserRequest }, initOverrides);
+    async logInEnterpriseEmployee(logInEnterpriseEmployeeRequest: LogInEnterpriseEmployeeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<LogInEnterpriseEmployeeResponse> {
+        const response = await this.logInEnterpriseEmployeeRaw({ logInEnterpriseEmployeeRequest: logInEnterpriseEmployeeRequest }, initOverrides);
         return await response.value();
     }
 

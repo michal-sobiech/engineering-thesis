@@ -1,4 +1,4 @@
-import { auth } from "../../auth-context/AuthProvider";
+import { auth } from "../../auth/AuthProvider";
 import { Configuration, ConfigurationParameters } from "../../GENERATED-api/runtime";
 
 

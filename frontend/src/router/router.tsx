@@ -1,6 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
 import { EmployeeCreationWizard } from "../pages/employee/creation/wizard/EmployeeCreationWizard";
+import { EmployeeLogInPage } from "../pages/employee/log_in/EmployeeLogInPage";
 import { EnterprisePage } from "../pages/enterprise/EnterprisePage";
+import { EnterpriseRoute } from "../pages/enterprise/route/EnterpriseRoute";
 import { CreateEnterprisePage } from "../pages/entrepreneur/create_enterprise/CreateEnterprisePage";
 import { EntrepreneurLandingPage } from "../pages/entrepreneur/landing_page/EntrepreneurLandingPage";
 import LogInPage from "../pages/log_in/LogInPage";
@@ -41,11 +43,21 @@ export const router = createBrowserRouter([
             },
             {
                 path: routeTemplates.enterprise,
-                element: <EnterprisePage />
-            },
-            {
-                path: routeTemplates.createEnterpriseEmployee,
-                element: <EmployeeCreationWizard />
+                element: <EnterpriseRoute />,
+                children: [
+                    {
+                        path: routeTemplates.enterprise,
+                        element: <EnterprisePage />
+                    },
+                    {
+                        path: routeTemplates.createEnterpriseEmployee,
+                        element: <EmployeeCreationWizard />
+                    },
+                    {
+                        path: routeTemplates.logInEnterpriseEmployee,
+                        element: <EmployeeLogInPage />
+                    },
+                ]
             }
         ]
     }

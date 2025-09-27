@@ -1,9 +1,9 @@
 import { ResultAsync } from "neverthrow";
 import { useNavigate } from "react-router";
 import { authApi } from "../../../api/auth-api";
-import { Auth } from "../../../auth-context/Auth";
-import { auth } from "../../../auth-context/AuthProvider";
-import { createAuth, setJwtTokenInLocalStorage } from "../../../auth-context/storage";
+import { Auth } from "../../../auth/Auth";
+import { auth } from "../../../auth/AuthProvider";
+import { createAuth, setJwtTokenInLocalStorage } from "../../../auth/storage";
 import { StandardButton } from "../../../common/StandardButton";
 import { routes } from "../../../router/routes";
 import { errorErrResultAsyncFromPromise } from "../../../utils/result";
