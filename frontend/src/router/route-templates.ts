@@ -1,3 +1,4 @@
+// TODO generate this from openapi.yaml?
 export const routeTemplates = {
     mainPage: "/",
     signUp: "/sign-up",

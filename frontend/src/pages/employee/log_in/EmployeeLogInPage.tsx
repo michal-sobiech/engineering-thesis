@@ -7,7 +7,8 @@ import { StanadardPanel } from "../../../common/StandardPanel"
 import { StandardTextField } from "../../../common/StandardTextField"
 import { useIntParam } from "../../../hooks/useIntParam"
 import { routes } from "../../../router/routes"
-import { errorErrResultAsyncFromPromise } from "../../../utils/result"
+import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../../utils/error"
+import { toastError } from "../../../utils/toast"
 import { useContextOrThrow } from "../../../utils/useContextOrThrow"
 import { EnterpriseContext } from "../../enterprise/route/context/EnterpriseContext"
 
@@ -21,10 +22,15 @@ export const EmployeeLogInPage = () => {
     const [password, setPassword] = useState<string>("");
 
     const onClick = async () => {
-        const promise = authApi.logInEnterpriseEmployee({ enterpriseId, username, password });
-        const result = await errorErrResultAsyncFromPromise(promise);
-        if (result.isOk()) {
+        const requestParams = { logInEnterpriseEmployeeRequest: { enterpriseId, username, password } };
+        const response = await authApi.logInEnterpriseEmployeeRaw(requestParams);
+        const status = response.raw.status;
+        if (status === 200) {
             navigate(routes.enterprise(enterpriseId));
+        } else if (status === 401) {
+            toastError("Invalid credentials");
+        } else {
+            toastError(DEFAULT_ERROR_MESSAGE_FOR_USER);
         }
     }
 
