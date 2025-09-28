@@ -1,5 +1,6 @@
 package pl.michal_sobiech.engineering_thesis.independent_end_user;
 
+import org.SwaggerCodeGenExample.model.CreateIndependentEndUserRequest;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
@@ -17,14 +18,19 @@ public class IndependentEndUserService {
         String passwordHash = "...";
 
         IndependentEndUser independentEndUser = IndependentEndUser.builder()
-                .firstName(request.firstName())
-                .lastName(request.lastName())
-                .email(request.email())
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
+                .email(request.getEmail())
                 .passwordHash(passwordHash)
                 .build();
         independentEndUser = independentEndUserRepository.save(independentEndUser);
 
         return independentEndUser;
+    }
+
+    @Transactional
+    public boolean checkIndependentEndUserEmailExists(String email) {
+        return independentEndUserRepository.existsByEmail(email);
     }
 
 }

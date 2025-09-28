@@ -155,6 +155,7 @@
 							    <sourceFolder>src/main</sourceFolder>
                                 <interfaceOnly>true</interfaceOnly>
 								<useJakartaEe>true</useJakartaEe>
+								<skipDefaultInterface>true</skipDefaultInterface>
                             </configOptions>
                         </configuration>
                     </execution>

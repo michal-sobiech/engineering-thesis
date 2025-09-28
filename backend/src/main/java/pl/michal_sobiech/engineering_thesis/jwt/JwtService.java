@@ -30,15 +30,23 @@ public class JwtService {
         this.tokenDuration = properties.tokenDuration();
     }
 
-    public String generateToken(GenerateJwtTokenRequest request) {
+    public String generateTokenNow(String subject) {
         Instant now = Instant.now();
         Instant expiration = now.plus(tokenDuration);
 
+        GenerateJwtTokenRequest request = new GenerateJwtTokenRequest(
+                subject,
+                now,
+                expiration);
+
+        return generateToken(request);
+    }
+
+    public String generateToken(GenerateJwtTokenRequest request) {
         return Jwts.builder()
                 .subject(request.subject())
-                .claim("scope", request.scope())
-                .issuedAt(Date.from(now))
-                .expiration(Date.from(expiration))
+                .issuedAt(Date.from(request.issuedAt()))
+                .expiration(Date.from(request.expiresAt()))
                 .signWith(secretKey, signingAlgorithm)
                 .compact();
     }

@@ -4,9 +4,9 @@ import java.time.Instant;
 
 public record GenerateJwtTokenRequest(
 
-        String subject,
-        String scope,
-        Instant expiration
+                String subject,
+                Instant issuedAt,
+                Instant expiresAt
 
 ) {
 
