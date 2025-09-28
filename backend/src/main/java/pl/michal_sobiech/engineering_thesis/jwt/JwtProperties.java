@@ -1,7 +1,5 @@
 package pl.michal_sobiech.engineering_thesis.jwt;
 
-import java.time.Duration;
-
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import pl.michal_sobiech.engineering_thesis.secret.Secret;
@@ -10,7 +8,7 @@ import pl.michal_sobiech.engineering_thesis.secret.Secret;
 public record JwtProperties(
 
         Secret<String> secret,
-        Duration tokenDuration,
+        int tokenDurationMinutes,
         String signingAlgorithmType
 
 ) {

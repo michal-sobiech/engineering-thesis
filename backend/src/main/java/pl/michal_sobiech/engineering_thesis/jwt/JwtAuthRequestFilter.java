@@ -3,8 +3,10 @@ package pl.michal_sobiech.engineering_thesis.jwt;
 import java.io.IOException;
 import java.util.Optional;
 
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import jakarta.servlet.FilterChain;
@@ -12,14 +14,12 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.username_authentication_token.User;
-import pl.michal_sobiech.engineering_thesis.username_authentication_token.UsernameAuthenticationToken;
 import pl.michal_sobiech.engineering_thesis.utils.AuthUtils;
 
 @RequiredArgsConstructor
 public class JwtAuthRequestFilter extends OncePerRequestFilter {
 
-    private final JwtService jwtService;
+    private final JwtDecoder jwtDecoder;
 
     @Override
     protected void doFilterInternal(
@@ -33,9 +33,9 @@ public class JwtAuthRequestFilter extends OncePerRequestFilter {
             FilterChain filterChain) {
         checkUserAlreadyAuthenticated();
         Optional.ofNullable(request.getHeader("Authorization"))
-                .flatMap(this::getJwtToken)
-                .map(jwtService::parseToken)
-                .ifPresent(parsedToken -> setAuthentication(parsedToken.subject(), parsedToken.scope()));
+                .flatMap(this::extractJwtFromHeader)
+                .map(this::createJwtAuthenticationToken)
+                .ifPresent(this::setAuthentication);
     }
 
     private void checkUserAlreadyAuthenticated() {
@@ -45,16 +45,19 @@ public class JwtAuthRequestFilter extends OncePerRequestFilter {
         }
     }
 
-    private Optional<String> getJwtToken(String header) {
+    private Optional<String> extractJwtFromHeader(String header) {
         return header.startsWith("Bearer ")
                 ? Optional.of(header.substring(7))
                 : Optional.empty();
     }
 
-    private void setAuthentication(String subject, String scope) {
-        Object principal = new User(subject, scope, null);
-        Authentication authenticationToken = new UsernameAuthenticationToken(principal);
-        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+    private JwtAuthenticationToken createJwtAuthenticationToken(String jwt) {
+        final Jwt jwtClaims = jwtDecoder.decode(jwt);
+        return new JwtAuthenticationToken(jwtClaims);
+    }
+
+    private void setAuthentication(JwtAuthenticationToken auth) {
+        SecurityContextHolder.getContext().setAuthentication(auth);
     }
 
 }

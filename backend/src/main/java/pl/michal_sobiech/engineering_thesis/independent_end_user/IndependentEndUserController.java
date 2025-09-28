@@ -9,14 +9,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.jwt.JwtService;
+import pl.michal_sobiech.engineering_thesis.jwt.JwtCreationService;
 
 @Controller
 @RequiredArgsConstructor
 public class IndependentEndUserController implements IndependentEndUsersApi {
 
     private final IndependentEndUserService service;
-    private final JwtService jwtService;
+    private final JwtCreationService jwtService;
 
     @Override
     public ResponseEntity<CreateIndependentEndUserResponse> createIndependentEndUser(

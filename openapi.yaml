@@ -405,7 +405,7 @@ paths:
           $ref: "#/components/responses/Unauthorized"
         "500":
           $ref: "#/components/responses/InternalServerError"
-  /entreprises:
+  /enterprises:
     post:
       tags: [Enterprises]
       operationId: createEnterprise
