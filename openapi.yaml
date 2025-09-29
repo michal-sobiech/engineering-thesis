@@ -35,31 +35,6 @@ components:
           type: string
           format: password
           example: "5=2VPIzYHSIc0l4d1o&es]plB"
-    CreateIndependentEndUserResponse:
-      type: object
-      required:
-        - accessToken
-        - user
-      properties:
-        accessToken:
-          type: string
-          format: password
-        user:
-          type: object
-          required:
-            - firstName
-            - lastName
-            - email
-          properties:
-            firstName:
-              type: string
-              example: Jan
-            lastName:
-              type: string
-              example: Kowalski
-            email:
-              type: string
-              example: jan.kowalski@test.com
     LogInIndependentEndUserRequest:
       type: object
       required:
@@ -230,7 +205,8 @@ components:
         - password
       properties:
         enterpriseId:
-          type: number
+          type: integer
+          format: int64
           example: 123
         username:
           type: string
@@ -310,10 +286,6 @@ paths:
       responses:
         "201":
           description: *CREATED_DESCRIPTION
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/CreateIndependentEndUserResponse"
         "400":
           $ref: "#/components/responses/BadRequest"
         "500":

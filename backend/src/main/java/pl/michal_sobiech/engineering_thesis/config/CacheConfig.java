@@ -3,7 +3,6 @@ package pl.michal_sobiech.engineering_thesis.config;
 import java.time.Duration;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.cache.CacheProperties.Redis;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
@@ -19,7 +18,7 @@ import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactor
 @EnableCaching
 public class CacheConfig {
 
-    @Value("${spring.redis.host}") 
+    @Value("${spring.redis.host}")
     private String host;
 
     @Value("${spring.redis.port}")
@@ -38,14 +37,13 @@ public class CacheConfig {
 
     @Bean
     public CacheManager cacheManager(
-        RedisConnectionFactory connectionFactory
-    ) {
+            RedisConnectionFactory connectionFactory) {
         System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAa");
         System.out.println(host);
         System.out.println(port);
         RedisCacheWriter writer = RedisCacheWriter.nonLockingRedisCacheWriter(connectionFactory);
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig().entryTtl(timeToLiveMs);
-        return RedisCacheManager.builder(writer).cacheDefaults(config).build();       
+        return RedisCacheManager.builder(writer).cacheDefaults(config).build();
     }
 
 }

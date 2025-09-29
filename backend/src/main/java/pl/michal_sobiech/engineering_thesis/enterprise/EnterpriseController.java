@@ -1,7 +1,5 @@
 package pl.michal_sobiech.engineering_thesis.enterprise;
 
-import java.math.BigDecimal;
-
 import org.SwaggerCodeGenExample.api.EnterprisesApi;
 import org.SwaggerCodeGenExample.model.CheckIndependentEndUserEmailExists200Response;
 import org.SwaggerCodeGenExample.model.CreateEnterpriseEmployeeRequest;
@@ -42,8 +40,7 @@ public class EnterpriseController implements EnterprisesApi {
         final Enterprise enterprise = enterpriseService.createEnterprise(
                 entrepreneurAuthPrincipal.getEntrepreneurId(),
                 createEnterpriseRequest);
-        final BigDecimal enterpriseId = BigDecimal.valueOf(enterprise.getEnterpriseId());
-        final var responseBody = new CreateEnterpriseResponse(enterpriseId);
+        final var responseBody = new CreateEnterpriseResponse(enterprise.getEnterpriseId());
         return ResponseEntity.ok(responseBody);
     }
 

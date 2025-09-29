@@ -1,5 +1,7 @@
 package pl.michal_sobiech.engineering_thesis.utils;
 
+import java.util.Optional;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -12,10 +14,14 @@ public class AuthUtils {
         return SecurityContextHolder.getContext().getAuthentication() != null;
     }
 
-    public static UserIdAuthentication getUserIdAuthentication() {
+    public static Optional<UserIdAuthentication> getUserIdAuthenticationOrThrow() {
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null) {
+            return Optional.empty();
+        }
+
         if (auth instanceof UserIdAuthentication userIdAuth) {
-            return userIdAuth;
+            return Optional.of(userIdAuth);
         } else {
             String message = String.format("Authentication is not an instance of %s",
                     UserIdAuthentication.class.getCanonicalName());
@@ -23,9 +29,9 @@ public class AuthUtils {
         }
     }
 
-    public static AuthPrincipal getAuthPrincipal() {
-        final UserIdAuthentication userIdAuth = getUserIdAuthentication();
-        return userIdAuth.getPrincipal();
+    public static Optional<AuthPrincipal> getAuthPrincipal() {
+        final Optional<UserIdAuthentication> userIdAuth = getUserIdAuthenticationOrThrow();
+        return userIdAuth.map(UserIdAuthentication::getPrincipal);
     }
 
 }

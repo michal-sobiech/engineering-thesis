@@ -1,5 +1,7 @@
 package pl.michal_sobiech.engineering_thesis.independent_end_user;
 
+import java.util.Optional;
+
 import org.SwaggerCodeGenExample.model.CreateIndependentEndUserRequest;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +33,11 @@ public class IndependentEndUserService {
     @Transactional
     public boolean checkIndependentEndUserEmailExists(String email) {
         return independentEndUserRepository.existsByEmail(email);
+    }
+
+    @Transactional
+    public Optional<IndependentEndUser> findByUsername(String username) {
+        return independentEndUserRepository.findByUsername(username);
     }
 
 }

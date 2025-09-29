@@ -1,6 +1,5 @@
 package pl.michal_sobiech.engineering_thesis.employee;
 
-import java.math.BigDecimal;
 import java.util.Optional;
 
 import org.SwaggerCodeGenExample.api.EnterpriseEmployeeApi;
@@ -35,9 +34,9 @@ public class EmployeeController implements EnterpriseEmployeeApi {
         final Employee employee = employeeService.getEmployee(employeeAuthPrincipal.getEmployeeId());
 
         final var responseBody = new EmployeeGetMeResponse(
-                BigDecimal.valueOf(employee.getUserId()),
-                BigDecimal.valueOf(employee.getEmployeeId()),
-                BigDecimal.valueOf(employee.getEnterpriseId()),
+                employee.getUserId(),
+                employee.getEmployeeId(),
+                employee.getEnterpriseId(),
                 employee.getUsername(),
                 employee.getFirstName(),
                 employee.getLastName());
