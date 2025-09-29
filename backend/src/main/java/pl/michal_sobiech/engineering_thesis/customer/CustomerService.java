@@ -29,7 +29,7 @@ public class CustomerService {
         independentEndUser = independentEndUserRepository.save(independentEndUser);
 
         Customer customer = Customer.builder()
-                .independentEndUser(independentEndUser)
+                .independentEndUserId(independentEndUser.getIndependentEndUserId())
                 .build();
         customer = customerRepository.save(customer);
 
@@ -40,6 +40,16 @@ public class CustomerService {
     @Cacheable(value = "customers", key = "#id")
     public Optional<Customer> getCustomer(long id) {
         return customerRepository.findById(id);
+    }
+
+    @Transactional
+    public boolean existsByIndependentEndUserId(long independentEndUserId) {
+        return customerRepository.existsByIndependentEndUserId(independentEndUserId);
+    }
+
+    @Transactional
+    public Optional<Long> findCustomerIdByIndependentEndUserId(long independentEndUserId) {
+        return customerRepository.findCustomerIdByIndependentEndUserId(independentEndUserId);
     }
 
 }

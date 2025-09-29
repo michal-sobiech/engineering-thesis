@@ -5,10 +5,10 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Getter
-public class EntrepreneurAuthPrincipal implements AuthPrincipal {
+public class CustomerAuthPrincipal implements AuthPrincipal {
 
     private final long userId;
     private final long independentEndUserId;
-    private final long entrepreneurId;
+    private final long customerId;
 
 }

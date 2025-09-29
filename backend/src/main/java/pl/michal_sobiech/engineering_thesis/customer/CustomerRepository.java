@@ -7,5 +7,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
-    Optional<Customer> findById(long id);
+    public Optional<Customer> findById(long id);
+
+    public boolean existsByIndependentEndUserId(long independentEndUserId);
+
+    public Optional<Long> findCustomerIdByIndependentEndUserId(long independentEndUserId);
 }

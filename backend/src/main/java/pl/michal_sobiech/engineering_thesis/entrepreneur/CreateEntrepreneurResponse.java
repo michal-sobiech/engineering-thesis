@@ -9,9 +9,9 @@ public record CreateEntrepreneurResponse(
 ) {
 
     public static CreateEntrepreneurResponse from(Entrepreneur entrepreneur) {
-        String firstName = entrepreneur.getIndependentEndUser().getFirstName();
-        String lastName = entrepreneur.getIndependentEndUser().getLastName();
-        String email = entrepreneur.getIndependentEndUser().getEmail();
+        String firstName = entrepreneur.getIndependentEndUserId().getFirstName();
+        String lastName = entrepreneur.getIndependentEndUserId().getLastName();
+        String email = entrepreneur.getIndependentEndUserId().getEmail();
         return new CreateEntrepreneurResponse(firstName, lastName, email);
     }
 

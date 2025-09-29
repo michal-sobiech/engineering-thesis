@@ -1,7 +1,9 @@
 package pl.michal_sobiech.engineering_thesis.security.authentication.employee;
 
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import lombok.RequiredArgsConstructor;
@@ -20,7 +22,7 @@ public class EmployeeAuthenticationProvider implements AuthenticationProvider {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public UserIdAuthentication authenticate(Authentication authentication) {
+    public UserIdAuthentication authenticate(Authentication authentication) throws AuthenticationException {
         EnterpriseIdUsernamePasswordAuthentication castAuthentication = supportedInputAuthenticationClass
                 .cast(authentication);
         EnterpriseIdAndUsername principal = castAuthentication.getPrincipal();
@@ -31,7 +33,7 @@ public class EmployeeAuthenticationProvider implements AuthenticationProvider {
         Employee employee = employeeService.findByEnterpriseIdAndUsername(enterpriseId, username).orElseThrow();
         String originalPasswordHash = employee.getPasswordHash();
         if (!passwordEncoder.matches(password, originalPasswordHash)) {
-            throw new RuntimeException("Password hashes don't match");
+            throw new BadCredentialsException("Password hashes don't match");
         }
 
         EmployeeAuthPrincipal authenticatedPrincipal = new EmployeeAuthPrincipal(

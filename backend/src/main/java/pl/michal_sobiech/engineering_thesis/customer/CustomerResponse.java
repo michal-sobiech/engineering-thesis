@@ -9,9 +9,9 @@ public record CustomerResponse(
 ) {
 
     public static CustomerResponse from(Customer customer) {
-        String firstName = customer.getIndependentEndUser().getFirstName();
-        String lastName = customer.getIndependentEndUser().getLastName();
-        String email = customer.getIndependentEndUser().getEmail();
+        String firstName = customer.getIndependentEndUserId().getFirstName();
+        String lastName = customer.getIndependentEndUserId().getLastName();
+        String email = customer.getIndependentEndUserId().getEmail();
         return new CustomerResponse(firstName, lastName, email);
     }
 

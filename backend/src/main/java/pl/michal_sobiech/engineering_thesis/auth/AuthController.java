@@ -7,23 +7,21 @@ import org.SwaggerCodeGenExample.model.LogInIndependentEndUserRequest;
 import org.SwaggerCodeGenExample.model.LogInIndependentEndUserResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.jwt.JwtCreationService;
 import pl.michal_sobiech.engineering_thesis.scope_username_password_authentication.EnterpriseIdUsernamePasswordAuthentication;
-import pl.michal_sobiech.engineering_thesis.security.authentication.employee.UserIdAuthenticationProvider;
+import pl.michal_sobiech.engineering_thesis.security.authentication.employee.EmployeeAuthenticationProvider;
 import pl.michal_sobiech.engineering_thesis.user.UserIdAuthentication;
 
 @RestController
 @RequiredArgsConstructor
 public class AuthController implements AuthApi {
 
-    private final UserIdAuthenticationProvider userIdAuthenticationProvider;
-    private final DaoAuthenticationProvider daoAuthenticationProvider;
-    private final JwtCreationService jwtCreationService;
+    private final EmployeeAuthenticationProvider employeeAuthenticationProvider;
+    private final private final JwtCreationService jwtCreationService;
 
     @Override
     public ResponseEntity<LogInEnterpriseEmployeeResponse> logInEnterpriseEmployee(

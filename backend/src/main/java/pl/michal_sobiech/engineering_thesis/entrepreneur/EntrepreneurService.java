@@ -41,4 +41,14 @@ public class EntrepreneurService {
         return entrepreneurRepository.findById(id);
     }
 
+    @Transactional
+    public boolean existsByIndependentEndUserId(long independentEndUserId) {
+        return entrepreneurRepository.existsByIndependentEndUserId(independentEndUserId);
+    }
+
+    @Transactional
+    public Optional<Long> findEntrepreneurIdByIndependentEndUserId(long independentEndUserId) {
+        return entrepreneurRepository.findEntrepreneurIdByIndependentEndUserId(independentEndUserId);
+    }
+
 }
