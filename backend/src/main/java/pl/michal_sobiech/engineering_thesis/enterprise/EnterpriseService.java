@@ -1,5 +1,6 @@
 package pl.michal_sobiech.engineering_thesis.enterprise;
 
+import org.SwaggerCodeGenExample.model.CreateEnterpriseRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,7 +13,17 @@ public class EnterpriseService {
     private final EnterpriseRepository enterpriseRepository;
 
     @Transactional
-    public Enterprise createEnterprise() {
+    public Enterprise createEnterprise(
+            long entrepreneurId,
+            CreateEnterpriseRequest createEnterpriseRequest) {
+
+        final Enterprise enterprise = Enterprise.builder()
+                .enterpreneurId(entrepreneurId)
+                .name(createEnterpriseRequest.getEnterpriseName())
+                .description(createEnterpriseRequest.getDescription())
+                .location(createEnterpriseRequest.getLocation())
+                .build();
+        return enterpriseRepository.save(enterprise);
     }
 
 }

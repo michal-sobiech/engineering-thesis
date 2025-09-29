@@ -20,6 +20,10 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private final long id;
 
+    // TODO join column and lazy load?
+    @Column(name = "user_id")
+    private final long userId;
+
     @OneToOne(cascade = CascadeType.ALL)
     @Column(name = "enterprise_id")
     private final long enterpriseId;
@@ -35,9 +39,5 @@ public class Employee {
 
     @Column
     private final String username;
-
-    // TODO join column and lazy load?
-    @Column(name = "user_id")
-    private final String userId;
 
 }

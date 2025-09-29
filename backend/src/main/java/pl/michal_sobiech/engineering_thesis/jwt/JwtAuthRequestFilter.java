@@ -3,10 +3,9 @@ package pl.michal_sobiech.engineering_thesis.jwt;
 import java.io.IOException;
 import java.util.Optional;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import jakarta.servlet.FilterChain;
@@ -14,6 +13,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import pl.michal_sobiech.engineering_thesis.user.UserIdAuthentication;
 import pl.michal_sobiech.engineering_thesis.utils.AuthUtils;
 
 @RequiredArgsConstructor
@@ -34,7 +34,10 @@ public class JwtAuthRequestFilter extends OncePerRequestFilter {
         checkUserAlreadyAuthenticated();
         Optional.ofNullable(request.getHeader("Authorization"))
                 .flatMap(this::extractJwtFromHeader)
-                .map(this::createJwtAuthenticationToken)
+                .map(jwtDecoder::decode)
+                .map(claims -> claims.getSubject())
+                .map(this::parseSubjectToInt)
+                .map(this::createAuthentication)
                 .ifPresent(this::setAuthentication);
     }
 
@@ -51,12 +54,19 @@ public class JwtAuthRequestFilter extends OncePerRequestFilter {
                 : Optional.empty();
     }
 
-    private JwtAuthenticationToken createJwtAuthenticationToken(String jwt) {
-        final Jwt jwtClaims = jwtDecoder.decode(jwt);
-        return new JwtAuthenticationToken(jwtClaims);
+    private int parseSubjectToInt(String userId) {
+        try {
+            return Integer.parseInt(userId);
+        } catch (Exception exception) {
+            throw new IllegalStateException("Couldn't parse subject to int");
+        }
     }
 
-    private void setAuthentication(JwtAuthenticationToken auth) {
+    private Authentication createAuthentication(int userId) {
+        return new UserIdAuthentication(userId);
+    }
+
+    private void setAuthentication(Authentication auth) {
         SecurityContextHolder.getContext().setAuthentication(auth);
     }
 
