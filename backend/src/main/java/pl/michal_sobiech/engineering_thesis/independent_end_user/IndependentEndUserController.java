@@ -25,7 +25,7 @@ public class IndependentEndUserController implements IndependentEndUsersApi {
         CreateIndependentEndUserResponseUser userDto = new CreateIndependentEndUserResponseUser(
                 createdUser.getFirstName(), createdUser.getLastName(), createdUser.getEmail());
 
-        String userIdAsString = Long.toString(createdUser.getId());
+        String userIdAsString = Long.toString(createdUser.getUserId());
         String jwtToken = jwtService.generateTokenNow(userIdAsString);
 
         CreateIndependentEndUserResponse responseBody = new CreateIndependentEndUserResponse(jwtToken, userDto);
