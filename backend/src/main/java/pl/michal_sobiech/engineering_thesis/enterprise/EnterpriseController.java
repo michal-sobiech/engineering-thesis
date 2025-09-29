@@ -1,26 +1,26 @@
 package pl.michal_sobiech.engineering_thesis.enterprise;
 
 import java.math.BigDecimal;
-import java.util.Optional;
 
 import org.SwaggerCodeGenExample.api.EnterprisesApi;
 import org.SwaggerCodeGenExample.model.CheckIndependentEndUserEmailExists200Response;
 import org.SwaggerCodeGenExample.model.CreateEnterpriseEmployeeRequest;
 import org.SwaggerCodeGenExample.model.CreateEnterpriseEmployeeResponse;
+import org.SwaggerCodeGenExample.model.CreateEnterpriseEmployeeResponseUser;
 import org.SwaggerCodeGenExample.model.CreateEnterpriseRequest;
 import org.SwaggerCodeGenExample.model.CreateEnterpriseResponse;
-import org.SwaggerCodeGenExample.model.GetEnterpriseResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import pl.michal_sobiech.engineering_thesis.employee.Employee;
 import pl.michal_sobiech.engineering_thesis.employee.EmployeeService;
-import pl.michal_sobiech.engineering_thesis.entrepreneur.Entrepreneur;
 import pl.michal_sobiech.engineering_thesis.entrepreneur.EntrepreneurService;
-import pl.michal_sobiech.engineering_thesis.user.auth_principal.AuthPrincipal;
-import pl.michal_sobiech.engineering_thesis.user.auth_principal.EntrepreneurAuthPrincipal;
+import pl.michal_sobiech.engineering_thesis.jwt.JwtCreationService;
+import pl.michal_sobiech.engineering_thesis.user.AuthPrincipal;
+import pl.michal_sobiech.engineering_thesis.user.Role;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,49 +29,62 @@ public class EnterpriseController implements EnterprisesApi {
     private final EnterpriseService enterpriseService;
     private final EntrepreneurService entrepreneurService;
     private final EmployeeService employeeService;
+    private final JwtCreationService jwtCreationService;
 
     ResponseEntity<CreateEnterpriseResponse> createEnterprise(
             CreateEnterpriseRequest createEnterpriseRequest,
             @AuthenticationPrincipal AuthPrincipal authPrincipal) {
-        if (!(authPrincipal instanceof EntrepreneurAuthPrincipal entrepreneurAuthPrincipal)) {
+        if (authPrincipal.role() != Role.ENTREPRENEUR) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
-        final long entrepreneurId = entrepreneurAuthPrincipal.entrepreneurId();
-        final Optional<Entrepreneur> entrepreneur = entrepreneurService.getEnrepreneur(entrepreneurId);
-        if (entrepreneur.isEmpty()) {
-            final String message = "Entrepreneur id from the Security Context does not point to any existing entrepreneur";
-            throw new IllegalStateException(message);
-        }
-
-        final Enterprise enterprise = enterpriseService.createEnterprise(entrepreneurId, createEnterpriseRequest);
+        final Enterprise enterprise = enterpriseService.createEnterprise(
+                authPrincipal.userId(),
+                createEnterpriseRequest);
         final BigDecimal enterpriseId = BigDecimal.valueOf(enterprise.getEnterpriseId());
         final var responseBody = new CreateEnterpriseResponse(enterpriseId);
         return ResponseEntity.ok(responseBody);
     }
 
-    ResponseEntity<CheckIndependentEndUserEmailExists200Response> checkEmployeeUsernameExists(
+    public ResponseEntity<CheckIndependentEndUserEmailExists200Response> checkEmployeeUsernameExists(
             Integer enterpriseId,
-            String username,
-            @AuthenticationPrincipal AuthPrincipal authPrincipal) {
+            String username) {
         final boolean exists = employeeService.checkEmployeeUsernameExists(enterpriseId, username);
         final var responseBody = new CheckIndependentEndUserEmailExists200Response(exists);
         return ResponseEntity.ok(responseBody);
     }
 
-    ResponseEntity<CreateEnterpriseEmployeeResponse> createEnterpriseEmployee(
+    public ResponseEntity<CreateEnterpriseEmployeeResponse> createEnterpriseEmployee(
             Integer enterpriseId,
             CreateEnterpriseEmployeeRequest createEnterpriseEmployeeRequest,
             @AuthenticationPrincipal AuthPrincipal authPrincipal) {
-        if (!(authPrincipal instanceof EntrepreneurAuthPrincipal entrepreneurAuthPrincipal)) {
+        if (authPrincipal.role() != Role.ENTREPRENEUR) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
-        return employeeService.sa
-            
+        final String password = createEnterpriseEmployeeRequest.getPassword();
+
+        final Employee employee = employeeService.createEmployee(
+                enterpriseId,
+                createEnterpriseEmployeeRequest.getFirstName(),
+                createEnterpriseEmployeeRequest.getLastName(),
+                password,
+                createEnterpriseEmployeeRequest.getUsername());
+
+        final var responseBodyUser = new CreateEnterpriseEmployeeResponseUser(
+                employee.getFirstName(),
+                employee.getLastName(),
+                employee.getUsername());
+
+        final long newEmployeeUserId = employee.getUserId();
+        final String newEmployeeUserIdAsStr = Long.toString(newEmployeeUserId);
+        final String accessToken = jwtCreationService.generateTokenNow(newEmployeeUserIdAsStr);
+
+        final var responseBody = new CreateEnterpriseEmployeeResponse(accessToken, responseBodyUser);
+        return ResponseEntity.ok(responseBody);
     }
 
-    ResponseEntity<GetEnterpriseResponse> getEnterprise(
-            Integer enterpriseId);
+    // ResponseEntity<GetEnterpriseResponse> getEnterprise(
+    // Integer enterpriseId);
 
 }
