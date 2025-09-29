@@ -1,4 +1,4 @@
-package pl.michal_sobiech.engineering_thesis.user_details_service.employee;
+package pl.michal_sobiech.engineering_thesis.security.authentication.employee;
 
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;

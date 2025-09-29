@@ -1,4 +1,4 @@
-package pl.michal_sobiech.engineering_thesis.user_details_service.independent_end_user;
+package pl.michal_sobiech.engineering_thesis.security.authentication.independent_end_user;
 
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.independent_end_user.IndependentEndUser;
 import pl.michal_sobiech.engineering_thesis.independent_end_user.IndependentEndUserService;
-import pl.michal_sobiech.engineering_thesis.user_details_service.UserUtils;
+import pl.michal_sobiech.engineering_thesis.security.authentication.UserUtils;
 
 @Service
 @RequiredArgsConstructor

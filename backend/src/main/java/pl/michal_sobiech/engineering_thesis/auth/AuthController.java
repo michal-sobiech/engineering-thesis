@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.jwt.JwtCreationService;
 import pl.michal_sobiech.engineering_thesis.scope_username_password_authentication.EnterpriseIdUsernamePasswordAuthentication;
+import pl.michal_sobiech.engineering_thesis.security.authentication.employee.UserIdAuthenticationProvider;
 import pl.michal_sobiech.engineering_thesis.user.UserIdAuthentication;
-import pl.michal_sobiech.engineering_thesis.user_details_service.employee.UserIdAuthenticationProvider;
 
 @RestController
 @RequiredArgsConstructor

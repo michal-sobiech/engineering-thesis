@@ -1,4 +1,4 @@
-package pl.michal_sobiech.engineering_thesis.user_details_service;
+package pl.michal_sobiech.engineering_thesis.security.authentication;
 
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
