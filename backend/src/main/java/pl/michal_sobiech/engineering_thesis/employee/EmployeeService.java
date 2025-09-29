@@ -19,7 +19,7 @@ public class EmployeeService {
     public Employee createEmployee(long enterpriseId, String firstName, String lastName, String password,
             String username) {
 
-        final String passwordHash = passwordEncoder.encode(password.getValue());
+        final String passwordHash = passwordEncoder.encode(password);
 
         final Employee employee = Employee.builder()
                 .enterpriseId(enterpriseId)
