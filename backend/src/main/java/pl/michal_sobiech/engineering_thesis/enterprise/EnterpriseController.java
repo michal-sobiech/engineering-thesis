@@ -9,9 +9,9 @@ import org.SwaggerCodeGenExample.model.CreateEnterpriseEmployeeResponse;
 import org.SwaggerCodeGenExample.model.CreateEnterpriseEmployeeResponseUser;
 import org.SwaggerCodeGenExample.model.CreateEnterpriseRequest;
 import org.SwaggerCodeGenExample.model.CreateEnterpriseResponse;
+import org.SwaggerCodeGenExample.model.GetEnterpriseResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
@@ -21,6 +21,7 @@ import pl.michal_sobiech.engineering_thesis.entrepreneur.EntrepreneurService;
 import pl.michal_sobiech.engineering_thesis.jwt.JwtCreationService;
 import pl.michal_sobiech.engineering_thesis.user.AuthPrincipal;
 import pl.michal_sobiech.engineering_thesis.user.Role;
+import pl.michal_sobiech.engineering_thesis.utils.AuthUtils;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,9 +32,9 @@ public class EnterpriseController implements EnterprisesApi {
     private final EmployeeService employeeService;
     private final JwtCreationService jwtCreationService;
 
-    ResponseEntity<CreateEnterpriseResponse> createEnterprise(
-            CreateEnterpriseRequest createEnterpriseRequest,
-            @AuthenticationPrincipal AuthPrincipal authPrincipal) {
+    @Override
+    public ResponseEntity<CreateEnterpriseResponse> createEnterprise(CreateEnterpriseRequest createEnterpriseRequest) {
+        final AuthPrincipal authPrincipal = AuthUtils.getAuthPrincipal();
         if (authPrincipal.role() != Role.ENTREPRENEUR) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
@@ -46,18 +47,19 @@ public class EnterpriseController implements EnterprisesApi {
         return ResponseEntity.ok(responseBody);
     }
 
+    @Override
     public ResponseEntity<CheckIndependentEndUserEmailExists200Response> checkEmployeeUsernameExists(
-            Integer enterpriseId,
-            String username) {
+            Integer enterpriseId, String username) {
         final boolean exists = employeeService.checkEmployeeUsernameExists(enterpriseId, username);
         final var responseBody = new CheckIndependentEndUserEmailExists200Response(exists);
         return ResponseEntity.ok(responseBody);
     }
 
+    @Override
     public ResponseEntity<CreateEnterpriseEmployeeResponse> createEnterpriseEmployee(
             Integer enterpriseId,
-            CreateEnterpriseEmployeeRequest createEnterpriseEmployeeRequest,
-            @AuthenticationPrincipal AuthPrincipal authPrincipal) {
+            CreateEnterpriseEmployeeRequest createEnterpriseEmployeeRequest) {
+        final AuthPrincipal authPrincipal = AuthUtils.getAuthPrincipal();
         if (authPrincipal.role() != Role.ENTREPRENEUR) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
@@ -84,7 +86,9 @@ public class EnterpriseController implements EnterprisesApi {
         return ResponseEntity.ok(responseBody);
     }
 
-    // ResponseEntity<GetEnterpriseResponse> getEnterprise(
-    // Integer enterpriseId);
+    @Override
+    public ResponseEntity<GetEnterpriseResponse> getEnterprise(int enterpriseId) {
+
+    }
 
 }
