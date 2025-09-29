@@ -14,7 +14,7 @@ components:
       bearerFormat: JWT
 
   schemas:
-    CreateEntrepreneurRequest:
+    CreateIndependentEndUserRequest:
       type: object
       required:
         - firstName
@@ -35,7 +35,7 @@ components:
           type: string
           format: password
           example: "5=2VPIzYHSIc0l4d1o&es]plB"
-    CreateEntrepreneurResponse:
+    CreateIndependentEndUserResponse:
       type: object
       required:
         - accessToken
@@ -294,11 +294,11 @@ components:
                 example: Internal server error
 
 paths:
-  /entrepreneurs:
+  /independent-end-users:
     post:
-      tags: [Entrepreneurs]
-      operationId: createEntrepreneur
-      summary: Create an entrepreneur
+      tags: [IndependentEndUsers]
+      operationId: createIndependentEndUser
+      summary: Create an independent end user
       security: []
       parameters: []
       requestBody:
@@ -306,14 +306,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateEntrepreneurRequest"
+              $ref: "#/components/schemas/CreateIndependentEndUserRequest"
       responses:
         "201":
           description: *CREATED_DESCRIPTION
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/CreateEntrepreneurResponse"
+                "$ref": "#/components/schemas/CreateIndependentEndUserResponse"
         "400":
           $ref: "#/components/responses/BadRequest"
         "500":
