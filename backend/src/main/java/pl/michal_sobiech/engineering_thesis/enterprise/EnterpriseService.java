@@ -14,11 +14,11 @@ public class EnterpriseService {
 
     @Transactional
     public Enterprise createEnterprise(
-            long userId,
+            long entrepreneurId,
             CreateEnterpriseRequest createEnterpriseRequest) {
 
         final Enterprise enterprise = Enterprise.builder()
-                .entrepreneurUserId(userId)
+                .entrepreneurId(entrepreneurId)
                 .name(createEnterpriseRequest.getEnterpriseName())
                 .description(createEnterpriseRequest.getDescription())
                 .location(createEnterpriseRequest.getLocation())

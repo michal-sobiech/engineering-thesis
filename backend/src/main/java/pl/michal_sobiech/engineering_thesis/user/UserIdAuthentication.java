@@ -6,6 +6,8 @@ import java.util.Collection;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 
+import pl.michal_sobiech.engineering_thesis.user.auth_principal.AuthPrincipal;
+
 public class UserIdAuthentication extends AbstractAuthenticationToken {
 
     private final AuthPrincipal principal;

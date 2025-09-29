@@ -19,8 +19,8 @@ import pl.michal_sobiech.engineering_thesis.employee.Employee;
 import pl.michal_sobiech.engineering_thesis.employee.EmployeeService;
 import pl.michal_sobiech.engineering_thesis.entrepreneur.EntrepreneurService;
 import pl.michal_sobiech.engineering_thesis.jwt.JwtCreationService;
-import pl.michal_sobiech.engineering_thesis.user.AuthPrincipal;
-import pl.michal_sobiech.engineering_thesis.user.Role;
+import pl.michal_sobiech.engineering_thesis.user.auth_principal.AuthPrincipal;
+import pl.michal_sobiech.engineering_thesis.user.auth_principal.EntrepreneurAuthPrincipal;
 import pl.michal_sobiech.engineering_thesis.utils.AuthUtils;
 
 @RestController
@@ -35,12 +35,12 @@ public class EnterpriseController implements EnterprisesApi {
     @Override
     public ResponseEntity<CreateEnterpriseResponse> createEnterprise(CreateEnterpriseRequest createEnterpriseRequest) {
         final AuthPrincipal authPrincipal = AuthUtils.getAuthPrincipal();
-        if (authPrincipal.role() != Role.ENTREPRENEUR) {
+        if (!(authPrincipal instanceof EntrepreneurAuthPrincipal entrepreneurAuthPrincipal)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
         final Enterprise enterprise = enterpriseService.createEnterprise(
-                authPrincipal.userId(),
+                entrepreneurAuthPrincipal.getEntrepreneurId(),
                 createEnterpriseRequest);
         final BigDecimal enterpriseId = BigDecimal.valueOf(enterprise.getEnterpriseId());
         final var responseBody = new CreateEnterpriseResponse(enterpriseId);
@@ -60,7 +60,7 @@ public class EnterpriseController implements EnterprisesApi {
             Integer enterpriseId,
             CreateEnterpriseEmployeeRequest createEnterpriseEmployeeRequest) {
         final AuthPrincipal authPrincipal = AuthUtils.getAuthPrincipal();
-        if (authPrincipal.role() != Role.ENTREPRENEUR) {
+        if (!(authPrincipal instanceof EntrepreneurAuthPrincipal)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 

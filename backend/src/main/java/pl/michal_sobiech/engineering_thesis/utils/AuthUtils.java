@@ -3,8 +3,8 @@ package pl.michal_sobiech.engineering_thesis.utils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import pl.michal_sobiech.engineering_thesis.user.AuthPrincipal;
 import pl.michal_sobiech.engineering_thesis.user.UserIdAuthentication;
+import pl.michal_sobiech.engineering_thesis.user.auth_principal.AuthPrincipal;
 
 public class AuthUtils {
 
