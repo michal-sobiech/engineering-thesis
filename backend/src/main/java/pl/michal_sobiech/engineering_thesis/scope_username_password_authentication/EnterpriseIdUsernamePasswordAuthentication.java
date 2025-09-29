@@ -2,7 +2,6 @@ package pl.michal_sobiech.engineering_thesis.scope_username_password_authenticat
 
 import java.util.List;
 
-import org.springframework.data.util.Pair;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 
 public class EnterpriseIdUsernamePasswordAuthentication extends AbstractAuthenticationToken {
@@ -20,8 +19,8 @@ public class EnterpriseIdUsernamePasswordAuthentication extends AbstractAuthenti
     }
 
     @Override
-    public Pair<Long, String> getPrincipal() {
-        return Pair.of(enterpriseId, username);
+    public EnterpriseIdAndUsername getPrincipal() {
+        return new EnterpriseIdAndUsername(enterpriseId, username);
     }
 
     @Override

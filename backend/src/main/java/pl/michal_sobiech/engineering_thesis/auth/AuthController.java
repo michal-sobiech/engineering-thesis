@@ -6,8 +6,8 @@ import org.SwaggerCodeGenExample.model.LogInEnterpriseEmployeeResponse;
 import org.SwaggerCodeGenExample.model.LogInIndependentEndUserRequest;
 import org.SwaggerCodeGenExample.model.LogInIndependentEndUserResponse;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,12 +15,14 @@ import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.jwt.JwtCreationService;
 import pl.michal_sobiech.engineering_thesis.scope_username_password_authentication.EnterpriseIdUsernamePasswordAuthentication;
 import pl.michal_sobiech.engineering_thesis.user.UserIdAuthentication;
+import pl.michal_sobiech.engineering_thesis.user_details_service.employee.UserIdAuthenticationProvider;
 
 @RestController
 @RequiredArgsConstructor
 public class AuthController implements AuthApi {
 
-    private final AuthenticationManager authenticationManager;
+    private final UserIdAuthenticationProvider userIdAuthenticationProvider;
+    private final DaoAuthenticationProvider daoAuthenticationProvider;
     private final JwtCreationService jwtCreationService;
 
     @Override
@@ -32,7 +34,7 @@ public class AuthController implements AuthApi {
                 logInEnterpriseEmployeeRequest.getUsername(),
                 logInEnterpriseEmployeeRequest.getPassword());
 
-        Authentication authentication = authenticationManager.authenticate(token);
+        Authentication authentication = userIdAuthenticationProvider.authenticate(token);
         if (!(authentication instanceof UserIdAuthentication userIdAuthentication)) {
             String message = "Authentication instance is not an instance of UserIdAuthentication";
             throw new IllegalStateException(message);

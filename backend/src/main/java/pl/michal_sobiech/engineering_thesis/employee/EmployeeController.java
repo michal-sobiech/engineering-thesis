@@ -31,7 +31,7 @@ public class EmployeeController implements EnterpriseEmployeeApi {
             return HttpUtils.createForbiddenResponse();
         }
 
-        final Employee employee = employeeService.getEmployee(employeeAuthPrincipal.getEmployeeId());
+        final Employee employee = employeeService.findById(employeeAuthPrincipal.getEmployeeId());
 
         final var responseBody = new EmployeeGetMeResponse(
                 employee.getUserId(),

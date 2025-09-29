@@ -1,5 +1,7 @@
 package pl.michal_sobiech.engineering_thesis.employee;
 
+import java.util.Optional;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -31,8 +33,12 @@ public class EmployeeService {
         return employeeRepository.save(employee);
     }
 
-    public Employee getEmployee(long employeeId) {
-        return employeeRepository.getReferenceById(employeeId);
+    public Optional<Employee> findById(long employeeId) {
+        return employeeRepository.findById(employeeId);
+    }
+
+    public Optional<Employee> findByEnterpriseIdAndUsername(long enterpriseId, String username) {
+        return employeeRepository.findByEnterpriseIdAndUsername(enterpriseId, username);
     }
 
 }

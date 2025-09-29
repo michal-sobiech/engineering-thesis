@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 public class EmployeeAuthPrincipal implements AuthPrincipal {
 
-    private long userId;
-    private long employeeId;
+    private final long userId;
+    private final long employeeId;
 
 }
