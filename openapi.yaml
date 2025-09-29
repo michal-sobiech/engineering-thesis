@@ -33,6 +33,7 @@ components:
           example: jan.kowalski@test.com
         password:
           type: string
+          format: password
           example: "5=2VPIzYHSIc0l4d1o&es]plB"
     CreateIndependentEndUserResponse:
       type: object
@@ -42,6 +43,7 @@ components:
       properties:
         accessToken:
           type: string
+          format: password
         user:
           type: object
           required:
@@ -69,6 +71,7 @@ components:
           example: jan.kowalski@test.com
         password:
           type: string
+          format: password
           example: "5=2VPIzYHSIc0l4d1o&es]plB"
     LogInIndependentEndUserResponse:
       type: object
@@ -77,6 +80,7 @@ components:
       properties:
         accessToken:
           type: string
+          format: password
           example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEyMywiaXNzdWVkX2F0IjoxNzU3NTkyMDIyLCJleHBpcmVzX2F0IjoxNzU3NjEzNjIyfQ.R0wpPhA5v-z_NYELi8PLxji0EJFcD75B5_psMb8ZNcc"
     GetEntrepreneurEnterprisesResponseItem:
       type: object
@@ -88,31 +92,56 @@ components:
           type: string
           example: Hair Beauty Salon
         id:
-          type: number
+          type: integer
+          format: int64
           example: 123
     GetEntrepreneurEnterprisesResponse:
       type: array
       items:
         $ref: "#/components/schemas/GetEntrepreneurEnterprisesResponseItem"
-    GetMeResponseEnterpreneur:
+    EntrepreneurGetMeResponse:
       type: object
-      required: [role, firstName, lastName, entrepreneurId]
+      required: [entrepreneurId, email, firstName, lastName]
       properties:
-        role:
+        entrepreneurId:
+          type: integer
+          format: int64
+          example: 234
+        email:
           type: string
-          const: ENTREPRENEUR
+          example: jan.kowalski@test.com
         firstName:
           type: string
           example: Jan
         lastName:
           type: string
           example: Kowalski
-        entrepreneurId:
-          type: number
+    EmployeeGetMeResponse:
+      type: object
+      required:
+        [userId, employeeId, enterpriseId, username, firstName, lastName]
+      properties:
+        userId:
+          type: integer
+          format: int64
+          example: 1234
+        employeeId:
+          type: integer
+          format: int64
           example: 234
-    GetMeResponse:
-      oneOf:
-        - $ref: "#/components/schemas/GetMeResponseEnterpreneur"
+        enterpriseId:
+          type: integer
+          format: int64
+          example: 111
+        username:
+          type: string
+          example: jan.kowalski.1
+        firstName:
+          type: string
+          example: Jan
+        lastName:
+          type: string
+          example: Kowalski
     CreateEnterpriseRequest:
       type: object
       required: [enterpriseName, description, location]
@@ -131,7 +160,8 @@ components:
       required: [enterpriseId]
       properties:
         enterpriseId:
-          type: number
+          type: integer
+          format: int64
           example: 345
     GetEnterpriseResponse:
       type: object
@@ -165,6 +195,7 @@ components:
           example: jan.kowalski.1
         password:
           type: string
+          format: password
           example: "5=2VPIzYHSIc0l4d1o&es]plB"
     CreateEnterpriseEmployeeResponse:
       type: object
@@ -174,6 +205,7 @@ components:
       properties:
         accessToken:
           type: string
+          format: password
         user:
           type: object
           required:
@@ -205,6 +237,7 @@ components:
           example: jan.kowalski.1
         password:
           type: string
+          format: password
           example: "5=2VPIzYHSIc0l4d1o&es]plB"
     LogInEnterpriseEmployeeResponse:
       type: object
@@ -213,6 +246,7 @@ components:
       properties:
         accessToken:
           type: string
+          format: password
           example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEyMywiaXNzdWVkX2F0IjoxNzU3NTkyMDIyLCJleHBpcmVzX2F0IjoxNzU3NjEzNjIyfQ.R0wpPhA5v-z_NYELi8PLxji0EJFcD75B5_psMb8ZNcc"
 
   responses:
@@ -386,9 +420,9 @@ paths:
           $ref: "#/components/responses/Unauthorized"
         "500":
           $ref: "#/components/responses/InternalServerError"
-  /me:
+  /enterprise-employee/me:
     get:
-      tags: [Me]
+      tags: [EnterpriseEmployees]
       operationId: getMe
       security:
         - JwtBearerAuth: []
@@ -398,7 +432,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/GetMeResponse"
+                $ref: "#/components/schemas/EmployeeGetMeResponse"
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":

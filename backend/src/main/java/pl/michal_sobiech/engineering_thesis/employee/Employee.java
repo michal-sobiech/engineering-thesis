@@ -3,8 +3,6 @@ package pl.michal_sobiech.engineering_thesis.employee;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import lombok.Builder;
@@ -17,8 +15,7 @@ public class Employee {
 
     @Id
     @Column(name = "employee_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private final long id;
+    private final long employeeId;
 
     // TODO join column and lazy load?
     @Column(name = "user_id")
