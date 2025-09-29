@@ -87,8 +87,15 @@ public class EnterpriseController implements EnterprisesApi {
     }
 
     @Override
-    public ResponseEntity<GetEnterpriseResponse> getEnterprise(int enterpriseId) {
+    public ResponseEntity<GetEnterpriseResponse> getEnterprise(Integer enterpriseId) {
+        final Enterprise enterprise = enterpriseService.getEnterprise(enterpriseId);
 
+        final var responseBody = new GetEnterpriseResponse(
+                enterprise.getName(),
+                enterprise.getDescription(),
+                enterprise.getLocation());
+
+        return ResponseEntity.ok(responseBody);
     }
 
 }

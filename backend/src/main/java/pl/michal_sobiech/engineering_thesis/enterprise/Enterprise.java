@@ -16,8 +16,8 @@ public class Enterprise {
     @Column(name = "enterprise_id")
     private final long enterpriseId;
 
-    @Column(name = "enterpreneur_id")
-    private final long enterpreneurId;
+    @Column(name = "entrepreneur_user_id")
+    private final long entrepreneurUserId;
 
     @Column
     private final String name;

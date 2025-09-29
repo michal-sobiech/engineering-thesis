@@ -14,16 +14,21 @@ public class EnterpriseService {
 
     @Transactional
     public Enterprise createEnterprise(
-            long entrepreneurId,
+            long userId,
             CreateEnterpriseRequest createEnterpriseRequest) {
 
         final Enterprise enterprise = Enterprise.builder()
-                .enterpreneurId(entrepreneurId)
+                .entrepreneurUserId(userId)
                 .name(createEnterpriseRequest.getEnterpriseName())
                 .description(createEnterpriseRequest.getDescription())
                 .location(createEnterpriseRequest.getLocation())
                 .build();
         return enterpriseRepository.save(enterprise);
+    }
+
+    @Transactional
+    public Enterprise getEnterprise(long enterpriseId) {
+        return enterpriseRepository.getReferenceById(enterpriseId);
     }
 
 }
