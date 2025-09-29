@@ -8,21 +8,21 @@ import org.springframework.security.core.GrantedAuthority;
 
 public class UserIdAuthentication extends AbstractAuthenticationToken {
 
-    private final long userId;
+    private final AuthPrincipal principal;
 
     @Override
-    public Long getPrincipal() {
-        return this.userId;
+    public AuthPrincipal getPrincipal() {
+        return this.principal;
     }
 
-    public UserIdAuthentication(long userId, Collection<? extends GrantedAuthority> authorities) {
+    public UserIdAuthentication(AuthPrincipal principal, Collection<? extends GrantedAuthority> authorities) {
         super(authorities);
-        this.userId = userId;
+        this.principal = principal;
     }
 
-    public UserIdAuthentication(long userId) {
+    public UserIdAuthentication(AuthPrincipal principal) {
         super(new ArrayList<>());
-        this.userId = userId;
+        this.principal = principal;
     }
 
     @Override
