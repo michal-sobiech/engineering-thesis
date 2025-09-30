@@ -8,8 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.user.auth_principal.AuthPrincipal;
-import pl.michal_sobiech.engineering_thesis.user.auth_principal.EmployeeAuthPrincipal;
+import pl.michal_sobiech.engineering_thesis.user.UserIdAuthentication;
 import pl.michal_sobiech.engineering_thesis.utils.AuthUtils;
 import pl.michal_sobiech.engineering_thesis.utils.HttpUtils;
 
@@ -21,17 +20,17 @@ public class EmployeeController implements EnterpriseEmployeeApi {
 
     @Override
     public ResponseEntity<EmployeeGetMeResponse> getMe() {
-        final Optional<AuthPrincipal> authPrincipalOptional = AuthUtils.getAuthPrincipal();
-        if (authPrincipalOptional.isEmpty()) {
+        Optional<UserIdAuthentication> optionalAuthentication = AuthUtils.getUserIdAuthentication();
+        if (optionalAuthentication.isEmpty()) {
             return HttpUtils.createUnauthorizedResponse();
         }
+        UserIdAuthentication authentication = optionalAuthentication.get();
 
-        AuthPrincipal authPrincipal = authPrincipalOptional.get();
-        if (!(authPrincipal instanceof EmployeeAuthPrincipal employeeAuthPrincipal)) {
-            return HttpUtils.createForbiddenResponse();
+        Optional<Employee> optionalEmployee = employeeService.findByUserId(authentication.getPrincipal());
+        if (optionalEmployee.isEmpty()) {
+            return HttpUtils.createUnauthorizedResponse();
         }
-
-        final Employee employee = employeeService.findById(employeeAuthPrincipal.getEmployeeId());
+        Employee employee = optionalEmployee.get();
 
         final var responseBody = new EmployeeGetMeResponse(
                 employee.getUserId(),

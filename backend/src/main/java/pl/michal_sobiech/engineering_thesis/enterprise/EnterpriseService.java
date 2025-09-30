@@ -1,5 +1,7 @@
 package pl.michal_sobiech.engineering_thesis.enterprise;
 
+import java.util.Optional;
+
 import org.SwaggerCodeGenExample.model.CreateEnterpriseRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +31,11 @@ public class EnterpriseService {
     @Transactional
     public Enterprise getEnterprise(long enterpriseId) {
         return enterpriseRepository.getReferenceById(enterpriseId);
+    }
+
+    @Transactional
+    public Optional<Enterprise> findByEnterpriseId(long enterpriseId) {
+        return enterpriseRepository.findById(enterpriseId);
     }
 
 }

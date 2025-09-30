@@ -6,7 +6,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import pl.michal_sobiech.engineering_thesis.user.UserIdAuthentication;
-import pl.michal_sobiech.engineering_thesis.user.auth_principal.AuthPrincipal;
 
 public class AuthUtils {
 
@@ -14,7 +13,7 @@ public class AuthUtils {
         return SecurityContextHolder.getContext().getAuthentication() != null;
     }
 
-    public static Optional<UserIdAuthentication> getUserIdAuthenticationOrThrow() {
+    public static Optional<UserIdAuthentication> getUserIdAuthentication() {
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth == null) {
             return Optional.empty();
@@ -29,8 +28,8 @@ public class AuthUtils {
         }
     }
 
-    public static Optional<AuthPrincipal> getAuthPrincipal() {
-        final Optional<UserIdAuthentication> userIdAuth = getUserIdAuthenticationOrThrow();
+    public static Optional<Long> getAuthPrincipal() {
+        final Optional<UserIdAuthentication> userIdAuth = getUserIdAuthentication();
         return userIdAuth.map(UserIdAuthentication::getPrincipal);
     }
 

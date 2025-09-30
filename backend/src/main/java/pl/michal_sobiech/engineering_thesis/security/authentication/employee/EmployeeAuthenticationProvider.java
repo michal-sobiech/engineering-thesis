@@ -12,7 +12,6 @@ import pl.michal_sobiech.engineering_thesis.employee.EmployeeService;
 import pl.michal_sobiech.engineering_thesis.scope_username_password_authentication.EnterpriseIdAndUsername;
 import pl.michal_sobiech.engineering_thesis.scope_username_password_authentication.EnterpriseIdUsernamePasswordAuthentication;
 import pl.michal_sobiech.engineering_thesis.user.UserIdAuthentication;
-import pl.michal_sobiech.engineering_thesis.user.auth_principal.EmployeeAuthPrincipal;
 
 @RequiredArgsConstructor
 public class EmployeeAuthenticationProvider implements AuthenticationProvider {
@@ -36,10 +35,7 @@ public class EmployeeAuthenticationProvider implements AuthenticationProvider {
             throw new BadCredentialsException("Password hashes don't match");
         }
 
-        EmployeeAuthPrincipal authenticatedPrincipal = new EmployeeAuthPrincipal(
-                employee.getUserId(),
-                employee.getEmployeeId());
-        return new UserIdAuthentication(authenticatedPrincipal);
+        return new UserIdAuthentication(employee.getUserId());
     }
 
     @Override

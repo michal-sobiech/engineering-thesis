@@ -33,12 +33,20 @@ public class EmployeeService {
         return employeeRepository.save(employee);
     }
 
-    public Optional<Employee> findById(long employeeId) {
+    public Optional<Employee> findByEmployeeId(long employeeId) {
         return employeeRepository.findById(employeeId);
     }
 
     public Optional<Employee> findByEnterpriseIdAndUsername(long enterpriseId, String username) {
         return employeeRepository.findByEnterpriseIdAndUsername(enterpriseId, username);
+    }
+
+    public boolean existsByEnterpriseIdAndUsername(long enterpriseId, String username) {
+        return employeeRepository.existsByEnterpriseIdAndUsername(enterpriseId, username);
+    }
+
+    public Optional<Employee> findByUserId(long userId) {
+        return employeeRepository.findByUserId(userId);
     }
 
 }

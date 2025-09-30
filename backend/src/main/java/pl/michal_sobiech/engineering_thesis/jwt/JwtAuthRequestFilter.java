@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import jakarta.servlet.FilterChain;
@@ -18,8 +17,6 @@ import pl.michal_sobiech.engineering_thesis.utils.AuthUtils;
 
 @RequiredArgsConstructor
 public class JwtAuthRequestFilter extends OncePerRequestFilter {
-
-    private final JwtDecoder jwtDecoder;
 
     @Override
     protected void doFilterInternal(
@@ -54,15 +51,8 @@ public class JwtAuthRequestFilter extends OncePerRequestFilter {
                 : Optional.empty();
     }
 
-    private int parseSubjectToInt(String userId) {
-        try {
-            return Integer.parseInt(userId);
-        } catch (Exception exception) {
-            throw new IllegalStateException("Couldn't parse subject to int");
-        }
-    }
-
     private Authentication createAuthentication(int userId) {
+
         return new UserIdAuthentication(userId);
     }
 

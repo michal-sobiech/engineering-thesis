@@ -12,4 +12,13 @@ public class HttpUtils {
     public static <T> ResponseEntity<T> createForbiddenResponse() {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
+
+    public static <T> ResponseEntity<T> createNotFoundReponse() {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+
+    public static <T> ResponseEntity<T> createConflictResponse() {
+        return ResponseEntity.status(HttpStatus.CONFLICT).build();
+    }
+
 }

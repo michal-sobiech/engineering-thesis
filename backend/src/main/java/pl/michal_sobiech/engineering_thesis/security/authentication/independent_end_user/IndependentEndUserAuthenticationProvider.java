@@ -1,7 +1,5 @@
 package pl.michal_sobiech.engineering_thesis.security.authentication.independent_end_user;
 
-import java.util.Optional;
-
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
@@ -11,14 +9,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.customer.CustomerService;
-import pl.michal_sobiech.engineering_thesis.entrepreneur.EntrepreneurService;
 import pl.michal_sobiech.engineering_thesis.independent_end_user.IndependentEndUser;
 import pl.michal_sobiech.engineering_thesis.independent_end_user.IndependentEndUserService;
 import pl.michal_sobiech.engineering_thesis.security.authentication.StringUsernamePasswordAuthentication;
 import pl.michal_sobiech.engineering_thesis.user.UserIdAuthentication;
-import pl.michal_sobiech.engineering_thesis.user.auth_principal.CustomerAuthPrincipal;
-import pl.michal_sobiech.engineering_thesis.user.auth_principal.EntrepreneurAuthPrincipal;
 
 @Service
 @RequiredArgsConstructor
@@ -29,8 +23,6 @@ public class IndependentEndUserAuthenticationProvider implements AuthenticationP
     private final IndependentEndUserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
     private final IndependentEndUserService independentEndUserService;
-    private final EntrepreneurService entrepreneurService;
-    private final CustomerService customerService;
 
     @Override
     public UserIdAuthentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -47,29 +39,7 @@ public class IndependentEndUserAuthenticationProvider implements AuthenticationP
 
         // TODO remove double query (one is in loadByUsername)
         IndependentEndUser independentEndUser = independentEndUserService.findByUsername(username).orElseThrow();
-        long userId = independentEndUser.getUserId();
-        long independentEndUserId = independentEndUser.getIndependentEndUserId();
-
-        Optional<Long> entrepreneurId = entrepreneurService
-                .findEntrepreneurIdByIndependentEndUserId(independentEndUserId);
-        if (entrepreneurId.isPresent()) {
-            EntrepreneurAuthPrincipal principal = new EntrepreneurAuthPrincipal(
-                    userId,
-                    independentEndUserId,
-                    entrepreneurId.get());
-            return new UserIdAuthentication(principal);
-        }
-
-        Optional<Long> customerId = customerService.findCustomerIdByIndependentEndUserId(independentEndUserId);
-        if (customerId.isPresent()) {
-            CustomerAuthPrincipal principal = new CustomerAuthPrincipal(
-                    userId,
-                    independentEndUserId,
-                    customerId.get());
-            return new UserIdAuthentication(principal);
-        }
-
-        throw new RuntimeException("Independent end user is neither an entrepreneur, nor customer");
+        return new UserIdAuthentication(independentEndUser.getUserId());
     }
 
     @Override
