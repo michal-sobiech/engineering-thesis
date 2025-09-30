@@ -14,8 +14,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class EntrepreneurController implements EntrepreneursApi {
 
-    private final EntrepreneurService service;
-
     @Override
     public ResponseEntity<List<GetEntrepreneurEnterprisesResponseItem>> getEntrepreneurEnterprises(
             Integer entrepreneurId) {
