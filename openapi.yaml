@@ -299,11 +299,33 @@ components:
                 example: Internal server error
 
 paths:
-  /independent-end-users:
+  /entrepreneurs:
     post:
-      tags: [IndependentEndUsers]
-      operationId: createIndependentEndUser
-      summary: Create an independent end user
+      tags: [Entrepreneurs]
+      operationId: createEntrepreneur
+      summary: Create an entrepreneur
+      security: []
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateIndependentEndUserRequest"
+      responses:
+        "201":
+          description: *CREATED_DESCRIPTION
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  /customers:
+    post:
+      tags: [Customers]
+      operationId: createCustomer
+      summary: Create a customer
       security: []
       parameters: []
       requestBody:
