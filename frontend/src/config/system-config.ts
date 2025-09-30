@@ -8,6 +8,9 @@ const systemConfig = defineConfig({
                     blue: { value: "#0000CC" },
                     lightBlue: { value: "#0A0AFF" },
                     lightGreen: { value: "#0fd20f" },
+                    lightGray: { value: "#bdbdbd" },
+                    gold: { value: "#ffe134" },
+                    purple: { value: "#9700e4" }
                 }
             },
             fontSizes: {
