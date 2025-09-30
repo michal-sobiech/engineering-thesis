@@ -15,15 +15,24 @@
 
 import * as runtime from '../runtime';
 import type {
+  EntrepreneurGetMeResponse,
   GetEntrepreneurEnterprisesResponseItem,
+  InlineObject,
   InlineObject1,
+  InlineObject2,
   InlineObject4,
 } from '../models/index';
 import {
+    EntrepreneurGetMeResponseFromJSON,
+    EntrepreneurGetMeResponseToJSON,
     GetEntrepreneurEnterprisesResponseItemFromJSON,
     GetEntrepreneurEnterprisesResponseItemToJSON,
+    InlineObjectFromJSON,
+    InlineObjectToJSON,
     InlineObject1FromJSON,
     InlineObject1ToJSON,
+    InlineObject2FromJSON,
+    InlineObject2ToJSON,
     InlineObject4FromJSON,
     InlineObject4ToJSON,
 } from '../models/index';
@@ -69,6 +78,41 @@ export class EntrepreneursApi extends runtime.BaseAPI {
      */
     async getEntrepreneurEnterprises(entrepreneurId: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetEntrepreneurEnterprisesResponseItem>> {
         const response = await this.getEntrepreneurEnterprisesRaw({ entrepreneurId: entrepreneurId }, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async getMeEntrepreneurRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<EntrepreneurGetMeResponse>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("JwtBearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/entrepreneurs/me`;
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => EntrepreneurGetMeResponseFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async getMeEntrepreneur(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<EntrepreneurGetMeResponse> {
+        const response = await this.getMeEntrepreneurRaw(initOverrides);
         return await response.value();
     }
 

@@ -24,6 +24,12 @@ export interface EntrepreneurGetMeResponse {
      * @type {number}
      * @memberof EntrepreneurGetMeResponse
      */
+    independentEndUserId: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof EntrepreneurGetMeResponse
+     */
     entrepreneurId: number;
     /**
      * 
@@ -49,6 +55,7 @@ export interface EntrepreneurGetMeResponse {
  * Check if a given object implements the EntrepreneurGetMeResponse interface.
  */
 export function instanceOfEntrepreneurGetMeResponse(value: object): value is EntrepreneurGetMeResponse {
+    if (!('independentEndUserId' in value) || value['independentEndUserId'] === undefined) return false;
     if (!('entrepreneurId' in value) || value['entrepreneurId'] === undefined) return false;
     if (!('email' in value) || value['email'] === undefined) return false;
     if (!('firstName' in value) || value['firstName'] === undefined) return false;
@@ -66,6 +73,7 @@ export function EntrepreneurGetMeResponseFromJSONTyped(json: any, ignoreDiscrimi
     }
     return {
         
+        'independentEndUserId': json['independentEndUserId'],
         'entrepreneurId': json['entrepreneurId'],
         'email': json['email'],
         'firstName': json['firstName'],
@@ -84,6 +92,7 @@ export function EntrepreneurGetMeResponseToJSONTyped(value?: EntrepreneurGetMeRe
 
     return {
         
+        'independentEndUserId': value['independentEndUserId'],
         'entrepreneurId': value['entrepreneurId'],
         'email': value['email'],
         'firstName': value['firstName'],

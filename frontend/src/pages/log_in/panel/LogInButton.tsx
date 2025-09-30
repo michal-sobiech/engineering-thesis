@@ -2,7 +2,7 @@ import { ResultAsync } from "neverthrow";
 import { useNavigate } from "react-router";
 import { authApi } from "../../../api/auth-api";
 import { Auth } from "../../../auth/Auth";
-import { auth } from "../../../auth/AuthProvider";
+import { authCell } from "../../../auth/AuthProvider";
 import { createAuth, setJwtTokenInLocalStorage } from "../../../auth/storage";
 import { StandardButton } from "../../../common/StandardButton";
 import { routes } from "../../../router/routes";
@@ -22,7 +22,7 @@ export const LogInButton = () => {
             .map(logInResponse => logInResponse.accessToken)
             .andTee(setJwtTokenInLocalStorage)
             .andThen(createAuth)
-            .map(newAuth => auth.value = newAuth);
+            .map(newAuth => authCell.value = newAuth);
     }
 
     const onClick = async () => {

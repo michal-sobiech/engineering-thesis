@@ -1,4 +1,4 @@
-import { auth } from "../../auth/AuthProvider";
+import { authCell } from "../../auth/AuthProvider";
 import { Configuration, ConfigurationParameters } from "../../GENERATED-api/runtime";
 
 
@@ -14,6 +14,6 @@ export const authorizedApiConfigurationParameters: ConfigurationParameters = {
 export const auhtorizedApiConfiguration = new Configuration(authorizedApiConfigurationParameters);
 
 function getJwtToken(): string {
-    console.log("123", auth.value?.jwtToken || "");
-    return auth.value?.jwtToken || "";
+    console.log("123", authCell.value?.jwtToken || "");
+    return authCell.value?.jwtToken || "";
 }

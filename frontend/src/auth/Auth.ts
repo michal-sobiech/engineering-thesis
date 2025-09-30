@@ -1,3 +1,3 @@
-import { EntrepreneurAuth } from "./EntrepreneurAuth";
-
-export type Auth = EntrepreneurAuth;
+export interface Auth {
+    jwtToken: string;
+}

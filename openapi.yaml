@@ -76,8 +76,13 @@ components:
         $ref: "#/components/schemas/GetEntrepreneurEnterprisesResponseItem"
     EntrepreneurGetMeResponse:
       type: object
-      required: [entrepreneurId, email, firstName, lastName]
+      required:
+        [independentEndUserId, entrepreneurId, email, firstName, lastName]
       properties:
+        independentEndUserId:
+          type: integer
+          format: int64
+          example: 444
         entrepreneurId:
           type: integer
           format: int64
@@ -415,10 +420,31 @@ paths:
           $ref: "#/components/responses/BadRequest"
         "500":
           $ref: "#/components/responses/InternalServerError"
+  /entrepreneurs/me:
+    get:
+      tags: [Entrepreneurs]
+      operationId: getMeEntrepreneur
+      security:
+        - JwtBearerAuth: []
+      responses:
+        "200":
+          description: *OK_DESCRIPTION
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EntrepreneurGetMeResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
   /enterprise-employee/me:
     get:
       tags: [EnterpriseEmployees]
-      operationId: getMe
+      operationId: getMeEmployee
       security:
         - JwtBearerAuth: []
       responses:

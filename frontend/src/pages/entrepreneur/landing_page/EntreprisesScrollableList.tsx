@@ -2,23 +2,22 @@ import { Text } from "@chakra-ui/react";
 import { ResultAsync } from "neverthrow";
 import { ReactElement, useEffect, useState } from "react";
 import { entrepreneursApi } from "../../../api/entrepreneurs-api";
-import { auth } from "../../../auth/AuthProvider";
 import { ScrollableList } from "../../../common/scrollable-list/ScrollableList";
 import { GetEntrepreneurEnterprisesResponseItem } from "../../../GENERATED-api";
-import { assertDefined, defaultStringErrResultAsyncFromPromise, fromResult } from "../../../utils/result";
+import { defaultStringErrResultAsyncFromPromise } from "../../../utils/result";
 
 export const EnterprisesScrollableList = () => {
     const [itemsData, setItemsData] = useState<GetEntrepreneurEnterprisesResponseItem[] | null>(null);
 
     useEffect(() => {
-        async function fetchAndSetItemsData(): Promise<void> {
-            const entrepreneurId = assertDefined(auth.value)
-                .map(auth => auth.entrepreneurId);
-            const data = await fromResult(entrepreneurId).andThen(fetchEnterprisesData);
-            if (data.isOk()) {
-                setItemsData(data.value);
-            }
-        }
+        // async function fetchAndSetItemsData(): Promise<void> {
+        //     const entrepreneurId = assertDefined(authCell.value)
+        //         .map(auth => auth.entrepreneurId);
+        //     const data = await fromResult(entrepreneurId).andThen(fetchEnterprisesData);
+        //     if (data.isOk()) {
+        //         setItemsData(data.value);
+        //     }
+        // }
 
         // withAuth(fetchAndSetItemsData);
     }, []);

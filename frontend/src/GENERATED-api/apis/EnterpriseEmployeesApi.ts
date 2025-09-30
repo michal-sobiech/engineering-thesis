@@ -169,7 +169,7 @@ export class EnterpriseEmployeesApi extends runtime.BaseAPI {
 
     /**
      */
-    async getMeRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<EmployeeGetMeResponse>> {
+    async getMeEmployeeRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<EmployeeGetMeResponse>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -197,8 +197,8 @@ export class EnterpriseEmployeesApi extends runtime.BaseAPI {
 
     /**
      */
-    async getMe(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<EmployeeGetMeResponse> {
-        const response = await this.getMeRaw(initOverrides);
+    async getMeEmployee(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<EmployeeGetMeResponse> {
+        const response = await this.getMeEmployeeRaw(initOverrides);
         return await response.value();
     }
 
