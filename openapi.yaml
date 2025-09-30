@@ -256,6 +256,30 @@ components:
               message:
                 type: string
                 example: Bad request
+    Forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - message
+            properties:
+              message:
+                type: string
+                example: Forbidden request
+    Conflict:
+      description: Conflict
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - message
+            properties:
+              message:
+                type: string
+                example: Employee with this id already exists!
     InternalServerError:
       description: Internal server error
       content:
@@ -288,6 +312,8 @@ paths:
           description: *CREATED_DESCRIPTION
         "400":
           $ref: "#/components/responses/BadRequest"
+        "409":
+          $ref: "#/components/responses/Conflict"
         "500":
           $ref: "#/components/responses/InternalServerError"
   /independent-end-users/exists:
@@ -370,8 +396,7 @@ paths:
     get:
       tags: [Entrepreneurs]
       operationId: getEntrepreneurEnterprises
-      security:
-        - JwtBearerAuth: []
+      security: []
       parameters:
         - name: entrepreneurId
           in: path
@@ -388,8 +413,6 @@ paths:
                 $ref: "#/components/schemas/GetEntrepreneurEnterprisesResponse"
         "400":
           $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
         "500":
           $ref: "#/components/responses/InternalServerError"
   /enterprise-employee/me:
@@ -409,6 +432,8 @@ paths:
           $ref: "#/components/responses/BadRequest"
         "401":
           $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
         "500":
           $ref: "#/components/responses/InternalServerError"
   /enterprises:
@@ -434,6 +459,8 @@ paths:
           $ref: "#/components/responses/BadRequest"
         "401":
           $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
         "500":
           $ref: "#/components/responses/InternalServerError"
   /enterprises/{enterpriseId}:
@@ -497,6 +524,8 @@ paths:
           $ref: "#/components/responses/BadRequest"
         "401":
           $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
         "500":
           $ref: "#/components/responses/InternalServerError"
   /enterprises/{enterpriseId}/employees:
@@ -528,5 +557,9 @@ paths:
                 "$ref": "#/components/schemas/CreateEnterpriseEmployeeResponse"
         "400":
           $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
         "500":
           $ref: "#/components/responses/InternalServerError"
