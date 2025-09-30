@@ -3,21 +3,22 @@ import { useNavigate } from "react-router";
 import { FullSpaceCenter } from "../../common/FullSpaceCenter";
 import { StandardButton } from "../../common/StandardButton";
 import { TextWithColoredSegment } from "../../common/TextWithColoredSegment";
-import { routes } from "../../router/routes";
+import { toastError } from "../../utils/toast";
 
-export const MainPageCustomerPanel = () => {
+export const MainPageEntrepreneurPanel = () => {
     const navigate = useNavigate();
 
     const onClick = () => {
-        navigate(routes.entrepreneurSingUpOrLogIn)
+        // navigate(routes.entrepreneurLogIn)
+        toastError("Not implemented yet");
     }
 
     return <FullSpaceCenter>
         <Flex direction="vertical">
             <TextWithColoredSegment
                 textBeforeSegment="Log in as "
-                segmentText="customer"
-                segmentColor="primary.gold"
+                segmentText="entrepreneur"
+                segmentColor="primary.purple"
                 segmentWeight="bold"
                 fontSize="xxl"
             />

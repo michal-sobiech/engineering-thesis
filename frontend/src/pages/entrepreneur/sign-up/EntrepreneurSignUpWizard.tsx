@@ -1,6 +1,6 @@
 import { ResultAsync } from "neverthrow";
 import { entrepreneursApi } from "../../../api/entrepreneurs-api";
-import { SignUpWizard } from "../../../common/sign_up/wizard/SignUpWizard";
+import { SignUpWizard } from "../../../common/sign-up-page/wizard/SignUpWizard";
 import { CreateIndependentEndUserRequest } from "../../../GENERATED-api";
 import { routes } from "../../../router/routes";
 import { errorErrResultAsyncFromPromise } from "../../../utils/result";

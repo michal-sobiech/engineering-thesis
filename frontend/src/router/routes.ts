@@ -5,6 +5,7 @@ export const routes = {
     mainPage: routeTemplates.mainPage,
     customerSignUp: routeTemplates.customerSignUp,
     customerLogIn: routeTemplates.customerLogIn,
+    entrepreneurSingUpOrLogIn: routeTemplates.entrepreneurSingUpOrLogIn,
     entrepreneurSignUp: routeTemplates.entrepreneurSignUp,
     entrepreneurLogIn: routeTemplates.entrepreneurLogIn,
     entrepreneurLandingPage: routeTemplates.entrepreneurLandingPage,

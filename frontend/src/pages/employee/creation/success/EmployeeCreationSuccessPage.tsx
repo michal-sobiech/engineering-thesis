@@ -1,6 +1,6 @@
 import { Box, Center } from "@chakra-ui/react";
 import { useNavigate } from "react-router";
-import Message from "../../../../common/sign_up/sign_up_success/SignUpSuccessMessage";
+import Message from "../../../../common/sign-up-page/sign_up_success/SignUpSuccessMessage";
 import { StandardButton } from "../../../../common/StandardButton";
 import { StanadardPanel } from "../../../../common/StandardPanel";
 import { useIntParam } from "../../../../hooks/useIntParam";

@@ -1,5 +1,6 @@
 import { Box, Flex } from "@chakra-ui/react";
 import { MainPageCustomerPanel } from "./MainPageCustomerPanel";
+import { MainPageEntrepreneurPanel } from "./MainPageEntrepreneurPanel";
 import { MainPageSeparator } from "./MainPageSeparator";
 
 export const MainPage = () => {
@@ -9,7 +10,7 @@ export const MainPage = () => {
         </Box>
         <MainPageSeparator />
         <Box flex={1}>
-            <MainPageCustomerPanel />
+            <MainPageEntrepreneurPanel />
         </Box>
     </Flex>
 }
