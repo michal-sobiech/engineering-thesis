@@ -34,7 +34,7 @@ public class AuthController implements AuthApi {
                 logInEnterpriseEmployeeRequest.getPassword());
 
         UserIdAuthentication authentication = employeeAuthenticationProvider.authenticate(token);
-        String userIdAsString = String.valueOf(authentication.getPrincipal().getUserId());
+        String userIdAsString = String.valueOf(authentication.getPrincipal());
         String jwt = jwtCreationService.generateTokenNow(userIdAsString);
 
         var responseBody = new LogInEnterpriseEmployeeResponse(jwt);
@@ -50,7 +50,7 @@ public class AuthController implements AuthApi {
 
         UserIdAuthentication authentication = independentEndUserAuthenticationProvider.authenticate(token);
 
-        String userIdAsString = String.valueOf(authentication.getPrincipal().getUserId());
+        String userIdAsString = String.valueOf(authentication.getPrincipal());
         String jwt = jwtCreationService.generateTokenNow(userIdAsString);
 
         var responseBody = new LogInIndependentEndUserResponse(jwt);
