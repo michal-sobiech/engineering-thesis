@@ -1,18 +1,18 @@
 import { ResultAsync } from "neverthrow";
 import { useNavigate } from "react-router";
-import { authApi } from "../../../api/auth-api";
-import { Auth } from "../../../auth/Auth";
-import { authCell } from "../../../auth/AuthProvider";
-import { createAuth, setJwtTokenInLocalStorage } from "../../../auth/storage";
-import { StandardButton } from "../../../common/StandardButton";
-import { routes } from "../../../router/routes";
-import { errorErrResultAsyncFromPromise } from "../../../utils/result";
-import { toastError } from "../../../utils/toast";
-import { useContextOrThrow } from "../../../utils/useContextOrThrow";
-import { logInContext } from "../LogInContext";
+import { authApi } from "../../api/auth-api";
+import { Auth } from "../../auth/Auth";
+import { authCell } from "../../auth/AuthProvider";
+import { createAuth, setJwtTokenInLocalStorage } from "../../auth/storage";
+import { routes } from "../../router/routes";
+import { errorErrResultAsyncFromPromise } from "../../utils/result";
+import { toastError } from "../../utils/toast";
+import { useContextOrThrow } from "../../utils/useContextOrThrow";
+import { StandardButton } from "../StandardButton";
+import { logInContext } from "./LogInContext";
 
 export const LogInButton = () => {
-    const { email, password } = useContextOrThrow(logInContext);
+    const { email, password, landingPageUrl } = useContextOrThrow(logInContext);
     const navigate = useNavigate();
 
     function logIn(email: string, password: string): ResultAsync<Auth | null, Error> {

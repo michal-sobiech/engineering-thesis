@@ -3,14 +3,13 @@ import { useNavigate } from "react-router";
 import { FullSpaceCenter } from "../../common/FullSpaceCenter";
 import { StandardButton } from "../../common/StandardButton";
 import { TextWithColoredSegment } from "../../common/TextWithColoredSegment";
-import { toastError } from "../../utils/toast";
+import { routes } from "../../router/routes";
 
 export const MainPageEntrepreneurPanel = () => {
     const navigate = useNavigate();
 
     const onClick = () => {
-        // navigate(routes.entrepreneurLogIn)
-        toastError("Not implemented yet");
+        navigate(routes.entrepreneurSingUpOrLogIn)
     }
 
     return <FullSpaceCenter>

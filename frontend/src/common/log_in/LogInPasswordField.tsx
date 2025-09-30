@@ -1,5 +1,5 @@
 import { Flex, Input } from "@chakra-ui/react";
-import { TextFieldProps } from "../../../common/TextFieldProps";
+import { TextFieldProps } from "../TextFieldProps";
 
 export const LogInPasswordField = ({ text, setText }: TextFieldProps) => {
 
