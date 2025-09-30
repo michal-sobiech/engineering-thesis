@@ -11,29 +11,27 @@ import pl.michal_sobiech.engineering_thesis.user.auth_principal.AuthPrincipal;
 public class UserIdAuthentication extends AbstractAuthenticationToken {
 
     private final AuthPrincipal principal;
-    private final String jwt;
 
     @Override
     public AuthPrincipal getPrincipal() {
         return this.principal;
     }
 
-    public UserIdAuthentication(AuthPrincipal principal, String jwt,
-            Collection<? extends GrantedAuthority> authorities) {
-        super(authorities);
-        this.principal = principal;
-        this.jwt = jwt;
-    }
-
-    public UserIdAuthentication(AuthPrincipal principal, String jwt) {
+    public UserIdAuthentication(AuthPrincipal principal) {
         super(new ArrayList<>());
         this.principal = principal;
-        this.jwt = jwt;
+        setAuthenticated(true);
+    }
+
+    public UserIdAuthentication(AuthPrincipal principal, Collection<? extends GrantedAuthority> authorities) {
+        super(authorities);
+        this.principal = principal;
+        setAuthenticated(true);
     }
 
     @Override
-    public String getCredentials() {
-        return this.jwt;
+    public NoCredentials getCredentials() {
+        return new NoCredentials();
     }
 
 }

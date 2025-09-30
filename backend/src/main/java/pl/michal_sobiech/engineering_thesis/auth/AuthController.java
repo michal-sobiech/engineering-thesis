@@ -7,13 +7,13 @@ import org.SwaggerCodeGenExample.model.LogInIndependentEndUserRequest;
 import org.SwaggerCodeGenExample.model.LogInIndependentEndUserResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.jwt.JwtCreationService;
 import pl.michal_sobiech.engineering_thesis.scope_username_password_authentication.EnterpriseIdUsernamePasswordAuthentication;
 import pl.michal_sobiech.engineering_thesis.security.authentication.employee.EmployeeAuthenticationProvider;
+import pl.michal_sobiech.engineering_thesis.security.authentication.independent_end_user.IndependentEndUserAuthenticationProvider;
 import pl.michal_sobiech.engineering_thesis.user.UserIdAuthentication;
 
 @RestController
@@ -21,7 +21,8 @@ import pl.michal_sobiech.engineering_thesis.user.UserIdAuthentication;
 public class AuthController implements AuthApi {
 
     private final EmployeeAuthenticationProvider employeeAuthenticationProvider;
-    private final private final JwtCreationService jwtCreationService;
+    private final IndependentEndUserAuthenticationProvider independentEndUserAuthenticationProvider;
+    private final JwtCreationService jwtCreationService;
 
     @Override
     public ResponseEntity<LogInEnterpriseEmployeeResponse> logInEnterpriseEmployee(
@@ -32,13 +33,8 @@ public class AuthController implements AuthApi {
                 logInEnterpriseEmployeeRequest.getUsername(),
                 logInEnterpriseEmployeeRequest.getPassword());
 
-        Authentication authentication = userIdAuthenticationProvider.authenticate(token);
-        if (!(authentication instanceof UserIdAuthentication userIdAuthentication)) {
-            String message = "Authentication instance is not an instance of UserIdAuthentication";
-            throw new IllegalStateException(message);
-        }
-
-        String userIdAsString = String.valueOf(userIdAuthentication.getPrincipal().getUserId());
+        UserIdAuthentication authentication = employeeAuthenticationProvider.authenticate(token);
+        String userIdAsString = String.valueOf(authentication.getPrincipal().getUserId());
         String jwt = jwtCreationService.generateTokenNow(userIdAsString);
 
         var responseBody = new LogInEnterpriseEmployeeResponse(jwt);
@@ -52,13 +48,9 @@ public class AuthController implements AuthApi {
                 logInIndependentEndUserRequest.getEmail(),
                 logInIndependentEndUserRequest.getPassword());
 
-        Authentication authentication = authenticationManager.authenticate(token);
-        if (!(authentication instanceof UserIdAuthentication userIdAuthentication)) {
-            String message = "Authentication instance is not an instance of UserIdAuthentication";
-            throw new IllegalStateException(message);
-        }
+        UserIdAuthentication authentication = independentEndUserAuthenticationProvider.authenticate(token);
 
-        String userIdAsString = String.valueOf(userIdAuthentication.getPrincipal().getUserId());
+        String userIdAsString = String.valueOf(authentication.getPrincipal().getUserId());
         String jwt = jwtCreationService.generateTokenNow(userIdAsString);
 
         var responseBody = new LogInIndependentEndUserResponse(jwt);

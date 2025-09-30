@@ -57,9 +57,7 @@ public class IndependentEndUserAuthenticationProvider implements AuthenticationP
                     userId,
                     independentEndUserId,
                     entrepreneurId.get());
-            // TODO
-            String jwt = "...";
-            return new UserIdAuthentication(principal, originalPasswordHash);
+            return new UserIdAuthentication(principal);
         }
 
         Optional<Long> customerId = customerService.findCustomerIdByIndependentEndUserId(independentEndUserId);
@@ -68,9 +66,7 @@ public class IndependentEndUserAuthenticationProvider implements AuthenticationP
                     userId,
                     independentEndUserId,
                     customerId.get());
-            // TODO
-            String jwt = "...";
-            return new UserIdAuthentication(principal, originalPasswordHash);
+            return new UserIdAuthentication(principal);
         }
 
         throw new RuntimeException("Independent end user is neither an entrepreneur, nor customer");
