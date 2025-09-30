@@ -1,4 +1,4 @@
-import { JwtToken } from "../utils/jwt";
+import { JwtToken } from "../jwt/jwt";
 import { Role } from "./Role";
 
 export interface EntrepreneurAuth {

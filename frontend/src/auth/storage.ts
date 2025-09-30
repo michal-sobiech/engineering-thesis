@@ -1,12 +1,12 @@
 import { err, ok, Result, ResultAsync } from "neverthrow";
-import { noAutoAuthMeApi } from "../api/no-Auto-auth-me-api";
-import { GetMeResponseEnterpreneur } from "../GENERATED-api";
-import { defaultDecodeJwtPayload, JwtToken } from "../utils/jwt";
-import { JwtPayload } from "../utils/JwtPayload";
+import { EntrepreneurGetMeResponse } from "../GENERATED-api";
+import { defaultDecodeJwtPayload, JwtToken } from "../jwt/jwt";
+import { JwtPayload } from "../jwt/JwtPayload";
 import { defaultStringErrResultAsyncFromPromise, promiseResultToAsyncResult } from "../utils/result";
 import { Auth } from "./Auth";
 import { EntrepreneurAuth } from "./EntrepreneurAuth";
 import { Role } from "./Role";
+import { entrepreneursApi } from "../api/entrepreneurs-api";
 
 const localStorageKeys = {
     JWT_TOKEN: "jwtToken",
@@ -52,13 +52,13 @@ export function removeJwtTokenFromLocalStorage(): void {
     localStorage.removeItem(localStorageKeys.JWT_TOKEN)
 }
 
-function fetchMe(jwtToken: JwtToken): ResultAsync<GetMeResponseEnterpreneur, string> {
+function fetchMe(jwtToken: JwtToken): ResultAsync<EntrepreneurGetMeResponse, string> {
     const initOverrides = {
         headers: {
             Authorization: `Bearer ${jwtToken}`
         }
     };
-    const promise = noAutoAuthMeApi.getMe(initOverrides);
+    const promise = .getMe(initOverrides);
     return defaultStringErrResultAsyncFromPromise(promise);
 }
 

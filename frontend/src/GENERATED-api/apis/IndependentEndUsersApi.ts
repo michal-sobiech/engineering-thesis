@@ -17,21 +17,21 @@ import * as runtime from '../runtime';
 import type {
   CheckIndependentEndUserEmailExists200Response,
   CreateIndependentEndUserRequest,
-  CreateIndependentEndUserResponse,
   InlineObject1,
-  InlineObject2,
+  InlineObject3,
+  InlineObject4,
 } from '../models/index';
 import {
     CheckIndependentEndUserEmailExists200ResponseFromJSON,
     CheckIndependentEndUserEmailExists200ResponseToJSON,
     CreateIndependentEndUserRequestFromJSON,
     CreateIndependentEndUserRequestToJSON,
-    CreateIndependentEndUserResponseFromJSON,
-    CreateIndependentEndUserResponseToJSON,
     InlineObject1FromJSON,
     InlineObject1ToJSON,
-    InlineObject2FromJSON,
-    InlineObject2ToJSON,
+    InlineObject3FromJSON,
+    InlineObject3ToJSON,
+    InlineObject4FromJSON,
+    InlineObject4ToJSON,
 } from '../models/index';
 
 export interface CheckIndependentEndUserEmailExistsRequest {
@@ -66,7 +66,7 @@ export class IndependentEndUsersApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
 
-        let urlPath = `/indpendents-end-users/exists`;
+        let urlPath = `/independent-end-users/exists`;
 
         const response = await this.request({
             path: urlPath,
@@ -88,7 +88,7 @@ export class IndependentEndUsersApi extends runtime.BaseAPI {
     /**
      * Create an independent end user
      */
-    async createIndependentEndUserRaw(requestParameters: CreateIndependentEndUserOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CreateIndependentEndUserResponse>> {
+    async createIndependentEndUserRaw(requestParameters: CreateIndependentEndUserOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters['createIndependentEndUserRequest'] == null) {
             throw new runtime.RequiredError(
                 'createIndependentEndUserRequest',
@@ -113,15 +113,14 @@ export class IndependentEndUsersApi extends runtime.BaseAPI {
             body: CreateIndependentEndUserRequestToJSON(requestParameters['createIndependentEndUserRequest']),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => CreateIndependentEndUserResponseFromJSON(jsonValue));
+        return new runtime.VoidApiResponse(response);
     }
 
     /**
      * Create an independent end user
      */
-    async createIndependentEndUser(createIndependentEndUserRequest: CreateIndependentEndUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CreateIndependentEndUserResponse> {
-        const response = await this.createIndependentEndUserRaw({ createIndependentEndUserRequest: createIndependentEndUserRequest }, initOverrides);
-        return await response.value();
+    async createIndependentEndUser(createIndependentEndUserRequest: CreateIndependentEndUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.createIndependentEndUserRaw({ createIndependentEndUserRequest: createIndependentEndUserRequest }, initOverrides);
     }
 
 }

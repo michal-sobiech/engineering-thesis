@@ -16,19 +16,16 @@
 import * as runtime from '../runtime';
 import type {
   GetEntrepreneurEnterprisesResponseItem,
-  InlineObject,
   InlineObject1,
-  InlineObject2,
+  InlineObject4,
 } from '../models/index';
 import {
     GetEntrepreneurEnterprisesResponseItemFromJSON,
     GetEntrepreneurEnterprisesResponseItemToJSON,
-    InlineObjectFromJSON,
-    InlineObjectToJSON,
     InlineObject1FromJSON,
     InlineObject1ToJSON,
-    InlineObject2FromJSON,
-    InlineObject2ToJSON,
+    InlineObject4FromJSON,
+    InlineObject4ToJSON,
 } from '../models/index';
 
 export interface GetEntrepreneurEnterprisesRequest {
@@ -54,14 +51,6 @@ export class EntrepreneursApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("JwtBearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
 
         let urlPath = `/entrepreneurs/{entrepreneurId}/enterprises`;
         urlPath = urlPath.replace(`{${"entrepreneurId"}}`, encodeURIComponent(String(requestParameters['entrepreneurId'])));

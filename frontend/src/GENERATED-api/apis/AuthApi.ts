@@ -16,7 +16,7 @@
 import * as runtime from '../runtime';
 import type {
   InlineObject1,
-  InlineObject2,
+  InlineObject4,
   LogInEnterpriseEmployeeRequest,
   LogInEnterpriseEmployeeResponse,
   LogInIndependentEndUserRequest,
@@ -25,8 +25,8 @@ import type {
 import {
     InlineObject1FromJSON,
     InlineObject1ToJSON,
-    InlineObject2FromJSON,
-    InlineObject2ToJSON,
+    InlineObject4FromJSON,
+    InlineObject4ToJSON,
     LogInEnterpriseEmployeeRequestFromJSON,
     LogInEnterpriseEmployeeRequestToJSON,
     LogInEnterpriseEmployeeResponseFromJSON,

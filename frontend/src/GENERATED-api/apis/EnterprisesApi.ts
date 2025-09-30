@@ -21,6 +21,7 @@ import type {
   InlineObject,
   InlineObject1,
   InlineObject2,
+  InlineObject4,
 } from '../models/index';
 import {
     CreateEnterpriseRequestFromJSON,
@@ -35,6 +36,8 @@ import {
     InlineObject1ToJSON,
     InlineObject2FromJSON,
     InlineObject2ToJSON,
+    InlineObject4FromJSON,
+    InlineObject4ToJSON,
 } from '../models/index';
 
 export interface CreateEnterpriseOperationRequest {
@@ -75,7 +78,7 @@ export class EnterprisesApi extends runtime.BaseAPI {
             }
         }
 
-        let urlPath = `/entreprises`;
+        let urlPath = `/enterprises`;
 
         const response = await this.request({
             path: urlPath,

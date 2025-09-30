@@ -3,7 +3,6 @@ apis/EnterpriseEmployeesApi.ts
 apis/EnterprisesApi.ts
 apis/EntrepreneursApi.ts
 apis/IndependentEndUsersApi.ts
-apis/MeApi.ts
 apis/index.ts
 index.ts
 models/CheckIndependentEndUserEmailExists200Response.ts
@@ -13,14 +12,15 @@ models/CreateEnterpriseEmployeeResponseUser.ts
 models/CreateEnterpriseRequest.ts
 models/CreateEnterpriseResponse.ts
 models/CreateIndependentEndUserRequest.ts
-models/CreateIndependentEndUserResponse.ts
-models/CreateIndependentEndUserResponseUser.ts
+models/EmployeeGetMeResponse.ts
+models/EntrepreneurGetMeResponse.ts
 models/GetEnterpriseResponse.ts
 models/GetEntrepreneurEnterprisesResponseItem.ts
-models/GetMeResponseEnterpreneur.ts
 models/InlineObject.ts
 models/InlineObject1.ts
 models/InlineObject2.ts
+models/InlineObject3.ts
+models/InlineObject4.ts
 models/LogInEnterpriseEmployeeRequest.ts
 models/LogInEnterpriseEmployeeResponse.ts
 models/LogInIndependentEndUserRequest.ts

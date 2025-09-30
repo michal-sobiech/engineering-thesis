@@ -18,9 +18,11 @@ import type {
   CheckIndependentEndUserEmailExists200Response,
   CreateEnterpriseEmployeeRequest,
   CreateEnterpriseEmployeeResponse,
+  EmployeeGetMeResponse,
   InlineObject,
   InlineObject1,
   InlineObject2,
+  InlineObject4,
 } from '../models/index';
 import {
     CheckIndependentEndUserEmailExists200ResponseFromJSON,
@@ -29,12 +31,16 @@ import {
     CreateEnterpriseEmployeeRequestToJSON,
     CreateEnterpriseEmployeeResponseFromJSON,
     CreateEnterpriseEmployeeResponseToJSON,
+    EmployeeGetMeResponseFromJSON,
+    EmployeeGetMeResponseToJSON,
     InlineObjectFromJSON,
     InlineObjectToJSON,
     InlineObject1FromJSON,
     InlineObject1ToJSON,
     InlineObject2FromJSON,
     InlineObject2ToJSON,
+    InlineObject4FromJSON,
+    InlineObject4ToJSON,
 } from '../models/index';
 
 export interface CheckEmployeeUsernameExistsRequest {
@@ -158,6 +164,41 @@ export class EnterpriseEmployeesApi extends runtime.BaseAPI {
      */
     async createEnterpriseEmployee(enterpriseId: number, createEnterpriseEmployeeRequest: CreateEnterpriseEmployeeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CreateEnterpriseEmployeeResponse> {
         const response = await this.createEnterpriseEmployeeRaw({ enterpriseId: enterpriseId, createEnterpriseEmployeeRequest: createEnterpriseEmployeeRequest }, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async getMeRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<EmployeeGetMeResponse>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("JwtBearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/enterprise-employee/me`;
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => EmployeeGetMeResponseFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async getMe(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<EmployeeGetMeResponse> {
+        const response = await this.getMeRaw(initOverrides);
         return await response.value();
     }
 
