@@ -15,6 +15,7 @@ public class IndependentEndUserController implements IndependentEndUsersApi {
 
     private final IndependentEndUserService independentEndUserService;
 
+    // TODO should this endpoint even exist?
     @Override
     public ResponseEntity<Void> createIndependentEndUser(
             CreateIndependentEndUserRequest createIndependentEndUserRequest) {

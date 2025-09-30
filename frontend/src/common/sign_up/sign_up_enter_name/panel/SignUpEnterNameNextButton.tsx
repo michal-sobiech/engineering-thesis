@@ -1,7 +1,7 @@
 import { toast } from "react-toastify";
-import { StandardButton } from "../../../../common/StandardButton";
 import { toastError } from "../../../../utils/toast";
 import { useContextOrThrow } from "../../../../utils/useContextOrThrow";
+import { StandardButton } from "../../../StandardButton";
 import { signUpWizardContext } from "../../wizard/SignUpWizardContext";
 
 export const SignUpEnterNameNextButton = () => {

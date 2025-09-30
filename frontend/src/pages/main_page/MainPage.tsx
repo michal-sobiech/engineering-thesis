@@ -9,8 +9,7 @@ export const MainPage = () => {
         </Box>
         <MainPageSeparator />
         <Box flex={1}>
-            {/* <MainPageCustomerPanel /> */}
-            BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBb
+            <MainPageCustomerPanel />
         </Box>
     </Flex>
 }

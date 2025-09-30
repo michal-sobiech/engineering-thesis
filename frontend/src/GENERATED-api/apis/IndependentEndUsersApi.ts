@@ -16,30 +16,20 @@
 import * as runtime from '../runtime';
 import type {
   CheckIndependentEndUserEmailExists200Response,
-  CreateIndependentEndUserRequest,
   InlineObject1,
-  InlineObject3,
   InlineObject4,
 } from '../models/index';
 import {
     CheckIndependentEndUserEmailExists200ResponseFromJSON,
     CheckIndependentEndUserEmailExists200ResponseToJSON,
-    CreateIndependentEndUserRequestFromJSON,
-    CreateIndependentEndUserRequestToJSON,
     InlineObject1FromJSON,
     InlineObject1ToJSON,
-    InlineObject3FromJSON,
-    InlineObject3ToJSON,
     InlineObject4FromJSON,
     InlineObject4ToJSON,
 } from '../models/index';
 
 export interface CheckIndependentEndUserEmailExistsRequest {
     email: string;
-}
-
-export interface CreateIndependentEndUserOperationRequest {
-    createIndependentEndUserRequest: CreateIndependentEndUserRequest;
 }
 
 /**
@@ -83,44 +73,6 @@ export class IndependentEndUsersApi extends runtime.BaseAPI {
     async checkIndependentEndUserEmailExists(email: string, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CheckIndependentEndUserEmailExists200Response> {
         const response = await this.checkIndependentEndUserEmailExistsRaw({ email: email }, initOverrides);
         return await response.value();
-    }
-
-    /**
-     * Create an independent end user
-     */
-    async createIndependentEndUserRaw(requestParameters: CreateIndependentEndUserOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters['createIndependentEndUserRequest'] == null) {
-            throw new runtime.RequiredError(
-                'createIndependentEndUserRequest',
-                'Required parameter "createIndependentEndUserRequest" was null or undefined when calling createIndependentEndUser().'
-            );
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-
-        let urlPath = `/independent-end-users`;
-
-        const response = await this.request({
-            path: urlPath,
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-            body: CreateIndependentEndUserRequestToJSON(requestParameters['createIndependentEndUserRequest']),
-        }, initOverrides);
-
-        return new runtime.VoidApiResponse(response);
-    }
-
-    /**
-     * Create an independent end user
-     */
-    async createIndependentEndUser(createIndependentEndUserRequest: CreateIndependentEndUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.createIndependentEndUserRaw({ createIndependentEndUserRequest: createIndependentEndUserRequest }, initOverrides);
     }
 
 }

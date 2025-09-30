@@ -3,11 +3,11 @@ import { err, ok, Result, ResultAsync } from "neverthrow";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { independentEndUsersApi } from "../../../../api/independent-end-users-api";
-import EmailField from "../../../../common/EmailField";
 import { matchesEmailPattern } from "../../../../utils/email";
 import { defaultStringErrResultAsyncFromPromise } from "../../../../utils/result";
 import { toastError } from "../../../../utils/toast";
 import { useContextOrThrow } from "../../../../utils/useContextOrThrow";
+import EmailField from "../../../EmailField";
 import { signUpWizardContext } from "../../wizard/SignUpWizardContext";
 import { SignUpEnterEmailNextButton } from "./SignUpEnterEmailNextButton";
 

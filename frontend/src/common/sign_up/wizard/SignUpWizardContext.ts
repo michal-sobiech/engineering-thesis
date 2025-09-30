@@ -1,5 +1,7 @@
+import { ResultAsync } from "neverthrow";
 import { createContext } from "react";
-import { VoidCallback } from "../../../common/VoidCallback";
+import { CreateIndependentEndUserRequest } from "../../../GENERATED-api";
+import { VoidCallback } from "../../VoidCallback";
 
 export interface SignUpWizardContextValue {
     incrementStep: VoidCallback<void>,
@@ -11,6 +13,8 @@ export interface SignUpWizardContextValue {
     setLastName: VoidCallback<string>,
     password: string,
     setPassword: VoidCallback<string>,
+    logInPageUrl: string,
+    createUser: (request: CreateIndependentEndUserRequest) => ResultAsync<void, Error>,
 }
 
 export const signUpWizardContext = createContext<SignUpWizardContextValue | null>(null);

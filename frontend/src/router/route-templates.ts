@@ -1,8 +1,9 @@
-// TODO generate this from openapi.yaml?
 export const routeTemplates = {
     mainPage: "/",
-    signUp: "/sign-up",
-    logIn: "/log-in",
+    customerSignUp: "/customers/sign-up",
+    customerLogIn: "/customers/log-in",
+    entrepreneurSignUp: "/entrepreneurs/sign-up",
+    entrepreneurLogIn: "/entrepreneurs/log-in",
     entrepreneurLandingPage: "/entrepreneur-landing-page",
     createEnterprise: "/create-enterprise",
     enterprise: "/enterprises/:enterpriseId",

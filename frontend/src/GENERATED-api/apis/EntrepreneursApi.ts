@@ -15,14 +15,18 @@
 
 import * as runtime from '../runtime';
 import type {
+  CreateIndependentEndUserRequest,
   EntrepreneurGetMeResponse,
   GetEntrepreneurEnterprisesResponseItem,
   InlineObject,
   InlineObject1,
   InlineObject2,
+  InlineObject3,
   InlineObject4,
 } from '../models/index';
 import {
+    CreateIndependentEndUserRequestFromJSON,
+    CreateIndependentEndUserRequestToJSON,
     EntrepreneurGetMeResponseFromJSON,
     EntrepreneurGetMeResponseToJSON,
     GetEntrepreneurEnterprisesResponseItemFromJSON,
@@ -33,9 +37,15 @@ import {
     InlineObject1ToJSON,
     InlineObject2FromJSON,
     InlineObject2ToJSON,
+    InlineObject3FromJSON,
+    InlineObject3ToJSON,
     InlineObject4FromJSON,
     InlineObject4ToJSON,
 } from '../models/index';
+
+export interface CreateEntrepreneurRequest {
+    createIndependentEndUserRequest: CreateIndependentEndUserRequest;
+}
 
 export interface GetEntrepreneurEnterprisesRequest {
     entrepreneurId: number;
@@ -45,6 +55,44 @@ export interface GetEntrepreneurEnterprisesRequest {
  * 
  */
 export class EntrepreneursApi extends runtime.BaseAPI {
+
+    /**
+     * Create an entrepreneur
+     */
+    async createEntrepreneurRaw(requestParameters: CreateEntrepreneurRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['createIndependentEndUserRequest'] == null) {
+            throw new runtime.RequiredError(
+                'createIndependentEndUserRequest',
+                'Required parameter "createIndependentEndUserRequest" was null or undefined when calling createEntrepreneur().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+
+        let urlPath = `/entrepreneurs`;
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: CreateIndependentEndUserRequestToJSON(requestParameters['createIndependentEndUserRequest']),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * Create an entrepreneur
+     */
+    async createEntrepreneur(createIndependentEndUserRequest: CreateIndependentEndUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.createEntrepreneurRaw({ createIndependentEndUserRequest: createIndependentEndUserRequest }, initOverrides);
+    }
 
     /**
      */

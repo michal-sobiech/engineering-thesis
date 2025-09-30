@@ -1,5 +1,5 @@
 import { Box, Center } from "@chakra-ui/react";
-import { VoidCallback } from "../../../common/VoidCallback";
+import { VoidCallback } from "../../VoidCallback";
 import { SignUpEnterEmailPanel } from "./panel/SignUpEnterEmailPanel";
 
 export interface SignUpEnterEmailPageProps {

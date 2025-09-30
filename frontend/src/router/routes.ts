@@ -3,8 +3,10 @@ import { routeTemplates } from "./route-templates";
 
 export const routes = {
     mainPage: routeTemplates.mainPage,
-    signUp: routeTemplates.signUp,
-    logIn: routeTemplates.logIn,
+    customerSignUp: routeTemplates.customerSignUp,
+    customerLogIn: routeTemplates.customerLogIn,
+    entrepreneurSignUp: routeTemplates.entrepreneurSignUp,
+    entrepreneurLogIn: routeTemplates.entrepreneurLogIn,
     entrepreneurLandingPage: routeTemplates.entrepreneurLandingPage,
     createEnterprise: routeTemplates.createEnterprise,
     enterprise: (enterpriseId: number) => generatePath(routeTemplates.enterprise, { enterpriseId }),

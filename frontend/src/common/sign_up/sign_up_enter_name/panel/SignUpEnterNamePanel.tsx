@@ -1,5 +1,5 @@
 import { Text } from "@chakra-ui/react";
-import { StanadardPanel } from "../../../../common/StandardPanel";
+import { StanadardPanel } from "../../../StandardPanel";
 import { SignUpEnterNameNextButton } from "./SignUpEnterNameNextButton";
 import { SignUpFirstNameField } from "./SignUpFirstNameField";
 import SignUpLastNameField from "./SignUpLastNameField";

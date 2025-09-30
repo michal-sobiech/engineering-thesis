@@ -1,11 +1,18 @@
-import { useState } from "react";
+import { ResultAsync } from "neverthrow";
+import { FC, useState } from "react";
+import { CreateIndependentEndUserRequest } from "../../../GENERATED-api";
 import { SignUpEnterEmailPage } from "../sign_up_enter_email/SignUpEnterEmailPage";
 import { SignUpEnterNamePage } from "../sign_up_enter_name/SignUpEnterNamePage";
 import SignUpEnterPasswordPage from "../sign_up_enter_password/SignUpEnterPasswordPage";
 import SignUpSuccessPage from "../sign_up_success/SignUpSuccessPage";
 import { signUpWizardContext } from "./SignUpWizardContext";
 
-export const SignUpWizard = () => {
+export interface SignUpWizardProps {
+    logInPageUrl: string;
+    createUser: (request: CreateIndependentEndUserRequest) => ResultAsync<void, Error>;
+}
+
+export const SignUpWizard: FC<SignUpWizardProps> = ({ logInPageUrl, createUser }) => {
     const [step, setStep] = useState<number>(0);
 
     const [email, setEmail] = useState<string>("");
@@ -20,7 +27,9 @@ export const SignUpWizard = () => {
         email, setEmail,
         firstName, setFirstName,
         lastName, setLastName,
-        password, setPassword
+        password, setPassword,
+        logInPageUrl,
+        createUser,
     };
 
     return (

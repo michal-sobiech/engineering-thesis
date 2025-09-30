@@ -1,5 +1,5 @@
-.openapi-generator-ignore
 apis/AuthApi.ts
+apis/CustomersApi.ts
 apis/EnterpriseEmployeesApi.ts
 apis/EnterprisesApi.ts
 apis/EntrepreneursApi.ts
