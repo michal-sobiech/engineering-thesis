@@ -12,11 +12,14 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.user.UserIdAuthentication;
+import pl.michal_sobiech.engineering_thesis.security.authentication.jwt.JwtAuthentication;
+import pl.michal_sobiech.engineering_thesis.security.authentication.jwt.JwtAuthenticationProvider;
 import pl.michal_sobiech.engineering_thesis.utils.AuthUtils;
 
 @RequiredArgsConstructor
 public class JwtAuthRequestFilter extends OncePerRequestFilter {
+
+    private final JwtAuthenticationProvider jwtAuthenticationProvider;
 
     @Override
     protected void doFilterInternal(
@@ -31,10 +34,8 @@ public class JwtAuthRequestFilter extends OncePerRequestFilter {
         checkUserAlreadyAuthenticated();
         Optional.ofNullable(request.getHeader("Authorization"))
                 .flatMap(this::extractJwtFromHeader)
-                .map(jwtDecoder::decode)
-                .map(claims -> claims.getSubject())
-                .map(this::parseSubjectToInt)
-                .map(this::createAuthentication)
+                .map(JwtAuthentication::new)
+                .map(jwtAuthenticationProvider::authenticate)
                 .ifPresent(this::setAuthentication);
     }
 
@@ -49,11 +50,6 @@ public class JwtAuthRequestFilter extends OncePerRequestFilter {
         return header.startsWith("Bearer ")
                 ? Optional.of(header.substring(7))
                 : Optional.empty();
-    }
-
-    private Authentication createAuthentication(int userId) {
-
-        return new UserIdAuthentication(userId);
     }
 
     private void setAuthentication(Authentication auth) {
