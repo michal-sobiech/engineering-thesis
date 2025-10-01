@@ -6,7 +6,9 @@ import java.util.List;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
+import org.springframework.stereotype.Component;
 
+@Component
 public class NoAuthEndpointsSetupper {
 
     private final List<String> NO_AUTH_ENDPOINTS = new ArrayList<>(List.of());

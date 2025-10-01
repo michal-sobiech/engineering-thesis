@@ -7,9 +7,9 @@ import pl.michal_sobiech.engineering_thesis.secret.Secret;
 @ConfigurationProperties(prefix = "jwt")
 public record JwtProperties(
 
-        Secret<String> secret,
-        int tokenDurationMinutes,
-        String signingAlgorithmType
+                Secret<String> secret,
+                int tokenDurationMinutes,
+                String signingAlgorithmType
 
 ) {
 }

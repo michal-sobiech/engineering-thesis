@@ -3,7 +3,9 @@ package pl.michal_sobiech.engineering_thesis.security.csrf;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CsrfSetupper {
 
     public HttpSecurity setupCsrf(HttpSecurity httpSecurity) {

@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import jakarta.servlet.FilterChain;
@@ -16,6 +17,7 @@ import pl.michal_sobiech.engineering_thesis.security.authentication.jwt.JwtAuthe
 import pl.michal_sobiech.engineering_thesis.security.authentication.jwt.JwtAuthenticationProvider;
 import pl.michal_sobiech.engineering_thesis.utils.AuthUtils;
 
+@Component
 @RequiredArgsConstructor
 public class JwtAuthRequestFilter extends OncePerRequestFilter {
 

@@ -5,6 +5,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.employee.Employee;
@@ -13,6 +14,7 @@ import pl.michal_sobiech.engineering_thesis.scope_username_password_authenticati
 import pl.michal_sobiech.engineering_thesis.scope_username_password_authentication.EnterpriseIdUsernamePasswordAuthentication;
 import pl.michal_sobiech.engineering_thesis.user.UserIdAuthentication;
 
+@Component
 @RequiredArgsConstructor
 public class EmployeeAuthenticationProvider implements AuthenticationProvider {
 

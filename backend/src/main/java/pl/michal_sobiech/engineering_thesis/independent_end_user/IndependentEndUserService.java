@@ -37,12 +37,17 @@ public class IndependentEndUserService {
 
     @Transactional
     public Optional<IndependentEndUser> findByUsername(String username) {
-        return independentEndUserRepository.findByUsername(username);
+        return independentEndUserRepository.findByEmail(username);
     }
 
     @Transactional
     public Optional<IndependentEndUser> findByIndependentEndUserId(long independentEndUserId) {
         return independentEndUserRepository.findById(independentEndUserId);
+    }
+
+    @Transactional
+    public Optional<IndependentEndUser> findByUserId(long userId) {
+        return independentEndUserRepository.findByUserId(userId);
     }
 
 }

@@ -90,7 +90,7 @@ CREATE TABLE public.employee (
 	first_name text NOT NULL,
 	last_name text NOT NULL,
 	username text NOT NULL,
-	passwordhash text NOT NULL,
+	password_hash text NOT NULL,
 	CONSTRAINT employee_pk PRIMARY KEY (employee_id),
 	CONSTRAINT employee_unique UNIQUE (user_id),
 	CONSTRAINT employee_unique_1 UNIQUE (enterprise_id),

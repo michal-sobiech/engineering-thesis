@@ -12,6 +12,6 @@ public interface EntrepreneurRepository extends JpaRepository<Entrepreneur, Long
 
     public Optional<Long> findEntrepreneurIdByIndependentEndUserId(long independentEndUserId);
 
-    public Optional<Entrepreneur> findByUserId(long userId);
+    public Optional<Entrepreneur> findByIndependentEndUserId(long independentEndUserId);
 
 }

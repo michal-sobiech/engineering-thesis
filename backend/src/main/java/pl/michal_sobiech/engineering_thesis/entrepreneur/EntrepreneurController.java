@@ -45,21 +45,21 @@ public class EntrepreneurController implements EntrepreneursApi {
             return HttpUtils.createUnauthorizedResponse();
         }
         UserIdAuthentication authentication = optionalAuthentication.get();
-
         long userId = authentication.getPrincipal();
-        Optional<Entrepreneur> optionalEntrepreneur = entrepreneurService.findByUserId(userId);
+
+        Optional<IndependentEndUser> optionalIndependentEndUser = independentEndUserService.findByUserId(userId);
+        if (optionalIndependentEndUser.isEmpty()) {
+            return HttpUtils.createForbiddenResponse();
+        }
+        IndependentEndUser independentEndUser = optionalIndependentEndUser.get();
+
+        long independentEndUserId = independentEndUser.getIndependentEndUserId();
+        Optional<Entrepreneur> optionalEntrepreneur = entrepreneurService
+                .findByIndependentEndUserId(independentEndUserId);
         if (optionalEntrepreneur.isEmpty()) {
             return HttpUtils.createForbiddenResponse();
         }
         Entrepreneur entrepreneur = optionalEntrepreneur.get();
-
-        long independentEndUserId = entrepreneur.getIndependentEndUserId();
-        Optional<IndependentEndUser> optionalIndependentEndUser = independentEndUserService
-                .findByIndependentEndUserId(independentEndUserId);
-        if (optionalIndependentEndUser.isEmpty()) {
-            return HttpUtils.createInternalServerErrorResponse();
-        }
-        IndependentEndUser independentEndUser = optionalIndependentEndUser.get();
 
         var responseBody = new EntrepreneurGetMeResponse(
                 entrepreneur.getIndependentEndUserId(),

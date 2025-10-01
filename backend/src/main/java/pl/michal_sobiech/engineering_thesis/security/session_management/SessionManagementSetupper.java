@@ -4,7 +4,9 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.SessionManagementConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.stereotype.Component;
 
+@Component
 public class SessionManagementSetupper {
 
     public HttpSecurity setupSessionManagement(HttpSecurity security) {

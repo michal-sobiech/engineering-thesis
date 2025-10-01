@@ -7,7 +7,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IndependentEndUserRepository extends JpaRepository<IndependentEndUser, Long> {
-    public Optional<IndependentEndUser> findByUsername(String username);
+    public Optional<IndependentEndUser> findByEmail(String username);
 
     public boolean existsByEmail(String email);
+
+    public Optional<IndependentEndUser> findByUserId(long userId);
 }

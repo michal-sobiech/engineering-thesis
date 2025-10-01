@@ -5,10 +5,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.user.UserIdAuthentication;
 
+@Component
 @RequiredArgsConstructor
 public class JwtAuthenticationProvider implements AuthenticationProvider {
 

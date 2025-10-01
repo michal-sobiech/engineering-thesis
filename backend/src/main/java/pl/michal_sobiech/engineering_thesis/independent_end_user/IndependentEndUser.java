@@ -12,7 +12,7 @@ import lombok.Data;
 public class IndependentEndUser {
 
     @Id
-    @Column(name = "indpendent_end_user_id")
+    @Column(name = "independent_end_user_id")
     private final long independentEndUserId;
 
     @Column(name = "user_id")

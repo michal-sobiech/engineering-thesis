@@ -47,8 +47,8 @@ public class EntrepreneurService {
     }
 
     @Transactional
-    public Optional<Entrepreneur> findByUserId(long userId) {
-        return entrepreneurRepository.findByUserId(userId);
+    public Optional<Entrepreneur> findByIndependentEndUserId(long independentEndUserId) {
+        return entrepreneurRepository.findByIndependentEndUserId(independentEndUserId);
     }
 
 }

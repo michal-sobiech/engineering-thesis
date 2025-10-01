@@ -48,7 +48,7 @@ public class JwtCreationService {
     private SecureDigestAlgorithm<SecretKey, ?> createAlgorithm(String algorithmType) {
         return switch (algorithmType) {
             case "HS256" -> Jwts.SIG.HS256;
-            default -> throw new IllegalArgumentException("Algoithm not supported: " + algorithmType);
+            default -> throw new IllegalArgumentException("Algorithm not supported: " + algorithmType);
         };
     }
 
