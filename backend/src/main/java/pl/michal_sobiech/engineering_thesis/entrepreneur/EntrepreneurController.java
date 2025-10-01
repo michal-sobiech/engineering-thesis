@@ -38,6 +38,7 @@ public class EntrepreneurController implements EntrepreneursApi {
         return ResponseEntity.ok().build();
     }
 
+    // TODO this returns code 500 unexpectedly
     @Override
     public ResponseEntity<EntrepreneurGetMeResponse> getMeEntrepreneur() {
         Optional<UserIdAuthentication> optionalAuthentication = AuthUtils.getUserIdAuthentication();

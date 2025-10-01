@@ -15,9 +15,9 @@ x-backend-shared-config: &backend_shared_config
     test: ["CMD", "curl", "-f", "http://localhost/health-check"]
     interval: 30s
     timeout: 10s
-    retries: 3
-    start_period: 20s
-    start_interval: 5s
+    retries: 10
+    start_period: 10s
+    start_interval: 3s
   networks:
     - nginx_and_backend
     - backend_and_database
