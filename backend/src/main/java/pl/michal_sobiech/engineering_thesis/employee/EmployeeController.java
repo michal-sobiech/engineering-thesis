@@ -19,7 +19,7 @@ public class EmployeeController implements EnterpriseEmployeeApi {
     private final EmployeeService employeeService;
 
     @Override
-    public ResponseEntity<EmployeeGetMeResponse> getMe() {
+    public ResponseEntity<EmployeeGetMeResponse> getMeEmployee() {
         Optional<UserIdAuthentication> optionalAuthentication = AuthUtils.getUserIdAuthentication();
         if (optionalAuthentication.isEmpty()) {
             return HttpUtils.createUnauthorizedResponse();

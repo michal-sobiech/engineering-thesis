@@ -40,4 +40,9 @@ public class IndependentEndUserService {
         return independentEndUserRepository.findByUsername(username);
     }
 
+    @Transactional
+    public Optional<IndependentEndUser> findByIndependentEndUserId(long independentEndUserId) {
+        return independentEndUserRepository.findById(independentEndUserId);
+    }
+
 }

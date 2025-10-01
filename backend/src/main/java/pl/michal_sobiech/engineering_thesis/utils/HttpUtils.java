@@ -21,4 +21,8 @@ public class HttpUtils {
         return ResponseEntity.status(HttpStatus.CONFLICT).build();
     }
 
+    public static <T> ResponseEntity<T> createInternalServerErrorResponse() {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    }
+
 }
