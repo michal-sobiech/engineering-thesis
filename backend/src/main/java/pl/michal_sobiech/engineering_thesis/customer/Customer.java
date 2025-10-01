@@ -2,7 +2,7 @@ package pl.michal_sobiech.engineering_thesis.customer;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Id;
 import lombok.Builder;
 import lombok.Data;
 
@@ -11,10 +11,11 @@ import lombok.Data;
 @Builder
 public class Customer {
 
+    @Id
     @Column(name = "customer_id")
     private final long customerId;
 
-    @JoinColumn(name = "independent_end_user_id")
+    @Column(name = "independent_end_user_id")
     private final long independentEndUserId;
 
 }

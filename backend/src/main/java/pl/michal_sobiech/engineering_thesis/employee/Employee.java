@@ -1,10 +1,8 @@
 package pl.michal_sobiech.engineering_thesis.employee;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
 import lombok.Builder;
 import lombok.Data;
 
@@ -21,7 +19,6 @@ public class Employee {
     @Column(name = "user_id")
     private final long userId;
 
-    @OneToOne(cascade = CascadeType.ALL)
     @Column(name = "enterprise_id")
     private final long enterpriseId;
 

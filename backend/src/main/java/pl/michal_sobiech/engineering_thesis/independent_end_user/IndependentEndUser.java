@@ -2,6 +2,7 @@ package pl.michal_sobiech.engineering_thesis.independent_end_user;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.Builder;
 import lombok.Data;
 
@@ -10,11 +11,12 @@ import lombok.Data;
 @Builder
 public class IndependentEndUser {
 
-    @Column(name = "user_id")
-    private final long userId;
-
+    @Id
     @Column(name = "indpendent_end_user_id")
     private final long independentEndUserId;
+
+    @Column(name = "user_id")
+    private final long userId;
 
     private final String firstName;
     private final String lastName;
