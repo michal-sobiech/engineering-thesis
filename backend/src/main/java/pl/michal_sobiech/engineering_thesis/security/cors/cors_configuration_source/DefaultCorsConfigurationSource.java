@@ -18,7 +18,8 @@ public class DefaultCorsConfigurationSource implements CorsConfigurationSource {
     public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(properties.getAllowedOrigins());
-        config.setAllowedMethods(List.of("GET", "POST"));
+        config.setAllowedMethods(List.of("GET", "POST", "OPTIONS", "PUT", "PATCH", "DELETE"));
+        config.setAllowedHeaders(List.of("*"));
         return config;
     }
 }

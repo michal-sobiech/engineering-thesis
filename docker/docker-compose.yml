@@ -6,6 +6,7 @@ x-backend-shared-config: &backend_shared_config
     DB_NAME: ${DB_NAME}
     DB_USER: ${DB_BE_USER}
     DB_PASSWORD: ${DB_BE_PASSWORD}
+    FRONTEND_HOST: http://localhost:3000 # TODO put this in .env or somewhere like that
   depends_on:
     database_primary:
       condition: service_healthy
