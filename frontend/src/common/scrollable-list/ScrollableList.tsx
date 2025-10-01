@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import { ListProps } from "@chakra-ui/react/dist/types/components/breadcrumb/namespace";
 import React, { isValidElement, ReactElement } from "react";
 import { Renderable } from "../../utils/Renderable";
@@ -8,11 +8,11 @@ export const ScrollableList: React.FC<ListProps> = ({ children, ...props }) => {
     const childrenArray = React.Children.toArray(children);
     const childrenAndSeparators = addSeparators(childrenArray);
     const childrenAndSeparatorsValidElems = childrenAndSeparators.filter(isValidElement);
-    const childrenAndSeparatorsWithKeys = addKeysAttribute(childrenAndSeparatorsValidElems);
+    const childrenAndSeparatorsWithKeys = addWrapper(childrenAndSeparatorsValidElems);
 
-    return <Box overflowY="auto">
+    return <Flex overflowY="auto" maxHeight="100px" gap="2px" direction="column">
         {childrenAndSeparatorsWithKeys}
-    </Box>;
+    </Flex>;
 }
 
 function addSeparators(elements: Renderable[]): Renderable[] {
@@ -31,9 +31,12 @@ function addSeparators(elements: Renderable[]): Renderable[] {
     return out;
 }
 
-function addKeysAttribute(elements: ReactElement[]): ReactElement[] {
+function addWrapper(elements: ReactElement[]): ReactElement[] {
     return elements.map((element, i) => {
-        element.key = String(i);
-        return element
+        return <Box
+            padding="2px 8px 2px 8px"
+            key={i}>
+            {element}
+        </ Box>;
     });
 }

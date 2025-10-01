@@ -10,23 +10,24 @@ const systemConfig = defineConfig({
                     lightGreen: { value: "#0fd20f" },
                     lightGray: { value: "#bdbdbd" },
                     gold: { value: "#ffe134" },
-                    purple: { value: "#9700e4" }
+                    purple: { value: "#9700e4" },
+                    darkGray: { value: "#2b2727ff" },
                 }
             },
-            fontSizes: {
-                // xs: {
-                //     value: "clamp(12px, 1.5vw + 4px, 14px)"
-                // },
-                xl: {
-                    value: "clamp(16px, 1.5vw, 24px)"
-                }
-            }
+            // fontSizes: {
+            //     // xs: {
+            //     //     value: "clamp(12px, 1.5vw + 4px, 14px)"
+            //     // },
+            //     xl: {
+            //         value: "clamp(16px, 1.5vw, 24px)"
+            //     }
+            // }
         },
-        breakpoints: {
-            base: "0px",
-            sm: "30em",
-            "md": "100em"
-        }
+        // breakpoints: {
+        //     base: "0px",
+        //     sm: "30em",
+        //     "md": "100em"
+        // }
     }
 })
 

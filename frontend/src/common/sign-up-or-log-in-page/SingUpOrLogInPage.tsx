@@ -1,6 +1,5 @@
-import { Text } from "@chakra-ui/react";
+import { Center, Text } from "@chakra-ui/react";
 import { FC } from "react";
-import { FullSpaceCenter } from "../FullSpaceCenter";
 import { StandardButton } from "../StandardButton";
 import { StanadardPanel } from "../StandardPanel";
 
@@ -11,7 +10,7 @@ export interface SignUpOrLogInPageProps {
 }
 
 export const SignUpOrLogInPage: FC<SignUpOrLogInPageProps> = ({ roleLabel, onLogInButtonClick, onSignUpButtonClick }) => {
-    return <FullSpaceCenter>
+    return <Center height="100vh">
         <StanadardPanel>
             <Text fontSize="xxl">{roleLabel}</Text>
             <StandardButton onClick={onLogInButtonClick}>
@@ -21,5 +20,5 @@ export const SignUpOrLogInPage: FC<SignUpOrLogInPageProps> = ({ roleLabel, onLog
                 Sign up
             </StandardButton>
         </StanadardPanel>
-    </FullSpaceCenter>;
+    </Center>;
 }

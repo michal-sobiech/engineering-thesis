@@ -1,29 +1,29 @@
-import { errAsync, okAsync, ResultAsync } from "neverthrow";
+import { err, ok, Result } from "neverthrow";
 import { defaultDecodeJwt } from "../jwt/jwt";
 import { Auth } from "./Auth";
 
 const localStorageKeys = {
-    JWT_TOKEN: "jwtToken",
-}
+    JWT: "jwt",
+};
 
-export function createAuth(jwtToken: string): ResultAsync<Auth, Error> {
-    const jwtPayload = defaultDecodeJwt(jwtToken);
+export function createAuth(jwt: string): Result<Auth, Error> {
+    const jwtPayload = defaultDecodeJwt(jwt);
     if (jwtPayload.isErr()) {
-        return errAsync(jwtPayload.error);
+        return err(jwtPayload.error);
     }
 
-    const auth: Auth = { jwtToken };
-    return okAsync(auth);
+    const auth: Auth = { jwt };
+    return ok(auth);
 }
 
-export function getJwtTokenFromLocalStorage(): string | null {
-    return localStorage.getItem(localStorageKeys.JWT_TOKEN)
+export function getJwtFromLocalStorage(): string | null {
+    return localStorage.getItem(localStorageKeys.JWT);
 }
 
 export function setJwtTokenInLocalStorage(jwtToken: string): void {
-    localStorage.setItem(localStorageKeys.JWT_TOKEN, jwtToken);
+    localStorage.setItem(localStorageKeys.JWT, jwtToken);
 }
 
 export function removeJwtTokenFromLocalStorage(): void {
-    localStorage.removeItem(localStorageKeys.JWT_TOKEN)
+    localStorage.removeItem(localStorageKeys.JWT)
 }

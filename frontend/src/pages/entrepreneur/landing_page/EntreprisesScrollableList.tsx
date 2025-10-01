@@ -1,25 +1,37 @@
 import { Text } from "@chakra-ui/react";
-import { ResultAsync } from "neverthrow";
 import { ReactElement, useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import { entrepreneursApi } from "../../../api/entrepreneurs-api";
 import { ScrollableList } from "../../../common/scrollable-list/ScrollableList";
 import { GetEntrepreneurEnterprisesResponseItem } from "../../../GENERATED-api";
-import { defaultStringErrResultAsyncFromPromise } from "../../../utils/result";
+import { routes } from "../../../router/routes";
+import { errorErrResultAsyncFromPromise } from "../../../utils/result";
 
 export const EnterprisesScrollableList = () => {
+    const navigate = useNavigate();
     const [itemsData, setItemsData] = useState<GetEntrepreneurEnterprisesResponseItem[] | null>(null);
 
     useEffect(() => {
-        // async function fetchAndSetItemsData(): Promise<void> {
-        //     const entrepreneurId = assertDefined(authCell.value)
-        //         .map(auth => auth.entrepreneurId);
-        //     const data = await fromResult(entrepreneurId).andThen(fetchEnterprisesData);
-        //     if (data.isOk()) {
-        //         setItemsData(data.value);
-        //     }
-        // }
+        async function loadData(): Promise<void> {
+            const me = await errorErrResultAsyncFromPromise(entrepreneursApi.getMeEntrepreneur());
+            if (me.isErr()) {
+                navigate(routes.mainPage);
+                return;
+            }
 
-        // withAuth(fetchAndSetItemsData);
+            const entrepreneurId = me.value.entrepreneurId;
+            const enterprises = await errorErrResultAsyncFromPromise(entrepreneursApi.getEntrepreneurEnterprises(entrepreneurId));
+            if (enterprises.isErr()) {
+                navigate(routes.mainPage);
+                return;
+            }
+
+            // setItemsData(enterprises.value);
+            const fakeEnterprises = new Array(50).fill(enterprises.value[0])
+            setItemsData(fakeEnterprises);
+        }
+
+        loadData();
     }, []);
 
     return <ScrollableList>
@@ -27,17 +39,12 @@ export const EnterprisesScrollableList = () => {
     </ScrollableList>;
 }
 
-function fetchEnterprisesData(entrepreneurId: number): ResultAsync<GetEntrepreneurEnterprisesResponseItem[], string> {
-    const promise = entrepreneursApi.getEntrepreneurEnterprises(entrepreneurId);
-    return defaultStringErrResultAsyncFromPromise(promise);
-}
-
 function createItems(data: GetEntrepreneurEnterprisesResponseItem[]): ReactElement[] {
     return data.map(createItem);
 }
 
 function createItem(data: GetEntrepreneurEnterprisesResponseItem): ReactElement {
-    return <Text>
+    return <Text fontSize="xs">
         {data.name}
     </Text>
 }
