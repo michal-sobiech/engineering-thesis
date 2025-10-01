@@ -21,24 +21,24 @@ import { mapValues } from '../runtime';
 export interface GetEntrepreneurEnterprisesResponseItem {
     /**
      * 
-     * @type {string}
-     * @memberof GetEntrepreneurEnterprisesResponseItem
-     */
-    name: string;
-    /**
-     * 
      * @type {number}
      * @memberof GetEntrepreneurEnterprisesResponseItem
      */
-    id: number;
+    enterpriseId: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetEntrepreneurEnterprisesResponseItem
+     */
+    enterpriseName: string;
 }
 
 /**
  * Check if a given object implements the GetEntrepreneurEnterprisesResponseItem interface.
  */
 export function instanceOfGetEntrepreneurEnterprisesResponseItem(value: object): value is GetEntrepreneurEnterprisesResponseItem {
-    if (!('name' in value) || value['name'] === undefined) return false;
-    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('enterpriseId' in value) || value['enterpriseId'] === undefined) return false;
+    if (!('enterpriseName' in value) || value['enterpriseName'] === undefined) return false;
     return true;
 }
 
@@ -52,8 +52,8 @@ export function GetEntrepreneurEnterprisesResponseItemFromJSONTyped(json: any, i
     }
     return {
         
-        'name': json['name'],
-        'id': json['id'],
+        'enterpriseId': json['enterpriseId'],
+        'enterpriseName': json['enterpriseName'],
     };
 }
 
@@ -68,8 +68,8 @@ export function GetEntrepreneurEnterprisesResponseItemToJSONTyped(value?: GetEnt
 
     return {
         
-        'name': value['name'],
-        'id': value['id'],
+        'enterpriseId': value['enterpriseId'],
+        'enterpriseName': value['enterpriseName'],
     };
 }
 

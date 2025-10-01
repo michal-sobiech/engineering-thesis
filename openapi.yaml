@@ -60,16 +60,16 @@ components:
     GetEntrepreneurEnterprisesResponseItem:
       type: object
       required:
-        - name
-        - id
+        - enterpriseId
+        - enterpriseName
       properties:
-        name:
-          type: string
-          example: Hair Beauty Salon
-        id:
+        enterpriseId:
           type: integer
           format: int64
           example: 123
+        enterpriseName:
+          type: string
+          example: Hair Beauty Salon
     GetEntrepreneurEnterprisesResponse:
       type: array
       items:

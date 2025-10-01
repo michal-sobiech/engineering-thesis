@@ -1,7 +1,7 @@
-import { Text } from "@chakra-ui/react";
 import { ReactElement, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { entrepreneursApi } from "../../../api/entrepreneurs-api";
+import { LinkText } from "../../../common/LinkText";
 import { ScrollableList } from "../../../common/scrollable-list/ScrollableList";
 import { GetEntrepreneurEnterprisesResponseItem } from "../../../GENERATED-api";
 import { routes } from "../../../router/routes";
@@ -44,7 +44,12 @@ function createItems(data: GetEntrepreneurEnterprisesResponseItem[]): ReactEleme
 }
 
 function createItem(data: GetEntrepreneurEnterprisesResponseItem): ReactElement {
-    return <Text fontSize="xs">
-        {data.name}
-    </Text>
+    // return <Text fontSize="xs">
+    //     {data.name}
+    // </Text>
+    const url = routes.enterprise(data.enterpriseId)
+
+    return <LinkText url={url} fontSize="xs">
+        {data.enterpriseName}
+    </LinkText>
 }
