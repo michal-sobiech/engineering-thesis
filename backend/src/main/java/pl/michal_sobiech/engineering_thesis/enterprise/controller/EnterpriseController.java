@@ -1,5 +1,7 @@
 package pl.michal_sobiech.engineering_thesis.enterprise.controller;
 
+import java.util.Optional;
+
 import org.SwaggerCodeGenExample.api.EnterprisesApi;
 import org.SwaggerCodeGenExample.model.CheckIndependentEndUserEmailExists200Response;
 import org.SwaggerCodeGenExample.model.CreateEnterpriseEmployeeRequest;
@@ -14,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.employee.EmployeeService;
 import pl.michal_sobiech.engineering_thesis.enterprise.Enterprise;
 import pl.michal_sobiech.engineering_thesis.enterprise.EnterpriseService;
+import pl.michal_sobiech.engineering_thesis.utils.HttpUtils;
 
 @RestController
 @RequiredArgsConstructor
@@ -49,7 +52,11 @@ public class EnterpriseController implements EnterprisesApi {
     @Override
     public ResponseEntity<GetEnterpriseResponse> getEnterprise(Integer enterpriseId) {
 
-        final Enterprise enterprise = enterpriseService.getEnterprise(enterpriseId);
+        final Optional<Enterprise> optionalEnterprise = enterpriseService.findByEnterpriseId(enterpriseId);
+        if (optionalEnterprise.isEmpty()) {
+            return HttpUtils.createNotFoundReponse();
+        }
+        Enterprise enterprise = optionalEnterprise.get();
 
         final var responseBody = new GetEnterpriseResponse(
                 enterprise.getName(),

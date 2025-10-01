@@ -515,6 +515,8 @@ paths:
     get:
       tags: [Enterprises]
       operationId: getEnterprise
+      security:
+        - JwtBearerAuth: []
       parameters:
         - name: enterpriseId
           in: path
