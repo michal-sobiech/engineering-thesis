@@ -3,6 +3,7 @@ apis/CustomersApi.ts
 apis/EnterpriseEmployeesApi.ts
 apis/EnterprisesApi.ts
 apis/EntrepreneursApi.ts
+apis/HealthCheckApi.ts
 apis/IndependentEndUsersApi.ts
 apis/index.ts
 index.ts

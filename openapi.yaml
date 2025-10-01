@@ -299,13 +299,21 @@ components:
                 example: Internal server error
 
 paths:
+  /health-check:
+    get:
+      tags: [HealthCheck]
+      operationId: checkHealth
+      summary: Checks if the server is ready
+      security: []
+      responses:
+        "200":
+          description: *OK_DESCRIPTION
   /entrepreneurs:
     post:
       tags: [Entrepreneurs]
       operationId: createEntrepreneur
       summary: Create an entrepreneur
       security: []
-      parameters: []
       requestBody:
         required: true
         content:
