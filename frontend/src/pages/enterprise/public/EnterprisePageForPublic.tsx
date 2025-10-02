@@ -6,33 +6,43 @@ import { ScrollableList } from "../../../common/scrollable-list/ScrollableList";
 import { StandardBox } from "../../../common/StandardBox";
 import { StandardHorizontalSeparator } from "../../../common/StandardHorizontalSeparator";
 import { StandardPanel } from "../../../common/StandardPanel";
+import { GetEnterpriseServicesResponseItem } from "../../../GENERATED-api";
 import { useIntParam } from "../../../hooks/useIntParam";
-import { routes } from "../../../router/routes";
 import { errorErrResultAsyncFromPromise } from "../../../utils/result";
 
 export const EnterprisePageForPublic = () => {
+    console.log('tttttttt')
+
     const navigate = useNavigate();
     const enterpriseId = useIntParam("enterpriseId");
 
     const [enterpriseName, setEnterpriseName] = useState<string>("");
     const [enterpriseDescription, setEnterpriseDescription] = useState<string>("");
     const [enterpriseLocation, setEnterpriseLocation] = useState<string>("");
+    const [services, setServices] = useState<GetEnterpriseServicesResponseItem[]>([]);
 
     useEffect(() => {
         async function loadEnterpriseData(): Promise<void> {
             const promise = enterprisesApi.getEnterprise(enterpriseId);
             const result = await errorErrResultAsyncFromPromise(promise);
-            if (result.isErr()) {
-                navigate(routes.mainPage)
-                return;
+            if (result.isOk()) {
+                setEnterpriseName(result.value.enterpriseName);
+                setEnterpriseDescription(result.value.description);
+                setEnterpriseLocation(result.value.location);
             }
-
-            setEnterpriseName(result.value.enterpriseName);
-            setEnterpriseDescription(result.value.description);
-            setEnterpriseLocation(result.value.location);
         }
 
+        async function loadServicesData(): Promise<void> {
+            const promise = enterprisesApi.getEnterpriseServices(enterpriseId);
+            const result = await errorErrResultAsyncFromPromise(promise);
+            if (result.isOk()) {
+                setServices(result.value);
+            }
+        }
+
+
         loadEnterpriseData();
+        loadServicesData();
     }, []);
 
     return <Center>
@@ -52,16 +62,16 @@ export const EnterprisePageForPublic = () => {
                                 <Image src="https://picsum.photos/300" />
                             </AspectRatio>
                             <Center flex="1" width="100%">
-                                <Text fontSize="5xl">bbbaaa</Text>
+                                <Text fontSize="5xl">{enterpriseName}</Text>
                             </Center>
                         </Flex>
                         <StandardHorizontalSeparator />
                         <Text>
-                            Lorem ipsum
+                            {enterpriseDescription}
                         </Text>
                         <StandardHorizontalSeparator />
                         <Text>
-                            {"\u{1F4CD}"} Location here
+                            {"\u{1F4CD}"} {enterpriseLocation}
                         </Text>
                         <StandardHorizontalSeparator />
                         <Flex direction="column" gap="5px">
@@ -70,7 +80,7 @@ export const EnterprisePageForPublic = () => {
                             </Text>
                             <StandardBox>
                                 <ScrollableList>
-
+                                    {services.map(createServiceBox)}
                                 </ScrollableList>
                             </StandardBox>
                         </Flex>
@@ -91,4 +101,10 @@ export const EnterprisePageForPublic = () => {
         </Box >
     </Center >;
 
-}   
+}
+
+function createServiceBox(data: GetEnterpriseServicesResponseItem) {
+    return <Box>
+        <Text>{data.serviceName}</Text>
+    </Box>
+}

@@ -11,6 +11,7 @@ export * from './EmployeeGetMeResponse';
 export * from './EntrepreneurGetMeResponse';
 export * from './GetEnterpriseEmployeesResponseItem';
 export * from './GetEnterpriseResponse';
+export * from './GetEnterpriseServicesResponseItem';
 export * from './GetEntrepreneurEnterprisesResponseItem';
 export * from './InlineObject';
 export * from './InlineObject1';

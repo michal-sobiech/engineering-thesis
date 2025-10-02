@@ -246,6 +246,24 @@ components:
           type: string
           format: password
           example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEyMywiaXNzdWVkX2F0IjoxNzU3NTkyMDIyLCJleHBpcmVzX2F0IjoxNzU3NjEzNjIyfQ.R0wpPhA5v-z_NYELi8PLxji0EJFcD75B5_psMb8ZNcc"
+    GetEnterpriseServicesResponseItem:
+      type: object
+      required: []
+      properties:
+        serviceId:
+          type: integer
+          format: int64
+          example: 1234
+        serviceName:
+          type: string
+          example: Basic haircut
+        serviceDescription:
+          type: string
+          example: Male or female basic haircut
+    GetEnterpriseServicesResponse:
+      type: array
+      items:
+        $ref: "#/components/schemas/GetEnterpriseServicesResponseItem"
 
   responses:
     OK:
@@ -665,5 +683,28 @@ paths:
           $ref: "#/components/responses/Unauthorized"
         "403":
           $ref: "#/components/responses/Forbidden"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  /enterprises/{enterpriseId}/services:
+    get:
+      tags: [Enterprises]
+      operationId: getEnterpriseServices
+      summary: Get enterprise employees
+      parameters:
+        - name: enterpriseId
+          in: path
+          required: true
+          description: Enterprise id
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: *OK_DESCRIPTION
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetEnterpriseServicesResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
         "500":
           $ref: "#/components/responses/InternalServerError"

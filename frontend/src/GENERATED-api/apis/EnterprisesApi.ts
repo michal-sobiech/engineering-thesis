@@ -18,6 +18,7 @@ import type {
   CreateEnterpriseRequest,
   CreateEnterpriseResponse,
   GetEnterpriseResponse,
+  GetEnterpriseServicesResponseItem,
   InlineObject,
   InlineObject1,
   InlineObject2,
@@ -30,6 +31,8 @@ import {
     CreateEnterpriseResponseToJSON,
     GetEnterpriseResponseFromJSON,
     GetEnterpriseResponseToJSON,
+    GetEnterpriseServicesResponseItemFromJSON,
+    GetEnterpriseServicesResponseItemToJSON,
     InlineObjectFromJSON,
     InlineObjectToJSON,
     InlineObject1FromJSON,
@@ -45,6 +48,10 @@ export interface CreateEnterpriseOperationRequest {
 }
 
 export interface GetEnterpriseRequest {
+    enterpriseId: number;
+}
+
+export interface GetEnterpriseServicesRequest {
     enterpriseId: number;
 }
 
@@ -138,6 +145,43 @@ export class EnterprisesApi extends runtime.BaseAPI {
      */
     async getEnterprise(enterpriseId: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetEnterpriseResponse> {
         const response = await this.getEnterpriseRaw({ enterpriseId: enterpriseId }, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Get enterprise employees
+     */
+    async getEnterpriseServicesRaw(requestParameters: GetEnterpriseServicesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<GetEnterpriseServicesResponseItem>>> {
+        if (requestParameters['enterpriseId'] == null) {
+            throw new runtime.RequiredError(
+                'enterpriseId',
+                'Required parameter "enterpriseId" was null or undefined when calling getEnterpriseServices().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+
+        let urlPath = `/enterprises/{enterpriseId}/services`;
+        urlPath = urlPath.replace(`{${"enterpriseId"}}`, encodeURIComponent(String(requestParameters['enterpriseId'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(GetEnterpriseServicesResponseItemFromJSON));
+    }
+
+    /**
+     * Get enterprise employees
+     */
+    async getEnterpriseServices(enterpriseId: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetEnterpriseServicesResponseItem>> {
+        const response = await this.getEnterpriseServicesRaw({ enterpriseId: enterpriseId }, initOverrides);
         return await response.value();
     }
 
