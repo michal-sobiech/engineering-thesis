@@ -10,7 +10,7 @@ import { useIntParam } from "../../../hooks/useIntParam";
 import { routes } from "../../../router/routes";
 import { errorErrResultAsyncFromPromise } from "../../../utils/result";
 
-export const EnterprisePageForStaff = () => {
+export const EnterprisePageForPublic = () => {
     const navigate = useNavigate();
     const enterpriseId = useIntParam("enterpriseId");
 
