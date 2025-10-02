@@ -6,8 +6,8 @@ import { StandardPanel } from "../../common/StandardPanel";
 import { useIntParam } from "../../hooks/useIntParam";
 import { routes } from "../../router/routes";
 import { useContextOrThrow } from "../../utils/useContextOrThrow";
-import { EmployeesScrollableList } from "./enterprise-staff/EmployeesScrollableList";
 import { EnterpriseContext } from "./route/context/EnterpriseContext";
+import { EmployeesScrollableList } from "./staff/EmployeesScrollableList";
 
 export const EnterprisePage = () => {
     const navigate = useNavigate();
