@@ -19,6 +19,7 @@ import type {
   CreateEnterpriseEmployeeRequest,
   CreateEnterpriseEmployeeResponse,
   EmployeeGetMeResponse,
+  GetEnterpriseEmployeesResponseItem,
   InlineObject,
   InlineObject1,
   InlineObject2,
@@ -33,6 +34,8 @@ import {
     CreateEnterpriseEmployeeResponseToJSON,
     EmployeeGetMeResponseFromJSON,
     EmployeeGetMeResponseToJSON,
+    GetEnterpriseEmployeesResponseItemFromJSON,
+    GetEnterpriseEmployeesResponseItemToJSON,
     InlineObjectFromJSON,
     InlineObjectToJSON,
     InlineObject1FromJSON,
@@ -51,6 +54,10 @@ export interface CheckEmployeeUsernameExistsRequest {
 export interface CreateEnterpriseEmployeeOperationRequest {
     enterpriseId: number;
     createEnterpriseEmployeeRequest: CreateEnterpriseEmployeeRequest;
+}
+
+export interface GetEnterpriseEmployeesRequest {
+    enterpriseId: number;
 }
 
 /**
@@ -164,6 +171,51 @@ export class EnterpriseEmployeesApi extends runtime.BaseAPI {
      */
     async createEnterpriseEmployee(enterpriseId: number, createEnterpriseEmployeeRequest: CreateEnterpriseEmployeeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CreateEnterpriseEmployeeResponse> {
         const response = await this.createEnterpriseEmployeeRaw({ enterpriseId: enterpriseId, createEnterpriseEmployeeRequest: createEnterpriseEmployeeRequest }, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Get enterprise employees
+     */
+    async getEnterpriseEmployeesRaw(requestParameters: GetEnterpriseEmployeesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<GetEnterpriseEmployeesResponseItem>>> {
+        if (requestParameters['enterpriseId'] == null) {
+            throw new runtime.RequiredError(
+                'enterpriseId',
+                'Required parameter "enterpriseId" was null or undefined when calling getEnterpriseEmployees().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("JwtBearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/enterprises/{enterpriseId}/employees`;
+        urlPath = urlPath.replace(`{${"enterpriseId"}}`, encodeURIComponent(String(requestParameters['enterpriseId'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(GetEnterpriseEmployeesResponseItemFromJSON));
+    }
+
+    /**
+     * Get enterprise employees
+     */
+    async getEnterpriseEmployees(enterpriseId: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetEnterpriseEmployeesResponseItem>> {
+        const response = await this.getEnterpriseEmployeesRaw({ enterpriseId: enterpriseId }, initOverrides);
         return await response.value();
     }
 

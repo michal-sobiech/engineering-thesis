@@ -1,15 +1,15 @@
-import { Flex } from "@chakra-ui/react";
-import { ReactNode } from "react";
+import { Box, BoxProps } from "@chakra-ui/react";
+import { FC } from "react";
 
-export const StanadardPanel = ({ children }: { children: ReactNode }) => {
+export const StandardPanel: FC<BoxProps> = ({ children, ...otherProps }) => {
     return (
-        <Flex bg="white"
+        <Box bg="white"
             p="5"
             rounded="lg"
             shadow="lg"
-            direction="column"
-            gap="10px">
+            gap="10px"
+            {...otherProps}>
             {children}
-        </Flex>
+        </Box>
     );
 }

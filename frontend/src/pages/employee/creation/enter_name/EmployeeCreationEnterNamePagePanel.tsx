@@ -1,6 +1,6 @@
 import { Text } from "@chakra-ui/react";
 import { StandardButton } from "../../../../common/StandardButton";
-import { StanadardPanel } from "../../../../common/StandardPanel";
+import { StandardPanel } from "../../../../common/StandardPanel";
 import { StandardTextField } from "../../../../common/StandardTextField";
 import { toastError } from "../../../../utils/toast";
 import { useContextOrThrow } from "../../../../utils/useContextOrThrow";
@@ -23,7 +23,7 @@ export const EmployeeCreationEnterNamePagePanel = () => {
         incrementStep();
     }
 
-    return <StanadardPanel>
+    return <StandardPanel>
         <Text textAlign="center">
             Step 2: enter employee's name
         </Text>
@@ -41,5 +41,5 @@ export const EmployeeCreationEnterNamePagePanel = () => {
             onClick={onClick}>
             Next
         </StandardButton>
-    </StanadardPanel>;
+    </StandardPanel>;
 }

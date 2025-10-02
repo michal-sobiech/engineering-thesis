@@ -1,13 +1,13 @@
 import { Center } from "@chakra-ui/react";
-import { StanadardPanel } from "../../StandardPanel";
+import { StandardPanel } from "../../StandardPanel";
 import SignUpSuccessButton from "./SignUpSuccessButton";
 import Message from "./SignUpSuccessMessage";
 
 export const SignUpSuccessPanel = () => {
-    return <StanadardPanel>
+    return <StandardPanel>
         <Center>
             <Message />
         </Center>
         <SignUpSuccessButton />
-    </StanadardPanel>;
+    </StandardPanel>;
 };

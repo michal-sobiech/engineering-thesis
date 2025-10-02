@@ -134,7 +134,7 @@ components:
           example: The new best barbershop in town.
         location:
           type: string
-          example: ul. Nowowiejska 15/19, Warasaw, Poland
+          example: ul. Nowowiejska 15/19, Warsaw, Poland
     CreateEnterpriseResponse:
       type: object
       required: [enterpriseId]
@@ -155,7 +155,7 @@ components:
           example: The new best barbershop in town.
         location:
           type: string
-          example: ul. Nowowiejska 15/19, Warasaw, Poland
+          example: ul. Nowowiejska 15/19, Warsaw, Poland
     CreateEnterpriseEmployeeRequest:
       type: object
       required:
@@ -202,6 +202,23 @@ components:
             username:
               type: string
               example: jan.kowalski.1
+    GetEnterpriseEmployeesResponse:
+      type: array
+      items:
+        $ref: "#/components/schemas/GetEnterpriseEmployeesResponseItem"
+    GetEnterpriseEmployeesResponseItem:
+      type: object
+      required: [username, firstName, lastName]
+      properties:
+        username:
+          type: string
+          example: jan.kowalski.1
+        firstName:
+          type: string
+          example: Jan
+        lastName:
+          type: string
+          example: Kowalski
     LogInEnterpriseEmployeeRequest:
       type: object
       required:
@@ -587,6 +604,35 @@ paths:
         "500":
           $ref: "#/components/responses/InternalServerError"
   /enterprises/{enterpriseId}/employees:
+    get:
+      tags: [EnterpriseEmployees]
+      operationId: getEnterpriseEmployees
+      summary: Get enterprise employees
+      security:
+        - JwtBearerAuth: []
+      parameters:
+        - name: enterpriseId
+          in: path
+          required: true
+          description: Enterprise id
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: *OK_DESCRIPTION
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/GetEnterpriseEmployeesResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
     post:
       tags: [EnterpriseEmployees]
       operationId: createEnterpriseEmployee

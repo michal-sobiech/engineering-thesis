@@ -16,6 +16,7 @@ models/CreateEnterpriseResponse.ts
 models/CreateIndependentEndUserRequest.ts
 models/EmployeeGetMeResponse.ts
 models/EntrepreneurGetMeResponse.ts
+models/GetEnterpriseEmployeesResponseItem.ts
 models/GetEnterpriseResponse.ts
 models/GetEntrepreneurEnterprisesResponseItem.ts
 models/InlineObject.ts

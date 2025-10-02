@@ -7,7 +7,8 @@ export const routeTemplates = {
     entrepreneurLogIn: "/entrepreneurs/log-in",
     entrepreneurLandingPage: "/entrepreneur-landing-page",
     createEnterprise: "/create-enterprise",
-    enterprise: "/enterprises/:enterpriseId",
+    enterprisePublic: "/enterprises/:enterpriseId/public",
+    enterpriseStaff: "/enterprises/:enterpriseId/staff",
     createEnterpriseEmployee: "/enterprises/:enterpriseId/create-employee",
     logInEnterpriseEmployee: "/enterprises/:enterpriseId/log-in-employee",
 };

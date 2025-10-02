@@ -9,7 +9,7 @@ function App() {
     return <AppProviders>
         <ChakraProvider value={system}>
             <RouterProvider router={router} />
-        </ChakraProvider>;
+        </ChakraProvider>
     </AppProviders>
 }
 

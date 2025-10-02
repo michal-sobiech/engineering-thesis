@@ -10,7 +10,8 @@ export const routes = {
     entrepreneurLogIn: routeTemplates.entrepreneurLogIn,
     entrepreneurLandingPage: routeTemplates.entrepreneurLandingPage,
     createEnterprise: routeTemplates.createEnterprise,
-    enterprise: (enterpriseId: number) => generatePath(routeTemplates.enterprise, { enterpriseId }),
+    enterprisePublic: (enterpriseId: number) => generatePath(routeTemplates.enterprisePublic, { enterpriseId }),
+    enterpriseStaff: (enterpriseId: number) => generatePath(routeTemplates.enterpriseStaff, { enterpriseId }),
     createEnterpriseEmployee: (enterpriseId: number) => generatePath(routeTemplates.createEnterpriseEmployee, { enterpriseId }),
     logInEnterpriseEmployee: routeTemplates.logInEnterpriseEmployee,
 } satisfies Record<keyof typeof routeTemplates, string | ((...args: any[]) => string)>;

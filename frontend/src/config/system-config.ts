@@ -12,6 +12,7 @@ const systemConfig = defineConfig({
                     gold: { value: "#ffe134" },
                     purple: { value: "#9700e4" },
                     darkGray: { value: "#2b2727ff" },
+                    basicWhite: { value: "#ffffff" }
                 }
             },
             // fontSizes: {

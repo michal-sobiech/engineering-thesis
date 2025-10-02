@@ -1,10 +1,12 @@
-import { Text } from "@chakra-ui/react";
+import { Center, Text } from "@chakra-ui/react";
 import { useNavigate } from "react-router";
 import { StandardButton } from "../../common/StandardButton";
-import { StanadardPanel } from "../../common/StandardPanel";
+import { StandardHorizontalSeparator } from "../../common/StandardHorizontalSeparator";
+import { StandardPanel } from "../../common/StandardPanel";
 import { useIntParam } from "../../hooks/useIntParam";
 import { routes } from "../../router/routes";
 import { useContextOrThrow } from "../../utils/useContextOrThrow";
+import { EmployeesScrollableList } from "./enterprise-staff/EmployeesScrollableList";
 import { EnterpriseContext } from "./route/context/EnterpriseContext";
 
 export const EnterprisePage = () => {
@@ -17,13 +19,18 @@ export const EnterprisePage = () => {
         navigate(routes.createEnterpriseEmployee(enterpriseId))
     }
 
-    return <StanadardPanel>
-        <Text>{enterpriseName}</Text>
-        <Text>{enterpriseDescription}</Text>
-        <Text>{enterpriseLocation}</Text>
-        <StandardButton
-            onClick={onCreateEmployeeAccountClick}>
-            Create an account for an employee of this enterprise
-        </StandardButton>
-    </StanadardPanel>
+    return <Center height="100vh">
+        <StandardPanel>
+            <Text fontSize="xxl">{enterpriseName}</Text>
+            <StandardHorizontalSeparator />
+            <Text>{enterpriseDescription}</Text>
+            <StandardHorizontalSeparator />
+            <Text>{enterpriseLocation}</Text>
+            <EmployeesScrollableList enterpriseId={enterpriseId} />
+            <StandardButton
+                onClick={onCreateEmployeeAccountClick}>
+                Create an account for an employee of this enterprise
+            </StandardButton>
+        </StandardPanel>
+    </Center >
 }

@@ -4,7 +4,7 @@ import { useParams } from "react-router";
 import { toast } from "react-toastify";
 import { enterpriseEmployeesApi } from "../../../../api/enterprise-employees-api";
 import { StandardButton } from "../../../../common/StandardButton";
-import { StanadardPanel } from "../../../../common/StandardPanel";
+import { StandardPanel } from "../../../../common/StandardPanel";
 import { StandardTextField } from "../../../../common/StandardTextField";
 import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../../../utils/error";
 import { assertDefined, errorErrResultAsyncFromPromise, fromResult } from "../../../../utils/result";
@@ -40,7 +40,7 @@ export const EmployeeCreationEnterUsernamePage = () => {
     };
 
     return <Center height="100vh">
-        <StanadardPanel>
+        <StandardPanel>
             <Text textAlign="center">
                 Step 1: enter the username of the new employee
             </Text>
@@ -53,7 +53,7 @@ export const EmployeeCreationEnterUsernamePage = () => {
                 onClick={onNextButtonClick}>
                 Next
             </StandardButton>
-        </StanadardPanel >
+        </StandardPanel >
     </Center>;
 }
 

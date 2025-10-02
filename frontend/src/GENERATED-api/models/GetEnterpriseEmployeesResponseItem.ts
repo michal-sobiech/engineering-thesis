@@ -16,44 +16,44 @@ import { mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface CreateEnterpriseEmployeeResponseUser
+ * @interface GetEnterpriseEmployeesResponseItem
  */
-export interface CreateEnterpriseEmployeeResponseUser {
+export interface GetEnterpriseEmployeesResponseItem {
     /**
      * 
      * @type {string}
-     * @memberof CreateEnterpriseEmployeeResponseUser
+     * @memberof GetEnterpriseEmployeesResponseItem
      */
     username: string;
     /**
      * 
      * @type {string}
-     * @memberof CreateEnterpriseEmployeeResponseUser
+     * @memberof GetEnterpriseEmployeesResponseItem
      */
     firstName: string;
     /**
      * 
      * @type {string}
-     * @memberof CreateEnterpriseEmployeeResponseUser
+     * @memberof GetEnterpriseEmployeesResponseItem
      */
     lastName: string;
 }
 
 /**
- * Check if a given object implements the CreateEnterpriseEmployeeResponseUser interface.
+ * Check if a given object implements the GetEnterpriseEmployeesResponseItem interface.
  */
-export function instanceOfCreateEnterpriseEmployeeResponseUser(value: object): value is CreateEnterpriseEmployeeResponseUser {
+export function instanceOfGetEnterpriseEmployeesResponseItem(value: object): value is GetEnterpriseEmployeesResponseItem {
     if (!('username' in value) || value['username'] === undefined) return false;
     if (!('firstName' in value) || value['firstName'] === undefined) return false;
     if (!('lastName' in value) || value['lastName'] === undefined) return false;
     return true;
 }
 
-export function CreateEnterpriseEmployeeResponseUserFromJSON(json: any): CreateEnterpriseEmployeeResponseUser {
-    return CreateEnterpriseEmployeeResponseUserFromJSONTyped(json, false);
+export function GetEnterpriseEmployeesResponseItemFromJSON(json: any): GetEnterpriseEmployeesResponseItem {
+    return GetEnterpriseEmployeesResponseItemFromJSONTyped(json, false);
 }
 
-export function CreateEnterpriseEmployeeResponseUserFromJSONTyped(json: any, ignoreDiscriminator: boolean): CreateEnterpriseEmployeeResponseUser {
+export function GetEnterpriseEmployeesResponseItemFromJSONTyped(json: any, ignoreDiscriminator: boolean): GetEnterpriseEmployeesResponseItem {
     if (json == null) {
         return json;
     }
@@ -65,11 +65,11 @@ export function CreateEnterpriseEmployeeResponseUserFromJSONTyped(json: any, ign
     };
 }
 
-export function CreateEnterpriseEmployeeResponseUserToJSON(json: any): CreateEnterpriseEmployeeResponseUser {
-    return CreateEnterpriseEmployeeResponseUserToJSONTyped(json, false);
+export function GetEnterpriseEmployeesResponseItemToJSON(json: any): GetEnterpriseEmployeesResponseItem {
+    return GetEnterpriseEmployeesResponseItemToJSONTyped(json, false);
 }
 
-export function CreateEnterpriseEmployeeResponseUserToJSONTyped(value?: CreateEnterpriseEmployeeResponseUser | null, ignoreDiscriminator: boolean = false): any {
+export function GetEnterpriseEmployeesResponseItemToJSONTyped(value?: GetEnterpriseEmployeesResponseItem | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

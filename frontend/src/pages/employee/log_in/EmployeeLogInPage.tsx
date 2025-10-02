@@ -3,7 +3,7 @@ import { useState } from "react"
 import { useNavigate } from "react-router"
 import { authApi } from "../../../api/auth-api"
 import { StandardButton } from "../../../common/StandardButton"
-import { StanadardPanel } from "../../../common/StandardPanel"
+import { StandardPanel } from "../../../common/StandardPanel"
 import { StandardTextField } from "../../../common/StandardTextField"
 import { useIntParam } from "../../../hooks/useIntParam"
 import { routes } from "../../../router/routes"
@@ -26,7 +26,7 @@ export const EmployeeLogInPage = () => {
         const response = await authApi.logInEnterpriseEmployeeRaw(requestParams);
         const status = response.raw.status;
         if (status === 200) {
-            navigate(routes.enterprise(enterpriseId));
+            navigate(routes.enterprisePublic(enterpriseId));
         } else if (status === 401) {
             toastError("Invalid credentials");
         } else {
@@ -35,7 +35,7 @@ export const EmployeeLogInPage = () => {
     }
 
     return <Center height="100vh">
-        <StanadardPanel>
+        <StandardPanel>
             <Text textAlign="center">
                 Log in to "{enterpriseName}"
             </Text>
@@ -44,6 +44,6 @@ export const EmployeeLogInPage = () => {
             <StandardButton onClick={onClick}>
                 Log in
             </StandardButton>
-        </StanadardPanel>
+        </StandardPanel>
     </Center>
 }

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import { entrepreneursApi } from "../../../api/entrepreneurs-api";
 import { LinkText } from "../../../common/LinkText";
 import { ScrollableList } from "../../../common/scrollable-list/ScrollableList";
+import { StandardBox } from "../../../common/StandardBox";
 import { GetEntrepreneurEnterprisesResponseItem } from "../../../GENERATED-api";
 import { routes } from "../../../router/routes";
 import { errorErrResultAsyncFromPromise } from "../../../utils/result";
@@ -34,9 +35,11 @@ export const EnterprisesScrollableList = () => {
         loadData();
     }, []);
 
-    return <ScrollableList>
-        {itemsData && createItems(itemsData)}
-    </ScrollableList>;
+    return <StandardBox>
+        <ScrollableList>
+            {itemsData && createItems(itemsData)}
+        </ScrollableList>
+    </StandardBox>;
 }
 
 function createItems(data: GetEntrepreneurEnterprisesResponseItem[]): ReactElement[] {
@@ -47,7 +50,7 @@ function createItem(data: GetEntrepreneurEnterprisesResponseItem): ReactElement 
     // return <Text fontSize="xs">
     //     {data.name}
     // </Text>
-    const url = routes.enterprise(data.enterpriseId)
+    const url = routes.enterprisePublic(data.enterpriseId)
 
     return <LinkText url={url} fontSize="xs">
         {data.enterpriseName}

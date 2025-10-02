@@ -1,9 +1,9 @@
-import { Box, Center, Flex, Separator, Text } from "@chakra-ui/react";
+import { Center, Flex, Separator, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { entrepreneursApi } from "../../../api/entrepreneurs-api";
 import { StandardButton } from "../../../common/StandardButton";
-import { StanadardPanel } from "../../../common/StandardPanel";
+import { StandardPanel } from "../../../common/StandardPanel";
 import { routes } from "../../../router/routes";
 import { EnterprisesScrollableList } from "./EntreprisesScrollableList";
 
@@ -25,7 +25,7 @@ export const EntrepreneurLandingPage = () => {
     }
 
     return <Center height="100vh">
-        <StanadardPanel>
+        <StandardPanel>
             <Flex gap="10px"
                 direction="column">
                 <Text fontSize="xl">
@@ -35,19 +35,12 @@ export const EntrepreneurLandingPage = () => {
                 <Text fontSize="xs">
                     Your enterprises
                 </Text>
-                <Box
-                    border="1px solid"
-                    borderColor="primary.lightGray"
-                    borderRadius="md"
-                    padding="10px"
-                >
-                    <EnterprisesScrollableList />
-                </Box>
+                <EnterprisesScrollableList />
                 <StandardButton fontSize="xs" onClick={onCreateEnterpriseClick}>
                     Create an enterprise
                 </StandardButton>
             </Flex>
-        </StanadardPanel>
+        </StandardPanel>
     </Center>
 
 }

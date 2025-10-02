@@ -2,7 +2,7 @@ import { Center } from "@chakra-ui/react";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { StandardButton } from "../../../common/StandardButton";
-import { StanadardPanel } from "../../../common/StandardPanel";
+import { StandardPanel } from "../../../common/StandardPanel";
 import { StandardTextArea } from "../../../common/StandardTextArea";
 import { StandardTextField } from "../../../common/StandardTextField";
 import { routes } from "../../../router/routes";
@@ -32,13 +32,13 @@ export const CreateEnterprisePage = () => {
 
         console.log("JEST OK");
         const { enterpriseId } = result.value;
-        const path = routes.enterprise(enterpriseId);
+        const path = routes.enterprisePublic(enterpriseId);
         console.log(path);
         navigate(path);
     }
 
     return <Center height="100vh">
-        <StanadardPanel>
+        <StandardPanel>
             <StandardTextField
                 text={enterpriseName}
                 setText={setEnterpriseName}
@@ -55,6 +55,6 @@ export const CreateEnterprisePage = () => {
                 placeholder="Location"
             />
             <StandardButton onClick={handleButtonClick}>Create enterprise</StandardButton>
-        </StanadardPanel>
+        </StandardPanel>
     </Center>;
 };

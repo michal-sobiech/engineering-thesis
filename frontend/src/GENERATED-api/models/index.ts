@@ -9,6 +9,7 @@ export * from './CreateEnterpriseResponse';
 export * from './CreateIndependentEndUserRequest';
 export * from './EmployeeGetMeResponse';
 export * from './EntrepreneurGetMeResponse';
+export * from './GetEnterpriseEmployeesResponseItem';
 export * from './GetEnterpriseResponse';
 export * from './GetEntrepreneurEnterprisesResponseItem';
 export * from './InlineObject';
