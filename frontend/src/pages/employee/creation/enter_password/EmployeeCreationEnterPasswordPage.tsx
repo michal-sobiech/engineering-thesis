@@ -2,6 +2,7 @@ import { Box, Center, Text } from "@chakra-ui/react";
 import { toast } from "react-toastify";
 import { enterpriseEmployeesApi } from "../../../../api/enterprise-employees-api";
 import { StandardButton } from "../../../../common/StandardButton";
+import { StandardFlex } from "../../../../common/StandardFlex";
 import { StandardPanel } from "../../../../common/StandardPanel";
 import { StandardTextField } from "../../../../common/StandardTextField";
 import { useIntParam } from "../../../../hooks/useIntParam";
@@ -40,19 +41,21 @@ export const EmployeeCreationEnterPasswordPage = () => {
     return <Center height="100vh">
         <Box width="40vw">
             <StandardPanel>
-                <Text textAlign="center">
-                    Step 3: choose password for the new employee
-                </Text>
-                <StandardTextField
-                    type="password"
-                    text={password}
-                    setText={setPassword}
-                    placeholder="Password"
-                />
-                <StandardButton
-                    onClick={onNextButtonClick}>
-                    Next
-                </StandardButton>
+                <StandardFlex>
+                    <Text textAlign="center">
+                        Step 3: choose password for the new employee
+                    </Text>
+                    <StandardTextField
+                        type="password"
+                        text={password}
+                        setText={setPassword}
+                        placeholder="Password"
+                    />
+                    <StandardButton
+                        onClick={onNextButtonClick}>
+                        Next
+                    </StandardButton>
+                </StandardFlex>
             </StandardPanel>
         </Box>
     </Center>;

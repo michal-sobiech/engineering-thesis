@@ -2,6 +2,7 @@ import { Center } from "@chakra-ui/react";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { StandardButton } from "../../../common/StandardButton";
+import { StandardFlex } from "../../../common/StandardFlex";
 import { StandardPanel } from "../../../common/StandardPanel";
 import { StandardTextArea } from "../../../common/StandardTextArea";
 import { StandardTextField } from "../../../common/StandardTextField";
@@ -39,22 +40,24 @@ export const CreateEnterprisePage = () => {
 
     return <Center height="100vh">
         <StandardPanel>
-            <StandardTextField
-                text={enterpriseName}
-                setText={setEnterpriseName}
-                placeholder="Enterprise name"
-            />
-            <StandardTextArea
-                text={description}
-                setText={setDescription}
-                placeholder="What does your enterprise do?"
-            />
-            <StandardTextField
-                text={location}
-                setText={setLocation}
-                placeholder="Location"
-            />
-            <StandardButton onClick={handleButtonClick}>Create enterprise</StandardButton>
+            <StandardFlex>
+                <StandardTextField
+                    text={enterpriseName}
+                    setText={setEnterpriseName}
+                    placeholder="Enterprise name"
+                />
+                <StandardTextArea
+                    text={description}
+                    setText={setDescription}
+                    placeholder="What does your enterprise do?"
+                />
+                <StandardTextField
+                    text={location}
+                    setText={setLocation}
+                    placeholder="Location"
+                />
+                <StandardButton onClick={handleButtonClick}>Create enterprise</StandardButton>
+            </StandardFlex>
         </StandardPanel>
     </Center>;
 };

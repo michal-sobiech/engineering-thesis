@@ -4,6 +4,7 @@ import { useParams } from "react-router";
 import { toast } from "react-toastify";
 import { enterpriseEmployeesApi } from "../../../../api/enterprise-employees-api";
 import { StandardButton } from "../../../../common/StandardButton";
+import { StandardFlex } from "../../../../common/StandardFlex";
 import { StandardPanel } from "../../../../common/StandardPanel";
 import { StandardTextField } from "../../../../common/StandardTextField";
 import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../../../utils/error";
@@ -41,18 +42,20 @@ export const EmployeeCreationEnterUsernamePage = () => {
 
     return <Center height="100vh">
         <StandardPanel>
-            <Text textAlign="center">
-                Step 1: enter the username of the new employee
-            </Text>
-            <StandardTextField
-                text={username}
-                setText={setUsername}
-                placeholder="Username"
-            />
-            <StandardButton
-                onClick={onNextButtonClick}>
-                Next
-            </StandardButton>
+            <StandardFlex>
+                <Text textAlign="center">
+                    Step 1: enter the username of the new employee
+                </Text>
+                <StandardTextField
+                    text={username}
+                    setText={setUsername}
+                    placeholder="Username"
+                />
+                <StandardButton
+                    onClick={onNextButtonClick}>
+                    Next
+                </StandardButton>
+            </StandardFlex>
         </StandardPanel >
     </Center>;
 }

@@ -1,5 +1,6 @@
 package pl.michal_sobiech.engineering_thesis.enterprise.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.SwaggerCodeGenExample.api.EnterprisesApi;
@@ -8,7 +9,9 @@ import org.SwaggerCodeGenExample.model.CreateEnterpriseEmployeeRequest;
 import org.SwaggerCodeGenExample.model.CreateEnterpriseEmployeeResponse;
 import org.SwaggerCodeGenExample.model.CreateEnterpriseRequest;
 import org.SwaggerCodeGenExample.model.CreateEnterpriseResponse;
+import org.SwaggerCodeGenExample.model.GetEnterpriseEmployeesResponseItem;
 import org.SwaggerCodeGenExample.model.GetEnterpriseResponse;
+import org.SwaggerCodeGenExample.model.GetEnterpriseServicesResponseItem;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -66,4 +69,11 @@ public class EnterpriseController implements EnterprisesApi {
         return ResponseEntity.ok(responseBody);
     }
 
+    public ResponseEntity<List<GetEnterpriseEmployeesResponseItem>> getEnterpriseEmployees(Integer enterpriseId) {
+        return HttpUtils.createInternalServerErrorResponse();
+    }
+
+    public ResponseEntity<List<GetEnterpriseServicesResponseItem>> getEnterpriseServices(Integer enterpriseId) {
+        return HttpUtils.createInternalServerErrorResponse();
+    }
 }

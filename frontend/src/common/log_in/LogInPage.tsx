@@ -1,6 +1,7 @@
 import { Box, Center, Text } from "@chakra-ui/react";
 import { FC, useState } from "react";
 import EmailField from "../EmailField";
+import { StandardFlex } from "../StandardFlex";
 import { StandardPanel } from "../StandardPanel";
 import { LogInButton } from "./LogInButton";
 import { logInContext, LogInContextValue } from "./LogInContext";
@@ -20,12 +21,14 @@ export const LogInPage: FC<LogInPageProps> = ({ landingPageUrl }) => {
         <Box width="40vw">
             <logInContext.Provider value={contextValue}>
                 <StandardPanel>
-                    <Text textAlign="center">
-                        Log in
-                    </Text>
-                    <EmailField text={email} setText={setEmail} />
-                    <LogInPasswordField text={password} setText={setPassword} />
-                    <LogInButton />
+                    <StandardFlex>
+                        <Text textAlign="center">
+                            Log in
+                        </Text>
+                        <EmailField text={email} setText={setEmail} />
+                        <LogInPasswordField text={password} setText={setPassword} />
+                        <LogInButton />
+                    </StandardFlex>
                 </StandardPanel>
             </logInContext.Provider>
         </Box>

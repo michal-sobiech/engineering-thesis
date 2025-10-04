@@ -3,6 +3,7 @@ import { useState } from "react"
 import { useNavigate } from "react-router"
 import { authApi } from "../../../api/auth-api"
 import { StandardButton } from "../../../common/StandardButton"
+import { StandardFlex } from "../../../common/StandardFlex"
 import { StandardPanel } from "../../../common/StandardPanel"
 import { StandardTextField } from "../../../common/StandardTextField"
 import { useIntParam } from "../../../hooks/useIntParam"
@@ -36,14 +37,16 @@ export const EmployeeLogInPage = () => {
 
     return <Center height="100vh">
         <StandardPanel>
-            <Text textAlign="center">
-                Log in to "{enterpriseName}"
-            </Text>
-            <StandardTextField text={username} setText={setUsername} placeholder="Username" />
-            <StandardTextField text={password} setText={setPassword} placeholder="Password" type="password" />
-            <StandardButton onClick={onClick}>
-                Log in
-            </StandardButton>
+            <StandardFlex>
+                <Text textAlign="center">
+                    Log in to "{enterpriseName}"
+                </Text>
+                <StandardTextField text={username} setText={setUsername} placeholder="Username" />
+                <StandardTextField text={password} setText={setPassword} placeholder="Password" type="password" />
+                <StandardButton onClick={onClick}>
+                    Log in
+                </StandardButton>
+            </StandardFlex>
         </StandardPanel>
     </Center>
 }
