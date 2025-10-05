@@ -1,13 +1,13 @@
 import z from "zod";
 
-export interface JwtPayload {
-    userId: number;
-    expires_at: number;
-    issued_at: number;
-}
+export const JwtPayloadCheck = z.object({
+    sub: z.coerce.number(),
+    exp: z.coerce.number(),
+    iat: z.coerce.number(),
+}).transform(({ sub, exp, iat }) => ({
+    userId: sub,
+    expiresAt: exp,
+    issuedAt: iat,
+}));
 
-export const JwtPayloadCheck: z.ZodType<JwtPayload> = z.object({
-    userId: z.number(),
-    expires_at: z.number(),
-    issued_at: z.number(),
-});
+export type JwtPayload = z.infer<typeof JwtPayloadCheck>;
