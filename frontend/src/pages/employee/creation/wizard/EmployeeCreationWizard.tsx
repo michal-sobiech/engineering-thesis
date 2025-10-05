@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useIntParam } from "../../../../hooks/useIntParam";
 import { EmployeeCreationEnterNamePage } from "../enter_name/EmployeeCreationEnterNamePage";
 import { EmployeeCreationEnterPasswordPage } from "../enter_password/EmployeeCreationEnterPasswordPage";
 import { EmployeeCreationEnterUsernamePage } from "../enter_username/EmployeeCreationEnterUsernamePage";
@@ -7,6 +8,9 @@ import { employeeCreationWizardContext } from "./EmployeeCreationWizardContext";
 
 export const EmployeeCreationWizard = () => {
     const [step, setStep] = useState<number>(0);
+    const enterpriseId = useIntParam("enterpriseId");
+
+    // TODO not load if user has no access to enterprise with given id
 
     const [username, setUsername] = useState<string>("");
     const [firstName, setFirstName] = useState<string>("");

@@ -1,5 +1,7 @@
 package pl.michal_sobiech.engineering_thesis.security.authentication.employee;
 
+import java.util.Optional;
+
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
@@ -31,7 +33,12 @@ public class EmployeeAuthenticationProvider implements AuthenticationProvider {
         String username = principal.getUsername();
         String password = castAuthentication.getCredentials();
 
-        Employee employee = employeeService.findByEnterpriseIdAndUsername(enterpriseId, username).orElseThrow();
+        Optional<Employee> optionalEmployee = employeeService.findByEnterpriseIdAndUsername(enterpriseId, username);
+        if (optionalEmployee.isEmpty()) {
+            throw new BadCredentialsException("Employee doesn't exist");
+        }
+        Employee employee = optionalEmployee.get();
+
         String originalPasswordHash = employee.getPasswordHash();
         if (!passwordEncoder.matches(password, originalPasswordHash)) {
             throw new BadCredentialsException("Password hashes don't match");

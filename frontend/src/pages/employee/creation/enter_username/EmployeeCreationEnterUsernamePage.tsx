@@ -29,7 +29,9 @@ export const EmployeeCreationEnterUsernamePage = () => {
             .andThen(enterpriseId => assertDefined(enterpriseId))
             .andThen(enterpriseId => checkUsernameAvailable(enterpriseId, username));
         if (result.isOk()) {
-            if (result.value === true) {
+            const usernameExists = result.value;
+            console.log("usernameExists", usernameExists);
+            if (!usernameExists) {
                 toast.dismiss();
                 incrementStep();
             } else {

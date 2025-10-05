@@ -1,7 +1,8 @@
 import { Center, Text } from "@chakra-ui/react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router"
 import { authApi } from "../../../api/auth-api"
+import { enterprisesApi } from "../../../api/enterprises-api"
 import { StandardButton } from "../../../common/StandardButton"
 import { StandardFlex } from "../../../common/StandardFlex"
 import { StandardPanel } from "../../../common/StandardPanel"
@@ -9,18 +10,28 @@ import { StandardTextField } from "../../../common/StandardTextField"
 import { useIntParam } from "../../../hooks/useIntParam"
 import { routes } from "../../../router/routes"
 import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../../utils/error"
+import { errorErrResultAsyncFromPromise } from "../../../utils/result"
 import { toastError } from "../../../utils/toast"
-import { useContextOrThrow } from "../../../utils/useContextOrThrow"
-import { EnterpriseContext } from "../../enterprise/route/context/EnterpriseContext"
 
 export const EmployeeLogInPage = () => {
     const navigate = useNavigate();
     const enterpriseId = useIntParam("enterpriseId");
 
-    const { enterpriseName } = useContextOrThrow(EnterpriseContext);
-
+    const [enterpriseName, setEnterpriseName] = useState<string>("");
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+
+    useEffect(() => {
+        async function loadEnterpriseData(): Promise<void> {
+            const result = await errorErrResultAsyncFromPromise(enterprisesApi.getEnterprise(enterpriseId));
+            if (result.isOk()) {
+                setEnterpriseName(result.value.enterpriseName);
+            } else {
+                navigate(routes.mainPage, { replace: true });
+            }
+        }
+        loadEnterpriseData();
+    })
 
     const onClick = async () => {
         const requestParams = { logInEnterpriseEmployeeRequest: { enterpriseId, username, password } };
