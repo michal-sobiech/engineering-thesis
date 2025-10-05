@@ -27,9 +27,9 @@ export const EnterprisesScrollableList = () => {
                 return;
             }
 
-            // setItemsData(enterprises.value);
-            const fakeEnterprises = new Array(50).fill(enterprises.value[0])
-            setItemsData(fakeEnterprises);
+            setItemsData(enterprises.value);
+            // const fakeEnterprises = new Array(50).fill(enterprises.value[0])
+            // setItemsData(fakeEnterprises);
         }
 
         loadData();

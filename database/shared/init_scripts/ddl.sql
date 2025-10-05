@@ -41,7 +41,6 @@ CREATE TABLE public.enterprise (
 	"location" text NOT NULL,
 	entrepreneur_id bigint NOT NULL,
 	CONSTRAINT pk_enterprise PRIMARY KEY (enterprise_id),
-	CONSTRAINT uk_enterprise_entrepreneur_id UNIQUE (entrepreneur_id),
 	CONSTRAINT fk_enterprise_entrepreneur_id FOREIGN KEY (entrepreneur_id) REFERENCES public.entrepreneur(entrepreneur_id) ON DELETE CASCADE
 );
 

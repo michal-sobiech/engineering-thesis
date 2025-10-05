@@ -1,8 +1,8 @@
 package pl.michal_sobiech.engineering_thesis.entrepreneur;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 
 import org.SwaggerCodeGenExample.api.EntrepreneursApi;
 import org.SwaggerCodeGenExample.model.CreateIndependentEndUserRequest;
@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import pl.michal_sobiech.engineering_thesis.enterprise.Enterprise;
+import pl.michal_sobiech.engineering_thesis.enterprise.EnterpriseService;
 import pl.michal_sobiech.engineering_thesis.independent_end_user.IndependentEndUser;
 import pl.michal_sobiech.engineering_thesis.independent_end_user.IndependentEndUserService;
 import pl.michal_sobiech.engineering_thesis.user.UserIdAuthentication;
@@ -24,16 +26,23 @@ public class EntrepreneurController implements EntrepreneursApi {
 
     private final EntrepreneurService entrepreneurService;
     private final IndependentEndUserService independentEndUserService;
+    private final EnterpriseService enterpriseService;
 
     @Override
     public ResponseEntity<List<GetEntrepreneurEnterprisesResponseItem>> getEntrepreneurEnterprises(
             Integer entrepreneurId) {
-        final List<GetEntrepreneurEnterprisesResponseItem> responseBody = new ArrayList<>();
-        return ResponseEntity.ok(responseBody);
+        List<Enterprise> enterprises = enterpriseService.findAllByEntrepreneurId(entrepreneurId);
+        Function<Enterprise, GetEntrepreneurEnterprisesResponseItem> mapperFn = (
+                Enterprise enterprise) -> new GetEntrepreneurEnterprisesResponseItem(
+                        enterprise.getEnterpriseId(),
+                        enterprise.getName());
+        List<GetEntrepreneurEnterprisesResponseItem> mappedEnterprises = enterprises.stream().map(mapperFn).toList();
+        return ResponseEntity.ok(mappedEnterprises);
     }
 
     @Override
-    public ResponseEntity<Void> createEntrepreneur(CreateIndependentEndUserRequest createIndependentEndUserRequest) {
+    public ResponseEntity<Void> createEntrepreneur(
+            CreateIndependentEndUserRequest createIndependentEndUserRequest) {
         entrepreneurService.createEntrepreneur(createIndependentEndUserRequest);
         return ResponseEntity.ok().build();
     }

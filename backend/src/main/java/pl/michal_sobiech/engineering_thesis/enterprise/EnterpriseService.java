@@ -1,5 +1,6 @@
 package pl.michal_sobiech.engineering_thesis.enterprise;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.SwaggerCodeGenExample.model.CreateEnterpriseRequest;
@@ -36,6 +37,11 @@ public class EnterpriseService {
     @Transactional
     public Optional<Enterprise> findByEnterpriseId(long enterpriseId) {
         return enterpriseRepository.findById(enterpriseId);
+    }
+
+    @Transactional
+    public List<Enterprise> findAllByEntrepreneurId(long entrepreneurId) {
+        return enterpriseRepository.findAllByEntrepreneurId(entrepreneurId);
     }
 
 }
