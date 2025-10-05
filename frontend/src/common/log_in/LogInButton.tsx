@@ -31,6 +31,7 @@ export const LogInButton = () => {
         if (result.isOk()) {
             navigate(routes.entrepreneurLandingPage, { replace: true });
         } else {
+            console.log(result.error);
             toastError("Couldn't log in. Try again later.");
         }
     }

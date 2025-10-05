@@ -22,6 +22,9 @@ public class EntrepreneurService {
     public Entrepreneur createEntrepreneur(CreateIndependentEndUserRequest request) {
         IndependentEndUser independentEndUser = independentEndUserService.createIndependentEndUser(request);
 
+        System.out.println("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHhh");
+        System.out.println(independentEndUser.getIndependentEndUserId());
+
         Entrepreneur entrepreneur = Entrepreneur.builder()
                 .independentEndUserId(independentEndUser.getIndependentEndUserId())
                 .build();

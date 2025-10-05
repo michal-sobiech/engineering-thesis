@@ -11,6 +11,7 @@ const EmailField: React.FC<TextFieldProps> = ({ text, setText }) => {
     return <Flex direction="column">
         <Input
             type="email"
+            autoComplete="username"
             name="email"
             placeholder="E-mail address"
             value={text}

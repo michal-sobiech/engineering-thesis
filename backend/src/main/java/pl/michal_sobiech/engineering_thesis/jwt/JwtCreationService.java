@@ -4,23 +4,18 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
 
-import javax.crypto.SecretKey;
-
 import org.springframework.stereotype.Service;
 
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.SecureDigestAlgorithm;
 
 @Service
 public class JwtCreationService {
 
-    private final SecretKey secretKey;
-    private final SecureDigestAlgorithm<SecretKey, ?> signingAlgorithm;
+    private final JwtSecretKey jwtSecretKey;
     private final Duration tokenDuration;
 
-    public JwtCreationService(SecretKey secretKey, JwtProperties properties) {
-        this.secretKey = secretKey;
-        this.signingAlgorithm = createAlgorithm(secretKey.getAlgorithm());
+    public JwtCreationService(JwtSecretKey jwtSecretKey, JwtProperties properties) {
+        this.jwtSecretKey = jwtSecretKey;
         this.tokenDuration = Duration.ofMinutes(properties.tokenDurationMinutes());
     }
 
@@ -41,15 +36,8 @@ public class JwtCreationService {
                 .subject(request.subject())
                 .issuedAt(Date.from(request.issuedAt()))
                 .expiration(Date.from(request.expiresAt()))
-                .signWith(secretKey, signingAlgorithm)
+                .signWith(jwtSecretKey.getSecretKey(), jwtSecretKey.getJwtAlgorithm())
                 .compact();
-    }
-
-    private SecureDigestAlgorithm<SecretKey, ?> createAlgorithm(String algorithmType) {
-        return switch (algorithmType) {
-            case "HS256" -> Jwts.SIG.HS256;
-            default -> throw new IllegalArgumentException("Algorithm not supported: " + algorithmType);
-        };
     }
 
 }

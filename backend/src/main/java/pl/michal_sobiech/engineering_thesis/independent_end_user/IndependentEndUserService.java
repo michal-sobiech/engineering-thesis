@@ -3,6 +3,7 @@ package pl.michal_sobiech.engineering_thesis.independent_end_user;
 import java.util.Optional;
 
 import org.SwaggerCodeGenExample.model.CreateIndependentEndUserRequest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
@@ -13,11 +14,11 @@ import lombok.RequiredArgsConstructor;
 public class IndependentEndUserService {
 
     private final IndependentEndUserRepository independentEndUserRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public IndependentEndUser createIndependentEndUser(CreateIndependentEndUserRequest request) {
-        // TODO
-        String passwordHash = "...";
+        String passwordHash = passwordEncoder.encode(request.getPassword());
 
         IndependentEndUser independentEndUser = IndependentEndUser.builder()
                 .firstName(request.getFirstName())

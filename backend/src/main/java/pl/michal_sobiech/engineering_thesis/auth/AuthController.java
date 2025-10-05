@@ -6,12 +6,12 @@ import org.SwaggerCodeGenExample.model.LogInEnterpriseEmployeeResponse;
 import org.SwaggerCodeGenExample.model.LogInIndependentEndUserRequest;
 import org.SwaggerCodeGenExample.model.LogInIndependentEndUserResponse;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.jwt.JwtCreationService;
 import pl.michal_sobiech.engineering_thesis.scope_username_password_authentication.EnterpriseIdUsernamePasswordAuthentication;
+import pl.michal_sobiech.engineering_thesis.security.authentication.StringUsernamePasswordAuthentication;
 import pl.michal_sobiech.engineering_thesis.security.authentication.employee.EmployeeAuthenticationProvider;
 import pl.michal_sobiech.engineering_thesis.security.authentication.independent_end_user.IndependentEndUserAuthenticationProvider;
 import pl.michal_sobiech.engineering_thesis.user.UserIdAuthentication;
@@ -44,7 +44,7 @@ public class AuthController implements AuthApi {
     @Override
     public ResponseEntity<LogInIndependentEndUserResponse> logInIndependentEndUser(
             LogInIndependentEndUserRequest logInIndependentEndUserRequest) {
-        final var token = new UsernamePasswordAuthenticationToken(
+        final var token = new StringUsernamePasswordAuthentication(
                 logInIndependentEndUserRequest.getEmail(),
                 logInIndependentEndUserRequest.getPassword());
 
