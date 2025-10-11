@@ -127,6 +127,7 @@ services:
     ports:
       - 6379:6379
     depends_on:
+      # TODO make this dependent on backend, not DB
       database_primary:
         condition: service_healthy
       database_replica:

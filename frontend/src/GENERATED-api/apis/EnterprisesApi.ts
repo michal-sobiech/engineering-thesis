@@ -53,6 +53,14 @@ export interface GetEnterpriseRequest {
 
 export interface GetEnterpriseServicesRequest {
     enterpriseId: number;
+    name?: string;
+    description?: string;
+    location?: string;
+    backgroundPhoto?: Blob;
+}
+
+export interface PatchRequest {
+    enterpriseId: number;
 }
 
 /**
@@ -163,6 +171,38 @@ export class EnterprisesApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
+        const consumes: runtime.Consume[] = [
+            { contentType: 'multipart/form-data' },
+        ];
+        // @ts-ignore: canConsumeForm may be unused
+        const canConsumeForm = runtime.canConsumeForm(consumes);
+
+        let formParams: { append(param: string, value: any): any };
+        let useForm = false;
+        // use FormData to transmit files using content-type "multipart/form-data"
+        useForm = canConsumeForm;
+        if (useForm) {
+            formParams = new FormData();
+        } else {
+            formParams = new URLSearchParams();
+        }
+
+        if (requestParameters['name'] != null) {
+            formParams.append('name', requestParameters['name'] as any);
+        }
+
+        if (requestParameters['description'] != null) {
+            formParams.append('description', requestParameters['description'] as any);
+        }
+
+        if (requestParameters['location'] != null) {
+            formParams.append('location', requestParameters['location'] as any);
+        }
+
+        if (requestParameters['backgroundPhoto'] != null) {
+            formParams.append('backgroundPhoto', requestParameters['backgroundPhoto'] as any);
+        }
+
 
         let urlPath = `/enterprises/{enterpriseId}/services`;
         urlPath = urlPath.replace(`{${"enterpriseId"}}`, encodeURIComponent(String(requestParameters['enterpriseId'])));
@@ -172,6 +212,7 @@ export class EnterprisesApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
+            body: formParams,
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(GetEnterpriseServicesResponseItemFromJSON));
@@ -180,9 +221,43 @@ export class EnterprisesApi extends runtime.BaseAPI {
     /**
      * Get enterprise employees
      */
-    async getEnterpriseServices(enterpriseId: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetEnterpriseServicesResponseItem>> {
-        const response = await this.getEnterpriseServicesRaw({ enterpriseId: enterpriseId }, initOverrides);
+    async getEnterpriseServices(enterpriseId: number, name?: string, description?: string, location?: string, backgroundPhoto?: Blob, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetEnterpriseServicesResponseItem>> {
+        const response = await this.getEnterpriseServicesRaw({ enterpriseId: enterpriseId, name: name, description: description, location: location, backgroundPhoto: backgroundPhoto }, initOverrides);
         return await response.value();
+    }
+
+    /**
+     */
+    async patchRaw(requestParameters: PatchRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['enterpriseId'] == null) {
+            throw new runtime.RequiredError(
+                'enterpriseId',
+                'Required parameter "enterpriseId" was null or undefined when calling patch().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+
+        let urlPath = `/enterprises/{enterpriseId}/patch`;
+        urlPath = urlPath.replace(`{${"enterpriseId"}}`, encodeURIComponent(String(requestParameters['enterpriseId'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async patch(enterpriseId: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.patchRaw({ enterpriseId: enterpriseId }, initOverrides);
     }
 
 }

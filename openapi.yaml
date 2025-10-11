@@ -264,6 +264,21 @@ components:
       type: array
       items:
         $ref: "#/components/schemas/GetEnterpriseServicesResponseItem"
+    PatchEnterpriseRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          example: The Best Barbershop
+        description:
+          type: string
+          example: The new best barbershop in town.
+        location:
+          type: string
+          example: ul. Nowowiejska 15/19, Warsaw, Poland
+        backgroundPhoto:
+          type: string
+          format: binary
 
   responses:
     OK:
@@ -697,6 +712,12 @@ paths:
           description: Enterprise id
           schema:
             type: integer
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/PatchEnterpriseRequest"
       responses:
         "200":
           description: *OK_DESCRIPTION
@@ -706,5 +727,28 @@ paths:
                 $ref: "#/components/schemas/GetEnterpriseServicesResponse"
         "400":
           $ref: "#/components/responses/BadRequest"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  /enterprises/{enterpriseId}/patch:
+    post:
+      tags: [Enterprises]
+      operationId: patch
+      parameters:
+        - name: enterpriseId
+          in: path
+          required: true
+          description: Enterprise id
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: *OK_DESCRIPTION
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
         "500":
           $ref: "#/components/responses/InternalServerError"

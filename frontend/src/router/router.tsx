@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import { EmployeeCreationWizard } from "../pages/employee/creation/wizard/EmployeeCreationWizard";
 import { EmployeeLogInPage } from "../pages/employee/log_in/EmployeeLogInPage";
 import { EnterprisePublicPage } from "../pages/enterprise/public/EnterprisePublicPage";
+import { EnterpriseStaffPage } from "../pages/enterprise/staff/EnterpriseStaffPage";
 import { CreateEnterprisePage } from "../pages/entrepreneur/create_enterprise/CreateEnterprisePage";
 import { EntrepreneurLandingPage } from "../pages/entrepreneur/landing_page/EntrepreneurLandingPage";
 import { EntrepreneurLogInPage } from "../pages/entrepreneur/log-in/EntrepreneurLogInPage";
@@ -56,6 +57,10 @@ export const router = createBrowserRouter([
             {
                 path: routeTemplates.enterprisePublic,
                 element: <EnterprisePublicPage />
+            },
+            {
+                path: routeTemplates.enterpriseStaff,
+                element: <EnterpriseStaffPage />
             }
         ]
     }
