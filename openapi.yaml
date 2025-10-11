@@ -124,7 +124,7 @@ components:
           example: Kowalski
     CreateEnterpriseRequest:
       type: object
-      required: [enterpriseName, description, location]
+      required: [enterpriseName, description, location, logo, backgroundPhoto]
       properties:
         enterpriseName:
           type: string
@@ -135,6 +135,12 @@ components:
         location:
           type: string
           example: ul. Nowowiejska 15/19, Warsaw, Poland
+        logo:
+          type: string
+          format: binary
+        backgroundPhoto:
+          type: string
+          format: binary
     CreateEnterpriseResponse:
       type: object
       required: [enterpriseId]
@@ -276,6 +282,9 @@ components:
         location:
           type: string
           example: ul. Nowowiejska 15/19, Warsaw, Poland
+        logo:
+          type: string
+          format: binary
         backgroundPhoto:
           type: string
           format: binary

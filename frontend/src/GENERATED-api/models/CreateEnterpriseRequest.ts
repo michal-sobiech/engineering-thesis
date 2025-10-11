@@ -37,6 +37,18 @@ export interface CreateEnterpriseRequest {
      * @memberof CreateEnterpriseRequest
      */
     location: string;
+    /**
+     * 
+     * @type {Blob}
+     * @memberof CreateEnterpriseRequest
+     */
+    logo: Blob;
+    /**
+     * 
+     * @type {Blob}
+     * @memberof CreateEnterpriseRequest
+     */
+    backgroundPhoto: Blob;
 }
 
 /**
@@ -46,6 +58,8 @@ export function instanceOfCreateEnterpriseRequest(value: object): value is Creat
     if (!('enterpriseName' in value) || value['enterpriseName'] === undefined) return false;
     if (!('description' in value) || value['description'] === undefined) return false;
     if (!('location' in value) || value['location'] === undefined) return false;
+    if (!('logo' in value) || value['logo'] === undefined) return false;
+    if (!('backgroundPhoto' in value) || value['backgroundPhoto'] === undefined) return false;
     return true;
 }
 
@@ -62,6 +76,8 @@ export function CreateEnterpriseRequestFromJSONTyped(json: any, ignoreDiscrimina
         'enterpriseName': json['enterpriseName'],
         'description': json['description'],
         'location': json['location'],
+        'logo': json['logo'],
+        'backgroundPhoto': json['backgroundPhoto'],
     };
 }
 
@@ -79,6 +95,8 @@ export function CreateEnterpriseRequestToJSONTyped(value?: CreateEnterpriseReque
         'enterpriseName': value['enterpriseName'],
         'description': value['description'],
         'location': value['location'],
+        'logo': value['logo'],
+        'backgroundPhoto': value['backgroundPhoto'],
     };
 }
 

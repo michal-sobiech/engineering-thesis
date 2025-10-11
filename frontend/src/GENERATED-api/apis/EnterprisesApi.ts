@@ -56,6 +56,7 @@ export interface GetEnterpriseServicesRequest {
     name?: string;
     description?: string;
     location?: string;
+    logo?: Blob;
     backgroundPhoto?: Blob;
 }
 
@@ -181,6 +182,8 @@ export class EnterprisesApi extends runtime.BaseAPI {
         let useForm = false;
         // use FormData to transmit files using content-type "multipart/form-data"
         useForm = canConsumeForm;
+        // use FormData to transmit files using content-type "multipart/form-data"
+        useForm = canConsumeForm;
         if (useForm) {
             formParams = new FormData();
         } else {
@@ -197,6 +200,10 @@ export class EnterprisesApi extends runtime.BaseAPI {
 
         if (requestParameters['location'] != null) {
             formParams.append('location', requestParameters['location'] as any);
+        }
+
+        if (requestParameters['logo'] != null) {
+            formParams.append('logo', requestParameters['logo'] as any);
         }
 
         if (requestParameters['backgroundPhoto'] != null) {
@@ -221,8 +228,8 @@ export class EnterprisesApi extends runtime.BaseAPI {
     /**
      * Get enterprise employees
      */
-    async getEnterpriseServices(enterpriseId: number, name?: string, description?: string, location?: string, backgroundPhoto?: Blob, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetEnterpriseServicesResponseItem>> {
-        const response = await this.getEnterpriseServicesRaw({ enterpriseId: enterpriseId, name: name, description: description, location: location, backgroundPhoto: backgroundPhoto }, initOverrides);
+    async getEnterpriseServices(enterpriseId: number, name?: string, description?: string, location?: string, logo?: Blob, backgroundPhoto?: Blob, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetEnterpriseServicesResponseItem>> {
+        const response = await this.getEnterpriseServicesRaw({ enterpriseId: enterpriseId, name: name, description: description, location: location, logo: logo, backgroundPhoto: backgroundPhoto }, initOverrides);
         return await response.value();
     }
 
