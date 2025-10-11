@@ -24,7 +24,7 @@ export interface CreateEnterpriseRequest {
      * @type {string}
      * @memberof CreateEnterpriseRequest
      */
-    enterpriseName: string;
+    name: string;
     /**
      * 
      * @type {string}
@@ -55,7 +55,7 @@ export interface CreateEnterpriseRequest {
  * Check if a given object implements the CreateEnterpriseRequest interface.
  */
 export function instanceOfCreateEnterpriseRequest(value: object): value is CreateEnterpriseRequest {
-    if (!('enterpriseName' in value) || value['enterpriseName'] === undefined) return false;
+    if (!('name' in value) || value['name'] === undefined) return false;
     if (!('description' in value) || value['description'] === undefined) return false;
     if (!('location' in value) || value['location'] === undefined) return false;
     if (!('logo' in value) || value['logo'] === undefined) return false;
@@ -73,7 +73,7 @@ export function CreateEnterpriseRequestFromJSONTyped(json: any, ignoreDiscrimina
     }
     return {
         
-        'enterpriseName': json['enterpriseName'],
+        'name': json['name'],
         'description': json['description'],
         'location': json['location'],
         'logo': json['logo'],
@@ -92,7 +92,7 @@ export function CreateEnterpriseRequestToJSONTyped(value?: CreateEnterpriseReque
 
     return {
         
-        'enterpriseName': value['enterpriseName'],
+        'name': value['name'],
         'description': value['description'],
         'location': value['location'],
         'logo': value['logo'],

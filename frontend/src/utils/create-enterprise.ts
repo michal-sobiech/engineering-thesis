@@ -5,6 +5,6 @@ import { errorErrResultAsyncFromPromise } from "./result";
 
 export function createEnterprise(name: string, description: string, location: string): ResultAsync<CreateEnterpriseResponse, Error> {
     // console.log("Try to create enterprise", auth.value?.jwtToken)
-    const promise = enterprisesApi.createEnterprise({ enterpriseName: name, description, location });
+    const promise = enterprisesApi.createEnterprise({ name, description, location, logo: new Blob(), backgroundPhoto: new Blob() });
     return errorErrResultAsyncFromPromise(promise);
 }

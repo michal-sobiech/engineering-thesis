@@ -22,7 +22,7 @@ export const EnterprisePublicPage = () => {
             const promise = enterprisesApi.getEnterprise(enterpriseId);
             const result = await errorErrResultAsyncFromPromise(promise);
             if (result.isOk()) {
-                setEnterpriseName(result.value.enterpriseName);
+                setEnterpriseName(result.value.name);
                 setEnterpriseDescription(result.value.description);
                 setEnterpriseLocation(result.value.location);
             }

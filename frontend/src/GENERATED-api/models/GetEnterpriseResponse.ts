@@ -24,7 +24,7 @@ export interface GetEnterpriseResponse {
      * @type {string}
      * @memberof GetEnterpriseResponse
      */
-    enterpriseName: string;
+    name: string;
     /**
      * 
      * @type {string}
@@ -37,15 +37,29 @@ export interface GetEnterpriseResponse {
      * @memberof GetEnterpriseResponse
      */
     location: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetEnterpriseResponse
+     */
+    logoUrl: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetEnterpriseResponse
+     */
+    backgroundPhotoUrl: string;
 }
 
 /**
  * Check if a given object implements the GetEnterpriseResponse interface.
  */
 export function instanceOfGetEnterpriseResponse(value: object): value is GetEnterpriseResponse {
-    if (!('enterpriseName' in value) || value['enterpriseName'] === undefined) return false;
+    if (!('name' in value) || value['name'] === undefined) return false;
     if (!('description' in value) || value['description'] === undefined) return false;
     if (!('location' in value) || value['location'] === undefined) return false;
+    if (!('logoUrl' in value) || value['logoUrl'] === undefined) return false;
+    if (!('backgroundPhotoUrl' in value) || value['backgroundPhotoUrl'] === undefined) return false;
     return true;
 }
 
@@ -59,9 +73,11 @@ export function GetEnterpriseResponseFromJSONTyped(json: any, ignoreDiscriminato
     }
     return {
         
-        'enterpriseName': json['enterpriseName'],
+        'name': json['name'],
         'description': json['description'],
         'location': json['location'],
+        'logoUrl': json['logoUrl'],
+        'backgroundPhotoUrl': json['backgroundPhotoUrl'],
     };
 }
 
@@ -76,9 +92,11 @@ export function GetEnterpriseResponseToJSONTyped(value?: GetEnterpriseResponse |
 
     return {
         
-        'enterpriseName': value['enterpriseName'],
+        'name': value['name'],
         'description': value['description'],
         'location': value['location'],
+        'logoUrl': value['logoUrl'],
+        'backgroundPhotoUrl': value['backgroundPhotoUrl'],
     };
 }
 

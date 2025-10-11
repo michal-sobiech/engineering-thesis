@@ -1,4 +1,4 @@
-import { Flex, Input } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
 import { ChangeEvent, FC, useRef } from 'react';
 import { StandardButton } from './StandardButton';
 import { StandardNoneditableTextField } from './StandardNoneditableTextField';
@@ -21,12 +21,13 @@ export const StandardFileInput: FC<StandardFileInputProps> = ({ fileName, setFil
     }
 
     return <Flex gap="5px" direction="row">
-        <Input
+        {/* <Input
             ref={inputRef}
             type="file"
             onChange={onChangeFileClick}
             display="none"
-        />
+            value={""}
+        /> */}
         <StandardNoneditableTextField text={fileName} placeholder={"No file chosen"} />
         <StandardButton onClick={() => inputRef.current?.click()}>
             Choose file

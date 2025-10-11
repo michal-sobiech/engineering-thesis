@@ -25,7 +25,7 @@ export const EmployeeLogInPage = () => {
         async function loadEnterpriseData(): Promise<void> {
             const result = await errorErrResultAsyncFromPromise(enterprisesApi.getEnterprise(enterpriseId));
             if (result.isOk()) {
-                setEnterpriseName(result.value.enterpriseName);
+                setEnterpriseName(result.value.name);
             } else {
                 navigate(routes.mainPage, { replace: true });
             }

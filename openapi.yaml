@@ -124,9 +124,9 @@ components:
           example: Kowalski
     CreateEnterpriseRequest:
       type: object
-      required: [enterpriseName, description, location, logo, backgroundPhoto]
+      required: [name, description, location, logo, backgroundPhoto]
       properties:
-        enterpriseName:
+        name:
           type: string
           example: The Best Barbershop
         description:
@@ -151,9 +151,9 @@ components:
           example: 345
     GetEnterpriseResponse:
       type: object
-      required: [enterpriseName, description, location]
+      required: [name, description, location, logoUrl, backgroundPhotoUrl]
       properties:
-        enterpriseName:
+        name:
           type: string
           example: The Best Barbershop
         description:
@@ -162,6 +162,14 @@ components:
         location:
           type: string
           example: ul. Nowowiejska 15/19, Warsaw, Poland
+        logoUrl:
+          type: string
+          format: uri
+          example: "https://fastly.picsum.photos/id/664/500/500.jpg?hmac=LzMj17GdOcsFvREmtxFNeatdqenmXSkFpS16xO1D26c"
+        backgroundPhotoUrl:
+          type: string
+          format: uri
+          example: "https://fastly.picsum.photos/id/857/1920/1080.jpg?hmac=iEygpsvD87Z-rhr9Oy9vOCoy_PwpbBS5xhdkBpKs19E"
     CreateEnterpriseEmployeeRequest:
       type: object
       required:

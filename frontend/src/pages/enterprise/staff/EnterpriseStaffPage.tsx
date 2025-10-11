@@ -1,6 +1,7 @@
 import { Box, Center, Flex } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { enterprisesApi } from "../../../api/enterprises-api";
 import { StandardButton } from "../../../common/StandardButton";
 import { StandardFileInput } from "../../../common/StandardFileInput";
 import { StandardFlex } from "../../../common/StandardFlex";
@@ -10,6 +11,8 @@ import { StandardTextField } from "../../../common/StandardTextField";
 import { StandardVerticalSeparator } from "../../../common/StandardVerticalSeparator";
 import { useIntParam } from "../../../hooks/useIntParam";
 import { routes } from "../../../router/routes";
+import { errorErrResultAsyncFromPromise } from "../../../utils/result";
+import { extractFileName } from "../../../utils/url";
 
 export const EnterpriseStaffPage = () => {
     const navigate = useNavigate();
@@ -32,10 +35,30 @@ export const EnterpriseStaffPage = () => {
 
     useEffect(() => {
         async function loadData(): Promise<void> {
+            const promise = enterprisesApi.getEnterprise(enterpriseId);
+            const result = await errorErrResultAsyncFromPromise(promise);
+            if (result.isErr()) {
+                navigate(routes.mainPage);
+                return;
+            }
+            const data = result.value;
 
+            setName(data.name);
+            setDescription(data.description);
+            setLocation(data.location);
+
+            const logoFileName = extractFileName(data.logoUrl);
+            if (logoFileName.isOk()) {
+                setLogoFileName(logoFileName.value);
+            }
+
+            const backgroundPhotoFileName = extractFileName(data.backgroundPhotoUrl);
+            if (backgroundPhotoFileName.isOk()) {
+                setBackgroundPhotoFileName(backgroundPhotoFileName.value);
+            }
         }
         loadData();
-    })
+    }, []);
 
     return <Center height="100vh">
         <StandardPanel>
