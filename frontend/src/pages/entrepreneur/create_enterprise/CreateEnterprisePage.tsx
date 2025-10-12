@@ -1,37 +1,60 @@
 import { Center } from "@chakra-ui/react";
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { enterprisesApi } from "../../../api/enterprises-api";
 import { StandardButton } from "../../../common/StandardButton";
+import { StandardFileInput } from "../../../common/StandardFileInput";
 import { StandardFlex } from "../../../common/StandardFlex";
+import { StandardLabeledContainer } from "../../../common/StandardLabeledContainer";
 import { StandardPanel } from "../../../common/StandardPanel";
-import { StandardTextArea } from "../../../common/StandardTextArea";
 import { StandardTextField } from "../../../common/StandardTextField";
 import { routes } from "../../../router/routes";
-import { createEnterprise } from "../../../utils/create-enterprise";
+import { errorErrResultAsyncFromPromise } from "../../../utils/result";
 import { toastError } from "../../../utils/toast";
 
 export const CreateEnterprisePage = () => {
     const navigate = useNavigate();
 
-    const [enterpriseName, setEnterpriseName] = useState<string>("");
+    const [name, setName] = useState<string>("");
     const [description, setDescription] = useState<string>("");
     const [location, setLocation] = useState<string>("");
+    const [logoFileName, setLogoFileName] = useState<string>("");
+    const [logoFile, setLogoFile] = useState<File | null>(null);
+    const [backgroundPhotoFileName, setBackgroundPhotoFileName] = useState<string>("");
+    const [backgroundPhotoFile, setBackgroundPhotoFile] = useState<File | null>(null);
 
     const handleButtonClick = async () => {
-        console.log("HELLOOO")
-
-        if (enterpriseName === "") {
+        if (name === "") {
             toastError("Choose an enterprise name!");
             return;
         }
 
-        const result = await createEnterprise(enterpriseName, description, location);
+        if (description === "") {
+            toastError("Enter a description");
+            return;
+        }
+
+        if (location === "") {
+            toastError("Enter the location");
+            return;
+        }
+
+        const promise = enterprisesApi.createEnterprise({
+            name,
+            description,
+            location,
+            logoFileName: logoFileName === "" ? undefined : logoFileName,
+            logoFile: logoFile ?? undefined,
+            backgroundPhotoFileName: backgroundPhotoFileName === "" ? undefined : backgroundPhotoFileName,
+            backgroundPhotoFile: backgroundPhotoFile ?? undefined,
+        });
+        const result = await errorErrResultAsyncFromPromise(promise);
+
         if (result.isErr()) {
             toastError("Couldn't create enterprise. Try again later.");
             return;
         }
 
-        console.log("JEST OK");
         const { enterpriseId } = result.value;
         const path = routes.enterprisePublic(enterpriseId);
         console.log(path);
@@ -41,21 +64,21 @@ export const CreateEnterprisePage = () => {
     return <Center height="100vh">
         <StandardPanel>
             <StandardFlex>
-                <StandardTextField
-                    text={enterpriseName}
-                    setText={setEnterpriseName}
-                    placeholder="Enterprise name"
-                />
-                <StandardTextArea
-                    text={description}
-                    setText={setDescription}
-                    placeholder="What does your enterprise do?"
-                />
-                <StandardTextField
-                    text={location}
-                    setText={setLocation}
-                    placeholder="Location"
-                />
+                <StandardLabeledContainer label="Name">
+                    <StandardTextField text={name} setText={setName} placeholder="Name" />
+                </StandardLabeledContainer>
+                <StandardLabeledContainer label="Description">
+                    <StandardTextField text={description} setText={setDescription} placeholder="Description" />
+                </StandardLabeledContainer>
+                <StandardLabeledContainer label="Location">
+                    <StandardTextField text={location} setText={setLocation} placeholder="Location" />
+                </StandardLabeledContainer>
+                <StandardLabeledContainer label="*Logo">
+                    <StandardFileInput fileName={logoFileName} setFileName={setLogoFileName} setFile={setLogoFile} />
+                </StandardLabeledContainer>
+                <StandardLabeledContainer label="*Background photo">
+                    <StandardFileInput fileName={backgroundPhotoFileName} setFileName={setBackgroundPhotoFileName} setFile={setBackgroundPhotoFile} />
+                </StandardLabeledContainer>
                 <StandardButton onClick={handleButtonClick}>Create enterprise</StandardButton>
             </StandardFlex>
         </StandardPanel>

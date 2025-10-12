@@ -42,13 +42,13 @@ export interface GetEnterpriseResponse {
      * @type {string}
      * @memberof GetEnterpriseResponse
      */
-    logoUrl: string;
+    logoUrl?: string;
     /**
      * 
      * @type {string}
      * @memberof GetEnterpriseResponse
      */
-    backgroundPhotoUrl: string;
+    backgroundPhotoUrl?: string;
 }
 
 /**
@@ -58,8 +58,6 @@ export function instanceOfGetEnterpriseResponse(value: object): value is GetEnte
     if (!('name' in value) || value['name'] === undefined) return false;
     if (!('description' in value) || value['description'] === undefined) return false;
     if (!('location' in value) || value['location'] === undefined) return false;
-    if (!('logoUrl' in value) || value['logoUrl'] === undefined) return false;
-    if (!('backgroundPhotoUrl' in value) || value['backgroundPhotoUrl'] === undefined) return false;
     return true;
 }
 
@@ -76,8 +74,8 @@ export function GetEnterpriseResponseFromJSONTyped(json: any, ignoreDiscriminato
         'name': json['name'],
         'description': json['description'],
         'location': json['location'],
-        'logoUrl': json['logoUrl'],
-        'backgroundPhotoUrl': json['backgroundPhotoUrl'],
+        'logoUrl': json['logoUrl'] == null ? undefined : json['logoUrl'],
+        'backgroundPhotoUrl': json['backgroundPhotoUrl'] == null ? undefined : json['backgroundPhotoUrl'],
     };
 }
 

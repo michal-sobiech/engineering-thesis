@@ -39,16 +39,28 @@ export interface CreateEnterpriseRequest {
     location: string;
     /**
      * 
-     * @type {Blob}
+     * @type {string}
      * @memberof CreateEnterpriseRequest
      */
-    logo: Blob;
+    logoFileName?: string;
     /**
      * 
      * @type {Blob}
      * @memberof CreateEnterpriseRequest
      */
-    backgroundPhoto: Blob;
+    logoFile?: Blob;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateEnterpriseRequest
+     */
+    backgroundPhotoFileName?: string;
+    /**
+     * 
+     * @type {Blob}
+     * @memberof CreateEnterpriseRequest
+     */
+    backgroundPhotoFile?: Blob;
 }
 
 /**
@@ -58,8 +70,6 @@ export function instanceOfCreateEnterpriseRequest(value: object): value is Creat
     if (!('name' in value) || value['name'] === undefined) return false;
     if (!('description' in value) || value['description'] === undefined) return false;
     if (!('location' in value) || value['location'] === undefined) return false;
-    if (!('logo' in value) || value['logo'] === undefined) return false;
-    if (!('backgroundPhoto' in value) || value['backgroundPhoto'] === undefined) return false;
     return true;
 }
 
@@ -76,8 +86,10 @@ export function CreateEnterpriseRequestFromJSONTyped(json: any, ignoreDiscrimina
         'name': json['name'],
         'description': json['description'],
         'location': json['location'],
-        'logo': json['logo'],
-        'backgroundPhoto': json['backgroundPhoto'],
+        'logoFileName': json['logoFileName'] == null ? undefined : json['logoFileName'],
+        'logoFile': json['logoFile'] == null ? undefined : json['logoFile'],
+        'backgroundPhotoFileName': json['backgroundPhotoFileName'] == null ? undefined : json['backgroundPhotoFileName'],
+        'backgroundPhotoFile': json['backgroundPhotoFile'] == null ? undefined : json['backgroundPhotoFile'],
     };
 }
 
@@ -95,8 +107,10 @@ export function CreateEnterpriseRequestToJSONTyped(value?: CreateEnterpriseReque
         'name': value['name'],
         'description': value['description'],
         'location': value['location'],
-        'logo': value['logo'],
-        'backgroundPhoto': value['backgroundPhoto'],
+        'logoFileName': value['logoFileName'],
+        'logoFile': value['logoFile'],
+        'backgroundPhotoFileName': value['backgroundPhotoFileName'],
+        'backgroundPhotoFile': value['backgroundPhotoFile'],
     };
 }
 

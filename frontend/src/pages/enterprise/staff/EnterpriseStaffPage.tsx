@@ -36,7 +36,9 @@ export const EnterpriseStaffPage = () => {
             name,
             description,
             location,
+            logoFileName,
             logoFile ?? undefined,
+            backgroundPhotoFileName,
             backgroundPhotoFile ?? undefined
         );
         navigate(routes.enterprisePublic(enterpriseId));

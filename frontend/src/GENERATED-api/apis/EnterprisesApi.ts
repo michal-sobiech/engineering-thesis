@@ -60,8 +60,10 @@ export interface PatchEnterpriseRequest {
     name?: string;
     description?: string;
     location?: string;
-    logo?: Blob;
-    backgroundPhoto?: Blob;
+    logoFileName?: string;
+    logoFile?: Blob;
+    backgroundPhotoFileName?: string;
+    backgroundPhotoFile?: Blob;
 }
 
 /**
@@ -238,12 +240,20 @@ export class EnterprisesApi extends runtime.BaseAPI {
             formParams.append('location', requestParameters['location'] as any);
         }
 
-        if (requestParameters['logo'] != null) {
-            formParams.append('logo', requestParameters['logo'] as any);
+        if (requestParameters['logoFileName'] != null) {
+            formParams.append('logoFileName', requestParameters['logoFileName'] as any);
         }
 
-        if (requestParameters['backgroundPhoto'] != null) {
-            formParams.append('backgroundPhoto', requestParameters['backgroundPhoto'] as any);
+        if (requestParameters['logoFile'] != null) {
+            formParams.append('logoFile', requestParameters['logoFile'] as any);
+        }
+
+        if (requestParameters['backgroundPhotoFileName'] != null) {
+            formParams.append('backgroundPhotoFileName', requestParameters['backgroundPhotoFileName'] as any);
+        }
+
+        if (requestParameters['backgroundPhotoFile'] != null) {
+            formParams.append('backgroundPhotoFile', requestParameters['backgroundPhotoFile'] as any);
         }
 
 
@@ -263,8 +273,8 @@ export class EnterprisesApi extends runtime.BaseAPI {
 
     /**
      */
-    async patchEnterprise(enterpriseId: number, name?: string, description?: string, location?: string, logo?: Blob, backgroundPhoto?: Blob, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.patchEnterpriseRaw({ enterpriseId: enterpriseId, name: name, description: description, location: location, logo: logo, backgroundPhoto: backgroundPhoto }, initOverrides);
+    async patchEnterprise(enterpriseId: number, name?: string, description?: string, location?: string, logoFileName?: string, logoFile?: Blob, backgroundPhotoFileName?: string, backgroundPhotoFile?: Blob, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.patchEnterpriseRaw({ enterpriseId: enterpriseId, name: name, description: description, location: location, logoFileName: logoFileName, logoFile: logoFile, backgroundPhotoFileName: backgroundPhotoFileName, backgroundPhotoFile: backgroundPhotoFile }, initOverrides);
     }
 
 }
