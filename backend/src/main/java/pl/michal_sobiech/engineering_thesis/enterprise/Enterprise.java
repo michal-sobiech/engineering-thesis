@@ -32,8 +32,13 @@ public class Enterprise {
     @Column
     private String description;
 
-    // TODO max String length?
     @Column
     private String location;
+
+    @Column(name = "logo_photo_id")
+    private Long logoPhotoId;
+
+    @Column(name = "background_photo_id")
+    private Long backgroundPhotoId;
 
 }

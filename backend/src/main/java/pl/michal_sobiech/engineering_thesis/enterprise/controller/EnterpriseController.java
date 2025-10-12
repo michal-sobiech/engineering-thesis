@@ -14,6 +14,7 @@ import org.SwaggerCodeGenExample.model.GetEnterpriseResponse;
 import org.SwaggerCodeGenExample.model.GetEnterpriseServicesResponseItem;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.employee.EmployeeService;
@@ -64,16 +65,45 @@ public class EnterpriseController implements EnterprisesApi {
         final var responseBody = new GetEnterpriseResponse(
                 enterprise.getName(),
                 enterprise.getDescription(),
-                enterprise.getLocation());
+                enterprise.getLocation(),
+                enterprise.getLogoPhotoId(),
+                enterprise.getBackgroundPhotoId());
 
         return ResponseEntity.ok(responseBody);
     }
 
+    @Override
     public ResponseEntity<List<GetEnterpriseEmployeesResponseItem>> getEnterpriseEmployees(Integer enterpriseId) {
         return HttpUtils.createInternalServerErrorResponse();
     }
 
+    @Override
     public ResponseEntity<List<GetEnterpriseServicesResponseItem>> getEnterpriseServices(Integer enterpriseId) {
         return HttpUtils.createInternalServerErrorResponse();
     }
+
+    @Override
+    public ResponseEntity<Void> patchEnterprise(
+            Long enterpriseId,
+            String name,
+            String description,
+            String location,
+            String logoFileName,
+            MultipartFile logoFile,
+            String backgroundPhotoFileName,
+            MultipartFile backgroundPhotoFile) {
+
+        
+
+        Optional<Enterprise> optionalEnterprise = enterpriseService.findByEnterpriseId(enterpriseId);
+        if (optionalEnterprise.isEmpty()) {
+            return HttpUtils.createNotFoundReponse();
+        }
+        Enterprise enterprise = optionalEnterprise.get();
+
+        if 
+
+        return ResponseEntity.ok().build();
+    }
+
 }
