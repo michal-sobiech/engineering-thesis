@@ -8,27 +8,23 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.user.UserIdAuthentication;
-import pl.michal_sobiech.engineering_thesis.utils.AuthUtils;
+import pl.michal_sobiech.engineering_thesis.auth.AuthService;
 import pl.michal_sobiech.engineering_thesis.utils.HttpUtils;
 
 @RestController
 @RequiredArgsConstructor
 public class EmployeeController implements EnterpriseEmployeeApi {
 
+    private final AuthService authService;
     private final EmployeeService employeeService;
 
     @Override
     public ResponseEntity<EmployeeGetMeResponse> getMeEmployee() {
-        Optional<UserIdAuthentication> optionalAuthentication = AuthUtils.getUserIdAuthentication();
-        if (optionalAuthentication.isEmpty()) {
-            return HttpUtils.createUnauthorizedResponse();
-        }
-        UserIdAuthentication authentication = optionalAuthentication.get();
+        long userId = authService.requireAuthorizedUser();
 
-        Optional<Employee> optionalEmployee = employeeService.findByUserId(authentication.getPrincipal());
+        Optional<Employee> optionalEmployee = employeeService.findByUserId(userId);
         if (optionalEmployee.isEmpty()) {
-            return HttpUtils.createUnauthorizedResponse();
+            return HttpUtils.createNotFoundReponse();
         }
         Employee employee = optionalEmployee.get();
 
