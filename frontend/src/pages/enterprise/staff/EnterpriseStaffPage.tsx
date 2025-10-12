@@ -1,4 +1,5 @@
 import { Box, Center, Flex } from "@chakra-ui/react";
+import { ok } from "neverthrow";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { enterprisesApi } from "../../../api/enterprises-api";
@@ -18,12 +19,12 @@ export const EnterpriseStaffPage = () => {
     const navigate = useNavigate();
     const enterpriseId = useIntParam("enterpriseId");
 
-    const [name, setName] = useState<string>("");
-    const [description, setDescription] = useState<string>("");
-    const [location, setLocation] = useState<string>("");
-    const [logoFileName, setLogoFileName] = useState<string>("");
+    const [name, setName] = useState<string | null>(null);
+    const [description, setDescription] = useState<string | null>(null);
+    const [location, setLocation] = useState<string | null>(null);
+    const [logoFileName, setLogoFileName] = useState<string | null>(null);
     const [logoFile, setLogoFile] = useState<File | null>(null);
-    const [backgroundPhotoFileName, setBackgroundPhotoFileName] = useState<string>("");
+    const [backgroundPhotoFileName, setBackgroundPhotoFileName] = useState<string | null>(null);
     const [backgroundPhotoFile, setBackgroundPhotoFile] = useState<File | null>(null);
 
     const onDicardClick = () => {
@@ -33,12 +34,12 @@ export const EnterpriseStaffPage = () => {
     const onSaveClick = () => {
         enterprisesApi.patchEnterprise(
             enterpriseId,
-            name,
-            description,
-            location,
-            logoFileName,
+            name ?? undefined,
+            description ?? undefined,
+            location ?? undefined,
+            logoFileName ?? undefined,
             logoFile ?? undefined,
-            backgroundPhotoFileName,
+            backgroundPhotoFileName ?? undefined,
             backgroundPhotoFile ?? undefined
         );
         navigate(routes.enterprisePublic(enterpriseId));
@@ -58,12 +59,16 @@ export const EnterpriseStaffPage = () => {
             setDescription(data.description);
             setLocation(data.location);
 
-            const logoFileName = extractFileName(data.logoUrl);
+            const logoFileName = data.logoUrl !== undefined
+                ? extractFileName(data.logoUrl)
+                : ok(null);
             if (logoFileName.isOk()) {
                 setLogoFileName(logoFileName.value);
             }
 
-            const backgroundPhotoFileName = extractFileName(data.backgroundPhotoUrl);
+            const backgroundPhotoFileName = data.backgroundPhotoUrl !== undefined
+                ? extractFileName(data.backgroundPhotoUrl)
+                : ok(null);
             if (backgroundPhotoFileName.isOk()) {
                 setBackgroundPhotoFileName(backgroundPhotoFileName.value);
             }
@@ -75,19 +80,19 @@ export const EnterpriseStaffPage = () => {
         <StandardPanel>
             <StandardFlex>
                 <StandardLabeledContainer label="Name">
-                    <StandardTextField text={name} setText={setName} placeholder="Name" />
+                    <StandardTextField text={name ?? ""} setText={setName} placeholder="Name" />
                 </StandardLabeledContainer>
                 <StandardLabeledContainer label="Description">
-                    <StandardTextField text={description} setText={setDescription} placeholder="Description" />
+                    <StandardTextField text={description ?? ""} setText={setDescription} placeholder="Description" />
                 </StandardLabeledContainer>
                 <StandardLabeledContainer label="Location">
-                    <StandardTextField text={location} setText={setLocation} placeholder="Location" />
+                    <StandardTextField text={location ?? ""} setText={setLocation} placeholder="Location" />
                 </StandardLabeledContainer>
-                <StandardLabeledContainer label="Logo">
-                    <StandardFileInput fileName={logoFileName} setFileName={setLogoFileName} setFile={setLogoFile} />
+                <StandardLabeledContainer label="*Logo">
+                    <StandardFileInput text={logoFileName ?? ""} setText={setLogoFileName} setFile={setLogoFile} />
                 </StandardLabeledContainer>
-                <StandardLabeledContainer label="Background photo">
-                    <StandardFileInput fileName={backgroundPhotoFileName} setFileName={setBackgroundPhotoFileName} setFile={setBackgroundPhotoFile} />
+                <StandardLabeledContainer label="*Background photo">
+                    <StandardFileInput text={backgroundPhotoFileName ?? ""} setText={setBackgroundPhotoFileName} setFile={setBackgroundPhotoFile} />
                 </StandardLabeledContainer>
                 <Box minHeight="5px" />
                 <StandardVerticalSeparator />

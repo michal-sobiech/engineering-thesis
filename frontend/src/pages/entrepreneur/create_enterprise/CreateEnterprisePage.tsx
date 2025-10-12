@@ -74,10 +74,10 @@ export const CreateEnterprisePage = () => {
                     <StandardTextField text={location} setText={setLocation} placeholder="Location" />
                 </StandardLabeledContainer>
                 <StandardLabeledContainer label="*Logo">
-                    <StandardFileInput fileName={logoFileName} setFileName={setLogoFileName} setFile={setLogoFile} />
+                    <StandardFileInput text={logoFileName} setText={setLogoFileName} setFile={setLogoFile} />
                 </StandardLabeledContainer>
                 <StandardLabeledContainer label="*Background photo">
-                    <StandardFileInput fileName={backgroundPhotoFileName} setFileName={setBackgroundPhotoFileName} setFile={setBackgroundPhotoFile} />
+                    <StandardFileInput text={backgroundPhotoFileName} setText={setBackgroundPhotoFileName} setFile={setBackgroundPhotoFile} />
                 </StandardLabeledContainer>
                 <StandardButton onClick={handleButtonClick}>Create enterprise</StandardButton>
             </StandardFlex>

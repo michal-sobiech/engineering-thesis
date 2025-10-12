@@ -5,19 +5,20 @@ import { StandardNoneditableTextField } from './StandardNoneditableTextField';
 import { VoidCallback } from './VoidCallback';
 
 export interface StandardFileInputProps {
-    fileName: string;
-    setFileName: VoidCallback<string>;
+    text: string;
+    setText: VoidCallback<string>;
     setFile: VoidCallback<File>;
 }
 
-export const StandardFileInput: FC<StandardFileInputProps> = ({ fileName, setFileName, setFile }) => {
+export const StandardFileInput: FC<StandardFileInputProps> = ({ text, setText, setFile }) => {
     const inputRef = useRef<HTMLInputElement>(null);
 
     const onChangeFileClick = (event: ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
+        console.log(file);
         if (file !== undefined) {
-            setFileName(fileName);
             setFile(file);
+            setText(file.name);
         }
     }
 
@@ -28,7 +29,7 @@ export const StandardFileInput: FC<StandardFileInputProps> = ({ fileName, setFil
             onChange={onChangeFileClick}
             display="none"
         />
-        <StandardNoneditableTextField text={fileName} placeholder={"No file chosen"} />
+        <StandardNoneditableTextField text={text} placeholder={"No file chosen"} />
         <StandardButton onClick={() => inputRef.current?.click()}>
             Choose file
         </StandardButton>
