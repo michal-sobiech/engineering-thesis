@@ -157,7 +157,7 @@ components:
           example: 345
     GetEnterpriseResponse:
       type: object
-      required: [name, description, location]
+      required: [name, description, location, logoPhotoId, backgroundPhotoId]
       properties:
         name:
           type: string
@@ -168,14 +168,14 @@ components:
         location:
           type: string
           example: ul. Nowowiejska 15/19, Warsaw, Poland
-        logoUrl:
-          type: string
-          format: uri
-          example: "https://fastly.picsum.photos/id/664/500/500.jpg?hmac=LzMj17GdOcsFvREmtxFNeatdqenmXSkFpS16xO1D26c"
-        backgroundPhotoUrl:
-          type: string
-          format: uri
-          example: "https://fastly.picsum.photos/id/857/1920/1080.jpg?hmac=iEygpsvD87Z-rhr9Oy9vOCoy_PwpbBS5xhdkBpKs19E"
+        logoPhotoId:
+          type: integer
+          format: int64
+          example: 123
+        backgroundPhotoId:
+          type: integer
+          format: int64
+          example: 123
     CreateEnterpriseEmployeeRequest:
       type: object
       required:
@@ -779,5 +779,34 @@ paths:
           $ref: "#/components/responses/Unauthorized"
         "403":
           $ref: "#/components/responses/Forbidden"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  /photos/{photoId}:
+    get:
+      tags: [Photos]
+      operationId: getPhoto
+      summary: Get photo
+      parameters:
+        - name: photoId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: *OK_DESCRIPTION
+          content:
+            image/png:
+              schema:
+                type: string
+                format: binary
+          headers:
+            Content-Disposition:
+              schema:
+                type: string
+                example: inline; filename=photo.png
+        "400":
+          $ref: "#/components/responses/BadRequest"
         "500":
           $ref: "#/components/responses/InternalServerError"
