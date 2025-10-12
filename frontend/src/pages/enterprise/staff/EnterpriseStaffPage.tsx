@@ -22,14 +22,23 @@ export const EnterpriseStaffPage = () => {
     const [description, setDescription] = useState<string>("");
     const [location, setLocation] = useState<string>("");
     const [logoFileName, setLogoFileName] = useState<string>("");
+    const [logoFile, setLogoFile] = useState<File | null>(null);
     const [backgroundPhotoFileName, setBackgroundPhotoFileName] = useState<string>("");
+    const [backgroundPhotoFile, setBackgroundPhotoFile] = useState<File | null>(null);
 
     const onDicardClick = () => {
         navigate(routes.enterprisePublic(enterpriseId));
     }
 
     const onSaveClick = () => {
-        // TODO save
+        enterprisesApi.patchEnterprise(
+            enterpriseId,
+            name,
+            description,
+            location,
+            logoFile ?? undefined,
+            backgroundPhotoFile ?? undefined
+        );
         navigate(routes.enterprisePublic(enterpriseId));
     }
 
@@ -73,10 +82,10 @@ export const EnterpriseStaffPage = () => {
                     <StandardTextField text={location} setText={setLocation} placeholder="Location" />
                 </StandardLabeledContainer>
                 <StandardLabeledContainer label="Logo">
-                    <StandardFileInput fileName={logoFileName} setFileName={setLogoFileName} />
+                    <StandardFileInput fileName={logoFileName} setFileName={setLogoFileName} setFile={setLogoFile} />
                 </StandardLabeledContainer>
                 <StandardLabeledContainer label="Background photo">
-                    <StandardFileInput fileName={backgroundPhotoFileName} setFileName={setBackgroundPhotoFileName} />
+                    <StandardFileInput fileName={backgroundPhotoFileName} setFileName={setBackgroundPhotoFileName} setFile={setBackgroundPhotoFile} />
                 </StandardLabeledContainer>
                 <Box minHeight="5px" />
                 <StandardVerticalSeparator />

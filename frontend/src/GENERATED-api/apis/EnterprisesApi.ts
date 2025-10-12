@@ -53,15 +53,15 @@ export interface GetEnterpriseRequest {
 
 export interface GetEnterpriseServicesRequest {
     enterpriseId: number;
+}
+
+export interface PatchEnterpriseRequest {
+    enterpriseId: number;
     name?: string;
     description?: string;
     location?: string;
     logo?: Blob;
     backgroundPhoto?: Blob;
-}
-
-export interface PatchRequest {
-    enterpriseId: number;
 }
 
 /**
@@ -172,6 +172,42 @@ export class EnterprisesApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
+
+        let urlPath = `/enterprises/{enterpriseId}/services`;
+        urlPath = urlPath.replace(`{${"enterpriseId"}}`, encodeURIComponent(String(requestParameters['enterpriseId'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(GetEnterpriseServicesResponseItemFromJSON));
+    }
+
+    /**
+     * Get enterprise employees
+     */
+    async getEnterpriseServices(enterpriseId: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetEnterpriseServicesResponseItem>> {
+        const response = await this.getEnterpriseServicesRaw({ enterpriseId: enterpriseId }, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async patchEnterpriseRaw(requestParameters: PatchEnterpriseRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['enterpriseId'] == null) {
+            throw new runtime.RequiredError(
+                'enterpriseId',
+                'Required parameter "enterpriseId" was null or undefined when calling patchEnterprise().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
         const consumes: runtime.Consume[] = [
             { contentType: 'multipart/form-data' },
         ];
@@ -211,51 +247,15 @@ export class EnterprisesApi extends runtime.BaseAPI {
         }
 
 
-        let urlPath = `/enterprises/{enterpriseId}/services`;
-        urlPath = urlPath.replace(`{${"enterpriseId"}}`, encodeURIComponent(String(requestParameters['enterpriseId'])));
-
-        const response = await this.request({
-            path: urlPath,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-            body: formParams,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(GetEnterpriseServicesResponseItemFromJSON));
-    }
-
-    /**
-     * Get enterprise employees
-     */
-    async getEnterpriseServices(enterpriseId: number, name?: string, description?: string, location?: string, logo?: Blob, backgroundPhoto?: Blob, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetEnterpriseServicesResponseItem>> {
-        const response = await this.getEnterpriseServicesRaw({ enterpriseId: enterpriseId, name: name, description: description, location: location, logo: logo, backgroundPhoto: backgroundPhoto }, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     */
-    async patchRaw(requestParameters: PatchRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters['enterpriseId'] == null) {
-            throw new runtime.RequiredError(
-                'enterpriseId',
-                'Required parameter "enterpriseId" was null or undefined when calling patch().'
-            );
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-
         let urlPath = `/enterprises/{enterpriseId}/patch`;
         urlPath = urlPath.replace(`{${"enterpriseId"}}`, encodeURIComponent(String(requestParameters['enterpriseId'])));
 
         const response = await this.request({
             path: urlPath,
-            method: 'POST',
+            method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
+            body: formParams,
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -263,8 +263,8 @@ export class EnterprisesApi extends runtime.BaseAPI {
 
     /**
      */
-    async patch(enterpriseId: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.patchRaw({ enterpriseId: enterpriseId }, initOverrides);
+    async patchEnterprise(enterpriseId: number, name?: string, description?: string, location?: string, logo?: Blob, backgroundPhoto?: Blob, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.patchEnterpriseRaw({ enterpriseId: enterpriseId, name: name, description: description, location: location, logo: logo, backgroundPhoto: backgroundPhoto }, initOverrides);
     }
 
 }

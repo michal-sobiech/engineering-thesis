@@ -729,12 +729,6 @@ paths:
           description: Enterprise id
           schema:
             type: integer
-      requestBody:
-        required: true
-        content:
-          multipart/form-data:
-            schema:
-              $ref: "#/components/schemas/PatchEnterpriseRequest"
       responses:
         "200":
           description: *OK_DESCRIPTION
@@ -747,9 +741,9 @@ paths:
         "500":
           $ref: "#/components/responses/InternalServerError"
   /enterprises/{enterpriseId}/patch:
-    post:
+    patch:
       tags: [Enterprises]
-      operationId: patch
+      operationId: patchEnterprise
       parameters:
         - name: enterpriseId
           in: path
@@ -758,6 +752,12 @@ paths:
           schema:
             type: integer
             format: int64
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/PatchEnterpriseRequest"
       responses:
         "200":
           description: *OK_DESCRIPTION
