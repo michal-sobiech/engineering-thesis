@@ -1,5 +1,4 @@
 import { Box, Center, Flex } from "@chakra-ui/react";
-import { err, ok, Result, ResultAsync } from "neverthrow";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { enterprisesApi } from "../../../api/enterprises-api";
@@ -12,8 +11,7 @@ import { StandardTextField } from "../../../common/StandardTextField";
 import { StandardVerticalSeparator } from "../../../common/StandardVerticalSeparator";
 import { useIntParam } from "../../../hooks/useIntParam";
 import { routes } from "../../../router/routes";
-import { fetchPhoto } from "../../../utils/photo";
-import { errorErrResultAsyncFromPromise, promiseResultToErrorAsyncResult } from "../../../utils/result";
+import { fetchEnterpriseData } from "../utils";
 
 export const EnterpriseStaffPage = () => {
     const navigate = useNavigate();
@@ -22,9 +20,7 @@ export const EnterpriseStaffPage = () => {
     const [name, setName] = useState<string | null>(null);
     const [description, setDescription] = useState<string | null>(null);
     const [location, setLocation] = useState<string | null>(null);
-    // const [initialLogoFileName, setInitialLogoFileName] = useState<string | null>(null);
     const [logoFile, setLogoFile] = useState<File | null>(null);
-    // const [initialBackgroundPhotoFileName, setInitialBackgroundPhotoFileName] = useState<string | null>(null);
     const [backgroundPhotoFile, setBackgroundPhotoFile] = useState<File | null>(null);
 
     const onDicardClick = () => {
@@ -98,59 +94,4 @@ export const EnterpriseStaffPage = () => {
             </StandardFlex>
         </StandardPanel>
     </Center >;
-}
-
-interface EnterpriseData {
-    name: string;
-    description: string;
-    location: string;
-    logo: File | null;
-    backgroundPhoto: File | null;
-}
-
-function fetchEnterpriseData(enterpriseId: number): ResultAsync<EnterpriseData, Error> {
-
-    async function createPromise(): Promise<Result<EnterpriseData, Error>> {
-        const enterprisePromise = enterprisesApi.getEnterprise(enterpriseId);
-        const enterpriseResult = await errorErrResultAsyncFromPromise(enterprisePromise);
-        if (enterpriseResult.isErr()) {
-            return err(enterpriseResult.error);
-        }
-
-        const logoPhotoId = enterpriseResult.value.logoPhotoId;
-        const backgroundPhotoId = enterpriseResult.value.backgroundPhotoId;
-
-        let logoFile: File | null;
-        if (logoPhotoId === undefined) {
-            logoFile = null;
-        } else {
-            const result = await fetchPhoto(logoPhotoId);
-            if (result.isErr()) {
-                return err(result.error);
-            }
-            logoFile = result.value;
-        }
-
-        let backgroundPhotoFile: File | null;
-        if (backgroundPhotoId === undefined) {
-            backgroundPhotoFile = null;
-        } else {
-            const result = await fetchPhoto(backgroundPhotoId);
-            if (result.isErr()) {
-                return err(result.error);
-            }
-            backgroundPhotoFile = result.value;
-        }
-
-        return ok<EnterpriseData>({
-            name: enterpriseResult.value.name,
-            description: enterpriseResult.value.description,
-            location: enterpriseResult.value.location,
-            logo: logoFile,
-            backgroundPhoto: backgroundPhotoFile,
-        });
-    }
-
-    return promiseResultToErrorAsyncResult(createPromise());
-
 }

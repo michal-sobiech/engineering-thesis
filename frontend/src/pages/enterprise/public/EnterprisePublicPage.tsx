@@ -1,41 +1,49 @@
 import { Box, Center, Flex, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { enterprisesApi } from "../../../api/enterprises-api";
+import { useNavigate } from "react-router";
 import { ScrollableList } from "../../../common/scrollable-list/ScrollableList";
 import { StandardBox } from "../../../common/StandardBox";
 import { StandardHorizontalSeparator } from "../../../common/StandardHorizontalSeparator";
 import { StandardPanel } from "../../../common/StandardPanel";
 import { useIntParam } from "../../../hooks/useIntParam";
-import { errorErrResultAsyncFromPromise } from "../../../utils/result";
+import { routes } from "../../../router/routes";
+import { fetchEnterpriseData } from "../utils";
 import { EnterprisePublicPageHeader } from "./EnterprisePublicPageHeader";
 import { EnterprisePublicPageServicesList } from "./EnterprisePublicPageServicesList";
 
 export const EnterprisePublicPage = () => {
+    const navigate = useNavigate();
     const enterpriseId = useIntParam("enterpriseId");
 
-    const [enterpriseName, setEnterpriseName] = useState<string>("");
-    const [enterpriseDescription, setEnterpriseDescription] = useState<string>("");
-    const [enterpriseLocation, setEnterpriseLocation] = useState<string>("");
+    const [name, setName] = useState<string | null>(null);
+    const [description, setDescription] = useState<string | null>(null);
+    const [location, setLocation] = useState<string | null>(null);
+    const [logoFile, setLogoFile] = useState<File | null>(null);
+    const [backgroundPhotoFile, setBackgroundPhotoFile] = useState<File | null>(null);
 
     useEffect(() => {
-        async function loadEnterpriseData(): Promise<void> {
-            const promise = enterprisesApi.getEnterprise(enterpriseId);
-            const result = await errorErrResultAsyncFromPromise(promise);
-            if (result.isOk()) {
-                setEnterpriseName(result.value.name);
-                setEnterpriseDescription(result.value.description);
-                setEnterpriseLocation(result.value.location);
+        async function loadData(): Promise<void> {
+            const data = await fetchEnterpriseData(enterpriseId);
+            if (data.isErr()) {
+                throw navigate(routes.mainPage);
             }
+            setName(data.value.name);
+            setDescription(data.value.description);
+            setLocation(data.value.location);
+            setLogoFile(data.value.logo);
+            setBackgroundPhotoFile(data.value.backgroundPhoto);
         }
-
-        loadEnterpriseData();
+        loadData();
     }, []);
+
+    const logoObjectUrl = logoFile ? URL.createObjectURL(logoFile) : undefined;
+    const backgroundPhotoObjectUrl = backgroundPhotoFile ? URL.createObjectURL(backgroundPhotoFile) : undefined;
 
     return <Center>
         <Box
             width="100vw"
             height="100vh"
-            backgroundImage="url(https://picsum.photos/1600/902)"
+            backgroundImage={`url(${logoObjectUrl})`}
             backgroundRepeat="no-repeat"
             backgroundPosition="center"
             backgroundSize="cover"
@@ -43,11 +51,11 @@ export const EnterprisePublicPage = () => {
             <Center width="100%" height="100%">
                 <StandardPanel width="80%" height="90vh" padding="20px" backgroundColor="primary.basicWhite" >
                     <Flex direction="column" align="stretch" gap="10px">
-                        <EnterprisePublicPageHeader enterpriseName={enterpriseName} />
+                        <EnterprisePublicPageHeader enterpriseName={name ?? ""} imageUrl={backgroundPhotoObjectUrl} />
                         <StandardHorizontalSeparator />
-                        <Text> {enterpriseDescription} </Text>
+                        <Text> {description ?? ""} </Text>
                         <StandardHorizontalSeparator />
-                        <Text> {"\u{1F4CD}"} {enterpriseLocation} </Text>
+                        <Text> {"\u{1F4CD}"} {location} </Text>
                         <StandardHorizontalSeparator />
                         <Flex direction="column" gap="5px">
                             <Text>Services</Text>
