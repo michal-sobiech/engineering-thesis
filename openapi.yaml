@@ -151,7 +151,7 @@ components:
           example: 345
     GetEnterpriseResponse:
       type: object
-      required: [name, description, location, logoPhotoId, backgroundPhotoId]
+      required: [name, description, location]
       properties:
         name:
           type: string
@@ -568,7 +568,7 @@ paths:
       requestBody:
         required: true
         content:
-          application/json:
+          multipart/form-data:
             schema:
               $ref: "#/components/schemas/CreateEnterpriseRequest"
       responses:
@@ -744,6 +744,8 @@ paths:
     patch:
       tags: [Enterprises]
       operationId: patchEnterprise
+      security:
+        - JwtBearerAuth: []
       parameters:
         - name: enterpriseId
           in: path
@@ -793,7 +795,7 @@ paths:
             Content-Disposition:
               schema:
                 type: string
-                example: inline; filename=photo.png
+                example: inline; filename="photo.png"
         "400":
           $ref: "#/components/responses/BadRequest"
         "500":

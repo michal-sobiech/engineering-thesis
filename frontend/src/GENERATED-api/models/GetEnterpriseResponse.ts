@@ -39,16 +39,16 @@ export interface GetEnterpriseResponse {
     location: string;
     /**
      * 
-     * @type {string}
+     * @type {number}
      * @memberof GetEnterpriseResponse
      */
-    logoUrl?: string;
+    logoPhotoId?: number;
     /**
      * 
-     * @type {string}
+     * @type {number}
      * @memberof GetEnterpriseResponse
      */
-    backgroundPhotoUrl?: string;
+    backgroundPhotoId?: number;
 }
 
 /**
@@ -74,8 +74,8 @@ export function GetEnterpriseResponseFromJSONTyped(json: any, ignoreDiscriminato
         'name': json['name'],
         'description': json['description'],
         'location': json['location'],
-        'logoUrl': json['logoUrl'] == null ? undefined : json['logoUrl'],
-        'backgroundPhotoUrl': json['backgroundPhotoUrl'] == null ? undefined : json['backgroundPhotoUrl'],
+        'logoPhotoId': json['logoPhotoId'] == null ? undefined : json['logoPhotoId'],
+        'backgroundPhotoId': json['backgroundPhotoId'] == null ? undefined : json['backgroundPhotoId'],
     };
 }
 
@@ -93,8 +93,8 @@ export function GetEnterpriseResponseToJSONTyped(value?: GetEnterpriseResponse |
         'name': value['name'],
         'description': value['description'],
         'location': value['location'],
-        'logoUrl': value['logoUrl'],
-        'backgroundPhotoUrl': value['backgroundPhotoUrl'],
+        'logoPhotoId': value['logoPhotoId'],
+        'backgroundPhotoId': value['backgroundPhotoId'],
     };
 }
 

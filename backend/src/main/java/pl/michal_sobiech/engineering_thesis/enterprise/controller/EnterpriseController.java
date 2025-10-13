@@ -7,7 +7,6 @@ import org.SwaggerCodeGenExample.api.EnterprisesApi;
 import org.SwaggerCodeGenExample.model.CheckIndependentEndUserEmailExists200Response;
 import org.SwaggerCodeGenExample.model.CreateEnterpriseEmployeeRequest;
 import org.SwaggerCodeGenExample.model.CreateEnterpriseEmployeeResponse;
-import org.SwaggerCodeGenExample.model.CreateEnterpriseRequest;
 import org.SwaggerCodeGenExample.model.CreateEnterpriseResponse;
 import org.SwaggerCodeGenExample.model.GetEnterpriseEmployeesResponseItem;
 import org.SwaggerCodeGenExample.model.GetEnterpriseResponse;
@@ -38,8 +37,18 @@ public class EnterpriseController implements EnterprisesApi {
     private final EnterpriseControllerCreateEmployee enterpriseControllerCreateEmployee;
 
     @Override
-    public ResponseEntity<CreateEnterpriseResponse> createEnterprise(CreateEnterpriseRequest createEnterpriseRequest) {
-        return enterpriseControllerCreateEnterprise.createEnterprise(createEnterpriseRequest);
+    public ResponseEntity<CreateEnterpriseResponse> createEnterprise(
+            String name,
+            String description,
+            String location,
+            MultipartFile logoFile,
+            MultipartFile backgroundPhotoFile) {
+        return enterpriseControllerCreateEnterprise.createEnterprise(
+                name,
+                description,
+                location,
+                Optional.ofNullable(logoFile),
+                Optional.ofNullable(backgroundPhotoFile));
     }
 
     @Override
@@ -67,12 +76,13 @@ public class EnterpriseController implements EnterprisesApi {
         }
         Enterprise enterprise = optionalEnterprise.get();
 
-        final var responseBody = new GetEnterpriseResponse(
+        var responseBody = new GetEnterpriseResponse(
                 enterprise.getName(),
                 enterprise.getDescription(),
-                enterprise.getLocation(),
-                enterprise.getLogoPhotoId(),
-                enterprise.getBackgroundPhotoId());
+                enterprise.getLocation());
+
+        responseBody.logoPhotoId(enterprise.getLogoPhotoId());
+        responseBody.backgroundPhotoId(enterprise.getBackgroundPhotoId());
 
         return ResponseEntity.ok(responseBody);
     }

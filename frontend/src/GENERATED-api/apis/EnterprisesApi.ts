@@ -15,7 +15,6 @@
 
 import * as runtime from '../runtime';
 import type {
-  CreateEnterpriseRequest,
   CreateEnterpriseResponse,
   GetEnterpriseResponse,
   GetEnterpriseServicesResponseItem,
@@ -25,8 +24,6 @@ import type {
   InlineObject4,
 } from '../models/index';
 import {
-    CreateEnterpriseRequestFromJSON,
-    CreateEnterpriseRequestToJSON,
     CreateEnterpriseResponseFromJSON,
     CreateEnterpriseResponseToJSON,
     GetEnterpriseResponseFromJSON,
@@ -43,8 +40,12 @@ import {
     InlineObject4ToJSON,
 } from '../models/index';
 
-export interface CreateEnterpriseOperationRequest {
-    createEnterpriseRequest: CreateEnterpriseRequest;
+export interface CreateEnterpriseRequest {
+    name: string;
+    description: string;
+    location: string;
+    logoFile?: Blob;
+    backgroundPhotoFile?: Blob;
 }
 
 export interface GetEnterpriseRequest {
@@ -60,9 +61,7 @@ export interface PatchEnterpriseRequest {
     name?: string;
     description?: string;
     location?: string;
-    logoFileName?: string;
     logoFile?: Blob;
-    backgroundPhotoFileName?: string;
     backgroundPhotoFile?: Blob;
 }
 
@@ -73,19 +72,31 @@ export class EnterprisesApi extends runtime.BaseAPI {
 
     /**
      */
-    async createEnterpriseRaw(requestParameters: CreateEnterpriseOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CreateEnterpriseResponse>> {
-        if (requestParameters['createEnterpriseRequest'] == null) {
+    async createEnterpriseRaw(requestParameters: CreateEnterpriseRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CreateEnterpriseResponse>> {
+        if (requestParameters['name'] == null) {
             throw new runtime.RequiredError(
-                'createEnterpriseRequest',
-                'Required parameter "createEnterpriseRequest" was null or undefined when calling createEnterprise().'
+                'name',
+                'Required parameter "name" was null or undefined when calling createEnterprise().'
+            );
+        }
+
+        if (requestParameters['description'] == null) {
+            throw new runtime.RequiredError(
+                'description',
+                'Required parameter "description" was null or undefined when calling createEnterprise().'
+            );
+        }
+
+        if (requestParameters['location'] == null) {
+            throw new runtime.RequiredError(
+                'location',
+                'Required parameter "location" was null or undefined when calling createEnterprise().'
             );
         }
 
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
 
         if (this.configuration && this.configuration.accessToken) {
             const token = this.configuration.accessToken;
@@ -95,6 +106,44 @@ export class EnterprisesApi extends runtime.BaseAPI {
                 headerParameters["Authorization"] = `Bearer ${tokenString}`;
             }
         }
+        const consumes: runtime.Consume[] = [
+            { contentType: 'multipart/form-data' },
+        ];
+        // @ts-ignore: canConsumeForm may be unused
+        const canConsumeForm = runtime.canConsumeForm(consumes);
+
+        let formParams: { append(param: string, value: any): any };
+        let useForm = false;
+        // use FormData to transmit files using content-type "multipart/form-data"
+        useForm = canConsumeForm;
+        // use FormData to transmit files using content-type "multipart/form-data"
+        useForm = canConsumeForm;
+        if (useForm) {
+            formParams = new FormData();
+        } else {
+            formParams = new URLSearchParams();
+        }
+
+        if (requestParameters['name'] != null) {
+            formParams.append('name', requestParameters['name'] as any);
+        }
+
+        if (requestParameters['description'] != null) {
+            formParams.append('description', requestParameters['description'] as any);
+        }
+
+        if (requestParameters['location'] != null) {
+            formParams.append('location', requestParameters['location'] as any);
+        }
+
+        if (requestParameters['logoFile'] != null) {
+            formParams.append('logoFile', requestParameters['logoFile'] as any);
+        }
+
+        if (requestParameters['backgroundPhotoFile'] != null) {
+            formParams.append('backgroundPhotoFile', requestParameters['backgroundPhotoFile'] as any);
+        }
+
 
         let urlPath = `/enterprises`;
 
@@ -103,7 +152,7 @@ export class EnterprisesApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: CreateEnterpriseRequestToJSON(requestParameters['createEnterpriseRequest']),
+            body: formParams,
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => CreateEnterpriseResponseFromJSON(jsonValue));
@@ -111,8 +160,8 @@ export class EnterprisesApi extends runtime.BaseAPI {
 
     /**
      */
-    async createEnterprise(createEnterpriseRequest: CreateEnterpriseRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CreateEnterpriseResponse> {
-        const response = await this.createEnterpriseRaw({ createEnterpriseRequest: createEnterpriseRequest }, initOverrides);
+    async createEnterprise(name: string, description: string, location: string, logoFile?: Blob, backgroundPhotoFile?: Blob, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CreateEnterpriseResponse> {
+        const response = await this.createEnterpriseRaw({ name: name, description: description, location: location, logoFile: logoFile, backgroundPhotoFile: backgroundPhotoFile }, initOverrides);
         return await response.value();
     }
 
@@ -210,6 +259,14 @@ export class EnterprisesApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("JwtBearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
         const consumes: runtime.Consume[] = [
             { contentType: 'multipart/form-data' },
         ];
@@ -240,16 +297,8 @@ export class EnterprisesApi extends runtime.BaseAPI {
             formParams.append('location', requestParameters['location'] as any);
         }
 
-        if (requestParameters['logoFileName'] != null) {
-            formParams.append('logoFileName', requestParameters['logoFileName'] as any);
-        }
-
         if (requestParameters['logoFile'] != null) {
             formParams.append('logoFile', requestParameters['logoFile'] as any);
-        }
-
-        if (requestParameters['backgroundPhotoFileName'] != null) {
-            formParams.append('backgroundPhotoFileName', requestParameters['backgroundPhotoFileName'] as any);
         }
 
         if (requestParameters['backgroundPhotoFile'] != null) {
@@ -273,8 +322,8 @@ export class EnterprisesApi extends runtime.BaseAPI {
 
     /**
      */
-    async patchEnterprise(enterpriseId: number, name?: string, description?: string, location?: string, logoFileName?: string, logoFile?: Blob, backgroundPhotoFileName?: string, backgroundPhotoFile?: Blob, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.patchEnterpriseRaw({ enterpriseId: enterpriseId, name: name, description: description, location: location, logoFileName: logoFileName, logoFile: logoFile, backgroundPhotoFileName: backgroundPhotoFileName, backgroundPhotoFile: backgroundPhotoFile }, initOverrides);
+    async patchEnterprise(enterpriseId: number, name?: string, description?: string, location?: string, logoFile?: Blob, backgroundPhotoFile?: Blob, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.patchEnterpriseRaw({ enterpriseId: enterpriseId, name: name, description: description, location: location, logoFile: logoFile, backgroundPhotoFile: backgroundPhotoFile }, initOverrides);
     }
 
 }

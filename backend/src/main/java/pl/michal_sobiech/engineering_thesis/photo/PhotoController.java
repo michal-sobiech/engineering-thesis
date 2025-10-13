@@ -22,6 +22,7 @@ public class PhotoController implements PhotosApi {
         Resource resource = ByteUtils.createResource(photo.getBytes());
         String contentDisposition = "inline; filename=\"%s\"".formatted(photo.getFileName());
         return ResponseEntity.ok()
+                .header(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, "Content-Disposition")
                 .header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition)
                 .contentType(MediaType.IMAGE_PNG)
                 .body(resource);

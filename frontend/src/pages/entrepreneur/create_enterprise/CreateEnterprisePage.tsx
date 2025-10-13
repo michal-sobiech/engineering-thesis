@@ -39,15 +39,13 @@ export const CreateEnterprisePage = () => {
             return;
         }
 
-        const promise = enterprisesApi.createEnterprise({
+        const promise = enterprisesApi.createEnterprise(
             name,
             description,
             location,
-            logoFileName: logoFileName === "" ? undefined : logoFileName,
-            logoFile: logoFile ?? undefined,
-            backgroundPhotoFileName: backgroundPhotoFileName === "" ? undefined : backgroundPhotoFileName,
-            backgroundPhotoFile: backgroundPhotoFile ?? undefined,
-        });
+            logoFile ?? undefined,
+            backgroundPhotoFile ?? undefined,
+        );
         const result = await errorErrResultAsyncFromPromise(promise);
 
         if (result.isErr()) {

@@ -3,11 +3,12 @@ package pl.michal_sobiech.engineering_thesis.enterprise;
 import java.util.List;
 import java.util.Optional;
 
-import org.SwaggerCodeGenExample.model.CreateEnterpriseRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
+import pl.michal_sobiech.engineering_thesis.photo.Photo;
 import pl.michal_sobiech.engineering_thesis.photo.PhotoService;
 
 @Service
@@ -20,14 +21,31 @@ public class EnterpriseService {
     @Transactional
     public Enterprise createEnterprise(
             long entrepreneurId,
-            CreateEnterpriseRequest createEnterpriseRequest) {
+            String name,
+            String description,
+            String location,
+            Optional<MultipartFile> logoFile,
+            Optional<MultipartFile> backgroundPhotoFile) {
 
-        final Enterprise enterprise = Enterprise.builder()
+        var builder = Enterprise.builder()
                 .entrepreneurId(entrepreneurId)
-                .name(createEnterpriseRequest.getName())
-                .description(createEnterpriseRequest.getDescription())
-                .location(createEnterpriseRequest.getLocation())
-                .build();
+                .name(name)
+                .description(description)
+                .location(location);
+
+        if (logoFile.isPresent()) {
+            MultipartFile file = logoFile.get();
+            Photo logo = photoService.createPhoto(file);
+            builder.logoPhotoId(logo.getPhotoId());
+        }
+
+        if (backgroundPhotoFile.isPresent()) {
+            MultipartFile file = backgroundPhotoFile.get();
+            Photo backgroundPhoto = photoService.createPhoto(file);
+            builder.backgroundPhotoId(backgroundPhoto.getPhotoId());
+        }
+
+        Enterprise enterprise = builder.build();
         return enterpriseRepository.save(enterprise);
     }
 
@@ -55,8 +73,16 @@ public class EnterpriseService {
         request.name().ifPresent(name -> enterprise.setName(name));
         request.description().ifPresent(description -> enterprise.setDescription(description));
         request.location().ifPresent(location -> enterprise.setLocation(location));
-        request.logoFile().ifPresent(file -> photoService.createPhoto(file));
-        request.backgroundPhotoFile().ifPresent(file -> photoService.createPhoto(file));
+
+        request.logoFile().ifPresent(file -> {
+            Photo photo = photoService.createPhoto(file);
+            enterprise.setLogoPhotoId(photo.getPhotoId());
+        });
+
+        request.backgroundPhotoFile().ifPresent(file -> {
+            Photo photo = photoService.createPhoto(file);
+            enterprise.setBackgroundPhotoId(photo.getPhotoId());
+        });
 
     }
 

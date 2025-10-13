@@ -36,3 +36,8 @@ export function promiseResultToAsyncResult<T, E>(
     return ResultAsync.fromPromise(promise, errorMapper)
         .andThen(nestedResult => fromResult(nestedResult));
 }
+
+export function promiseResultToErrorAsyncResult<T>(promise: Promise<Result<T, Error>>): ResultAsync<T, Error> {
+    const errorMapper = (error: unknown) => new Error(String(error));
+    return promiseResultToAsyncResult(promise, errorMapper);
+}

@@ -29,7 +29,7 @@ public class PhotoService {
             String fileName = file.getOriginalFilename();
             return createPhoto(file.getBytes(), fileName);
         } catch (Exception exception) {
-            throw new IllegalStateException("Failed to create photo");
+            throw new IllegalStateException("Failed to create photo", exception);
         }
     }
 

@@ -5,13 +5,13 @@ apis/EnterprisesApi.ts
 apis/EntrepreneursApi.ts
 apis/HealthCheckApi.ts
 apis/IndependentEndUsersApi.ts
+apis/PhotosApi.ts
 apis/index.ts
 index.ts
 models/CheckIndependentEndUserEmailExists200Response.ts
 models/CreateEnterpriseEmployeeRequest.ts
 models/CreateEnterpriseEmployeeResponse.ts
 models/CreateEnterpriseEmployeeResponseUser.ts
-models/CreateEnterpriseRequest.ts
 models/CreateEnterpriseResponse.ts
 models/CreateIndependentEndUserRequest.ts
 models/EmployeeGetMeResponse.ts
