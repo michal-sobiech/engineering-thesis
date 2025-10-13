@@ -25,4 +25,8 @@ public class HttpUtils {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
 
+    public static <T> ResponseEntity<T> createBadRequestResponse() {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+
 }

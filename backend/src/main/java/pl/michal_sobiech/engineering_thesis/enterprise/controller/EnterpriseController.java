@@ -17,17 +17,24 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
+import pl.michal_sobiech.engineering_thesis.auth.AuthService;
+import pl.michal_sobiech.engineering_thesis.auth.EntrepreneurAuthContext;
 import pl.michal_sobiech.engineering_thesis.employee.EmployeeService;
 import pl.michal_sobiech.engineering_thesis.enterprise.Enterprise;
 import pl.michal_sobiech.engineering_thesis.enterprise.EnterpriseService;
+import pl.michal_sobiech.engineering_thesis.enterprise.PatchEnterpriseRequestDto;
+import pl.michal_sobiech.engineering_thesis.entrepreneur.Entrepreneur;
+import pl.michal_sobiech.engineering_thesis.photo.PhotoService;
 import pl.michal_sobiech.engineering_thesis.utils.HttpUtils;
 
 @RestController
 @RequiredArgsConstructor
 public class EnterpriseController implements EnterprisesApi {
 
+    private final AuthService authService;
     private final EnterpriseService enterpriseService;
     private final EmployeeService employeeService;
+    private final PhotoService photoService;
 
     private final EnterpriseControllerCreateEnterprise enterpriseControllerCreateEnterprise;
     private final EnterpriseControllerCreateEmployee enterpriseControllerCreateEmployee;
@@ -82,26 +89,32 @@ public class EnterpriseController implements EnterprisesApi {
         return HttpUtils.createInternalServerErrorResponse();
     }
 
+    // TODO cache invalidation
     @Override
     public ResponseEntity<Void> patchEnterprise(
             Long enterpriseId,
             String name,
             String description,
             String location,
-            String logoFileName,
             MultipartFile logoFile,
-            String backgroundPhotoFileName,
             MultipartFile backgroundPhotoFile) {
 
-        
+        EntrepreneurAuthContext entrepreneurAuthContext = authService.requireEntrepreneur();
+        Entrepreneur entrepreneur = entrepreneurAuthContext.entrepreneur();
 
-        Optional<Enterprise> optionalEnterprise = enterpriseService.findByEnterpriseId(enterpriseId);
-        if (optionalEnterprise.isEmpty()) {
-            return HttpUtils.createNotFoundReponse();
+        Enterprise enterprise = enterpriseService.findByEnterpriseId(enterpriseId).orElseThrow();
+
+        if (enterprise.getEntrepreneurId() != entrepreneur.getEntrepreneurId()) {
+            return HttpUtils.createForbiddenResponse();
         }
-        Enterprise enterprise = optionalEnterprise.get();
 
-        if 
+        PatchEnterpriseRequestDto requestDto = new PatchEnterpriseRequestDto(
+                enterpriseId,
+                Optional.ofNullable(name),
+                Optional.ofNullable(description),
+                Optional.ofNullable(location),
+                Optional.ofNullable(logoFile),
+                Optional.ofNullable(backgroundPhotoFile));
 
         return ResponseEntity.ok().build();
     }

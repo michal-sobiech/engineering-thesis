@@ -135,15 +135,9 @@ components:
         location:
           type: string
           example: ul. Nowowiejska 15/19, Warsaw, Poland
-        logoFileName:
-          type: string
-          example: logo.png
         logoFile:
           type: string
           format: binary
-        backgroundPhotoFileName:
-          type: string
-          example: background.png
         backgroundPhotoFile:
           type: string
           format: binary
@@ -296,15 +290,9 @@ components:
         location:
           type: string
           example: ul. Nowowiejska 15/19, Warsaw, Poland
-        logoFileName:
-          type: string
-          example: logo.png
         logoFile:
           type: string
           format: binary
-        backgroundPhotoFileName:
-          type: string
-          example: background.png
         backgroundPhotoFile:
           type: string
           format: binary

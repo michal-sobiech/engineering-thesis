@@ -8,12 +8,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import pl.michal_sobiech.engineering_thesis.photo.PhotoService;
 
 @Service
 @RequiredArgsConstructor
 public class EnterpriseService {
 
     private final EnterpriseRepository enterpriseRepository;
+    private final PhotoService photoService;
 
     @Transactional
     public Enterprise createEnterprise(
@@ -22,7 +24,7 @@ public class EnterpriseService {
 
         final Enterprise enterprise = Enterprise.builder()
                 .entrepreneurId(entrepreneurId)
-                .name(createEnterpriseRequest.getEnterpriseName())
+                .name(createEnterpriseRequest.getName())
                 .description(createEnterpriseRequest.getDescription())
                 .location(createEnterpriseRequest.getLocation())
                 .build();
@@ -39,9 +41,23 @@ public class EnterpriseService {
         return enterpriseRepository.findById(enterpriseId);
     }
 
+    // TODO remove unnecessary @Tranasctional annotations
     @Transactional
     public List<Enterprise> findAllByEntrepreneurId(long entrepreneurId) {
         return enterpriseRepository.findAllByEntrepreneurId(entrepreneurId);
+    }
+
+    @Transactional
+    public void patchEnterprise(PatchEnterpriseRequestDto request) {
+
+        Enterprise enterprise = enterpriseRepository.findById(request.enterpriseId()).orElseThrow();
+
+        request.name().ifPresent(name -> enterprise.setName(name));
+        request.description().ifPresent(description -> enterprise.setDescription(description));
+        request.location().ifPresent(location -> enterprise.setLocation(location));
+        request.logoFile().ifPresent(file -> photoService.createPhoto(file));
+        request.backgroundPhotoFile().ifPresent(file -> photoService.createPhoto(file));
+
     }
 
 }

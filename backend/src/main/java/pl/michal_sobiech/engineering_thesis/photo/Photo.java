@@ -29,6 +29,6 @@ public class Photo {
     private String fileName;
 
     @Lob
-    private Blob file;
+    private Blob blob;
 
 }
