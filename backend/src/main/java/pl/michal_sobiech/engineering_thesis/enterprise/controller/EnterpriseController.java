@@ -24,7 +24,6 @@ import pl.michal_sobiech.engineering_thesis.enterprise.Enterprise;
 import pl.michal_sobiech.engineering_thesis.enterprise.EnterpriseService;
 import pl.michal_sobiech.engineering_thesis.enterprise.PatchEnterpriseRequestDto;
 import pl.michal_sobiech.engineering_thesis.entrepreneur.Entrepreneur;
-import pl.michal_sobiech.engineering_thesis.photo.PhotoService;
 import pl.michal_sobiech.engineering_thesis.utils.HttpUtils;
 
 @RestController
@@ -34,7 +33,6 @@ public class EnterpriseController implements EnterprisesApi {
     private final AuthService authService;
     private final EnterpriseService enterpriseService;
     private final EmployeeService employeeService;
-    private final PhotoService photoService;
 
     private final EnterpriseControllerCreateEnterprise enterpriseControllerCreateEnterprise;
     private final EnterpriseControllerCreateEmployee enterpriseControllerCreateEmployee;
@@ -115,6 +113,7 @@ public class EnterpriseController implements EnterprisesApi {
                 Optional.ofNullable(location),
                 Optional.ofNullable(logoFile),
                 Optional.ofNullable(backgroundPhotoFile));
+        enterpriseService.patchEnterprise(requestDto);
 
         return ResponseEntity.ok().build();
     }

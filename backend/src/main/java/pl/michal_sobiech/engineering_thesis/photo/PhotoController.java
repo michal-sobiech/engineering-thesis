@@ -19,7 +19,7 @@ public class PhotoController implements PhotosApi {
     @Override
     public ResponseEntity<Resource> getPhoto(Long photoId) {
         Photo photo = photoService.findById(photoId).orElseThrow();
-        Resource resource = ByteUtils.createResource(photo.getBlob());
+        Resource resource = ByteUtils.createResource(photo.getBytes());
         String contentDisposition = "inline; filename=\"%s\"".formatted(photo.getFileName());
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition)

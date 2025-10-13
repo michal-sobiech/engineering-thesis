@@ -1,9 +1,6 @@
 package pl.michal_sobiech.engineering_thesis.photo;
 
-import java.sql.Blob;
 import java.util.Optional;
-
-import javax.sql.rowset.serial.SerialBlob;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,9 +15,9 @@ public class PhotoService {
     private final PhotoRepository photoRepository;
 
     @Transactional
-    public Photo createPhoto(Blob blob, String fileName) {
+    public Photo createPhoto(byte[] bytes, String fileName) {
         Photo photo = Photo.builder()
-                .blob(blob)
+                .bytes(bytes)
                 .fileName(fileName)
                 .build();
         return photoRepository.save(photo);
@@ -29,9 +26,8 @@ public class PhotoService {
     @Transactional
     public Photo createPhoto(MultipartFile file) {
         try {
-            Blob blob = new SerialBlob(file.getBytes());
             String fileName = file.getOriginalFilename();
-            return createPhoto(blob, fileName);
+            return createPhoto(file.getBytes(), fileName);
         } catch (Exception exception) {
             throw new IllegalStateException("Failed to create photo");
         }

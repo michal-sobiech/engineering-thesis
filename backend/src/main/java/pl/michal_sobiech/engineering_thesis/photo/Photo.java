@@ -1,13 +1,10 @@
 package pl.michal_sobiech.engineering_thesis.photo;
 
-import java.sql.Blob;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,7 +25,6 @@ public class Photo {
     @Column(name = "file_name")
     private String fileName;
 
-    @Lob
-    private Blob blob;
+    private byte[] bytes;
 
 }
