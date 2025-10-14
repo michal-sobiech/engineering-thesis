@@ -9,6 +9,7 @@ import { EntrepreneurLogInPage } from "../pages/entrepreneur/log-in/Entrepreneur
 import { EntrepreneurSignUpOrLogInPage } from "../pages/entrepreneur/sign-up-or-log-in/EntrepreneurSignUpOrLogInPage";
 import { EntrepreneurSignUpWizard } from "../pages/entrepreneur/sign-up/EntrepreneurSignUpWizard";
 import { MainPage } from "../pages/main_page/MainPage";
+import { ServiceCreationPage } from "../pages/service/ServiceCreationPage";
 import { PageLayout } from "./PageLayout";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { routeTemplates } from "./route-templates";
@@ -61,6 +62,10 @@ export const router = createBrowserRouter([
             {
                 path: routeTemplates.enterpriseStaff,
                 element: <EnterpriseStaffPage />
+            },
+            {
+                path: routeTemplates.enterpriseCreateService,
+                element: <ServiceCreationPage />
             }
         ]
     }

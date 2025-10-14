@@ -11,4 +11,5 @@ export const routeTemplates = {
     enterpriseStaff: "/enterprises/:enterpriseId/staff",
     createEnterpriseEmployee: "/enterprises/:enterpriseId/create-employee",
     logInEnterpriseEmployee: "/enterprises/:enterpriseId/log-in-employee",
+    enterpriseCreateService: "/enterprises/:enterpriseId/create-service"
 };

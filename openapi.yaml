@@ -262,7 +262,6 @@ components:
           example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEyMywiaXNzdWVkX2F0IjoxNzU3NTkyMDIyLCJleHBpcmVzX2F0IjoxNzU3NjEzNjIyfQ.R0wpPhA5v-z_NYELi8PLxji0EJFcD75B5_psMb8ZNcc"
     GetEnterpriseServicesResponseItem:
       type: object
-      required: []
       properties:
         serviceId:
           type: integer
@@ -296,6 +295,31 @@ components:
         backgroundPhotoFile:
           type: string
           format: binary
+    CreateEnterpriseService:
+      type: object
+      required:
+        [name, description, location, takesCustomAppointments, price, currency]
+      properties:
+        name:
+          type: string
+          example: "Basic Haircut"
+        description:
+          type: string
+          example: "Male or female haircut"
+        location:
+          oneOf:
+            - type: string
+            - type: "null"
+        takesCustomAppointments:
+          type: boolean
+        price:
+          type: number
+          format: float
+          example: 29.99
+        currency:
+          type: string
+          example: "PLN"
+          description: currency ISO code
 
   responses:
     OK:
@@ -682,7 +706,6 @@ paths:
           $ref: "#/components/responses/Forbidden"
         "500":
           $ref: "#/components/responses/InternalServerError"
-
     post:
       tags: [EnterpriseEmployees]
       operationId: createEnterpriseEmployee
@@ -718,6 +741,35 @@ paths:
         "500":
           $ref: "#/components/responses/InternalServerError"
   /enterprises/{enterpriseId}/services:
+    post:
+      tags: [Enterprises]
+      operationId: createEnterpriseService
+      security:
+        - JwtBearerAuth: []
+      parameters:
+        - name: enterpriseId
+          in: path
+          required: true
+          description: Enterprise id
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateEnterpriseService"
+      responses:
+        "201":
+          $ref: "#/components/responses/Created"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
     get:
       tags: [Enterprises]
       operationId: getEnterpriseServices
