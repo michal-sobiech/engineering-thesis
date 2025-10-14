@@ -10,7 +10,8 @@ import { StandardFloatInput } from "../../common/StandardFloatInput";
 import { StandardLabeledContainer } from "../../common/StandardLabeledContainer";
 import { StandardPanel } from "../../common/StandardPanel";
 import { StandardTextField } from "../../common/StandardTextField";
-import { WeeklyCalendar } from "../../common/WeeklyCalendar";
+import { EventWithId } from "../../common/calendar/EventWithId";
+import { WeeklyCalendarWithAutoDivide } from "../../common/calendar/WeeklyCalendarWithAutoDivide";
 import { useIntParam } from "../../hooks/useIntParam";
 import { routes } from "../../router/routes";
 import { errorErrResultAsyncFromPromise } from "../../utils/result";
@@ -24,8 +25,10 @@ export const ServiceCreationPage = () => {
     const [serviceName, setServiceName] = useState<string>("");
     const [serviceDescription, setServiceDescription] = useState<string>("");
     const [serviceLocation, setServiceLocation] = useState<string | null>(null);
-    const [areCustomeAppointmentsDisabled, setAreCustomeAppointmentsDisabled] = useState<boolean>(true);
+    const [areCustomAppointmentsDisabled, setAreCustomAppointmentsDisabled] = useState<boolean>(true);
+    const [appointmentDurationMinutes, setAppointmentDurationMinutes] = useState<number | null>(30);
     const [price, setPrice] = useState<number | null>(null);
+    const [events, setEvents] = useState<EventWithId[]>([]);
 
     useEffect(() => {
         async function loadEnterpriseData(): Promise<void> {
@@ -61,7 +64,7 @@ export const ServiceCreationPage = () => {
             name: serviceName,
             description: serviceDescription,
             location: serviceLocation,
-            takesCustomAppointments: !areCustomeAppointmentsDisabled,
+            takesCustomAppointments: !areCustomAppointmentsDisabled,
             price: price,
             // TODO parametrize
             currency: "PLN"
@@ -75,23 +78,39 @@ export const ServiceCreationPage = () => {
                     <Text textAlign="center">
                         Create a service for "{enterpriseName}"
                     </Text>
+
                     <StandardLabeledContainer label="Service name">
                         <StandardTextField text={serviceName} setText={setServiceName} />
                     </StandardLabeledContainer>
+
                     <StandardLabeledContainer label="Description">
                         <StandardTextField text={serviceDescription} setText={setServiceDescription} />
                     </StandardLabeledContainer>
+
                     <StandardLabeledContainer label="Custom appointments?">
                         <BooleanToggle
                             option1Text="No"
                             option2Text="Yes"
-                            isOption1Chosen={areCustomeAppointmentsDisabled}
-                            setIsOption1Chosen={setAreCustomeAppointmentsDisabled}
+                            isOption1Chosen={areCustomAppointmentsDisabled}
+                            setIsOption1Chosen={setAreCustomAppointmentsDisabled}
                         />
-                        <Box maxHeight="50vh" overflowY="scroll">
-                            <WeeklyCalendar />
-                        </Box>
                     </StandardLabeledContainer>
+
+                    {!areCustomAppointmentsDisabled ? null :
+                        <StandardLabeledContainer label="Choose appointment length (in minutes)">
+                            <StandardFloatInput value={appointmentDurationMinutes} setValue={setAppointmentDurationMinutes} min={0} precision={0} step={5} />
+                        </StandardLabeledContainer>
+                    }
+
+                    <Box maxHeight="50vh" overflowY="scroll">
+                        {/* <WeeklyCalendar /> */}
+                        <WeeklyCalendarWithAutoDivide
+                            events={events}
+                            setEvents={setEvents}
+                            eventDuration={{ minutes: appointmentDurationMinutes ?? undefined }}
+                        />
+                    </Box>
+
                     <StandardLabeledContainer label="Location">
                         <StandardConditionalTextField
                             option1Text="Chosen by you"

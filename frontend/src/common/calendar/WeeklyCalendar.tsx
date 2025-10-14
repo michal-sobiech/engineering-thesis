@@ -1,8 +1,9 @@
 import { format, getDay, parse, startOfWeek } from "date-fns";
 import { enUS } from "date-fns/locale";
-import { useState } from "react";
+import { FC } from "react";
 import { Calendar, dateFnsLocalizer, SlotInfo } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import { VoidCallback } from "../VoidCallback";
 import { EventWithId } from "./EventWithId";
 
 const locales = { "en-US": enUS };
@@ -14,10 +15,14 @@ const localizer = dateFnsLocalizer({
     startOfWeek: (date: Date) => startOfWeek(date, { weekStartsOn: 1 })
 });
 
-export const WeeklyCalendar = () => {
-    const [events, setEvents] = useState<EventWithId[]>([]);
+export interface WeeklyCalendarProps {
+    events: EventWithId[];
+    setEvents: VoidCallback<(previousEvents: EventWithId[]) => EventWithId[]>;
+    onSelectSlot?: (slot: SlotInfo) => void;
+}
 
-    const onSelectSlot = (slot: SlotInfo) => {
+export const WeeklyCalendar: FC<WeeklyCalendarProps> = ({ events, setEvents, onSelectSlot }) => {
+    const defaultOnSelectSlot = (slot: SlotInfo) => {
         console.log(slot);
         const event: EventWithId = {
             start: slot.start,
@@ -26,9 +31,9 @@ export const WeeklyCalendar = () => {
         }
         setEvents(previousEvents => [...previousEvents, event]);
     }
+    onSelectSlot = onSelectSlot ?? defaultOnSelectSlot;
 
     const onSelectEvent = (eventToDelete: EventWithId) => {
-        console.log("DELETE!!");
         setEvents(previousEvents => previousEvents.filter(event => {
             return event.resource.tempId != eventToDelete.resource.tempId;
         }));
@@ -40,13 +45,11 @@ export const WeeklyCalendar = () => {
         views={["week"]}
         defaultView="week"
         selectable
-        // defaultDate={new Date(0)}
         toolbar={false}
         onSelectSlot={onSelectSlot}
         components={{
             header: ({ label }) => <span>{label.split(" ")[1]}</span>
         }}
         onSelectEvent={onSelectEvent}
-    // step=
     />;
 }
