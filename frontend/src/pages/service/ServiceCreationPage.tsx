@@ -10,6 +10,7 @@ import { StandardFloatInput } from "../../common/StandardFloatInput";
 import { StandardLabeledContainer } from "../../common/StandardLabeledContainer";
 import { StandardPanel } from "../../common/StandardPanel";
 import { StandardTextField } from "../../common/StandardTextField";
+import { WeeklyCalendar } from "../../common/WeeklyCalendar";
 import { useIntParam } from "../../hooks/useIntParam";
 import { routes } from "../../router/routes";
 import { errorErrResultAsyncFromPromise } from "../../utils/result";
@@ -35,7 +36,7 @@ export const ServiceCreationPage = () => {
                 navigate(routes.mainPage, { replace: true });
             }
         }
-        loadEnterpriseData();
+        // loadEnterpriseData();
     })
 
     const onCreateServiceClick = () => {
@@ -87,6 +88,9 @@ export const ServiceCreationPage = () => {
                             isOption1Chosen={areCustomeAppointmentsDisabled}
                             setIsOption1Chosen={setAreCustomeAppointmentsDisabled}
                         />
+                        <Box maxHeight="50vh" overflowY="scroll">
+                            <WeeklyCalendar />
+                        </Box>
                     </StandardLabeledContainer>
                     <StandardLabeledContainer label="Location">
                         <StandardConditionalTextField
