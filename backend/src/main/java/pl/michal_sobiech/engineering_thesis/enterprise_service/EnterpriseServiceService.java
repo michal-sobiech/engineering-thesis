@@ -1,4 +1,4 @@
-package pl.michal_sobiech.engineering_thesis.service;
+package pl.michal_sobiech.engineering_thesis.enterprise_service;
 
 import org.SwaggerCodeGenExample.model.CreateEnterpriseServiceRequest;
 import org.springframework.stereotype.Component;
@@ -7,12 +7,12 @@ import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class ServiceService {
+public class EnterpriseServiceService {
 
-    private final ServiceRepository serviceRepository;
+    private final EntepriseServiceRepository serviceRepository;
 
-    public Service save(CreateEnterpriseServiceRequest request) {
-        Service service = Service.builder()
+    public EnterpriseService save(CreateEnterpriseServiceRequest request) {
+        EnterpriseService service = EnterpriseService.builder()
                 .name(request.getName())
                 .description(request.getDescription())
                 .location(request.getLocation().orElse(null))

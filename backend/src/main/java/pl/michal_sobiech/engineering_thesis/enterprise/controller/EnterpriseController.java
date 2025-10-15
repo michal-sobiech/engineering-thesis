@@ -23,8 +23,8 @@ import pl.michal_sobiech.engineering_thesis.employee.EmployeeService;
 import pl.michal_sobiech.engineering_thesis.enterprise.Enterprise;
 import pl.michal_sobiech.engineering_thesis.enterprise.EnterpriseService;
 import pl.michal_sobiech.engineering_thesis.enterprise.PatchEnterpriseRequestDto;
+import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceService;
 import pl.michal_sobiech.engineering_thesis.entrepreneur.Entrepreneur;
-import pl.michal_sobiech.engineering_thesis.service.ServiceService;
 import pl.michal_sobiech.engineering_thesis.utils.HttpUtils;
 
 @RestController
@@ -34,7 +34,7 @@ public class EnterpriseController implements EnterprisesApi {
     private final AuthService authService;
     private final EnterpriseService enterpriseService;
     private final EmployeeService employeeService;
-    private final ServiceService serviceService;
+    private final EnterpriseServiceService entepriseServiceService;
 
     private final EnterpriseControllerCreateEnterprise enterpriseControllerCreateEnterprise;
     private final EnterpriseControllerCreateEmployee enterpriseControllerCreateEmployee;
@@ -136,7 +136,7 @@ public class EnterpriseController implements EnterprisesApi {
             Integer enterpriseId,
             CreateEnterpriseServiceRequest createEnterpriseService) {
 
-        serviceService.save(createEnterpriseService);
+        entepriseServiceService.save(createEnterpriseService);
         return ResponseEntity.ok().build();
     }
 
