@@ -5,7 +5,7 @@ export * from './CreateEnterpriseEmployeeRequest';
 export * from './CreateEnterpriseEmployeeResponse';
 export * from './CreateEnterpriseEmployeeResponseUser';
 export * from './CreateEnterpriseResponse';
-export * from './CreateEnterpriseService';
+export * from './CreateEnterpriseServiceRequest';
 export * from './CreateIndependentEndUserRequest';
 export * from './EmployeeGetMeResponse';
 export * from './EntrepreneurGetMeResponse';

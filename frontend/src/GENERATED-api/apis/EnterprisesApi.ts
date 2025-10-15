@@ -16,7 +16,7 @@
 import * as runtime from '../runtime';
 import type {
   CreateEnterpriseResponse,
-  CreateEnterpriseService,
+  CreateEnterpriseServiceRequest,
   GetEnterpriseResponse,
   GetEnterpriseServicesResponseItem,
   InlineObject,
@@ -27,8 +27,8 @@ import type {
 import {
     CreateEnterpriseResponseFromJSON,
     CreateEnterpriseResponseToJSON,
-    CreateEnterpriseServiceFromJSON,
-    CreateEnterpriseServiceToJSON,
+    CreateEnterpriseServiceRequestFromJSON,
+    CreateEnterpriseServiceRequestToJSON,
     GetEnterpriseResponseFromJSON,
     GetEnterpriseResponseToJSON,
     GetEnterpriseServicesResponseItemFromJSON,
@@ -51,9 +51,9 @@ export interface CreateEnterpriseRequest {
     backgroundPhotoFile?: Blob;
 }
 
-export interface CreateEnterpriseServiceRequest {
+export interface CreateEnterpriseServiceOperationRequest {
     enterpriseId: number;
-    createEnterpriseService: CreateEnterpriseService;
+    createEnterpriseServiceRequest: CreateEnterpriseServiceRequest;
 }
 
 export interface GetEnterpriseRequest {
@@ -175,7 +175,7 @@ export class EnterprisesApi extends runtime.BaseAPI {
 
     /**
      */
-    async createEnterpriseServiceRaw(requestParameters: CreateEnterpriseServiceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async createEnterpriseServiceRaw(requestParameters: CreateEnterpriseServiceOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters['enterpriseId'] == null) {
             throw new runtime.RequiredError(
                 'enterpriseId',
@@ -183,10 +183,10 @@ export class EnterprisesApi extends runtime.BaseAPI {
             );
         }
 
-        if (requestParameters['createEnterpriseService'] == null) {
+        if (requestParameters['createEnterpriseServiceRequest'] == null) {
             throw new runtime.RequiredError(
-                'createEnterpriseService',
-                'Required parameter "createEnterpriseService" was null or undefined when calling createEnterpriseService().'
+                'createEnterpriseServiceRequest',
+                'Required parameter "createEnterpriseServiceRequest" was null or undefined when calling createEnterpriseService().'
             );
         }
 
@@ -213,7 +213,7 @@ export class EnterprisesApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: CreateEnterpriseServiceToJSON(requestParameters['createEnterpriseService']),
+            body: CreateEnterpriseServiceRequestToJSON(requestParameters['createEnterpriseServiceRequest']),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -221,8 +221,8 @@ export class EnterprisesApi extends runtime.BaseAPI {
 
     /**
      */
-    async createEnterpriseService(enterpriseId: number, createEnterpriseService: CreateEnterpriseService, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.createEnterpriseServiceRaw({ enterpriseId: enterpriseId, createEnterpriseService: createEnterpriseService }, initOverrides);
+    async createEnterpriseService(enterpriseId: number, createEnterpriseServiceRequest: CreateEnterpriseServiceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.createEnterpriseServiceRaw({ enterpriseId: enterpriseId, createEnterpriseServiceRequest: createEnterpriseServiceRequest }, initOverrides);
     }
 
     /**

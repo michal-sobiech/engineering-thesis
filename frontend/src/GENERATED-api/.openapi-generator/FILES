@@ -13,7 +13,7 @@ models/CreateEnterpriseEmployeeRequest.ts
 models/CreateEnterpriseEmployeeResponse.ts
 models/CreateEnterpriseEmployeeResponseUser.ts
 models/CreateEnterpriseResponse.ts
-models/CreateEnterpriseService.ts
+models/CreateEnterpriseServiceRequest.ts
 models/CreateIndependentEndUserRequest.ts
 models/EmployeeGetMeResponse.ts
 models/EntrepreneurGetMeResponse.ts

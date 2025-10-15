@@ -295,7 +295,7 @@ components:
         backgroundPhotoFile:
           type: string
           format: binary
-    CreateEnterpriseService:
+    CreateEnterpriseServiceRequest:
       type: object
       required:
         [name, description, location, takesCustomAppointments, price, currency]
@@ -314,7 +314,6 @@ components:
           type: boolean
         price:
           type: number
-          format: float
           example: 29.99
         currency:
           type: string
@@ -758,7 +757,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateEnterpriseService"
+              $ref: "#/components/schemas/CreateEnterpriseServiceRequest"
       responses:
         "201":
           $ref: "#/components/responses/Created"

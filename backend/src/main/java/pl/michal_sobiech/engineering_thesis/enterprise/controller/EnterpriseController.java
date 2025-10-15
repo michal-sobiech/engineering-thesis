@@ -8,6 +8,7 @@ import org.SwaggerCodeGenExample.model.CheckIndependentEndUserEmailExists200Resp
 import org.SwaggerCodeGenExample.model.CreateEnterpriseEmployeeRequest;
 import org.SwaggerCodeGenExample.model.CreateEnterpriseEmployeeResponse;
 import org.SwaggerCodeGenExample.model.CreateEnterpriseResponse;
+import org.SwaggerCodeGenExample.model.CreateEnterpriseServiceRequest;
 import org.SwaggerCodeGenExample.model.GetEnterpriseEmployeesResponseItem;
 import org.SwaggerCodeGenExample.model.GetEnterpriseResponse;
 import org.SwaggerCodeGenExample.model.GetEnterpriseServicesResponseItem;
@@ -23,6 +24,7 @@ import pl.michal_sobiech.engineering_thesis.enterprise.Enterprise;
 import pl.michal_sobiech.engineering_thesis.enterprise.EnterpriseService;
 import pl.michal_sobiech.engineering_thesis.enterprise.PatchEnterpriseRequestDto;
 import pl.michal_sobiech.engineering_thesis.entrepreneur.Entrepreneur;
+import pl.michal_sobiech.engineering_thesis.service.ServiceService;
 import pl.michal_sobiech.engineering_thesis.utils.HttpUtils;
 
 @RestController
@@ -32,6 +34,7 @@ public class EnterpriseController implements EnterprisesApi {
     private final AuthService authService;
     private final EnterpriseService enterpriseService;
     private final EmployeeService employeeService;
+    private final ServiceService serviceService;
 
     private final EnterpriseControllerCreateEnterprise enterpriseControllerCreateEnterprise;
     private final EnterpriseControllerCreateEmployee enterpriseControllerCreateEmployee;
@@ -125,6 +128,15 @@ public class EnterpriseController implements EnterprisesApi {
                 Optional.ofNullable(backgroundPhotoFile));
         enterpriseService.patchEnterprise(requestDto);
 
+        return ResponseEntity.ok().build();
+    }
+
+    @Override
+    public ResponseEntity<Void> createEnterpriseService(
+            Integer enterpriseId,
+            CreateEnterpriseServiceRequest createEnterpriseService) {
+
+        serviceService.save(createEnterpriseService);
         return ResponseEntity.ok().build();
     }
 
