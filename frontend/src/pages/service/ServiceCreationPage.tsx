@@ -2,7 +2,6 @@ import { Box, Center, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { enterprisesApi } from "../../api/enterprises-api";
-import { BooleanToggle } from "../../common/BooleanToggle";
 import { StandardButton } from "../../common/StandardButton";
 import { StandardConditionalTextField } from "../../common/StandardConditionalTextField";
 import { StandardFlex } from "../../common/StandardFlex";
@@ -11,11 +10,11 @@ import { StandardLabeledContainer } from "../../common/StandardLabeledContainer"
 import { StandardPanel } from "../../common/StandardPanel";
 import { StandardTextField } from "../../common/StandardTextField";
 import { EventWithId } from "../../common/calendar/EventWithId";
-import { WeeklyCalendarWithAutoDivide } from "../../common/calendar/WeeklyCalendarWithAutoDivide";
 import { useIntParam } from "../../hooks/useIntParam";
 import { routes } from "../../router/routes";
 import { errorErrResultAsyncFromPromise } from "../../utils/result";
 import { toastError } from "../../utils/toast";
+import { ServiceCreationCalendar } from "./ServiceCreationCalendar";
 
 export const ServiceCreationPage = () => {
     const navigate = useNavigate();
@@ -25,10 +24,10 @@ export const ServiceCreationPage = () => {
     const [serviceName, setServiceName] = useState<string>("");
     const [serviceDescription, setServiceDescription] = useState<string>("");
     const [serviceLocation, setServiceLocation] = useState<string | null>(null);
-    const [areCustomAppointmentsDisabled, setAreCustomAppointmentsDisabled] = useState<boolean>(true);
+    const [areCustomAppointmentsEnabled, setAreCustomAppointmentsEnabled] = useState<boolean>(false);
     const [appointmentDurationMinutes, setAppointmentDurationMinutes] = useState<number | null>(30);
-    const [price, setPrice] = useState<number | null>(null);
     const [events, setEvents] = useState<EventWithId[]>([]);
+    const [price, setPrice] = useState<number | null>(null);
 
     useEffect(() => {
         async function loadEnterpriseData(): Promise<void> {
@@ -39,7 +38,7 @@ export const ServiceCreationPage = () => {
                 navigate(routes.mainPage, { replace: true });
             }
         }
-        // loadEnterpriseData();
+        loadEnterpriseData();
     })
 
     const onCreateServiceClick = () => {
@@ -53,8 +52,6 @@ export const ServiceCreationPage = () => {
             return;
         }
 
-        // if (areCustomeAppointmentsDisabled)
-
         if (price === null) {
             toastError("Set a price");
             return;
@@ -64,7 +61,7 @@ export const ServiceCreationPage = () => {
             name: serviceName,
             description: serviceDescription,
             location: serviceLocation,
-            takesCustomAppointments: !areCustomAppointmentsDisabled,
+            takesCustomAppointments: areCustomAppointmentsEnabled,
             price: price,
             // TODO parametrize
             currency: "PLN"
@@ -72,7 +69,7 @@ export const ServiceCreationPage = () => {
     }
 
     return <Center height="100vh">
-        <Box width="40vw">
+        <Box width="80vw" height="100%">
             <StandardPanel>
                 <StandardFlex>
                     <Text textAlign="center">
@@ -87,29 +84,16 @@ export const ServiceCreationPage = () => {
                         <StandardTextField text={serviceDescription} setText={setServiceDescription} />
                     </StandardLabeledContainer>
 
-                    <StandardLabeledContainer label="Custom appointments?">
-                        <BooleanToggle
-                            option1Text="No"
-                            option2Text="Yes"
-                            isOption1Chosen={areCustomAppointmentsDisabled}
-                            setIsOption1Chosen={setAreCustomAppointmentsDisabled}
-                        />
-                    </StandardLabeledContainer>
-
-                    {!areCustomAppointmentsDisabled ? null :
-                        <StandardLabeledContainer label="Choose appointment length (in minutes)">
-                            <StandardFloatInput value={appointmentDurationMinutes} setValue={setAppointmentDurationMinutes} min={0} precision={0} step={5} />
-                        </StandardLabeledContainer>
-                    }
-
-                    <Box maxHeight="50vh" overflowY="scroll">
-                        {/* <WeeklyCalendar /> */}
-                        <WeeklyCalendarWithAutoDivide
-                            events={events}
-                            setEvents={setEvents}
-                            eventDuration={{ minutes: appointmentDurationMinutes ?? undefined }}
-                        />
-                    </Box>
+                    <ServiceCreationCalendar
+                        {...{
+                            areCustomAppointmentsEnabled,
+                            setAreCustomAppointmentsEnabled,
+                            appointmentDurationMinutes,
+                            setAppointmentDurationMinutes,
+                            events,
+                            setEvents,
+                        }}
+                    />
 
                     <StandardLabeledContainer label="Location">
                         <StandardConditionalTextField
