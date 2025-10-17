@@ -41,3 +41,14 @@ export function promiseResultToErrorAsyncResult<T>(promise: Promise<Result<T, Er
     const errorMapper = (error: unknown) => new Error(String(error));
     return promiseResultToAsyncResult(promise, errorMapper);
 }
+
+export function combine<T, E>(results: Result<T, E>[]): Result<T[], E> {
+    const values: T[] = [];
+    for (const result of results) {
+        if (result.isErr()) {
+            return err(result.error);
+        }
+        values.push(result.value);
+    }
+    return ok(values);
+}

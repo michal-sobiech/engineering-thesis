@@ -13,6 +13,14 @@
  */
 
 import { mapValues } from '../runtime';
+import type { Slot } from './Slot';
+import {
+    SlotFromJSON,
+    SlotFromJSONTyped,
+    SlotToJSON,
+    SlotToJSONTyped,
+} from './Slot';
+
 /**
  * 
  * @export
@@ -45,6 +53,18 @@ export interface CreateEnterpriseServiceRequest {
     takesCustomAppointments: boolean;
     /**
      * 
+     * @type {string}
+     * @memberof CreateEnterpriseServiceRequest
+     */
+    timeZone: string;
+    /**
+     * 
+     * @type {Array<Slot>}
+     * @memberof CreateEnterpriseServiceRequest
+     */
+    slots: Array<Slot>;
+    /**
+     * 
      * @type {number}
      * @memberof CreateEnterpriseServiceRequest
      */
@@ -65,6 +85,8 @@ export function instanceOfCreateEnterpriseServiceRequest(value: object): value i
     if (!('description' in value) || value['description'] === undefined) return false;
     if (!('location' in value) || value['location'] === undefined) return false;
     if (!('takesCustomAppointments' in value) || value['takesCustomAppointments'] === undefined) return false;
+    if (!('timeZone' in value) || value['timeZone'] === undefined) return false;
+    if (!('slots' in value) || value['slots'] === undefined) return false;
     if (!('price' in value) || value['price'] === undefined) return false;
     if (!('currency' in value) || value['currency'] === undefined) return false;
     return true;
@@ -84,6 +106,8 @@ export function CreateEnterpriseServiceRequestFromJSONTyped(json: any, ignoreDis
         'description': json['description'],
         'location': json['location'],
         'takesCustomAppointments': json['takesCustomAppointments'],
+        'timeZone': json['timeZone'],
+        'slots': ((json['slots'] as Array<any>).map(SlotFromJSON)),
         'price': json['price'],
         'currency': json['currency'],
     };
@@ -104,6 +128,8 @@ export function CreateEnterpriseServiceRequestToJSONTyped(value?: CreateEnterpri
         'description': value['description'],
         'location': value['location'],
         'takesCustomAppointments': value['takesCustomAppointments'],
+        'timeZone': value['timeZone'],
+        'slots': ((value['slots'] as Array<any>).map(SlotToJSON)),
         'price': value['price'],
         'currency': value['currency'],
     };

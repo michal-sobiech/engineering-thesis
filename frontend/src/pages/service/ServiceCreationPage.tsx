@@ -9,10 +9,13 @@ import { StandardFloatInput } from "../../common/StandardFloatInput";
 import { StandardLabeledContainer } from "../../common/StandardLabeledContainer";
 import { StandardPanel } from "../../common/StandardPanel";
 import { StandardTextField } from "../../common/StandardTextField";
+import { StandardTimeZonePicker } from "../../common/StandardTimeZonePicker";
 import { EventWithId } from "../../common/calendar/EventWithId";
 import { useIntParam } from "../../hooks/useIntParam";
 import { routes } from "../../router/routes";
-import { errorErrResultAsyncFromPromise } from "../../utils/result";
+import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../utils/error";
+import { combine, errorErrResultAsyncFromPromise } from "../../utils/result";
+import { eventWithIdToSlot } from "../../utils/slot";
 import { toastError } from "../../utils/toast";
 import { ServiceCreationCalendar } from "./ServiceCreationCalendar";
 
@@ -24,9 +27,10 @@ export const ServiceCreationPage = () => {
     const [serviceName, setServiceName] = useState<string>("");
     const [serviceDescription, setServiceDescription] = useState<string>("");
     const [serviceLocation, setServiceLocation] = useState<string | null>(null);
+    const [timeZone, setTimeZone] = useState<string | null>(null);
     const [areCustomAppointmentsEnabled, setAreCustomAppointmentsEnabled] = useState<boolean>(false);
     const [appointmentDurationMinutes, setAppointmentDurationMinutes] = useState<number | null>(30);
-    const [events, setEvents] = useState<EventWithId[]>([]);
+    const [slots, setSlots] = useState<EventWithId[]>([]);
     const [price, setPrice] = useState<number | null>(null);
 
     useEffect(() => {
@@ -38,7 +42,7 @@ export const ServiceCreationPage = () => {
                 navigate(routes.mainPage, { replace: true });
             }
         }
-        loadEnterpriseData();
+        // loadEnterpriseData();
     })
 
     const onCreateServiceClick = () => {
@@ -57,12 +61,26 @@ export const ServiceCreationPage = () => {
             return;
         }
 
+        if (timeZone === null) {
+            toastError("Choose a time zone");
+            return;
+        }
+
+        const slotDtoResults = slots.map(slot => eventWithIdToSlot(slot));
+        const slotDtos = combine(slotDtoResults);
+        if (slotDtos.isErr()) {
+            toastError(DEFAULT_ERROR_MESSAGE_FOR_USER);
+            return;
+        }
+
         enterprisesApi.createEnterpriseService(enterpriseId, {
             name: serviceName,
             description: serviceDescription,
             location: serviceLocation,
             takesCustomAppointments: areCustomAppointmentsEnabled,
             price: price,
+            slots: slotDtos.value,
+            timeZone,
             // TODO parametrize
             currency: "PLN"
         })
@@ -90,8 +108,8 @@ export const ServiceCreationPage = () => {
                             setAreCustomAppointmentsEnabled,
                             appointmentDurationMinutes,
                             setAppointmentDurationMinutes,
-                            events,
-                            setEvents,
+                            events: slots,
+                            setEvents: setSlots,
                         }}
                     />
 
@@ -103,6 +121,11 @@ export const ServiceCreationPage = () => {
                             setText={setServiceLocation}
                         />
                     </StandardLabeledContainer>
+
+                    <StandardLabeledContainer label="Choose time zone">
+                        <StandardTimeZonePicker value={timeZone} setValue={setTimeZone} />
+                    </StandardLabeledContainer>
+
                     <StandardLabeledContainer label="Price (PLN)">
                         <StandardFloatInput
                             value={price}

@@ -298,7 +298,16 @@ components:
     CreateEnterpriseServiceRequest:
       type: object
       required:
-        [name, description, location, takesCustomAppointments, price, currency]
+        [
+          name,
+          description,
+          location,
+          takesCustomAppointments,
+          timeZone,
+          slots,
+          price,
+          currency,
+        ]
       properties:
         name:
           type: string
@@ -312,6 +321,12 @@ components:
             - type: "null"
         takesCustomAppointments:
           type: boolean
+        timeZone:
+          $ref: "#/components/schemas/IanaTimeZone"
+        slots:
+          type: array
+          items:
+            $ref: "#/components/schemas/Slot"
         price:
           type: number
           example: 29.99
@@ -319,6 +334,27 @@ components:
           type: string
           example: "PLN"
           description: currency ISO code
+    DayOfWeek:
+      type: string
+      enum: [MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY]
+      example: MONDAY
+    Slot:
+      type: object
+      properties:
+        dayOfWeek:
+          $ref: "#/components/schemas/DayOfWeek"
+        start:
+          type: string
+          format: time
+          example: "13:00:00"
+        end:
+          type: string
+          format: time
+          example: "13:00:00"
+    IanaTimeZone:
+      type: string
+      pattern: "^[A-Za-z_]+/[A-Za-z_]+$"
+      example: "Europe/Warsaw"
 
   responses:
     OK:

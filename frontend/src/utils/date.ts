@@ -20,3 +20,7 @@ export function splitPeriod(start: Date, end: Date, segmentDuration: Duration): 
 export function durationToMs(duration: Duration) {
     return add(new Date(0), duration).getTime();
 }
+
+export function extractFormattedTimeFromDate(date: Date): string {
+    return date.toISOString().substring(11, 19);
+}

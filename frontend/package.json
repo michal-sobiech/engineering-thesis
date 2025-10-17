@@ -12,6 +12,8 @@
     "@types/node": "^16.18.126",
     "@types/react": "^19.1.9",
     "@types/react-dom": "^19.1.7",
+    "@vvo/tzdb": "^6.187.0",
+    "chakra-react-select": "^6.1.0",
     "date-fns": "^4.1.0",
     "jwt-decode": "^4.0.0",
     "neverthrow": "^8.2.0",

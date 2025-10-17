@@ -15,6 +15,7 @@ models/CreateEnterpriseEmployeeResponseUser.ts
 models/CreateEnterpriseResponse.ts
 models/CreateEnterpriseServiceRequest.ts
 models/CreateIndependentEndUserRequest.ts
+models/DayOfWeek.ts
 models/EmployeeGetMeResponse.ts
 models/EntrepreneurGetMeResponse.ts
 models/GetEnterpriseEmployeesResponseItem.ts
@@ -30,5 +31,6 @@ models/LogInEnterpriseEmployeeRequest.ts
 models/LogInEnterpriseEmployeeResponse.ts
 models/LogInIndependentEndUserRequest.ts
 models/LogInIndependentEndUserResponse.ts
+models/Slot.ts
 models/index.ts
 runtime.ts
