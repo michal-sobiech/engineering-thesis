@@ -1,6 +1,8 @@
 package pl.michal_sobiech.engineering_thesis.enterprise_service;
 
 import java.math.BigDecimal;
+import java.time.ZoneId;
+import java.util.Currency;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -21,8 +23,8 @@ public class EnterpriseService {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "service_id")
-    private long serviceId;
+    @Column(name = "enterprise_service_id")
+    private long enterpriseServiceId;
 
     private String name;
 
@@ -31,10 +33,12 @@ public class EnterpriseService {
     @Column(nullable = true)
     private String location;
 
+    private ZoneId timeZone;
+
     private boolean takesCustomAppointments;
 
     private BigDecimal price;
 
-    private String currency;
+    private Currency currency;
 
 }
