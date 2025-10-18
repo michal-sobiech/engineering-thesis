@@ -1,7 +1,7 @@
 import { err, ok, Result } from "neverthrow";
 import { EventWithId } from "../common/calendar/EventWithId";
 import { Slot } from "../GENERATED-api";
-import { extractFormattedTimeFromDate } from "./date";
+import { extractHHmmTimeFromDate } from "./date";
 import { usDayOfWeekToDayOfWeek } from "./day-of-week";
 
 export function eventWithIdToSlot(event: EventWithId): Result<Slot, Error> {
@@ -14,8 +14,8 @@ export function eventWithIdToSlot(event: EventWithId): Result<Slot, Error> {
         return err(dayOfWeek.error);
     }
 
-    const startHour = extractFormattedTimeFromDate(event.start);
-    const endHour = extractFormattedTimeFromDate(event.end);
+    const startHour = extractHHmmTimeFromDate(event.start);
+    const endHour = extractHHmmTimeFromDate(event.end);
 
     return ok({
         dayOfWeek: dayOfWeek.value,

@@ -340,16 +340,17 @@ components:
       example: MONDAY
     Slot:
       type: object
+      required: [dayOfWeek, start, end]
       properties:
         dayOfWeek:
           $ref: "#/components/schemas/DayOfWeek"
         start:
           type: string
-          format: time
+          pattern: "^([01]\\d|2[0-3]):[0-5]\\d$"
           example: "13:00:00"
         end:
           type: string
-          format: time
+          pattern: "^([01]\\d|2[0-3]):[0-5]\\d$"
           example: "13:00:00"
     IanaTimeZone:
       type: string

@@ -1,5 +1,6 @@
 package pl.michal_sobiech.engineering_thesis.enterprise.controller;
 
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.Currency;
 import java.util.List;
@@ -27,7 +28,9 @@ import pl.michal_sobiech.engineering_thesis.enterprise.EnterpriseService;
 import pl.michal_sobiech.engineering_thesis.enterprise.PatchEnterpriseRequestDto;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.CreateEnterpriseServiceCommand;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceService;
+import pl.michal_sobiech.engineering_thesis.enterprise_service_slot.CreateEnterpriseServiceSlotCommand;
 import pl.michal_sobiech.engineering_thesis.entrepreneur.Entrepreneur;
+import pl.michal_sobiech.engineering_thesis.utils.DayOfWeekUtils;
 import pl.michal_sobiech.engineering_thesis.utils.HttpUtils;
 import pl.michal_sobiech.engineering_thesis.utils.JsonNullableUtils;
 
@@ -38,7 +41,7 @@ public class EnterpriseController implements EnterprisesApi {
     private final AuthService authService;
     private final EnterpriseService enterpriseService;
     private final EmployeeService employeeService;
-    private final EnterpriseServiceService entepriseServiceService;
+    private final EnterpriseServiceService enterpriseServiceService;
 
     private final EnterpriseControllerCreateEnterprise enterpriseControllerCreateEnterprise;
     private final EnterpriseControllerCreateEmployee enterpriseControllerCreateEmployee;
@@ -140,16 +143,25 @@ public class EnterpriseController implements EnterprisesApi {
             Integer enterpriseId,
             CreateEnterpriseServiceRequest createEnterpriseService) {
 
+        List<CreateEnterpriseServiceSlotCommand> createSlotCommands = createEnterpriseService.getSlots()
+                .stream()
+                .map(slot -> new CreateEnterpriseServiceSlotCommand(
+                        DayOfWeekUtils.swaggerToStdDayOfWeek(slot.getDayOfWeek()),
+                        LocalTime.parse(slot.getStart()),
+                        LocalTime.parse(slot.getEnd())))
+                .toList();
+
         CreateEnterpriseServiceCommand command = new CreateEnterpriseServiceCommand(
                 createEnterpriseService.getName(),
                 createEnterpriseService.getDescription(),
                 JsonNullableUtils.jsonNullableToOptional(createEnterpriseService.getLocation()),
                 ZoneId.of(createEnterpriseService.getTimeZone()),
+                createSlotCommands,
                 createEnterpriseService.getTakesCustomAppointments(),
                 createEnterpriseService.getPrice(),
                 Currency.getInstance(createEnterpriseService.getCurrency()));
 
-        entepriseServiceService.save(command);
+        enterpriseServiceService.save(command);
         return ResponseEntity.ok().build();
     }
 

@@ -3,7 +3,10 @@ package pl.michal_sobiech.engineering_thesis.enterprise_service;
 import java.math.BigDecimal;
 import java.time.ZoneId;
 import java.util.Currency;
+import java.util.List;
 import java.util.Optional;
+
+import pl.michal_sobiech.engineering_thesis.enterprise_service_slot.CreateEnterpriseServiceSlotCommand;
 
 public record CreateEnterpriseServiceCommand(
 
@@ -14,6 +17,8 @@ public record CreateEnterpriseServiceCommand(
         Optional<String> location,
 
         ZoneId timeZone,
+
+        List<CreateEnterpriseServiceSlotCommand> slots,
 
         boolean takesCustomAppointments,
 

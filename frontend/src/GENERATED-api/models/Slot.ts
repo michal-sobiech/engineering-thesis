@@ -32,19 +32,19 @@ export interface Slot {
      * @type {DayOfWeek}
      * @memberof Slot
      */
-    dayOfWeek?: DayOfWeek;
+    dayOfWeek: DayOfWeek;
     /**
      * 
      * @type {string}
      * @memberof Slot
      */
-    start?: string;
+    start: string;
     /**
      * 
      * @type {string}
      * @memberof Slot
      */
-    end?: string;
+    end: string;
 }
 
 
@@ -53,6 +53,9 @@ export interface Slot {
  * Check if a given object implements the Slot interface.
  */
 export function instanceOfSlot(value: object): value is Slot {
+    if (!('dayOfWeek' in value) || value['dayOfWeek'] === undefined) return false;
+    if (!('start' in value) || value['start'] === undefined) return false;
+    if (!('end' in value) || value['end'] === undefined) return false;
     return true;
 }
 
@@ -66,9 +69,9 @@ export function SlotFromJSONTyped(json: any, ignoreDiscriminator: boolean): Slot
     }
     return {
         
-        'dayOfWeek': json['dayOfWeek'] == null ? undefined : DayOfWeekFromJSON(json['dayOfWeek']),
-        'start': json['start'] == null ? undefined : json['start'],
-        'end': json['end'] == null ? undefined : json['end'],
+        'dayOfWeek': DayOfWeekFromJSON(json['dayOfWeek']),
+        'start': json['start'],
+        'end': json['end'],
     };
 }
 
