@@ -1,10 +1,8 @@
-import { Box, Flex } from "@chakra-ui/react";
-import { ListProps } from "@chakra-ui/react/dist/types/components/breadcrumb/namespace";
-import React, { isValidElement, ReactElement } from "react";
-import { Renderable } from "../../utils/Renderable";
-import { ScrollableListSeparator } from "./ScrollableListSeparator";
+import { Box, Flex, Separator } from "@chakra-ui/react";
+import React, { isValidElement, PropsWithChildren, ReactElement } from "react";
+import { Renderable } from "../utils/Renderable";
 
-export const ScrollableList: React.FC<ListProps> = ({ children, ...props }) => {
+export const ScrollableList: React.FC<PropsWithChildren> = ({ children }) => {
     const childrenArray = React.Children.toArray(children);
     const childrenAndSeparators = addSeparators(childrenArray);
     const childrenAndSeparatorsValidElems = childrenAndSeparators.filter(isValidElement);
@@ -23,7 +21,7 @@ function addSeparators(elements: Renderable[]): Renderable[] {
         out.push(item);
 
         if (i != lastIndex) {
-            const separator = <ScrollableListSeparator />;
+            const separator = <Separator />;
             out.push(separator);
         }
     });

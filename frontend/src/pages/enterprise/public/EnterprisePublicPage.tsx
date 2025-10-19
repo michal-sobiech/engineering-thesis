@@ -1,7 +1,7 @@
 import { Box, Center, Flex, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { ScrollableList } from "../../../common/scrollable-list/ScrollableList";
+import { ScrollableList } from "../../../common/ScrollableList";
 import { StandardBox } from "../../../common/StandardBox";
 import { StandardHorizontalSeparator } from "../../../common/StandardHorizontalSeparator";
 import { StandardPanel } from "../../../common/StandardPanel";

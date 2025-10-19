@@ -1,4 +1,4 @@
-import { err, ok, Result, ResultAsync } from "neverthrow";
+import { err, ok, okAsync, Result, ResultAsync } from "neverthrow";
 import { photosApi } from "../api/photos-api";
 import { isSuccessful } from "./http";
 import { errorErrResultAsyncFromPromise, promiseResultToErrorAsyncResult } from "./result";
@@ -48,3 +48,10 @@ export function fetchPhoto(photoId: number): ResultAsync<File, Error> {
     return promiseResultToErrorAsyncResult(createPromise());
 }
 
+export function retrievePhoto(photoId: number | null): ResultAsync<File | null, Error> {
+    if (photoId === null) {
+        return okAsync(null);
+    } else {
+        return fetchPhoto(photoId).map(file => file ?? null);
+    }
+}

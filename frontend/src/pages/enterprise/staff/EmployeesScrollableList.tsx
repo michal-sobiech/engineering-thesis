@@ -2,7 +2,7 @@ import { Box, Text } from "@chakra-ui/react";
 import { FC, ReactElement, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { enterpriseEmployeesApi } from "../../../api/enterprise-employees-api";
-import { ScrollableList } from "../../../common/scrollable-list/ScrollableList";
+import { ScrollableList } from "../../../common/ScrollableList";
 import { StandardBox } from "../../../common/StandardBox";
 import { GetEnterpriseEmployeesResponseItem } from "../../../GENERATED-api";
 import { routes } from "../../../router/routes";

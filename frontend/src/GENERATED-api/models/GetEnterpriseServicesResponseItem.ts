@@ -24,25 +24,28 @@ export interface GetEnterpriseServicesResponseItem {
      * @type {number}
      * @memberof GetEnterpriseServicesResponseItem
      */
-    serviceId?: number;
+    serviceId: number;
     /**
      * 
      * @type {string}
      * @memberof GetEnterpriseServicesResponseItem
      */
-    serviceName?: string;
+    name: string;
     /**
      * 
      * @type {string}
      * @memberof GetEnterpriseServicesResponseItem
      */
-    serviceDescription?: string;
+    description: string;
 }
 
 /**
  * Check if a given object implements the GetEnterpriseServicesResponseItem interface.
  */
 export function instanceOfGetEnterpriseServicesResponseItem(value: object): value is GetEnterpriseServicesResponseItem {
+    if (!('serviceId' in value) || value['serviceId'] === undefined) return false;
+    if (!('name' in value) || value['name'] === undefined) return false;
+    if (!('description' in value) || value['description'] === undefined) return false;
     return true;
 }
 
@@ -56,9 +59,9 @@ export function GetEnterpriseServicesResponseItemFromJSONTyped(json: any, ignore
     }
     return {
         
-        'serviceId': json['serviceId'] == null ? undefined : json['serviceId'],
-        'serviceName': json['serviceName'] == null ? undefined : json['serviceName'],
-        'serviceDescription': json['serviceDescription'] == null ? undefined : json['serviceDescription'],
+        'serviceId': json['serviceId'],
+        'name': json['name'],
+        'description': json['description'],
     };
 }
 
@@ -74,8 +77,8 @@ export function GetEnterpriseServicesResponseItemToJSONTyped(value?: GetEnterpri
     return {
         
         'serviceId': value['serviceId'],
-        'serviceName': value['serviceName'],
-        'serviceDescription': value['serviceDescription'],
+        'name': value['name'],
+        'description': value['description'],
     };
 }
 

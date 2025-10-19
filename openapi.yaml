@@ -262,15 +262,16 @@ components:
           example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEyMywiaXNzdWVkX2F0IjoxNzU3NTkyMDIyLCJleHBpcmVzX2F0IjoxNzU3NjEzNjIyfQ.R0wpPhA5v-z_NYELi8PLxji0EJFcD75B5_psMb8ZNcc"
     GetEnterpriseServicesResponseItem:
       type: object
+      required: [serviceId, name, description]
       properties:
         serviceId:
           type: integer
           format: int64
           example: 1234
-        serviceName:
+        name:
           type: string
           example: Basic haircut
-        serviceDescription:
+        description:
           type: string
           example: Male or female basic haircut
     GetEnterpriseServicesResponse:

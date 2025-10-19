@@ -1,7 +1,7 @@
 import { Box, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { enterprisesApi } from "../../../api/enterprises-api";
-import { ScrollableList } from "../../../common/scrollable-list/ScrollableList";
+import { ScrollableList } from "../../../common/ScrollableList";
 import { StandardBox } from "../../../common/StandardBox";
 import { GetEnterpriseServicesResponseItem } from "../../../GENERATED-api";
 import { errorErrResultAsyncFromPromise } from "../../../utils/result";
@@ -30,6 +30,6 @@ export const EnterprisePublicPageServicesList = ({ enterpriseId }: { enterpriseI
 
 function createServiceBox(data: GetEnterpriseServicesResponseItem) {
     return <Box>
-        <Text>{data.serviceName}</Text>
+        <Text>{data.name}</Text>
     </Box>
 }
