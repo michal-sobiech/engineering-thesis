@@ -26,6 +26,9 @@ public class EnterpriseService {
     @Column(name = "enterprise_service_id")
     private long enterpriseServiceId;
 
+    @Column(name = "enterprise_id")
+    private long enterpriseId;
+
     private String name;
 
     private String description;

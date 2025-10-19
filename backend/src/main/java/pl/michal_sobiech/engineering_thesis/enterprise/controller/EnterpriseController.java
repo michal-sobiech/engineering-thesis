@@ -104,7 +104,14 @@ public class EnterpriseController implements EnterprisesApi {
 
     @Override
     public ResponseEntity<List<GetEnterpriseServicesResponseItem>> getEnterpriseServices(Integer enterpriseId) {
-        return HttpUtils.createInternalServerErrorResponse();
+        var services = enterpriseServiceService.findByEnterpriseId(enterpriseId);
+        var body = services.stream()
+                .map(service -> new GetEnterpriseServicesResponseItem(
+                        service.getEnterpriseServiceId(),
+                        service.getName(),
+                        service.getDescription()))
+                .toList();
+        return ResponseEntity.ok(body);
     }
 
     // TODO cache invalidation
@@ -161,7 +168,7 @@ public class EnterpriseController implements EnterprisesApi {
                 createEnterpriseService.getPrice(),
                 Currency.getInstance(createEnterpriseService.getCurrency()));
 
-        enterpriseServiceService.save(command);
+        enterpriseServiceService.save(enterpriseId, command);
         return ResponseEntity.ok().build();
     }
 

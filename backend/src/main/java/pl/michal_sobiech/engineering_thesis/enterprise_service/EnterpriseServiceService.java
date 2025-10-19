@@ -13,13 +13,14 @@ import pl.michal_sobiech.engineering_thesis.enterprise_service_slot.EnterpriseSe
 @RequiredArgsConstructor
 public class EnterpriseServiceService {
 
-    private final EnterpriseServiceRepository serviceRepository;
+    private final EnterpriseServiceRepository enterpriseServiceRepository;
 
     private final EnterpriseServiceSlotService enterpriseServiceSlotService;
 
     @Transactional
-    public CreateEnterpriseServiceResult save(CreateEnterpriseServiceCommand command) {
+    public CreateEnterpriseServiceResult save(long enterpriseId, CreateEnterpriseServiceCommand command) {
         EnterpriseService service = EnterpriseService.builder()
+                .enterpriseId(enterpriseId)
                 .name(command.name())
                 .description(command.description())
                 .location(command.location().orElse(null))
@@ -28,10 +29,14 @@ public class EnterpriseServiceService {
                 .price(command.price())
                 .currency(command.currency())
                 .build();
-        service = serviceRepository.save(service);
+        service = enterpriseServiceRepository.save(service);
 
         final long enterpriseServiceId = service.getEnterpriseServiceId();
         List<EnterpriseServiceSlot> slots = enterpriseServiceSlotService.saveMany(enterpriseServiceId, command.slots());
         return new CreateEnterpriseServiceResult(service, slots);
+    }
+
+    public List<EnterpriseService> findByEnterpriseId(long enterpriseId) {
+        return enterpriseServiceRepository.findByEnterpriseId(enterpriseId);
     }
 }

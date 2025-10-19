@@ -71,7 +71,7 @@ export const EnterpriseStaffPage = () => {
             setServices(result.value);
         }
         loadServicesData();
-    })
+    }, [])
 
     return <Box height="100vh" overflowY="auto" alignContent="center">
         <Center>
