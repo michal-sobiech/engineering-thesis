@@ -1,9 +1,9 @@
-import { Box, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { enterprisesApi } from "../../../api/enterprises-api";
-import { ScrollableList } from "../../../common/ScrollableList";
+import { LinkScrollableList } from "../../../common/LinkScrollableList";
 import { StandardBox } from "../../../common/StandardBox";
 import { GetEnterpriseServicesResponseItem } from "../../../GENERATED-api";
+import { routes } from "../../../router/routes";
 import { errorErrResultAsyncFromPromise } from "../../../utils/result";
 
 export const EnterprisePublicPageServicesList = ({ enterpriseId }: { enterpriseId: number }) => {
@@ -22,14 +22,10 @@ export const EnterprisePublicPageServicesList = ({ enterpriseId }: { enterpriseI
     }, []);
 
     return <StandardBox>
-        <ScrollableList>
-            {services.map(createServiceBox)}
-        </ScrollableList>
-    </StandardBox>
-}
+        <LinkScrollableList items={services.map(service => ({
+            label: service.name,
+            url: routes.enterpriseCreateService(enterpriseId),
+        }))} />
+    </StandardBox>;
 
-function createServiceBox(data: GetEnterpriseServicesResponseItem) {
-    return <Box>
-        <Text>{data.name}</Text>
-    </Box>
 }

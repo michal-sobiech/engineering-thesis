@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 import { ScrollableList } from "../../../common/ScrollableList";
 import { StandardBox } from "../../../common/StandardBox";
 import { StandardHorizontalSeparator } from "../../../common/StandardHorizontalSeparator";
+import { StandardLabeledContainer } from "../../../common/StandardLabeledContainer";
 import { StandardPanel } from "../../../common/StandardPanel";
 import { useIntParam } from "../../../hooks/useIntParam";
 import { routes } from "../../../router/routes";
@@ -57,10 +58,9 @@ export const EnterprisePublicPage = () => {
                         <StandardHorizontalSeparator />
                         <Text> {"\u{1F4CD}"} {location} </Text>
                         <StandardHorizontalSeparator />
-                        <Flex direction="column" gap="5px">
-                            <Text>Services</Text>
+                        <StandardLabeledContainer label="Services">
                             <EnterprisePublicPageServicesList enterpriseId={enterpriseId} />
-                        </Flex>
+                        </StandardLabeledContainer>
                         <StandardHorizontalSeparator />
                         <Flex direction="column" gap="5px">
                             <Text>Reviews</Text>
