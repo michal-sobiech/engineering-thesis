@@ -10,6 +10,7 @@ import { EntrepreneurSignUpOrLogInPage } from "../pages/entrepreneur/sign-up-or-
 import { EntrepreneurSignUpWizard } from "../pages/entrepreneur/sign-up/EntrepreneurSignUpWizard";
 import { MainPage } from "../pages/main_page/MainPage";
 import { ServiceCreationPage } from "../pages/service/ServiceCreationPage";
+import { ServiceSearchPage } from "../pages/service/search/ServiceSearchPage";
 import { PageLayout } from "./PageLayout";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { routeTemplates } from "./route-templates";
@@ -66,6 +67,10 @@ export const router = createBrowserRouter([
             {
                 path: routeTemplates.enterpriseCreateService,
                 element: <ServiceCreationPage />
+            },
+            {
+                path: routeTemplates.serviceSearch,
+                element: <ServiceSearchPage />
             }
         ]
     }
