@@ -20,7 +20,7 @@ export const ServiceSearchPage = () => {
             <StandardPanel>
                 <StandardFlex>
                     <Heading>
-                        Search a service
+                        Find a service
                     </Heading>
                     <StandardLabeledContainer label="Service name">
                         <StandardTextField text={serviceName} setText={setServiceName} placeholder="Female haircut" />
