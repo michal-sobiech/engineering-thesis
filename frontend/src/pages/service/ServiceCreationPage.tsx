@@ -44,10 +44,10 @@ export const ServiceCreationPage = () => {
                 navigate(routes.mainPage, { replace: true });
             }
         }
-        // loadEnterpriseData();
+        loadEnterpriseData();
     })
 
-    const onCreateServiceClick = () => {
+    const onCreateServiceClick = async () => {
         if (serviceName === "") {
             toastError("Choose a service name");
             return;
@@ -97,8 +97,13 @@ export const ServiceCreationPage = () => {
             // TODO parametrize
             currency: "PLN",
         });
-        const result = errorErrResultAsyncFromPromise(promise);
-        // TODO navigate
+        const result = await errorErrResultAsyncFromPromise(promise);
+
+        if (result.isErr()) {
+            toastError(DEFAULT_ERROR_MESSAGE_FOR_USER);
+            return;
+        }
+        navigate(routes.enterpriseStaff(enterpriseId));
     }
 
     return <Center height="100vh">
