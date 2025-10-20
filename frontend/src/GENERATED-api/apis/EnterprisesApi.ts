@@ -13,43 +13,28 @@
  */
 
 
-import * as runtime from '../runtime';
 import type {
-  CreateEnterpriseResponse,
-  CreateEnterpriseServiceRequest,
-  GetEnterpriseResponse,
-  GetEnterpriseServicesResponseItem,
-  InlineObject,
-  InlineObject1,
-  InlineObject2,
-  InlineObject4,
-  Location,
+    CreateEnterpriseResponse,
+    CreateEnterpriseServiceRequest,
+    GetEnterpriseResponse,
+    GetEnterpriseServicesResponseItem,
+    Location
 } from '../models/index';
 import {
     CreateEnterpriseResponseFromJSON,
-    CreateEnterpriseResponseToJSON,
-    CreateEnterpriseServiceRequestFromJSON,
     CreateEnterpriseServiceRequestToJSON,
     GetEnterpriseResponseFromJSON,
-    GetEnterpriseResponseToJSON,
     GetEnterpriseServicesResponseItemFromJSON,
-    GetEnterpriseServicesResponseItemToJSON,
-    InlineObjectFromJSON,
-    InlineObjectToJSON,
-    InlineObject1FromJSON,
-    InlineObject1ToJSON,
-    InlineObject2FromJSON,
-    InlineObject2ToJSON,
-    InlineObject4FromJSON,
-    InlineObject4ToJSON,
-    LocationFromJSON,
-    LocationToJSON,
+    LocationToJSON
 } from '../models/index';
+import * as runtime from '../runtime';
 
 export interface CreateEnterpriseRequest {
     name: string;
     description: string;
-    location: Location;
+    address: string;
+    longitude: number;
+    latitude: number;
     logoFile?: Blob;
     backgroundPhotoFile?: Blob;
 }
@@ -71,7 +56,7 @@ export interface PatchEnterpriseRequest {
     enterpriseId: number;
     name?: string;
     description?: string;
-    location?: string;
+    location?: Location;
     logoFile?: Blob;
     backgroundPhotoFile?: Blob;
 }
@@ -98,10 +83,24 @@ export class EnterprisesApi extends runtime.BaseAPI {
             );
         }
 
-        if (requestParameters['location'] == null) {
+        if (requestParameters['address'] == null) {
             throw new runtime.RequiredError(
-                'location',
-                'Required parameter "location" was null or undefined when calling createEnterprise().'
+                'address',
+                'Required parameter "address" was null or undefined when calling createEnterprise().'
+            );
+        }
+
+        if (requestParameters['longitude'] == null) {
+            throw new runtime.RequiredError(
+                'longitude',
+                'Required parameter "longitude" was null or undefined when calling createEnterprise().'
+            );
+        }
+
+        if (requestParameters['latitude'] == null) {
+            throw new runtime.RequiredError(
+                'latitude',
+                'Required parameter "latitude" was null or undefined when calling createEnterprise().'
             );
         }
 
@@ -143,9 +142,17 @@ export class EnterprisesApi extends runtime.BaseAPI {
             formParams.append('description', requestParameters['description'] as any);
         }
 
-        if (requestParameters['location'] != null) {
-            formParams.append('location', new Blob([JSON.stringify(CreateEnterpriseResponseToJSON(requestParameters['location']))], { type: "application/json", }));
-                    }
+        if (requestParameters['address'] != null) {
+            formParams.append('address', requestParameters['address'] as any);
+        }
+
+        if (requestParameters['longitude'] != null) {
+            formParams.append('longitude', requestParameters['longitude'] as any);
+        }
+
+        if (requestParameters['latitude'] != null) {
+            formParams.append('latitude', requestParameters['latitude'] as any);
+        }
 
         if (requestParameters['logoFile'] != null) {
             formParams.append('logoFile', requestParameters['logoFile'] as any);
@@ -171,8 +178,8 @@ export class EnterprisesApi extends runtime.BaseAPI {
 
     /**
      */
-    async createEnterprise(name: string, description: string, location: Location, logoFile?: Blob, backgroundPhotoFile?: Blob, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CreateEnterpriseResponse> {
-        const response = await this.createEnterpriseRaw({ name: name, description: description, location: location, logoFile: logoFile, backgroundPhotoFile: backgroundPhotoFile }, initOverrides);
+    async createEnterprise(name: string, description: string, address: string, longitude: number, latitude: number, logoFile?: Blob, backgroundPhotoFile?: Blob, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CreateEnterpriseResponse> {
+        const response = await this.createEnterpriseRaw({ name: name, description: description, address: address, longitude: longitude, latitude: latitude, logoFile: logoFile, backgroundPhotoFile: backgroundPhotoFile }, initOverrides);
         return await response.value();
     }
 
@@ -357,7 +364,7 @@ export class EnterprisesApi extends runtime.BaseAPI {
         }
 
         if (requestParameters['location'] != null) {
-            formParams.append('location', requestParameters['location'] as any);
+            formParams.append('location', new Blob([JSON.stringify(LocationToJSON(requestParameters['location']))], { type: "application/json", }));
         }
 
         if (requestParameters['logoFile'] != null) {
@@ -385,7 +392,7 @@ export class EnterprisesApi extends runtime.BaseAPI {
 
     /**
      */
-    async patchEnterprise(enterpriseId: number, name?: string, description?: string, location?: string, logoFile?: Blob, backgroundPhotoFile?: Blob, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+    async patchEnterprise(enterpriseId: number, name?: string, description?: string, location?: Location, logoFile?: Blob, backgroundPhotoFile?: Blob, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.patchEnterpriseRaw({ enterpriseId: enterpriseId, name: name, description: description, location: location, logoFile: logoFile, backgroundPhotoFile: backgroundPhotoFile }, initOverrides);
     }
 

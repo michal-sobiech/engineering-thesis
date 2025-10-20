@@ -1,6 +1,7 @@
 import { FC, PropsWithChildren, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { enterprisesApi } from "../../../../api/enterprises-api";
+import { Location } from "../../../../GENERATED-api";
 import { useIntParam } from "../../../../hooks/useIntParam";
 import { routes } from "../../../../router/routes";
 import { errorErrResultAsyncFromPromise } from "../../../../utils/result";
@@ -14,7 +15,7 @@ export const EnterpriseContextProvider: FC<PropsWithChildren> = ({ children }) =
 
     const [enterpriseName, setEnterpriseName] = useState<string>("");
     const [enterpriseDescription, setEnterpriseDescription] = useState<string>("");
-    const [enterpriseLocation, setEnterpriseLocation] = useState<string>("");
+    const [enterpriseLocation, setEnterpriseLocation] = useState<Location | null>(null);
 
     useEffect(() => {
         async function loadEnterpriseData(): Promise<void> {

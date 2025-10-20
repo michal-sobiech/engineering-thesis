@@ -27,7 +27,7 @@ export const EnterprisePage = () => {
                 <StandardHorizontalSeparator />
                 <Text>{enterpriseDescription}</Text>
                 <StandardHorizontalSeparator />
-                <Text>{enterpriseLocation}</Text>
+                <Text>{enterpriseLocation?.address}</Text>
                 <EmployeesScrollableList enterpriseId={enterpriseId} />
                 <StandardButton
                     onClick={onCreateEmployeeAccountClick}>

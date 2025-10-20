@@ -11,7 +11,7 @@ import { StandardLabeledContainer } from "../../../common/StandardLabeledContain
 import { StandardPanel } from "../../../common/StandardPanel";
 import { StandardTextField } from "../../../common/StandardTextField";
 import { StandardVerticalSeparator } from "../../../common/StandardVerticalSeparator";
-import { GetEnterpriseServicesResponseItem } from "../../../GENERATED-api";
+import { GetEnterpriseServicesResponseItem, Location } from "../../../GENERATED-api";
 import { useIntParam } from "../../../hooks/useIntParam";
 import { routes } from "../../../router/routes";
 import { fetchServices } from "../../service/service-utils";
@@ -23,7 +23,7 @@ export const EnterpriseStaffPage = () => {
 
     const [name, setName] = useState<string | null>(null);
     const [description, setDescription] = useState<string | null>(null);
-    const [location, setLocation] = useState<string | null>(null);
+    const [location, setLocation] = useState<Location | null>(null);
     const [logoFile, setLogoFile] = useState<File | null>(null);
     const [backgroundPhotoFile, setBackgroundPhotoFile] = useState<File | null>(null);
 
@@ -86,9 +86,11 @@ export const EnterpriseStaffPage = () => {
                     <StandardLabeledContainer label="Description">
                         <StandardTextField text={description ?? ""} setText={setDescription} placeholder="Description" />
                     </StandardLabeledContainer>
-                    <StandardLabeledContainer label="Location">
+                    {
+                        // TODO location
+                    /* <StandardLabeledContainer label="Location">
                         <StandardTextField text={location ?? ""} setText={setLocation} placeholder="Location" />
-                    </StandardLabeledContainer>
+                    </StandardLabeledContainer> */}
                     <StandardLabeledContainer label="*Logo">
                         <StandardFileInput
                             text={logoFile?.name ?? ""}

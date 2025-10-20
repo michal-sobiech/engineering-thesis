@@ -6,6 +6,7 @@ import { StandardBox } from "../../../common/StandardBox";
 import { StandardHorizontalSeparator } from "../../../common/StandardHorizontalSeparator";
 import { StandardLabeledContainer } from "../../../common/StandardLabeledContainer";
 import { StandardPanel } from "../../../common/StandardPanel";
+import { Location } from "../../../GENERATED-api";
 import { useIntParam } from "../../../hooks/useIntParam";
 import { routes } from "../../../router/routes";
 import { fetchEnterpriseData } from "../utils";
@@ -18,7 +19,7 @@ export const EnterprisePublicPage = () => {
 
     const [name, setName] = useState<string | null>(null);
     const [description, setDescription] = useState<string | null>(null);
-    const [location, setLocation] = useState<string | null>(null);
+    const [location, setLocation] = useState<Location | null>(null);
     const [logoFile, setLogoFile] = useState<File | null>(null);
     const [backgroundPhotoFile, setBackgroundPhotoFile] = useState<File | null>(null);
 
@@ -56,7 +57,7 @@ export const EnterprisePublicPage = () => {
                         <StandardHorizontalSeparator />
                         <Text> {description ?? ""} </Text>
                         <StandardHorizontalSeparator />
-                        <Text> {"\u{1F4CD}"} {location} </Text>
+                        <Text> {"\u{1F4CD}"} {location?.address} </Text>
                         <StandardHorizontalSeparator />
                         <StandardLabeledContainer label="Services">
                             <EnterprisePublicPageServicesList enterpriseId={enterpriseId} />

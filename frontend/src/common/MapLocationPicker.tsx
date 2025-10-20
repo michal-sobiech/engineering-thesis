@@ -27,7 +27,7 @@ export interface MapLocationPickerProps {
 
 export const MapLocationPicker: FC<MapLocationPickerProps> = ({ address, setAddress, position, setPosition }) => {
     return <MapContainer
-        style={{ height: 500, width: 500, zIndex: 0 }}
+        style={{ minHeight: 300, width: "100%", zIndex: 0 }}
         zoom={3}
         center={defaultPosition}
     >

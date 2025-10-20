@@ -13,6 +13,14 @@
  */
 
 import { mapValues } from '../runtime';
+import type { Location } from './Location';
+import {
+    LocationFromJSON,
+    LocationFromJSONTyped,
+    LocationToJSON,
+    LocationToJSONTyped,
+} from './Location';
+
 /**
  * 
  * @export
@@ -33,10 +41,10 @@ export interface GetEnterpriseResponse {
     description: string;
     /**
      * 
-     * @type {string}
+     * @type {Location}
      * @memberof GetEnterpriseResponse
      */
-    location: string;
+    location: Location;
     /**
      * 
      * @type {number}
@@ -73,7 +81,7 @@ export function GetEnterpriseResponseFromJSONTyped(json: any, ignoreDiscriminato
         
         'name': json['name'],
         'description': json['description'],
-        'location': json['location'],
+        'location': LocationFromJSON(json['location']),
         'logoPhotoId': json['logoPhotoId'] == null ? undefined : json['logoPhotoId'],
         'backgroundPhotoId': json['backgroundPhotoId'] == null ? undefined : json['backgroundPhotoId'],
     };
@@ -92,7 +100,7 @@ export function GetEnterpriseResponseToJSONTyped(value?: GetEnterpriseResponse |
         
         'name': value['name'],
         'description': value['description'],
-        'location': value['location'],
+        'location': LocationToJSON(value['location']),
         'logoPhotoId': value['logoPhotoId'],
         'backgroundPhotoId': value['backgroundPhotoId'],
     };
