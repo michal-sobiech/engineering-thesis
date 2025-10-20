@@ -40,152 +40,154 @@ import pl.michal_sobiech.engineering_thesis.utils.JsonNullableUtils;
 @RequiredArgsConstructor
 public class EnterpriseController implements EnterprisesApi {
 
-    private final AuthService authService;
-    private final EnterpriseService enterpriseService;
-    private final EmployeeService employeeService;
-    private final EnterpriseServiceService enterpriseServiceService;
-    private final LocationService locationService;
+        private final AuthService authService;
+        private final EnterpriseService enterpriseService;
+        private final EmployeeService employeeService;
+        private final EnterpriseServiceService enterpriseServiceService;
+        private final LocationService locationService;
 
-    private final EnterpriseControllerCreateEnterprise enterpriseControllerCreateEnterprise;
-    private final EnterpriseControllerCreateEmployee enterpriseControllerCreateEmployee;
+        private final EnterpriseControllerCreateEnterprise enterpriseControllerCreateEnterprise;
+        private final EnterpriseControllerCreateEmployee enterpriseControllerCreateEmployee;
 
-    @Override
-    public ResponseEntity<CreateEnterpriseResponse> createEnterprise(
-            String name,
-            String description,
-            Location location,
-            MultipartFile logoFile,
-            MultipartFile backgroundPhotoFile) {
-        var command = new CreateEnterpriseCommand(
-                name,
-                description,
-                location,
-                Optional.ofNullable(logoFile),
-                Optional.ofNullable(backgroundPhotoFile));
+        @Override
+        public ResponseEntity<CreateEnterpriseResponse> createEnterprise(
+                        String name,
+                        String description,
+                        String address,
+                        Double longitude,
+                        Double latitude,
+                        MultipartFile logoFile,
+                        MultipartFile backgroundPhotoFile) {
+                var command = new CreateEnterpriseCommand(
+                                name,
+                                description,
+                                new Location(address, longitude, latitude),
+                                Optional.ofNullable(logoFile),
+                                Optional.ofNullable(backgroundPhotoFile));
 
-        return enterpriseControllerCreateEnterprise.createEnterprise(command);
-    }
-
-    @Override
-    public ResponseEntity<CheckIndependentEndUserEmailExists200Response> checkEmployeeUsernameExists(
-            Integer enterpriseId, String username) {
-        final boolean exists = employeeService.checkEmployeeUsernameExists(enterpriseId, username);
-        final var responseBody = new CheckIndependentEndUserEmailExists200Response(exists);
-        return ResponseEntity.ok(responseBody);
-    }
-
-    @Override
-    public ResponseEntity<CreateEnterpriseEmployeeResponse> createEnterpriseEmployee(
-            Integer enterpriseId,
-            CreateEnterpriseEmployeeRequest createEnterpriseEmployeeRequest) {
-        return enterpriseControllerCreateEmployee.createEnterpriseEmployee(enterpriseId,
-                createEnterpriseEmployeeRequest);
-    }
-
-    @Override
-    public ResponseEntity<GetEnterpriseResponse> getEnterprise(Integer enterpriseId) {
-
-        final Optional<Enterprise> optionalEnterprise = enterpriseService.findByEnterpriseId(enterpriseId);
-        if (optionalEnterprise.isEmpty()) {
-            return HttpUtils.createNotFoundReponse();
-        }
-        Enterprise enterprise = optionalEnterprise.get();
-
-        Optional<pl.michal_sobiech.engineering_thesis.location.Location> optionalLocation = locationService
-                .findByLocationId(enterprise.getLocationId());
-        if (optionalLocation.isEmpty()) {
-            return HttpUtils.createNotFoundReponse();
-        }
-        pl.michal_sobiech.engineering_thesis.location.Location location = optionalLocation.get();
-
-        Location swaggerLocation = new Location(
-                location.getAddress(),
-                location.getLongitude(),
-                location.getLatitude());
-
-        var responseBody = new GetEnterpriseResponse(
-                enterprise.getName(),
-                enterprise.getDescription(),
-                swaggerLocation);
-        responseBody.logoPhotoId(enterprise.getLogoPhotoId());
-        responseBody.backgroundPhotoId(enterprise.getBackgroundPhotoId());
-
-        return ResponseEntity.ok(responseBody);
-    }
-
-    @Override
-    public ResponseEntity<List<GetEnterpriseEmployeesResponseItem>> getEnterpriseEmployees(Integer enterpriseId) {
-        return HttpUtils.createInternalServerErrorResponse();
-    }
-
-    @Override
-    public ResponseEntity<List<GetEnterpriseServicesResponseItem>> getEnterpriseServices(Integer enterpriseId) {
-        var services = enterpriseServiceService.findByEnterpriseId(enterpriseId);
-        var body = services.stream()
-                .map(service -> new GetEnterpriseServicesResponseItem(
-                        service.getEnterpriseServiceId(),
-                        service.getName(),
-                        service.getDescription()))
-                .toList();
-        return ResponseEntity.ok(body);
-    }
-
-    // TODO cache invalidation
-    @Override
-    public ResponseEntity<Void> patchEnterprise(
-            Long enterpriseId,
-            String name,
-            String description,
-            Location location,
-            MultipartFile logoFile,
-            MultipartFile backgroundPhotoFile) {
-
-        EntrepreneurAuthContext entrepreneurAuthContext = authService.requireEntrepreneur();
-        Entrepreneur entrepreneur = entrepreneurAuthContext.entrepreneur();
-
-        Enterprise enterprise = enterpriseService.findByEnterpriseId(enterpriseId).orElseThrow();
-
-        if (enterprise.getEntrepreneurId() != entrepreneur.getEntrepreneurId()) {
-            return HttpUtils.createForbiddenResponse();
+                return enterpriseControllerCreateEnterprise.createEnterprise(command);
         }
 
-        PatchEnterpriseRequestDto requestDto = new PatchEnterpriseRequestDto(
-                enterpriseId,
-                Optional.ofNullable(name),
-                Optional.ofNullable(description),
-                Optional.ofNullable(location),
-                Optional.ofNullable(logoFile),
-                Optional.ofNullable(backgroundPhotoFile));
-        enterpriseService.patchEnterprise(requestDto);
+        @Override
+        public ResponseEntity<CheckIndependentEndUserEmailExists200Response> checkEmployeeUsernameExists(
+                        Integer enterpriseId, String username) {
+                final boolean exists = employeeService.checkEmployeeUsernameExists(enterpriseId, username);
+                final var responseBody = new CheckIndependentEndUserEmailExists200Response(exists);
+                return ResponseEntity.ok(responseBody);
+        }
 
-        return ResponseEntity.ok().build();
-    }
+        @Override
+        public ResponseEntity<CreateEnterpriseEmployeeResponse> createEnterpriseEmployee(
+                        Integer enterpriseId,
+                        CreateEnterpriseEmployeeRequest createEnterpriseEmployeeRequest) {
+                return enterpriseControllerCreateEmployee.createEnterpriseEmployee(enterpriseId,
+                                createEnterpriseEmployeeRequest);
+        }
 
-    @Override
-    public ResponseEntity<Void> createEnterpriseService(
-            Integer enterpriseId,
-            CreateEnterpriseServiceRequest createEnterpriseService) {
+        @Override
+        public ResponseEntity<GetEnterpriseResponse> getEnterprise(Integer enterpriseId) {
 
-        List<CreateEnterpriseServiceSlotCommand> createSlotCommands = createEnterpriseService.getSlots()
-                .stream()
-                .map(slot -> new CreateEnterpriseServiceSlotCommand(
-                        DayOfWeekUtils.swaggerToStdDayOfWeek(slot.getDayOfWeek()),
-                        LocalTime.parse(slot.getStart()),
-                        LocalTime.parse(slot.getEnd())))
-                .toList();
+                final Optional<Enterprise> optionalEnterprise = enterpriseService.findByEnterpriseId(enterpriseId);
+                if (optionalEnterprise.isEmpty()) {
+                        return HttpUtils.createNotFoundReponse();
+                }
+                Enterprise enterprise = optionalEnterprise.get();
 
-        CreateEnterpriseServiceCommand command = new CreateEnterpriseServiceCommand(
-                createEnterpriseService.getName(),
-                createEnterpriseService.getDescription(),
-                JsonNullableUtils.jsonNullableToOptional(createEnterpriseService.getLocation()),
-                ZoneId.of(createEnterpriseService.getTimeZone()),
-                createSlotCommands,
-                createEnterpriseService.getTakesCustomAppointments(),
-                createEnterpriseService.getPrice(),
-                Currency.getInstance(createEnterpriseService.getCurrency()));
+                Optional<pl.michal_sobiech.engineering_thesis.location.Location> optionalLocation = locationService
+                                .findByLocationId(enterprise.getLocationId());
+                if (optionalLocation.isEmpty()) {
+                        return HttpUtils.createNotFoundReponse();
+                }
+                pl.michal_sobiech.engineering_thesis.location.Location location = optionalLocation.get();
 
-        enterpriseServiceService.save(enterpriseId, command);
-        return ResponseEntity.ok().build();
-    }
+                Location swaggerLocation = new Location(
+                                location.getAddress(),
+                                location.getLongitude(),
+                                location.getLatitude());
+
+                var responseBody = new GetEnterpriseResponse(
+                                enterprise.getName(),
+                                enterprise.getDescription(),
+                                swaggerLocation);
+                responseBody.logoPhotoId(enterprise.getLogoPhotoId());
+                responseBody.backgroundPhotoId(enterprise.getBackgroundPhotoId());
+
+                return ResponseEntity.ok(responseBody);
+        }
+
+        @Override
+        public ResponseEntity<List<GetEnterpriseEmployeesResponseItem>> getEnterpriseEmployees(Integer enterpriseId) {
+                return HttpUtils.createInternalServerErrorResponse();
+        }
+
+        @Override
+        public ResponseEntity<List<GetEnterpriseServicesResponseItem>> getEnterpriseServices(Integer enterpriseId) {
+                var services = enterpriseServiceService.findByEnterpriseId(enterpriseId);
+                var body = services.stream()
+                                .map(service -> new GetEnterpriseServicesResponseItem(
+                                                service.getEnterpriseServiceId(),
+                                                service.getName(),
+                                                service.getDescription()))
+                                .toList();
+                return ResponseEntity.ok(body);
+        }
+
+        // TODO cache invalidation
+        @Override
+        public ResponseEntity<Void> patchEnterprise(
+                        Long enterpriseId,
+                        String name,
+                        String description,
+                        Location location,
+                        MultipartFile logoFile,
+                        MultipartFile backgroundPhotoFile) {
+
+                EntrepreneurAuthContext entrepreneurAuthContext = authService.requireEntrepreneur();
+                Entrepreneur entrepreneur = entrepreneurAuthContext.entrepreneur();
+
+                Enterprise enterprise = enterpriseService.findByEnterpriseId(enterpriseId).orElseThrow();
+
+                if (enterprise.getEntrepreneurId() != entrepreneur.getEntrepreneurId()) {
+                        return HttpUtils.createForbiddenResponse();
+                }
+
+                PatchEnterpriseRequestDto requestDto = new PatchEnterpriseRequestDto(
+                                enterpriseId,
+                                Optional.ofNullable(name),
+                                Optional.ofNullable(description),
+                                Optional.ofNullable(location),
+                                Optional.ofNullable(logoFile),
+                                Optional.ofNullable(backgroundPhotoFile));
+                enterpriseService.patchEnterprise(requestDto);
+
+                return ResponseEntity.ok().build();
+        }
+
+        @Override
+        public ResponseEntity<Void> createEnterpriseService(
+                        Integer enterpriseId,
+                        CreateEnterpriseServiceRequest createEnterpriseService) {
+
+                List<CreateEnterpriseServiceSlotCommand> createSlotCommands = createEnterpriseService.getSlots()
+                                .stream()
+                                .map(slot -> new CreateEnterpriseServiceSlotCommand(
+                                                DayOfWeekUtils.swaggerToStdDayOfWeek(slot.getDayOfWeek()),
+                                                LocalTime.parse(slot.getStart()),
+                                                LocalTime.parse(slot.getEnd())))
+                                .toList();
+
+                CreateEnterpriseServiceCommand command = new CreateEnterpriseServiceCommand(
+                                createEnterpriseService.getName(),
+                                createEnterpriseService.getDescription(),
+                                JsonNullableUtils.jsonNullableToOptional(createEnterpriseService.getLocation()),
+                                ZoneId.of(createEnterpriseService.getTimeZone()),
+                                createSlotCommands,
+                                createEnterpriseService.getTakesCustomAppointments(),
+                                createEnterpriseService.getPrice(),
+                                Currency.getInstance(createEnterpriseService.getCurrency()));
+
+                enterpriseServiceService.save(enterpriseId, command);
+                return ResponseEntity.ok().build();
+        }
 
 }

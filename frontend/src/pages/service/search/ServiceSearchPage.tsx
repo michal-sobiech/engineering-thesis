@@ -1,5 +1,6 @@
 import { Box, Center, Heading } from "@chakra-ui/react"
 import { useState } from "react"
+import { LocationAutocomplete } from "../../../common/LocationAutocomplete"
 import { StandardFlex } from "../../../common/StandardFlex"
 import { StandardLabeledContainer } from "../../../common/StandardLabeledContainer"
 import { StandardPanel } from "../../../common/StandardPanel"
@@ -10,6 +11,7 @@ import { ServiceCathegoryPicker } from "../ServiceCathegoryPicker"
 export const ServiceSearchPage = () => {
     const [serviceName, setServiceName] = useState<string>("");
     const [serviceCathegory, setServiceCathegory] = useState<ServiceCathegory | null>(null);
+    const [query, setQuery] = useState<string>("");
 
     const serviceCathegoryLabel = serviceCathegory === null
         ? "Choose a cathegory"
@@ -27,6 +29,9 @@ export const ServiceSearchPage = () => {
                     </StandardLabeledContainer>
                     <StandardLabeledContainer label="Service cathegory">
                         <ServiceCathegoryPicker value={serviceCathegory} setValue={setServiceCathegory} />
+                    </StandardLabeledContainer>
+                    <StandardLabeledContainer label="Preferred location">
+                        <LocationAutocomplete query={query} setQuery={setQuery} />
                     </StandardLabeledContainer>
                 </StandardFlex>
             </StandardPanel>
