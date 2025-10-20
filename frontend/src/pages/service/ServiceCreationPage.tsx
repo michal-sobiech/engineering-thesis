@@ -1,6 +1,7 @@
 import { Box, Center, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { Location } from "../../GENERATED-api";
 import { enterprisesApi } from "../../api/enterprises-api";
 import { MapLocationPicker } from "../../common/MapLocationPicker";
 import { StandardButton } from "../../common/StandardButton";
@@ -26,7 +27,8 @@ export const ServiceCreationPage = () => {
     const [enterpriseName, setEnterpriseName] = useState<string>("");
     const [serviceName, setServiceName] = useState<string>("");
     const [serviceDescription, setServiceDescription] = useState<string>("");
-    const [serviceLocation, setServiceLocation] = useState<string | null>(null);
+    const [address, setAddress] = useState<string | null>(null);
+    const [position, setPosition] = useState<{ latitude: number; longitude: number } | null>(null);
     const [timeZone, setTimeZone] = useState<string | null>(null);
     const [areCustomAppointmentsEnabled, setAreCustomAppointmentsEnabled] = useState<boolean>(false);
     const [appointmentDurationMinutes, setAppointmentDurationMinutes] = useState<number | null>(30);
@@ -46,12 +48,12 @@ export const ServiceCreationPage = () => {
     })
 
     const onCreateServiceClick = () => {
-        if (serviceName === null) {
+        if (serviceName === "") {
             toastError("Choose a service name");
             return;
         }
 
-        if (serviceDescription === null) {
+        if (serviceDescription === "") {
             toastError("Enter a description");
             return;
         }
@@ -73,17 +75,30 @@ export const ServiceCreationPage = () => {
             return;
         }
 
-        // enterprisesApi.createEnterpriseService(enterpriseId, {
-        //     name: serviceName,
-        //     description: serviceDescription,
-        //     location: serviceLocation,
-        //     takesCustomAppointments: areCustomAppointmentsEnabled,
-        //     price: price,
-        //     slots: slotDtos.value,
-        //     timeZone,
-        //     // TODO parametrize
-        //     currency: "PLN"
-        // })
+        if (address === null || position === null) {
+            toastError("Choose a location");
+            return;
+        }
+
+        const location: Location = {
+            address,
+            longitude: position.longitude,
+            latitude: position.latitude,
+        };
+
+        const promise = enterprisesApi.createEnterpriseService(enterpriseId, {
+            name: serviceName,
+            description: serviceDescription,
+            location,
+            takesCustomAppointments: areCustomAppointmentsEnabled,
+            price: price,
+            slots: slotDtos.value,
+            timeZone,
+            // TODO parametrize
+            currency: "PLN",
+        });
+        const result = errorErrResultAsyncFromPromise(promise);
+        // TODO navigate
     }
 
     return <Center height="100vh">
@@ -120,7 +135,7 @@ export const ServiceCreationPage = () => {
                             text={serviceLocation ?? ""}
                             setText={setServiceLocation}
                         /> */}
-                        <MapLocationPicker />
+                        <MapLocationPicker address={address} setAddress={setAddress} position={position} setPosition={setPosition} />
                     </StandardLabeledContainer>
 
                     <StandardLabeledContainer label="Choose time zone">
