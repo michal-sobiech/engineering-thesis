@@ -1,14 +1,14 @@
-import { Box, Flex, Separator } from "@chakra-ui/react";
-import React, { isValidElement, PropsWithChildren, ReactElement } from "react";
+import { Box, Flex, FlexProps, Separator } from "@chakra-ui/react";
+import React, { isValidElement, ReactElement } from "react";
 import { Renderable } from "../utils/Renderable";
 
-export const ScrollableList: React.FC<PropsWithChildren> = ({ children }) => {
+export const ScrollableList: React.FC<FlexProps> = ({ children, ...otherProps }) => {
     const childrenArray = React.Children.toArray(children);
     const childrenAndSeparators = addSeparators(childrenArray);
     const childrenAndSeparatorsValidElems = childrenAndSeparators.filter(isValidElement);
     const childrenAndSeparatorsWithKeys = addWrapper(childrenAndSeparatorsValidElems);
 
-    return <Flex overflowY="auto" maxHeight="100px" gap="2px" direction="column">
+    return <Flex overflowY="auto" maxHeight="100px" gap="2px" direction="column" {...otherProps}>
         {childrenAndSeparatorsWithKeys}
     </Flex>;
 }
