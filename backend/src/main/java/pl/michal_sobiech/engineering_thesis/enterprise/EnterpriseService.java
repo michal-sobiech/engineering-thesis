@@ -8,6 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
+import pl.michal_sobiech.engineering_thesis.enterprise.controller.CreateEnterpriseCommand;
+import pl.michal_sobiech.engineering_thesis.location.LocationService;
 import pl.michal_sobiech.engineering_thesis.photo.Photo;
 import pl.michal_sobiech.engineering_thesis.photo.PhotoService;
 
@@ -17,30 +19,29 @@ public class EnterpriseService {
 
     private final EnterpriseRepository enterpriseRepository;
     private final PhotoService photoService;
+    private final LocationService locationService;
 
     @Transactional
     public Enterprise createEnterprise(
             long entrepreneurId,
-            String name,
-            String description,
-            String location,
-            Optional<MultipartFile> logoFile,
-            Optional<MultipartFile> backgroundPhotoFile) {
+            CreateEnterpriseCommand enterpriseCommand) {
+
+        var location = locationService.save(enterpriseCommand.location());
 
         var builder = Enterprise.builder()
                 .entrepreneurId(entrepreneurId)
-                .name(name)
-                .description(description)
-                .location(location);
+                .name(enterpriseCommand.name())
+                .description(enterpriseCommand.description())
+                .locationId(location.getLocationId());
 
-        if (logoFile.isPresent()) {
-            MultipartFile file = logoFile.get();
+        if (enterpriseCommand.logoFile().isPresent()) {
+            MultipartFile file = enterpriseCommand.logoFile().get();
             Photo logo = photoService.createPhoto(file);
             builder.logoPhotoId(logo.getPhotoId());
         }
 
-        if (backgroundPhotoFile.isPresent()) {
-            MultipartFile file = backgroundPhotoFile.get();
+        if (enterpriseCommand.backgroundPhotoFile().isPresent()) {
+            MultipartFile file = enterpriseCommand.backgroundPhotoFile().get();
             Photo backgroundPhoto = photoService.createPhoto(file);
             builder.backgroundPhotoId(backgroundPhoto.getPhotoId());
         }
@@ -72,7 +73,11 @@ public class EnterpriseService {
 
         request.name().ifPresent(name -> enterprise.setName(name));
         request.description().ifPresent(description -> enterprise.setDescription(description));
-        request.location().ifPresent(location -> enterprise.setLocation(location));
+
+        request.location().ifPresent(location -> {
+            pl.michal_sobiech.engineering_thesis.location.Location record = locationService.save(location);
+            enterprise.setLocationId(record.getLocationId());
+        });
 
         request.logoFile().ifPresent(file -> {
             Photo photo = photoService.createPhoto(file);

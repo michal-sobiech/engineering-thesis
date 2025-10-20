@@ -2,8 +2,8 @@ import { Box, Center, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { enterprisesApi } from "../../api/enterprises-api";
+import { MapLocationPicker } from "../../common/MapLocationPicker";
 import { StandardButton } from "../../common/StandardButton";
-import { StandardConditionalTextField } from "../../common/StandardConditionalTextField";
 import { StandardFlex } from "../../common/StandardFlex";
 import { StandardFloatInput } from "../../common/StandardFloatInput";
 import { StandardLabeledContainer } from "../../common/StandardLabeledContainer";
@@ -73,17 +73,17 @@ export const ServiceCreationPage = () => {
             return;
         }
 
-        enterprisesApi.createEnterpriseService(enterpriseId, {
-            name: serviceName,
-            description: serviceDescription,
-            location: serviceLocation,
-            takesCustomAppointments: areCustomAppointmentsEnabled,
-            price: price,
-            slots: slotDtos.value,
-            timeZone,
-            // TODO parametrize
-            currency: "PLN"
-        })
+        // enterprisesApi.createEnterpriseService(enterpriseId, {
+        //     name: serviceName,
+        //     description: serviceDescription,
+        //     location: serviceLocation,
+        //     takesCustomAppointments: areCustomAppointmentsEnabled,
+        //     price: price,
+        //     slots: slotDtos.value,
+        //     timeZone,
+        //     // TODO parametrize
+        //     currency: "PLN"
+        // })
     }
 
     return <Center height="100vh">
@@ -114,12 +114,13 @@ export const ServiceCreationPage = () => {
                     />
 
                     <StandardLabeledContainer label="Location">
-                        <StandardConditionalTextField
+                        {/* <StandardConditionalTextField
                             option1Text="Chosen by you"
                             option2Text="Chosen by customer"
                             text={serviceLocation ?? ""}
                             setText={setServiceLocation}
-                        />
+                        /> */}
+                        <MapLocationPicker />
                     </StandardLabeledContainer>
 
                     <StandardLabeledContainer label="Choose time zone">

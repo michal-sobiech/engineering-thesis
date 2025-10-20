@@ -1,4 +1,4 @@
-package pl.michal_sobiech.engineering_thesis.enterprise;
+package pl.michal_sobiech.engineering_thesis.location;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,35 +10,22 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-// TODO autogenerate these classes?
 @Entity
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Enterprise {
+public class Location {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "enterprise_id")
-    private long enterpriseId;
-
-    @Column(name = "entrepreneur_id")
-    private long entrepreneurId;
-
-    @Column
-    private String name;
-
-    @Column
-    private String description;
-
     @Column(name = "location_id")
     private long locationId;
 
-    @Column(name = "logo_photo_id")
-    private Long logoPhotoId;
+    private String address;
 
-    @Column(name = "background_photo_id")
-    private Long backgroundPhotoId;
+    private double longitude;
+
+    private double latitude;
 
 }

@@ -27,6 +27,7 @@ models/InlineObject1.ts
 models/InlineObject2.ts
 models/InlineObject3.ts
 models/InlineObject4.ts
+models/Location.ts
 models/LogInEnterpriseEmployeeRequest.ts
 models/LogInEnterpriseEmployeeResponse.ts
 models/LogInIndependentEndUserRequest.ts

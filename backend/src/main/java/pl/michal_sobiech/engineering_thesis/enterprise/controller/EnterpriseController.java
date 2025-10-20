@@ -15,6 +15,7 @@ import org.SwaggerCodeGenExample.model.CreateEnterpriseServiceRequest;
 import org.SwaggerCodeGenExample.model.GetEnterpriseEmployeesResponseItem;
 import org.SwaggerCodeGenExample.model.GetEnterpriseResponse;
 import org.SwaggerCodeGenExample.model.GetEnterpriseServicesResponseItem;
+import org.SwaggerCodeGenExample.model.Location;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,6 +31,7 @@ import pl.michal_sobiech.engineering_thesis.enterprise_service.CreateEnterpriseS
 import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceService;
 import pl.michal_sobiech.engineering_thesis.enterprise_service_slot.CreateEnterpriseServiceSlotCommand;
 import pl.michal_sobiech.engineering_thesis.entrepreneur.Entrepreneur;
+import pl.michal_sobiech.engineering_thesis.location.LocationService;
 import pl.michal_sobiech.engineering_thesis.utils.DayOfWeekUtils;
 import pl.michal_sobiech.engineering_thesis.utils.HttpUtils;
 import pl.michal_sobiech.engineering_thesis.utils.JsonNullableUtils;
@@ -42,6 +44,7 @@ public class EnterpriseController implements EnterprisesApi {
     private final EnterpriseService enterpriseService;
     private final EmployeeService employeeService;
     private final EnterpriseServiceService enterpriseServiceService;
+    private final LocationService locationService;
 
     private final EnterpriseControllerCreateEnterprise enterpriseControllerCreateEnterprise;
     private final EnterpriseControllerCreateEmployee enterpriseControllerCreateEmployee;
@@ -50,15 +53,17 @@ public class EnterpriseController implements EnterprisesApi {
     public ResponseEntity<CreateEnterpriseResponse> createEnterprise(
             String name,
             String description,
-            String location,
+            Location location,
             MultipartFile logoFile,
             MultipartFile backgroundPhotoFile) {
-        return enterpriseControllerCreateEnterprise.createEnterprise(
+        var command = new CreateEnterpriseCommand(
                 name,
                 description,
                 location,
                 Optional.ofNullable(logoFile),
                 Optional.ofNullable(backgroundPhotoFile));
+
+        return enterpriseControllerCreateEnterprise.createEnterprise(command);
     }
 
     @Override
@@ -86,11 +91,22 @@ public class EnterpriseController implements EnterprisesApi {
         }
         Enterprise enterprise = optionalEnterprise.get();
 
+        Optional<pl.michal_sobiech.engineering_thesis.location.Location> optionalLocation = locationService
+                .findByLocationId(enterprise.getLocationId());
+        if (optionalLocation.isEmpty()) {
+            return HttpUtils.createNotFoundReponse();
+        }
+        pl.michal_sobiech.engineering_thesis.location.Location location = optionalLocation.get();
+
+        Location swaggerLocation = new Location(
+                location.getAddress(),
+                location.getLongitude(),
+                location.getLatitude());
+
         var responseBody = new GetEnterpriseResponse(
                 enterprise.getName(),
                 enterprise.getDescription(),
-                enterprise.getLocation());
-
+                swaggerLocation);
         responseBody.logoPhotoId(enterprise.getLogoPhotoId());
         responseBody.backgroundPhotoId(enterprise.getBackgroundPhotoId());
 
@@ -120,7 +136,7 @@ public class EnterpriseController implements EnterprisesApi {
             Long enterpriseId,
             String name,
             String description,
-            String location,
+            Location location,
             MultipartFile logoFile,
             MultipartFile backgroundPhotoFile) {
 

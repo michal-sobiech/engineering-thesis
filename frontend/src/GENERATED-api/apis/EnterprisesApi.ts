@@ -23,6 +23,7 @@ import type {
   InlineObject1,
   InlineObject2,
   InlineObject4,
+  Location,
 } from '../models/index';
 import {
     CreateEnterpriseResponseFromJSON,
@@ -41,12 +42,14 @@ import {
     InlineObject2ToJSON,
     InlineObject4FromJSON,
     InlineObject4ToJSON,
+    LocationFromJSON,
+    LocationToJSON,
 } from '../models/index';
 
 export interface CreateEnterpriseRequest {
     name: string;
     description: string;
-    location: string;
+    location: Location;
     logoFile?: Blob;
     backgroundPhotoFile?: Blob;
 }
@@ -141,8 +144,8 @@ export class EnterprisesApi extends runtime.BaseAPI {
         }
 
         if (requestParameters['location'] != null) {
-            formParams.append('location', requestParameters['location'] as any);
-        }
+            formParams.append('location', new Blob([JSON.stringify(CreateEnterpriseResponseToJSON(requestParameters['location']))], { type: "application/json", }));
+                    }
 
         if (requestParameters['logoFile'] != null) {
             formParams.append('logoFile', requestParameters['logoFile'] as any);
@@ -168,7 +171,7 @@ export class EnterprisesApi extends runtime.BaseAPI {
 
     /**
      */
-    async createEnterprise(name: string, description: string, location: string, logoFile?: Blob, backgroundPhotoFile?: Blob, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CreateEnterpriseResponse> {
+    async createEnterprise(name: string, description: string, location: Location, logoFile?: Blob, backgroundPhotoFile?: Blob, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CreateEnterpriseResponse> {
         const response = await this.createEnterpriseRaw({ name: name, description: description, location: location, logoFile: logoFile, backgroundPhotoFile: backgroundPhotoFile }, initOverrides);
         return await response.value();
     }

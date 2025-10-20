@@ -133,8 +133,7 @@ components:
           type: string
           example: The new best barbershop in town.
         location:
-          type: string
-          example: ul. Nowowiejska 15/19, Warsaw, Poland
+          $ref: "#/components/schemas/Location"
         logoFile:
           type: string
           format: binary
@@ -160,8 +159,7 @@ components:
           type: string
           example: The new best barbershop in town.
         location:
-          type: string
-          example: ul. Nowowiejska 15/19, Warsaw, Poland
+          $ref: "#/components/schemas/Location"
         logoPhotoId:
           type: integer
           format: int64
@@ -288,8 +286,7 @@ components:
           type: string
           example: The new best barbershop in town.
         location:
-          type: string
-          example: ul. Nowowiejska 15/19, Warsaw, Poland
+          $ref: "#/components/schemas/Location"
         logoFile:
           type: string
           format: binary
@@ -318,7 +315,7 @@ components:
           example: "Male or female haircut"
         location:
           oneOf:
-            - type: string
+            - $ref: "#/components/schemas/Location"
             - type: "null"
         takesCustomAppointments:
           type: boolean
@@ -357,6 +354,21 @@ components:
       type: string
       pattern: "^[A-Za-z_]+/[A-Za-z_]+$"
       example: "Europe/Warsaw"
+    Location:
+      type: object
+      required: [address, longitude, latitude]
+      properties:
+        address:
+          type: string
+          example: ul. Nowowiejska 15/19, Warsaw, Poland
+        longitude:
+          type: number
+          format: double
+          example: 12.3248
+        latitude:
+          type: number
+          format: double
+          example: -67.2247
 
   responses:
     OK:

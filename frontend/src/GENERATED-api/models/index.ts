@@ -19,6 +19,7 @@ export * from './InlineObject1';
 export * from './InlineObject2';
 export * from './InlineObject3';
 export * from './InlineObject4';
+export * from './Location';
 export * from './LogInEnterpriseEmployeeRequest';
 export * from './LogInEnterpriseEmployeeResponse';
 export * from './LogInIndependentEndUserRequest';

@@ -1,15 +1,12 @@
 import { Center } from "@chakra-ui/react";
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { enterprisesApi } from "../../../api/enterprises-api";
 import { StandardButton } from "../../../common/StandardButton";
 import { StandardFileInput } from "../../../common/StandardFileInput";
 import { StandardFlex } from "../../../common/StandardFlex";
 import { StandardLabeledContainer } from "../../../common/StandardLabeledContainer";
 import { StandardPanel } from "../../../common/StandardPanel";
 import { StandardTextField } from "../../../common/StandardTextField";
-import { routes } from "../../../router/routes";
-import { errorErrResultAsyncFromPromise } from "../../../utils/result";
 import { toastError } from "../../../utils/toast";
 
 export const CreateEnterprisePage = () => {
@@ -39,24 +36,24 @@ export const CreateEnterprisePage = () => {
             return;
         }
 
-        const promise = enterprisesApi.createEnterprise(
-            name,
-            description,
-            location,
-            logoFile ?? undefined,
-            backgroundPhotoFile ?? undefined,
-        );
-        const result = await errorErrResultAsyncFromPromise(promise);
+        // const promise = enterprisesApi.createEnterprise(
+        //     name,
+        //     description,
+        //     location,
+        //     logoFile ?? undefined,
+        //     backgroundPhotoFile ?? undefined,
+        // );
+        // const result = await errorErrResultAsyncFromPromise(promise);
 
-        if (result.isErr()) {
-            toastError("Couldn't create enterprise. Try again later.");
-            return;
-        }
+        // if (result.isErr()) {
+        //     toastError("Couldn't create enterprise. Try again later.");
+        //     return;
+        // }
 
-        const { enterpriseId } = result.value;
-        const path = routes.enterprisePublic(enterpriseId);
-        console.log(path);
-        navigate(path);
+        // const { enterpriseId } = result.value;
+        // const path = routes.enterprisePublic(enterpriseId);
+        // console.log(path);
+        // navigate(path);
     }
 
     return <Center height="100vh">

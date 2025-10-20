@@ -33,8 +33,8 @@ public class EnterpriseService {
 
     private String description;
 
-    @Column(nullable = true)
-    private String location;
+    @Column(name = "location_id", nullable = true)
+    private long locationId;
 
     private ZoneId timeZone;
 

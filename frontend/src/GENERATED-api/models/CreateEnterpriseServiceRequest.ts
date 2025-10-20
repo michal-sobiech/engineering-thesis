@@ -20,6 +20,13 @@ import {
     SlotToJSON,
     SlotToJSONTyped,
 } from './Slot';
+import type { Location } from './Location';
+import {
+    LocationFromJSON,
+    LocationFromJSONTyped,
+    LocationToJSON,
+    LocationToJSONTyped,
+} from './Location';
 
 /**
  * 
@@ -41,10 +48,10 @@ export interface CreateEnterpriseServiceRequest {
     description: string;
     /**
      * 
-     * @type {string}
+     * @type {Location}
      * @memberof CreateEnterpriseServiceRequest
      */
-    location: string | null;
+    location: Location | null;
     /**
      * 
      * @type {boolean}
@@ -104,7 +111,7 @@ export function CreateEnterpriseServiceRequestFromJSONTyped(json: any, ignoreDis
         
         'name': json['name'],
         'description': json['description'],
-        'location': json['location'],
+        'location': LocationFromJSON(json['location']),
         'takesCustomAppointments': json['takesCustomAppointments'],
         'timeZone': json['timeZone'],
         'slots': ((json['slots'] as Array<any>).map(SlotFromJSON)),
@@ -126,7 +133,7 @@ export function CreateEnterpriseServiceRequestToJSONTyped(value?: CreateEnterpri
         
         'name': value['name'],
         'description': value['description'],
-        'location': value['location'],
+        'location': LocationToJSON(value['location']),
         'takesCustomAppointments': value['takesCustomAppointments'],
         'timeZone': value['timeZone'],
         'slots': ((value['slots'] as Array<any>).map(SlotToJSON)),
