@@ -1,13 +1,12 @@
-package pl.michal_sobiech.engineering_thesis.entrepreneur;
+package pl.michal_sobiech.engineering_thesis.independent_end_user;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.user.User;
-import pl.michal_sobiech.engineering_thesis.user.UserGroup;
 
 @Getter
 @RequiredArgsConstructor
-public class Entrepreneur {
+public class IndependentEndUser {
 
     private final long userId;
     private final String email;
@@ -15,12 +14,12 @@ public class Entrepreneur {
     private final String lastName;
     private final String passwordHash;
 
-    public static Entrepreneur fromUser(User user) {
-        if (user.getUserGroup() != UserGroup.ENTREPRENEUR) {
-            throw new IllegalArgumentException("User is not an entrepreneur");
+    public static IndependentEndUser fromUser(User user) {
+        if (!(IndependentEndUserUtils.USER_GROUPS.contains(user.getUserGroup()))) {
+            throw new IllegalArgumentException("User is not an independent end user");
         }
 
-        return new Entrepreneur(
+        return new IndependentEndUser(
                 user.getUserId(),
                 user.getUsername(),
                 user.getFirstName(),

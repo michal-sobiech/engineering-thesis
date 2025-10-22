@@ -17,11 +17,11 @@ public class EnterpriseService {
     private final EnterpriseRepository enterpriseRepository;
 
     @Transactional
-    public Enterprise createEnterprise(
+    public EnterpriseEntity createEnterprise(
             long ownerUserId,
             CreateEnterpriseCommand enterpriseCommand) {
 
-        var builder = Enterprise.builder()
+        var builder = EnterpriseEntity.builder()
                 .ownerUserId(ownerUserId)
                 .name(enterpriseCommand.name())
                 .description(enterpriseCommand.description())
@@ -39,30 +39,30 @@ public class EnterpriseService {
             builder.backgroundPhotoFileBytes(MultipartFileUtils.getBytes(file));
         });
 
-        Enterprise enterprise = builder.build();
+        EnterpriseEntity enterprise = builder.build();
         return enterpriseRepository.save(enterprise);
     }
 
     @Transactional
-    public Enterprise getEnterprise(long enterpriseId) {
+    public EnterpriseEntity getEnterprise(long enterpriseId) {
         return enterpriseRepository.getReferenceById(enterpriseId);
     }
 
     @Transactional
-    public Optional<Enterprise> findByEnterpriseId(long enterpriseId) {
+    public Optional<EnterpriseEntity> findByEnterpriseId(long enterpriseId) {
         return enterpriseRepository.findById(enterpriseId);
     }
 
     // TODO remove unnecessary @Tranasctional annotations
     @Transactional
-    public List<Enterprise> findAllByEntrepreneurId(long entrepreneurId) {
+    public List<EnterpriseEntity> findAllByEntrepreneurId(long entrepreneurId) {
         return enterpriseRepository.findAllByEntrepreneurId(entrepreneurId);
     }
 
     @Transactional
     public void patchEnterprise(PatchEnterpriseRequestDto request) {
 
-        Enterprise enterprise = enterpriseRepository.findById(request.enterpriseId()).orElseThrow();
+        EnterpriseEntity enterprise = enterpriseRepository.findById(request.enterpriseId()).orElseThrow();
 
         request.name().ifPresent(name -> enterprise.setName(name));
         request.description().ifPresent(description -> enterprise.setDescription(description));

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.user.User;
-import pl.michal_sobiech.engineering_thesis.user.UserDomain;
+import pl.michal_sobiech.engineering_thesis.user.UserEntity;
 import pl.michal_sobiech.engineering_thesis.user.UserIdAuthentication;
 import pl.michal_sobiech.engineering_thesis.user.UserService;
 
@@ -32,19 +32,19 @@ public class AdminAuthenticationProvider implements AuthenticationProvider {
         String username = castAuthentication.getPrincipal();
         String password = castAuthentication.getCredentials();
 
-        Optional<User> optionalUser = userService.findAdminByUsername(username);
+        Optional<UserEntity> optionalUser = userService.findAdminByUsername(username);
         if (optionalUser.isEmpty()) {
             throw new UsernameNotFoundException("Admin doesn't exist");
         }
-        User user = optionalUser.get();
+        UserEntity userEntity = optionalUser.get();
 
-        String originalPasswordHash = user.getPasswordHash();
+        String originalPasswordHash = userEntity.getPasswordHash();
         if (!(passwordEncoder.matches(password, originalPasswordHash))) {
             throw new BadCredentialsException("Password hashes don't match");
         }
 
-        UserDomain userDomain = UserDomain.fromEntity(user);
-        return new UserIdAuthentication(userDomain.getUserId());
+        User user = User.fromEntity(userEntity);
+        return new UserIdAuthentication(user.getUserId());
     }
 
     @Override

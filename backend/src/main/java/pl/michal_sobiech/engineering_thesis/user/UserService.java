@@ -14,31 +14,31 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public Optional<User> findById(long userId) {
+    public Optional<UserEntity> findById(long userId) {
         return userRepository.findById(userId);
     }
 
-    public Optional<User> findByEnterpriseIdAndUsername(long enterpriseId, String username) {
+    public Optional<UserEntity> findByEnterpriseIdAndUsername(long enterpriseId, String username) {
         return userRepository.findByEnterpriseIdAndUsername(enterpriseId, username);
     }
 
-    public Optional<User> findIndepentendEndUserByEmail(String email) {
+    public Optional<UserEntity> findIndepentendEndUserByEmail(String email) {
         return userRepository.findByUserGroupInAndUsername(IndependentEndUserUtils.USER_GROUPS, email);
     }
 
-    public Optional<User> findAdminByUsername(String username) {
+    public Optional<UserEntity> findAdminByUsername(String username) {
         List<UserGroup> userGroups = List.of(UserGroup.REGULAR_ADMIN, UserGroup.HEAD_ADMIN);
         return userRepository.findByUserGroupInAndUsername(userGroups, username);
     }
 
-    public UserDomain save(
+    public User save(
             UserGroup userGroup,
             String username,
             String firstName,
             String lastName,
             String passwordHash,
             Optional<Long> enterpriseId) {
-        User user = new User(
+        UserEntity user = new UserEntity(
                 null,
                 userGroup,
                 username,
@@ -47,7 +47,7 @@ public class UserService {
                 passwordHash,
                 enterpriseId.orElse(null));
         user = userRepository.save(user);
-        return UserDomain.fromEntity(user);
+        return User.fromEntity(user);
     }
 
 }

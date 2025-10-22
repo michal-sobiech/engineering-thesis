@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.auth.AuthService;
-import pl.michal_sobiech.engineering_thesis.enterprise.Enterprise;
+import pl.michal_sobiech.engineering_thesis.enterprise.EnterpriseEntity;
 import pl.michal_sobiech.engineering_thesis.enterprise.EnterpriseService;
 
 @RestController
@@ -26,9 +26,9 @@ public class EntrepreneurController implements EntrepreneursApi {
     @Override
     public ResponseEntity<List<GetEntrepreneurEnterprisesResponseItem>> getEntrepreneurEnterprises(
             Long entrepreneurId) {
-        List<Enterprise> enterprises = enterpriseService.findAllByEntrepreneurId(entrepreneurId);
-        Function<Enterprise, GetEntrepreneurEnterprisesResponseItem> mapperFn = (
-                Enterprise enterprise) -> new GetEntrepreneurEnterprisesResponseItem(
+        List<EnterpriseEntity> enterprises = enterpriseService.findAllByEntrepreneurId(entrepreneurId);
+        Function<EnterpriseEntity, GetEntrepreneurEnterprisesResponseItem> mapperFn = (
+                EnterpriseEntity enterprise) -> new GetEntrepreneurEnterprisesResponseItem(
                         enterprise.getEnterpriseId(),
                         enterprise.getName());
         List<GetEntrepreneurEnterprisesResponseItem> mappedEnterprises = enterprises.stream().map(mapperFn).toList();

@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class EnterpriseServiceSlot {
+public class EnterpriseServiceSlotEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

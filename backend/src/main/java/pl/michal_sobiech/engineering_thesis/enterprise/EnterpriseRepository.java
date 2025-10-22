@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface EnterpriseRepository extends JpaRepository<Enterprise, Long> {
+public interface EnterpriseRepository extends JpaRepository<EnterpriseEntity, Long> {
 
-    public List<Enterprise> findAllByEntrepreneurId(long entrepreneurId);
+    public List<EnterpriseEntity> findAllByEntrepreneurId(long entrepreneurId);
 }

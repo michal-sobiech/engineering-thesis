@@ -23,7 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.auth.AuthService;
 import pl.michal_sobiech.engineering_thesis.employee.EmployeeService;
-import pl.michal_sobiech.engineering_thesis.enterprise.Enterprise;
+import pl.michal_sobiech.engineering_thesis.enterprise.EnterpriseEntity;
 import pl.michal_sobiech.engineering_thesis.enterprise.EnterpriseService;
 import pl.michal_sobiech.engineering_thesis.enterprise.PatchEnterpriseRequestDto;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.CreateEnterpriseServiceCommand;
@@ -84,11 +84,12 @@ public class EnterpriseController implements EnterprisesApi {
         @Override
         public ResponseEntity<GetEnterpriseResponse> getEnterprise(Long enterpriseId) {
 
-                final Optional<Enterprise> optionalEnterprise = enterpriseService.findByEnterpriseId(enterpriseId);
+                final Optional<EnterpriseEntity> optionalEnterprise = enterpriseService
+                                .findByEnterpriseId(enterpriseId);
                 if (optionalEnterprise.isEmpty()) {
                         return HttpUtils.createNotFoundReponse();
                 }
-                Enterprise enterprise = optionalEnterprise.get();
+                EnterpriseEntity enterprise = optionalEnterprise.get();
 
                 Location location = new Location(
                                 enterprise.getAddress(),
@@ -132,7 +133,7 @@ public class EnterpriseController implements EnterprisesApi {
 
                 Entrepreneur entrepreneur = authService.requireEntrepreneur();
 
-                Enterprise enterprise = enterpriseService.findByEnterpriseId(enterpriseId).orElseThrow();
+                EnterpriseEntity enterprise = enterpriseService.findByEnterpriseId(enterpriseId).orElseThrow();
 
                 if (enterprise.getOwnerUserId() != entrepreneur.getUserId()) {
                         return HttpUtils.createForbiddenResponse();

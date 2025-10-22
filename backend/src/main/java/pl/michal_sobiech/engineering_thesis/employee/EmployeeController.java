@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.auth.AuthService;
-import pl.michal_sobiech.engineering_thesis.user.UserDomain;
+import pl.michal_sobiech.engineering_thesis.user.User;
 
 @RestController
 @RequiredArgsConstructor
@@ -17,8 +17,8 @@ public class EmployeeController implements EnterpriseEmployeeApi {
 
     @Override
     public ResponseEntity<EmployeeGetMeResponse> getMeEmployee() {
-        UserDomain user = authService.requireAuthorizedUser();
-        EmployeeDomain employee = EmployeeDomain.fromUserDomain(user);
+        User user = authService.requireAuthorizedUser();
+        Employee employee = Employee.fromUser(user);
 
         final var responseBody = new EmployeeGetMeResponse(
                 employee.getUserId(),

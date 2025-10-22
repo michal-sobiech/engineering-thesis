@@ -4,6 +4,6 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface EnterpriseServiceRepository extends JpaRepository<EnterpriseService, Long> {
-    public List<EnterpriseService> findByEnterpriseId(long enterpriseId);
+public interface EnterpriseServiceRepository extends JpaRepository<EnterpriseServiceEntity, Long> {
+    public List<EnterpriseServiceEntity> findByEnterpriseId(long enterpriseId);
 }

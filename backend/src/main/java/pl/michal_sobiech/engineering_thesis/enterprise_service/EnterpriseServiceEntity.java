@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class EnterpriseService {
+public class EnterpriseServiceEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -14,14 +14,14 @@ public class EnterpriseServiceSlotService {
     private final EnterpriseServiceSlotRepository enterpriseServiceSlotRepository;
 
     @Transactional
-    public List<EnterpriseServiceSlot> saveMany(long enterpriseServiceId,
+    public List<EnterpriseServiceSlotEntity> saveMany(long enterpriseServiceId,
             List<CreateEnterpriseServiceSlotCommand> commands) {
         return commands.stream().map(command -> save(enterpriseServiceId, command)).toList();
     }
 
     @Transactional
-    public EnterpriseServiceSlot save(long enterpriseServiceId, CreateEnterpriseServiceSlotCommand command) {
-        EnterpriseServiceSlot slot = EnterpriseServiceSlot.builder()
+    public EnterpriseServiceSlotEntity save(long enterpriseServiceId, CreateEnterpriseServiceSlotCommand command) {
+        EnterpriseServiceSlotEntity slot = EnterpriseServiceSlotEntity.builder()
                 .enterpriseServiceId(enterpriseServiceId)
                 .dayOfWeek(command.dayOfWeek())
                 .startTime(command.startTime())

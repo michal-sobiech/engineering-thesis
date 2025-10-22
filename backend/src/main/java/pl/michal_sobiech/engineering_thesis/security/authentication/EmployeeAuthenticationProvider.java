@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.scope_username_password_authentication.EnterpriseIdAndUsername;
 import pl.michal_sobiech.engineering_thesis.scope_username_password_authentication.EnterpriseIdUsernamePasswordAuthentication;
 import pl.michal_sobiech.engineering_thesis.user.User;
-import pl.michal_sobiech.engineering_thesis.user.UserDomain;
+import pl.michal_sobiech.engineering_thesis.user.UserEntity;
 import pl.michal_sobiech.engineering_thesis.user.UserIdAuthentication;
 import pl.michal_sobiech.engineering_thesis.user.UserService;
 
@@ -36,20 +36,20 @@ public class EmployeeAuthenticationProvider implements AuthenticationProvider {
         String username = principal.getUsername();
         String password = castAuthentication.getCredentials();
 
-        Optional<User> optionalUser = userService.findByEnterpriseIdAndUsername(enterpriseId, username);
+        Optional<UserEntity> optionalUser = userService.findByEnterpriseIdAndUsername(enterpriseId, username);
         if (optionalUser.isEmpty()) {
             throw new UsernameNotFoundException("Employee doesn't exist");
         }
-        User user = optionalUser.get();
+        UserEntity userEntity = optionalUser.get();
 
-        String originalPasswordHash = user.getPasswordHash();
+        String originalPasswordHash = userEntity.getPasswordHash();
         if (!passwordEncoder.matches(password, originalPasswordHash)) {
             throw new BadCredentialsException("Password hashes don't match");
         }
 
-        UserDomain userDomain = UserDomain.fromEntity(user);
+        User user = User.fromEntity(userEntity);
 
-        return new UserIdAuthentication(userDomain.getUserId());
+        return new UserIdAuthentication(user.getUserId());
     }
 
     @Override

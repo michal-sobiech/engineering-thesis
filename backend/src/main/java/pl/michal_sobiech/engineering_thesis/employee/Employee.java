@@ -2,12 +2,12 @@ package pl.michal_sobiech.engineering_thesis.employee;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.user.UserDomain;
+import pl.michal_sobiech.engineering_thesis.user.User;
 import pl.michal_sobiech.engineering_thesis.user.UserGroup;
 
 @Getter
 @RequiredArgsConstructor
-public class EmployeeDomain {
+public class Employee {
 
     private final long userId;
     private final String username;
@@ -16,23 +16,23 @@ public class EmployeeDomain {
     private final String passwordHash;
     private final long enterpriseId;
 
-    public static EmployeeDomain fromUserDomain(UserDomain userDomain) {
-        if (userDomain.getUserGroup() != UserGroup.EMPLOYEE) {
+    public static Employee fromUser(User user) {
+        if (user.getUserGroup() != UserGroup.EMPLOYEE) {
             throw new IllegalArgumentException("User is not an employee");
         }
 
         long enterpriseId;
-        if (userDomain.getEnterpriseId().isEmpty()) {
+        if (user.getEnterpriseId().isEmpty()) {
             throw new IllegalArgumentException("Enterprise id cannot be empty");
         }
-        enterpriseId = userDomain.getEnterpriseId().get();
+        enterpriseId = user.getEnterpriseId().get();
 
-        return new EmployeeDomain(
-                userDomain.getUserId(),
-                userDomain.getUsername(),
-                userDomain.getFirstName(),
-                userDomain.getLastName(),
-                userDomain.getPasswordHash(),
+        return new Employee(
+                user.getUserId(),
+                user.getUsername(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getPasswordHash(),
                 enterpriseId);
     }
 

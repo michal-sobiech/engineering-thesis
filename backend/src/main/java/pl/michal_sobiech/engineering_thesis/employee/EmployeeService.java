@@ -6,7 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.user.UserDomain;
+import pl.michal_sobiech.engineering_thesis.user.User;
 import pl.michal_sobiech.engineering_thesis.user.UserGroup;
 import pl.michal_sobiech.engineering_thesis.user.UserRepository;
 import pl.michal_sobiech.engineering_thesis.user.UserService;
@@ -19,7 +19,7 @@ public class EmployeeService {
     private final UserService userService;
     private final UserRepository userRepository;
 
-    public EmployeeDomain save(
+    public Employee save(
             long enterpriseId,
             String username,
             String firstName,
@@ -27,7 +27,7 @@ public class EmployeeService {
             String password) {
         String passwordHash = passwordEncoder.encode(password);
 
-        UserDomain user = userService.save(
+        User user = userService.save(
                 UserGroup.EMPLOYEE,
                 username,
                 firstName,
@@ -35,13 +35,13 @@ public class EmployeeService {
                 passwordHash,
                 Optional.of(enterpriseId));
 
-        return EmployeeDomain.fromUserDomain(user);
+        return Employee.fromUser(user);
     }
 
-    public Optional<EmployeeDomain> findEmployeeByEnterpriseIdAndUsername(long enterpriseId, String username) {
+    public Optional<Employee> findEmployeeByEnterpriseIdAndUsername(long enterpriseId, String username) {
         return userRepository.findByUserGroupAndUsername(UserGroup.EMPLOYEE, username)
-                .map(UserDomain::fromEntity)
-                .map(EmployeeDomain::fromUserDomain);
+                .map(User::fromEntity)
+                .map(Employee::fromUser);
     }
 
     public boolean checkEmployeeUsernameExists(long entepriseId, String username) {

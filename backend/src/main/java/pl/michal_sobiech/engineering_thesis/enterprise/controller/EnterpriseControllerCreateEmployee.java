@@ -10,9 +10,9 @@ import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.auth.AuthService;
-import pl.michal_sobiech.engineering_thesis.employee.EmployeeDomain;
+import pl.michal_sobiech.engineering_thesis.employee.Employee;
 import pl.michal_sobiech.engineering_thesis.employee.EmployeeService;
-import pl.michal_sobiech.engineering_thesis.enterprise.Enterprise;
+import pl.michal_sobiech.engineering_thesis.enterprise.EnterpriseEntity;
 import pl.michal_sobiech.engineering_thesis.enterprise.EnterpriseService;
 import pl.michal_sobiech.engineering_thesis.entrepreneur.Entrepreneur;
 import pl.michal_sobiech.engineering_thesis.entrepreneur.EntrepreneurService;
@@ -34,11 +34,11 @@ public class EnterpriseControllerCreateEmployee {
             CreateEnterpriseEmployeeRequest request) {
         Entrepreneur entrepreneur = authService.requireEntrepreneur();
 
-        Optional<Enterprise> optionalEnterprise = enterpriseService.findByEnterpriseId(enterpriseId);
+        Optional<EnterpriseEntity> optionalEnterprise = enterpriseService.findByEnterpriseId(enterpriseId);
         if (optionalEnterprise.isEmpty()) {
             return HttpUtils.createNotFoundReponse();
         }
-        Enterprise enterprise = optionalEnterprise.get();
+        EnterpriseEntity enterprise = optionalEnterprise.get();
 
         if (entrepreneur.getUserId() != enterprise.getOwnerUserId()) {
             return HttpUtils.createForbiddenResponse();
@@ -51,7 +51,7 @@ public class EnterpriseControllerCreateEmployee {
         }
 
         final String password = request.getPassword();
-        final EmployeeDomain employee = employeeService.save(
+        final Employee employee = employeeService.save(
                 enterpriseId,
                 request.getUsername(),
                 request.getFirstName(),
