@@ -14,7 +14,7 @@ import pl.michal_sobiech.engineering_thesis.scope_username_password_authenticati
 import pl.michal_sobiech.engineering_thesis.security.authentication.StringUsernamePasswordAuthentication;
 import pl.michal_sobiech.engineering_thesis.security.authentication.employee.EmployeeAuthenticationProvider;
 import pl.michal_sobiech.engineering_thesis.security.authentication.independent_end_user.IndependentEndUserAuthenticationProvider;
-import pl.michal_sobiech.engineering_thesis.user.UserIdAuthentication;
+import pl.michal_sobiech.engineering_thesis.user.UserAuthentication;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,7 +33,7 @@ public class AuthController implements AuthApi {
                 logInEnterpriseEmployeeRequest.getUsername(),
                 logInEnterpriseEmployeeRequest.getPassword());
 
-        UserIdAuthentication authentication = employeeAuthenticationProvider.authenticate(token);
+        UserAuthentication authentication = employeeAuthenticationProvider.authenticate(token);
         String userIdAsString = String.valueOf(authentication.getPrincipal());
         String jwt = jwtCreationService.generateTokenNow(userIdAsString);
 
@@ -48,7 +48,7 @@ public class AuthController implements AuthApi {
                 logInIndependentEndUserRequest.getEmail(),
                 logInIndependentEndUserRequest.getPassword());
 
-        UserIdAuthentication authentication = independentEndUserAuthenticationProvider.authenticate(token);
+        UserAuthentication authentication = independentEndUserAuthenticationProvider.authenticate(token);
 
         String userIdAsString = String.valueOf(authentication.getPrincipal());
         String jwt = jwtCreationService.generateTokenNow(userIdAsString);

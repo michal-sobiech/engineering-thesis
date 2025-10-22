@@ -5,7 +5,7 @@ import java.util.Optional;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import pl.michal_sobiech.engineering_thesis.user.UserIdAuthentication;
+import pl.michal_sobiech.engineering_thesis.user.UserAuthentication;
 
 public class AuthUtils {
 
@@ -13,24 +13,24 @@ public class AuthUtils {
         return SecurityContextHolder.getContext().getAuthentication() != null;
     }
 
-    public static Optional<UserIdAuthentication> getUserIdAuthentication() {
+    public static Optional<UserAuthentication> getUserIdAuthentication() {
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth == null) {
             return Optional.empty();
         }
 
-        if (auth instanceof UserIdAuthentication userIdAuth) {
+        if (auth instanceof UserAuthentication userIdAuth) {
             return Optional.of(userIdAuth);
         } else {
             String message = String.format("Authentication is not an instance of %s",
-                    UserIdAuthentication.class.getCanonicalName());
+                    UserAuthentication.class.getCanonicalName());
             throw new IllegalStateException(message);
         }
     }
 
     public static Optional<Long> getAuthPrincipal() {
-        final Optional<UserIdAuthentication> userIdAuth = getUserIdAuthentication();
-        return userIdAuth.map(UserIdAuthentication::getPrincipal);
+        final Optional<UserAuthentication> userIdAuth = getUserIdAuthentication();
+        return userIdAuth.map(UserAuthentication::getPrincipal);
     }
 
 }

@@ -1,18 +1,20 @@
-package pl.michal_sobiech.engineering_thesis.security.authentication.independent_end_user;
+package pl.michal_sobiech.engineering_thesis.security.authentication;
+
+import java.util.Optional;
 
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.independent_end_user.IndependentEndUser;
-import pl.michal_sobiech.engineering_thesis.independent_end_user.IndependentEndUserService;
-import pl.michal_sobiech.engineering_thesis.security.authentication.StringUsernamePasswordAuthentication;
-import pl.michal_sobiech.engineering_thesis.user.UserIdAuthentication;
+import pl.michal_sobiech.engineering_thesis.user.User;
+import pl.michal_sobiech.engineering_thesis.user.UserDomain;
+import pl.michal_sobiech.engineering_thesis.user.UserDomainAuthentication;
+import pl.michal_sobiech.engineering_thesis.user.UserService;
 
 @Service
 @RequiredArgsConstructor
@@ -20,26 +22,29 @@ public class IndependentEndUserAuthenticationProvider implements AuthenticationP
 
     private static final Class<StringUsernamePasswordAuthentication> supportedInputAuthenticationClass = StringUsernamePasswordAuthentication.class;
 
-    private final IndependentEndUserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
-    private final IndependentEndUserService independentEndUserService;
+    private final UserService userService;
 
     @Override
-    public UserIdAuthentication authenticate(Authentication authentication) throws AuthenticationException {
+    public UserDomainAuthentication authenticate(Authentication authentication) throws AuthenticationException {
         StringUsernamePasswordAuthentication castAuthentication = supportedInputAuthenticationClass
                 .cast(authentication);
         String username = castAuthentication.getPrincipal();
         String password = castAuthentication.getCredentials();
-        User user = userDetailsService.loadUserByUsername(username);
 
-        String originalPasswordHash = user.getPassword();
+        Optional<User> optionalUser = userService.findIndepentendEndUserByEmail(username);
+        if (optionalUser.isEmpty()) {
+            throw new UsernameNotFoundException("Indepentent end user doesn't exist");
+        }
+        User user = optionalUser.get();
+
+        String originalPasswordHash = user.getPasswordHash();
         if (!(passwordEncoder.matches(password, originalPasswordHash))) {
             throw new BadCredentialsException("Password hashes don't match");
         }
 
-        // TODO remove double query (one is in loadByUsername)
-        IndependentEndUser independentEndUser = independentEndUserService.findByUsername(username).orElseThrow();
-        return new UserIdAuthentication(independentEndUser.getUserId());
+        UserDomain userDomain = UserDomain.fromEntity(user);
+        return new UserDomainAuthentication(userDomain);
     }
 
     @Override

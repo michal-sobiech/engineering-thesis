@@ -8,7 +8,7 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.user.UserIdAuthentication;
+import pl.michal_sobiech.engineering_thesis.user.UserAuthentication;
 
 @Component
 @RequiredArgsConstructor
@@ -19,21 +19,21 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
     private static final Class<JwtAuthentication> supportedInputAuthenticationClass = JwtAuthentication.class;
 
     @Override
-    public UserIdAuthentication authenticate(Authentication authentication) throws AuthenticationException {
+    public UserAuthentication authenticate(Authentication authentication) throws AuthenticationException {
         JwtAuthentication castAuthentication = supportedInputAuthenticationClass.cast(authentication);
 
         String jwt = castAuthentication.getPrincipal();
         Jwt jwtClaims = jwtDecoder.decode(jwt);
 
         String subject = jwtClaims.getSubject();
-        long userId = parseSubjectToIntUserId(subject);
+        long userId = parseSubjectToLongUserId(subject);
 
-        return new UserIdAuthentication(userId);
+        return new UserAuthentication(userId);
     }
 
-    private int parseSubjectToIntUserId(String subject) {
+    private long parseSubjectToLongUserId(String subject) {
         try {
-            return Integer.parseInt(subject);
+            return Long.parseLong(subject);
         } catch (Exception exception) {
             throw new IllegalStateException("Couldn't parse subject to user id int", exception);
         }

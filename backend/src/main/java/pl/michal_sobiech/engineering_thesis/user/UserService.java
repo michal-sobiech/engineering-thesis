@@ -16,4 +16,16 @@ public class UserService {
         return userRepository.findById(userId);
     }
 
+    public Optional<User> findByEnterpriseIdAndUsername(long enterpriseId, String username) {
+        return userRepository.findByEnterpriseIdAndUsername(enterpriseId, username);
+    }
+
+    public Optional<User> findIndepentendEndUserByEmail(String email) {
+        return userRepository.findByUsernameNamespaceAndUsername(UsernameNamespace.EMAIL, email);
+    }
+
+    public Optional<User> findAdminByUsername(String username) {
+        return userRepository.findByUsernameNamespaceAndUsername(UsernameNamespace.ADMIN, username);
+    }
+
 }

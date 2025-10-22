@@ -6,24 +6,24 @@ import java.util.Collection;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 
-public class UserIdAuthentication extends AbstractAuthenticationToken {
+public class UserDomainAuthentication extends AbstractAuthenticationToken {
 
-    private final long userId;
+    private final UserDomain principal;
 
     @Override
-    public Long getPrincipal() {
-        return this.userId;
+    public UserDomain getPrincipal() {
+        return this.principal;
     }
 
-    public UserIdAuthentication(long userId) {
+    public UserDomainAuthentication(UserDomain user) {
         super(new ArrayList<>());
-        this.userId = userId;
+        this.principal = user;
         setAuthenticated(true);
     }
 
-    public UserIdAuthentication(long userId, Collection<? extends GrantedAuthority> authorities) {
+    public UserDomainAuthentication(UserDomain user, Collection<? extends GrantedAuthority> authorities) {
         super(authorities);
-        this.userId = userId;
+        this.principal = user;
         setAuthenticated(true);
     }
 
