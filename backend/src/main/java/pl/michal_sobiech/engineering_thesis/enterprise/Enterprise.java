@@ -10,7 +10,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-// TODO autogenerate these classes?
 @Entity
 @Data
 @Builder
@@ -23,22 +22,31 @@ public class Enterprise {
     @Column(name = "enterprise_id")
     private long enterpriseId;
 
-    @Column(name = "entrepreneur_id")
-    private long entrepreneurId;
+    @Column(name = "owner_user_id")
+    private long ownerUserId;
 
-    @Column
     private String name;
-
-    @Column
     private String description;
 
-    @Column(name = "location_id")
-    private long locationId;
+    @Column(nullable = true)
+    private String address;
 
-    @Column(name = "logo_photo_id")
-    private Long logoPhotoId;
+    @Column(nullable = true)
+    private double latitude;
 
-    @Column(name = "background_photo_id")
-    private Long backgroundPhotoId;
+    @Column(nullable = true)
+    private double longitude;
+
+    @Column(name = "logo_file_name", nullable = true)
+    private String logoFileName;
+
+    @Column(name = "logo_file_bytes", nullable = true)
+    private byte[] logoFileBytes;
+
+    @Column(name = "background_photo_file_name", nullable = true)
+    private String backgroundPhotoFileName;
+
+    @Column(name = "background_photo_file_bytes", nullable = true)
+    private byte[] backgroundPhotoFileBytes;
 
 }
