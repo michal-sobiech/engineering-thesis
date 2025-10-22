@@ -30,18 +30,20 @@ public class EnterpriseService {
     private long enterpriseId;
 
     private String name;
-
     private String description;
 
-    @Column(name = "location_id", nullable = true)
-    private long locationId;
+    @Column(nullable = true)
+    private String address;
+
+    @Column(nullable = true)
+    private double latitude;
+
+    @Column(nullable = true)
+    private double longitude;
 
     private ZoneId timeZone;
-
     private boolean takesCustomAppointments;
-
     private BigDecimal price;
-
     private Currency currency;
 
 }
