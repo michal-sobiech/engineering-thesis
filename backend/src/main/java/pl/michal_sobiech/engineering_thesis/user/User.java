@@ -25,9 +25,6 @@ public class User {
     @Column(name = "user_group")
     private UserGroup userGroup;
 
-    @Column(name = "username_namespace")
-    private UsernameNamespace usernameNamespace;
-
     private String username;
 
     @Column(name = "first_name")

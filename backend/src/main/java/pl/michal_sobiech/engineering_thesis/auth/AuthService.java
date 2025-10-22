@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.exceptions.exceptions.ForbiddenException;
 import pl.michal_sobiech.engineering_thesis.exceptions.exceptions.UnauthorizedException;
 import pl.michal_sobiech.engineering_thesis.user.User;
+import pl.michal_sobiech.engineering_thesis.user.UserDomain;
 import pl.michal_sobiech.engineering_thesis.user.UserGroup;
 import pl.michal_sobiech.engineering_thesis.user.UserService;
 import pl.michal_sobiech.engineering_thesis.user.UsernameNamespace;
@@ -19,29 +20,37 @@ public class AuthService {
 
     private final UserService userService;
 
-    public User requireAuthorizedUser() {
+    public UserDomain requireAuthorizedUser() {
         Optional<Long> optionalUserId = AuthUtils.getAuthPrincipal();
         if (optionalUserId.isEmpty()) {
             throw new UnauthorizedException();
         }
         long userId = optionalUserId.get();
 
-        return userService.findById(userId).orElseThrow();
+        User user = userService.findById(userId).orElseThrow();
+        return UserDomain.fromEntity(user);
     }
 
-    public User requireIndependentEndUser() {
-        User user = requireAuthorizedUser();
+    public UserDomain requireIndependentEndUser() {
+        UserDomain user = requireAuthorizedUser();
         if (user.getUsernameNamespace() != UsernameNamespace.EMAIL) {
             throw new ForbiddenException();
         }
         return user;
     }
 
-    public User requireEntrepreneur() {
-        User user = requireAuthorizedUser();
+    public UserDomain requireEntrepreneur() {
+        UserDomain user = requireAuthorizedUser();
         if (user.getUserGroup() != UserGroup.ENTREPRENEUR) {
             throw new ForbiddenException();
         }
         return user;
+    }
+
+    public UserDomain requireEmployee() {
+        UserDomain user = requireAuthorizedUser();
+        if (user.getEnterpriseId().isPresent()) {
+
+        }
     }
 }
