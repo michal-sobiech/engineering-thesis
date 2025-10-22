@@ -10,15 +10,13 @@ import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.auth.AuthService;
-import pl.michal_sobiech.engineering_thesis.auth.EntrepreneurAuthContext;
-import pl.michal_sobiech.engineering_thesis.employee.Employee;
-import pl.michal_sobiech.engineering_thesis.employee.EmployeeService;
+import pl.michal_sobiech.engineering_thesis.employee.EmployeeDomain;
 import pl.michal_sobiech.engineering_thesis.enterprise.Enterprise;
 import pl.michal_sobiech.engineering_thesis.enterprise.EnterpriseService;
 import pl.michal_sobiech.engineering_thesis.entrepreneur.Entrepreneur;
 import pl.michal_sobiech.engineering_thesis.entrepreneur.EntrepreneurService;
-import pl.michal_sobiech.engineering_thesis.independent_end_user.IndependentEndUserService;
 import pl.michal_sobiech.engineering_thesis.jwt.JwtCreationService;
+import pl.michal_sobiech.engineering_thesis.user.UserService;
 import pl.michal_sobiech.engineering_thesis.utils.HttpUtils;
 
 @Component
@@ -28,15 +26,13 @@ public class EnterpriseControllerCreateEmployee {
     private final AuthService authService;
     private final EntrepreneurService entrepreneurService;
     private final EnterpriseService enterpriseService;
-    private final EmployeeService employeeService;
     private final JwtCreationService jwtCreationService;
-    private final IndependentEndUserService independentEndUserService;
+    private final UserService userService;
 
     public ResponseEntity<CreateEnterpriseEmployeeResponse> createEnterpriseEmployee(
             Integer enterpriseId,
             CreateEnterpriseEmployeeRequest createEnterpriseEmployeeRequest) {
-        EntrepreneurAuthContext entrepreneurAuthContext = authService.requireEntrepreneur();
-        Entrepreneur entrepreneur = entrepreneurAuthContext.entrepreneur();
+        Entrepreneur entrepreneur = authService.requireEntrepreneur();
 
         Optional<Enterprise> optionalEnterprise = enterpriseService.findByEnterpriseId(enterpriseId);
         if (optionalEnterprise.isEmpty()) {
@@ -44,18 +40,18 @@ public class EnterpriseControllerCreateEmployee {
         }
         Enterprise enterprise = optionalEnterprise.get();
 
-        if (entrepreneur.getEntrepreneurId() != enterprise.getEntrepreneurId()) {
+        if (entrepreneur.getUserId() != enterprise.getOwnerUserId()) {
             return HttpUtils.createForbiddenResponse();
         }
 
         // TODO A race might take place here
         String newEmployeeUsername = createEnterpriseEmployeeRequest.getUsername();
-        if (employeeService.existsByEnterpriseIdAndUsername(enterpriseId, newEmployeeUsername)) {
+        if (userService.checkEmployeeUsernameExists(enterpriseId, newEmployeeUsername)) {
             return HttpUtils.createConflictResponse();
         }
 
         final String password = createEnterpriseEmployeeRequest.getPassword();
-        final Employee employee = employeeService.createEmployee(
+        final EmployeeDomain employee = userService.createEmployee(
                 enterpriseId,
                 createEnterpriseEmployeeRequest.getFirstName(),
                 createEnterpriseEmployeeRequest.getLastName(),

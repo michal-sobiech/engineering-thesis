@@ -5,46 +5,39 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.enterprise.controller.CreateEnterpriseCommand;
-import pl.michal_sobiech.engineering_thesis.location.LocationService;
-import pl.michal_sobiech.engineering_thesis.photo.Photo;
-import pl.michal_sobiech.engineering_thesis.photo.PhotoService;
+import pl.michal_sobiech.engineering_thesis.utils.MultipartFileUtils;
 
 @Service
 @RequiredArgsConstructor
 public class EnterpriseService {
 
     private final EnterpriseRepository enterpriseRepository;
-    private final PhotoService photoService;
-    private final LocationService locationService;
 
     @Transactional
     public Enterprise createEnterprise(
-            long entrepreneurId,
+            long ownerUserId,
             CreateEnterpriseCommand enterpriseCommand) {
 
-        var location = locationService.save(enterpriseCommand.location());
-
         var builder = Enterprise.builder()
-                .entrepreneurId(entrepreneurId)
+                .ownerUserId(ownerUserId)
                 .name(enterpriseCommand.name())
                 .description(enterpriseCommand.description())
-                .locationId(location.getLocationId());
+                .address(enterpriseCommand.location().getAddress())
+                .longitude(enterpriseCommand.location().getLongitude())
+                .latitude(enterpriseCommand.location().getLatitude());
 
-        if (enterpriseCommand.logoFile().isPresent()) {
-            MultipartFile file = enterpriseCommand.logoFile().get();
-            Photo logo = photoService.createPhoto(file);
-            builder.logoPhotoId(logo.getPhotoId());
-        }
+        enterpriseCommand.logoFile().ifPresent(file -> {
+            builder.logoFileName(file.getName());
+            builder.logoFileBytes(MultipartFileUtils.getBytes(file));
+        });
 
-        if (enterpriseCommand.backgroundPhotoFile().isPresent()) {
-            MultipartFile file = enterpriseCommand.backgroundPhotoFile().get();
-            Photo backgroundPhoto = photoService.createPhoto(file);
-            builder.backgroundPhotoId(backgroundPhoto.getPhotoId());
-        }
+        enterpriseCommand.backgroundPhotoFile().ifPresent(file -> {
+            builder.backgroundPhotoFileName(file.getName());
+            builder.backgroundPhotoFileBytes(MultipartFileUtils.getBytes(file));
+        });
 
         Enterprise enterprise = builder.build();
         return enterpriseRepository.save(enterprise);
@@ -75,20 +68,10 @@ public class EnterpriseService {
         request.description().ifPresent(description -> enterprise.setDescription(description));
 
         request.location().ifPresent(location -> {
-            pl.michal_sobiech.engineering_thesis.location.Location record = locationService.save(location);
-            enterprise.setLocationId(record.getLocationId());
+            enterprise.setAddress(location.getAddress());
+            enterprise.setLongitude(location.getLongitude());
+            enterprise.setLatitude(location.getLatitude());
         });
-
-        request.logoFile().ifPresent(file -> {
-            Photo photo = photoService.createPhoto(file);
-            enterprise.setLogoPhotoId(photo.getPhotoId());
-        });
-
-        request.backgroundPhotoFile().ifPresent(file -> {
-            Photo photo = photoService.createPhoto(file);
-            enterprise.setBackgroundPhotoId(photo.getPhotoId());
-        });
-
     }
 
 }

@@ -1,26 +1,25 @@
-package pl.michal_sobiech.engineering_thesis.entrepreneur;
+package pl.michal_sobiech.engineering_thesis.independent_end_user;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.user.UserDomain;
-import pl.michal_sobiech.engineering_thesis.user.UserGroup;
 
 @Getter
 @RequiredArgsConstructor
-public class Entrepreneur {
+public class IndependentEndUserDomain {
 
     private final long userId;
-    private final String username;
+    private final String email;
     private final String firstName;
     private final String lastName;
     private final String passwordHash;
 
-    public static EntrepreneurDomain fromUserDomain(UserDomain userDomain) {
-        if (userDomain.getUserGroup() != UserGroup.ENTREPRENEUR) {
-            throw new IllegalArgumentException("User is not an entrepreneur");
+    public static IndependentEndUserDomain fromUserDomain(UserDomain userDomain) {
+        if (!(IndependentEndUserUtils.USER_GROUPS.contains(userDomain.getUserGroup()))) {
+            throw new IllegalArgumentException("User is not an independent end user");
         }
 
-        return new EntrepreneurDomain(
+        return new IndependentEndUserDomain(
                 userDomain.getUserId(),
                 userDomain.getUsername(),
                 userDomain.getFirstName(),

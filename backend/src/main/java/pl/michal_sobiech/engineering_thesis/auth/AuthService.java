@@ -5,13 +5,14 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import pl.michal_sobiech.engineering_thesis.employee.EmployeeDomain;
+import pl.michal_sobiech.engineering_thesis.entrepreneur.Entrepreneur;
 import pl.michal_sobiech.engineering_thesis.exceptions.exceptions.ForbiddenException;
 import pl.michal_sobiech.engineering_thesis.exceptions.exceptions.UnauthorizedException;
+import pl.michal_sobiech.engineering_thesis.independent_end_user.IndependentEndUserDomain;
 import pl.michal_sobiech.engineering_thesis.user.User;
 import pl.michal_sobiech.engineering_thesis.user.UserDomain;
-import pl.michal_sobiech.engineering_thesis.user.UserGroup;
 import pl.michal_sobiech.engineering_thesis.user.UserService;
-import pl.michal_sobiech.engineering_thesis.user.UsernameNamespace;
 import pl.michal_sobiech.engineering_thesis.utils.AuthUtils;
 
 @Service
@@ -31,26 +32,26 @@ public class AuthService {
         return UserDomain.fromEntity(user);
     }
 
-    public UserDomain requireIndependentEndUser() {
+    public IndependentEndUserDomain requireIndependentEndUser() {
         UserDomain user = requireAuthorizedUser();
-        if (user.getUsernameNamespace() != UsernameNamespace.EMAIL) {
-            throw new ForbiddenException();
+        try {
+            return IndependentEndUserDomain.fromUserDomain(user);
+        } catch (Exception exception) {
+            throw new ForbiddenException(exception);
         }
-        return user;
     }
 
-    public UserDomain requireEntrepreneur() {
+    public Entrepreneur requireEntrepreneur() {
         UserDomain user = requireAuthorizedUser();
-        if (user.getUserGroup() != UserGroup.ENTREPRENEUR) {
-            throw new ForbiddenException();
+        try {
+            return Entrepreneur.fromUserDomain(user);
+        } catch (Exception exception) {
+            throw new ForbiddenException(exception);
         }
-        return user;
     }
 
-    public UserDomain requireEmployee() {
+    public EmployeeDomain requireEmployee() {
         UserDomain user = requireAuthorizedUser();
-        if (user.getEnterpriseId().isPresent()) {
-
-        }
+        return EmployeeDomain.fromUserDomain(user);
     }
 }

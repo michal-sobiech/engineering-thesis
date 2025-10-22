@@ -1,4 +1,4 @@
-package pl.michal_sobiech.engineering_thesis.user;
+package pl.michal_sobiech.engineering_thesis.employee;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,11 @@ public class EmployeeDomain {
             throw new IllegalArgumentException("User is not an employee");
         }
 
-        if (userDomain.getUser
+        long enterpriseId;
+        if (userDomain.getEnterpriseId().isEmpty()) {
+            throw new IllegalArgumentException("Enterprise id cannot be empty");
+        }
+        enterpriseId = userDomain.getEnterpriseId().get();
 
         return new EmployeeDomain(
                 userDomain.getUserId(),
@@ -29,7 +33,7 @@ public class EmployeeDomain {
                 userDomain.getFirstName(),
                 userDomain.getLastName(),
                 userDomain.getPasswordHash(),
-                userDomain.getEnterpriseId());
+                enterpriseId);
     }
 
 }

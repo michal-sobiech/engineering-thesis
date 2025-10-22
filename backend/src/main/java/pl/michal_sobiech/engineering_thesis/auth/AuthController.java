@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.jwt.JwtCreationService;
 import pl.michal_sobiech.engineering_thesis.scope_username_password_authentication.EnterpriseIdUsernamePasswordAuthentication;
+import pl.michal_sobiech.engineering_thesis.security.authentication.EmployeeAuthenticationProvider;
+import pl.michal_sobiech.engineering_thesis.security.authentication.IndependentEndUserAuthenticationProvider;
 import pl.michal_sobiech.engineering_thesis.security.authentication.StringUsernamePasswordAuthentication;
-import pl.michal_sobiech.engineering_thesis.security.authentication.employee.EmployeeAuthenticationProvider;
-import pl.michal_sobiech.engineering_thesis.security.authentication.independent_end_user.IndependentEndUserAuthenticationProvider;
-import pl.michal_sobiech.engineering_thesis.user.UserAuthentication;
+import pl.michal_sobiech.engineering_thesis.user.UserDomainAuthentication;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,7 +33,7 @@ public class AuthController implements AuthApi {
                 logInEnterpriseEmployeeRequest.getUsername(),
                 logInEnterpriseEmployeeRequest.getPassword());
 
-        UserAuthentication authentication = employeeAuthenticationProvider.authenticate(token);
+        UserDomainAuthentication authentication = employeeAuthenticationProvider.authenticate(token);
         String userIdAsString = String.valueOf(authentication.getPrincipal());
         String jwt = jwtCreationService.generateTokenNow(userIdAsString);
 
@@ -48,7 +48,7 @@ public class AuthController implements AuthApi {
                 logInIndependentEndUserRequest.getEmail(),
                 logInIndependentEndUserRequest.getPassword());
 
-        UserAuthentication authentication = independentEndUserAuthenticationProvider.authenticate(token);
+        UserDomainAuthentication authentication = independentEndUserAuthenticationProvider.authenticate(token);
 
         String userIdAsString = String.valueOf(authentication.getPrincipal());
         String jwt = jwtCreationService.generateTokenNow(userIdAsString);
