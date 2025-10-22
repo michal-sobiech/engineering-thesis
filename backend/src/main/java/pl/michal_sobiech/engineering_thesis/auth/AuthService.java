@@ -2,57 +2,46 @@ package pl.michal_sobiech.engineering_thesis.auth;
 
 import java.util.Optional;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.entrepreneur.Entrepreneur;
-import pl.michal_sobiech.engineering_thesis.entrepreneur.EntrepreneurService;
-import pl.michal_sobiech.engineering_thesis.independent_end_user.IndependentEndUser;
-import pl.michal_sobiech.engineering_thesis.independent_end_user.IndependentEndUserService;
+import pl.michal_sobiech.engineering_thesis.exceptions.exceptions.ForbiddenException;
+import pl.michal_sobiech.engineering_thesis.exceptions.exceptions.UnauthorizedException;
+import pl.michal_sobiech.engineering_thesis.user.User;
+import pl.michal_sobiech.engineering_thesis.user.UserGroup;
+import pl.michal_sobiech.engineering_thesis.user.UserService;
+import pl.michal_sobiech.engineering_thesis.user.UsernameNamespace;
 import pl.michal_sobiech.engineering_thesis.utils.AuthUtils;
 
 @Service
 @RequiredArgsConstructor
 public class AuthService {
 
-    private final IndependentEndUserService independentEndUserService;
-    private final EntrepreneurService entrepreneurService;
+    private final UserService userService;
 
-    public long requireAuthorizedUser() {
+    public User requireAuthorizedUser() {
         Optional<Long> optionalUserId = AuthUtils.getAuthPrincipal();
         if (optionalUserId.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+            throw new UnauthorizedException();
         }
-        return optionalUserId.get();
+        long userId = optionalUserId.get();
+
+        return userService.findById(userId).orElseThrow();
     }
 
-    public IndependentEndUserAuthContext requireIndependentEndUser() {
-        long userId = requireAuthorizedUser();
-
-        Optional<IndependentEndUser> optionalIndependentEndUser = independentEndUserService.findByUserId(userId);
-        if (optionalIndependentEndUser.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+    public User requireIndependentEndUser() {
+        User user = requireAuthorizedUser();
+        if (user.getUsernameNamespace() != UsernameNamespace.EMAIL) {
+            throw new ForbiddenException();
         }
-        IndependentEndUser independentEndUser = optionalIndependentEndUser.get();
-
-        return new IndependentEndUserAuthContext(userId, independentEndUser);
+        return user;
     }
 
-    public EntrepreneurAuthContext requireEntrepreneur() {
-        IndependentEndUserAuthContext independentEndUserAuthContext = requireIndependentEndUser();
-        long userId = independentEndUserAuthContext.userId();
-        IndependentEndUser independentEndUser = independentEndUserAuthContext.independentEndUser();
-
-        long independentEndUserId = independentEndUser.getIndependentEndUserId();
-        Optional<Entrepreneur> optionalEntrepreneur = entrepreneurService
-                .findByIndependentEndUserId(independentEndUserId);
-        if (optionalEntrepreneur.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+    public User requireEntrepreneur() {
+        User user = requireAuthorizedUser();
+        if (user.getUserGroup() != UserGroup.ENTREPRENEUR) {
+            throw new ForbiddenException();
         }
-        Entrepreneur entrepreneur = optionalEntrepreneur.get();
-
-        return new EntrepreneurAuthContext(userId, independentEndUser, entrepreneur);
+        return user;
     }
 }

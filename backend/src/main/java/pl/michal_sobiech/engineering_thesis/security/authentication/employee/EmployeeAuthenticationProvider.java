@@ -10,8 +10,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.employee.Employee;
-import pl.michal_sobiech.engineering_thesis.employee.EmployeeService;
 import pl.michal_sobiech.engineering_thesis.scope_username_password_authentication.EnterpriseIdAndUsername;
 import pl.michal_sobiech.engineering_thesis.scope_username_password_authentication.EnterpriseIdUsernamePasswordAuthentication;
 import pl.michal_sobiech.engineering_thesis.user.UserIdAuthentication;
