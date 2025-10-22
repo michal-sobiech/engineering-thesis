@@ -8,8 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.enterprise_service_slot.EnterpriseServiceSlot;
 import pl.michal_sobiech.engineering_thesis.enterprise_service_slot.EnterpriseServiceSlotService;
-import pl.michal_sobiech.engineering_thesis.location.Location;
-import pl.michal_sobiech.engineering_thesis.location.LocationService;
 
 @Component
 @RequiredArgsConstructor
@@ -17,12 +15,11 @@ public class EnterpriseServiceService {
 
     private final EnterpriseServiceRepository enterpriseServiceRepository;
     private final EnterpriseServiceSlotService enterpriseServiceSlotService;
-    private final LocationService locationService;
 
     @Transactional
     public CreateEnterpriseServiceResult save(long enterpriseId, CreateEnterpriseServiceCommand command) {
 
-        var serviceBuilder = EnterpriseService.builder()
+        var builder = EnterpriseService.builder()
                 .enterpriseId(enterpriseId)
                 .name(command.name())
                 .description(command.description())
@@ -31,13 +28,13 @@ public class EnterpriseServiceService {
                 .price(command.price())
                 .currency(command.currency());
 
-        if (command.location().isPresent()) {
-            var location = command.location().get();
-            Location locationDb = locationService.save(location);
-            serviceBuilder = serviceBuilder.locationId(locationDb.getLocationId());
-        }
+        command.location().ifPresent(location -> {
+            builder.address(location.getAddress());
+            builder.longitude(location.getLongitude());
+            builder.latitude(location.getLatitude());
+        });
 
-        EnterpriseService service = serviceBuilder.build();
+        EnterpriseService service = builder.build();
         service = enterpriseServiceRepository.save(service);
 
         final long enterpriseServiceId = service.getEnterpriseServiceId();

@@ -12,21 +12,21 @@ import pl.michal_sobiech.engineering_thesis.enterprise_service_slot.CreateEnterp
 
 public record CreateEnterpriseServiceCommand(
 
-        String name,
+                String name,
 
-        String description,
+                String description,
 
-        Optional<Location> location,
+                Optional<Location> location,
 
-        ZoneId timeZone,
+                ZoneId timeZone,
 
-        List<CreateEnterpriseServiceSlotCommand> slots,
+                List<CreateEnterpriseServiceSlotCommand> slots,
 
-        boolean takesCustomAppointments,
+                boolean takesCustomAppointments,
 
-        BigDecimal price,
+                BigDecimal price,
 
-        Currency currency
+                Currency currency
 
 ) {
 }

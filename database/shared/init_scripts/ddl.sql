@@ -85,8 +85,8 @@ CREATE TABLE public.enterprise_service_slot (
 	enterprise_service_id bigint NOT NULL,
 
 	day_of_week smallint NOT NULL,
-	start_time timestamptz NOT NULL,
-	end_time timestamptz NOT NULL,
+	start_time time NOT NULL,
+	end_time time NOT NULL,
 	
 	CONSTRAINT pk_enterprise_service_slot PRIMARY KEY (enterprise_service_slot_id),
 	CONSTRAINT fk_enterprise_service_id FOREIGN KEY (enterprise_service_id) REFERENCES public.enterprise_service(enterprise_service_id) ON DELETE CASCADE,

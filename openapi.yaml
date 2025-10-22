@@ -183,12 +183,8 @@ components:
     CreateEnterpriseEmployeeResponse:
       type: object
       required:
-        - accessToken
         - user
       properties:
-        accessToken:
-          type: string
-          format: password
         user:
           type: object
           required:
@@ -570,6 +566,7 @@ paths:
           description: Entrepreneur id
           schema:
             type: integer
+            format: int64
       responses:
         "200":
           description: *OK_DESCRIPTION
@@ -663,6 +660,7 @@ paths:
           description: Enterprise id
           schema:
             type: integer
+            format: int64
       responses:
         "200":
           description: *OK_DESCRIPTION
@@ -687,6 +685,7 @@ paths:
           description: Enterprise id
           schema:
             type: integer
+            format: int64
         - description: Username to check
           in: query
           name: username
@@ -731,6 +730,7 @@ paths:
           description: Enterprise id
           schema:
             type: integer
+            format: int64
       responses:
         "200":
           description: *OK_DESCRIPTION
@@ -759,6 +759,7 @@ paths:
           description: Enterprise id
           schema:
             type: integer
+            format: int64
       requestBody:
         required: true
         content:
@@ -793,6 +794,7 @@ paths:
           description: Enterprise id
           schema:
             type: integer
+            format: int64
       requestBody:
         required: true
         content:
@@ -821,6 +823,7 @@ paths:
           description: Enterprise id
           schema:
             type: integer
+            format: int64
       responses:
         "200":
           description: *OK_DESCRIPTION

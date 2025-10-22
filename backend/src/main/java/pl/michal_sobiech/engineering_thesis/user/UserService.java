@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.employee.EmployeeDomain;
 import pl.michal_sobiech.engineering_thesis.independent_end_user.IndependentEndUserUtils;
 
 @Service
@@ -32,32 +31,23 @@ public class UserService {
         return userRepository.findByUserGroupInAndUsername(userGroups, username);
     }
 
-    public Optional<EmployeeDomain> findEmployeeByEnterpriseIdAndUsername(long enterpriseId, String username) {
-        return userRepository.findByUserGroupAndUsername(UserGroup.EMPLOYEE, username)
-                .map(UserDomain::fromEntity)
-                .map(EmployeeDomain::fromUserDomain);
-    }
-
-    public boolean checkEmployeeUsernameExists(long entepriseId, String username) {
-        return findEmployeeByEnterpriseIdAndUsername(entepriseId, username).isPresent();
-    }
-
-    public EmployeeDomain createEmployee(
-            long enterpriseId,
+    public UserDomain save(
+            UserGroup userGroup,
             String username,
             String firstName,
             String lastName,
-            String passwordHash) {
-        User user = User.builder()
-                .enterpriseId(enterpriseId)
-                .username(username)
-                .firstName(firstName)
-                .lastName(lastName)
-                .passwordHash(passwordHash)
-                .build();
+            String passwordHash,
+            Optional<Long> enterpriseId) {
+        User user = new User(
+                null,
+                userGroup,
+                username,
+                firstName,
+                lastName,
+                passwordHash,
+                enterpriseId.orElse(null));
         user = userRepository.save(user);
-        UserDomain userDomain = UserDomain.fromEntity(user);
-        return EmployeeDomain.fromUserDomain(userDomain);
+        return UserDomain.fromEntity(user);
     }
 
 }

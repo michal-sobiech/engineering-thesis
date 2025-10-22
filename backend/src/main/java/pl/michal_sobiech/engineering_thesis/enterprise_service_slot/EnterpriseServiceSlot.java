@@ -1,7 +1,7 @@
 package pl.michal_sobiech.engineering_thesis.enterprise_service_slot;
 
 import java.time.DayOfWeek;
-import java.time.OffsetDateTime;
+import java.time.LocalTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -32,9 +32,9 @@ public class EnterpriseServiceSlot {
     private DayOfWeek dayOfWeek;
 
     @Column(name = "start_time")
-    private OffsetDateTime startTime;
+    private LocalTime startTime;
 
     @Column(name = "end_time")
-    private OffsetDateTime endTime;
+    private LocalTime endTime;
 
 }

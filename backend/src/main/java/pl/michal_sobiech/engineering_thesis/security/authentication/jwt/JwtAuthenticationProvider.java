@@ -8,7 +8,7 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.user.UserAuthentication;
+import pl.michal_sobiech.engineering_thesis.user.UserIdAuthentication;
 
 @Component
 @RequiredArgsConstructor
@@ -19,7 +19,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
     private static final Class<JwtAuthentication> supportedInputAuthenticationClass = JwtAuthentication.class;
 
     @Override
-    public UserAuthentication authenticate(Authentication authentication) throws AuthenticationException {
+    public UserIdAuthentication authenticate(Authentication authentication) throws AuthenticationException {
         JwtAuthentication castAuthentication = supportedInputAuthenticationClass.cast(authentication);
 
         String jwt = castAuthentication.getPrincipal();
@@ -28,7 +28,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
         String subject = jwtClaims.getSubject();
         long userId = parseSubjectToLongUserId(subject);
 
-        return new UserAuthentication(userId);
+        return new UserIdAuthentication(userId);
     }
 
     private long parseSubjectToLongUserId(String subject) {

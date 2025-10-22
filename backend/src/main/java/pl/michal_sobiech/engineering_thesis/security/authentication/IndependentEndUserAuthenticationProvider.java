@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.user.User;
 import pl.michal_sobiech.engineering_thesis.user.UserDomain;
-import pl.michal_sobiech.engineering_thesis.user.UserDomainAuthentication;
+import pl.michal_sobiech.engineering_thesis.user.UserIdAuthentication;
 import pl.michal_sobiech.engineering_thesis.user.UserService;
 
 @Service
@@ -26,7 +26,7 @@ public class IndependentEndUserAuthenticationProvider implements AuthenticationP
     private final UserService userService;
 
     @Override
-    public UserDomainAuthentication authenticate(Authentication authentication) throws AuthenticationException {
+    public UserIdAuthentication authenticate(Authentication authentication) throws AuthenticationException {
         StringUsernamePasswordAuthentication castAuthentication = supportedInputAuthenticationClass
                 .cast(authentication);
         String username = castAuthentication.getPrincipal();
@@ -44,7 +44,7 @@ public class IndependentEndUserAuthenticationProvider implements AuthenticationP
         }
 
         UserDomain userDomain = UserDomain.fromEntity(user);
-        return new UserDomainAuthentication(userDomain);
+        return new UserIdAuthentication(userDomain.getUserId());
     }
 
     @Override

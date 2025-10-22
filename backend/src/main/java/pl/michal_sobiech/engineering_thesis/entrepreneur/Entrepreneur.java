@@ -10,17 +10,17 @@ import pl.michal_sobiech.engineering_thesis.user.UserGroup;
 public class Entrepreneur {
 
     private final long userId;
-    private final String username;
+    private final String email;
     private final String firstName;
     private final String lastName;
     private final String passwordHash;
 
-    public static EntrepreneurDomain fromUserDomain(UserDomain userDomain) {
+    public static Entrepreneur fromUserDomain(UserDomain userDomain) {
         if (userDomain.getUserGroup() != UserGroup.ENTREPRENEUR) {
             throw new IllegalArgumentException("User is not an entrepreneur");
         }
 
-        return new EntrepreneurDomain(
+        return new Entrepreneur(
                 userDomain.getUserId(),
                 userDomain.getUsername(),
                 userDomain.getFirstName(),

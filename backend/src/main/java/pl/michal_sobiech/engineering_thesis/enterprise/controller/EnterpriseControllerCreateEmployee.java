@@ -11,12 +11,12 @@ import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.auth.AuthService;
 import pl.michal_sobiech.engineering_thesis.employee.EmployeeDomain;
+import pl.michal_sobiech.engineering_thesis.employee.EmployeeService;
 import pl.michal_sobiech.engineering_thesis.enterprise.Enterprise;
 import pl.michal_sobiech.engineering_thesis.enterprise.EnterpriseService;
 import pl.michal_sobiech.engineering_thesis.entrepreneur.Entrepreneur;
 import pl.michal_sobiech.engineering_thesis.entrepreneur.EntrepreneurService;
 import pl.michal_sobiech.engineering_thesis.jwt.JwtCreationService;
-import pl.michal_sobiech.engineering_thesis.user.UserService;
 import pl.michal_sobiech.engineering_thesis.utils.HttpUtils;
 
 @Component
@@ -27,11 +27,11 @@ public class EnterpriseControllerCreateEmployee {
     private final EntrepreneurService entrepreneurService;
     private final EnterpriseService enterpriseService;
     private final JwtCreationService jwtCreationService;
-    private final UserService userService;
+    private final EmployeeService employeeService;
 
     public ResponseEntity<CreateEnterpriseEmployeeResponse> createEnterpriseEmployee(
-            Integer enterpriseId,
-            CreateEnterpriseEmployeeRequest createEnterpriseEmployeeRequest) {
+            Long enterpriseId,
+            CreateEnterpriseEmployeeRequest request) {
         Entrepreneur entrepreneur = authService.requireEntrepreneur();
 
         Optional<Enterprise> optionalEnterprise = enterpriseService.findByEnterpriseId(enterpriseId);
@@ -45,29 +45,25 @@ public class EnterpriseControllerCreateEmployee {
         }
 
         // TODO A race might take place here
-        String newEmployeeUsername = createEnterpriseEmployeeRequest.getUsername();
-        if (userService.checkEmployeeUsernameExists(enterpriseId, newEmployeeUsername)) {
+        String newEmployeeUsername = request.getUsername();
+        if (employeeService.checkEmployeeUsernameExists(enterpriseId, newEmployeeUsername)) {
             return HttpUtils.createConflictResponse();
         }
 
-        final String password = createEnterpriseEmployeeRequest.getPassword();
-        final EmployeeDomain employee = userService.createEmployee(
+        final String password = request.getPassword();
+        final EmployeeDomain employee = employeeService.save(
                 enterpriseId,
-                createEnterpriseEmployeeRequest.getFirstName(),
-                createEnterpriseEmployeeRequest.getLastName(),
-                password,
-                createEnterpriseEmployeeRequest.getUsername());
+                request.getUsername(),
+                request.getFirstName(),
+                request.getLastName(),
+                password);
 
-        final var responseBodyUser = new CreateEnterpriseEmployeeResponseUser(
+        final CreateEnterpriseEmployeeResponseUser responseBodyUser = new CreateEnterpriseEmployeeResponseUser(
                 employee.getFirstName(),
                 employee.getLastName(),
                 employee.getUsername());
 
-        final long newEmployeeUserId = employee.getUserId();
-        final String newEmployeeUserIdAsStr = Long.toString(newEmployeeUserId);
-        final String accessToken = jwtCreationService.generateTokenNow(newEmployeeUserIdAsStr);
-
-        final var responseBody = new CreateEnterpriseEmployeeResponse(accessToken, responseBodyUser);
+        final var responseBody = new CreateEnterpriseEmployeeResponse(responseBodyUser);
         return ResponseEntity.ok(responseBody);
     }
 

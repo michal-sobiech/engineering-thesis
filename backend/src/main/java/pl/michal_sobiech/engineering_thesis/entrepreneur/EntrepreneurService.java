@@ -2,56 +2,38 @@ package pl.michal_sobiech.engineering_thesis.entrepreneur;
 
 import java.util.Optional;
 
-import org.SwaggerCodeGenExample.model.CreateIndependentEndUserRequest;
-import org.springframework.cache.annotation.Cacheable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.independent_end_user.IndependentEndUser;
-import pl.michal_sobiech.engineering_thesis.independent_end_user.IndependentEndUserService;
+import pl.michal_sobiech.engineering_thesis.user.UserDomain;
+import pl.michal_sobiech.engineering_thesis.user.UserGroup;
+import pl.michal_sobiech.engineering_thesis.user.UserService;
 
 @Service
 @RequiredArgsConstructor
 public class EntrepreneurService {
 
-    private final IndependentEndUserService independentEndUserService;
-    private final EntrepreneurRepository entrepreneurRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final UserService userService;
 
     @Transactional
-    public Entrepreneur createEntrepreneur(CreateIndependentEndUserRequest request) {
-        IndependentEndUser independentEndUser = independentEndUserService.createIndependentEndUser(request);
+    public Entrepreneur save(
+            String email,
+            String firstName,
+            String lastName,
+            String password) {
+        String passwordHash = passwordEncoder.encode(password);
 
-        System.out.println("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHhh");
-        System.out.println(independentEndUser.getIndependentEndUserId());
+        UserDomain user = userService.save(
+                UserGroup.ENTREPRENEUR,
+                email,
+                firstName,
+                lastName,
+                passwordHash,
+                Optional.empty());
 
-        Entrepreneur entrepreneur = Entrepreneur.builder()
-                .independentEndUserId(independentEndUser.getIndependentEndUserId())
-                .build();
-        entrepreneur = entrepreneurRepository.save(entrepreneur);
-
-        return entrepreneur;
+        return Entrepreneur.fromUserDomain(user);
     }
-
-    @Transactional(readOnly = true)
-    @Cacheable(value = "entrepreneurs", key = "#id")
-    public Optional<Entrepreneur> findByEntrepreneurId(long entrepreneurId) {
-        return entrepreneurRepository.findById(entrepreneurId);
-    }
-
-    @Transactional
-    public boolean existsByIndependentEndUserId(long independentEndUserId) {
-        return entrepreneurRepository.existsByIndependentEndUserId(independentEndUserId);
-    }
-
-    @Transactional
-    public Optional<Long> findEntrepreneurIdByIndependentEndUserId(long independentEndUserId) {
-        return entrepreneurRepository.findEntrepreneurIdByIndependentEndUserId(independentEndUserId);
-    }
-
-    @Transactional
-    public Optional<Entrepreneur> findByIndependentEndUserId(long independentEndUserId) {
-        return entrepreneurRepository.findByIndependentEndUserId(independentEndUserId);
-    }
-
 }

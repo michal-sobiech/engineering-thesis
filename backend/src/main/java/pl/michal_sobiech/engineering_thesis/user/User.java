@@ -20,7 +20,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private long userId;
+    private Long userId;
 
     @Column(name = "user_group")
     private UserGroup userGroup;
@@ -37,6 +37,6 @@ public class User {
     private String passwordHash;
 
     @Column(name = "enterprise_id", nullable = true)
-    private long enterpriseId;
+    private Long enterpriseId;
 
 }

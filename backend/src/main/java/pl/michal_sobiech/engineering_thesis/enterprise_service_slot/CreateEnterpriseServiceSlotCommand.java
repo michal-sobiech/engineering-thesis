@@ -5,11 +5,11 @@ import java.time.LocalTime;
 
 public record CreateEnterpriseServiceSlotCommand(
 
-        DayOfWeek dayOfWeek,
+                DayOfWeek dayOfWeek,
 
-        LocalTime startTime,
+                LocalTime startTime,
 
-        LocalTime endTime
+                LocalTime endTime
 
 ) {
 

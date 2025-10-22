@@ -15,7 +15,7 @@ import pl.michal_sobiech.engineering_thesis.scope_username_password_authenticati
 import pl.michal_sobiech.engineering_thesis.scope_username_password_authentication.EnterpriseIdUsernamePasswordAuthentication;
 import pl.michal_sobiech.engineering_thesis.user.User;
 import pl.michal_sobiech.engineering_thesis.user.UserDomain;
-import pl.michal_sobiech.engineering_thesis.user.UserDomainAuthentication;
+import pl.michal_sobiech.engineering_thesis.user.UserIdAuthentication;
 import pl.michal_sobiech.engineering_thesis.user.UserService;
 
 @Component
@@ -28,7 +28,7 @@ public class EmployeeAuthenticationProvider implements AuthenticationProvider {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public UserDomainAuthentication authenticate(Authentication authentication) throws AuthenticationException {
+    public UserIdAuthentication authenticate(Authentication authentication) throws AuthenticationException {
         EnterpriseIdUsernamePasswordAuthentication castAuthentication = supportedInputAuthenticationClass
                 .cast(authentication);
         EnterpriseIdAndUsername principal = castAuthentication.getPrincipal();
@@ -49,7 +49,7 @@ public class EmployeeAuthenticationProvider implements AuthenticationProvider {
 
         UserDomain userDomain = UserDomain.fromEntity(user);
 
-        return new UserDomainAuthentication(userDomain);
+        return new UserIdAuthentication(userDomain.getUserId());
     }
 
     @Override
