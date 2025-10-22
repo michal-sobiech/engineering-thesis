@@ -76,17 +76,12 @@ components:
         $ref: "#/components/schemas/GetEntrepreneurEnterprisesResponseItem"
     EntrepreneurGetMeResponse:
       type: object
-      required:
-        [independentEndUserId, entrepreneurId, email, firstName, lastName]
+      required: [userId, email, firstName, lastName]
       properties:
-        independentEndUserId:
+        userId:
           type: integer
           format: int64
           example: 444
-        entrepreneurId:
-          type: integer
-          format: int64
-          example: 234
         email:
           type: string
           example: jan.kowalski@test.com
@@ -98,17 +93,12 @@ components:
           example: Kowalski
     EmployeeGetMeResponse:
       type: object
-      required:
-        [userId, employeeId, enterpriseId, username, firstName, lastName]
+      required: [userId, enterpriseId, username, firstName, lastName]
       properties:
         userId:
           type: integer
           format: int64
           example: 1234
-        employeeId:
-          type: integer
-          format: int64
-          example: 234
         enterpriseId:
           type: integer
           format: int64
@@ -169,14 +159,6 @@ components:
           example: The new best barbershop in town.
         location:
           $ref: "#/components/schemas/Location"
-        logoPhotoId:
-          type: integer
-          format: int64
-          example: 123
-        backgroundPhotoId:
-          type: integer
-          format: int64
-          example: 123
     CreateEnterpriseEmployeeRequest:
       type: object
       required:
@@ -881,13 +863,40 @@ paths:
           $ref: "#/components/responses/Forbidden"
         "500":
           $ref: "#/components/responses/InternalServerError"
-  /photos/{photoId}:
+  /enteprises/{enterpriseId}/photos/background:
     get:
       tags: [Photos]
-      operationId: getPhoto
-      summary: Get photo
+      operationId: getEnterpriseBackgroundPhoto
       parameters:
-        - name: photoId
+        - name: enterpriseId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: *OK_DESCRIPTION
+          content:
+            image/png:
+              schema:
+                type: string
+                format: binary
+          headers:
+            Content-Disposition:
+              schema:
+                type: string
+                example: inline; filename="photo.png"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  /enteprises/{enterpriseId}/photos/logo:
+    get:
+      tags: [Photos]
+      operationId: getEnterpriseLogoPhoto
+      parameters:
+        - name: enterpriseId
           in: path
           required: true
           schema:
