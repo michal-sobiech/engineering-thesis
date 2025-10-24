@@ -30,4 +30,8 @@ public class EnterpriseServiceSlotService {
         return enterpriseServiceSlotRepository.save(slot);
     }
 
+    public List<EnterpriseServiceSlotEntity> findAllByEnterpriseServiceId(long enterpriseServiceId) {
+        return enterpriseServiceSlotRepository.findAllByEnterpriseServiceId(enterpriseServiceId);
+    }
+
 }
