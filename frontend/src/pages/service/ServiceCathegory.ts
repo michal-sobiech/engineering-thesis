@@ -13,10 +13,6 @@ export enum ServiceCathegory {
     HANDYMAN,
     PLUMBER,
     ELECTRICICAN,
-
-    COMPUTER_GRAPHICS,
-    PROGRAMMER,
-    IT_HELP,
 }
 
 export const serviceCathegoryLabels = {
@@ -32,7 +28,4 @@ export const serviceCathegoryLabels = {
     [ServiceCathegory.HANDYMAN]: "Handyman",
     [ServiceCathegory.PLUMBER]: "Plumber",
     [ServiceCathegory.ELECTRICICAN]: "Electrician",
-    [ServiceCathegory.COMPUTER_GRAPHICS]: "Computer graphics",
-    [ServiceCathegory.PROGRAMMER]: "Programmer",
-    [ServiceCathegory.IT_HELP]: "IT Help",
 } as const satisfies Record<ServiceCathegory, string>;

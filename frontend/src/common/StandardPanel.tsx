@@ -8,6 +8,7 @@ export const StandardPanel: FC<BoxProps> = ({ children, ...otherProps }) => {
             rounded="lg"
             shadow="lg"
             gap="10px"
+            backgroundColor="primary.basicWhite"
             {...otherProps}>
             {children}
         </Box>

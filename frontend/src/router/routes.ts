@@ -16,4 +16,5 @@ export const routes = {
     logInEnterpriseEmployee: routeTemplates.logInEnterpriseEmployee,
     enterpriseCreateService: (enterpriseId: number) => generatePath(routeTemplates.enterpriseCreateService, { enterpriseId }),
     serviceSearch: routeTemplates.serviceSearch,
+    servicePublicPage: (serviceId) => generatePath(routeTemplates.servicePublicPage, { serviceId })
 } satisfies Record<keyof typeof routeTemplates, string | ((...args: any[]) => string)>;

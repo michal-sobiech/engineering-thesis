@@ -46,4 +46,7 @@ public class EnterpriseServiceEntity {
     private BigDecimal price;
     private Currency currency;
 
+    @Column(name = "enterprise_service_cathegory")
+    private EnterpriseServiceCathegory enterpriseServiceCathegory;
+
 }

@@ -11,12 +11,16 @@ public class DayOfWeekConverter implements AttributeConverter<DayOfWeek, Short> 
 
     @Override
     public Short convertToDatabaseColumn(DayOfWeek attribute) {
-        return DayOfWeekUtils.getNumberOfDayOfWeek(attribute);
+        return attribute == null
+                ? null
+                : DayOfWeekUtils.getNumberOfDayOfWeek(attribute);
     }
 
     @Override
     public DayOfWeek convertToEntityAttribute(Short databaseValue) {
-        return DayOfWeekUtils.getDayOfWeek(databaseValue);
+        return databaseValue == null
+                ? null
+                : DayOfWeekUtils.getDayOfWeek(databaseValue);
     }
 
 }
