@@ -11,7 +11,6 @@ import { StandardLabeledContainer } from "../../common/StandardLabeledContainer"
 import { StandardPanel } from "../../common/StandardPanel";
 import { StandardTextField } from "../../common/StandardTextField";
 import { StandardTimeZonePicker } from "../../common/StandardTimeZonePicker";
-import { EventWithId } from "../../common/calendar/EventWithId";
 import { useIntParam } from "../../hooks/useIntParam";
 import { routes } from "../../router/routes";
 import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../utils/error";
@@ -19,6 +18,7 @@ import { combine, errorErrResultAsyncFromPromise } from "../../utils/result";
 import { eventWithIdToSlot } from "../../utils/slot";
 import { toastError } from "../../utils/toast";
 import { ServiceCreationCalendar } from "./ServiceCreationCalendar";
+import { CustomAppointmentsEvents } from "./calendar/CustomAppointmentsEvents";
 
 export const ServiceCreationPage = () => {
     const navigate = useNavigate();
@@ -30,9 +30,8 @@ export const ServiceCreationPage = () => {
     const [address, setAddress] = useState<string | null>(null);
     const [position, setPosition] = useState<{ latitude: number; longitude: number } | null>(null);
     const [timeZone, setTimeZone] = useState<string | null>(null);
-    const [areCustomAppointmentsEnabled, setAreCustomAppointmentsEnabled] = useState<boolean>(false);
+    const [eventsData, setEventsData] = useState<CustomAppointmentsEvents>({ areCustomAppointmentsEnabled: false, events: [] });
     const [appointmentDurationMinutes, setAppointmentDurationMinutes] = useState<number | null>(30);
-    const [slots, setSlots] = useState<EventWithId[]>([]);
     const [price, setPrice] = useState<number | null>(null);
 
     useEffect(() => {
@@ -44,7 +43,7 @@ export const ServiceCreationPage = () => {
                 navigate(routes.mainPage, { replace: true });
             }
         }
-        loadEnterpriseData();
+        // loadEnterpriseData();
     })
 
     const onCreateServiceClick = async () => {
@@ -68,9 +67,9 @@ export const ServiceCreationPage = () => {
             return;
         }
 
-        const slotDtoResults = slots.map(slot => eventWithIdToSlot(slot));
-        const slotDtos = combine(slotDtoResults);
-        if (slotDtos.isErr()) {
+        const slotResults = eventsData.events.map(event => eventWithIdToSlot(event));
+        const slots = combine(slotResults);
+        if (slots.isErr()) {
             toastError(DEFAULT_ERROR_MESSAGE_FOR_USER);
             return;
         }
@@ -90,9 +89,9 @@ export const ServiceCreationPage = () => {
             name: serviceName,
             description: serviceDescription,
             location,
-            takesCustomAppointments: areCustomAppointmentsEnabled,
+            takesCustomAppointments: eventsData.areCustomAppointmentsEnabled,
             price: price,
-            slots: slotDtos.value,
+            slots: slots.value,
             timeZone,
             // TODO parametrize
             currency: "PLN",
@@ -124,12 +123,10 @@ export const ServiceCreationPage = () => {
 
                     <ServiceCreationCalendar
                         {...{
-                            areCustomAppointmentsEnabled,
-                            setAreCustomAppointmentsEnabled,
                             appointmentDurationMinutes,
                             setAppointmentDurationMinutes,
-                            events: slots,
-                            setEvents: setSlots,
+                            eventsData: eventsData,
+                            setEventsData: setEventsData,
                         }}
                     />
 

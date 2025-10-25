@@ -1,12 +1,10 @@
 import ReactDOM from 'react-dom/client';
 import App from './App';
-import { authCell, loadAndSetAuth } from './auth/AuthProvider';
+import { loadAndSetAuth } from './auth/AuthProvider';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 
 await loadAndSetAuth();
-
-console.log("index.ts 1", authCell);
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

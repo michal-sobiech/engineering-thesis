@@ -3,7 +3,7 @@ import { enUS } from "date-fns/locale";
 import { FC } from "react";
 import { Calendar, dateFnsLocalizer, SlotInfo } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { VoidCallback } from "../VoidCallback";
+import { UseStateSetter } from "../../utils/useState";
 import { EventWithId } from "./EventWithId";
 
 const locales = { "en-US": enUS };
@@ -17,7 +17,7 @@ const localizer = dateFnsLocalizer({
 
 export interface WeeklyCalendarProps {
     events: EventWithId[];
-    setEvents: VoidCallback<(previousEvents: EventWithId[]) => EventWithId[]>;
+    setEvents: UseStateSetter<EventWithId[]>;
     onSelectSlot?: (slot: SlotInfo) => void;
 }
 
@@ -29,14 +29,18 @@ export const WeeklyCalendar: FC<WeeklyCalendarProps> = ({ events, setEvents, onS
             end: slot.end,
             resource: { tempId: crypto.randomUUID() }
         }
-        setEvents(previousEvents => [...previousEvents, event]);
+        setEvents([...events, event]);
     }
     onSelectSlot = onSelectSlot ?? defaultOnSelectSlot;
 
-    const onSelectEvent = (eventToDelete: EventWithId) => {
+    function deleteEvent(eventToDelete: EventWithId) {
         setEvents(previousEvents => previousEvents.filter(event => {
             return event.resource.tempId != eventToDelete.resource.tempId;
         }));
+    }
+
+    const onSelectEvent = (event: EventWithId) => {
+        deleteEvent(event);
     }
 
     return <Calendar
