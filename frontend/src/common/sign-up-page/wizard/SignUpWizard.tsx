@@ -7,12 +7,12 @@ import SignUpEnterPasswordPage from "../sign_up_enter_password/SignUpEnterPasswo
 import SignUpSuccessPage from "../sign_up_success/SignUpSuccessPage";
 import { signUpWizardContext } from "./SignUpWizardContext";
 
-export interface SignUpWizardProps {
+export interface IndependentEndUserSignUpWizardProps {
     logInPageUrl: string;
     createUser: (request: CreateIndependentEndUserRequest) => ResultAsync<void, Error>;
 }
 
-export const SignUpWizard: FC<SignUpWizardProps> = ({ logInPageUrl, createUser }) => {
+export const IndependentEndUserSignUpWizard: FC<IndependentEndUserSignUpWizardProps> = ({ logInPageUrl, createUser }) => {
     const [step, setStep] = useState<number>(0);
 
     const [email, setEmail] = useState<string>("");
