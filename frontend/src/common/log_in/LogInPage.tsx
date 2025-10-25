@@ -7,11 +7,11 @@ import { LogInButton } from "./LogInButton";
 import { logInContext, LogInContextValue } from "./LogInContext";
 import { LogInPasswordField } from "./LogInPasswordField";
 
-export interface LogInPageProps {
+export interface IndependentEndUserLogInPageProps {
     landingPageUrl: string,
 }
 
-export const LogInPage: FC<LogInPageProps> = ({ landingPageUrl }) => {
+export const IndependentEndUserLogInPage: FC<IndependentEndUserLogInPageProps> = ({ landingPageUrl }) => {
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
 

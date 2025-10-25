@@ -1,4 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
+import { CustomerLandingPage } from "../pages/customer/CustomerLandingPage";
+import { CustomerSignUpOrLogIn } from "../pages/customer/CustomerSignUpOrLogInPage";
+import { CustomerSignUpPage } from "../pages/customer/CustomerSignUpPage";
 import { EmployeeCreationWizard } from "../pages/employee/creation/wizard/EmployeeCreationWizard";
 import { EmployeeLogInPage } from "../pages/employee/log_in/EmployeeLogInPage";
 import { EnterprisePublicPage } from "../pages/enterprise/public/EnterprisePublicPage";
@@ -26,7 +29,7 @@ export const router = createBrowserRouter([
                 element: <MainPage />
             },
             {
-                path: routeTemplates.entrepreneurSingUpOrLogIn,
+                path: routeTemplates.entrepreneurSignUpOrLogIn,
                 element: <EntrepreneurSignUpOrLogInPage />
             },
             {
@@ -76,6 +79,18 @@ export const router = createBrowserRouter([
             {
                 path: routeTemplates.servicePublicPage,
                 element: <ServicePublicPage />
+            },
+            {
+                path: routeTemplates.customerSignUp,
+                element: <CustomerSignUpPage />
+            },
+            {
+                path: routeTemplates.customerSignUpOrLogIn,
+                element: <CustomerSignUpOrLogIn />
+            },
+            {
+                path: routeTemplates.customerLandingPage,
+                element: <CustomerLandingPage />
             }
         ]
     }

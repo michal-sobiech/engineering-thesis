@@ -9,7 +9,7 @@ export const MainPageEntrepreneurPanel = () => {
     const navigate = useNavigate();
 
     const onClick = () => {
-        navigate(routes.entrepreneurSingUpOrLogIn)
+        navigate(routes.entrepreneurSignUpOrLogIn)
     }
 
     return <FullSpaceCenter>

@@ -3,13 +3,13 @@ import { useNavigate } from "react-router";
 import { FullSpaceCenter } from "../../common/FullSpaceCenter";
 import { StandardButton } from "../../common/StandardButton";
 import { TextWithColoredSegment } from "../../common/TextWithColoredSegment";
-import { toastError } from "../../utils/toast";
+import { routeTemplates } from "../../router/route-templates";
 
 export const MainPageCustomerPanel = () => {
     const navigate = useNavigate();
 
     const onClick = () => {
-        toastError("Not implemented yet");
+        navigate(routeTemplates.customerSignUpOrLogIn)
     }
 
     return <FullSpaceCenter>
