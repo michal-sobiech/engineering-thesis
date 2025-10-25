@@ -356,6 +356,22 @@ components:
           type: number
           format: double
           example: -67.2247
+    ServiceSearchResponseItem:
+      type: object
+      required: [serviceName, enterpriseName, address, longitude, latitude]
+      properties:
+        serviceName:
+          type: string
+        enterpriseName:
+          type: string
+        address:
+          type: string
+        longitude:
+          type: number
+          format: float
+        latitude:
+          type: number
+          format: float
 
   responses:
     OK:
@@ -868,7 +884,7 @@ paths:
           $ref: "#/components/responses/InternalServerError"
   /enteprises/{enterpriseId}/photos/background:
     get:
-      tags: [Photos]
+      tags: [Enterprises]
       operationId: getEnterpriseBackgroundPhoto
       parameters:
         - name: enterpriseId
@@ -896,7 +912,7 @@ paths:
           $ref: "#/components/responses/InternalServerError"
   /enteprises/{enterpriseId}/photos/logo:
     get:
-      tags: [Photos]
+      tags: [Enterprises]
       operationId: getEnterpriseLogoPhoto
       parameters:
         - name: enterpriseId
@@ -918,6 +934,58 @@ paths:
               schema:
                 type: string
                 example: inline; filename="photo.png"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  # /appointments/{appointmentId}:
+  #   delete:
+  #     tags: [Appointments]
+  #     operationId:
+  /services:
+    get:
+      operationId: searchServices
+      parameters:
+        - name: serviceName
+          in: query
+          schema:
+            type: string
+        - name: enterpriseName
+          in: query
+          schema:
+            type: string
+        - name: startDate
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: endDate
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: preferredLongitude
+          in: query
+          schema:
+            type: number
+            format: float
+        - name: preferredLatitude
+          in: query
+          schema:
+            type: number
+        - name: cathegory
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: *OK_DESCRIPTION
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ServiceSearchResponseItem"
         "400":
           $ref: "#/components/responses/BadRequest"
         "500":
