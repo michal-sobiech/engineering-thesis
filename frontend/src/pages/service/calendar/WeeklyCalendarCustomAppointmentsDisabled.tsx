@@ -36,16 +36,16 @@ export const WeeklyCalendarCustomAppoinmentsDisabled: FC<WeeklyCalendarCustomApp
             end: interval[1],
             resource: {
                 tempId: crypto.randomUUID(),
-                capacity: 0,
+                capacity: 1,
             }
         }));
 
         setEvents(previousEvents => [...previousEvents, ...events]);
     }
 
-    function deleteEvent(eventToDelete: EventWithIdAndCapacity) {
+    function deleteEvent(eventId: string) {
         setEvents(previousEvents => previousEvents.filter(event => {
-            return event.resource.tempId != eventToDelete.resource.tempId;
+            return event.resource.tempId != eventId;
         }));
     }
 
@@ -81,27 +81,32 @@ export const WeeklyCalendarCustomAppoinmentsDisabled: FC<WeeklyCalendarCustomApp
 
             popup = <WeeklyCalendarCustomAppoinmentsDisabledPopup
                 close={() => setSelectedEventId(null)}
-                position={{ x: 0, y: 0 }}
+                remove={() => deleteEvent(selectedEventId)}
+                position={lastClickPos ?? { x: 0, y: 0 }}
                 capacity={capacity}
                 setCapacity={setCapacity}
             />;
         }
-
+    } else {
+        popup = null;
     }
 
-    return <Calendar
-        localizer={localizer}
-        events={events}
-        views={["week"]}
-        defaultView="week"
-        selectable
-        toolbar={false}
-        onSelectSlot={onSelectSlot}
-        components={{
-            header: ({ label }) => <span>{label.split(" ")[1]}</span>
-        }}
-        onSelectEvent={onSelectEvent}
-    />;
+    return <>
+        <Calendar
+            localizer={localizer}
+            events={events}
+            views={["week"]}
+            defaultView="week"
+            selectable
+            toolbar={false}
+            onSelectSlot={onSelectSlot}
+            components={{
+                header: ({ label }) => <span>{label.split(" ")[1]}</span>
+            }}
+            onSelectEvent={onSelectEvent}
+        />
+        {popup}
+    </>
 }
 
 function splitPeriodIntoIntervals(periodStart: Date, periodEnd: Date, eventDuration: Duration): [Date, Date][] {
