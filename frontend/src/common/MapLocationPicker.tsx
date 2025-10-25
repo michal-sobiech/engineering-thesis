@@ -65,7 +65,6 @@ export const MapSearchField: FC<MapSearchFieldProps> = ({ onSelect }) => {
     map.on("geosearch/showlocation", (event: any) => {
         const { label, y, x } = event.location;
         onSelect?.(label, [y, x]);
-        console.log("GGGGGGGGG");
     });
 
     return null;

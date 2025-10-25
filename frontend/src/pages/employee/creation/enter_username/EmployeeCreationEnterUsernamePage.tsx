@@ -30,7 +30,6 @@ export const EmployeeCreationEnterUsernamePage = () => {
             .andThen(enterpriseId => checkUsernameAvailable(enterpriseId, username));
         if (result.isOk()) {
             const usernameExists = result.value;
-            console.log("usernameExists", usernameExists);
             if (!usernameExists) {
                 toast.dismiss();
                 incrementStep();

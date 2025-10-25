@@ -27,11 +27,9 @@ export const LogInButton = () => {
 
     const onClick = async () => {
         const result = await logIn(email, password);
-        console.log("Result isOk:", result.isOk());
         if (result.isOk()) {
             navigate(routes.entrepreneurLandingPage, { replace: true });
         } else {
-            console.log(result.error);
             toastError("Couldn't log in. Try again later.");
         }
     }

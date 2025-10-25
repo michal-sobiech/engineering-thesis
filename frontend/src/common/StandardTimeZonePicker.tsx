@@ -21,7 +21,6 @@ export const StandardTimeZonePicker: FC<StandardTimeZonePicker> = ({ value, setV
         options={itemsData}
         placeholder={"Choose a time zone"}
         onChange={(option) => {
-            console.log(option);
             setValue(option?.value ?? null);
         }} />;
 

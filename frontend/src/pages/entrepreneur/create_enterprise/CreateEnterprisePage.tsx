@@ -48,8 +48,6 @@ export const CreateEnterprisePage = () => {
             latitude: position.latitude,
         };
 
-        console.log(location);
-
         const promise = enterprisesApi.createEnterprise(
             name,
             description,
@@ -68,7 +66,6 @@ export const CreateEnterprisePage = () => {
 
         const { enterpriseId } = result.value;
         const path = routes.enterprisePublic(enterpriseId);
-        console.log(path);
         navigate(path);
     }
 

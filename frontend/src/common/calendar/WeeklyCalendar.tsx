@@ -23,7 +23,6 @@ export interface WeeklyCalendarProps {
 
 export const WeeklyCalendar: FC<WeeklyCalendarProps> = ({ events, setEvents, onSelectSlot }) => {
     const defaultOnSelectSlot = (slot: SlotInfo) => {
-        console.log(slot);
         const event: EventWithId = {
             start: slot.start,
             end: slot.end,

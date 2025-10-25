@@ -8,8 +8,6 @@ export interface ProtectedRouteProps {
 }
 
 export const ProtectedRoute: FC<ProtectedRouteProps> = ({ children }) => {
-    console.log("Protected route")
-    console.log("Auth here", authCell);
     if (authCell === null) {
         return <Navigate to={routes.mainPage} replace />;
     } else {

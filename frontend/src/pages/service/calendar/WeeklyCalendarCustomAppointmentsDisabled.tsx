@@ -29,8 +29,6 @@ export const WeeklyCalendarCustomAppoinmentsDisabled: FC<WeeklyCalendarCustomApp
     const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
 
     const onSelectSlot = (slot: SlotInfo) => {
-        // console.log(slot);
-
         const intervals = splitPeriodIntoIntervals(slot.start, slot.end, eventDuration);
 
         const events: EventWithIdAndCapacity[] = intervals.map(interval => ({

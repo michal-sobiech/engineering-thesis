@@ -15,7 +15,6 @@ export const StandardFileInput: FC<StandardFileInputProps> = ({ text, setText, s
 
     const onChangeFileClick = (event: ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
-        console.log(file);
         if (file !== undefined) {
             setFile(file);
             setText(file.name);
