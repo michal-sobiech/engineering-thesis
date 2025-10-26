@@ -14,7 +14,14 @@ public interface EnterpriseServiceSlotRepository extends JpaRepository<Enterpris
     public List<EnterpriseServiceSlotEntity> findAllByEnterpriseServiceId(long enterpriseServiceId);
 
     @Query(value = """
-            SELECT * FROM enterprise_service_slot slot
+            SELECT
+            service.enterprise_service_id AS enterpriseServiceId,
+            service.name AS serviceName,
+            enterprise.name AS enterpriseName,
+            slot.start_time AS startTime,
+            slot.end_time AS endTime,
+            service.price AS price
+            FROM enterprise_service_slot slot
             JOIN enterprise_service service ON service.enterprise_service_id = slot.enterprise_service_id
             JOIN enterprise enterprise ON enteprise.enterprise_id = service.enterprise_id
             WHERE (:serviceName IS NULL OR LOWER(service.name) LIKE LOWER('%' || :serviceName || '%'))
@@ -27,7 +34,7 @@ public interface EnterpriseServiceSlotRepository extends JpaRepository<Enterpris
                 ST_MakePoint(:customerLongitude, :customerLatitude)
             ) / 1000 <= :maxDistanceChosenByCustomerKm)
             """, nativeQuery = true)
-    public List<EnterpriseServiceSlotEntity> filterNoCustomAppointmentsServiceSlots(
+    public List<ServiceSearchSlot> filterNoCustomAppointmentsServiceSlots(
             @Param("serviceName") String serviceName,
             @Param("enterpriseName") String enterpriseName,
             @Param("startDate") OffsetDateTime startDate,
@@ -38,7 +45,14 @@ public interface EnterpriseServiceSlotRepository extends JpaRepository<Enterpris
             @Param("maxDistanceChosenByCustomerKm") double maxDistanceChosenByCustomerKm);
 
     @Query(value = """
-            SELECT * FROM enterprise_service_slot slot
+            SELECT
+            service.enterprise_service_id AS enterpriseServiceId,
+            service.name AS serviceName,
+            enterprise.name AS enterpriseName,
+            slot.start_time AS startTime,
+            slot.end_time AS endTime,
+            service.price AS price
+            FROM enterprise_service_slot slot
             JOIN enterprise_service service ON service.enterprise_service_id = slot.enterprise_service_id
             JOIN enterprise enterprise ON enteprise.enterprise_id = service.enterprise_id
             WHERE (:serviceName IS NULL OR LOWER(service.name) LIKE LOWER('%' || :serviceName || '%'))
@@ -55,7 +69,7 @@ public interface EnterpriseServiceSlotRepository extends JpaRepository<Enterpris
                 ST_MakePoint(:customerLongitude, :customerLatitude)
             ) / 1000 <= service.max_distance_km)
             """, nativeQuery = true)
-    public List<EnterpriseServiceSlotEntity> filterCustomAppointmentsServiceSlots(
+    public List<ServiceSearchSlot> filterCustomAppointmentsServiceSlots(
             @Param("serviceName") String serviceName,
             @Param("enterpriseName") String enterpriseName,
             @Param("startDate") OffsetDateTime startDate,
