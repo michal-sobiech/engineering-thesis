@@ -30,12 +30,6 @@ export interface EmployeeGetMeResponse {
      * @type {number}
      * @memberof EmployeeGetMeResponse
      */
-    employeeId: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof EmployeeGetMeResponse
-     */
     enterpriseId: number;
     /**
      * 
@@ -62,7 +56,6 @@ export interface EmployeeGetMeResponse {
  */
 export function instanceOfEmployeeGetMeResponse(value: object): value is EmployeeGetMeResponse {
     if (!('userId' in value) || value['userId'] === undefined) return false;
-    if (!('employeeId' in value) || value['employeeId'] === undefined) return false;
     if (!('enterpriseId' in value) || value['enterpriseId'] === undefined) return false;
     if (!('username' in value) || value['username'] === undefined) return false;
     if (!('firstName' in value) || value['firstName'] === undefined) return false;
@@ -81,7 +74,6 @@ export function EmployeeGetMeResponseFromJSONTyped(json: any, ignoreDiscriminato
     return {
         
         'userId': json['userId'],
-        'employeeId': json['employeeId'],
         'enterpriseId': json['enterpriseId'],
         'username': json['username'],
         'firstName': json['firstName'],
@@ -101,7 +93,6 @@ export function EmployeeGetMeResponseToJSONTyped(value?: EmployeeGetMeResponse |
     return {
         
         'userId': value['userId'],
-        'employeeId': value['employeeId'],
         'enterpriseId': value['enterpriseId'],
         'username': value['username'],
         'firstName': value['firstName'],

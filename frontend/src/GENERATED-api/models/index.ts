@@ -24,4 +24,5 @@ export * from './LogInEnterpriseEmployeeRequest';
 export * from './LogInEnterpriseEmployeeResponse';
 export * from './LogInIndependentEndUserRequest';
 export * from './LogInIndependentEndUserResponse';
+export * from './ServiceSearchResponseItem';
 export * from './Slot';

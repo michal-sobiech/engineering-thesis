@@ -1,12 +1,11 @@
-.openapi-generator-ignore
 apis/AuthApi.ts
 apis/CustomersApi.ts
 apis/EnterpriseEmployeesApi.ts
+apis/EnterpriseServicesApi.ts
 apis/EnterprisesApi.ts
 apis/EntrepreneursApi.ts
 apis/HealthCheckApi.ts
 apis/IndependentEndUsersApi.ts
-apis/PhotosApi.ts
 apis/index.ts
 index.ts
 models/CheckIndependentEndUserEmailExists200Response.ts
@@ -33,6 +32,7 @@ models/LogInEnterpriseEmployeeRequest.ts
 models/LogInEnterpriseEmployeeResponse.ts
 models/LogInIndependentEndUserRequest.ts
 models/LogInIndependentEndUserResponse.ts
+models/ServiceSearchResponseItem.ts
 models/Slot.ts
 models/index.ts
 runtime.ts

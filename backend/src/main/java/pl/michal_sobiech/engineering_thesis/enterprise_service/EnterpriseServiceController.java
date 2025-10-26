@@ -27,7 +27,7 @@ public class EnterpriseServiceController implements ServicesApi {
     private final EnterpriseServiceSlotService enterpriseServiceSlotService;
 
     @Override
-    public ResponseEntity<List<ServiceSearchResponseItem>> searchNoCustomAppointmentsServices(
+    public ResponseEntity<List<ServiceSearchResponseItem>> searchServices(
             Double preferredLongitude,
             Double preferredLatitude,
             String cathegory,
@@ -61,38 +61,4 @@ public class EnterpriseServiceController implements ServicesApi {
                 slot.getAddress())).toList();
         return ResponseEntity.ok(body);
     }
-
-    @Override
-    public ResponseEntity<List<ServiceSearchResponseItem>> searchCustomAppointmentsServices(
-            Double preferredLongitude,
-            Double preferredLatitude,
-            String cathegory,
-            Double maxDistanceKm,
-            @Nullable String serviceName,
-            @Nullable String enterpriseName,
-            @Nullable OffsetDateTime startDate,
-            @Nullable OffsetDateTime endDate) {
-
-        EnterpriseServiceCathegory cathegoryParsed = enterpriseServiceCathegoryConverter
-                .convertToEntityAttribute(cathegory);
-        if (cathegoryParsed == null) {
-            return HttpUtils.createBadRequestResponse();
-        }
-
-        List<ServiceSearchSlot> filteredSlots = enterpriseServiceSearchService.searchCustomAppointmentsSlots(
-                Optional.of(serviceName),
-                Optional.of(enterpriseName),
-                Optional.of(startDate),
-                Optional.of(endDate),
-                cathegoryParsed,
-                preferredLongitude,
-                preferredLatitude,
-                maxDistanceKm);
-        var body = filteredSlots.stream().map(slot -> new ServiceSearchResponseItem(
-                slot.getServiceName(),
-                slot.getEnterpriseName(),
-                slot.getAddress())).toList();
-        return ResponseEntity.ok(body);
-    }
-
 }

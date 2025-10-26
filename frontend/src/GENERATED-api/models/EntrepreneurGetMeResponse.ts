@@ -24,13 +24,7 @@ export interface EntrepreneurGetMeResponse {
      * @type {number}
      * @memberof EntrepreneurGetMeResponse
      */
-    independentEndUserId: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof EntrepreneurGetMeResponse
-     */
-    entrepreneurId: number;
+    userId: number;
     /**
      * 
      * @type {string}
@@ -55,8 +49,7 @@ export interface EntrepreneurGetMeResponse {
  * Check if a given object implements the EntrepreneurGetMeResponse interface.
  */
 export function instanceOfEntrepreneurGetMeResponse(value: object): value is EntrepreneurGetMeResponse {
-    if (!('independentEndUserId' in value) || value['independentEndUserId'] === undefined) return false;
-    if (!('entrepreneurId' in value) || value['entrepreneurId'] === undefined) return false;
+    if (!('userId' in value) || value['userId'] === undefined) return false;
     if (!('email' in value) || value['email'] === undefined) return false;
     if (!('firstName' in value) || value['firstName'] === undefined) return false;
     if (!('lastName' in value) || value['lastName'] === undefined) return false;
@@ -73,8 +66,7 @@ export function EntrepreneurGetMeResponseFromJSONTyped(json: any, ignoreDiscrimi
     }
     return {
         
-        'independentEndUserId': json['independentEndUserId'],
-        'entrepreneurId': json['entrepreneurId'],
+        'userId': json['userId'],
         'email': json['email'],
         'firstName': json['firstName'],
         'lastName': json['lastName'],
@@ -92,8 +84,7 @@ export function EntrepreneurGetMeResponseToJSONTyped(value?: EntrepreneurGetMeRe
 
     return {
         
-        'independentEndUserId': value['independentEndUserId'],
-        'entrepreneurId': value['entrepreneurId'],
+        'userId': value['userId'],
         'email': value['email'],
         'firstName': value['firstName'],
         'lastName': value['lastName'],

@@ -13,21 +13,38 @@
  */
 
 
+import * as runtime from '../runtime';
 import type {
-    CreateEnterpriseResponse,
-    CreateEnterpriseServiceRequest,
-    GetEnterpriseResponse,
-    GetEnterpriseServicesResponseItem,
-    Location
+  CreateEnterpriseResponse,
+  CreateEnterpriseServiceRequest,
+  GetEnterpriseResponse,
+  GetEnterpriseServicesResponseItem,
+  InlineObject,
+  InlineObject1,
+  InlineObject2,
+  InlineObject4,
+  Location,
 } from '../models/index';
 import {
     CreateEnterpriseResponseFromJSON,
+    CreateEnterpriseResponseToJSON,
+    CreateEnterpriseServiceRequestFromJSON,
     CreateEnterpriseServiceRequestToJSON,
     GetEnterpriseResponseFromJSON,
+    GetEnterpriseResponseToJSON,
     GetEnterpriseServicesResponseItemFromJSON,
-    LocationToJSON
+    GetEnterpriseServicesResponseItemToJSON,
+    InlineObjectFromJSON,
+    InlineObjectToJSON,
+    InlineObject1FromJSON,
+    InlineObject1ToJSON,
+    InlineObject2FromJSON,
+    InlineObject2ToJSON,
+    InlineObject4FromJSON,
+    InlineObject4ToJSON,
+    LocationFromJSON,
+    LocationToJSON,
 } from '../models/index';
-import * as runtime from '../runtime';
 
 export interface CreateEnterpriseRequest {
     name: string;
@@ -45,6 +62,14 @@ export interface CreateEnterpriseServiceOperationRequest {
 }
 
 export interface GetEnterpriseRequest {
+    enterpriseId: number;
+}
+
+export interface GetEnterpriseBackgroundPhotoRequest {
+    enterpriseId: number;
+}
+
+export interface GetEnterpriseLogoPhotoRequest {
     enterpriseId: number;
 }
 
@@ -279,6 +304,76 @@ export class EnterprisesApi extends runtime.BaseAPI {
     }
 
     /**
+     */
+    async getEnterpriseBackgroundPhotoRaw(requestParameters: GetEnterpriseBackgroundPhotoRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Blob>> {
+        if (requestParameters['enterpriseId'] == null) {
+            throw new runtime.RequiredError(
+                'enterpriseId',
+                'Required parameter "enterpriseId" was null or undefined when calling getEnterpriseBackgroundPhoto().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+
+        let urlPath = `/enteprises/{enterpriseId}/photos/background`;
+        urlPath = urlPath.replace(`{${"enterpriseId"}}`, encodeURIComponent(String(requestParameters['enterpriseId'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.BlobApiResponse(response);
+    }
+
+    /**
+     */
+    async getEnterpriseBackgroundPhoto(enterpriseId: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Blob> {
+        const response = await this.getEnterpriseBackgroundPhotoRaw({ enterpriseId: enterpriseId }, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async getEnterpriseLogoPhotoRaw(requestParameters: GetEnterpriseLogoPhotoRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Blob>> {
+        if (requestParameters['enterpriseId'] == null) {
+            throw new runtime.RequiredError(
+                'enterpriseId',
+                'Required parameter "enterpriseId" was null or undefined when calling getEnterpriseLogoPhoto().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+
+        let urlPath = `/enteprises/{enterpriseId}/photos/logo`;
+        urlPath = urlPath.replace(`{${"enterpriseId"}}`, encodeURIComponent(String(requestParameters['enterpriseId'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.BlobApiResponse(response);
+    }
+
+    /**
+     */
+    async getEnterpriseLogoPhoto(enterpriseId: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Blob> {
+        const response = await this.getEnterpriseLogoPhotoRaw({ enterpriseId: enterpriseId }, initOverrides);
+        return await response.value();
+    }
+
+    /**
      * Get enterprise employees
      */
     async getEnterpriseServicesRaw(requestParameters: GetEnterpriseServicesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<GetEnterpriseServicesResponseItem>>> {
@@ -364,8 +459,8 @@ export class EnterprisesApi extends runtime.BaseAPI {
         }
 
         if (requestParameters['location'] != null) {
-            formParams.append('location', new Blob([JSON.stringify(LocationToJSON(requestParameters['location']))], { type: "application/json", }));
-        }
+            formParams.append('location', new Blob([JSON.stringify(ToJSON(requestParameters['location']))], { type: "application/json", }));
+                    }
 
         if (requestParameters['logoFile'] != null) {
             formParams.append('logoFile', requestParameters['logoFile'] as any);

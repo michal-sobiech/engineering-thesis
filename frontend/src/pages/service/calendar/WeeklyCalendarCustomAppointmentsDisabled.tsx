@@ -6,6 +6,7 @@ import { Calendar, dateFnsLocalizer, SlotInfo } from "react-big-calendar";
 import { EventWithIdAndCapacity } from "../../../common/calendar/EventWithIdAndCapacity";
 import { getLastFromArray } from "../../../utils/array";
 import { durationToMs, splitPeriod } from "../../../utils/date";
+import { Position } from "../../../utils/Position";
 import { UseStateSetter } from "../../../utils/useState";
 import { WeeklyCalendarCustomAppoinmentsDisabledPopup } from "./WeeklyCalendarCustomAppoinmentsDisabledPopup";
 
@@ -25,7 +26,7 @@ export interface WeeklyCalendarCustomAppoinmentsDisabledProps {
 }
 
 export const WeeklyCalendarCustomAppoinmentsDisabled: FC<WeeklyCalendarCustomAppoinmentsDisabledProps> = ({ events, setEvents, eventDuration }) => {
-    const [lastClickPos, setLastClickPos] = useState<{ x: number, y: number } | null>(null);
+    const [lastClickPos, setLastClickPos] = useState<Position | null>(null);
     const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
 
     const onSelectSlot = (slot: SlotInfo) => {

@@ -29,12 +29,6 @@ import {
 export interface CreateEnterpriseEmployeeResponse {
     /**
      * 
-     * @type {string}
-     * @memberof CreateEnterpriseEmployeeResponse
-     */
-    accessToken: string;
-    /**
-     * 
      * @type {CreateEnterpriseEmployeeResponseUser}
      * @memberof CreateEnterpriseEmployeeResponse
      */
@@ -45,7 +39,6 @@ export interface CreateEnterpriseEmployeeResponse {
  * Check if a given object implements the CreateEnterpriseEmployeeResponse interface.
  */
 export function instanceOfCreateEnterpriseEmployeeResponse(value: object): value is CreateEnterpriseEmployeeResponse {
-    if (!('accessToken' in value) || value['accessToken'] === undefined) return false;
     if (!('user' in value) || value['user'] === undefined) return false;
     return true;
 }
@@ -60,7 +53,6 @@ export function CreateEnterpriseEmployeeResponseFromJSONTyped(json: any, ignoreD
     }
     return {
         
-        'accessToken': json['accessToken'],
         'user': CreateEnterpriseEmployeeResponseUserFromJSON(json['user']),
     };
 }
@@ -76,7 +68,6 @@ export function CreateEnterpriseEmployeeResponseToJSONTyped(value?: CreateEnterp
 
     return {
         
-        'accessToken': value['accessToken'],
         'user': CreateEnterpriseEmployeeResponseUserToJSON(value['user']),
     };
 }

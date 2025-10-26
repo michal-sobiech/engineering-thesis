@@ -5,11 +5,12 @@ import { StandardButton } from "../../../common/StandardButton";
 import { StandardFlex } from "../../../common/StandardFlex";
 import { StandardLabeledContainer } from "../../../common/StandardLabeledContainer";
 import { StandardPanel } from "../../../common/StandardPanel";
+import { Position } from "../../../utils/Position";
 
 export interface WeeklyCalendarCustomAppoinmentsDisabledPopupProps {
     close: () => void;
     remove: () => void;
-    position: { x: number, y: number };
+    position: Position;
     capacity: number;
     setCapacity: (newCapacity: number) => void;
 }

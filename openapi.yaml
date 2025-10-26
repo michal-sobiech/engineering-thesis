@@ -942,69 +942,10 @@ paths:
   #   delete:
   #     tags: [Appointments]
   #     operationId:
-  /services/no-custom-appointments:
+  /services/search:
     get:
       tags: [EnterpriseServices]
-      operationId: searchNoCustomAppointmentsServices
-      parameters:
-        - name: serviceName
-          in: query
-          schema:
-            type: string
-        - name: enterpriseName
-          in: query
-          schema:
-            type: string
-        - name: startDate
-          in: query
-          schema:
-            type: string
-            format: date-time
-        - name: endDate
-          in: query
-          schema:
-            type: string
-            format: date-time
-        - name: preferredLongitude
-          in: query
-          required: true
-          schema:
-            type: number
-            format: double
-        - name: preferredLatitude
-          in: query
-          required: true
-          schema:
-            type: number
-            format: double
-        - name: cathegory
-          in: query
-          required: true
-          schema:
-            type: string
-        - name: maxDistanceKm
-          in: query
-          required: true
-          schema:
-            type: number
-            format: double
-      responses:
-        "200":
-          description: *OK_DESCRIPTION
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/ServiceSearchResponseItem"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "500":
-          $ref: "#/components/responses/InternalServerError"
-  /services/with-custom-appointments:
-    get:
-      tags: [EnterpriseServices]
-      operationId: searchCustomAppointmentsServices
+      operationId: searchServices
       parameters:
         - name: serviceName
           in: query
