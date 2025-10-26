@@ -25,7 +25,7 @@ public interface EnterpriseServiceSlotRepository extends JpaRepository<Enterpris
             AND (ST_DistanceSphere(
                 ST_MakePoint(service.longitude, service.latitude),
                 ST_MakePoint(:customerLongitude, :customerLatitude)
-            )) <= :maxDistance
+            ) / 1000 <= :maxDistanceChosenByCustomerKm)
             """, nativeQuery = true)
     public List<EnterpriseServiceSlotEntity> filterNoCustomAppointmentsServiceSlots(
             @Param("serviceName") String serviceName,
@@ -35,6 +35,34 @@ public interface EnterpriseServiceSlotRepository extends JpaRepository<Enterpris
             @Param("cathegory") EnterpriseServiceCathegory cathegory,
             @Param("customerLatitude") double customerLatitude,
             @Param("customerLongitude") double customerLongitude,
-            @Param("maxDistance") double maxDistanceFromCustomerToService);
+            @Param("maxDistanceChosenByCustomerKm") double maxDistanceChosenByCustomerKm);
+
+    @Query(value = """
+            SELECT * FROM enterprise_service_slot slot
+            JOIN enterprise_service service ON service.enterprise_service_id = slot.enterprise_service_id
+            JOIN enterprise enterprise ON enteprise.enterprise_id = service.enterprise_id
+            WHERE (:serviceName IS NULL OR LOWER(service.name) LIKE LOWER('%' || :serviceName || '%'))
+            AND (:enterpriseName IS NULL OR LOWER(enterprise.name) LIKE LOWER('%' || :enterpriseName || '%'))
+            AND (:startDate IS NULL OR slot.start_time >= :startDate)
+            AND (:endDate IS NULL OR slot.end_time <= :endDate)
+            AND (:cathegory IS NULL OR service.cathegory = :cathegory)
+            AND (ST_DistanceSphere(
+                ST_MakePoint(service.longitude, service.latitude),
+                ST_MakePoint(:customerLongitude, :customerLatitude)
+            ) / 1000 <= :maxDistanceChosenByCustomerKm)
+            AND (ST_DistanceSphere(
+                ST_MakePoint(service.longitude, service.latitude),
+                ST_MakePoint(:customerLongitude, :customerLatitude)
+            ) / 1000 <= service.max_distance_km)
+            """, nativeQuery = true)
+    public List<EnterpriseServiceSlotEntity> filterCustomAppointmentsServiceSlots(
+            @Param("serviceName") String serviceName,
+            @Param("enterpriseName") String enterpriseName,
+            @Param("startDate") OffsetDateTime startDate,
+            @Param("endDate") OffsetDateTime endDate,
+            @Param("cathegory") EnterpriseServiceCathegory cathegory,
+            @Param("customerLatitude") double customerLatitude,
+            @Param("customerLongitude") double customerLongitude,
+            @Param("maxDistanceChosenByCustomerKm") double maxDistanceChosenByCustomerKm);
 
 }
