@@ -355,10 +355,10 @@ components:
         latitude:
           type: number
           format: double
-          example: -67.2247
+          example: -67.224
     ServiceSearchResponseItem:
       type: object
-      required: [serviceName, enterpriseName, address, longitude, latitude]
+      required: [serviceName, enterpriseName, address]
       properties:
         serviceName:
           type: string
@@ -942,10 +942,10 @@ paths:
   #   delete:
   #     tags: [Appointments]
   #     operationId:
-  /services:
+  /services/no-custom-appointments:
     get:
       tags: [EnterpriseServices]
-      operationId: searchServices
+      operationId: searchNoCustomAppointmentsServices
       parameters:
         - name: serviceName
           in: query
@@ -967,16 +967,86 @@ paths:
             format: date-time
         - name: preferredLongitude
           in: query
+          required: true
           schema:
             type: number
+            format: double
         - name: preferredLatitude
           in: query
+          required: true
           schema:
             type: number
+            format: double
         - name: cathegory
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: maxDistanceKm
+          in: query
+          required: true
+          schema:
+            type: number
+            format: double
+      responses:
+        "200":
+          description: *OK_DESCRIPTION
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ServiceSearchResponseItem"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  /services/with-custom-appointments:
+    get:
+      tags: [EnterpriseServices]
+      operationId: searchCustomAppointmentsServices
+      parameters:
+        - name: serviceName
           in: query
           schema:
             type: string
+        - name: enterpriseName
+          in: query
+          schema:
+            type: string
+        - name: startDate
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: endDate
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: preferredLongitude
+          in: query
+          required: true
+          schema:
+            type: number
+            format: double
+        - name: preferredLatitude
+          in: query
+          required: true
+          schema:
+            type: number
+            format: double
+        - name: cathegory
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: maxDistanceKm
+          in: query
+          required: true
+          schema:
+            type: number
+            format: double
       responses:
         "200":
           description: *OK_DESCRIPTION

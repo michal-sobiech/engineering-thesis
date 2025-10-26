@@ -13,7 +13,7 @@ import pl.michal_sobiech.engineering_thesis.enterprise_service_slot.ServiceSearc
 
 @Service
 @RequiredArgsConstructor
-public class EnterpriseSearchService {
+public class EnterpriseServiceSearchService {
 
     private final EnterpriseServiceSlotRepository enterpriseServiceSlotRepository;
 

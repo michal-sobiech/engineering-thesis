@@ -11,6 +11,8 @@ public interface ServiceSearchSlot {
 
     public String getEnterpriseName();
 
+    public String getAddress();
+
     public OffsetDateTime getStartTime();
 
     public OffsetDateTime getEndTime();

@@ -11,26 +11,29 @@ public record SearchEnterpriseServicesCommand(
         Optional<String> enterpriseName,
         Optional<OffsetDateTime> startDate,
         Optional<OffsetDateTime> endDate,
-        Optional<BigDecimal> preferredLongitude,
-        Optional<BigDecimal> preferredLatitude,
-        Optional<String> cathegory) {
+        BigDecimal preferredLongitude,
+        BigDecimal preferredLatitude,
+        String cathegory,
+        Double maxDistanceKm) {
 
     public static SearchEnterpriseServicesCommand fromRaw(
             @Nullable String serviceName,
             @Nullable String enterpriseName,
             @Nullable OffsetDateTime startDate,
             @Nullable OffsetDateTime endDate,
-            @Nullable BigDecimal preferredLongitude,
-            @Nullable BigDecimal preferredLatitude,
-            @Nullable String cathegory) {
+            BigDecimal preferredLongitude,
+            BigDecimal preferredLatitude,
+            String cathegory,
+            double maxDistanceKm) {
         return new SearchEnterpriseServicesCommand(
                 Optional.ofNullable(serviceName),
                 Optional.ofNullable(enterpriseName),
                 Optional.ofNullable(startDate),
                 Optional.ofNullable(endDate),
-                Optional.ofNullable(preferredLongitude),
-                Optional.ofNullable(preferredLatitude),
-                Optional.ofNullable(cathegory));
+                preferredLongitude,
+                preferredLatitude,
+                cathegory,
+                maxDistanceKm);
     }
 
 }
