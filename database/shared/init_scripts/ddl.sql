@@ -79,9 +79,9 @@ CREATE TABLE public.enterprise_service (
 	"name" text NOT NULL,
 	"description" text NOT NULL,
 
-	"address" text,
-	latitude double PRECISION,
-	longitude double PRECISION,
+	"address" text NOT NULL,
+	latitude double PRECISION NOT NULL,
+	longitude double PRECISION NOT NULL,
 
 	time_zone text NOT NULL,
 	takes_custom_appointments boolean NOT NULL,
@@ -91,11 +91,6 @@ CREATE TABLE public.enterprise_service (
 
 	CONSTRAINT pk_enterprise_service PRIMARY KEY (enterprise_service_id),
 	CONSTRAINT fk_enterprise_id FOREIGN KEY (enterprise_id) REFERENCES public.enterprise(enterprise_id) ON DELETE CASCADE,
-	CONSTRAINT chk_enteprise_service_location CHECK (
-		(address IS NULL and latitude IS NULL AND longitude IS NULL)
-		OR
-		(address IS NOT NULL and latitude IS NOT NULL AND longitude IS NOT NULL)
-	)
 );
 
 CREATE TABLE public.enterprise_service_slot (
