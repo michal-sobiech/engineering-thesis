@@ -15,7 +15,14 @@ check_if_env_var_not_empty "POSTGRES_DB"
 user_creation_query=$(cat << EOF
 CREATE ROLE $DB_REPLICA_USER REPLICATION LOGIN PASSWORD '$DB_REPLICA_PASSWORD';
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO $DB_REPLICA_USER;
-CREATE PUBLICATION all_tables_pub FOR ALL TABLES;
+CREATE PUBLICATION all_tables_pub FOR TABLE
+    enterprise,
+    "user",
+    enterprise_service,
+    enterprise_service_slot,
+    review,
+    appointment,
+    "report";
 EOF
 )
 
