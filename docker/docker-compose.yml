@@ -25,7 +25,7 @@ x-backend-shared-config: &backend_shared_config
     - backend_and_database
 
 x-database-shared-config: &database_shared_config
-  image: postgres:latest
+  image: postgis/postgis:18-3.6
   environment:
     POSTGRES_PASSWORD: ${DB_ROOT_PASSWORD}
     POSTGRES_DB: ${DB_NAME}
@@ -98,10 +98,11 @@ services:
     ports:
       - 5433:5432
     volumes:
-      - ../database/shared/init_scripts/ddl.sql:/docker-entrypoint-initdb.d/01-ddl.sql:ro
-      - ../database/shared/init_scripts/create_replica_user.sh:/docker-entrypoint-initdb.d/02-create_replica_user.sh:ro
-      - ../database/shared/init_scripts/create_backend_user.sh:/docker-entrypoint-initdb.d/03-create_backend_user.sh:ro
-      - ../database/shared/init_scripts/finish_init.sh:/docker-entrypoint-initdb.d/04-finish_init.sh:ro
+      - ../database/shared/init_scripts/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+      - ../database/shared/init_scripts/ddl.sql:/docker-entrypoint-initdb.d/02-ddl.sql:ro
+      - ../database/shared/init_scripts/create_replica_user.sh:/docker-entrypoint-initdb.d/03-create_replica_user.sh:ro
+      - ../database/shared/init_scripts/create_backend_user.sh:/docker-entrypoint-initdb.d/04-create_backend_user.sh:ro
+      - ../database/shared/init_scripts/finish_init.sh:/docker-entrypoint-initdb.d/05-finish_init.sh:ro
 
       - ../database/primary/postgresql.conf:/etc/postgresql/postgresql.conf:ro
       - ../database/primary/pg_hba.conf:/etc/postgresql/pg_hba.conf:ro
@@ -115,11 +116,12 @@ services:
       database_primary:
         condition: service_healthy
     volumes:
-      - ../database/shared/init_scripts/ddl.sql:/docker-entrypoint-initdb.d/01-ddl.sql:ro
-      - ../database/replica/init_scripts/create_subscription.sh:/docker-entrypoint-initdb.d/02-create_subscription.sh:ro
-      - ../database/shared/init_scripts/create_replica_user.sh:/docker-entrypoint-initdb.d/03-create_replica_user.sh:ro
-      - ../database/shared/init_scripts/create_backend_user.sh:/docker-entrypoint-initdb.d/04-create_backend_user.sh:ro
-      - ../database/shared/init_scripts/finish_init.sh:/docker-entrypoint-initdb.d/05-finish_init.sh:ro
+      - ../database/shared/init_scripts/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+      - ../database/shared/init_scripts/ddl.sql:/docker-entrypoint-initdb.d/02-ddl.sql:ro
+      - ../database/replica/init_scripts/create_subscription.sh:/docker-entrypoint-initdb.d/03-create_subscription.sh:ro
+      - ../database/shared/init_scripts/create_replica_user.sh:/docker-entrypoint-initdb.d/04-create_replica_user.sh:ro
+      - ../database/shared/init_scripts/create_backend_user.sh:/docker-entrypoint-initdb.d/05-create_backend_user.sh:ro
+      - ../database/shared/init_scripts/finish_init.sh:/docker-entrypoint-initdb.d/06-finish_init.sh:ro
     <<: *database_shared_config
 
   database_cache:
