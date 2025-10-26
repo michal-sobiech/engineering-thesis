@@ -944,6 +944,7 @@ paths:
   #     operationId:
   /services:
     get:
+      tags: [EnterpriseServices]
       operationId: searchServices
       parameters:
         - name: serviceName
@@ -968,7 +969,6 @@ paths:
           in: query
           schema:
             type: number
-            format: float
         - name: preferredLatitude
           in: query
           schema:

@@ -74,4 +74,8 @@ public class EnterpriseService {
         });
     }
 
+    public List<EnterpriseEntity> findByNameContaining(String substring) {
+        return enterpriseRepository.findByNameContaining(substring);
+    }
+
 }

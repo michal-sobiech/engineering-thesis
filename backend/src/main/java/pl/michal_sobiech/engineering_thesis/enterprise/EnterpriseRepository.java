@@ -7,4 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface EnterpriseRepository extends JpaRepository<EnterpriseEntity, Long> {
 
     public List<EnterpriseEntity> findAllByEntrepreneurId(long entrepreneurId);
+
+    public List<EnterpriseEntity> findByNameContaining(String substring);
 }
