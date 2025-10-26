@@ -31,18 +31,16 @@ public class EnterpriseServiceEntity {
 
     private String name;
     private String description;
-
-    @Column(nullable = true)
     private String address;
-
-    @Column(nullable = true)
     private double latitude;
-
-    @Column(nullable = true)
     private double longitude;
 
     private ZoneId timeZone;
+
     private boolean takesCustomAppointments;
+    @Column(name = "max_distance_km", nullable = true)
+    private double maxDistanceKm;
+
     private BigDecimal price;
     private Currency currency;
 

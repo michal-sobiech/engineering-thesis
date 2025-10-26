@@ -84,13 +84,20 @@ CREATE TABLE public.enterprise_service (
 	longitude double PRECISION NOT NULL,
 
 	time_zone text NOT NULL,
+
 	takes_custom_appointments boolean NOT NULL,
+	max_distance_km double,
+
 	price numeric NOT NULL,
 	currency currency_iso NOT NULL,
 	enterprise_service_cathegory enterprise_service_cathegory NOT NULL,
 
 	CONSTRAINT pk_enterprise_service PRIMARY KEY (enterprise_service_id),
 	CONSTRAINT fk_enterprise_id FOREIGN KEY (enterprise_id) REFERENCES public.enterprise(enterprise_id) ON DELETE CASCADE,
+	CONSTRAINT chk_max_distance_km CHECK (
+		takes_custom_appointments = FALSE AND max_distance_km IS NULL,
+		takes_custom_appointments = TRUE AND max_distance_km IS NOT NULL
+	)
 );
 
 CREATE TABLE public.enterprise_service_slot (
