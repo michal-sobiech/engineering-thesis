@@ -1,9 +1,11 @@
+import { Flex, Text } from "@chakra-ui/react";
 import { ReactElement, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { entrepreneursApi } from "../../../api/entrepreneurs-api";
-import { LinkText } from "../../../common/LinkText";
 import { ScrollableList } from "../../../common/ScrollableList";
 import { StandardBox } from "../../../common/StandardBox";
+import { StandardButton } from "../../../common/StandardButton";
+import { StandardPanel } from "../../../common/StandardPanel";
 import { GetEntrepreneurEnterprisesResponseItem } from "../../../GENERATED-api";
 import { routes } from "../../../router/routes";
 import { errorErrResultAsyncFromPromise } from "../../../utils/result";
@@ -41,13 +43,27 @@ export const EnterprisesScrollableList = () => {
 }
 
 function createItems(data: GetEntrepreneurEnterprisesResponseItem[]): ReactElement[] {
-    return data.map(createItem);
+    return data.map(itemData => <ListItem data={itemData} />);
 }
 
-function createItem(data: GetEntrepreneurEnterprisesResponseItem): ReactElement {
-    const url = routes.enterprisePublic(data.enterpriseId)
+const ListItem = ({ data }: { data: GetEntrepreneurEnterprisesResponseItem }) => {
+    const navigate = useNavigate();
 
-    return <LinkText url={url} fontSize="xs">
-        {data.enterpriseName}
-    </LinkText>
+    const publicPageUrl = routes.enterprisePublic(data.enterpriseId);
+    const staffPageUrl = routes.enterpriseStaff(data.enterpriseId);
+
+    return <StandardPanel>
+        <Flex direction="row" gap="5px">
+            <Text>
+                {data.enterpriseName}
+            </Text>
+            <StandardButton onClick={() => navigate(publicPageUrl)}>
+                Public view
+            </StandardButton>
+            <StandardButton onClick={() => navigate(staffPageUrl)}>
+                Edit
+            </StandardButton>
+        </Flex>
+    </StandardPanel>;
+
 }

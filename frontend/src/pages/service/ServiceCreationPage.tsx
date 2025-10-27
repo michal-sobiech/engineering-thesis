@@ -43,7 +43,7 @@ export const ServiceCreationPage = () => {
                 navigate(routes.mainPage, { replace: true });
             }
         }
-        // loadEnterpriseData();
+        loadEnterpriseData();
     })
 
     const onCreateServiceClick = async () => {

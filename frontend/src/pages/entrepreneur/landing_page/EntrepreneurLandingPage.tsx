@@ -32,21 +32,21 @@ export const EntrepreneurLandingPage = () => {
     }
 
     return <Center height="100vh">
-        <StandardPanel>
+        <StandardPanel width="80%" height="90vh" padding="20px" >
             <StandardFlex>
                 <Text fontSize="xl">
                     Hello, {firstName}!
                 </Text>
                 <Separator orientation="horizontal" width="100%" borderColor="primary.lightGray" />
-                <Text fontSize="xs">
+                <Text>
                     Your enterprises
                 </Text>
                 <EnterprisesScrollableList />
-                <StandardButton fontSize="xs" onClick={onCreateEnterpriseClick}>
+                <StandardButton onClick={onCreateEnterpriseClick}>
                     Create an enterprise
                 </StandardButton>
             </StandardFlex>
         </StandardPanel>
-    </Center>
+    </Center >;
 
 }

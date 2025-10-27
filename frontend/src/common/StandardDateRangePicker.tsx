@@ -3,6 +3,8 @@ import { FC } from "react";
 import DatePicker from "react-datepicker";
 import { UseStateSetter } from "../utils/useState";
 
+import "react-datepicker/dist/react-datepicker.css";
+
 export interface StandardDateRangePickerProps {
     date1: Date | null;
     setDate1: UseStateSetter<Date | null>;
@@ -32,14 +34,13 @@ export const StandardDateRangePicker: FC<StandardDateRangePickerProps> = ({ date
         }
     }
 
-    return <Flex direction="row">
-        <Text>
-            From:
-        </Text>
+    return <Flex direction="row" align="center" gap="5px">
+        <Text>From:</Text>
         <DatePicker
             selected={date1}
             onSelect={onPicker1Select}
             showTimeSelect
+            timeFormat="yyyy-MM-dd HH:mm"
             customInput={<Input />}
         />
         <Text>to:</Text>
@@ -47,6 +48,7 @@ export const StandardDateRangePicker: FC<StandardDateRangePickerProps> = ({ date
             selected={date2}
             onSelect={onPicker2Select}
             showTimeSelect
+            timeFormat="yyyy-MM-dd HH:mm"
             customInput={<Input />}
         />
     </Flex>
