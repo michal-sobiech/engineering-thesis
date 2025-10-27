@@ -4,17 +4,23 @@ import java.math.BigDecimal;
 import java.time.ZoneId;
 import java.util.Currency;
 
+import org.hibernate.annotations.JdbcType;
+import org.hibernate.dialect.PostgreSQLEnumJdbcType;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity(name = "enterprise_service")
+@Entity
+@Table(name = "enterprise_service")
 @Data
 @Builder
 @NoArgsConstructor
@@ -44,6 +50,8 @@ public class EnterpriseServiceEntity {
     private BigDecimal price;
     private Currency currency;
 
+    @Enumerated
+    @JdbcType(PostgreSQLEnumJdbcType.class)
     @Column(name = "enterprise_service_cathegory")
     private EnterpriseServiceCathegory enterpriseServiceCathegory;
 

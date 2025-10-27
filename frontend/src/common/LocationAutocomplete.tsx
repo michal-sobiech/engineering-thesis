@@ -7,7 +7,7 @@ import { StandardPanel } from "./StandardPanel";
 
 export interface LocationAutocompleteProps {
     position: Position | null;
-    setPosition: UseStateSetter<Position>;
+    setPosition: UseStateSetter<Position | null>;
     address: string;
     setAddress: UseStateSetter<string>;
 }

@@ -20,16 +20,14 @@ export const EnterprisesScrollableList = () => {
                 return;
             }
 
-            const entrepreneurId = me.value.entrepreneurId;
-            const enterprises = await errorErrResultAsyncFromPromise(entrepreneursApi.getEntrepreneurEnterprises(entrepreneurId));
+            const entrepreneurUserId = me.value.userId;
+            const enterprises = await errorErrResultAsyncFromPromise(entrepreneursApi.getEntrepreneurEnterprises(entrepreneurUserId));
             if (enterprises.isErr()) {
                 navigate(routes.mainPage);
                 return;
             }
 
             setItemsData(enterprises.value);
-            // const fakeEnterprises = new Array(50).fill(enterprises.value[0])
-            // setItemsData(fakeEnterprises);
         }
 
         loadData();

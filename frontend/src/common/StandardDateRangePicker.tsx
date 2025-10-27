@@ -4,10 +4,10 @@ import DatePicker from "react-datepicker";
 import { UseStateSetter } from "../utils/useState";
 
 export interface StandardDateRangePickerProps {
-    date1: Date;
-    setDate1: UseStateSetter<Date>;
-    date2: Date;
-    setDate2: UseStateSetter<Date>;
+    date1: Date | null;
+    setDate1: UseStateSetter<Date | null>;
+    date2: Date | null;
+    setDate2: UseStateSetter<Date | null>;
 }
 
 export const StandardDateRangePicker: FC<StandardDateRangePickerProps> = ({ date1, setDate1, date2, setDate2 }) => {
@@ -16,7 +16,7 @@ export const StandardDateRangePicker: FC<StandardDateRangePickerProps> = ({ date
             return;
         }
         setDate1(newDate1);
-        if (newDate1 > date2) {
+        if (date2 !== null && newDate1 > date2) {
             setDate2(newDate1);
         }
     }
@@ -25,7 +25,7 @@ export const StandardDateRangePicker: FC<StandardDateRangePickerProps> = ({ date
         if (newDate2 === null) {
             return;
         }
-        if (newDate2 > date1) {
+        if (date1 !== null && newDate2 > date1) {
             setDate2(newDate2);
         } else {
             setDate2(date1);

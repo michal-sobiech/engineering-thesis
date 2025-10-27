@@ -48,7 +48,7 @@ export interface CreateEntrepreneurRequest {
 }
 
 export interface GetEntrepreneurEnterprisesRequest {
-    entrepreneurId: number;
+    userId: number;
 }
 
 /**
@@ -97,10 +97,10 @@ export class EntrepreneursApi extends runtime.BaseAPI {
     /**
      */
     async getEntrepreneurEnterprisesRaw(requestParameters: GetEntrepreneurEnterprisesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<GetEntrepreneurEnterprisesResponseItem>>> {
-        if (requestParameters['entrepreneurId'] == null) {
+        if (requestParameters['userId'] == null) {
             throw new runtime.RequiredError(
-                'entrepreneurId',
-                'Required parameter "entrepreneurId" was null or undefined when calling getEntrepreneurEnterprises().'
+                'userId',
+                'Required parameter "userId" was null or undefined when calling getEntrepreneurEnterprises().'
             );
         }
 
@@ -109,8 +109,8 @@ export class EntrepreneursApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
 
-        let urlPath = `/entrepreneurs/{entrepreneurId}/enterprises`;
-        urlPath = urlPath.replace(`{${"entrepreneurId"}}`, encodeURIComponent(String(requestParameters['entrepreneurId'])));
+        let urlPath = `/entrepreneurs/{userId}/enterprises`;
+        urlPath = urlPath.replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters['userId'])));
 
         const response = await this.request({
             path: urlPath,
@@ -124,8 +124,8 @@ export class EntrepreneursApi extends runtime.BaseAPI {
 
     /**
      */
-    async getEntrepreneurEnterprises(entrepreneurId: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetEntrepreneurEnterprisesResponseItem>> {
-        const response = await this.getEntrepreneurEnterprisesRaw({ entrepreneurId: entrepreneurId }, initOverrides);
+    async getEntrepreneurEnterprises(userId: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetEntrepreneurEnterprisesResponseItem>> {
+        const response = await this.getEntrepreneurEnterprisesRaw({ userId: userId }, initOverrides);
         return await response.value();
     }
 

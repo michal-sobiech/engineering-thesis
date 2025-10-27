@@ -13,38 +13,21 @@
  */
 
 
-import * as runtime from '../runtime';
 import type {
-  CreateEnterpriseResponse,
-  CreateEnterpriseServiceRequest,
-  GetEnterpriseResponse,
-  GetEnterpriseServicesResponseItem,
-  InlineObject,
-  InlineObject1,
-  InlineObject2,
-  InlineObject4,
-  Location,
+    CreateEnterpriseResponse,
+    CreateEnterpriseServiceRequest,
+    GetEnterpriseResponse,
+    GetEnterpriseServicesResponseItem,
+    Location
 } from '../models/index';
 import {
     CreateEnterpriseResponseFromJSON,
-    CreateEnterpriseResponseToJSON,
-    CreateEnterpriseServiceRequestFromJSON,
     CreateEnterpriseServiceRequestToJSON,
     GetEnterpriseResponseFromJSON,
-    GetEnterpriseResponseToJSON,
     GetEnterpriseServicesResponseItemFromJSON,
-    GetEnterpriseServicesResponseItemToJSON,
-    InlineObjectFromJSON,
-    InlineObjectToJSON,
-    InlineObject1FromJSON,
-    InlineObject1ToJSON,
-    InlineObject2FromJSON,
-    InlineObject2ToJSON,
-    InlineObject4FromJSON,
-    InlineObject4ToJSON,
-    LocationFromJSON,
-    LocationToJSON,
+    LocationToJSON
 } from '../models/index';
+import * as runtime from '../runtime';
 
 export interface CreateEnterpriseRequest {
     name: string;
@@ -459,8 +442,8 @@ export class EnterprisesApi extends runtime.BaseAPI {
         }
 
         if (requestParameters['location'] != null) {
-            formParams.append('location', new Blob([JSON.stringify(ToJSON(requestParameters['location']))], { type: "application/json", }));
-                    }
+            formParams.append('location', new Blob([JSON.stringify(LocationToJSON(requestParameters['location']))], { type: "application/json", }));
+        }
 
         if (requestParameters['logoFile'] != null) {
             formParams.append('logoFile', requestParameters['logoFile'] as any);

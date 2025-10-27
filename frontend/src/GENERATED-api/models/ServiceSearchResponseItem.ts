@@ -39,16 +39,16 @@ export interface ServiceSearchResponseItem {
     address: string;
     /**
      * 
-     * @type {number}
+     * @type {Date}
      * @memberof ServiceSearchResponseItem
      */
-    longitude?: number;
+    startTime: Date;
     /**
      * 
-     * @type {number}
+     * @type {Date}
      * @memberof ServiceSearchResponseItem
      */
-    latitude?: number;
+    endTime: Date;
 }
 
 /**
@@ -58,6 +58,8 @@ export function instanceOfServiceSearchResponseItem(value: object): value is Ser
     if (!('serviceName' in value) || value['serviceName'] === undefined) return false;
     if (!('enterpriseName' in value) || value['enterpriseName'] === undefined) return false;
     if (!('address' in value) || value['address'] === undefined) return false;
+    if (!('startTime' in value) || value['startTime'] === undefined) return false;
+    if (!('endTime' in value) || value['endTime'] === undefined) return false;
     return true;
 }
 
@@ -74,8 +76,8 @@ export function ServiceSearchResponseItemFromJSONTyped(json: any, ignoreDiscrimi
         'serviceName': json['serviceName'],
         'enterpriseName': json['enterpriseName'],
         'address': json['address'],
-        'longitude': json['longitude'] == null ? undefined : json['longitude'],
-        'latitude': json['latitude'] == null ? undefined : json['latitude'],
+        'startTime': (new Date(json['startTime'])),
+        'endTime': (new Date(json['endTime'])),
     };
 }
 
@@ -93,8 +95,8 @@ export function ServiceSearchResponseItemToJSONTyped(value?: ServiceSearchRespon
         'serviceName': value['serviceName'],
         'enterpriseName': value['enterpriseName'],
         'address': value['address'],
-        'longitude': value['longitude'],
-        'latitude': value['latitude'],
+        'startTime': ((value['startTime']).toISOString()),
+        'endTime': ((value['endTime']).toISOString()),
     };
 }
 
