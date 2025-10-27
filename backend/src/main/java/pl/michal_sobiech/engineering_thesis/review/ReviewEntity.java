@@ -10,12 +10,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
+@Entity(name = "review")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Review {
+public class ReviewEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +29,7 @@ public class Review {
     private long subjectEnterpriseId;
 
     @Column(name = "stars_out_of_5")
-    private int startOutOf5;
+    private short startOutOf5;
 
     @Column(nullable = true)
     private String content;

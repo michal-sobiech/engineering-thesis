@@ -58,7 +58,9 @@ public class EnterpriseServiceController implements ServicesApi {
         var body = filteredSlots.stream().map(slot -> new ServiceSearchResponseItem(
                 slot.getServiceName(),
                 slot.getEnterpriseName(),
-                slot.getAddress())).toList();
+                slot.getAddress(),
+                slot.getStartTime(),
+                slot.getEndTime())).toList();
         return ResponseEntity.ok(body);
     }
 }

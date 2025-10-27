@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import pl.michal_sobiech.engineering_thesis.exceptions.exceptions.ForbiddenException;
+import pl.michal_sobiech.engineering_thesis.exceptions.exceptions.UnauthorizedException;
 
 @ControllerAdvice
 public class ControllerExceptionHandler {
@@ -15,8 +16,8 @@ public class ControllerExceptionHandler {
     public void handleForbidden() {
     }
 
-    @ExceptionHandler(ForbiddenException.class)
-    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(UnauthorizedException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public void handleUnauthorized() {
     }
 

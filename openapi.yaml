@@ -358,7 +358,7 @@ components:
           example: -67.224
     ServiceSearchResponseItem:
       type: object
-      required: [serviceName, enterpriseName, address]
+      required: [serviceName, enterpriseName, address, startTime, endTime]
       properties:
         serviceName:
           type: string
@@ -366,12 +366,12 @@ components:
           type: string
         address:
           type: string
-        longitude:
-          type: number
-          format: float
-        latitude:
-          type: number
-          format: float
+        startTime:
+          type: string
+          format: date-time
+        endTime:
+          type: string
+          format: date-time
 
   responses:
     OK:

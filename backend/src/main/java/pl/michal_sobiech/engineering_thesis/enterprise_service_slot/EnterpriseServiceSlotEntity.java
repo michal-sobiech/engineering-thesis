@@ -13,7 +13,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
+@Entity(name = "enterprise_service_slot")
 @Data
 @Builder
 @NoArgsConstructor

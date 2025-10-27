@@ -2,9 +2,12 @@ package pl.michal_sobiech.engineering_thesis.converter;
 
 import java.time.ZoneId;
 
+import org.springframework.stereotype.Component;
+
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 
+@Component
 @Converter(autoApply = true)
 public class ZoneIdConverter implements AttributeConverter<ZoneId, String> {
 

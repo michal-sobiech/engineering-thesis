@@ -16,6 +16,10 @@ public class EnterpriseService {
 
     private final EnterpriseRepository enterpriseRepository;
 
+    public List<EnterpriseEntity> findAllByOwnerUserId(long ownerUserId) {
+        return enterpriseRepository.findAllByOwnerUserId(ownerUserId);
+    }
+
     @Transactional
     public EnterpriseEntity createEnterprise(
             long ownerUserId,
@@ -51,12 +55,6 @@ public class EnterpriseService {
     @Transactional
     public Optional<EnterpriseEntity> findByEnterpriseId(long enterpriseId) {
         return enterpriseRepository.findById(enterpriseId);
-    }
-
-    // TODO remove unnecessary @Tranasctional annotations
-    @Transactional
-    public List<EnterpriseEntity> findAllByEntrepreneurId(long entrepreneurId) {
-        return enterpriseRepository.findAllByEntrepreneurId(entrepreneurId);
     }
 
     @Transactional

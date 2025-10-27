@@ -25,8 +25,8 @@ public class EntrepreneurController implements EntrepreneursApi {
 
     @Override
     public ResponseEntity<List<GetEntrepreneurEnterprisesResponseItem>> getEntrepreneurEnterprises(
-            Long entrepreneurId) {
-        List<EnterpriseEntity> enterprises = enterpriseService.findAllByEntrepreneurId(entrepreneurId);
+            Long entrepreneurUserId) {
+        List<EnterpriseEntity> enterprises = enterpriseService.findAllByOwnerUserId(entrepreneurUserId);
         Function<EnterpriseEntity, GetEntrepreneurEnterprisesResponseItem> mapperFn = (
                 EnterpriseEntity enterprise) -> new GetEntrepreneurEnterprisesResponseItem(
                         enterprise.getEnterpriseId(),

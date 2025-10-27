@@ -2,9 +2,12 @@ package pl.michal_sobiech.engineering_thesis.converter;
 
 import java.util.Currency;
 
+import org.springframework.stereotype.Component;
+
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 
+@Component
 @Converter(autoApply = true)
 public class CurrencyConverter implements AttributeConverter<Currency, String> {
 

@@ -31,10 +31,10 @@ CREATE TABLE public.enterprise (
 	longitude double PRECISION,
 
 	logo_file_name text,
-	logo_file_byes bytea,
+	logo_file_bytes bytea,
 
 	background_photo_file_name text,
-	background_photo_file_byes bytea,
+	background_photo_file_bytes bytea,
 
 	CONSTRAINT pk_enterprise PRIMARY KEY (enterprise_id),
 	CONSTRAINT chk_location CHECK (

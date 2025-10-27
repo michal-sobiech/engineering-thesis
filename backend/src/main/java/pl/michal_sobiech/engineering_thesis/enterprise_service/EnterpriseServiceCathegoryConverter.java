@@ -2,12 +2,15 @@ package pl.michal_sobiech.engineering_thesis.enterprise_service;
 
 import java.util.Map;
 
+import org.springframework.stereotype.Component;
+
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 
+@Component
 @Converter(autoApply = true)
 public class EnterpriseServiceCathegoryConverter implements AttributeConverter<EnterpriseServiceCathegory, String> {
 
