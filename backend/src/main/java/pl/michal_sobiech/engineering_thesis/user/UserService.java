@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.independent_end_user.IndependentEndUserUtils;
 
 @Service
 @RequiredArgsConstructor
@@ -22,10 +21,7 @@ public class UserService {
         return userRepository.findByEnterpriseIdAndUsername(enterpriseId, username);
     }
 
-    public Optional<UserEntity> findIndepentendEndUserByEmail(String email) {
-        return userRepository.findByUserGroupInAndUsername(IndependentEndUserUtils.USER_GROUPS, email);
-    }
-
+    // TODO move to a different service?
     public Optional<UserEntity> findAdminByUsername(String username) {
         List<UserGroup> userGroups = List.of(UserGroup.REGULAR_ADMIN, UserGroup.HEAD_ADMIN);
         return userRepository.findByUserGroupInAndUsername(userGroups, username);

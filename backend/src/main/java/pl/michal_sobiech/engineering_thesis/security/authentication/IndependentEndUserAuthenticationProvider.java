@@ -11,10 +11,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.user.User;
-import pl.michal_sobiech.engineering_thesis.user.UserEntity;
+import pl.michal_sobiech.engineering_thesis.independent_end_user.IndependentEndUser;
+import pl.michal_sobiech.engineering_thesis.independent_end_user.IndependentEndUserService;
 import pl.michal_sobiech.engineering_thesis.user.UserIdAuthentication;
-import pl.michal_sobiech.engineering_thesis.user.UserService;
 
 @Service
 @RequiredArgsConstructor
@@ -23,7 +22,7 @@ public class IndependentEndUserAuthenticationProvider implements AuthenticationP
     private static final Class<StringUsernamePasswordAuthentication> supportedInputAuthenticationClass = StringUsernamePasswordAuthentication.class;
 
     private final PasswordEncoder passwordEncoder;
-    private final UserService userService;
+    private final IndependentEndUserService independentEndUserService;
 
     @Override
     public UserIdAuthentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -32,19 +31,18 @@ public class IndependentEndUserAuthenticationProvider implements AuthenticationP
         String username = castAuthentication.getPrincipal();
         String password = castAuthentication.getCredentials();
 
-        Optional<UserEntity> optionalUser = userService.findIndepentendEndUserByEmail(username);
-        if (optionalUser.isEmpty()) {
+        Optional<IndependentEndUser> optionalIndependentEndUser = independentEndUserService.findByEmail(username);
+        if (optionalIndependentEndUser.isEmpty()) {
             throw new UsernameNotFoundException("Indepentent end user doesn't exist");
         }
-        UserEntity userEntity = optionalUser.get();
+        IndependentEndUser independentEndUser = optionalIndependentEndUser.get();
 
-        String originalPasswordHash = userEntity.getPasswordHash();
+        String originalPasswordHash = independentEndUser.getPasswordHash();
         if (!(passwordEncoder.matches(password, originalPasswordHash))) {
             throw new BadCredentialsException("Password hashes don't match");
         }
 
-        User user = User.fromEntity(userEntity);
-        return new UserIdAuthentication(user.getUserId());
+        return new UserIdAuthentication(independentEndUser.getUserId());
     }
 
     @Override
