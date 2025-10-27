@@ -6,6 +6,7 @@ import { StandardButton } from "../../../common/StandardButton";
 import { StandardFlex } from "../../../common/StandardFlex";
 import { StandardPanel } from "../../../common/StandardPanel";
 import { routes } from "../../../router/routes";
+import { errorErrResultAsyncFromPromise } from "../../../utils/result";
 import { EnterprisesScrollableList } from "./EntreprisesScrollableList";
 
 export const EntrepreneurLandingPage = () => {
@@ -15,8 +16,13 @@ export const EntrepreneurLandingPage = () => {
 
     useEffect(() => {
         async function loadData() {
-            const { firstName } = await entrepreneursApi.getMeEntrepreneur();
-            setFirstName(firstName);
+            const promise = entrepreneursApi.getMeEntrepreneur();
+            const result = await errorErrResultAsyncFromPromise(promise);
+            if (result.isErr()) {
+                navigate(routes.mainPage);
+                return
+            }
+            setFirstName(result.value.firstName);
         }
         loadData();
     }, []);
