@@ -17,7 +17,7 @@ CREATE ROLE $DB_REPLICA_USER REPLICATION LOGIN PASSWORD '$DB_REPLICA_PASSWORD';
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO $DB_REPLICA_USER;
 CREATE PUBLICATION all_tables_pub FOR TABLE
     enterprise,
-    "user",
+    app_user,
     enterprise_service,
     enterprise_service_slot,
     review,
