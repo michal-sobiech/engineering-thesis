@@ -13,7 +13,7 @@ import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../../utils/error"
 import { Position } from "../../../utils/Position"
 import { errorErrResultAsyncFromPromise } from "../../../utils/result"
 import { toastError } from "../../../utils/toast"
-import { ServiceCathegory, serviceCathegoryLabels } from "../ServiceCathegory"
+import { ServiceCathegory } from "../ServiceCathegory"
 import { ServiceCathegoryPicker } from "../ServiceCathegoryPicker"
 import { ServiceSearchServiceData } from "./ServiceSearchServiceData"
 import { ServiceSearchServicesList } from "./ServiceSearchServicesList"
@@ -41,8 +41,7 @@ export const ServiceSearchPage = () => {
             return;
         }
 
-        const cathegory: string | null = serviceCathegoryLabels[serviceCathegory];
-        if (cathegory === null) {
+        if (serviceCathegory === null) {
             toastError(DEFAULT_ERROR_MESSAGE_FOR_USER);
             return;
         }
@@ -62,7 +61,7 @@ export const ServiceSearchPage = () => {
         const promise = servicesApi.searchServices(
             longitude,
             latitude,
-            cathegory,
+            serviceCathegory,
             MAX_DISTANCE_KM,
             serviceName,
             enterpriseName,

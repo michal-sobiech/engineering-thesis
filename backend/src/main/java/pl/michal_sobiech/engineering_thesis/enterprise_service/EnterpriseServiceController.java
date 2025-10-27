@@ -22,7 +22,6 @@ public class EnterpriseServiceController implements ServicesApi {
 
     private static final double MAX_VALUE_OF_MAX_DISTANCE_KM = 100;
 
-    private final EnterpriseServiceCathegoryConverter enterpriseServiceCathegoryConverter;
     private final EnterpriseServiceSearchService enterpriseServiceSearchService;
     private final EnterpriseServiceSlotService enterpriseServiceSlotService;
 
@@ -37,21 +36,24 @@ public class EnterpriseServiceController implements ServicesApi {
             @Nullable OffsetDateTime startDate,
             @Nullable OffsetDateTime endDate) {
         if (maxDistanceKm > MAX_VALUE_OF_MAX_DISTANCE_KM) {
+            System.out.println("A123");
             return HttpUtils.createBadRequestResponse();
         }
 
-        EnterpriseServiceCathegory cathegoryParsed = enterpriseServiceCathegoryConverter
-                .convertToEntityAttribute(cathegory);
-        if (cathegoryParsed == null) {
+        Optional<EnterpriseServiceCathegory> optionalCathegoryEnum = Optional.ofNullable(
+                EnterpriseServiceCathegory.enterpriseServiceCathegoryToString.inverse().get(cathegory));
+        if (optionalCathegoryEnum.isEmpty()) {
+            System.out.println("B123");
             return HttpUtils.createBadRequestResponse();
         }
+        EnterpriseServiceCathegory cathegoryEnum = optionalCathegoryEnum.get();
 
         List<ServiceSearchSlot> filteredSlots = enterpriseServiceSearchService.searchNoCustomAppointmentsSlots(
                 Optional.of(serviceName),
                 Optional.of(enterpriseName),
                 Optional.of(startDate),
                 Optional.of(endDate),
-                cathegoryParsed,
+                cathegoryEnum,
                 preferredLongitude,
                 preferredLatitude,
                 maxDistanceKm);

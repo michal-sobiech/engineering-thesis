@@ -9,6 +9,7 @@ import org.hibernate.dialect.PostgreSQLEnumJdbcType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -47,10 +48,14 @@ public class EnterpriseServiceEntity {
     @Column(name = "max_distance_km", nullable = true)
     private double maxDistanceKm;
 
+    @Enumerated(EnumType.STRING)
+    @JdbcType(PostgreSQLEnumJdbcType.class)
+    private EnterpriseServiceCathegory cathegory;
+
     private BigDecimal price;
     private Currency currency;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     @JdbcType(PostgreSQLEnumJdbcType.class)
     @Column(name = "enterprise_service_cathegory")
     private EnterpriseServiceCathegory enterpriseServiceCathegory;

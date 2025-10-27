@@ -5,6 +5,7 @@ import org.hibernate.dialect.PostgreSQLEnumJdbcType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -28,7 +29,7 @@ public class UserEntity {
     @Column(name = "user_id")
     private Long userId;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     @JdbcType(PostgreSQLEnumJdbcType.class)
     @Column(name = "user_group", columnDefinition = "user_group")
     private UserGroup userGroup;

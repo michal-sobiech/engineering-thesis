@@ -23,12 +23,12 @@ public interface EnterpriseServiceSlotRepository extends JpaRepository<Enterpris
             service.price AS price
             FROM enterprise_service_slot slot
             JOIN enterprise_service service ON service.enterprise_service_id = slot.enterprise_service_id
-            JOIN enterprise enterprise ON enteprise.enterprise_id = service.enterprise_id
+            JOIN enterprise enterprise ON enterprise.enterprise_id = service.enterprise_id
             WHERE (:serviceName IS NULL OR LOWER(service.name) LIKE LOWER('%' || :serviceName || '%'))
             AND (:enterpriseName IS NULL OR LOWER(enterprise.name) LIKE LOWER('%' || :enterpriseName || '%'))
-            AND (:startDate IS NULL OR slot.start_time >= :startDate)
-            AND (:endDate IS NULL OR slot.end_time <= :endDate)
-            AND (:cathegory IS NULL OR service.cathegory = :cathegory)
+            AND (CAST(:startDate AS timestamptz) IS NULL OR slot.start_time >= :startDate)
+            AND (CAST(:endDate AS timestamptz) IS NULL OR slot.end_time <= :endDate)
+            AND (:cathegory IS NULL OR CAST(service.cathegory AS text) = :#{#cathegory?.name()})
             AND (ST_DistanceSphere(
                 ST_MakePoint(service.longitude, service.latitude),
                 ST_MakePoint(:customerLongitude, :customerLatitude)
@@ -54,12 +54,12 @@ public interface EnterpriseServiceSlotRepository extends JpaRepository<Enterpris
             service.price AS price
             FROM enterprise_service_slot slot
             JOIN enterprise_service service ON service.enterprise_service_id = slot.enterprise_service_id
-            JOIN enterprise enterprise ON enteprise.enterprise_id = service.enterprise_id
+            JOIN enterprise enterprise ON enterprise.enterprise_id = service.enterprise_id
             WHERE (:serviceName IS NULL OR LOWER(service.name) LIKE LOWER('%' || :serviceName || '%'))
             AND (:enterpriseName IS NULL OR LOWER(enterprise.name) LIKE LOWER('%' || :enterpriseName || '%'))
-            AND (:startDate IS NULL OR slot.start_time >= :startDate)
-            AND (:endDate IS NULL OR slot.end_time <= :endDate)
-            AND (:cathegory IS NULL OR service.cathegory = :cathegory)
+            AND (CAST(:startDate AS timestamptz) IS NULL OR slot.start_time >= :startDate)
+            AND (CAST(:endDate AS timestamptz) IS NULL OR slot.end_time <= :endDate)
+            AND (:cathegory IS NULL OR CAST(service.cathegory AS text) = :#{#cathegory?.name()})
             AND (ST_DistanceSphere(
                 ST_MakePoint(service.longitude, service.latitude),
                 ST_MakePoint(:customerLongitude, :customerLatitude)

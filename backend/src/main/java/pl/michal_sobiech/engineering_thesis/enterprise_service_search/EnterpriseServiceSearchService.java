@@ -26,12 +26,15 @@ public class EnterpriseServiceSearchService {
             double preferredLongitude,
             double preferredLatitude,
             double maxDistanceChosenByCustomerKm) {
+        // String cathegoryString =
+        // EnterpriseServiceCathegory.enterpriseServiceCathegoryToString.get(cathegory);
         return enterpriseServiceSlotRepository.filterNoCustomAppointmentsServiceSlots(
                 serviceName.orElse(null),
                 enterpriseName.orElse(null),
                 startDate.orElse(null),
                 endDate.orElse(null),
                 cathegory,
+                // cathegoryString,
                 preferredLongitude,
                 preferredLatitude,
                 maxDistanceChosenByCustomerKm);
@@ -46,12 +49,15 @@ public class EnterpriseServiceSearchService {
             double preferredLongitude,
             double preferredLatitude,
             double maxDistanceChosenByCustomerKm) {
+        // String cathegoryString =
+        // EnterpriseServiceCathegory.enterpriseServiceCathegoryToString.get(cathegory);
         return enterpriseServiceSlotRepository.filterCustomAppointmentsServiceSlots(
                 serviceName.orElse(null),
                 enterpriseName.orElse(null),
                 startDate.orElse(null),
                 endDate.orElse(null),
                 cathegory,
+                // cathegoryString,
                 preferredLongitude,
                 preferredLatitude,
                 maxDistanceChosenByCustomerKm);

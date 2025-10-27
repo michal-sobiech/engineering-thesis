@@ -88,6 +88,7 @@ CREATE TABLE public.enterprise_service (
 	takes_custom_appointments boolean NOT NULL,
 	max_distance_km double PRECISION,
 
+	cathegory enterprise_service_cathegory NOT NULL,
 	price numeric NOT NULL,
 	currency currency_iso NOT NULL,
 	enterprise_service_cathegory enterprise_service_cathegory NOT NULL,
