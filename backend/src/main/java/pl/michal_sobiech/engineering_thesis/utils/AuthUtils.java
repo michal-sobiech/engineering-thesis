@@ -2,6 +2,7 @@ package pl.michal_sobiech.engineering_thesis.utils;
 
 import java.util.Optional;
 
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -10,21 +11,20 @@ import pl.michal_sobiech.engineering_thesis.user.UserIdAuthentication;
 public class AuthUtils {
 
     public static boolean isUserAlreadyAuthenticated() {
-        return SecurityContextHolder.getContext().getAuthentication() != null;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return (authentication != null && !(authentication instanceof AnonymousAuthenticationToken));
     }
 
     public static Optional<UserIdAuthentication> getUserIdAuthentication() {
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth == null) {
+        if (auth == null || auth instanceof AnonymousAuthenticationToken) {
             return Optional.empty();
         }
 
         if (auth instanceof UserIdAuthentication userIdAuth) {
             return Optional.of(userIdAuth);
         } else {
-            String message = String.format("Authentication is not an instance of %s",
-                    UserIdAuthentication.class.getCanonicalName());
-            throw new IllegalStateException(message);
+            return Optional.empty();
         }
     }
 
