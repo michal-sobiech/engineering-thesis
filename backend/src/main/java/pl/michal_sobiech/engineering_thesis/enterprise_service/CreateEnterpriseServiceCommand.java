@@ -2,31 +2,31 @@ package pl.michal_sobiech.engineering_thesis.enterprise_service;
 
 import java.math.BigDecimal;
 import java.time.ZoneId;
-import java.util.Currency;
 import java.util.List;
 import java.util.Optional;
 
 import org.SwaggerCodeGenExample.model.Location;
 
+import pl.michal_sobiech.engineering_thesis.currency_iso.CurrencyIso;
 import pl.michal_sobiech.engineering_thesis.enterprise_service_slot.CreateEnterpriseServiceSlotCommand;
 
 public record CreateEnterpriseServiceCommand(
 
-                String name,
+        String name,
 
-                String description,
+        String description,
 
-                Optional<Location> location,
+        Optional<Location> location,
 
-                ZoneId timeZone,
+        ZoneId timeZone,
 
-                List<CreateEnterpriseServiceSlotCommand> slots,
+        List<CreateEnterpriseServiceSlotCommand> slots,
 
-                boolean takesCustomAppointments,
+        boolean takesCustomAppointments,
 
-                BigDecimal price,
+        BigDecimal price,
 
-                Currency currency
+        CurrencyIso currency
 
 ) {
 }

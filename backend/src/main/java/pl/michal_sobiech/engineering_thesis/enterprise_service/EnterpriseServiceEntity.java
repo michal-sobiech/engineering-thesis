@@ -2,7 +2,6 @@ package pl.michal_sobiech.engineering_thesis.enterprise_service;
 
 import java.math.BigDecimal;
 import java.time.ZoneId;
-import java.util.Currency;
 
 import org.hibernate.annotations.JdbcType;
 import org.hibernate.dialect.PostgreSQLEnumJdbcType;
@@ -19,6 +18,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pl.michal_sobiech.engineering_thesis.currency_iso.CurrencyIso;
 
 @Entity
 @Table(name = "enterprise_service")
@@ -53,7 +53,11 @@ public class EnterpriseServiceEntity {
     private EnterpriseServiceCathegory cathegory;
 
     private BigDecimal price;
-    private Currency currency;
+
+    @Enumerated(EnumType.STRING)
+    @JdbcType(PostgreSQLEnumJdbcType.class)
+    @Column(name = "currency", columnDefinition = "currency_iso")
+    private CurrencyIso currency;
 
     @Enumerated(EnumType.STRING)
     @JdbcType(PostgreSQLEnumJdbcType.class)
