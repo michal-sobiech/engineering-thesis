@@ -91,7 +91,6 @@ CREATE TABLE public.enterprise_service (
 	cathegory enterprise_service_cathegory NOT NULL,
 	price numeric NOT NULL,
 	currency currency_iso NOT NULL,
-	enterprise_service_cathegory enterprise_service_cathegory NOT NULL,
 
 	CONSTRAINT pk_enterprise_service PRIMARY KEY (enterprise_service_id),
 	CONSTRAINT fk_enterprise_id FOREIGN KEY (enterprise_id) REFERENCES public.enterprise(enterprise_id) ON DELETE CASCADE,

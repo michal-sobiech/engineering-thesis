@@ -15,18 +15,40 @@
 
 import * as runtime from '../runtime';
 import type {
+  CreateCustomAppointmentsEnterpriseServiceRequest,
+  CreateNoCustomAppointmentsEnterpriseServiceRequest,
+  InlineObject,
   InlineObject1,
+  InlineObject2,
   InlineObject4,
   ServiceSearchResponseItem,
 } from '../models/index';
 import {
+    CreateCustomAppointmentsEnterpriseServiceRequestFromJSON,
+    CreateCustomAppointmentsEnterpriseServiceRequestToJSON,
+    CreateNoCustomAppointmentsEnterpriseServiceRequestFromJSON,
+    CreateNoCustomAppointmentsEnterpriseServiceRequestToJSON,
+    InlineObjectFromJSON,
+    InlineObjectToJSON,
     InlineObject1FromJSON,
     InlineObject1ToJSON,
+    InlineObject2FromJSON,
+    InlineObject2ToJSON,
     InlineObject4FromJSON,
     InlineObject4ToJSON,
     ServiceSearchResponseItemFromJSON,
     ServiceSearchResponseItemToJSON,
 } from '../models/index';
+
+export interface CreateCustomAppointmentsEnterpriseServiceOperationRequest {
+    enterpriseId: number;
+    createCustomAppointmentsEnterpriseServiceRequest: CreateCustomAppointmentsEnterpriseServiceRequest;
+}
+
+export interface CreateNoCustomAppointmentsEnterpriseServiceOperationRequest {
+    enterpriseId: number;
+    createNoCustomAppointmentsEnterpriseServiceRequest: CreateNoCustomAppointmentsEnterpriseServiceRequest;
+}
 
 export interface SearchServicesRequest {
     preferredLongitude: number;
@@ -43,6 +65,110 @@ export interface SearchServicesRequest {
  * 
  */
 export class EnterpriseServicesApi extends runtime.BaseAPI {
+
+    /**
+     */
+    async createCustomAppointmentsEnterpriseServiceRaw(requestParameters: CreateCustomAppointmentsEnterpriseServiceOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['enterpriseId'] == null) {
+            throw new runtime.RequiredError(
+                'enterpriseId',
+                'Required parameter "enterpriseId" was null or undefined when calling createCustomAppointmentsEnterpriseService().'
+            );
+        }
+
+        if (requestParameters['createCustomAppointmentsEnterpriseServiceRequest'] == null) {
+            throw new runtime.RequiredError(
+                'createCustomAppointmentsEnterpriseServiceRequest',
+                'Required parameter "createCustomAppointmentsEnterpriseServiceRequest" was null or undefined when calling createCustomAppointmentsEnterpriseService().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("JwtBearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/enterprises/{enterpriseId}/custom_appointment_services`;
+        urlPath = urlPath.replace(`{${"enterpriseId"}}`, encodeURIComponent(String(requestParameters['enterpriseId'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: CreateCustomAppointmentsEnterpriseServiceRequestToJSON(requestParameters['createCustomAppointmentsEnterpriseServiceRequest']),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async createCustomAppointmentsEnterpriseService(enterpriseId: number, createCustomAppointmentsEnterpriseServiceRequest: CreateCustomAppointmentsEnterpriseServiceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.createCustomAppointmentsEnterpriseServiceRaw({ enterpriseId: enterpriseId, createCustomAppointmentsEnterpriseServiceRequest: createCustomAppointmentsEnterpriseServiceRequest }, initOverrides);
+    }
+
+    /**
+     */
+    async createNoCustomAppointmentsEnterpriseServiceRaw(requestParameters: CreateNoCustomAppointmentsEnterpriseServiceOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['enterpriseId'] == null) {
+            throw new runtime.RequiredError(
+                'enterpriseId',
+                'Required parameter "enterpriseId" was null or undefined when calling createNoCustomAppointmentsEnterpriseService().'
+            );
+        }
+
+        if (requestParameters['createNoCustomAppointmentsEnterpriseServiceRequest'] == null) {
+            throw new runtime.RequiredError(
+                'createNoCustomAppointmentsEnterpriseServiceRequest',
+                'Required parameter "createNoCustomAppointmentsEnterpriseServiceRequest" was null or undefined when calling createNoCustomAppointmentsEnterpriseService().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("JwtBearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/enterprises/{enterpriseId}/no_custom_appointment_services`;
+        urlPath = urlPath.replace(`{${"enterpriseId"}}`, encodeURIComponent(String(requestParameters['enterpriseId'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: CreateNoCustomAppointmentsEnterpriseServiceRequestToJSON(requestParameters['createNoCustomAppointmentsEnterpriseServiceRequest']),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async createNoCustomAppointmentsEnterpriseService(enterpriseId: number, createNoCustomAppointmentsEnterpriseServiceRequest: CreateNoCustomAppointmentsEnterpriseServiceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.createNoCustomAppointmentsEnterpriseServiceRaw({ enterpriseId: enterpriseId, createNoCustomAppointmentsEnterpriseServiceRequest: createNoCustomAppointmentsEnterpriseServiceRequest }, initOverrides);
+    }
 
     /**
      */

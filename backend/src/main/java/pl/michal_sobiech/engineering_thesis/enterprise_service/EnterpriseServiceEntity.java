@@ -38,6 +38,7 @@ public class EnterpriseServiceEntity {
 
     private String name;
     private String description;
+
     private String address;
     private double latitude;
     private double longitude;
@@ -45,8 +46,9 @@ public class EnterpriseServiceEntity {
     private ZoneId timeZone;
 
     private boolean takesCustomAppointments;
+
     @Column(name = "max_distance_km", nullable = true)
-    private double maxDistanceKm;
+    private Double maxDistanceKm;
 
     @Enumerated(EnumType.STRING)
     @JdbcType(PostgreSQLEnumJdbcType.class)
@@ -58,10 +60,5 @@ public class EnterpriseServiceEntity {
     @JdbcType(PostgreSQLEnumJdbcType.class)
     @Column(name = "currency", columnDefinition = "currency_iso")
     private CurrencyIso currency;
-
-    @Enumerated(EnumType.STRING)
-    @JdbcType(PostgreSQLEnumJdbcType.class)
-    @Column(name = "enterprise_service_cathegory")
-    private EnterpriseServiceCathegory enterpriseServiceCathegory;
 
 }

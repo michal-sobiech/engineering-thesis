@@ -31,79 +31,79 @@ import {
 /**
  * 
  * @export
- * @interface CreateEnterpriseServiceRequest
+ * @interface CreateNoCustomAppointmentsEnterpriseServiceRequest
  */
-export interface CreateEnterpriseServiceRequest {
+export interface CreateNoCustomAppointmentsEnterpriseServiceRequest {
     /**
      * 
      * @type {string}
-     * @memberof CreateEnterpriseServiceRequest
+     * @memberof CreateNoCustomAppointmentsEnterpriseServiceRequest
      */
     name: string;
     /**
      * 
      * @type {string}
-     * @memberof CreateEnterpriseServiceRequest
+     * @memberof CreateNoCustomAppointmentsEnterpriseServiceRequest
      */
     description: string;
     /**
      * 
      * @type {Location}
-     * @memberof CreateEnterpriseServiceRequest
+     * @memberof CreateNoCustomAppointmentsEnterpriseServiceRequest
      */
-    location: Location | null;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof CreateEnterpriseServiceRequest
-     */
-    takesCustomAppointments: boolean;
+    location: Location;
     /**
      * 
      * @type {string}
-     * @memberof CreateEnterpriseServiceRequest
+     * @memberof CreateNoCustomAppointmentsEnterpriseServiceRequest
      */
     timeZone: string;
     /**
      * 
-     * @type {Array<Slot>}
-     * @memberof CreateEnterpriseServiceRequest
+     * @type {string}
+     * @memberof CreateNoCustomAppointmentsEnterpriseServiceRequest
      */
-    slots: Array<Slot>;
+    cathegory: string;
     /**
      * 
      * @type {number}
-     * @memberof CreateEnterpriseServiceRequest
+     * @memberof CreateNoCustomAppointmentsEnterpriseServiceRequest
      */
     price: number;
     /**
      * currency ISO code
      * @type {string}
-     * @memberof CreateEnterpriseServiceRequest
+     * @memberof CreateNoCustomAppointmentsEnterpriseServiceRequest
      */
     currency: string;
+    /**
+     * 
+     * @type {Array<Slot>}
+     * @memberof CreateNoCustomAppointmentsEnterpriseServiceRequest
+     */
+    slots: Array<Slot>;
 }
 
 /**
- * Check if a given object implements the CreateEnterpriseServiceRequest interface.
+ * Check if a given object implements the CreateNoCustomAppointmentsEnterpriseServiceRequest interface.
  */
-export function instanceOfCreateEnterpriseServiceRequest(value: object): value is CreateEnterpriseServiceRequest {
+export function instanceOfCreateNoCustomAppointmentsEnterpriseServiceRequest(value: object): value is CreateNoCustomAppointmentsEnterpriseServiceRequest {
     if (!('name' in value) || value['name'] === undefined) return false;
     if (!('description' in value) || value['description'] === undefined) return false;
     if (!('location' in value) || value['location'] === undefined) return false;
-    if (!('takesCustomAppointments' in value) || value['takesCustomAppointments'] === undefined) return false;
     if (!('timeZone' in value) || value['timeZone'] === undefined) return false;
-    if (!('slots' in value) || value['slots'] === undefined) return false;
+    if (!('cathegory' in value) || value['cathegory'] === undefined) return false;
     if (!('price' in value) || value['price'] === undefined) return false;
     if (!('currency' in value) || value['currency'] === undefined) return false;
+    if (!('slots' in value) || value['slots'] === undefined) return false;
     return true;
 }
 
-export function CreateEnterpriseServiceRequestFromJSON(json: any): CreateEnterpriseServiceRequest {
-    return CreateEnterpriseServiceRequestFromJSONTyped(json, false);
+export function CreateNoCustomAppointmentsEnterpriseServiceRequestFromJSON(json: any): CreateNoCustomAppointmentsEnterpriseServiceRequest {
+    return CreateNoCustomAppointmentsEnterpriseServiceRequestFromJSONTyped(json, false);
 }
 
-export function CreateEnterpriseServiceRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): CreateEnterpriseServiceRequest {
+export function CreateNoCustomAppointmentsEnterpriseServiceRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): CreateNoCustomAppointmentsEnterpriseServiceRequest {
     if (json == null) {
         return json;
     }
@@ -112,19 +112,19 @@ export function CreateEnterpriseServiceRequestFromJSONTyped(json: any, ignoreDis
         'name': json['name'],
         'description': json['description'],
         'location': LocationFromJSON(json['location']),
-        'takesCustomAppointments': json['takesCustomAppointments'],
         'timeZone': json['timeZone'],
-        'slots': ((json['slots'] as Array<any>).map(SlotFromJSON)),
+        'cathegory': json['cathegory'],
         'price': json['price'],
         'currency': json['currency'],
+        'slots': ((json['slots'] as Array<any>).map(SlotFromJSON)),
     };
 }
 
-export function CreateEnterpriseServiceRequestToJSON(json: any): CreateEnterpriseServiceRequest {
-    return CreateEnterpriseServiceRequestToJSONTyped(json, false);
+export function CreateNoCustomAppointmentsEnterpriseServiceRequestToJSON(json: any): CreateNoCustomAppointmentsEnterpriseServiceRequest {
+    return CreateNoCustomAppointmentsEnterpriseServiceRequestToJSONTyped(json, false);
 }
 
-export function CreateEnterpriseServiceRequestToJSONTyped(value?: CreateEnterpriseServiceRequest | null, ignoreDiscriminator: boolean = false): any {
+export function CreateNoCustomAppointmentsEnterpriseServiceRequestToJSONTyped(value?: CreateNoCustomAppointmentsEnterpriseServiceRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
@@ -134,11 +134,11 @@ export function CreateEnterpriseServiceRequestToJSONTyped(value?: CreateEnterpri
         'name': value['name'],
         'description': value['description'],
         'location': LocationToJSON(value['location']),
-        'takesCustomAppointments': value['takesCustomAppointments'],
         'timeZone': value['timeZone'],
-        'slots': ((value['slots'] as Array<any>).map(SlotToJSON)),
+        'cathegory': value['cathegory'],
         'price': value['price'],
         'currency': value['currency'],
+        'slots': ((value['slots'] as Array<any>).map(SlotToJSON)),
     };
 }
 

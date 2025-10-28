@@ -1,4 +1,3 @@
-.openapi-generator-ignore
 apis/AuthApi.ts
 apis/CustomersApi.ts
 apis/EnterpriseEmployeesApi.ts
@@ -10,12 +9,13 @@ apis/IndependentEndUsersApi.ts
 apis/index.ts
 index.ts
 models/CheckIndependentEndUserEmailExists200Response.ts
+models/CreateCustomAppointmentsEnterpriseServiceRequest.ts
 models/CreateEnterpriseEmployeeRequest.ts
 models/CreateEnterpriseEmployeeResponse.ts
 models/CreateEnterpriseEmployeeResponseUser.ts
 models/CreateEnterpriseResponse.ts
-models/CreateEnterpriseServiceRequest.ts
 models/CreateIndependentEndUserRequest.ts
+models/CreateNoCustomAppointmentsEnterpriseServiceRequest.ts
 models/DayOfWeek.ts
 models/EmployeeGetMeResponse.ts
 models/EntrepreneurGetMeResponse.ts

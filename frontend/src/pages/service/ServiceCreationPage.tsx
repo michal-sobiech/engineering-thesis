@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { Location } from "../../GENERATED-api";
 import { enterprisesApi } from "../../api/enterprises-api";
+import { servicesApi } from "../../api/services-api";
 import { MapLocationPicker } from "../../common/MapLocationPicker";
 import { StandardButton } from "../../common/StandardButton";
 import { StandardFlex } from "../../common/StandardFlex";
@@ -17,10 +18,14 @@ import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../utils/error";
 import { combine, errorErrResultAsyncFromPromise } from "../../utils/result";
 import { eventWithIdToSlot } from "../../utils/slot";
 import { toastError } from "../../utils/toast";
+import { ServiceCathegory } from "./ServiceCathegory";
+import { ServiceCathegoryPicker } from "./ServiceCathegoryPicker";
 import { ServiceCreationCalendar } from "./ServiceCreationCalendar";
 import { CustomAppointmentsEvents } from "./calendar/CustomAppointmentsEvents";
 
 export const ServiceCreationPage = () => {
+    const MAX_DISANCE_KM = 50;
+
     const navigate = useNavigate();
     const enterpriseId = useIntParam("enterpriseId");
 
@@ -33,6 +38,7 @@ export const ServiceCreationPage = () => {
     const [eventsData, setEventsData] = useState<CustomAppointmentsEvents>({ areCustomAppointmentsEnabled: false, events: [] });
     const [appointmentDurationMinutes, setAppointmentDurationMinutes] = useState<number | null>(30);
     const [price, setPrice] = useState<number | null>(null);
+    const [cathegory, setCathegory] = useState<ServiceCathegory | null>(null);
 
     useEffect(() => {
         async function loadEnterpriseData(): Promise<void> {
@@ -44,7 +50,7 @@ export const ServiceCreationPage = () => {
             }
         }
         loadEnterpriseData();
-    })
+    }, [])
 
     const onCreateServiceClick = async () => {
         if (serviceName === "") {
@@ -74,6 +80,11 @@ export const ServiceCreationPage = () => {
             return;
         }
 
+        if (cathegory === null) {
+            toastError("Choose a cathegory");
+            return;
+        }
+
         if (address === null || position === null) {
             toastError("Choose a location");
             return;
@@ -85,17 +96,31 @@ export const ServiceCreationPage = () => {
             latitude: position.latitude,
         };
 
-        const promise = enterprisesApi.createEnterpriseService(enterpriseId, {
-            name: serviceName,
-            description: serviceDescription,
-            location,
-            takesCustomAppointments: eventsData.areCustomAppointmentsEnabled,
-            price: price,
-            slots: slots.value,
-            timeZone,
-            // TODO parametrize
-            currency: "PLN",
-        });
+        let promise;
+        if (eventsData.areCustomAppointmentsEnabled) {
+            promise = servicesApi.createCustomAppointmentsEnterpriseService(enterpriseId, {
+                name: serviceName,
+                description: serviceDescription,
+                location,
+                timeZone,
+                maxDistanceKm: MAX_DISANCE_KM,
+                cathegory,
+                price: price,
+                slots: slots.value,
+                currency: "PLN",
+            });
+        } else {
+            promise = servicesApi.createNoCustomAppointmentsEnterpriseService(enterpriseId, {
+                name: serviceName,
+                description: serviceDescription,
+                location,
+                timeZone,
+                cathegory,
+                price: price,
+                slots: slots.value,
+                currency: "PLN",
+            });
+        }
         const result = await errorErrResultAsyncFromPromise(promise);
 
         if (result.isErr()) {
@@ -119,6 +144,10 @@ export const ServiceCreationPage = () => {
 
                     <StandardLabeledContainer label="Description">
                         <StandardTextField text={serviceDescription} setText={setServiceDescription} />
+                    </StandardLabeledContainer>
+
+                    <StandardLabeledContainer label="Service cathegory">
+                        <ServiceCathegoryPicker value={cathegory} setValue={setCathegory} />
                     </StandardLabeledContainer>
 
                     <ServiceCreationCalendar

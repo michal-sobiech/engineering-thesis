@@ -1,12 +1,13 @@
 /* tslint:disable */
 /* eslint-disable */
 export * from './CheckIndependentEndUserEmailExists200Response';
+export * from './CreateCustomAppointmentsEnterpriseServiceRequest';
 export * from './CreateEnterpriseEmployeeRequest';
 export * from './CreateEnterpriseEmployeeResponse';
 export * from './CreateEnterpriseEmployeeResponseUser';
 export * from './CreateEnterpriseResponse';
-export * from './CreateEnterpriseServiceRequest';
 export * from './CreateIndependentEndUserRequest';
+export * from './CreateNoCustomAppointmentsEnterpriseServiceRequest';
 export * from './DayOfWeek';
 export * from './EmployeeGetMeResponse';
 export * from './EntrepreneurGetMeResponse';

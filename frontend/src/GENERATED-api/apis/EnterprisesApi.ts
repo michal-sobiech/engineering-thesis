@@ -15,14 +15,12 @@
 
 import type {
     CreateEnterpriseResponse,
-    CreateEnterpriseServiceRequest,
     GetEnterpriseResponse,
     GetEnterpriseServicesResponseItem,
     Location
 } from '../models/index';
 import {
     CreateEnterpriseResponseFromJSON,
-    CreateEnterpriseServiceRequestToJSON,
     GetEnterpriseResponseFromJSON,
     GetEnterpriseServicesResponseItemFromJSON,
     LocationToJSON
@@ -37,11 +35,6 @@ export interface CreateEnterpriseRequest {
     latitude: number;
     logoFile?: Blob;
     backgroundPhotoFile?: Blob;
-}
-
-export interface CreateEnterpriseServiceOperationRequest {
-    enterpriseId: number;
-    createEnterpriseServiceRequest: CreateEnterpriseServiceRequest;
 }
 
 export interface GetEnterpriseRequest {
@@ -189,58 +182,6 @@ export class EnterprisesApi extends runtime.BaseAPI {
     async createEnterprise(name: string, description: string, address: string, longitude: number, latitude: number, logoFile?: Blob, backgroundPhotoFile?: Blob, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CreateEnterpriseResponse> {
         const response = await this.createEnterpriseRaw({ name: name, description: description, address: address, longitude: longitude, latitude: latitude, logoFile: logoFile, backgroundPhotoFile: backgroundPhotoFile }, initOverrides);
         return await response.value();
-    }
-
-    /**
-     */
-    async createEnterpriseServiceRaw(requestParameters: CreateEnterpriseServiceOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters['enterpriseId'] == null) {
-            throw new runtime.RequiredError(
-                'enterpriseId',
-                'Required parameter "enterpriseId" was null or undefined when calling createEnterpriseService().'
-            );
-        }
-
-        if (requestParameters['createEnterpriseServiceRequest'] == null) {
-            throw new runtime.RequiredError(
-                'createEnterpriseServiceRequest',
-                'Required parameter "createEnterpriseServiceRequest" was null or undefined when calling createEnterpriseService().'
-            );
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("JwtBearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-
-        let urlPath = `/enterprises/{enterpriseId}/services`;
-        urlPath = urlPath.replace(`{${"enterpriseId"}}`, encodeURIComponent(String(requestParameters['enterpriseId'])));
-
-        const response = await this.request({
-            path: urlPath,
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-            body: CreateEnterpriseServiceRequestToJSON(requestParameters['createEnterpriseServiceRequest']),
-        }, initOverrides);
-
-        return new runtime.VoidApiResponse(response);
-    }
-
-    /**
-     */
-    async createEnterpriseService(enterpriseId: number, createEnterpriseServiceRequest: CreateEnterpriseServiceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.createEnterpriseServiceRaw({ enterpriseId: enterpriseId, createEnterpriseServiceRequest: createEnterpriseServiceRequest }, initOverrides);
     }
 
     /**
