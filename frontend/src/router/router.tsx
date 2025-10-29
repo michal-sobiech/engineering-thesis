@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import { CustomerLandingPage } from "../pages/customer/CustomerLandingPage";
+import { CustomerLogInPage } from "../pages/customer/CustomerLogInPage";
 import { CustomerSignUpOrLogIn } from "../pages/customer/CustomerSignUpOrLogInPage";
 import { CustomerSignUpPage } from "../pages/customer/CustomerSignUpPage";
 import { EmployeeCreationWizard } from "../pages/employee/creation/wizard/EmployeeCreationWizard";
@@ -91,6 +92,10 @@ export const router = createBrowserRouter([
             {
                 path: routeTemplates.customerLandingPage,
                 element: <CustomerLandingPage />
+            },
+            {
+                path: routeTemplates.customerLogIn,
+                element: <CustomerLogInPage />
             }
         ]
     }

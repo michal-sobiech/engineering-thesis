@@ -8,3 +8,4 @@ export * from './EnterprisesApi';
 export * from './EntrepreneursApi';
 export * from './HealthCheckApi';
 export * from './IndependentEndUsersApi';
+export * from './UserApi';

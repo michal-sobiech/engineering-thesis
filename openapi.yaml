@@ -35,6 +35,7 @@ components:
           type: string
           format: password
           example: "5=2VPIzYHSIc0l4d1o&es]plB"
+
     LogInIndependentEndUserRequest:
       type: object
       required:
@@ -48,6 +49,7 @@ components:
           type: string
           format: password
           example: "5=2VPIzYHSIc0l4d1o&es]plB"
+
     LogInIndependentEndUserResponse:
       type: object
       required:
@@ -57,6 +59,7 @@ components:
           type: string
           format: password
           example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEyMywiaXNzdWVkX2F0IjoxNzU3NTkyMDIyLCJleHBpcmVzX2F0IjoxNzU3NjEzNjIyfQ.R0wpPhA5v-z_NYELi8PLxji0EJFcD75B5_psMb8ZNcc"
+
     GetEntrepreneurEnterprisesResponseItem:
       type: object
       required:
@@ -70,11 +73,13 @@ components:
         enterpriseName:
           type: string
           example: Hair Beauty Salon
+
     GetEntrepreneurEnterprisesResponse:
       type: array
       items:
         $ref: "#/components/schemas/GetEntrepreneurEnterprisesResponseItem"
-    EntrepreneurGetMeResponse:
+
+    IndependentEndUserGetMeResponse:
       type: object
       required: [userId, email, firstName, lastName]
       properties:
@@ -91,6 +96,7 @@ components:
         lastName:
           type: string
           example: Kowalski
+
     EmployeeGetMeResponse:
       type: object
       required: [userId, enterpriseId, username, firstName, lastName]
@@ -112,6 +118,7 @@ components:
         lastName:
           type: string
           example: Kowalski
+
     CreateEnterpriseRequest:
       type: object
       required: [name, description, address, longitude, latitude]
@@ -139,6 +146,7 @@ components:
         backgroundPhotoFile:
           type: string
           format: binary
+
     CreateEnterpriseResponse:
       type: object
       required: [enterpriseId]
@@ -147,6 +155,7 @@ components:
           type: integer
           format: int64
           example: 345
+
     GetEnterpriseResponse:
       type: object
       required: [name, description, location]
@@ -159,6 +168,7 @@ components:
           example: The new best barbershop in town.
         location:
           $ref: "#/components/schemas/Location"
+
     CreateEnterpriseEmployeeRequest:
       type: object
       required:
@@ -180,6 +190,7 @@ components:
           type: string
           format: password
           example: "5=2VPIzYHSIc0l4d1o&es]plB"
+
     CreateEnterpriseEmployeeResponse:
       type: object
       required:
@@ -201,10 +212,12 @@ components:
             username:
               type: string
               example: jan.kowalski.1
+
     GetEnterpriseEmployeesResponse:
       type: array
       items:
         $ref: "#/components/schemas/GetEnterpriseEmployeesResponseItem"
+
     GetEnterpriseEmployeesResponseItem:
       type: object
       required: [username, firstName, lastName]
@@ -218,6 +231,7 @@ components:
         lastName:
           type: string
           example: Kowalski
+
     LogInEnterpriseEmployeeRequest:
       type: object
       required:
@@ -236,6 +250,7 @@ components:
           type: string
           format: password
           example: "5=2VPIzYHSIc0l4d1o&es]plB"
+
     LogInEnterpriseEmployeeResponse:
       type: object
       required:
@@ -245,6 +260,7 @@ components:
           type: string
           format: password
           example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEyMywiaXNzdWVkX2F0IjoxNzU3NTkyMDIyLCJleHBpcmVzX2F0IjoxNzU3NjEzNjIyfQ.R0wpPhA5v-z_NYELi8PLxji0EJFcD75B5_psMb8ZNcc"
+
     GetEnterpriseServicesResponseItem:
       type: object
       required: [serviceId, name, description]
@@ -259,10 +275,12 @@ components:
         description:
           type: string
           example: Male or female basic haircut
+
     GetEnterpriseServicesResponse:
       type: array
       items:
         $ref: "#/components/schemas/GetEnterpriseServicesResponseItem"
+
     PatchEnterpriseRequest:
       type: object
       properties:
@@ -280,6 +298,7 @@ components:
         backgroundPhotoFile:
           type: string
           format: binary
+
     CreateNoCustomAppointmentsEnterpriseServiceRequest:
       type: object
       required:
@@ -317,6 +336,7 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Slot"
+
     CreateCustomAppointmentsEnterpriseServiceRequest:
       type: object
       required:
@@ -358,10 +378,12 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Slot"
+
     DayOfWeek:
       type: string
       enum: [MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY]
       example: MONDAY
+
     Slot:
       type: object
       required: [dayOfWeek, start, end]
@@ -376,10 +398,12 @@ components:
           type: string
           pattern: "^([01]\\d|2[0-3]):[0-5]\\d$"
           example: "13:00:00"
+
     IanaTimeZone:
       type: string
       pattern: "^[A-Za-z_]+/[A-Za-z_]+$"
       example: "Europe/Warsaw"
+
     Location:
       type: object
       required: [address, longitude, latitude]
@@ -395,6 +419,7 @@ components:
           type: number
           format: double
           example: -67.224
+
     ServiceSearchResponseItem:
       type: object
       required: [serviceName, enterpriseName, address, startTime, endTime]
@@ -652,7 +677,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/EntrepreneurGetMeResponse"
+                $ref: "#/components/schemas/IndependentEndUserGetMeResponse"
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":
@@ -1091,5 +1116,53 @@ paths:
                   $ref: "#/components/schemas/ServiceSearchResponseItem"
         "400":
           $ref: "#/components/responses/BadRequest"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /customers/me:
+    get:
+      tags: [Customers]
+      operationId: getMeCustomer
+      security:
+        - JwtBearerAuth: []
+      responses:
+        "200":
+          description: *OK_DESCRIPTION
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IndependentEndUserGetMeResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /user/role/me:
+    get:
+      tags: [User]
+      operationId: getMyUserGroup
+      security:
+        - JwtBearerAuth: []
+      responses:
+        "200":
+          description: *OK_DESCRIPTION
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [userGroup]
+                properties:
+                  userGroup:
+                    type: string
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
         "500":
           $ref: "#/components/responses/InternalServerError"

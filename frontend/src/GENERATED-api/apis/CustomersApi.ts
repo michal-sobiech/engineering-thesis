@@ -16,15 +16,24 @@
 import * as runtime from '../runtime';
 import type {
   CreateIndependentEndUserRequest,
+  IndependentEndUserGetMeResponse,
+  InlineObject,
   InlineObject1,
+  InlineObject2,
   InlineObject3,
   InlineObject4,
 } from '../models/index';
 import {
     CreateIndependentEndUserRequestFromJSON,
     CreateIndependentEndUserRequestToJSON,
+    IndependentEndUserGetMeResponseFromJSON,
+    IndependentEndUserGetMeResponseToJSON,
+    InlineObjectFromJSON,
+    InlineObjectToJSON,
     InlineObject1FromJSON,
     InlineObject1ToJSON,
+    InlineObject2FromJSON,
+    InlineObject2ToJSON,
     InlineObject3FromJSON,
     InlineObject3ToJSON,
     InlineObject4FromJSON,
@@ -76,6 +85,41 @@ export class CustomersApi extends runtime.BaseAPI {
      */
     async createCustomer(createIndependentEndUserRequest: CreateIndependentEndUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.createCustomerRaw({ createIndependentEndUserRequest: createIndependentEndUserRequest }, initOverrides);
+    }
+
+    /**
+     */
+    async getMeCustomerRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<IndependentEndUserGetMeResponse>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("JwtBearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/customers/me`;
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => IndependentEndUserGetMeResponseFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async getMeCustomer(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<IndependentEndUserGetMeResponse> {
+        const response = await this.getMeCustomerRaw(initOverrides);
+        return await response.value();
     }
 
 }

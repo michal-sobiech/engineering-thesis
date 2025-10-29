@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import pl.michal_sobiech.engineering_thesis.customer.Customer;
 import pl.michal_sobiech.engineering_thesis.employee.Employee;
 import pl.michal_sobiech.engineering_thesis.entrepreneur.Entrepreneur;
 import pl.michal_sobiech.engineering_thesis.exceptions.exceptions.ForbiddenException;
@@ -53,5 +54,10 @@ public class AuthService {
     public Employee requireEmployee() {
         User user = requireAuthorizedUser();
         return Employee.fromUser(user);
+    }
+
+    public Customer requireCustomer() {
+        User user = requireAuthorizedUser();
+        return Customer.fromUser(user);
     }
 }

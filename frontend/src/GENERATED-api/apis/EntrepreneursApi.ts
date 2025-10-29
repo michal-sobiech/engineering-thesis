@@ -13,35 +13,17 @@
  */
 
 
-import * as runtime from '../runtime';
 import type {
-  CreateIndependentEndUserRequest,
-  EntrepreneurGetMeResponse,
-  GetEntrepreneurEnterprisesResponseItem,
-  InlineObject,
-  InlineObject1,
-  InlineObject2,
-  InlineObject3,
-  InlineObject4,
+    CreateIndependentEndUserRequest,
+    GetEntrepreneurEnterprisesResponseItem,
+    IndependentEndUserGetMeResponse
 } from '../models/index';
 import {
-    CreateIndependentEndUserRequestFromJSON,
     CreateIndependentEndUserRequestToJSON,
-    EntrepreneurGetMeResponseFromJSON,
-    EntrepreneurGetMeResponseToJSON,
     GetEntrepreneurEnterprisesResponseItemFromJSON,
-    GetEntrepreneurEnterprisesResponseItemToJSON,
-    InlineObjectFromJSON,
-    InlineObjectToJSON,
-    InlineObject1FromJSON,
-    InlineObject1ToJSON,
-    InlineObject2FromJSON,
-    InlineObject2ToJSON,
-    InlineObject3FromJSON,
-    InlineObject3ToJSON,
-    InlineObject4FromJSON,
-    InlineObject4ToJSON,
+    IndependentEndUserGetMeResponseFromJSON
 } from '../models/index';
+import * as runtime from '../runtime';
 
 export interface CreateEntrepreneurRequest {
     createIndependentEndUserRequest: CreateIndependentEndUserRequest;
@@ -131,7 +113,7 @@ export class EntrepreneursApi extends runtime.BaseAPI {
 
     /**
      */
-    async getMeEntrepreneurRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<EntrepreneurGetMeResponse>> {
+    async getMeEntrepreneurRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<IndependentEndUserGetMeResponse>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -154,12 +136,12 @@ export class EntrepreneursApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => EntrepreneurGetMeResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => IndependentEndUserGetMeResponseFromJSON(jsonValue));
     }
 
     /**
      */
-    async getMeEntrepreneur(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<EntrepreneurGetMeResponse> {
+    async getMeEntrepreneur(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<IndependentEndUserGetMeResponse> {
         const response = await this.getMeEntrepreneurRaw(initOverrides);
         return await response.value();
     }
