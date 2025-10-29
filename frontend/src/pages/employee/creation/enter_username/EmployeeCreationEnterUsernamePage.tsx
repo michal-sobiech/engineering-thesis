@@ -30,11 +30,11 @@ export const EmployeeCreationEnterUsernamePage = () => {
             .andThen(enterpriseId => checkUsernameAvailable(enterpriseId, username));
         if (result.isOk()) {
             const usernameExists = result.value;
-            if (!usernameExists) {
+            if (usernameExists) {
+                toastError("Chosen username is not available");
+            } else {
                 toast.dismiss();
                 incrementStep();
-            } else {
-                toastError("Chosen username is not available");
             }
         } else {
             toastError(DEFAULT_ERROR_MESSAGE_FOR_USER);
@@ -64,5 +64,5 @@ export const EmployeeCreationEnterUsernamePage = () => {
 function checkUsernameAvailable(enterpriseId: number, username: string): ResultAsync<boolean, Error> {
     const promise = enterpriseEmployeesApi.checkEmployeeUsernameExists(enterpriseId, username);
     return errorErrResultAsyncFromPromise(promise)
-        .map(response => response.isExisting);
+        .map(response => !response.isExisting);
 } 

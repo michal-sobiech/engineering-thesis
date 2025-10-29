@@ -2,7 +2,6 @@ package pl.michal_sobiech.engineering_thesis.employee;
 
 import java.util.Optional;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -15,7 +14,6 @@ import pl.michal_sobiech.engineering_thesis.user.UserService;
 @RequiredArgsConstructor
 public class EmployeeService {
 
-    private final PasswordEncoder passwordEncoder;
     private final UserService userService;
     private final UserRepository userRepository;
 
@@ -25,14 +23,12 @@ public class EmployeeService {
             String firstName,
             String lastName,
             String password) {
-        String passwordHash = passwordEncoder.encode(password);
-
         User user = userService.save(
                 UserGroup.EMPLOYEE,
                 username,
                 firstName,
                 lastName,
-                passwordHash,
+                password,
                 Optional.of(enterpriseId));
 
         return Employee.fromUser(user);

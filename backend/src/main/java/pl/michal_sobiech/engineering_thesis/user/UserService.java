@@ -3,15 +3,19 @@ package pl.michal_sobiech.engineering_thesis.user;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import pl.michal_sobiech.engineering_thesis.exceptions.exceptions.ConflictException;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public Optional<UserEntity> findById(long userId) {
         return userRepository.findById(userId);
@@ -32,18 +36,23 @@ public class UserService {
             String username,
             String firstName,
             String lastName,
-            String passwordHash,
+            String passwordRaw,
             Optional<Long> enterpriseId) {
-        UserEntity user = new UserEntity(
-                null,
-                userGroup,
-                username,
-                firstName,
-                lastName,
-                passwordHash,
-                enterpriseId.orElse(null));
-        user = userRepository.save(user);
-        return User.fromEntity(user);
+        try {
+            String passwordHash = passwordEncoder.encode(passwordRaw);
+            UserEntity user = new UserEntity(
+                    null,
+                    userGroup,
+                    username,
+                    firstName,
+                    lastName,
+                    passwordHash,
+                    enterpriseId.orElse(null));
+            user = userRepository.save(user);
+            return User.fromEntity(user);
+        } catch (DataIntegrityViolationException exception) {
+            throw new ConflictException(exception);
+        }
     }
 
 }

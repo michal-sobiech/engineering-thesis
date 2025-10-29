@@ -2,7 +2,6 @@ package pl.michal_sobiech.engineering_thesis.entrepreneur;
 
 import java.util.Optional;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,7 +14,6 @@ import pl.michal_sobiech.engineering_thesis.user.UserService;
 @RequiredArgsConstructor
 public class EntrepreneurService {
 
-    private final PasswordEncoder passwordEncoder;
     private final UserService userService;
 
     @Transactional
@@ -23,15 +21,14 @@ public class EntrepreneurService {
             String email,
             String firstName,
             String lastName,
-            String password) {
-        String passwordHash = passwordEncoder.encode(password);
+            String passwordRaw) {
 
         User user = userService.save(
                 UserGroup.ENTREPRENEUR,
                 email,
                 firstName,
                 lastName,
-                passwordHash,
+                passwordRaw,
                 Optional.empty());
 
         return Entrepreneur.fromUser(user);

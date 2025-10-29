@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import pl.michal_sobiech.engineering_thesis.exceptions.exceptions.ConflictException;
 import pl.michal_sobiech.engineering_thesis.exceptions.exceptions.ForbiddenException;
 import pl.michal_sobiech.engineering_thesis.exceptions.exceptions.UnauthorizedException;
 
@@ -19,6 +20,11 @@ public class ControllerExceptionHandler {
     @ExceptionHandler(UnauthorizedException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public void handleUnauthorized() {
+    }
+
+    @ExceptionHandler(ConflictException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public void handleConflict() {
     }
 
 }
