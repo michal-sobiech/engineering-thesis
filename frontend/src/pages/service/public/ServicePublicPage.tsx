@@ -6,7 +6,8 @@ import { routes } from "../../../router/routes";
 import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../../utils/error";
 import { errorErrResultAsyncFromPromise } from "../../../utils/result";
 import { toastError } from "../../../utils/toast";
-import { NoCustomAppointmentsServicePublicPage } from "./NoCustomAppointmentsServicePublicPage";
+import { CustomAppointmentsServicePublicPage } from "./custom_appointments/CustomAppointmentsServicePublicPage";
+import { NoCustomAppointmentsServicePublicPage } from "./no_custom_appointments/NoCustomAppointmentsServicePublicPage";
 
 export const ServicePublicPage = () => {
     const navigate = useNavigate();
@@ -29,8 +30,7 @@ export const ServicePublicPage = () => {
     }, []);
 
     if (areCustomAppointmentsEnabled) {
-        // return <Service
-        return <NoCustomAppointmentsServicePublicPage />;
+        return <CustomAppointmentsServicePublicPage />;
     }
     else {
         return <NoCustomAppointmentsServicePublicPage />;

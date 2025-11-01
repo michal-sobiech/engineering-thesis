@@ -1,7 +1,7 @@
 import { createContext } from "react";
-import { UseStateSetter } from "../../../utils/useState";
+import { UseStateSetter } from "../../../../utils/useState";
 
-export interface ServicePublicPageContextValue {
+export interface NoCustomAppointmentsServicePublicPageContextValue {
     selectedDate: Date | null;
     setSelectedDate: UseStateSetter<Date | null>;
     freeAppointmentsOnSelectedDate: [Date, Date][] | null;
@@ -10,4 +10,4 @@ export interface ServicePublicPageContextValue {
     setSelectedAppointment: UseStateSetter<[Date, Date] | null>;
 }
 
-export const ServicePublicPageContext = createContext<ServicePublicPageContextValue | null>(null);
+export const NoCustomAppointmentsServicePublicPageContext = createContext<NoCustomAppointmentsServicePublicPageContextValue | null>(null);

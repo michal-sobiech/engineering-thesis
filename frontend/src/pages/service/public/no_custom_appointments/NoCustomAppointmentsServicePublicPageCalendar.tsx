@@ -1,22 +1,22 @@
 import { Calendar, SlotInfo } from "react-big-calendar";
-import { localizer } from "../../../common/localizer";
-import { useContextOrThrow } from "../../../utils/useContextOrThrow";
-import { ServicePublicPageContext } from "./ServicePublicPageContext";
+import { localizer } from "../../../../common/localizer";
+import { useContextOrThrow } from "../../../../utils/useContextOrThrow";
+import { NoCustomAppointmentsServicePublicPageContext } from "./NoCustomAppointmentsServicePublicPageContextValue";
 
 import { Box } from "@chakra-ui/react";
 import { ResultAsync } from "neverthrow";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { servicesApi } from "../../../api/services-api";
-import { GetServiceFreeNonCustomAppointmentsResponseItem } from "../../../GENERATED-api";
-import { useIntParam } from "../../../hooks/useIntParam";
-import { createDateWithoutTime } from "../../../utils/date";
-import { errorErrResultAsyncFromPromise } from "../../../utils/result";
-import { toastError } from "../../../utils/toast";
+import { servicesApi } from "../../../../api/services-api";
+import { GetServiceFreeNonCustomAppointmentsResponseItem } from "../../../../GENERATED-api";
+import { useIntParam } from "../../../../hooks/useIntParam";
+import { createDateWithoutTime } from "../../../../utils/date";
+import { errorErrResultAsyncFromPromise } from "../../../../utils/result";
+import { toastError } from "../../../../utils/toast";
 
-export const ServicePublicPageNoCustomAppointmentsCalendar = () => {
+export const NoCustomAppointmentsServicePublicPageCalendar = () => {
     const serviceId = useIntParam("serviceId");
 
-    const { selectedDate, setSelectedDate, setFreeAppointmentsOnSelectedDate } = useContextOrThrow(ServicePublicPageContext);
+    const { selectedDate, setSelectedDate, setFreeAppointmentsOnSelectedDate } = useContextOrThrow(NoCustomAppointmentsServicePublicPageContext);
 
     const onSelectSlot = async (slot: SlotInfo) => {
         const date = createDateWithoutTime(slot.start);
