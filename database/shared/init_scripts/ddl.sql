@@ -137,9 +137,18 @@ CREATE TABLE public.appointment (
 	start_time timestamptz NOT NULL,
 	end_time timestamptz NOT NULL,
 
+	is_custom boolean NOT NULL,
+	is_accepted boolean,
+	rejection_message text,
+
 	CONSTRAINT pk_appointment_id PRIMARY KEY (appointment_id),
 	CONSTRAINT fk_appointment_enterprise_service_id FOREIGN KEY (enterprise_service_id) REFERENCES public.enterprise_service(enterprise_service_id) ON DELETE CASCADE,
-	CONSTRAINT fk_appointment_customer_user_id FOREIGN KEY (customer_user_id) REFERENCES public.app_user(user_id) ON DELETE CASCADE
+	CONSTRAINT fk_appointment_customer_user_id FOREIGN KEY (customer_user_id) REFERENCES public.app_user(user_id) ON DELETE CASCADE,
+	CONSTRAINT chk_custom_appointment CHECK (
+		(is_custom = FALSE AND is_accepted IS NULL AND rejection_message IS NULL)
+		OR
+		(is_custom = TRUE AND is_accepted IS NOT NULL AND rejection_message IS NOT NULL)
+	)
 );
 
 CREATE TABLE public.report (
