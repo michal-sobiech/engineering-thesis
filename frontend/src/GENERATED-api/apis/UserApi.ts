@@ -55,7 +55,7 @@ export class UserApi extends runtime.BaseAPI {
             }
         }
 
-        let urlPath = `/user/role/me`;
+        let urlPath = `/users/roles/me`;
 
         const response = await this.request({
             path: urlPath,

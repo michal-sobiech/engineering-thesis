@@ -13,17 +13,35 @@
  */
 
 
+import * as runtime from '../runtime';
 import type {
-    CreateIndependentEndUserRequest,
-    GetEntrepreneurEnterprisesResponseItem,
-    IndependentEndUserGetMeResponse
+  CreateIndependentEndUserRequest,
+  GetEntrepreneurEnterprisesResponseItem,
+  IndependentEndUserGetMeResponse,
+  InlineObject,
+  InlineObject1,
+  InlineObject2,
+  InlineObject3,
+  InlineObject4,
 } from '../models/index';
 import {
+    CreateIndependentEndUserRequestFromJSON,
     CreateIndependentEndUserRequestToJSON,
     GetEntrepreneurEnterprisesResponseItemFromJSON,
-    IndependentEndUserGetMeResponseFromJSON
+    GetEntrepreneurEnterprisesResponseItemToJSON,
+    IndependentEndUserGetMeResponseFromJSON,
+    IndependentEndUserGetMeResponseToJSON,
+    InlineObjectFromJSON,
+    InlineObjectToJSON,
+    InlineObject1FromJSON,
+    InlineObject1ToJSON,
+    InlineObject2FromJSON,
+    InlineObject2ToJSON,
+    InlineObject3FromJSON,
+    InlineObject3ToJSON,
+    InlineObject4FromJSON,
+    InlineObject4ToJSON,
 } from '../models/index';
-import * as runtime from '../runtime';
 
 export interface CreateEntrepreneurRequest {
     createIndependentEndUserRequest: CreateIndependentEndUserRequest;

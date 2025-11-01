@@ -1,19 +1,9 @@
-import { format, getDay, parse, startOfWeek } from "date-fns";
-import { enUS } from "date-fns/locale";
 import { FC } from "react";
-import { Calendar, dateFnsLocalizer, SlotInfo } from "react-big-calendar";
+import { Calendar, SlotInfo } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { UseStateSetter } from "../../utils/useState";
+import { localizer } from "../localizer";
 import { EventWithId } from "./EventWithId";
-
-const locales = { "en-US": enUS };
-const localizer = dateFnsLocalizer({
-    format,
-    parse,
-    getDay,
-    locales,
-    startOfWeek: (date: Date) => startOfWeek(date, { weekStartsOn: 1 })
-});
 
 export interface WeeklyCalendarProps {
     events: EventWithId[];

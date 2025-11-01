@@ -1,7 +1,6 @@
 import { Box, Center, Flex, Heading } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { enterprisesApi } from "../../../api/enterprises-api";
 import { LinkScrollableList } from "../../../common/LinkScrollableList";
 import { StandardBox } from "../../../common/StandardBox";
 import { StandardButton } from "../../../common/StandardButton";
@@ -34,14 +33,15 @@ export const EnterpriseStaffPage = () => {
     }
 
     const onSaveClick = () => {
-        enterprisesApi.patchEnterprise(
-            enterpriseId,
-            name ?? undefined,
-            description ?? undefined,
-            location ?? undefined,
-            logoFile ?? undefined,
-            backgroundPhotoFile ?? undefined
-        );
+        // enterprisesApi.patchEnterprise(
+        //     enterpriseId,
+        //     name ?? undefined,
+        //     description ?? undefined,
+        //     location ?? undefined,
+        //     logoFile ?? undefined,
+        //     backgroundPhotoFile ?? undefined
+        // );
+        // TODO
         navigate(routes.enterprisePublic(enterpriseId));
     }
 

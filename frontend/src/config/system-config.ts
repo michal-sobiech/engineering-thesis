@@ -14,6 +14,7 @@ const systemConfig = defineConfig({
                     darkGray: { value: "#2b2727ff" },
                     basicWhite: { value: "#ffffff" },
                     darkRed: { value: "#c40707" },
+                    veryLightBlue: { value: "#6284ebff" },
                 }
             },
             // fontSizes: {

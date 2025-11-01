@@ -55,9 +55,11 @@ export interface GetEnterpriseServicesRequest {
 
 export interface PatchEnterpriseRequest {
     enterpriseId: number;
-    name?: string;
-    description?: string;
-    location?: Location;
+    name: string;
+    description: string;
+    location: Location;
+    timeZone: string;
+    takesCustomAppointments: boolean;
     logoFile?: Blob;
     backgroundPhotoFile?: Blob;
 }
@@ -344,6 +346,41 @@ export class EnterprisesApi extends runtime.BaseAPI {
             );
         }
 
+        if (requestParameters['name'] == null) {
+            throw new runtime.RequiredError(
+                'name',
+                'Required parameter "name" was null or undefined when calling patchEnterprise().'
+            );
+        }
+
+        if (requestParameters['description'] == null) {
+            throw new runtime.RequiredError(
+                'description',
+                'Required parameter "description" was null or undefined when calling patchEnterprise().'
+            );
+        }
+
+        if (requestParameters['location'] == null) {
+            throw new runtime.RequiredError(
+                'location',
+                'Required parameter "location" was null or undefined when calling patchEnterprise().'
+            );
+        }
+
+        if (requestParameters['timeZone'] == null) {
+            throw new runtime.RequiredError(
+                'timeZone',
+                'Required parameter "timeZone" was null or undefined when calling patchEnterprise().'
+            );
+        }
+
+        if (requestParameters['takesCustomAppointments'] == null) {
+            throw new runtime.RequiredError(
+                'takesCustomAppointments',
+                'Required parameter "takesCustomAppointments" was null or undefined when calling patchEnterprise().'
+            );
+        }
+
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -386,6 +423,14 @@ export class EnterprisesApi extends runtime.BaseAPI {
             formParams.append('location', new Blob([JSON.stringify(LocationToJSON(requestParameters['location']))], { type: "application/json", }));
         }
 
+        if (requestParameters['timeZone'] != null) {
+            formParams.append('timeZone', requestParameters['timeZone'] as any);
+        }
+
+        if (requestParameters['takesCustomAppointments'] != null) {
+            formParams.append('takesCustomAppointments', requestParameters['takesCustomAppointments'] as any);
+        }
+
         if (requestParameters['logoFile'] != null) {
             formParams.append('logoFile', requestParameters['logoFile'] as any);
         }
@@ -411,8 +456,8 @@ export class EnterprisesApi extends runtime.BaseAPI {
 
     /**
      */
-    async patchEnterprise(enterpriseId: number, name?: string, description?: string, location?: Location, logoFile?: Blob, backgroundPhotoFile?: Blob, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.patchEnterpriseRaw({ enterpriseId: enterpriseId, name: name, description: description, location: location, logoFile: logoFile, backgroundPhotoFile: backgroundPhotoFile }, initOverrides);
+    async patchEnterprise(enterpriseId: number, name: string, description: string, location: Location, timeZone: string, takesCustomAppointments: boolean, logoFile?: Blob, backgroundPhotoFile?: Blob, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.patchEnterpriseRaw({ enterpriseId: enterpriseId, name: name, description: description, location: location, timeZone: timeZone, takesCustomAppointments: takesCustomAppointments, logoFile: logoFile, backgroundPhotoFile: backgroundPhotoFile }, initOverrides);
     }
 
 }

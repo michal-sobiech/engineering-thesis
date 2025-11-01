@@ -24,6 +24,8 @@ models/GetEnterpriseResponse.ts
 models/GetEnterpriseServicesResponseItem.ts
 models/GetEntrepreneurEnterprisesResponseItem.ts
 models/GetMyUserGroup200Response.ts
+models/GetServiceFreeCustomAppointmentsResponseItem.ts
+models/GetServiceFreeNonCustomAppointmentsResponseItem.ts
 models/IndependentEndUserGetMeResponse.ts
 models/InlineObject.ts
 models/InlineObject1.ts

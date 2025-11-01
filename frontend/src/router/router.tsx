@@ -14,7 +14,7 @@ import { EntrepreneurSignUpOrLogInPage } from "../pages/entrepreneur/sign-up-or-
 import { EntrepreneurSignUpWizard } from "../pages/entrepreneur/sign-up/EntrepreneurSignUpWizard";
 import { MainPage } from "../pages/main_page/MainPage";
 import { ServiceCreationPage } from "../pages/service/ServiceCreationPage";
-import { ServicePublicPage } from "../pages/service/ServicePublicPage";
+import { ServicePublicPage } from "../pages/service/public/ServicePublicPage";
 import { ServiceSearchPage } from "../pages/service/search/ServiceSearchPage";
 import { PageLayout } from "./PageLayout";
 import { ProtectedRoute } from "./ProtectedRoute";

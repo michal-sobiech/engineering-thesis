@@ -17,6 +17,8 @@ import * as runtime from '../runtime';
 import type {
   CreateCustomAppointmentsEnterpriseServiceRequest,
   CreateNoCustomAppointmentsEnterpriseServiceRequest,
+  GetServiceFreeCustomAppointmentsResponseItem,
+  GetServiceFreeNonCustomAppointmentsResponseItem,
   InlineObject,
   InlineObject1,
   InlineObject2,
@@ -28,6 +30,10 @@ import {
     CreateCustomAppointmentsEnterpriseServiceRequestToJSON,
     CreateNoCustomAppointmentsEnterpriseServiceRequestFromJSON,
     CreateNoCustomAppointmentsEnterpriseServiceRequestToJSON,
+    GetServiceFreeCustomAppointmentsResponseItemFromJSON,
+    GetServiceFreeCustomAppointmentsResponseItemToJSON,
+    GetServiceFreeNonCustomAppointmentsResponseItemFromJSON,
+    GetServiceFreeNonCustomAppointmentsResponseItemToJSON,
     InlineObjectFromJSON,
     InlineObjectToJSON,
     InlineObject1FromJSON,
@@ -48,6 +54,14 @@ export interface CreateCustomAppointmentsEnterpriseServiceOperationRequest {
 export interface CreateNoCustomAppointmentsEnterpriseServiceOperationRequest {
     enterpriseId: number;
     createNoCustomAppointmentsEnterpriseServiceRequest: CreateNoCustomAppointmentsEnterpriseServiceRequest;
+}
+
+export interface GetFreeCustomAppointmentsRequest {
+    serviceId: number;
+}
+
+export interface GetFreeNonCustomAppointmentsRequest {
+    serviceId: number;
 }
 
 export interface SearchServicesRequest {
@@ -168,6 +182,76 @@ export class EnterpriseServicesApi extends runtime.BaseAPI {
      */
     async createNoCustomAppointmentsEnterpriseService(enterpriseId: number, createNoCustomAppointmentsEnterpriseServiceRequest: CreateNoCustomAppointmentsEnterpriseServiceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.createNoCustomAppointmentsEnterpriseServiceRaw({ enterpriseId: enterpriseId, createNoCustomAppointmentsEnterpriseServiceRequest: createNoCustomAppointmentsEnterpriseServiceRequest }, initOverrides);
+    }
+
+    /**
+     */
+    async getFreeCustomAppointmentsRaw(requestParameters: GetFreeCustomAppointmentsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<GetServiceFreeCustomAppointmentsResponseItem>>> {
+        if (requestParameters['serviceId'] == null) {
+            throw new runtime.RequiredError(
+                'serviceId',
+                'Required parameter "serviceId" was null or undefined when calling getFreeCustomAppointments().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+
+        let urlPath = `/services/{serviceId}/custom-appointments/free`;
+        urlPath = urlPath.replace(`{${"serviceId"}}`, encodeURIComponent(String(requestParameters['serviceId'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(GetServiceFreeCustomAppointmentsResponseItemFromJSON));
+    }
+
+    /**
+     */
+    async getFreeCustomAppointments(serviceId: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetServiceFreeCustomAppointmentsResponseItem>> {
+        const response = await this.getFreeCustomAppointmentsRaw({ serviceId: serviceId }, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async getFreeNonCustomAppointmentsRaw(requestParameters: GetFreeNonCustomAppointmentsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<GetServiceFreeNonCustomAppointmentsResponseItem>>> {
+        if (requestParameters['serviceId'] == null) {
+            throw new runtime.RequiredError(
+                'serviceId',
+                'Required parameter "serviceId" was null or undefined when calling getFreeNonCustomAppointments().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+
+        let urlPath = `/services/{serviceId}/non-custom-appointments/free`;
+        urlPath = urlPath.replace(`{${"serviceId"}}`, encodeURIComponent(String(requestParameters['serviceId'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(GetServiceFreeNonCustomAppointmentsResponseItemFromJSON));
+    }
+
+    /**
+     */
+    async getFreeNonCustomAppointments(serviceId: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetServiceFreeNonCustomAppointmentsResponseItem>> {
+        const response = await this.getFreeNonCustomAppointmentsRaw({ serviceId: serviceId }, initOverrides);
+        return await response.value();
     }
 
     /**

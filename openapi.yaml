@@ -283,6 +283,7 @@ components:
 
     PatchEnterpriseRequest:
       type: object
+      required: [name, description, location, timeZone, takesCustomAppointments]
       properties:
         name:
           type: string
@@ -292,6 +293,10 @@ components:
           example: The new best barbershop in town.
         location:
           $ref: "#/components/schemas/Location"
+        timeZone:
+          type: string
+        takesCustomAppointments:
+          type: boolean
         logoFile:
           type: string
           format: binary
@@ -434,6 +439,31 @@ components:
           type: string
           format: date-time
         endTime:
+          type: string
+          format: date-time
+
+    GetServiceFreeNonCustomAppointmentsResponseItem:
+      type: object
+      required: [numVacancies, startDatetime, endDatetime]
+      properties:
+        numVacancies:
+          type: number
+          format: int64
+        startDatetime:
+          type: string
+          format: date-time
+        endDatetime:
+          type: string
+          format: date-time
+
+    GetServiceFreeCustomAppointmentsResponseItem:
+      type: object
+      required: [startDatetime, endDatetime]
+      properties:
+        startDatetime:
+          type: string
+          format: date-time
+        endDatetime:
           type: string
           format: date-time
 
@@ -1141,7 +1171,7 @@ paths:
         "500":
           $ref: "#/components/responses/InternalServerError"
 
-  /user/role/me:
+  /users/roles/me:
     get:
       tags: [User]
       operationId: getMyUserGroup
@@ -1158,6 +1188,64 @@ paths:
                 properties:
                   userGroup:
                     type: string
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /services/{serviceId}/non-custom-appointments/free:
+    get:
+      tags: [EnterpriseServices]
+      operationId: getFreeNonCustomAppointments
+      parameters:
+        - name: serviceId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: *OK_DESCRIPTION
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/GetServiceFreeNonCustomAppointmentsResponseItem"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /services/{serviceId}/custom-appointments/free:
+    get:
+      tags: [EnterpriseServices]
+      operationId: getFreeCustomAppointments
+      parameters:
+        - name: serviceId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: *OK_DESCRIPTION
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/GetServiceFreeCustomAppointmentsResponseItem"
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":

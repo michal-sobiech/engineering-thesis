@@ -1,23 +1,14 @@
-import { Duration, format, getDay, intervalToDuration, parse, startOfWeek } from "date-fns";
-import { enUS } from "date-fns/locale";
+import { Duration, intervalToDuration } from "date-fns";
 import { err, ok, Result } from "neverthrow";
 import { FC, JSX, useState } from "react";
-import { Calendar, dateFnsLocalizer, SlotInfo } from "react-big-calendar";
+import { Calendar, SlotInfo } from "react-big-calendar";
 import { EventWithIdAndCapacity } from "../../../common/calendar/EventWithIdAndCapacity";
+import { localizer } from "../../../common/localizer";
 import { getLastFromArray } from "../../../utils/array";
 import { durationToMs, splitPeriod } from "../../../utils/date";
 import { Position } from "../../../utils/Position";
 import { UseStateSetter } from "../../../utils/useState";
 import { WeeklyCalendarCustomAppoinmentsDisabledPopup } from "./WeeklyCalendarCustomAppoinmentsDisabledPopup";
-
-const locales = { "en-US": enUS };
-const localizer = dateFnsLocalizer({
-    format,
-    parse,
-    getDay,
-    locales,
-    startOfWeek: (date: Date) => startOfWeek(date, { weekStartsOn: 1 })
-});
 
 export interface WeeklyCalendarCustomAppoinmentsDisabledProps {
     events: EventWithIdAndCapacity[];
