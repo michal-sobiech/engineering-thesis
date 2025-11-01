@@ -1084,11 +1084,6 @@ paths:
         "500":
           $ref: "#/components/responses/InternalServerError"
 
-  # /appointments/{appointmentId}:
-  #   delete:
-  #     tags: [Appointments]
-  #     operationId:
-
   /services/search:
     get:
       tags: [EnterpriseServices]
@@ -1219,10 +1214,6 @@ paths:
                   $ref: "#/components/schemas/GetServiceFreeNonCustomAppointmentsResponseItem"
         "400":
           $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
         "500":
           $ref: "#/components/responses/InternalServerError"
 
@@ -1248,9 +1239,32 @@ paths:
                   $ref: "#/components/schemas/GetServiceFreeCustomAppointmentsResponseItem"
         "400":
           $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /services/{serviceId}/custom-appointments-or-not:
+    get:
+      tags: [EnterpriseServices]
+      operationId: getServiceCustomAppointmentsStatus
+      parameters:
+        - name: serviceId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: *OK_DESCRIPTION
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [areCustomAppointmentsEnabled]
+                properties:
+                  areCustomAppointmentsEnabled:
+                    type: boolean
+        "400":
+          $ref: "#/components/responses/BadRequest"
         "500":
           $ref: "#/components/responses/InternalServerError"

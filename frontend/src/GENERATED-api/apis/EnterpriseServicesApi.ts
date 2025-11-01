@@ -17,6 +17,7 @@ import * as runtime from '../runtime';
 import type {
   CreateCustomAppointmentsEnterpriseServiceRequest,
   CreateNoCustomAppointmentsEnterpriseServiceRequest,
+  GetServiceCustomAppointmentsStatus200Response,
   GetServiceFreeCustomAppointmentsResponseItem,
   GetServiceFreeNonCustomAppointmentsResponseItem,
   InlineObject,
@@ -30,6 +31,8 @@ import {
     CreateCustomAppointmentsEnterpriseServiceRequestToJSON,
     CreateNoCustomAppointmentsEnterpriseServiceRequestFromJSON,
     CreateNoCustomAppointmentsEnterpriseServiceRequestToJSON,
+    GetServiceCustomAppointmentsStatus200ResponseFromJSON,
+    GetServiceCustomAppointmentsStatus200ResponseToJSON,
     GetServiceFreeCustomAppointmentsResponseItemFromJSON,
     GetServiceFreeCustomAppointmentsResponseItemToJSON,
     GetServiceFreeNonCustomAppointmentsResponseItemFromJSON,
@@ -61,6 +64,10 @@ export interface GetFreeCustomAppointmentsRequest {
 }
 
 export interface GetFreeNonCustomAppointmentsRequest {
+    serviceId: number;
+}
+
+export interface GetServiceCustomAppointmentsStatusRequest {
     serviceId: number;
 }
 
@@ -251,6 +258,41 @@ export class EnterpriseServicesApi extends runtime.BaseAPI {
      */
     async getFreeNonCustomAppointments(serviceId: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetServiceFreeNonCustomAppointmentsResponseItem>> {
         const response = await this.getFreeNonCustomAppointmentsRaw({ serviceId: serviceId }, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async getServiceCustomAppointmentsStatusRaw(requestParameters: GetServiceCustomAppointmentsStatusRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetServiceCustomAppointmentsStatus200Response>> {
+        if (requestParameters['serviceId'] == null) {
+            throw new runtime.RequiredError(
+                'serviceId',
+                'Required parameter "serviceId" was null or undefined when calling getServiceCustomAppointmentsStatus().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+
+        let urlPath = `/services/{serviceId}/custom-appointments-or-not`;
+        urlPath = urlPath.replace(`{${"serviceId"}}`, encodeURIComponent(String(requestParameters['serviceId'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => GetServiceCustomAppointmentsStatus200ResponseFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async getServiceCustomAppointmentsStatus(serviceId: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetServiceCustomAppointmentsStatus200Response> {
+        const response = await this.getServiceCustomAppointmentsStatusRaw({ serviceId: serviceId }, initOverrides);
         return await response.value();
     }
 

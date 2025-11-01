@@ -1,35 +1,38 @@
-import { Center, Text } from "@chakra-ui/react"
-import { useState } from "react"
-import { StandardFlex } from "../../../common/StandardFlex"
-import { StandardPanel } from "../../../common/StandardPanel"
-import { ServicePublicPageContext, ServicePublicPageContextValue } from "./ServicePublicPageContext"
-import { ServicePublicPageNoCustomAppointmentsCalendar } from "./ServicePublicPageNoCustomAppointmentsCalendar"
-import { ServicePublicPageNoCustomAppointmentsSlotList } from "./ServicePublicPageNoCustomAppointmentsSlotList"
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
+import { servicesApi } from "../../../api/services-api";
+import { useIntParam } from "../../../hooks/useIntParam";
+import { routes } from "../../../router/routes";
+import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../../utils/error";
+import { errorErrResultAsyncFromPromise } from "../../../utils/result";
+import { toastError } from "../../../utils/toast";
+import { NoCustomAppointmentsServicePublicPage } from "./NoCustomAppointmentsServicePublicPage";
 
 export const ServicePublicPage = () => {
-    const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-    const [freeAppointmentsOnSelectedDate, setFreeAppointmentsOnSelectedDate] = useState<[Date, Date][] | null>(null);
-    const [selectedAppointment, setSelectedAppointment] = useState<[Date, Date] | null>(null);
+    const navigate = useNavigate();
+    const serviceId = useIntParam("serviceId");
 
-    const contextValue: ServicePublicPageContextValue = {
-        selectedDate,
-        setSelectedDate,
-        freeAppointmentsOnSelectedDate,
-        setFreeAppointmentsOnSelectedDate,
-        selectedAppointment,
-        setSelectedAppointment,
-    };
+    const [areCustomAppointmentsEnabled, setAreCustomAppointmentsEnabled] = useState<boolean | null>(null);
 
-    return <ServicePublicPageContext.Provider value={contextValue}>
-        <Center height="100vh">
-            <StandardPanel width="80%" height="90vh" padding="20px" >
-                <StandardFlex>
-                    <Text fontSize="3xl">Service</Text>
-                    <Text>Enterprise</Text>
-                    <ServicePublicPageNoCustomAppointmentsCalendar />
-                    <ServicePublicPageNoCustomAppointmentsSlotList />
-                </StandardFlex>
-            </StandardPanel>
-        </Center >
-    </ServicePublicPageContext.Provider>
+    useEffect(() => {
+        async function loadData() {
+            const promise = servicesApi.getServiceCustomAppointmentsStatus(serviceId);
+            const result = await errorErrResultAsyncFromPromise(promise);
+            if (result.isErr()) {
+                toastError(DEFAULT_ERROR_MESSAGE_FOR_USER);
+                navigate(routes.mainPage);
+                return;
+            }
+            setAreCustomAppointmentsEnabled(result.value.areCustomAppointmentsEnabled);
+        }
+        loadData();
+    }, []);
+
+    if (areCustomAppointmentsEnabled) {
+        // return <Service
+        return <NoCustomAppointmentsServicePublicPage />;
+    }
+    else {
+        return <NoCustomAppointmentsServicePublicPage />;
+    }
 }

@@ -15,6 +15,7 @@ export * from './GetEnterpriseResponse';
 export * from './GetEnterpriseServicesResponseItem';
 export * from './GetEntrepreneurEnterprisesResponseItem';
 export * from './GetMyUserGroup200Response';
+export * from './GetServiceCustomAppointmentsStatus200Response';
 export * from './GetServiceFreeCustomAppointmentsResponseItem';
 export * from './GetServiceFreeNonCustomAppointmentsResponseItem';
 export * from './IndependentEndUserGetMeResponse';
