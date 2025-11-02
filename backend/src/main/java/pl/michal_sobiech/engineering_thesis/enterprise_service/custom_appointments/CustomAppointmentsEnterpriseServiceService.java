@@ -1,25 +1,25 @@
 package pl.michal_sobiech.engineering_thesis.enterprise_service.custom_appointments;
 
-import java.time.LocalTime;
-import java.time.ZonedDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.util.List;
 
-import org.SwaggerCodeGenExample.model.GetServiceFreeNonCustomAppointmentsResponseItem;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import pl.michal_sobiech.engineering_thesis.appointment.custom.ConfirmedCustomAppointment;
+import pl.michal_sobiech.engineering_thesis.appointment.custom.CustomAppointmentsService;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.CreateEnterpriseServiceResult;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceEntity;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceRepository;
+import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceService;
 import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.EnterpriseServiceSlotTemplateEntity;
 import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.EnterpriseServiceSlotTemplateRepository;
 import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.EnterpriseServiceSlotTemplateService;
-import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.custom_appointments.CustomAppointmentsEnterpriseServiceSlotTemplate;
 import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.custom_appointments.CustomAppointmentsEnterpriseServiceSlotTemplateService;
 import pl.michal_sobiech.engineering_thesis.utils.DateUtils;
 import pl.michal_sobiech.engineering_thesis.utils.LocalDateTimeWindow;
-import pl.michal_sobiech.engineering_thesis.utils.ZonedDate;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +29,8 @@ public class CustomAppointmentsEnterpriseServiceService {
     private final EnterpriseServiceSlotTemplateService enterpriseServiceSlotTemplateService;
     private final EnterpriseServiceSlotTemplateRepository enterpriseServiceSlotTemplateRepository;
     private final CustomAppointmentsEnterpriseServiceSlotTemplateService customAppointmentsEnterpriseServiceSlotTemplateService;
+    private final CustomAppointmentsService customAppointmentsService;
+    private final EnterpriseServiceService enterpriseServiceService;
 
     @Transactional
     public CreateEnterpriseServiceResult save(long enterpriseId,
@@ -58,15 +60,24 @@ public class CustomAppointmentsEnterpriseServiceService {
         return new CreateEnterpriseServiceResult(service, slots);
     }
 
-    public List<GetServiceFreeNonCustomAppointmentsResponseItem> findFreeTimeWindowsOnDate(
+    public List<LocalDateTimeWindow> findFreeTimeWindowsInDatetimeRange(
             long serviceId,
-            ZonedDate date) {
-        ZonedDateTime start = DateUtils.createZonedDateTime(date, LocalTime.of(0, 0, 0));
-        ZonedDateTime end = start.plusDays(1);
+            OffsetDateTime from,
+            OffsetDateTime to
+    ) {
+        ZoneId timeZone = enterpriseServiceService.getTimeZoneByServiceId(serviceId);
 
-        List<LocalDateTimeWindow> = customAppointmentsEnterpriseServiceService.g
+        List<LocalDateTimeWindow> defaultAvailability = customAppointmentsEnterpriseServiceSlotTemplateService.getAvailabilityTemplateForDateRange(serviceId, null, null)
 
-        List<CustomAppointmentsEnterpriseServiceSlotTemplate> 
+        List<ConfirmedCustomAppointment> confirmedAppointments = customAppointmentsService.getConfirmedAppointmentsInDatetimeRange(serviceId, from, to); 
+        List<LocalDateTimeWindow> confirmedAppointmentsWindows = confirmedAppointments.stream().map(a -> {
+            return new LocalDateTimeWindow(
+                DateUtils.createLocalDateTime(a.startTime(), timeZone),
+                DateUtils.createLocalDateTime(a.endTime(), timeZone)
+            );
+        }).toList();
+
+        return DateUtils.subtractTimeWindowLists(defaultAvailability, confirmedAppointmentsWindows);
     }
 
 }

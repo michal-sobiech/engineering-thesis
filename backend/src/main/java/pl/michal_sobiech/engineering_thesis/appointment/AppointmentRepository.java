@@ -12,9 +12,25 @@ public interface AppointmentRepository extends JpaRepository<AppointmentEntity, 
         @Query("""
                         SELECT appointment
                         FROM AppointmentEntity appointment
-                        WHERE appointment.start >= :from AND appointment.end <= :to
+                        WHERE appointment.start >= :from
+                        AND appointment.end <= :to
+                        AND appointment.enterpriseServiceId = :serviceId
                         """)
         public List<AppointmentEntity> findAllInRange(
+                        @Param("serviceId") long serviceId,
+                        @Param("from") OffsetDateTime from,
+                        @Param("to") OffsetDateTime to);
+
+        @Query("""
+                        SELECT appointment
+                        FROM AppointmentEntity appointment
+                        WHERE appointment.start >= :from
+                        AND appointment.end <= :to
+                        AND appointment.enterpriseServiceId = :serviceId
+                        AND appointment.isCustom = true
+                        AND appointment.isAccepted = true
+                        """)
+        public List<AppointmentEntity> findConfirmedInDatetimeRange(
                         @Param("serviceId") long serviceId,
                         @Param("from") OffsetDateTime from,
                         @Param("to") OffsetDateTime to);

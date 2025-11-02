@@ -1,6 +1,5 @@
 package pl.michal_sobiech.engineering_thesis.enterprise_service;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
@@ -17,8 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.micrometer.common.lang.Nullable;
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.appointment.non_custom.NonCustomAppointment;
-import pl.michal_sobiech.engineering_thesis.appointment.non_custom.NoncustomAppointmentsService;
+import pl.michal_sobiech.engineering_thesis.appointment.non_custom.NonCustomAppointmentsService;
+import pl.michal_sobiech.engineering_thesis.enterprise_service.custom_appointments.CustomAppointmentsEnterpriseServiceService;
 import pl.michal_sobiech.engineering_thesis.enterprise_service_search.EnterpriseServiceSearchService;
 import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.EnterpriseServiceSlotTemplateService;
 import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.ServiceSearchSlot;
@@ -35,26 +34,21 @@ public class EnterpriseServiceController implements ServicesApi {
     private final EnterpriseServiceSearchService enterpriseServiceSearchService;
     private final EnterpriseServiceSlotTemplateService enterpriseServiceSlotService;
     private final EnterpriseServiceService enterpriseServiceService;
-    private final NoncustomAppointmentsService noncustomAppointmentsService;
+    private final NonCustomAppointmentsService nonCustomAppointmentsService;
+    private final CustomAppointmentsEnterpriseServiceService customAppointmentsEnterpriseServiceService;
 
     @Override
     public ResponseEntity<List<GetServiceFreeNonCustomAppointmentsResponseItem>> getFreeNonCustomAppointments(
-            // TODO
             Long enterpriseServiceId,
             LocalDate dateInServiceTimezone
     ) {
+        // TODO
         ZoneId timeZone = enterpriseServiceService.getTimeZoneByServiceId(enterpriseServiceId);
 
-        DayOfWeek dayOfWeek = dateInServiceTimezone.getDayOfWeek();
-        List<LocalDateTimeWindow> defaultAvailability = enterpriseServiceService.getAvailabilityTemplateForDateRange(enterpriseServiceId, dateInServiceTimezone, dateInServiceTimezone);
-
-        OffsetDateTime datetimeWithTimezone = DateUtils.createOffsetDateTime(dateInServiceTimezone, timeZone);
-        List<NonCustomAppointment> appointmentsOnDay = noncustomAppointmentsService.getAllByServiceIdAndDate(enterpriseServiceId, datetimeWithTimezone);
-        List<LocalDateTimeWindow> appointmensMapped = appointmentsOnDay.stream().map(a -> {
-            return new LocalDateTimeWindow(
-                a.startTime().toLocalDateTime(),
-                a.endTime().toLocalDateTime());
-        }).toList();
+        OffsetDateTime start = DateUtils.createOffsetDateTime(dateInServiceTimezone, timeZone);
+        OffsetDateTime end = start.plusDays(1);
+        
+        // List<LocalDateTimeWindow> freeWindows = 
         
         List<GetServiceFreeNonCustomAppointmentsResponseItem> body = ap
 
@@ -63,9 +57,21 @@ public class EnterpriseServiceController implements ServicesApi {
 
     @Override
     public ResponseEntity<List<GetServiceFreeCustomAppointmentsResponseItem>> getFreeTimeWindowsForCustomAppointments(
-            Long serviceId) {
-        // TODO
-        return ResponseEntity.ok(List.of());
+            Long enterpriseServiceId, LocalDate dateInServiceTimezone) {
+        ZoneId timezone = enterpriseServiceService.getTimeZoneByServiceId(enterpriseServiceId);
+
+        OffsetDateTime start = DateUtils.createOffsetDateTime(dateInServiceTimezone, timezone);
+        OffsetDateTime end = start.plusDays(1);
+
+        List<LocalDateTimeWindow> freeWindows = customAppointmentsEnterpriseServiceService
+                .findFreeTimeWindowsInDatetimeRange(enterpriseServiceId, start, end);
+        List<GetServiceFreeCustomAppointmentsResponseItem> body = freeWindows.stream().map(window -> {
+            return new GetServiceFreeCustomAppointmentsResponseItem(
+                    DateUtils.createOffsetDateTime(window.start(), timezone),
+                    DateUtils.createOffsetDateTime(window.end(), timezone));
+        }).toList();
+
+        return ResponseEntity.ok(body);
     }
 
     @Override

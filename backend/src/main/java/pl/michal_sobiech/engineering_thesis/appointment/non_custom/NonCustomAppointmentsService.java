@@ -12,7 +12,7 @@ import pl.michal_sobiech.engineering_thesis.utils.DateUtils;
 
 @Service
 @RequiredArgsConstructor
-public class NoncustomAppointmentsService {
+public class NonCustomAppointmentsService {
 
     private final AppointmentRepository appointmentRepository;
 
@@ -23,7 +23,7 @@ public class NoncustomAppointmentsService {
     }
 
     public List<NonCustomAppointment> getAllByServiceIdAndDate(long serviceId, OffsetDateTime date) {
-        OffsetDateTime from = DateUtils.createWithResetTime(date);
+        OffsetDateTime from = DateUtils.createOffsetDateTimeWithResetTime(date);
         OffsetDateTime to = from.plusDays(1);
         return getAllByServiceIdAndRange(serviceId, from, to);
     }

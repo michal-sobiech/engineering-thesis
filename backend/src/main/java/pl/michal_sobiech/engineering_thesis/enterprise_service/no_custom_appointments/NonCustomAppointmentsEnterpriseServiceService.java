@@ -1,7 +1,6 @@
 package pl.michal_sobiech.engineering_thesis.enterprise_service.no_custom_appointments;
 
 import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -13,8 +12,6 @@ import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseService
 import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceRepository;
 import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.EnterpriseServiceSlotTemplateEntity;
 import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.EnterpriseServiceSlotTemplateService;
-import pl.michal_sobiech.engineering_thesis.utils.LocalDateTimeWindow;
-import pl.michal_sobiech.engineering_thesis.utils.LocalTimeWindow;
 
 @Service
 @RequiredArgsConstructor
@@ -51,27 +48,32 @@ public class NonCustomAppointmentsEnterpriseServiceService {
         return new CreateEnterpriseServiceResult(service, slots);
     }
 
-    public List<LocalDateTimeWindowWithOccupancy> getAvailabilityTemplateForDateRange(long enterpriseServiceId,
-            LocalDate from,
-            LocalDate to) {
-        List<LocalDateTimeWindow> out = List.of();
-        for (LocalDate date : DateUtils.getAllDatesBetweenIncludingBorders(from, to)) {
-            DayOfWeek dayOfWeek = date.getDayOfWeek();
-            List<LocalTimeWindow> windowsForDayOfWeek = getAvailabilityTemplateForDayOfWeek(
-                    enterpriseServiceId,
-                    dayOfWeek);
+    // public List<NonCustomApp> getAvailabilityTemplateForDateRange(long
+    // enterpriseServiceId,
+    // LocalDate from,
+    // LocalDate to
+    // ) {
+    // List<LocalDateTimeWindow> out = List.of();
+    // for (LocalDate date : DateUtils.getAllDatesBetweenIncludingBorders(from, to))
+    // {
+    // DayOfWeek dayOfWeek = date.getDayOfWeek();
+    // List<LocalTimeWindow> windowsForDayOfWeek =
+    // getAvailabilityTemplateForDayOfWeek(
+    // enterpriseServiceId,
+    // dayOfWeek);
 
-            List<LocalDateTimeWindow> datetimeWindowsForDayOfWeek = windowsForDayOfWeek.stream()
-                    .map(window -> new LocalDateTimeWindowWithOccupancy(
-                            LocalDateTime.of(date, window.start()),
-                            LocalDateTime.of(date, window.end()))),
-                            window.get
-                    .toList();
+    // List<LocalDateTimeWindow> datetimeWindowsForDayOfWeek =
+    // windowsForDayOfWeek.stream()
+    // .map(window -> new LocalDateTimeWindowWithOccupancy(
+    // LocalDateTime.of(date, window.start()),
+    // LocalDateTime.of(date, window.end()))),
+    // window.get
+    // .toList();
 
-            out.addAll(datetimeWindowsForDayOfWeek);
-        }
-        return out;
-    }
+    // out.addAll(datetimeWindowsForDayOfWeek);
+    // }
+    // return out;
+    // }
 
     public List<LocalDateTimeWindowWithOccupancy> getAvailabilityTemplateForDayOfWeek(long enterpiseServiceId,
             DayOfWeek dayOfWeek) {

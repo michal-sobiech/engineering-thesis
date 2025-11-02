@@ -1190,7 +1190,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: date
+        - name: dateInServiceTimezone
           in: query
           required: true
           schema:
@@ -1221,7 +1221,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: date
+        - name: dateInServiceTimezone
           in: query
           required: true
           schema:

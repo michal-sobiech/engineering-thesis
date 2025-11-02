@@ -104,8 +104,16 @@ public class DateUtils {
         return date.atStartOfDay(timeZone).toOffsetDateTime();
     }
 
-    public static OffsetDateTime createWithResetTime(OffsetDateTime datetime) {
+    public static OffsetDateTime createOffsetDateTime(LocalDateTime date, ZoneId timeZone) {
+        return date.atZone(timeZone).toOffsetDateTime();
+    }
+
+    public static OffsetDateTime createOffsetDateTimeWithResetTime(OffsetDateTime datetime) {
         return datetime.withHour(0).withMinute(0).withSecond(0).withNano(0);
+    }
+
+    public static LocalDateTime createLocalDateTime(OffsetDateTime offsetDatetime, ZoneId timezone) {
+        return offsetDatetime.atZoneSameInstant(timezone).toLocalDateTime();
     }
 
 }

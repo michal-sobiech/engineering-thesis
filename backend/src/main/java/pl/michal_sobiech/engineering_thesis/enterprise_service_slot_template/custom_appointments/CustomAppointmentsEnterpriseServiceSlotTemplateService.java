@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.EnterpriseServiceSlotTemplateEntity;
-import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.EnterpriseServiceSlotTemplateRepository;
 import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.EnterpriseServiceSlotTemplateService;
 import pl.michal_sobiech.engineering_thesis.utils.DateUtils;
 import pl.michal_sobiech.engineering_thesis.utils.LocalDateTimeWindow;
@@ -18,7 +17,6 @@ import pl.michal_sobiech.engineering_thesis.utils.LocalDateTimeWindow;
 @RequiredArgsConstructor
 public class CustomAppointmentsEnterpriseServiceSlotTemplateService {
 
-    private final EnterpriseServiceSlotTemplateRepository enterpriseServiceSlotTemplateRepository;
     private final EnterpriseServiceSlotTemplateService enterpriseServiceSlotTemplateService;
 
     public List<LocalDateTimeWindow> getAvailabilityTemplateForDateRange(long enterpriseServiceId,
@@ -41,6 +39,12 @@ public class CustomAppointmentsEnterpriseServiceSlotTemplateService {
             out.addAll(mappedWindowsForDayOfWeek);
         }
         return out;
+    }
+
+    public List<LocalDateTimeWindow> getAvailabilityTemplateOnDate(
+            long enterpriseServiceId,
+            LocalDate date) {
+        return getAvailabilityTemplateForDateRange(enterpriseServiceId, date, date);
     }
 
     public List<CustomAppointmentsEnterpriseServiceSlotTemplate> getAvailabilityTemplateForDayOfWeek(

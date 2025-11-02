@@ -6,14 +6,14 @@ import java.util.Optional;
 
 public record RejectedCustomAppointment(
 
-        long appointmentId,
-        long enterpriseServiceId,
-        Long customerUserId,
+                long appointmentId,
+                long enterpriseServiceId,
+                Long customerUserId,
 
-        Optional<BigDecimal> price,
-        OffsetDateTime startTime,
-        OffsetDateTime endTime,
-        String rejectionMessage
+                Optional<BigDecimal> price,
+                OffsetDateTime startTime,
+                OffsetDateTime endTime,
+                String rejectionMessage
 
 ) {
 
