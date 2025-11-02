@@ -307,16 +307,7 @@ components:
     CreateNoCustomAppointmentsEnterpriseServiceRequest:
       type: object
       required:
-        [
-          name,
-          description,
-          location,
-          timeZone,
-          cathegory,
-          price,
-          currency,
-          slots,
-        ]
+        [name, description, location, timeZone, cathegory, currency, slots]
       properties:
         name:
           type: string
@@ -352,7 +343,6 @@ components:
           timeZone,
           maxDistanceKm,
           cathegory,
-          price,
           currency,
           slots,
         ]

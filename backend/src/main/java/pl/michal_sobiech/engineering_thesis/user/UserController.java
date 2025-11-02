@@ -1,6 +1,6 @@
 package pl.michal_sobiech.engineering_thesis.user;
 
-import org.SwaggerCodeGenExample.api.UserApi;
+import org.SwaggerCodeGenExample.api.UsersApi;
 import org.SwaggerCodeGenExample.model.GetMyUserGroup200Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,7 +10,7 @@ import pl.michal_sobiech.engineering_thesis.auth.AuthService;
 
 @RestController
 @RequiredArgsConstructor
-public class UserController implements UserApi {
+public class UserController implements UsersApi {
 
     private final AuthService authService;
 

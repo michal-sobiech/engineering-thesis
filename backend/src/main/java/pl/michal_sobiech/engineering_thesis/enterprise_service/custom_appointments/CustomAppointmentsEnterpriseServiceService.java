@@ -1,16 +1,22 @@
-package pl.michal_sobiech.engineering_thesis.enterprise_service.custom_appointments_enterprise_service;
+package pl.michal_sobiech.engineering_thesis.enterprise_service.custom_appointments;
 
+import java.time.LocalTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 
+import org.SwaggerCodeGenExample.model.GetServiceFreeNonCustomAppointmentsResponseItem;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import pl.michal_sobiech.engineering_thesis.appointment.custom.CustomAppointmentTimeWindow;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.CreateEnterpriseServiceResult;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceEntity;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceRepository;
 import pl.michal_sobiech.engineering_thesis.enterprise_service_slot.EnterpriseServiceSlotEntity;
 import pl.michal_sobiech.engineering_thesis.enterprise_service_slot.EnterpriseServiceSlotService;
+import pl.michal_sobiech.engineering_thesis.utils.DateUtils;
+import pl.michal_sobiech.engineering_thesis.utils.ZonedDate;
 
 @Service
 @RequiredArgsConstructor
@@ -31,7 +37,7 @@ public class CustomAppointmentsEnterpriseServiceService {
                 .takesCustomAppointments(true)
                 .maxDistanceKm(command.maxDistanceKm())
                 .cathegory(command.cathegory())
-                .price(command.price())
+                .price(command.price().orElse(null))
                 .currency(command.currency())
                 .address(command.location().getAddress())
                 .longitude(command.location().getLongitude())
@@ -44,6 +50,19 @@ public class CustomAppointmentsEnterpriseServiceService {
         List<EnterpriseServiceSlotEntity> slots = enterpriseServiceSlotService.saveMany(enterpriseServiceId,
                 command.slots());
         return new CreateEnterpriseServiceResult(service, slots);
+    }
+
+    // TODO what even is a slot? Standardize names
+    public List<GetServiceFreeNonCustomAppointmentsResponseItem> findFreeTimeWindowsOnDate(
+        long serviceId,
+        ZonedDate date
+    ) {
+        ZonedDateTime start = DateUtils.fromZonedDateAndLocalTime(date, LocalTime.of(0, 0, 0));
+        ZonedDateTime end = start.plusDays(1);
+        
+        List<Appoint
+
+        List<CustomAppointmentTimeWindow> timeWindows = 
     }
 
 }

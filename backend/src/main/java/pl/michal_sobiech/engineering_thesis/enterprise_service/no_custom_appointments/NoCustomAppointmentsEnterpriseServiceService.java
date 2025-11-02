@@ -1,4 +1,4 @@
-package pl.michal_sobiech.engineering_thesis.enterprise_service.no_custom_appointments_enterprise_service;
+package pl.michal_sobiech.engineering_thesis.enterprise_service.no_custom_appointments;
 
 import java.util.List;
 
@@ -31,7 +31,7 @@ public class NoCustomAppointmentsEnterpriseServiceService {
                                 .takesCustomAppointments(false)
                                 .maxDistanceKm(null)
                                 .cathegory(command.cathegory())
-                                .price(command.price())
+                                .price(command.price().orElse(null))
                                 .currency(command.currency())
                                 .address(command.location().getAddress())
                                 .longitude(command.location().getLongitude())

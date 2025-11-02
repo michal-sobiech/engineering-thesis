@@ -30,7 +30,8 @@ public class AppointmentEntity {
     @Column(name = "enterprise_service_id")
     private long enterpriseServiceId;
 
-    @Column(name = "customer_user_id")
+    @Nullable
+    @Column(name = "customer_user_id", nullable = true)
     private long customerUserId;
 
     @Column(name = "start_time")

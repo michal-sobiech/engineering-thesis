@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.SwaggerCodeGenExample.api.ServicesApi;
+import org.SwaggerCodeGenExample.model.GetServiceCustomAppointmentsStatus200Response;
+import org.SwaggerCodeGenExample.model.GetServiceFreeCustomAppointmentsResponseItem;
+import org.SwaggerCodeGenExample.model.GetServiceFreeNonCustomAppointmentsResponseItem;
 import org.SwaggerCodeGenExample.model.ServiceSearchResponseItem;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,6 +27,29 @@ public class EnterpriseServiceController implements ServicesApi {
 
     private final EnterpriseServiceSearchService enterpriseServiceSearchService;
     private final EnterpriseServiceSlotService enterpriseServiceSlotService;
+
+    @Override
+    public ResponseEntity<List<GetServiceFreeNonCustomAppointmentsResponseItem>> getFreeNonCustomAppointments(
+            // TODO
+            Long serviceId) {
+        List<GetServiceFreeNonCustomAppointmentsResponseItem> body =
+        return ResponseEntity.ok(List.of());
+    }
+
+    @Override
+    public ResponseEntity<List<GetServiceFreeCustomAppointmentsResponseItem>> getFreeTimeWindowsForCustomAppointments(
+            Long serviceId) {
+        // TODO
+        return ResponseEntity.ok(List.of());
+    }
+
+    @Override
+    public ResponseEntity<GetServiceCustomAppointmentsStatus200Response> getServiceCustomAppointmentsStatus(
+            Long serviceId) {
+        // TODO
+        var body = new GetServiceCustomAppointmentsStatus200Response(false);
+        return ResponseEntity.ok(body);
+    }
 
     @Override
     public ResponseEntity<List<ServiceSearchResponseItem>> searchServices(
