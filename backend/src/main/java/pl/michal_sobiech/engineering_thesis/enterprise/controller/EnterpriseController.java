@@ -33,7 +33,7 @@ import pl.michal_sobiech.engineering_thesis.enterprise_service.custom_appointmen
 import pl.michal_sobiech.engineering_thesis.enterprise_service.custom_appointments.CustomAppointmentsEnterpriseServiceService;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.no_custom_appointments.CreateNoCustomAppointmentsEnterpriseServiceCommand;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.no_custom_appointments.NoCustomAppointmentsEnterpriseServiceService;
-import pl.michal_sobiech.engineering_thesis.enterprise_service_slot.CreateEnterpriseServiceSlotCommand;
+import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.CreateEnterpriseServiceSlotTemplateCommand;
 import pl.michal_sobiech.engineering_thesis.entrepreneur.Entrepreneur;
 import pl.michal_sobiech.engineering_thesis.utils.DayOfWeekUtils;
 import pl.michal_sobiech.engineering_thesis.utils.HttpUtils;
@@ -42,173 +42,173 @@ import pl.michal_sobiech.engineering_thesis.utils.HttpUtils;
 @RequiredArgsConstructor
 public class EnterpriseController implements EnterprisesApi {
 
-    private final AuthService authService;
-    private final EnterpriseService enterpriseService;
-    private final EnterpriseServiceService enterpriseServiceService;
-    private final EmployeeService employeeService;
-    private final NoCustomAppointmentsEnterpriseServiceService noCustomAppointmentsEnterpriseServiceService;
-    private final CustomAppointmentsEnterpriseServiceService customAppointmentsEnterpriseServiceService;
+        private final AuthService authService;
+        private final EnterpriseService enterpriseService;
+        private final EnterpriseServiceService enterpriseServiceService;
+        private final EmployeeService employeeService;
+        private final NoCustomAppointmentsEnterpriseServiceService noCustomAppointmentsEnterpriseServiceService;
+        private final CustomAppointmentsEnterpriseServiceService customAppointmentsEnterpriseServiceService;
 
-    private final EnterpriseControllerCreateEnterprise enterpriseControllerCreateEnterprise;
-    private final EnterpriseControllerCreateEmployee enterpriseControllerCreateEmployee;
+        private final EnterpriseControllerCreateEnterprise enterpriseControllerCreateEnterprise;
+        private final EnterpriseControllerCreateEmployee enterpriseControllerCreateEmployee;
 
-    public ResponseEntity<CreateEnterpriseResponse> createEnterprise(
-            String name,
-            String description,
-            String address,
-            Double longitude,
-            Double latitude,
-            MultipartFile logoFile,
-            MultipartFile backgroundPhotoFile) {
-        var command = new CreateEnterpriseCommand(
-                name,
-                description,
-                new Location(address, longitude, latitude),
-                Optional.ofNullable(logoFile),
-                Optional.ofNullable(backgroundPhotoFile));
+        public ResponseEntity<CreateEnterpriseResponse> createEnterprise(
+                        String name,
+                        String description,
+                        String address,
+                        Double longitude,
+                        Double latitude,
+                        MultipartFile logoFile,
+                        MultipartFile backgroundPhotoFile) {
+                var command = new CreateEnterpriseCommand(
+                                name,
+                                description,
+                                new Location(address, longitude, latitude),
+                                Optional.ofNullable(logoFile),
+                                Optional.ofNullable(backgroundPhotoFile));
 
-        return enterpriseControllerCreateEnterprise.createEnterprise(command);
-    }
-
-    @Override
-    public ResponseEntity<CheckIndependentEndUserEmailExists200Response> checkEmployeeUsernameExists(
-            Long enterpriseId, String username) {
-        final boolean exists = employeeService.checkEmployeeUsernameExists(enterpriseId, username);
-        final var responseBody = new CheckIndependentEndUserEmailExists200Response(exists);
-        return ResponseEntity.ok(responseBody);
-    }
-
-    @Override
-    public ResponseEntity<CreateEnterpriseEmployeeResponse> createEnterpriseEmployee(
-            Long enterpriseId,
-            CreateEnterpriseEmployeeRequest createEnterpriseEmployeeRequest) {
-        return enterpriseControllerCreateEmployee.createEnterpriseEmployee(enterpriseId,
-                createEnterpriseEmployeeRequest);
-    }
-
-    @Override
-    public ResponseEntity<GetEnterpriseResponse> getEnterprise(Long enterpriseId) {
-
-        final Optional<EnterpriseEntity> optionalEnterprise = enterpriseService
-                .findByEnterpriseId(enterpriseId);
-        if (optionalEnterprise.isEmpty()) {
-            return HttpUtils.createNotFoundReponse();
-        }
-        EnterpriseEntity enterprise = optionalEnterprise.get();
-
-        Location location = new Location(
-                enterprise.getAddress(),
-                enterprise.getLongitude(),
-                enterprise.getLatitude());
-
-        var responseBody = new GetEnterpriseResponse(
-                enterprise.getName(),
-                enterprise.getDescription(),
-                location);
-
-        return ResponseEntity.ok(responseBody);
-    }
-
-    @Override
-    public ResponseEntity<List<GetEnterpriseEmployeesResponseItem>> getEnterpriseEmployees(Long enterpriseId) {
-        return HttpUtils.createInternalServerErrorResponse();
-    }
-
-    @Override
-    public ResponseEntity<List<GetEnterpriseServicesResponseItem>> getEnterpriseServices(Long enterpriseId) {
-        var services = enterpriseServiceService.findByEnterpriseId(enterpriseId);
-        var body = services.stream()
-                .map(service -> new GetEnterpriseServicesResponseItem(
-                        service.getEnterpriseServiceId(),
-                        service.getName(),
-                        service.getDescription()))
-                .toList();
-        return ResponseEntity.ok(body);
-    }
-
-    // TODO cache invalidation
-    @Override
-    public ResponseEntity<Void> patchEnterprise(
-            Long enterpriseId,
-            String name,
-            String description,
-            Location location,
-            String timeZone,
-            Boolean takesCustomAppointments,
-            MultipartFile logoFile,
-            MultipartFile backgroundPhotoFile) {
-
-        Entrepreneur entrepreneur = authService.requireEntrepreneur();
-
-        EnterpriseEntity enterprise = enterpriseService.findByEnterpriseId(enterpriseId).orElseThrow();
-
-        if (enterprise.getOwnerUserId() != entrepreneur.getUserId()) {
-            return HttpUtils.createForbiddenResponse();
+                return enterpriseControllerCreateEnterprise.createEnterprise(command);
         }
 
-        PatchEnterpriseRequestDto requestDto = new PatchEnterpriseRequestDto(
-                enterpriseId,
-                Optional.ofNullable(name),
-                Optional.ofNullable(description),
-                Optional.ofNullable(location),
-                Optional.ofNullable(logoFile),
-                Optional.ofNullable(backgroundPhotoFile));
-        enterpriseService.patchEnterprise(requestDto);
+        @Override
+        public ResponseEntity<CheckIndependentEndUserEmailExists200Response> checkEmployeeUsernameExists(
+                        Long enterpriseId, String username) {
+                final boolean exists = employeeService.checkEmployeeUsernameExists(enterpriseId, username);
+                final var responseBody = new CheckIndependentEndUserEmailExists200Response(exists);
+                return ResponseEntity.ok(responseBody);
+        }
 
-        return ResponseEntity.ok().build();
-    }
+        @Override
+        public ResponseEntity<CreateEnterpriseEmployeeResponse> createEnterpriseEmployee(
+                        Long enterpriseId,
+                        CreateEnterpriseEmployeeRequest createEnterpriseEmployeeRequest) {
+                return enterpriseControllerCreateEmployee.createEnterpriseEmployee(enterpriseId,
+                                createEnterpriseEmployeeRequest);
+        }
 
-    @Override
-    public ResponseEntity<Void> createCustomAppointmentsEnterpriseService(
-            Long enterpriseId,
-            CreateCustomAppointmentsEnterpriseServiceRequest request) {
-        List<CreateEnterpriseServiceSlotCommand> createSlotCommands = request.getSlots()
-                .stream()
-                .map(slot -> new CreateEnterpriseServiceSlotCommand(
-                        DayOfWeekUtils.swaggerToStdDayOfWeek(slot.getDayOfWeek()),
-                        LocalTime.parse(slot.getStart()),
-                        LocalTime.parse(slot.getEnd())))
-                .toList();
+        @Override
+        public ResponseEntity<GetEnterpriseResponse> getEnterprise(Long enterpriseId) {
 
-        var command = new CreateCustomAppointmentsEnterpriseServiceCommand(
-                request.getName(),
-                request.getDescription(),
-                request.getLocation(),
-                ZoneId.of(request.getTimeZone()),
-                request.getMaxDistanceKm(),
-                EnterpriseServiceCathegory.valueOf(request.getCathegory()),
-                Optional.ofNullable(request.getPrice()),
-                CurrencyIso.valueOf(request.getCurrency()),
-                createSlotCommands);
+                final Optional<EnterpriseEntity> optionalEnterprise = enterpriseService
+                                .findByEnterpriseId(enterpriseId);
+                if (optionalEnterprise.isEmpty()) {
+                        return HttpUtils.createNotFoundReponse();
+                }
+                EnterpriseEntity enterprise = optionalEnterprise.get();
 
-        customAppointmentsEnterpriseServiceService.save(enterpriseId, command);
-        return ResponseEntity.ok().build();
-    }
+                Location location = new Location(
+                                enterprise.getAddress(),
+                                enterprise.getLongitude(),
+                                enterprise.getLatitude());
 
-    @Override
-    public ResponseEntity<Void> createNoCustomAppointmentsEnterpriseService(
-            Long enterpriseId,
-            CreateNoCustomAppointmentsEnterpriseServiceRequest request) {
-        List<CreateEnterpriseServiceSlotCommand> createSlotCommands = request.getSlots()
-                .stream()
-                .map(slot -> new CreateEnterpriseServiceSlotCommand(
-                        DayOfWeekUtils.swaggerToStdDayOfWeek(slot.getDayOfWeek()),
-                        LocalTime.parse(slot.getStart()),
-                        LocalTime.parse(slot.getEnd())))
-                .toList();
+                var responseBody = new GetEnterpriseResponse(
+                                enterprise.getName(),
+                                enterprise.getDescription(),
+                                location);
 
-        var command = new CreateNoCustomAppointmentsEnterpriseServiceCommand(
-                request.getName(),
-                request.getDescription(),
-                request.getLocation(),
-                ZoneId.of(request.getTimeZone()),
-                EnterpriseServiceCathegory.valueOf(request.getCathegory()),
-                Optional.ofNullable(request.getPrice()),
-                CurrencyIso.valueOf(request.getCurrency()),
-                createSlotCommands);
+                return ResponseEntity.ok(responseBody);
+        }
 
-        noCustomAppointmentsEnterpriseServiceService.save(enterpriseId, command);
-        return ResponseEntity.ok().build();
-    }
+        @Override
+        public ResponseEntity<List<GetEnterpriseEmployeesResponseItem>> getEnterpriseEmployees(Long enterpriseId) {
+                return HttpUtils.createInternalServerErrorResponse();
+        }
+
+        @Override
+        public ResponseEntity<List<GetEnterpriseServicesResponseItem>> getEnterpriseServices(Long enterpriseId) {
+                var services = enterpriseServiceService.findByEnterpriseId(enterpriseId);
+                var body = services.stream()
+                                .map(service -> new GetEnterpriseServicesResponseItem(
+                                                service.getEnterpriseServiceId(),
+                                                service.getName(),
+                                                service.getDescription()))
+                                .toList();
+                return ResponseEntity.ok(body);
+        }
+
+        // TODO cache invalidation
+        @Override
+        public ResponseEntity<Void> patchEnterprise(
+                        Long enterpriseId,
+                        String name,
+                        String description,
+                        Location location,
+                        String timeZone,
+                        Boolean takesCustomAppointments,
+                        MultipartFile logoFile,
+                        MultipartFile backgroundPhotoFile) {
+
+                Entrepreneur entrepreneur = authService.requireEntrepreneur();
+
+                EnterpriseEntity enterprise = enterpriseService.findByEnterpriseId(enterpriseId).orElseThrow();
+
+                if (enterprise.getOwnerUserId() != entrepreneur.getUserId()) {
+                        return HttpUtils.createForbiddenResponse();
+                }
+
+                PatchEnterpriseRequestDto requestDto = new PatchEnterpriseRequestDto(
+                                enterpriseId,
+                                Optional.ofNullable(name),
+                                Optional.ofNullable(description),
+                                Optional.ofNullable(location),
+                                Optional.ofNullable(logoFile),
+                                Optional.ofNullable(backgroundPhotoFile));
+                enterpriseService.patchEnterprise(requestDto);
+
+                return ResponseEntity.ok().build();
+        }
+
+        @Override
+        public ResponseEntity<Void> createCustomAppointmentsEnterpriseService(
+                        Long enterpriseId,
+                        CreateCustomAppointmentsEnterpriseServiceRequest request) {
+                List<CreateEnterpriseServiceSlotTemplateCommand> createSlotCommands = request.getSlots()
+                                .stream()
+                                .map(slot -> new CreateEnterpriseServiceSlotTemplateCommand(
+                                                DayOfWeekUtils.swaggerToStdDayOfWeek(slot.getDayOfWeek()),
+                                                LocalTime.parse(slot.getStart()),
+                                                LocalTime.parse(slot.getEnd())))
+                                .toList();
+
+                var command = new CreateCustomAppointmentsEnterpriseServiceCommand(
+                                request.getName(),
+                                request.getDescription(),
+                                request.getLocation(),
+                                ZoneId.of(request.getTimeZone()),
+                                request.getMaxDistanceKm(),
+                                EnterpriseServiceCathegory.valueOf(request.getCathegory()),
+                                Optional.ofNullable(request.getPrice()),
+                                CurrencyIso.valueOf(request.getCurrency()),
+                                createSlotCommands);
+
+                customAppointmentsEnterpriseServiceService.save(enterpriseId, command);
+                return ResponseEntity.ok().build();
+        }
+
+        @Override
+        public ResponseEntity<Void> createNoCustomAppointmentsEnterpriseService(
+                        Long enterpriseId,
+                        CreateNoCustomAppointmentsEnterpriseServiceRequest request) {
+                List<CreateEnterpriseServiceSlotTemplateCommand> createSlotCommands = request.getSlots()
+                                .stream()
+                                .map(slot -> new CreateEnterpriseServiceSlotTemplateCommand(
+                                                DayOfWeekUtils.swaggerToStdDayOfWeek(slot.getDayOfWeek()),
+                                                LocalTime.parse(slot.getStart()),
+                                                LocalTime.parse(slot.getEnd())))
+                                .toList();
+
+                var command = new CreateNoCustomAppointmentsEnterpriseServiceCommand(
+                                request.getName(),
+                                request.getDescription(),
+                                request.getLocation(),
+                                ZoneId.of(request.getTimeZone()),
+                                EnterpriseServiceCathegory.valueOf(request.getCathegory()),
+                                Optional.ofNullable(request.getPrice()),
+                                CurrencyIso.valueOf(request.getCurrency()),
+                                createSlotCommands);
+
+                noCustomAppointmentsEnterpriseServiceService.save(enterpriseId, command);
+                return ResponseEntity.ok().build();
+        }
 
 }

@@ -1,5 +1,6 @@
 package pl.michal_sobiech.engineering_thesis.appointment;
 
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
 import jakarta.annotation.Nullable;
@@ -34,6 +35,10 @@ public class AppointmentEntity {
     @Column(name = "customer_user_id", nullable = true)
     private long customerUserId;
 
+    @Nullable
+    @Column(nullable = true)
+    private BigDecimal price;
+
     @Column(name = "start_time")
     private OffsetDateTime startTime;
 
@@ -41,11 +46,11 @@ public class AppointmentEntity {
     private OffsetDateTime endTime;
 
     @Column(name = "is_custom")
-    private boolean isCustom;
+    private Boolean isCustom;
 
     @Nullable
     @Column(name = "is_accepted", nullable = true)
-    private boolean isAccepted;
+    private Boolean isAccepted;
 
     @Nullable
     @Column(name = "rejection_message", nullable = true)

@@ -9,14 +9,14 @@ import org.springframework.data.repository.query.Param;
 
 public interface AppointmentRepository extends JpaRepository<AppointmentEntity, Long> {
 
-    @Query("""
-            SELECT appointment
-            FROM AppointmentEntity appointment
-            WHERE appointment.start >= :from AND appointment.end <= :to
-            """)
-    public List<AppointmentEntity> findTakenDatetimeWindowsInRange(
-            @Param("serviceId") long serviceId,
-            @Param("from") OffsetDateTime from,
-            @Param("to") OffsetDateTime to);
+        @Query("""
+                        SELECT appointment
+                        FROM AppointmentEntity appointment
+                        WHERE appointment.start >= :from AND appointment.end <= :to
+                        """)
+        public List<AppointmentEntity> findAllInRange(
+                        @Param("serviceId") long serviceId,
+                        @Param("from") OffsetDateTime from,
+                        @Param("to") OffsetDateTime to);
 
 }

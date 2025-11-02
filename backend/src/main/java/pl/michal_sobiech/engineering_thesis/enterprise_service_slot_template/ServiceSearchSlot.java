@@ -1,4 +1,4 @@
-package pl.michal_sobiech.engineering_thesis.enterprise_service_slot;
+package pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;

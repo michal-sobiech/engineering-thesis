@@ -1,9 +1,9 @@
 package pl.michal_sobiech.engineering_thesis.enterprise_service;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,11 +17,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.micrometer.common.lang.Nullable;
 import lombok.RequiredArgsConstructor;
+import pl.michal_sobiech.engineering_thesis.appointment.non_custom.NonCustomAppointment;
+import pl.michal_sobiech.engineering_thesis.appointment.non_custom.NoncustomAppointmentsService;
 import pl.michal_sobiech.engineering_thesis.enterprise_service_search.EnterpriseServiceSearchService;
-import pl.michal_sobiech.engineering_thesis.enterprise_service_slot.EnterpriseServiceSlotService;
-import pl.michal_sobiech.engineering_thesis.enterprise_service_slot.ServiceSearchSlot;
+import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.EnterpriseServiceSlotTemplateService;
+import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.ServiceSearchSlot;
+import pl.michal_sobiech.engineering_thesis.utils.DateUtils;
 import pl.michal_sobiech.engineering_thesis.utils.HttpUtils;
-import pl.michal_sobiech.engineering_thesis.utils.ZonedDate;
+import pl.michal_sobiech.engineering_thesis.utils.LocalDateTimeWindow;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,8 +33,9 @@ public class EnterpriseServiceController implements ServicesApi {
     private static final double MAX_VALUE_OF_MAX_DISTANCE_KM = 100;
 
     private final EnterpriseServiceSearchService enterpriseServiceSearchService;
-    private final EnterpriseServiceSlotService enterpriseServiceSlotService;
+    private final EnterpriseServiceSlotTemplateService enterpriseServiceSlotService;
     private final EnterpriseServiceService enterpriseServiceService;
+    private final NoncustomAppointmentsService noncustomAppointmentsService;
 
     @Override
     public ResponseEntity<List<GetServiceFreeNonCustomAppointmentsResponseItem>> getFreeNonCustomAppointments(
@@ -40,12 +44,20 @@ public class EnterpriseServiceController implements ServicesApi {
             LocalDate dateInServiceTimezone
     ) {
         ZoneId timeZone = enterpriseServiceService.getTimeZoneByServiceId(enterpriseServiceId);
-        ZonedDate zonedDate = new ZonedDate(dateInServiceTimezone, timeZone);
-        ZonedDateTime zonedDatetime = DateU
 
-        List<LocalDate
+        DayOfWeek dayOfWeek = dateInServiceTimezone.getDayOfWeek();
+        List<LocalDateTimeWindow> defaultAvailability = enterpriseServiceService.getAvailabilityTemplateForDateRange(enterpriseServiceId, dateInServiceTimezone, dateInServiceTimezone);
 
-        List<GetServiceFreeNonCustomAppointmentsResponseItem> body =
+        OffsetDateTime datetimeWithTimezone = DateUtils.createOffsetDateTime(dateInServiceTimezone, timeZone);
+        List<NonCustomAppointment> appointmentsOnDay = noncustomAppointmentsService.getAllByServiceIdAndDate(enterpriseServiceId, datetimeWithTimezone);
+        List<LocalDateTimeWindow> appointmensMapped = appointmentsOnDay.stream().map(a -> {
+            return new LocalDateTimeWindow(
+                a.startTime().toLocalDateTime(),
+                a.endTime().toLocalDateTime());
+        }).toList();
+        
+        List<GetServiceFreeNonCustomAppointmentsResponseItem> body = ap
+
         return ResponseEntity.ok(body);
     }
 

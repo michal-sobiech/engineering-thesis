@@ -1,4 +1,4 @@
-package pl.michal_sobiech.engineering_thesis.enterprise_service_slot;
+package pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template;
 
 import java.time.DayOfWeek;
 import java.time.OffsetDateTime;
@@ -10,11 +10,12 @@ import org.springframework.data.repository.query.Param;
 
 import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceCathegory;
 
-public interface EnterpriseServiceSlotRepository extends JpaRepository<EnterpriseServiceSlotEntity, Long> {
+public interface EnterpriseServiceSlotTemplateRepository
+        extends JpaRepository<EnterpriseServiceSlotTemplateEntity, Long> {
 
-    public List<EnterpriseServiceSlotEntity> findAllByEnterpriseServiceId(long enterpriseServiceId);
+    public List<EnterpriseServiceSlotTemplateEntity> findAllByEnterpriseServiceId(long enterpriseServiceId);
 
-    public List<EnterpriseServiceSlotEntity> findAllByEnterpriseServiceIdAndDayOfWeek(long enterpriseServiceId,
+    public List<EnterpriseServiceSlotTemplateEntity> findAllByEnterpriseServiceIdAndDayOfWeek(long enterpriseServiceId,
             DayOfWeek dayOfWeek);
 
     @Query(value = """
@@ -25,7 +26,7 @@ public interface EnterpriseServiceSlotRepository extends JpaRepository<Enterpris
             slot.start_time AS startTime,
             slot.end_time AS endTime,
             service.price AS price
-            FROM enterprise_service_slot slot
+            FROM enterprise_service_slot_template slot
             JOIN enterprise_service service ON service.enterprise_service_id = slot.enterprise_service_id
             JOIN enterprise enterprise ON enterprise.enterprise_id = service.enterprise_id
             WHERE (:serviceName IS NULL OR LOWER(service.name) LIKE LOWER('%' || :serviceName || '%'))
@@ -56,7 +57,7 @@ public interface EnterpriseServiceSlotRepository extends JpaRepository<Enterpris
             slot.start_time AS startTime,
             slot.end_time AS endTime,
             service.price AS price
-            FROM enterprise_service_slot slot
+            FROM enterprise_service_slot_template slot
             JOIN enterprise_service service ON service.enterprise_service_id = slot.enterprise_service_id
             JOIN enterprise enterprise ON enterprise.enterprise_id = service.enterprise_id
             WHERE (:serviceName IS NULL OR LOWER(service.name) LIKE LOWER('%' || :serviceName || '%'))

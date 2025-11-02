@@ -9,27 +9,27 @@ import org.SwaggerCodeGenExample.model.Location;
 
 import pl.michal_sobiech.engineering_thesis.currency_iso.CurrencyIso;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceCathegory;
-import pl.michal_sobiech.engineering_thesis.enterprise_service_slot.CreateEnterpriseServiceSlotCommand;
+import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.CreateEnterpriseServiceSlotTemplateCommand;
 
 public record CreateCustomAppointmentsEnterpriseServiceCommand(
 
-                String name,
+        String name,
 
-                String description,
+        String description,
 
-                Location location,
+        Location location,
 
-                ZoneId timeZone,
+        ZoneId timeZone,
 
-                Double maxDistanceKm,
+        Double maxDistanceKm,
 
-                EnterpriseServiceCathegory cathegory,
+        EnterpriseServiceCathegory cathegory,
 
-                Optional<BigDecimal> price,
+        Optional<BigDecimal> price,
 
-                CurrencyIso currency,
+        CurrencyIso currency,
 
-                List<CreateEnterpriseServiceSlotCommand> slots
+        List<CreateEnterpriseServiceSlotTemplateCommand> slots
 
 ) {
 }

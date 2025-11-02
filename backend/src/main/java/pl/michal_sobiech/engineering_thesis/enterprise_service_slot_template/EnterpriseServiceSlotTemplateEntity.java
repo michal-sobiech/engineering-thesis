@@ -1,8 +1,9 @@
-package pl.michal_sobiech.engineering_thesis.enterprise_service_slot;
+package pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,7 +21,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class EnterpriseServiceSlotEntity {
+public class EnterpriseServiceSlotTemplateEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,5 +39,9 @@ public class EnterpriseServiceSlotEntity {
 
     @Column(name = "end_time")
     private LocalTime endTime;
+
+    @Nullable
+    @Column(name = "max_occupancy", nullable = true)
+    private Short maxOccupancy;
 
 }

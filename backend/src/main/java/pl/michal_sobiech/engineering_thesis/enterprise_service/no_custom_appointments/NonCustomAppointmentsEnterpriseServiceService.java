@@ -1,10 +1,9 @@
-package pl.michal_sobiech.engineering_thesis.enterprise_service.custom_appointments;
+package pl.michal_sobiech.engineering_thesis.enterprise_service.no_custom_appointments;
 
-import java.time.LocalTime;
-import java.time.ZonedDateTime;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.List;
 
-import org.SwaggerCodeGenExample.model.GetServiceFreeNonCustomAppointmentsResponseItem;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,34 +12,28 @@ import pl.michal_sobiech.engineering_thesis.enterprise_service.CreateEnterpriseS
 import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceEntity;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceRepository;
 import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.EnterpriseServiceSlotTemplateEntity;
-import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.EnterpriseServiceSlotTemplateRepository;
 import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.EnterpriseServiceSlotTemplateService;
-import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.custom_appointments.CustomAppointmentsEnterpriseServiceSlotTemplate;
-import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.custom_appointments.CustomAppointmentsEnterpriseServiceSlotTemplateService;
-import pl.michal_sobiech.engineering_thesis.utils.DateUtils;
 import pl.michal_sobiech.engineering_thesis.utils.LocalDateTimeWindow;
-import pl.michal_sobiech.engineering_thesis.utils.ZonedDate;
+import pl.michal_sobiech.engineering_thesis.utils.LocalTimeWindow;
 
 @Service
 @RequiredArgsConstructor
-public class CustomAppointmentsEnterpriseServiceService {
+public class NonCustomAppointmentsEnterpriseServiceService {
 
     private final EnterpriseServiceRepository enterpriseServiceRepository;
     private final EnterpriseServiceSlotTemplateService enterpriseServiceSlotTemplateService;
-    private final EnterpriseServiceSlotTemplateRepository enterpriseServiceSlotTemplateRepository;
-    private final CustomAppointmentsEnterpriseServiceSlotTemplateService customAppointmentsEnterpriseServiceSlotTemplateService;
 
     @Transactional
     public CreateEnterpriseServiceResult save(long enterpriseId,
-            CreateCustomAppointmentsEnterpriseServiceCommand command) {
+            CreateNoCustomAppointmentsEnterpriseServiceCommand command) {
 
         EnterpriseServiceEntity service = EnterpriseServiceEntity.builder()
                 .enterpriseId(enterpriseId)
                 .name(command.name())
                 .description(command.description())
                 .timeZone(command.timeZone())
-                .takesCustomAppointments(true)
-                .maxDistanceKm(command.maxDistanceKm())
+                .takesCustomAppointments(false)
+                .maxDistanceKm(null)
                 .cathegory(command.cathegory())
                 .price(command.price().orElse(null))
                 .currency(command.currency())
@@ -58,15 +51,38 @@ public class CustomAppointmentsEnterpriseServiceService {
         return new CreateEnterpriseServiceResult(service, slots);
     }
 
-    public List<GetServiceFreeNonCustomAppointmentsResponseItem> findFreeTimeWindowsOnDate(
-            long serviceId,
-            ZonedDate date) {
-        ZonedDateTime start = DateUtils.createZonedDateTime(date, LocalTime.of(0, 0, 0));
-        ZonedDateTime end = start.plusDays(1);
+    public List<LocalDateTimeWindowWithOccupancy> getAvailabilityTemplateForDateRange(long enterpriseServiceId,
+            LocalDate from,
+            LocalDate to) {
+        List<LocalDateTimeWindow> out = List.of();
+        for (LocalDate date : DateUtils.getAllDatesBetweenIncludingBorders(from, to)) {
+            DayOfWeek dayOfWeek = date.getDayOfWeek();
+            List<LocalTimeWindow> windowsForDayOfWeek = getAvailabilityTemplateForDayOfWeek(
+                    enterpriseServiceId,
+                    dayOfWeek);
 
-        List<LocalDateTimeWindow> = customAppointmentsEnterpriseServiceService.g
+            List<LocalDateTimeWindow> datetimeWindowsForDayOfWeek = windowsForDayOfWeek.stream()
+                    .map(window -> new LocalDateTimeWindowWithOccupancy(
+                            LocalDateTime.of(date, window.start()),
+                            LocalDateTime.of(date, window.end()))),
+                            window.get
+                    .toList();
 
-        List<CustomAppointmentsEnterpriseServiceSlotTemplate> 
+            out.addAll(datetimeWindowsForDayOfWeek);
+        }
+        return out;
+    }
+
+    public List<LocalDateTimeWindowWithOccupancy> getAvailabilityTemplateForDayOfWeek(long enterpiseServiceId,
+            DayOfWeek dayOfWeek) {
+        List<EnterpriseServiceSlotTemplateEntity> slots = enterpriseServiceSlotTemplateService
+                .getAllByEnterpriseServiceIdAndDayOfWeek(enterpiseServiceId, dayOfWeek);
+        return slots.stream().map(slot -> {
+            return new LocalDateTimeWindowWithOccupancy(
+                    slot.getStartTime(),
+                    slot.getEndTime(),
+                    slot.get);
+        }).toList();
     }
 
 }

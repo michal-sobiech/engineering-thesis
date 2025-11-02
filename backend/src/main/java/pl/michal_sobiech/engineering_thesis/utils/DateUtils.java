@@ -3,13 +3,15 @@ package pl.michal_sobiech.engineering_thesis.utils;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Comparator;
 import java.util.List;
 
 public class DateUtils {
 
-    public static ZonedDateTime fromZonedDateAndLocalTime(ZonedDate date, LocalTime time) {
+    public static ZonedDateTime createZonedDateTime(ZonedDate date, LocalTime time) {
         return ZonedDateTime.of(date.date(), time, date.timeZone());
     }
 
@@ -96,6 +98,14 @@ public class DateUtils {
 
     public static List<LocalDate> getAllDatesBetweenIncludingBorders(LocalDate from, LocalDate to) {
         return from.datesUntil(to.plusDays(1)).toList();
+    }
+
+    public static OffsetDateTime createOffsetDateTime(LocalDate date, ZoneId timeZone) {
+        return date.atStartOfDay(timeZone).toOffsetDateTime();
+    }
+
+    public static OffsetDateTime createWithResetTime(OffsetDateTime datetime) {
+        return datetime.withHour(0).withMinute(0).withSecond(0).withNano(0);
     }
 
 }

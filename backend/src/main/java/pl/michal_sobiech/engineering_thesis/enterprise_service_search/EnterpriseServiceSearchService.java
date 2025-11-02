@@ -8,14 +8,14 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceCathegory;
-import pl.michal_sobiech.engineering_thesis.enterprise_service_slot.EnterpriseServiceSlotRepository;
-import pl.michal_sobiech.engineering_thesis.enterprise_service_slot.ServiceSearchSlot;
+import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.EnterpriseServiceSlotTemplateRepository;
+import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.ServiceSearchSlot;
 
 @Service
 @RequiredArgsConstructor
 public class EnterpriseServiceSearchService {
 
-    private final EnterpriseServiceSlotRepository enterpriseServiceSlotRepository;
+    private final EnterpriseServiceSlotTemplateRepository enterpriseServiceSlotRepository;
 
     public List<ServiceSearchSlot> searchNoCustomAppointmentsSlots(
             Optional<String> serviceName,
