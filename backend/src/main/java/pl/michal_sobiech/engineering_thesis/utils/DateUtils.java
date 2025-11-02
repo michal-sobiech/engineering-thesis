@@ -1,5 +1,6 @@
 package pl.michal_sobiech.engineering_thesis.utils;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
@@ -91,6 +92,10 @@ public class DateUtils {
             out = subtractTimeWindow(out, windowToSubtract);
         }
         return out;
+    }
+
+    public static List<LocalDate> getAllDatesBetweenIncludingBorders(LocalDate from, LocalDate to) {
+        return from.datesUntil(to.plusDays(1)).toList();
     }
 
 }

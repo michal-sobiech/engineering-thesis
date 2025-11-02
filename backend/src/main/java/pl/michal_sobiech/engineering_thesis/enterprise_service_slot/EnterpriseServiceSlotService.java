@@ -1,5 +1,6 @@
 package pl.michal_sobiech.engineering_thesis.enterprise_service_slot;
 
+import java.time.DayOfWeek;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -32,6 +33,11 @@ public class EnterpriseServiceSlotService {
 
     public List<EnterpriseServiceSlotEntity> findAllByEnterpriseServiceId(long enterpriseServiceId) {
         return enterpriseServiceSlotRepository.findAllByEnterpriseServiceId(enterpriseServiceId);
+    }
+
+    public List<EnterpriseServiceSlotEntity> getAllByEnterpriseServiceIdAndDayOfWeek(long enterpiseServiceId,
+            DayOfWeek dayOfWeek) {
+        return enterpriseServiceSlotRepository.findAllByEnterpriseServiceIdAndDayOfWeek(enterpiseServiceId, dayOfWeek);
     }
 
 }

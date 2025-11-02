@@ -1,5 +1,6 @@
 package pl.michal_sobiech.engineering_thesis.enterprise_service_slot;
 
+import java.time.DayOfWeek;
 import java.time.OffsetDateTime;
 import java.util.List;
 
@@ -12,6 +13,9 @@ import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseService
 public interface EnterpriseServiceSlotRepository extends JpaRepository<EnterpriseServiceSlotEntity, Long> {
 
     public List<EnterpriseServiceSlotEntity> findAllByEnterpriseServiceId(long enterpriseServiceId);
+
+    public List<EnterpriseServiceSlotEntity> findAllByEnterpriseServiceIdAndDayOfWeek(long enterpriseServiceId,
+            DayOfWeek dayOfWeek);
 
     @Query(value = """
             SELECT

@@ -434,11 +434,8 @@ components:
 
     GetServiceFreeNonCustomAppointmentsResponseItem:
       type: object
-      required: [numVacancies, startDatetime, endDatetime]
+      required: [startDatetime, endDatetime]
       properties:
-        numVacancies:
-          type: number
-          format: int64
         startDatetime:
           type: string
           format: date-time
@@ -1182,7 +1179,7 @@ paths:
         "500":
           $ref: "#/components/responses/InternalServerError"
 
-  /services/{serviceId}/free-non-custom-appointments:
+  /services/{serviceId}/free-non-custom-appointments/:
     get:
       tags: [EnterpriseServices]
       operationId: getFreeNonCustomAppointments
@@ -1193,6 +1190,12 @@ paths:
           schema:
             type: integer
             format: int64
+        - name: date
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
       responses:
         "200":
           description: *OK_DESCRIPTION
@@ -1218,6 +1221,12 @@ paths:
           schema:
             type: integer
             format: int64
+        - name: date
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
       responses:
         "200":
           description: *OK_DESCRIPTION

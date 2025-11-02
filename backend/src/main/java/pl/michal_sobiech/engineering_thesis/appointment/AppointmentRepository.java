@@ -7,15 +7,16 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import pl.michal_sobiech.engineering_thesis.utils.DatetimeWindow;
-
 public interface AppointmentRepository extends JpaRepository<AppointmentEntity, Long> {
 
     @Query("""
-
+            SELECT appointment
+            FROM AppointmentEntity appointment
+            WHERE appointment.start >= :from AND appointment.end <= :to
             """)
-    public List<DatetimeWindow> findTakenDatetimeWindowsOnDate(
+    public List<AppointmentEntity> findTakenDatetimeWindowsInRange(
             @Param("serviceId") long serviceId,
-            @Param("date") OffsetDateTime date);
+            @Param("from") OffsetDateTime from,
+            @Param("to") OffsetDateTime to);
 
 }

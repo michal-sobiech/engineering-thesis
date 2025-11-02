@@ -16,7 +16,8 @@ public class CustomAppointmentsService {
     private final AppointmentRepository appointmentRepository;
 
     public List<DatetimeWindow> findTakenTimeWindowsOnDate(long serviceId, OffsetDateTime date) {
-
+        OffsetDateTime from = date.
+        List<AppointmentEntity> appointments = appointmentRepository.findTakenDatetimeWindowsInRange(serviceId, )
     }
 
 }

@@ -1,6 +1,9 @@
 package pl.michal_sobiech.engineering_thesis.enterprise_service;
 
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +21,7 @@ import pl.michal_sobiech.engineering_thesis.enterprise_service_search.Enterprise
 import pl.michal_sobiech.engineering_thesis.enterprise_service_slot.EnterpriseServiceSlotService;
 import pl.michal_sobiech.engineering_thesis.enterprise_service_slot.ServiceSearchSlot;
 import pl.michal_sobiech.engineering_thesis.utils.HttpUtils;
+import pl.michal_sobiech.engineering_thesis.utils.ZonedDate;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,13 +31,22 @@ public class EnterpriseServiceController implements ServicesApi {
 
     private final EnterpriseServiceSearchService enterpriseServiceSearchService;
     private final EnterpriseServiceSlotService enterpriseServiceSlotService;
+    private final EnterpriseServiceService enterpriseServiceService;
 
     @Override
     public ResponseEntity<List<GetServiceFreeNonCustomAppointmentsResponseItem>> getFreeNonCustomAppointments(
             // TODO
-            Long serviceId) {
+            Long enterpriseServiceId,
+            LocalDate dateInServiceTimezone
+    ) {
+        ZoneId timeZone = enterpriseServiceService.getTimeZoneByServiceId(enterpriseServiceId);
+        ZonedDate zonedDate = new ZonedDate(dateInServiceTimezone, timeZone);
+        ZonedDateTime zonedDatetime = DateU
+
+        List<LocalDate
+
         List<GetServiceFreeNonCustomAppointmentsResponseItem> body =
-        return ResponseEntity.ok(List.of());
+        return ResponseEntity.ok(body);
     }
 
     @Override

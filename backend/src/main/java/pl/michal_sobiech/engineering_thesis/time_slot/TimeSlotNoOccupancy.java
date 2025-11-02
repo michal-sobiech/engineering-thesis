@@ -4,8 +4,8 @@ import java.time.OffsetDateTime;
 
 public record TimeSlotNoOccupancy(
 
-                OffsetDateTime start,
-                OffsetDateTime end
+        OffsetDateTime start,
+        OffsetDateTime end
 
 ) implements TimeSlot {
 
