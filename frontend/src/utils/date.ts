@@ -1,4 +1,5 @@
 import { add, Duration } from "date-fns";
+import { Instant, LocalDate, LocalTime, ZonedDateTime, ZoneId } from "js-joda";
 
 export function splitPeriod(start: Date, end: Date, segmentDuration: Duration): [Date, Date][] {
     const out: [Date, Date][] = [];
@@ -29,4 +30,14 @@ export function createDateWithoutTime(date: Date): Date {
     const copy = new Date(date);
     date.setHours(0, 0, 0, 0);
     return date;
+}
+
+export function createNowWithTime(time: LocalTime): Date {
+    const now = LocalDate.now();
+    const zoneDate = ZonedDateTime.of(now, time, ZoneId.systemDefault());
+    return new Date(zoneDate.toInstant().toEpochMilli());
+}
+
+export function extractLocalTimeFromDate(date: Date): LocalTime {
+    return LocalTime.from(Instant.ofEpochMilli(date.getTime()));
 }

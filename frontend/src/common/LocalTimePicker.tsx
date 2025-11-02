@@ -1,11 +1,10 @@
 import { Input } from "@chakra-ui/react";
 import { LocalTime } from "js-joda";
 import { FC } from "react";
-import { UseStateSetter } from "../utils/useState";
 
 export interface LocalTimePickerProps {
     time: LocalTime | null;
-    setTime: UseStateSetter<LocalTime | null>;
+    setTime: (value: LocalTime | null) => void;
     stepMinutes?: number;
 }
 

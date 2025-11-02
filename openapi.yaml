@@ -1192,7 +1192,7 @@ paths:
         "500":
           $ref: "#/components/responses/InternalServerError"
 
-  /services/{serviceId}/non-custom-appointments/free:
+  /services/{serviceId}/free-non-custom-appointments:
     get:
       tags: [EnterpriseServices]
       operationId: getFreeNonCustomAppointments
@@ -1217,10 +1217,10 @@ paths:
         "500":
           $ref: "#/components/responses/InternalServerError"
 
-  /services/{serviceId}/custom-appointments/free:
+  /services/{serviceId}/free-time-windows-for-custom-appointments:
     get:
       tags: [EnterpriseServices]
-      operationId: getFreeCustomAppointments
+      operationId: getFreeTimeWindowsForCustomAppointments
       parameters:
         - name: serviceId
           in: path
