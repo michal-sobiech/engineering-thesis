@@ -5,6 +5,7 @@ import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.SwaggerCodeGenExample.api.ServicesApi;
 import org.SwaggerCodeGenExample.model.GetServiceCustomAppointmentsStatus200Response;
@@ -18,6 +19,7 @@ import io.micrometer.common.lang.Nullable;
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.appointment.non_custom.NonCustomAppointmentsService;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.custom_appointments.CustomAppointmentsEnterpriseServiceService;
+import pl.michal_sobiech.engineering_thesis.enterprise_service.no_custom_appointments.NonCustomAppointmentsEnterpriseServiceService;
 import pl.michal_sobiech.engineering_thesis.enterprise_service_search.EnterpriseServiceSearchService;
 import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.EnterpriseServiceSlotTemplateService;
 import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.ServiceSearchSlot;
@@ -36,21 +38,25 @@ public class EnterpriseServiceController implements ServicesApi {
     private final EnterpriseServiceService enterpriseServiceService;
     private final NonCustomAppointmentsService nonCustomAppointmentsService;
     private final CustomAppointmentsEnterpriseServiceService customAppointmentsEnterpriseServiceService;
+    private final NonCustomAppointmentsEnterpriseServiceService nonCustomAppointmentsEnterpriseServiceService;
 
     @Override
     public ResponseEntity<List<GetServiceFreeNonCustomAppointmentsResponseItem>> getFreeNonCustomAppointments(
             Long enterpriseServiceId,
-            LocalDate dateInServiceTimezone
-    ) {
-        // TODO
-        ZoneId timeZone = enterpriseServiceService.getTimeZoneByServiceId(enterpriseServiceId);
+            LocalDate dateInServiceTimezone) {
+        ZoneId timezone = enterpriseServiceService.getTimeZoneByServiceId(enterpriseServiceId);
 
-        OffsetDateTime start = DateUtils.createOffsetDateTime(dateInServiceTimezone, timeZone);
+        OffsetDateTime start = DateUtils.createOffsetDateTime(dateInServiceTimezone, timezone);
         OffsetDateTime end = start.plusDays(1);
-        
-        // List<LocalDateTimeWindow> freeWindows = 
-        
-        List<GetServiceFreeNonCustomAppointmentsResponseItem> body = ap
+
+        List<LocalDateTimeWindow> freeSlots = nonCustomAppointmentsEnterpriseServiceService
+                .findFreeTimeWindowsInDatetimeRange(enterpriseServiceId, start, end);
+
+        List<GetServiceFreeNonCustomAppointmentsResponseItem> body = freeSlots.stream().map(slot -> {
+            return new GetServiceFreeNonCustomAppointmentsResponseItem(
+                    DateUtils.createOffsetDateTime(slot.start(), timezone),
+                    DateUtils.createOffsetDateTime(slot.end(), timezone));
+        }).collect(Collectors.toList());
 
         return ResponseEntity.ok(body);
     }
@@ -65,11 +71,12 @@ public class EnterpriseServiceController implements ServicesApi {
 
         List<LocalDateTimeWindow> freeWindows = customAppointmentsEnterpriseServiceService
                 .findFreeTimeWindowsInDatetimeRange(enterpriseServiceId, start, end);
+
         List<GetServiceFreeCustomAppointmentsResponseItem> body = freeWindows.stream().map(window -> {
             return new GetServiceFreeCustomAppointmentsResponseItem(
                     DateUtils.createOffsetDateTime(window.start(), timezone),
                     DateUtils.createOffsetDateTime(window.end(), timezone));
-        }).toList();
+        }).collect(Collectors.toList());
 
         return ResponseEntity.ok(body);
     }
@@ -119,7 +126,7 @@ public class EnterpriseServiceController implements ServicesApi {
                 slot.getEnterpriseName(),
                 slot.getAddress(),
                 slot.getStartTime(),
-                slot.getEndTime())).toList();
+                slot.getEndTime())).collect(Collectors.toList());
         return ResponseEntity.ok(body);
     }
 }

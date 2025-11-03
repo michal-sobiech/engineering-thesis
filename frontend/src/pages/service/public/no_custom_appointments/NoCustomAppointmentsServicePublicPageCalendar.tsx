@@ -22,7 +22,7 @@ export const NoCustomAppointmentsServicePublicPageCalendar = () => {
         const date = createDateWithoutTime(slot.start);
         setSelectedDate(date);
 
-        const freeAppointments = await fetchFreeAppointmentsOnDay(date);
+        const freeAppointments = await fetchFreeAppointmentsOnDateInServiceTimezone(date);
         if (freeAppointments.isErr()) {
             toastError("Unexpected error while loading free slots");
             return;
@@ -42,8 +42,8 @@ export const NoCustomAppointmentsServicePublicPageCalendar = () => {
         }
     }
 
-    function fetchFreeAppointmentsOnDay(day: Date): ResultAsync<GetServiceFreeNonCustomAppointmentsResponseItem[], Error> {
-        const promise = servicesApi.getFreeNonCustomAppointments(serviceId);
+    function fetchFreeAppointmentsOnDateInServiceTimezone(date: Date): ResultAsync<GetServiceFreeNonCustomAppointmentsResponseItem[], Error> {
+        const promise = servicesApi.getFreeNonCustomAppointments(serviceId, date);
         return errorErrResultAsyncFromPromise(promise);
     }
 

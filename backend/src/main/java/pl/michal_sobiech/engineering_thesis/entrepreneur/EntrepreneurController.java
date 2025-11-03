@@ -2,6 +2,7 @@ package pl.michal_sobiech.engineering_thesis.entrepreneur;
 
 import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.SwaggerCodeGenExample.api.EntrepreneursApi;
 import org.SwaggerCodeGenExample.model.CreateIndependentEndUserRequest;
@@ -31,7 +32,8 @@ public class EntrepreneurController implements EntrepreneursApi {
                 EnterpriseEntity enterprise) -> new GetEntrepreneurEnterprisesResponseItem(
                         enterprise.getEnterpriseId(),
                         enterprise.getName());
-        List<GetEntrepreneurEnterprisesResponseItem> mappedEnterprises = enterprises.stream().map(mapperFn).toList();
+        List<GetEntrepreneurEnterprisesResponseItem> mappedEnterprises = enterprises.stream().map(mapperFn)
+                .collect(Collectors.toList());
         return ResponseEntity.ok(mappedEnterprises);
     }
 

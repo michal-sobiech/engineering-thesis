@@ -8,7 +8,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.EnterpriseServiceSlotService;
+import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.EnterpriseServiceSlotTemplateService;
 import pl.michal_sobiech.engineering_thesis.time_slot.TimeSlot;
 import pl.michal_sobiech.engineering_thesis.time_slot.TimeSlotWithOccupancy;
 
@@ -17,7 +17,7 @@ import pl.michal_sobiech.engineering_thesis.time_slot.TimeSlotWithOccupancy;
 public class EnterpriseServiceService {
 
     private final EnterpriseServiceRepository enterpriseServiceRepository;
-    private final EnterpriseServiceSlotService enterpriseServiceSlotService;
+    private final EnterpriseServiceSlotTemplateService enterpriseServiceSlotTemplateService;
 
     public List<EnterpriseServiceEntity> findByEnterpriseId(long enterpriseId) {
         return enterpriseServiceRepository.findByEnterpriseId(enterpriseId);
@@ -86,7 +86,10 @@ public class EnterpriseServiceService {
     // }
 
     public ZoneId getTimeZoneByServiceId(long enterpriseServiceId) {
-        return enterpriseServiceRepository.findTimeZoneByEnterpriseServiceId(enterpriseServiceId).orElseThrow();
+        // TODO java.util.NoSuchElementException causes error 500
+        EnterpriseServiceEntity record = findById(enterpriseServiceId).orElseThrow();
+        return record.getTimeZone();
+
     }
 
 }

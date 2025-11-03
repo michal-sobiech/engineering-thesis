@@ -21,12 +21,6 @@ import { mapValues } from '../runtime';
 export interface GetServiceFreeNonCustomAppointmentsResponseItem {
     /**
      * 
-     * @type {number}
-     * @memberof GetServiceFreeNonCustomAppointmentsResponseItem
-     */
-    numVacancies: number;
-    /**
-     * 
      * @type {Date}
      * @memberof GetServiceFreeNonCustomAppointmentsResponseItem
      */
@@ -43,7 +37,6 @@ export interface GetServiceFreeNonCustomAppointmentsResponseItem {
  * Check if a given object implements the GetServiceFreeNonCustomAppointmentsResponseItem interface.
  */
 export function instanceOfGetServiceFreeNonCustomAppointmentsResponseItem(value: object): value is GetServiceFreeNonCustomAppointmentsResponseItem {
-    if (!('numVacancies' in value) || value['numVacancies'] === undefined) return false;
     if (!('startDatetime' in value) || value['startDatetime'] === undefined) return false;
     if (!('endDatetime' in value) || value['endDatetime'] === undefined) return false;
     return true;
@@ -59,7 +52,6 @@ export function GetServiceFreeNonCustomAppointmentsResponseItemFromJSONTyped(jso
     }
     return {
         
-        'numVacancies': json['numVacancies'],
         'startDatetime': (new Date(json['startDatetime'])),
         'endDatetime': (new Date(json['endDatetime'])),
     };
@@ -76,7 +68,6 @@ export function GetServiceFreeNonCustomAppointmentsResponseItemToJSONTyped(value
 
     return {
         
-        'numVacancies': value['numVacancies'],
         'startDatetime': ((value['startDatetime']).toISOString()),
         'endDatetime': ((value['endDatetime']).toISOString()),
     };

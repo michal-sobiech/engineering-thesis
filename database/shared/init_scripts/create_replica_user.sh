@@ -19,10 +19,10 @@ CREATE PUBLICATION all_tables_pub FOR TABLE
     enterprise,
     app_user,
     enterprise_service,
-    enterprise_service_slot,
+    enterprise_service_slot_template,
     review,
     appointment,
-    "report";
+    report;
 EOF
 )
 

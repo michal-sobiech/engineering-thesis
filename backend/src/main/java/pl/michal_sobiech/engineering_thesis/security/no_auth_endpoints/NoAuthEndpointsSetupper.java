@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class NoAuthEndpointsSetupper {
 
-    private final List<String> NO_AUTH_ENDPOINTS = new ArrayList<>(List.of());
+    private final List<String> NO_AUTH_ENDPOINTS = new ArrayList<>(new ArrayList<>());
 
     public HttpSecurity setupNoAuthEndpoints(HttpSecurity security) {
         var customizer = createCustomizer();

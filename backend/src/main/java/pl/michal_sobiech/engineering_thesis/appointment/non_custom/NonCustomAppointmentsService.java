@@ -2,6 +2,7 @@ package pl.michal_sobiech.engineering_thesis.appointment.non_custom;
 
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,7 @@ public class NonCustomAppointmentsService {
     public List<NonCustomAppointment> getAllByServiceIdAndRange(long serviceId, OffsetDateTime from,
             OffsetDateTime to) {
         List<AppointmentEntity> records = appointmentRepository.findAllInRange(serviceId, from, to);
-        return records.stream().map(record -> NonCustomAppointment.fromEntity(record)).toList();
+        return records.stream().map(record -> NonCustomAppointment.fromEntity(record)).collect(Collectors.toList());
     }
 
     public List<NonCustomAppointment> getAllByServiceIdAndDate(long serviceId, OffsetDateTime date) {

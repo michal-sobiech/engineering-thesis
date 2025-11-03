@@ -1,6 +1,6 @@
 package pl.michal_sobiech.engineering_thesis.security.authentication.jwt;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 
@@ -11,7 +11,7 @@ public class JwtAuthentication extends AbstractAuthenticationToken {
     private final String jwt;
 
     public JwtAuthentication(String jwt) {
-        super(List.of());
+        super(new ArrayList<>());
         this.jwt = jwt;
         setAuthenticated(false);
     }

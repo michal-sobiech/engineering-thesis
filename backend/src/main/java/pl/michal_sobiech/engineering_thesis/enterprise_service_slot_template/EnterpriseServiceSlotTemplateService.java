@@ -2,6 +2,7 @@ package pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template;
 
 import java.time.DayOfWeek;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +18,7 @@ public class EnterpriseServiceSlotTemplateService {
     @Transactional
     public List<EnterpriseServiceSlotTemplateEntity> saveMany(long enterpriseServiceId,
             List<CreateEnterpriseServiceSlotTemplateCommand> commands) {
-        return commands.stream().map(command -> save(enterpriseServiceId, command)).toList();
+        return commands.stream().map(command -> save(enterpriseServiceId, command)).collect(Collectors.toList());
     }
 
     @Transactional

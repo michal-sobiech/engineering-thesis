@@ -13,21 +13,22 @@ import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.Cre
 
 public record CreateNoCustomAppointmentsEnterpriseServiceCommand(
 
-        String name,
+                String name,
 
-        String description,
+                String description,
 
-        Location location,
+                Location location,
 
-        ZoneId timeZone,
+                ZoneId timeZone,
 
-        EnterpriseServiceCathegory cathegory,
+                EnterpriseServiceCathegory cathegory,
 
-        Optional<BigDecimal> price,
+                Optional<BigDecimal> price,
 
-        CurrencyIso currency,
+                CurrencyIso currency,
 
-        List<CreateEnterpriseServiceSlotTemplateCommand> slots
+                // TODO this has no occupancy field
+                List<CreateEnterpriseServiceSlotTemplateCommand> slots
 
 ) {
 }

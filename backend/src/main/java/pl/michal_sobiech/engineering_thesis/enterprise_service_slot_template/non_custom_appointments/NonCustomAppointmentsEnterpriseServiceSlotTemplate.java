@@ -27,7 +27,7 @@ public record NonCustomAppointmentsEnterpriseServiceSlotTemplate(
         }
 
         return new NonCustomAppointmentsEnterpriseServiceSlotTemplate(
-                entity.getEnterpriseServiceSlotId(),
+                entity.getEnterpriseServiceSlotTemplateId(),
                 entity.getEnterpriseServiceId(),
                 entity.getDayOfWeek(),
                 entity.getStartTime(),

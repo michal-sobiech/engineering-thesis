@@ -12,8 +12,8 @@ public interface AppointmentRepository extends JpaRepository<AppointmentEntity, 
         @Query("""
                         SELECT appointment
                         FROM AppointmentEntity appointment
-                        WHERE appointment.start >= :from
-                        AND appointment.end <= :to
+                        WHERE appointment.startTime >= :from
+                        AND appointment.endTime <= :to
                         AND appointment.enterpriseServiceId = :serviceId
                         """)
         public List<AppointmentEntity> findAllInRange(
@@ -24,8 +24,8 @@ public interface AppointmentRepository extends JpaRepository<AppointmentEntity, 
         @Query("""
                         SELECT appointment
                         FROM AppointmentEntity appointment
-                        WHERE appointment.start >= :from
-                        AND appointment.end <= :to
+                        WHERE appointment.startTime >= :from
+                        AND appointment.endTime <= :to
                         AND appointment.enterpriseServiceId = :serviceId
                         AND appointment.isCustom = true
                         AND appointment.isAccepted = true

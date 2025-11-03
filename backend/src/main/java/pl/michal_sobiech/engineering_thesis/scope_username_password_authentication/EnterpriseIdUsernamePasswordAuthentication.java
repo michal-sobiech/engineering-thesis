@@ -1,6 +1,6 @@
 package pl.michal_sobiech.engineering_thesis.scope_username_password_authentication;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 
@@ -11,7 +11,7 @@ public class EnterpriseIdUsernamePasswordAuthentication extends AbstractAuthenti
     private final String password;
 
     public EnterpriseIdUsernamePasswordAuthentication(long enterpriseId, String username, String password) {
-        super(List.of());
+        super(new ArrayList<>());
         this.enterpriseId = enterpriseId;
         this.username = username;
         this.password = password;

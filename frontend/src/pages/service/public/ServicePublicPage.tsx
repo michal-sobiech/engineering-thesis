@@ -26,10 +26,8 @@ export const ServicePublicPage = () => {
             }
             setAreCustomAppointmentsEnabled(result.value.areCustomAppointmentsEnabled);
         }
-        // loadData();
+        loadData();
     }, []);
-
-    return <CustomAppointmentsServicePublicPage />;
 
     if (areCustomAppointmentsEnabled) {
         return <CustomAppointmentsServicePublicPage />;

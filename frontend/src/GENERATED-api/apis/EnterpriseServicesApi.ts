@@ -61,10 +61,12 @@ export interface CreateNoCustomAppointmentsEnterpriseServiceOperationRequest {
 
 export interface GetFreeNonCustomAppointmentsRequest {
     serviceId: number;
+    dateInServiceTimezone: Date;
 }
 
 export interface GetFreeTimeWindowsForCustomAppointmentsRequest {
     serviceId: number;
+    dateInServiceTimezone: Date;
 }
 
 export interface GetServiceCustomAppointmentsStatusRequest {
@@ -201,12 +203,23 @@ export class EnterpriseServicesApi extends runtime.BaseAPI {
             );
         }
 
+        if (requestParameters['dateInServiceTimezone'] == null) {
+            throw new runtime.RequiredError(
+                'dateInServiceTimezone',
+                'Required parameter "dateInServiceTimezone" was null or undefined when calling getFreeNonCustomAppointments().'
+            );
+        }
+
         const queryParameters: any = {};
+
+        if (requestParameters['dateInServiceTimezone'] != null) {
+            queryParameters['dateInServiceTimezone'] = (requestParameters['dateInServiceTimezone'] as any).toISOString().substring(0,10);
+        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
 
-        let urlPath = `/services/{serviceId}/free-non-custom-appointments`;
+        let urlPath = `/services/{serviceId}/free-non-custom-appointments/`;
         urlPath = urlPath.replace(`{${"serviceId"}}`, encodeURIComponent(String(requestParameters['serviceId'])));
 
         const response = await this.request({
@@ -221,8 +234,8 @@ export class EnterpriseServicesApi extends runtime.BaseAPI {
 
     /**
      */
-    async getFreeNonCustomAppointments(serviceId: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetServiceFreeNonCustomAppointmentsResponseItem>> {
-        const response = await this.getFreeNonCustomAppointmentsRaw({ serviceId: serviceId }, initOverrides);
+    async getFreeNonCustomAppointments(serviceId: number, dateInServiceTimezone: Date, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetServiceFreeNonCustomAppointmentsResponseItem>> {
+        const response = await this.getFreeNonCustomAppointmentsRaw({ serviceId: serviceId, dateInServiceTimezone: dateInServiceTimezone }, initOverrides);
         return await response.value();
     }
 
@@ -236,7 +249,18 @@ export class EnterpriseServicesApi extends runtime.BaseAPI {
             );
         }
 
+        if (requestParameters['dateInServiceTimezone'] == null) {
+            throw new runtime.RequiredError(
+                'dateInServiceTimezone',
+                'Required parameter "dateInServiceTimezone" was null or undefined when calling getFreeTimeWindowsForCustomAppointments().'
+            );
+        }
+
         const queryParameters: any = {};
+
+        if (requestParameters['dateInServiceTimezone'] != null) {
+            queryParameters['dateInServiceTimezone'] = (requestParameters['dateInServiceTimezone'] as any).toISOString().substring(0,10);
+        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -256,8 +280,8 @@ export class EnterpriseServicesApi extends runtime.BaseAPI {
 
     /**
      */
-    async getFreeTimeWindowsForCustomAppointments(serviceId: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetServiceFreeCustomAppointmentsResponseItem>> {
-        const response = await this.getFreeTimeWindowsForCustomAppointmentsRaw({ serviceId: serviceId }, initOverrides);
+    async getFreeTimeWindowsForCustomAppointments(serviceId: number, dateInServiceTimezone: Date, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetServiceFreeCustomAppointmentsResponseItem>> {
+        const response = await this.getFreeTimeWindowsForCustomAppointmentsRaw({ serviceId: serviceId, dateInServiceTimezone: dateInServiceTimezone }, initOverrides);
         return await response.value();
     }
 

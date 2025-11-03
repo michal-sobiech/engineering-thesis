@@ -16,7 +16,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "enterprise_service_slot")
+@Table(name = "enterprise_service_slot_template")
 @Data
 @Builder
 @NoArgsConstructor
@@ -25,8 +25,8 @@ public class EnterpriseServiceSlotTemplateEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "enterprise_service_slot_id")
-    private long enterpriseServiceSlotId;
+    @Column(name = "enterprise_service_slot_template_id")
+    private long enterpriseServiceSlotTemplateId;
 
     @Column(name = "enterprise_service_id")
     private long enterpriseServiceId;

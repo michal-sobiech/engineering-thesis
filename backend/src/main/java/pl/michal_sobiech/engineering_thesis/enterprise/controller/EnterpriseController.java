@@ -4,6 +4,7 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.SwaggerCodeGenExample.api.EnterprisesApi;
 import org.SwaggerCodeGenExample.model.CheckIndependentEndUserEmailExists200Response;
@@ -32,7 +33,7 @@ import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseService
 import pl.michal_sobiech.engineering_thesis.enterprise_service.custom_appointments.CreateCustomAppointmentsEnterpriseServiceCommand;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.custom_appointments.CustomAppointmentsEnterpriseServiceService;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.no_custom_appointments.CreateNoCustomAppointmentsEnterpriseServiceCommand;
-import pl.michal_sobiech.engineering_thesis.enterprise_service.no_custom_appointments.NoCustomAppointmentsEnterpriseServiceService;
+import pl.michal_sobiech.engineering_thesis.enterprise_service.no_custom_appointments.NonCustomAppointmentsEnterpriseServiceService;
 import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.CreateEnterpriseServiceSlotTemplateCommand;
 import pl.michal_sobiech.engineering_thesis.entrepreneur.Entrepreneur;
 import pl.michal_sobiech.engineering_thesis.utils.DayOfWeekUtils;
@@ -46,7 +47,7 @@ public class EnterpriseController implements EnterprisesApi {
         private final EnterpriseService enterpriseService;
         private final EnterpriseServiceService enterpriseServiceService;
         private final EmployeeService employeeService;
-        private final NoCustomAppointmentsEnterpriseServiceService noCustomAppointmentsEnterpriseServiceService;
+        private final NonCustomAppointmentsEnterpriseServiceService nonCustomAppointmentsEnterpriseServiceService;
         private final CustomAppointmentsEnterpriseServiceService customAppointmentsEnterpriseServiceService;
 
         private final EnterpriseControllerCreateEnterprise enterpriseControllerCreateEnterprise;
@@ -122,7 +123,7 @@ public class EnterpriseController implements EnterprisesApi {
                                                 service.getEnterpriseServiceId(),
                                                 service.getName(),
                                                 service.getDescription()))
-                                .toList();
+                                .collect(Collectors.toList());
                 return ResponseEntity.ok(body);
         }
 
@@ -168,7 +169,7 @@ public class EnterpriseController implements EnterprisesApi {
                                                 DayOfWeekUtils.swaggerToStdDayOfWeek(slot.getDayOfWeek()),
                                                 LocalTime.parse(slot.getStart()),
                                                 LocalTime.parse(slot.getEnd())))
-                                .toList();
+                                .collect(Collectors.toList());
 
                 var command = new CreateCustomAppointmentsEnterpriseServiceCommand(
                                 request.getName(),
@@ -195,7 +196,7 @@ public class EnterpriseController implements EnterprisesApi {
                                                 DayOfWeekUtils.swaggerToStdDayOfWeek(slot.getDayOfWeek()),
                                                 LocalTime.parse(slot.getStart()),
                                                 LocalTime.parse(slot.getEnd())))
-                                .toList();
+                                .collect(Collectors.toList());
 
                 var command = new CreateNoCustomAppointmentsEnterpriseServiceCommand(
                                 request.getName(),
@@ -207,7 +208,7 @@ public class EnterpriseController implements EnterprisesApi {
                                 CurrencyIso.valueOf(request.getCurrency()),
                                 createSlotCommands);
 
-                noCustomAppointmentsEnterpriseServiceService.save(enterpriseId, command);
+                nonCustomAppointmentsEnterpriseServiceService.save(enterpriseId, command);
                 return ResponseEntity.ok().build();
         }
 

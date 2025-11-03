@@ -20,7 +20,7 @@ export const CustomAppointmentsServicePublicPageCalendar = () => {
         const date = createDateWithoutTime(slot.start);
         setSelectedDate(date);
 
-        const promise = servicesApi.getFreeTimeWindowsForCustomAppointments(serviceId);
+        const promise = servicesApi.getFreeTimeWindowsForCustomAppointments(serviceId, date);
         const result = await errorErrResultAsyncFromPromise(promise);
         if (result.isErr()) {
             toastError("Unexpected error while loading free slots");

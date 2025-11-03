@@ -6,8 +6,10 @@ import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class DateUtils {
 
@@ -16,7 +18,7 @@ public class DateUtils {
     }
 
     public static List<LocalDateTimeWindow> sortByStartAscending(List<LocalDateTimeWindow> windows) {
-        return windows.stream().sorted(Comparator.comparing(LocalDateTimeWindow::start)).toList();
+        return windows.stream().sorted(Comparator.comparing(LocalDateTimeWindow::start)).collect(Collectors.toList());
     }
 
     // Returned list is sorted in ascending order
@@ -27,7 +29,7 @@ public class DateUtils {
 
         List<LocalDateTimeWindow> sortedWindows = sortByStartAscending(windows);
 
-        List<LocalDateTimeWindow> mergedWindows = List.of();
+        List<LocalDateTimeWindow> mergedWindows = new ArrayList<>();
 
         LocalDateTimeWindow currentWindow = sortedWindows.get(0);
         for (int i = 1; i < windows.size(); i++) {
@@ -54,7 +56,7 @@ public class DateUtils {
             LocalDateTimeWindow toSubtract) {
         List<LocalDateTimeWindow> merged = mergeTimeWindows(from);
 
-        List<LocalDateTimeWindow> out = List.of();
+        List<LocalDateTimeWindow> out = new ArrayList<>();
         for (var window : merged) {
             if (window.start().isAfter(toSubtract.end()) || window.end().isBefore(toSubtract.start())) {
                 // No collision
@@ -97,7 +99,7 @@ public class DateUtils {
     }
 
     public static List<LocalDate> getAllDatesBetweenIncludingBorders(LocalDate from, LocalDate to) {
-        return from.datesUntil(to.plusDays(1)).toList();
+        return from.datesUntil(to.plusDays(1)).collect(Collectors.toList());
     }
 
     public static OffsetDateTime createOffsetDateTime(LocalDate date, ZoneId timeZone) {
@@ -114,6 +116,11 @@ public class DateUtils {
 
     public static LocalDateTime createLocalDateTime(OffsetDateTime offsetDatetime, ZoneId timezone) {
         return offsetDatetime.atZoneSameInstant(timezone).toLocalDateTime();
+    }
+
+    public static LocalDate createLocalDate(OffsetDateTime offsetDatetime, ZoneId timezone) {
+        LocalDateTime datetime = createLocalDateTime(offsetDatetime, timezone);
+        return datetime.toLocalDate();
     }
 
 }
