@@ -33,6 +33,31 @@ public class NonCustomAppointmentsEnterpriseServiceSlotTemplateService {
                 .collect(Collectors.toList());
     }
 
+    public List<LocalDateTimeWindow> getAvailabilityTemplateForDatetimeRange(
+            long enterpriseServiceId,
+            LocalDateTime from,
+            LocalDateTime to) {
+        List<LocalDateTimeWindow> fullDaysTemplate = getAvailabilityTemplateForDateRange(
+                enterpriseServiceId,
+                from.toLocalDate(),
+                to.toLocalDate());
+        return DateUtils.filterWindowsFullyContainedInRange(fullDaysTemplate, from, to);
+    }
+
+    public List<LocalDateTimeWindow> getAvailabilityTemplateForDate(
+            long enterpriseServiceId,
+            LocalDate date) {
+        DayOfWeek dayOfWeek = date.getDayOfWeek();
+        List<NonCustomAppointmentsEnterpriseServiceSlotTemplate> windowsForDayOfWeek = getAvailabilityTemplateForDayOfWeek(
+                enterpriseServiceId,
+                dayOfWeek);
+        return windowsForDayOfWeek.stream()
+                .map(window -> new LocalDateTimeWindow(
+                        LocalDateTime.of(date, window.startTime()),
+                        LocalDateTime.of(date, window.endTime())))
+                .collect(Collectors.toList());
+    }
+
     public List<LocalDateTimeWindow> getAvailabilityTemplateForDateRange(
             long enterpriseServiceId,
             LocalDate from,
@@ -41,17 +66,11 @@ public class NonCustomAppointmentsEnterpriseServiceSlotTemplateService {
 
         for (LocalDate date : DateUtils.getAllDatesBetweenIncludingBorders(from, to)) {
             DayOfWeek dayOfWeek = date.getDayOfWeek();
+            System.out.println(dayOfWeek);
 
-            List<NonCustomAppointmentsEnterpriseServiceSlotTemplate> windowsForDayOfWeek = getAvailabilityTemplateForDayOfWeek(
-                    enterpriseServiceId,
-                    dayOfWeek);
-            List<LocalDateTimeWindow> mappedWindowsForDayOfWeek = windowsForDayOfWeek.stream()
-                    .map(window -> new LocalDateTimeWindow(
-                            LocalDateTime.of(date, window.startTime()),
-                            LocalDateTime.of(date, window.endTime())))
-                    .collect(Collectors.toList());
+            List<LocalDateTimeWindow> windowsForDate = getAvailabilityTemplateForDate(enterpriseServiceId, date);
 
-            out.addAll(mappedWindowsForDayOfWeek);
+            out.addAll(windowsForDate);
         }
         return out;
     }

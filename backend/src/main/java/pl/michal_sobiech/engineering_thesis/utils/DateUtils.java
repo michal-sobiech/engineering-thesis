@@ -123,4 +123,11 @@ public class DateUtils {
         return datetime.toLocalDate();
     }
 
+    public static List<LocalDateTimeWindow> filterWindowsFullyContainedInRange(List<LocalDateTimeWindow> windows,
+            LocalDateTime from, LocalDateTime to) {
+        return windows.stream()
+                .filter(window -> !window.start().isBefore(from) && !window.end().isAfter(to))
+                .collect(Collectors.toList());
+    }
+
 }

@@ -1,16 +1,14 @@
 package pl.michal_sobiech.engineering_thesis.enterprise_service.no_custom_appointments;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.appointment.non_custom.NonCustomAppointment;
 import pl.michal_sobiech.engineering_thesis.appointment.non_custom.NonCustomAppointmentsService;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.CreateEnterpriseServiceResult;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceEntity;
@@ -66,23 +64,28 @@ public class NonCustomAppointmentsEnterpriseServiceService {
                         OffsetDateTime to) {
                 ZoneId timeZone = enterpriseServiceService.getTimeZoneByServiceId(serviceId);
 
-                LocalDate fromInServiceTimezone = DateUtils.createLocalDate(from, timeZone);
-                LocalDate toInServiceTimezone = DateUtils.createLocalDate(to, timeZone);
+                LocalDateTime fromInServiceTimezone = DateUtils.createLocalDateTime(from, timeZone);
+                LocalDateTime toInServiceTimezone = DateUtils.createLocalDateTime(to, timeZone);
 
                 List<LocalDateTimeWindow> defaultAvailability = nonCustomAppointmentsEnterpriseServiceSlotTemplateService
-                                .getAvailabilityTemplateForDateRange(serviceId, fromInServiceTimezone,
+                                .getAvailabilityTemplateForDatetimeRange(serviceId, fromInServiceTimezone,
                                                 toInServiceTimezone);
 
-                List<NonCustomAppointment> appointments = nonCustomAppointmentsService.getAllByServiceIdAndRange(
-                                serviceId,
-                                from, to);
-                List<LocalDateTimeWindow> appointmentWindows = appointments.stream().map(a -> {
-                        return new LocalDateTimeWindow(
-                                        DateUtils.createLocalDateTime(a.startTime(), timeZone),
-                                        DateUtils.createLocalDateTime(a.endTime(), timeZone));
-                }).collect(Collectors.toList());
+                // List<NonCustomAppointment> appointments =
+                // nonCustomAppointmentsService.getAllByServiceIdAndRange(
+                // serviceId,
+                // from, to);
+                // List<LocalDateTimeWindow> appointmentWindows = appointments.stream().map(a ->
+                // {
+                // return new LocalDateTimeWindow(
+                // DateUtils.createLocalDateTime(a.startTime(), timeZone),
+                // DateUtils.createLocalDateTime(a.endTime(), timeZone));
+                // }).collect(Collectors.toList());
 
-                return DateUtils.subtractTimeWindowLists(defaultAvailability, appointmentWindows);
+                // return DateUtils.subtractTimeWindowLists(defaultAvailability,
+                // appointmentWindows);
+
+                return defaultAvailability;
         }
 
 }
