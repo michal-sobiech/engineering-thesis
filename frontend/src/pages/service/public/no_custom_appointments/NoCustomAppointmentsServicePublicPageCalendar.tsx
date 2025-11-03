@@ -9,7 +9,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import { servicesApi } from "../../../../api/services-api";
 import { GetServiceFreeNonCustomAppointmentsResponseItem } from "../../../../GENERATED-api";
 import { useIntParam } from "../../../../hooks/useIntParam";
-import { createDateWithoutTime } from "../../../../utils/date";
+import { createDateInterpretedAsUTC, createDateWithoutTime } from "../../../../utils/date";
 import { errorErrResultAsyncFromPromise } from "../../../../utils/result";
 import { toastError } from "../../../../utils/toast";
 
@@ -19,7 +19,7 @@ export const NoCustomAppointmentsServicePublicPageCalendar = () => {
     const { selectedDate, setSelectedDate, setFreeAppointmentsOnSelectedDate } = useContextOrThrow(NoCustomAppointmentsServicePublicPageContext);
 
     const onSelectSlot = async (slot: SlotInfo) => {
-        const date = createDateWithoutTime(slot.start);
+        const date = createDateInterpretedAsUTC(createDateWithoutTime(slot.start));
         setSelectedDate(date);
 
         const freeAppointments = await fetchFreeAppointmentsOnDateInServiceTimezone(date);
@@ -43,6 +43,7 @@ export const NoCustomAppointmentsServicePublicPageCalendar = () => {
     }
 
     function fetchFreeAppointmentsOnDateInServiceTimezone(date: Date): ResultAsync<GetServiceFreeNonCustomAppointmentsResponseItem[], Error> {
+        console.log(date)
         const promise = servicesApi.getFreeNonCustomAppointments(serviceId, date);
         return errorErrResultAsyncFromPromise(promise);
     }

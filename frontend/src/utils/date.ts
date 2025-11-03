@@ -41,3 +41,15 @@ export function createNowWithTime(time: LocalTime): Date {
 export function extractLocalTimeFromDate(date: Date): LocalTime {
     return LocalTime.from(Instant.ofEpochMilli(date.getTime()));
 }
+
+export function createDateInterpretedAsUTC(date: Date): Date {
+    return new Date(Date.UTC(
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate(),
+        date.getHours(),
+        date.getMinutes(),
+        date.getSeconds(),
+        date.getMilliseconds()
+    ));
+}
