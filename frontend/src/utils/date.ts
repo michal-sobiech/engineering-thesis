@@ -1,5 +1,5 @@
 import { add, Duration } from "date-fns";
-import { Instant, LocalDate, LocalTime, ZonedDateTime, ZoneId } from "js-joda";
+import { DateTimeFormatter, Instant, LocalDate, LocalTime, ZonedDateTime, ZoneId } from "js-joda";
 
 export function splitPeriod(start: Date, end: Date, segmentDuration: Duration): [Date, Date][] {
     const out: [Date, Date][] = [];
@@ -26,8 +26,11 @@ export function extractHHmmTimeFromDate(date: Date): string {
     const hours = date.getHours();
     const minutes = date.getMinutes();
 
+    console.log(date, hours);
+
+    const hoursPadded = hours.toString().padStart(2, "0");
     const minutesPadded = minutes.toString().padStart(2, "0");
-    return `${hours}:${minutesPadded}`;
+    return `${hoursPadded}:${minutesPadded}`;
 }
 
 export function createDateWithoutTime(date: Date): Date {
@@ -56,4 +59,13 @@ export function createDateInterpretedAsUTC(date: Date): Date {
         date.getSeconds(),
         date.getMilliseconds()
     ));
+}
+
+export function createZonedDateTimeFromDateAndZoneId(date: Date, timezone: ZoneId): ZonedDateTime {
+    const instant = Instant.ofEpochMilli(date.getTime());
+    return ZonedDateTime.ofInstant(instant, timezone);
+}
+
+export function extractHHmmTimeFromLocalTime(time: LocalTime): string {
+    return time.format(DateTimeFormatter.ofPattern("HH:mm"));
 }

@@ -3,6 +3,8 @@ import { localizer } from "../../../../common/localizer";
 import { useContextOrThrow } from "../../../../utils/useContextOrThrow";
 
 import { Box } from "@chakra-ui/react";
+import { LocalTime } from "js-joda";
+import { Result } from "neverthrow";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { servicesApi } from "../../../../api/services-api";
 import { useIntParam } from "../../../../hooks/useIntParam";
@@ -21,13 +23,17 @@ export const CustomAppointmentsServicePublicPageCalendar = () => {
         setSelectedDate(date);
 
         const promise = servicesApi.getFreeTimeWindowsForCustomAppointments(serviceId, date);
-        const result = await errorErrResultAsyncFromPromise(promise);
+        const result: Result<[LocalTime, LocalTime][], Error> = await errorErrResultAsyncFromPromise(promise)
+            .map(items => items.map(item => [
+                LocalTime.parse(item.startTime),
+                LocalTime.parse(item.endTime)
+            ]));
+
         if (result.isErr()) {
             toastError("Unexpected error while loading free slots");
             return;
         }
-        const freeTimeWindows: [Date, Date][] = result.value.map(timeWindow => [timeWindow.startDatetime, timeWindow.endDatetime]);
-        setFreeTimeWindowsOnSelectedDate(freeTimeWindows);
+        setFreeTimeWindowsOnSelectedDate(result.value);
     }
 
     const dayPropGetter = (date: Date) => {

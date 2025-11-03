@@ -54,8 +54,8 @@ public class EnterpriseServiceController implements ServicesApi {
 
         List<GetServiceFreeNonCustomAppointmentsResponseItem> body = freeSlots.stream().map(slot -> {
             return new GetServiceFreeNonCustomAppointmentsResponseItem(
-                    DateUtils.createOffsetDateTime(slot.start(), timezone),
-                    DateUtils.createOffsetDateTime(slot.end(), timezone));
+                    DateUtils.extractHHmmTimeFromLocalDateTime(slot.start()),
+                    DateUtils.extractHHmmTimeFromLocalDateTime(slot.end()));
         }).collect(Collectors.toList());
 
         System.out.println(body);
@@ -75,8 +75,8 @@ public class EnterpriseServiceController implements ServicesApi {
 
         List<GetServiceFreeCustomAppointmentsResponseItem> body = freeWindows.stream().map(window -> {
             return new GetServiceFreeCustomAppointmentsResponseItem(
-                    DateUtils.createOffsetDateTime(window.start(), timezone),
-                    DateUtils.createOffsetDateTime(window.end(), timezone));
+                    DateUtils.extractHHmmTimeFromLocalDateTime(window.start()),
+                    DateUtils.extractHHmmTimeFromLocalDateTime(window.end()));
         }).collect(Collectors.toList());
 
         return ResponseEntity.ok(body);

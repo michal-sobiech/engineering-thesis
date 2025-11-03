@@ -5,8 +5,8 @@ import { UseStateSetter } from "../../../../utils/useState";
 export interface CustomAppointmentsServicePublicPageContextValue {
     selectedDate: Date | null;
     setSelectedDate: UseStateSetter<Date | null>;
-    freeTimeWindowsOnSelectedDate: [Date, Date][] | null;
-    setFreeTimeWindowsOnSelectedDate: UseStateSetter<[Date, Date][] | null>;
+    freeTimeWindowsOnSelectedDate: [LocalTime, LocalTime][] | null;
+    setFreeTimeWindowsOnSelectedDate: UseStateSetter<[LocalTime, LocalTime][] | null>;
     selectedTimeWindowStart: LocalTime | null;
     setSelectedTimeWindowStart: UseStateSetter<LocalTime | null>;
     selectedTimeWindowEnd: LocalTime | null;

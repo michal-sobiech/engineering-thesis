@@ -1,4 +1,5 @@
 import { Center, Text } from "@chakra-ui/react"
+import { LocalTime } from "js-joda"
 import { useState } from "react"
 import { StandardFlex } from "../../../../common/StandardFlex"
 import { StandardPanel } from "../../../../common/StandardPanel"
@@ -8,8 +9,8 @@ import { NoCustomAppointmentsServicePublicPageSlotList } from "./NoCustomAppoint
 
 export const NoCustomAppointmentsServicePublicPage = () => {
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-    const [freeAppointmentsOnSelectedDate, setFreeAppointmentsOnSelectedDate] = useState<[Date, Date][] | null>(null);
-    const [selectedAppointment, setSelectedAppointment] = useState<[Date, Date] | null>(null);
+    const [freeAppointmentsOnSelectedDate, setFreeAppointmentsOnSelectedDate] = useState<[LocalTime, LocalTime][] | null>(null);
+    const [selectedAppointment, setSelectedAppointment] = useState<[LocalTime, LocalTime] | null>(null);
 
     const contextValue: NoCustomAppointmentsServicePublicPageContextValue = {
         selectedDate,

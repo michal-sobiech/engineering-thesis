@@ -9,7 +9,7 @@ import { CustomAppointmentsServicePublicPageContext, CustomAppointmentsServicePu
 
 export const CustomAppointmentsServicePublicPage = () => {
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-    const [freeTimeWindowsOnSelectedDate, setFreeTimeWindowsOnSelectedDate] = useState<[Date, Date][] | null>(null);
+    const [freeTimeWindowsOnSelectedDate, setFreeTimeWindowsOnSelectedDate] = useState<[LocalTime, LocalTime][] | null>(null);
     const [selectedTimeWindowStart, setSelectedTimeWindowStart] = useState<LocalTime | null>(null);
     const [selectedTimeWindowEnd, setSelectedTimeWindowEnd] = useState<LocalTime | null>(null);
 

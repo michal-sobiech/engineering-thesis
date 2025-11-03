@@ -6,6 +6,7 @@ import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -34,7 +35,7 @@ public class DateUtils {
         LocalDateTimeWindow currentWindow = sortedWindows.get(0);
         for (int i = 1; i < windows.size(); i++) {
             LocalDateTimeWindow nextWindow = sortedWindows.get(i);
-            boolean nextWindowOverlapsWithCurrent = !nextWindow.start().isAfter(currentWindow.end());
+            boolean nextWindowOverlapsWithCurrent = nextWindow.start().isBefore(currentWindow.end());
             if (nextWindowOverlapsWithCurrent) {
                 LocalDateTime newEnd = currentWindow.end().isAfter(nextWindow.end())
                         ? currentWindow.end()
@@ -64,29 +65,47 @@ public class DateUtils {
                 continue;
             }
 
-            if (window.start().isBefore(toSubtract.end())) {
-                if (window.end().isBefore(toSubtract.end())) {
-                    // window is completely omitted
-                    continue;
-                } else {
-                    var cutWindow = new LocalDateTimeWindow(toSubtract.end(), window.end());
-                    out.add(cutWindow);
-                    continue;
-                }
+            if (!window.start().isBefore(toSubtract.start())
+                    && !window.end().isAfter(toSubtract.end())) {
+                // window fully inside toSubtract, so omit window
+                continue;
             }
 
-            if (window.end().isAfter(toSubtract.start())) {
-                if (window.start().isAfter(toSubtract.start())) {
-                    // window is completely omitted
-                    continue;
-                } else {
-                    var cutWindow = new LocalDateTimeWindow(window.start(), toSubtract.start());
-                    out.add(cutWindow);
-                    continue;
-                }
+            if (window.start().isBefore(toSubtract.start())
+                    && window.end().isAfter(toSubtract.end())) {
+                // toSubtract fully inside window, so cut out inside of window making it 2
+                var window1 = new LocalDateTimeWindow(
+                        window.start(),
+                        toSubtract.start());
+                var window2 = new LocalDateTimeWindow(
+                        toSubtract.end(),
+                        window.end());
+
+                out.add(window1);
+                out.add(window2);
+                continue;
+            }
+
+            if (window.start().isBefore(toSubtract.start())
+                    && !window.end().isBefore(toSubtract.start())
+                    && !window.end().isAfter(toSubtract.end())) {
+                // Collision on the left side of toSubtract, truncate window
+                var truncated = new LocalDateTimeWindow(window.start(), toSubtract.start());
+                out.add(truncated);
+                continue;
+            }
+
+            if (!window.start().isBefore(toSubtract.start())
+                    && !window.start().isAfter(toSubtract.end())
+                    && window.end().isAfter(toSubtract.end())) {
+                // Collision on the right side of toSubtract, truncate window
+                var truncated = new LocalDateTimeWindow(toSubtract.end(), window.end());
+                out.add(truncated);
+                continue;
             }
         }
         return out;
+
     }
 
     public static List<LocalDateTimeWindow> subtractTimeWindowLists(List<LocalDateTimeWindow> from,
@@ -128,6 +147,10 @@ public class DateUtils {
         return windows.stream()
                 .filter(window -> !window.start().isBefore(from) && !window.end().isAfter(to))
                 .collect(Collectors.toList());
+    }
+
+    public static String extractHHmmTimeFromLocalDateTime(LocalDateTime datetime) {
+        return datetime.format(DateTimeFormatter.ofPattern("HH:mm"));
     }
 
 }

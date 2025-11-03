@@ -1,7 +1,8 @@
 import { Text } from "@chakra-ui/react";
+import { LocalTime } from "js-joda";
 import { JSX } from "react";
 import { ScrollableList } from "../../../../common/ScrollableList";
-import { extractHHmmTimeFromDate } from "../../../../utils/date";
+import { extractHHmmTimeFromLocalTime } from "../../../../utils/date";
 import { useContextOrThrow } from "../../../../utils/useContextOrThrow";
 import { NoCustomAppointmentsServicePublicPageContext } from "./NoCustomAppointmentsServicePublicPageContextValue";
 
@@ -22,10 +23,9 @@ export const NoCustomAppointmentsServicePublicPageSlotList = () => {
     }
 }
 
-function createItem(slot: [Date, Date]): JSX.Element {
-    const startTime = extractHHmmTimeFromDate(slot[0]);
-    console.log(startTime);
-    const endTime = extractHHmmTimeFromDate(slot[1]);
+function createItem(slot: [LocalTime, LocalTime]): JSX.Element {
+    const startTime = extractHHmmTimeFromLocalTime(slot[0]);
+    const endTime = extractHHmmTimeFromLocalTime(slot[1]);
     return <Text>
         {`${startTime} - ${endTime}`}
     </Text>

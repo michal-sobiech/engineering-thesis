@@ -1,8 +1,6 @@
 import { Box, Center, Flex } from "@chakra-ui/react"
-import { LocalTime } from "js-joda"
 import { TimeIntervalsDisplay } from "../../../../common/TimeIntervalsDisplay"
 import { TimeRangePicker } from "../../../../common/TimeRangePicker"
-import { extractLocalTimeFromDate } from "../../../../utils/date"
 import { useContextOrThrow } from "../../../../utils/useContextOrThrow"
 import { CustomAppointmentsServicePublicPageAppointmentMakerButton } from "./CustomAppointmentsServicePublicPageAppointmentMakerButton"
 import { CustomAppointmentsServicePublicPageContext } from "./CustomAppointmentsServicePublicPageContextValue"
@@ -16,17 +14,12 @@ export const CustomAppointmentsServicePublicPageAppointmentMaker = () => {
         setSelectedTimeWindowEnd,
     } = useContextOrThrow(CustomAppointmentsServicePublicPageContext);
 
-    const freeTimeWindowsLocalTimes: [LocalTime, LocalTime][] | undefined = freeTimeWindowsOnSelectedDate?.map(window => ([
-        extractLocalTimeFromDate(window[0]),
-        extractLocalTimeFromDate(window[1]),
-    ]));
-
-    if (freeTimeWindowsLocalTimes === undefined) {
+    if (freeTimeWindowsOnSelectedDate === null) {
         return null;
     } else {
         return <Flex direction="row">
             <Box flex="1">
-                <TimeIntervalsDisplay intervals={freeTimeWindowsLocalTimes} resolutionMinutes={30} />
+                <TimeIntervalsDisplay intervals={freeTimeWindowsOnSelectedDate} resolutionMinutes={30} />
             </Box>
             <Center flex="1" height="100%">
                 <Flex direction="column">

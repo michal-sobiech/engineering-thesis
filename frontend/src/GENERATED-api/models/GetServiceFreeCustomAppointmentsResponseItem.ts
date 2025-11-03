@@ -21,24 +21,24 @@ import { mapValues } from '../runtime';
 export interface GetServiceFreeCustomAppointmentsResponseItem {
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof GetServiceFreeCustomAppointmentsResponseItem
      */
-    startDatetime: Date;
+    startTime: string;
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof GetServiceFreeCustomAppointmentsResponseItem
      */
-    endDatetime: Date;
+    endTime: string;
 }
 
 /**
  * Check if a given object implements the GetServiceFreeCustomAppointmentsResponseItem interface.
  */
 export function instanceOfGetServiceFreeCustomAppointmentsResponseItem(value: object): value is GetServiceFreeCustomAppointmentsResponseItem {
-    if (!('startDatetime' in value) || value['startDatetime'] === undefined) return false;
-    if (!('endDatetime' in value) || value['endDatetime'] === undefined) return false;
+    if (!('startTime' in value) || value['startTime'] === undefined) return false;
+    if (!('endTime' in value) || value['endTime'] === undefined) return false;
     return true;
 }
 
@@ -52,8 +52,8 @@ export function GetServiceFreeCustomAppointmentsResponseItemFromJSONTyped(json: 
     }
     return {
         
-        'startDatetime': (new Date(json['startDatetime'])),
-        'endDatetime': (new Date(json['endDatetime'])),
+        'startTime': json['startTime'],
+        'endTime': json['endTime'],
     };
 }
 
@@ -68,8 +68,8 @@ export function GetServiceFreeCustomAppointmentsResponseItemToJSONTyped(value?: 
 
     return {
         
-        'startDatetime': ((value['startDatetime']).toISOString()),
-        'endDatetime': ((value['endDatetime']).toISOString()),
+        'startTime': value['startTime'],
+        'endTime': value['endTime'],
     };
 }
 

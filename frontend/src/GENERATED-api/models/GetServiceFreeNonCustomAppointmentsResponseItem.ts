@@ -21,24 +21,24 @@ import { mapValues } from '../runtime';
 export interface GetServiceFreeNonCustomAppointmentsResponseItem {
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof GetServiceFreeNonCustomAppointmentsResponseItem
      */
-    startDatetime: Date;
+    startTime: string;
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof GetServiceFreeNonCustomAppointmentsResponseItem
      */
-    endDatetime: Date;
+    endTime: string;
 }
 
 /**
  * Check if a given object implements the GetServiceFreeNonCustomAppointmentsResponseItem interface.
  */
 export function instanceOfGetServiceFreeNonCustomAppointmentsResponseItem(value: object): value is GetServiceFreeNonCustomAppointmentsResponseItem {
-    if (!('startDatetime' in value) || value['startDatetime'] === undefined) return false;
-    if (!('endDatetime' in value) || value['endDatetime'] === undefined) return false;
+    if (!('startTime' in value) || value['startTime'] === undefined) return false;
+    if (!('endTime' in value) || value['endTime'] === undefined) return false;
     return true;
 }
 
@@ -52,8 +52,8 @@ export function GetServiceFreeNonCustomAppointmentsResponseItemFromJSONTyped(jso
     }
     return {
         
-        'startDatetime': (new Date(json['startDatetime'])),
-        'endDatetime': (new Date(json['endDatetime'])),
+        'startTime': json['startTime'],
+        'endTime': json['endTime'],
     };
 }
 
@@ -68,8 +68,8 @@ export function GetServiceFreeNonCustomAppointmentsResponseItemToJSONTyped(value
 
     return {
         
-        'startDatetime': ((value['startDatetime']).toISOString()),
-        'endDatetime': ((value['endDatetime']).toISOString()),
+        'startTime': value['startTime'],
+        'endTime': value['endTime'],
     };
 }
 

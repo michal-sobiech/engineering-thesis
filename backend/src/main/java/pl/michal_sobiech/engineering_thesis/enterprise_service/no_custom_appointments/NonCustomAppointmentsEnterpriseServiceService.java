@@ -3,12 +3,14 @@ package pl.michal_sobiech.engineering_thesis.enterprise_service.no_custom_appoin
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import pl.michal_sobiech.engineering_thesis.appointment.non_custom.NonCustomAppointment;
 import pl.michal_sobiech.engineering_thesis.appointment.non_custom.NonCustomAppointmentsService;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.CreateEnterpriseServiceResult;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceEntity;
@@ -71,21 +73,22 @@ public class NonCustomAppointmentsEnterpriseServiceService {
                                 .getAvailabilityTemplateForDatetimeRange(serviceId, fromInServiceTimezone,
                                                 toInServiceTimezone);
 
-                // List<NonCustomAppointment> appointments =
-                // nonCustomAppointmentsService.getAllByServiceIdAndRange(
-                // serviceId,
-                // from, to);
+                List<NonCustomAppointment> appointments = nonCustomAppointmentsService.getAllByServiceIdAndRange(
+                                serviceId,
+                                from, to);
                 // List<LocalDateTimeWindow> appointmentWindows = appointments.stream().map(a ->
                 // {
                 // return new LocalDateTimeWindow(
                 // DateUtils.createLocalDateTime(a.startTime(), timeZone),
                 // DateUtils.createLocalDateTime(a.endTime(), timeZone));
                 // }).collect(Collectors.toList());
+                List<LocalDateTimeWindow> appointmentWindows = new ArrayList<>(List.of(
+                                defaultAvailability.get(1)));
 
-                // return DateUtils.subtractTimeWindowLists(defaultAvailability,
-                // appointmentWindows);
+                return DateUtils.subtractTimeWindowLists(defaultAvailability,
+                                appointmentWindows);
 
-                return defaultAvailability;
+                // return defaultAvailability;
         }
 
 }

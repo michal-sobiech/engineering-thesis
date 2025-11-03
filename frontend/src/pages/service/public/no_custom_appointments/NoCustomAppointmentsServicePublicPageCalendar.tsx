@@ -4,10 +4,10 @@ import { useContextOrThrow } from "../../../../utils/useContextOrThrow";
 import { NoCustomAppointmentsServicePublicPageContext } from "./NoCustomAppointmentsServicePublicPageContextValue";
 
 import { Box } from "@chakra-ui/react";
+import { LocalTime } from "js-joda";
 import { ResultAsync } from "neverthrow";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { servicesApi } from "../../../../api/services-api";
-import { GetServiceFreeNonCustomAppointmentsResponseItem } from "../../../../GENERATED-api";
 import { useIntParam } from "../../../../hooks/useIntParam";
 import { createDateInterpretedAsUTC, createDateWithoutTime } from "../../../../utils/date";
 import { errorErrResultAsyncFromPromise } from "../../../../utils/result";
@@ -27,8 +27,7 @@ export const NoCustomAppointmentsServicePublicPageCalendar = () => {
             toastError("Unexpected error while loading free slots");
             return;
         }
-        const freeAppointmentsTuples: [Date, Date][] = freeAppointments.value.map(appointment => [appointment.startDatetime, appointment.endDatetime]);
-        setFreeAppointmentsOnSelectedDate(freeAppointmentsTuples);
+        setFreeAppointmentsOnSelectedDate(freeAppointments.value);
     }
 
     const dayPropGetter = (date: Date) => {
@@ -42,9 +41,13 @@ export const NoCustomAppointmentsServicePublicPageCalendar = () => {
         }
     }
 
-    function fetchFreeAppointmentsOnDateInServiceTimezone(date: Date): ResultAsync<GetServiceFreeNonCustomAppointmentsResponseItem[], Error> {
+    function fetchFreeAppointmentsOnDateInServiceTimezone(date: Date): ResultAsync<[LocalTime, LocalTime][], Error> {
         const promise = servicesApi.getFreeNonCustomAppointments(serviceId, date);
-        return errorErrResultAsyncFromPromise(promise);
+        return errorErrResultAsyncFromPromise(promise)
+            .map(items => items.map(item => [
+                LocalTime.parse(item.startTime),
+                LocalTime.parse(item.endTime)
+            ]));
     }
 
     return <Box height="40vh">
