@@ -58,6 +58,7 @@ public class EnterpriseServiceController implements ServicesApi {
                     DateUtils.createOffsetDateTime(slot.end(), timezone));
         }).collect(Collectors.toList());
 
+        System.out.println(body);
         return ResponseEntity.ok(body);
     }
 

@@ -23,7 +23,11 @@ export function durationToMs(duration: Duration) {
 }
 
 export function extractHHmmTimeFromDate(date: Date): string {
-    return date.toISOString().substring(11, 16);
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+
+    const minutesPadded = minutes.toString().padStart(2, "0");
+    return `${hours}:${minutesPadded}`;
 }
 
 export function createDateWithoutTime(date: Date): Date {

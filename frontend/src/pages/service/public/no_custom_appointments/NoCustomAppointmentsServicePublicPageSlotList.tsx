@@ -24,6 +24,7 @@ export const NoCustomAppointmentsServicePublicPageSlotList = () => {
 
 function createItem(slot: [Date, Date]): JSX.Element {
     const startTime = extractHHmmTimeFromDate(slot[0]);
+    console.log(startTime);
     const endTime = extractHHmmTimeFromDate(slot[1]);
     return <Text>
         {`${startTime} - ${endTime}`}

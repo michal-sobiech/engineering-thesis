@@ -43,7 +43,6 @@ export const NoCustomAppointmentsServicePublicPageCalendar = () => {
     }
 
     function fetchFreeAppointmentsOnDateInServiceTimezone(date: Date): ResultAsync<GetServiceFreeNonCustomAppointmentsResponseItem[], Error> {
-        console.log(date)
         const promise = servicesApi.getFreeNonCustomAppointments(serviceId, date);
         return errorErrResultAsyncFromPromise(promise);
     }
