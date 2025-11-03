@@ -21,6 +21,17 @@ public class CustomAppointmentsEnterpriseServiceSlotTemplateService {
 
         private final EnterpriseServiceSlotTemplateService enterpriseServiceSlotTemplateService;
 
+        public List<LocalDateTimeWindow> getAvailabilityTemplateForDatetimeRange(
+                        long enterpriseServiceId,
+                        LocalDateTime from,
+                        LocalDateTime to) {
+                List<LocalDateTimeWindow> fullDaysTemplate = getAvailabilityTemplateForDateRange(
+                                enterpriseServiceId,
+                                from.toLocalDate(),
+                                to.toLocalDate());
+                return DateUtils.filterWindowsFullyContainedInRange(fullDaysTemplate, from, to);
+        }
+
         public List<LocalDateTimeWindow> getAvailabilityTemplateForDateRange(long enterpriseServiceId,
                         LocalDate from,
                         LocalDate to) {

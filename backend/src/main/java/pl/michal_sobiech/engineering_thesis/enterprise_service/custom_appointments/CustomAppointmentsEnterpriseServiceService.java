@@ -1,6 +1,6 @@
 package pl.michal_sobiech.engineering_thesis.enterprise_service.custom_appointments;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.util.List;
@@ -68,11 +68,11 @@ public class CustomAppointmentsEnterpriseServiceService {
                         OffsetDateTime to) {
                 ZoneId timeZone = enterpriseServiceService.getTimeZoneByServiceId(serviceId);
 
-                LocalDate fromInServiceTimezone = DateUtils.createLocalDate(from, timeZone);
-                LocalDate toInServiceTimezone = DateUtils.createLocalDate(to, timeZone);
+                LocalDateTime fromInServiceTimezone = DateUtils.createLocalDateTime(from, timeZone);
+                LocalDateTime toInServiceTimezone = DateUtils.createLocalDateTime(to, timeZone);
 
                 List<LocalDateTimeWindow> defaultAvailability = customAppointmentsEnterpriseServiceSlotTemplateService
-                                .getAvailabilityTemplateForDateRange(serviceId, fromInServiceTimezone,
+                                .getAvailabilityTemplateForDatetimeRange(serviceId, fromInServiceTimezone,
                                                 toInServiceTimezone);
 
                 List<ConfirmedCustomAppointment> confirmedAppointments = customAppointmentsService
