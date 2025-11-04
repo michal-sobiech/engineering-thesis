@@ -89,7 +89,6 @@ public class EnterpriseServiceService {
         // TODO java.util.NoSuchElementException causes error 500
         EnterpriseServiceEntity record = findById(enterpriseServiceId).orElseThrow();
         return record.getTimeZone();
-
     }
 
 }

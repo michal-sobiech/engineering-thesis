@@ -69,6 +69,7 @@ export const ServiceSearchPage = () => {
             endDate
         );
         const result = await errorErrResultAsyncFromPromise(promise);
+        console.log("aaaaaaaaaaaa")
         if (result.isErr()) {
             toastError(DEFAULT_ERROR_MESSAGE_FOR_USER);
             return;

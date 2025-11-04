@@ -13,8 +13,8 @@ public record NonCustomAppointment(
         long customerUserId,
 
         Optional<BigDecimal> price,
-        OffsetDateTime startTime,
-        OffsetDateTime endTime
+        OffsetDateTime startDatetime,
+        OffsetDateTime endDatetime
 
 ) {
 

@@ -1,5 +1,6 @@
 package pl.michal_sobiech.engineering_thesis.utils;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -151,6 +152,16 @@ public class DateUtils {
 
     public static String extractHHmmTimeFromLocalDateTime(LocalDateTime datetime) {
         return datetime.format(DateTimeFormatter.ofPattern("HH:mm"));
+    }
+
+    public static OffsetDateTimeWindow createOffsetDateTimeWindow(LocalDateTimeWindow localWindow, ZoneId timezone) {
+        return new OffsetDateTimeWindow(
+                createOffsetDateTime(localWindow.start(), timezone),
+                createOffsetDateTime(localWindow.end(), timezone));
+    }
+
+    public static Instant createInstant(LocalDateTime localDatetime, ZoneId timezone) {
+        return createOffsetDateTime(localDatetime, timezone).toInstant();
     }
 
 }

@@ -27,7 +27,8 @@ public class CustomAppointmentsEnterpriseServiceTimeWindowTemplateService {
     @Transactional
     public List<CustomAppointmentsEnterpriseServiceSlotTemplate> saveMany(long enterpriseServiceId,
             List<CreateCustomAppointmentsEnterpriseServiceTimeWindowTemplateCommand> commands) {
-        return commands.stream().map(command -> save(enterpriseServiceId, command)).collect(Collectors.toList());
+        return commands.stream().map(command -> save(enterpriseServiceId, command))
+                .collect(Collectors.toList());
     }
 
     @Transactional

@@ -43,6 +43,7 @@ public class EnterpriseServiceEntity {
     private double latitude;
     private double longitude;
 
+    @Column(name = "time_zone")
     private ZoneId timeZone;
 
     private boolean takesCustomAppointments;

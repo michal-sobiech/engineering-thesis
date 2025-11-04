@@ -3,6 +3,7 @@ package pl.michal_sobiech.engineering_thesis.enterprise_service;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -22,7 +23,8 @@ import pl.michal_sobiech.engineering_thesis.enterprise_service.custom_appointmen
 import pl.michal_sobiech.engineering_thesis.enterprise_service.no_custom_appointments.NonCustomAppointmentsEnterpriseServiceService;
 import pl.michal_sobiech.engineering_thesis.enterprise_service_search.EnterpriseServiceSearchService;
 import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.EnterpriseServiceSlotTemplateService;
-import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.ServiceSearchSlot;
+import pl.michal_sobiech.engineering_thesis.non_custom_appointments_enterprise_service_slot_search.NonCustomEnterpriseServiceSlotsSearchService;
+import pl.michal_sobiech.engineering_thesis.non_custom_appointments_enterprise_service_slot_search.NonCustomSlotSearchResultRow;
 import pl.michal_sobiech.engineering_thesis.utils.DateUtils;
 import pl.michal_sobiech.engineering_thesis.utils.HttpUtils;
 import pl.michal_sobiech.engineering_thesis.utils.LocalDateTimeWindow;
@@ -39,6 +41,7 @@ public class EnterpriseServiceController implements ServicesApi {
     private final NonCustomAppointmentsService nonCustomAppointmentsService;
     private final CustomAppointmentsEnterpriseServiceService customAppointmentsEnterpriseServiceService;
     private final NonCustomAppointmentsEnterpriseServiceService nonCustomAppointmentsEnterpriseServiceService;
+    private final NonCustomEnterpriseServiceSlotsSearchService nonCustomEnterpriseServiceSlotsSearchService;
 
     @Override
     public ResponseEntity<List<GetServiceFreeNonCustomAppointmentsResponseItem>> getFreeNonCustomAppointments(
@@ -113,21 +116,25 @@ public class EnterpriseServiceController implements ServicesApi {
         }
         EnterpriseServiceCathegory cathegoryEnum = optionalCathegoryEnum.get();
 
-        List<ServiceSearchSlot> filteredSlots = enterpriseServiceSearchService.searchNoCustomAppointmentsSlots(
-                Optional.of(serviceName),
-                Optional.of(enterpriseName),
-                Optional.of(startDate),
-                Optional.of(endDate),
-                cathegoryEnum,
-                preferredLongitude,
-                preferredLatitude,
-                maxDistanceKm);
-        var body = filteredSlots.stream().map(slot -> new ServiceSearchResponseItem(
-                slot.getServiceName(),
-                slot.getEnterpriseName(),
-                slot.getAddress(),
-                slot.getStartTime(),
-                slot.getEndTime())).collect(Collectors.toList());
+        List<NonCustomSlotSearchResultRow> availableNonCustomSlots = nonCustomEnterpriseServiceSlotsSearchService
+                .searchNoCustomAppointmentsSlots(
+                        Optional.ofNullable(serviceName),
+                        Optional.ofNullable(enterpriseName),
+                        Optional.ofNullable(startDate),
+                        Optional.of(endDate),
+                        cathegoryEnum,
+                        preferredLongitude,
+                        preferredLatitude,
+                        maxDistanceKm);
+
+        List<ServiceSearchResponseItem> body = availableNonCustomSlots.stream()
+                .map(slot -> new ServiceSearchResponseItem(
+                        slot.enterpriseServiceName(),
+                        slot.enterpriseName(),
+                        slot.address(),
+                        OffsetDateTime.ofInstant(slot.start(), ZoneOffset.UTC),
+                        OffsetDateTime.ofInstant(slot.end(), ZoneOffset.UTC)))
+                .collect(Collectors.toList());
         return ResponseEntity.ok(body);
     }
 }

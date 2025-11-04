@@ -72,8 +72,12 @@ public class EnterpriseService {
         });
     }
 
-    public List<EnterpriseEntity> findByNameContaining(String substring) {
+    public List<EnterpriseEntity> searchEnterprisesWithSubstringInName(String substring) {
         return enterpriseRepository.findByNameContaining(substring);
+    }
+
+    public List<EnterpriseEntity> getAll() {
+        return enterpriseRepository.findAll();
     }
 
 }

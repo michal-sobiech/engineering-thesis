@@ -17,7 +17,7 @@ public class NonCustomAppointmentsService {
 
     private final AppointmentRepository appointmentRepository;
 
-    public List<NonCustomAppointment> getAllByServiceIdAndRange(long serviceId, OffsetDateTime from,
+    public List<NonCustomAppointment> getAllByServiceIdAndDatetimeRange(long serviceId, OffsetDateTime from,
             OffsetDateTime to) {
         List<AppointmentEntity> records = appointmentRepository.findAllInRange(serviceId, from, to);
         return records.stream().map(record -> NonCustomAppointment.fromEntity(record)).collect(Collectors.toList());
@@ -26,7 +26,7 @@ public class NonCustomAppointmentsService {
     public List<NonCustomAppointment> getAllByServiceIdAndDate(long serviceId, OffsetDateTime date) {
         OffsetDateTime from = DateUtils.createOffsetDateTimeWithResetTime(date);
         OffsetDateTime to = from.plusDays(1);
-        return getAllByServiceIdAndRange(serviceId, from, to);
+        return getAllByServiceIdAndDatetimeRange(serviceId, from, to);
     }
 
 }
