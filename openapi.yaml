@@ -465,6 +465,40 @@ components:
         endTime:
           $ref: "#/components/schemas/HoursAndMinutesTime"
 
+    CreateNonCustomAppointmentRequest:
+      type: object
+      required: [enterpriseServiceId, startDatetime, endDatetime]
+      properties:
+        enterpriseServiceId:
+          type: number
+          format: int64
+        startDatetime:
+          type: string
+          format: date-time
+        endDatetime:
+          type: string
+          format: date-time
+        price:
+          type: number
+
+    CreateCustomAppointmentRequest:
+      type: object
+      required: [enterpriseServiceId, startDatetime, endDatetime]
+      properties:
+        enterpriseServiceId:
+          type: number
+          format: int64
+        startDatetime:
+          type: string
+          format: date-time
+        endDatetime:
+          type: string
+          format: date-time
+        price:
+          type: number
+        location:
+          $ref: "#/components/schemas/Location"
+
   responses:
     OK:
       description: &OK_DESCRIPTION >
@@ -1190,7 +1224,7 @@ paths:
         "500":
           $ref: "#/components/responses/InternalServerError"
 
-  /services/{serviceId}/free-non-custom-appointments/:
+  /services/{serviceId}/free-non-custom-appointment-slots/:
     get:
       tags: [EnterpriseServices]
       operationId: getFreeNonCustomAppointments
@@ -1276,5 +1310,55 @@ paths:
                     type: boolean
         "400":
           $ref: "#/components/responses/BadRequest"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /services/{serviceId}/non-custom-appointments/:
+    post:
+      tags: [Appointments]
+      operationId: createNonCustomAppointment
+      parameters:
+        - name: serviceId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        $ref: "#/components/schemas/CreateNonCustomAppointmentRequest"
+      responses:
+        "201":
+          description: *CREATED_DESCRIPTION
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /services/{serviceId}/custom-appointments/:
+    post:
+      tags: [Appointments]
+      operationId: createCustomAppointment
+      parameters:
+        - name: serviceId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        $ref: "#/components/schemas/CreateCustomAppointmentRequest"
+      responses:
+        "201":
+          description: *CREATED_DESCRIPTION
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
         "500":
           $ref: "#/components/responses/InternalServerError"
