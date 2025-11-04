@@ -40,5 +40,6 @@ models/LogInIndependentEndUserRequest.ts
 models/LogInIndependentEndUserResponse.ts
 models/ServiceSearchResponseItem.ts
 models/Slot.ts
+models/TimeWindow.ts
 models/index.ts
 runtime.ts

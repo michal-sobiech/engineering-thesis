@@ -344,7 +344,7 @@ components:
           maxDistanceKm,
           cathegory,
           currency,
-          slots,
+          timeWindows,
         ]
       properties:
         name:
@@ -369,19 +369,19 @@ components:
           type: string
           example: "PLN"
           description: currency ISO code
-        slots:
+        timeWindows:
           type: array
           items:
-            $ref: "#/components/schemas/Slot"
+            $ref: "#/components/schemas/TimeWindow"
 
     DayOfWeek:
       type: string
       enum: [MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY]
       example: MONDAY
 
-    Slot:
+    TimeWindow:
       type: object
-      required: [dayOfWeek, start, end]
+      required: [dayOfWeek, startTime, endTime]
       properties:
         dayOfWeek:
           $ref: "#/components/schemas/DayOfWeek"
@@ -389,6 +389,20 @@ components:
           $ref: "#/components/schemas/HoursAndMinutesTime"
         endTime:
           $ref: "#/components/schemas/HoursAndMinutesTime"
+
+    Slot:
+      type: object
+      required: [dayOfWeek, startTime, endTime, maxOccupancy]
+      properties:
+        dayOfWeek:
+          $ref: "#/components/schemas/DayOfWeek"
+        startTime:
+          $ref: "#/components/schemas/HoursAndMinutesTime"
+        endTime:
+          $ref: "#/components/schemas/HoursAndMinutesTime"
+        maxOccupancy:
+          type: number
+          format: int32
 
     IanaTimeZone:
       type: string

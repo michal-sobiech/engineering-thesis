@@ -12,14 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.appointment.custom.ConfirmedCustomAppointment;
 import pl.michal_sobiech.engineering_thesis.appointment.custom.CustomAppointmentsService;
-import pl.michal_sobiech.engineering_thesis.enterprise_service.CreateEnterpriseServiceResult;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceEntity;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceRepository;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceService;
-import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.EnterpriseServiceSlotTemplateEntity;
-import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.EnterpriseServiceSlotTemplateRepository;
-import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.EnterpriseServiceSlotTemplateService;
-import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.custom_appointments.CustomAppointmentsEnterpriseServiceSlotTemplateService;
+import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.custom_appointments.CreateCustomAppointmentsEnterpriseServiceTimeWindowTemplateCommand;
+import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.custom_appointments.CustomAppointmentsEnterpriseServiceTimeWindowTemplateService;
 import pl.michal_sobiech.engineering_thesis.utils.DateUtils;
 import pl.michal_sobiech.engineering_thesis.utils.LocalDateTimeWindow;
 
@@ -28,16 +25,13 @@ import pl.michal_sobiech.engineering_thesis.utils.LocalDateTimeWindow;
 public class CustomAppointmentsEnterpriseServiceService {
 
         private final EnterpriseServiceRepository enterpriseServiceRepository;
-        private final EnterpriseServiceSlotTemplateService enterpriseServiceSlotTemplateService;
-        private final EnterpriseServiceSlotTemplateRepository enterpriseServiceSlotTemplateRepository;
-        private final CustomAppointmentsEnterpriseServiceSlotTemplateService customAppointmentsEnterpriseServiceSlotTemplateService;
+        private final CustomAppointmentsEnterpriseServiceTimeWindowTemplateService customAppointmentsEnterpriseServiceTimeWindowTemplateService;
         private final CustomAppointmentsService customAppointmentsService;
         private final EnterpriseServiceService enterpriseServiceService;
 
         @Transactional
-        public CreateEnterpriseServiceResult save(long enterpriseId,
+        public EnterpriseServiceEntity save(long enterpriseId,
                         CreateCustomAppointmentsEnterpriseServiceCommand command) {
-
                 EnterpriseServiceEntity service = EnterpriseServiceEntity.builder()
                                 .enterpriseId(enterpriseId)
                                 .name(command.name())
@@ -52,14 +46,20 @@ public class CustomAppointmentsEnterpriseServiceService {
                                 .longitude(command.location().getLongitude())
                                 .latitude(command.location().getLatitude())
                                 .build();
+                return enterpriseServiceRepository.save(service);
+        }
 
-                service = enterpriseServiceRepository.save(service);
+        @Transactional
+        public void saveWithTImeWindows(
+                        long enterpriseId,
+                        CreateCustomAppointmentsEnterpriseServiceCommand command,
+                        List<CreateCustomAppointmentsEnterpriseServiceTimeWindowTemplateCommand> timeWindows) {
+                EnterpriseServiceEntity enterpriseService = save(enterpriseId, command);
 
-                final long enterpriseServiceId = service.getEnterpriseServiceId();
-                List<EnterpriseServiceSlotTemplateEntity> slots = enterpriseServiceSlotTemplateService.saveMany(
+                final long enterpriseServiceId = enterpriseService.getEnterpriseServiceId();
+                customAppointmentsEnterpriseServiceTimeWindowTemplateService.saveMany(
                                 enterpriseServiceId,
-                                command.slots());
-                return new CreateEnterpriseServiceResult(service, slots);
+                                timeWindows);
         }
 
         public List<LocalDateTimeWindow> findFreeTimeWindowsInDatetimeRange(
@@ -71,7 +71,7 @@ public class CustomAppointmentsEnterpriseServiceService {
                 LocalDateTime fromInServiceTimezone = DateUtils.createLocalDateTime(from, timeZone);
                 LocalDateTime toInServiceTimezone = DateUtils.createLocalDateTime(to, timeZone);
 
-                List<LocalDateTimeWindow> defaultAvailability = customAppointmentsEnterpriseServiceSlotTemplateService
+                List<LocalDateTimeWindow> defaultAvailability = customAppointmentsEnterpriseServiceTimeWindowTemplateService
                                 .getAvailabilityTemplateForDatetimeRange(serviceId, fromInServiceTimezone,
                                                 toInServiceTimezone);
 

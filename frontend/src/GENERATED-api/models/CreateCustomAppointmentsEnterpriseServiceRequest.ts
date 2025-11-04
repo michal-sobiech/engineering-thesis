@@ -13,13 +13,13 @@
  */
 
 import { mapValues } from '../runtime';
-import type { Slot } from './Slot';
+import type { TimeWindow } from './TimeWindow';
 import {
-    SlotFromJSON,
-    SlotFromJSONTyped,
-    SlotToJSON,
-    SlotToJSONTyped,
-} from './Slot';
+    TimeWindowFromJSON,
+    TimeWindowFromJSONTyped,
+    TimeWindowToJSON,
+    TimeWindowToJSONTyped,
+} from './TimeWindow';
 import type { Location } from './Location';
 import {
     LocationFromJSON,
@@ -84,10 +84,10 @@ export interface CreateCustomAppointmentsEnterpriseServiceRequest {
     currency: string;
     /**
      * 
-     * @type {Array<Slot>}
+     * @type {Array<TimeWindow>}
      * @memberof CreateCustomAppointmentsEnterpriseServiceRequest
      */
-    slots: Array<Slot>;
+    timeWindows: Array<TimeWindow>;
 }
 
 /**
@@ -101,7 +101,7 @@ export function instanceOfCreateCustomAppointmentsEnterpriseServiceRequest(value
     if (!('maxDistanceKm' in value) || value['maxDistanceKm'] === undefined) return false;
     if (!('cathegory' in value) || value['cathegory'] === undefined) return false;
     if (!('currency' in value) || value['currency'] === undefined) return false;
-    if (!('slots' in value) || value['slots'] === undefined) return false;
+    if (!('timeWindows' in value) || value['timeWindows'] === undefined) return false;
     return true;
 }
 
@@ -123,7 +123,7 @@ export function CreateCustomAppointmentsEnterpriseServiceRequestFromJSONTyped(js
         'cathegory': json['cathegory'],
         'price': json['price'] == null ? undefined : json['price'],
         'currency': json['currency'],
-        'slots': ((json['slots'] as Array<any>).map(SlotFromJSON)),
+        'timeWindows': ((json['timeWindows'] as Array<any>).map(TimeWindowFromJSON)),
     };
 }
 
@@ -146,7 +146,7 @@ export function CreateCustomAppointmentsEnterpriseServiceRequestToJSONTyped(valu
         'cathegory': value['cathegory'],
         'price': value['price'],
         'currency': value['currency'],
-        'slots': ((value['slots'] as Array<any>).map(SlotToJSON)),
+        'timeWindows': ((value['timeWindows'] as Array<any>).map(TimeWindowToJSON)),
     };
 }
 

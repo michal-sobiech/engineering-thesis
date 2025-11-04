@@ -7,14 +7,14 @@ import { WeeklyCalendar } from "../../common/calendar/WeeklyCalendar";
 import { StandardFloatInput } from "../../common/StandardFloatInput";
 import { StandardLabeledContainer } from "../../common/StandardLabeledContainer";
 import { UseStateSetter } from "../../utils/useState";
-import { CustomAppointmentsEvents } from "./calendar/CustomAppointmentsEvents";
+import { CustomOrNotAppointmentsEvents } from "./calendar/CustomAppointmentsEvents";
 import { WeeklyCalendarCustomAppoinmentsDisabled } from "./calendar/WeeklyCalendarCustomAppointmentsDisabled";
 
 export interface ServiceCreationCalendarProps {
     appointmentDurationMinutes: number | null
     setAppointmentDurationMinutes: UseStateSetter<number | null>,
-    eventsData: CustomAppointmentsEvents;
-    setEventsData: UseStateSetter<CustomAppointmentsEvents>,
+    eventsData: CustomOrNotAppointmentsEvents;
+    setEventsData: UseStateSetter<CustomOrNotAppointmentsEvents>,
 }
 
 export const ServiceCreationCalendar: FC<ServiceCreationCalendarProps> = ({ appointmentDurationMinutes, setAppointmentDurationMinutes, eventsData, setEventsData }) => {

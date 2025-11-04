@@ -1,10 +1,10 @@
 import { err, ok, Result } from "neverthrow";
-import { EventWithIdAndCapacity } from "../common/calendar/EventWithIdAndCapacity";
-import { Slot } from "../GENERATED-api";
+import { EventWithId } from "../common/calendar/EventWithId";
+import { TimeWindow } from "../GENERATED-api";
 import { extractHHmmTimeFromDate } from "./date";
 import { usDayOfWeekToDayOfWeek } from "./day-of-week";
 
-export function eventWithIdAndCapacityToSlot(event: EventWithIdAndCapacity): Result<Slot, Error> {
+export function eventWithIdToTimeWindow(event: EventWithId): Result<TimeWindow, Error> {
     if (event.start.getDay() !== event.end.getDay()) {
         return err(new Error("Event should start and end on the same day"));
     }
@@ -21,6 +21,5 @@ export function eventWithIdAndCapacityToSlot(event: EventWithIdAndCapacity): Res
         dayOfWeek: dayOfWeek.value,
         startTime: startHour,
         endTime: endHour,
-        maxOccupancy: event.resource.capacity,
     });
 }

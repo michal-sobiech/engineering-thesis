@@ -11,4 +11,4 @@ export interface CustomAppointmentsDisabledEvents {
     events: EventWithIdAndCapacity[];
 }
 
-export type CustomAppointmentsEvents = CustomAppointmentsEnabledEvents | CustomAppointmentsDisabledEvents;
+export type CustomOrNotAppointmentsEvents = CustomAppointmentsEnabledEvents | CustomAppointmentsDisabledEvents;

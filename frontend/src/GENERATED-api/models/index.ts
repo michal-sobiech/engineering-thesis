@@ -31,3 +31,4 @@ export * from './LogInIndependentEndUserRequest';
 export * from './LogInIndependentEndUserResponse';
 export * from './ServiceSearchResponseItem';
 export * from './Slot';
+export * from './TimeWindow';

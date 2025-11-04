@@ -16,12 +16,13 @@ import { useIntParam } from "../../hooks/useIntParam";
 import { routes } from "../../router/routes";
 import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../utils/error";
 import { combine, errorErrResultAsyncFromPromise } from "../../utils/result";
-import { eventWithIdToSlot } from "../../utils/slot";
+import { eventWithIdAndCapacityToSlot } from "../../utils/slot";
+import { eventWithIdToTimeWindow } from "../../utils/time-window";
 import { toastError } from "../../utils/toast";
 import { ServiceCathegory } from "./ServiceCathegory";
 import { ServiceCathegoryPicker } from "./ServiceCathegoryPicker";
 import { ServiceCreationCalendar } from "./ServiceCreationCalendar";
-import { CustomAppointmentsEvents } from "./calendar/CustomAppointmentsEvents";
+import { CustomOrNotAppointmentsEvents } from "./calendar/CustomAppointmentsEvents";
 
 export const ServiceCreationPage = () => {
     const MAX_DISANCE_KM = 50;
@@ -35,7 +36,7 @@ export const ServiceCreationPage = () => {
     const [address, setAddress] = useState<string | null>(null);
     const [position, setPosition] = useState<{ latitude: number; longitude: number } | null>(null);
     const [timeZone, setTimeZone] = useState<string | null>(null);
-    const [eventsData, setEventsData] = useState<CustomAppointmentsEvents>({ areCustomAppointmentsEnabled: false, events: [] });
+    const [eventsData, setEventsData] = useState<CustomOrNotAppointmentsEvents>({ areCustomAppointmentsEnabled: false, events: [] });
     const [appointmentDurationMinutes, setAppointmentDurationMinutes] = useState<number | null>(30);
     const [price, setPrice] = useState<number | null>(null);
     const [cathegory, setCathegory] = useState<ServiceCathegory | null>(null);
@@ -73,13 +74,6 @@ export const ServiceCreationPage = () => {
             return;
         }
 
-        const slotResults = eventsData.events.map(event => eventWithIdToSlot(event));
-        const slots = combine(slotResults);
-        if (slots.isErr()) {
-            toastError(DEFAULT_ERROR_MESSAGE_FOR_USER);
-            return;
-        }
-
         if (cathegory === null) {
             toastError("Choose a cathegory");
             return;
@@ -98,6 +92,13 @@ export const ServiceCreationPage = () => {
 
         let promise;
         if (eventsData.areCustomAppointmentsEnabled) {
+            const timeWindowsResult = eventsData.events.map(event => eventWithIdToTimeWindow(event));
+            const timeWindows = combine(timeWindowsResult);
+            if (timeWindows.isErr()) {
+                toastError(DEFAULT_ERROR_MESSAGE_FOR_USER);
+                return;
+            }
+
             promise = servicesApi.createCustomAppointmentsEnterpriseService(enterpriseId, {
                 name: serviceName,
                 description: serviceDescription,
@@ -106,10 +107,17 @@ export const ServiceCreationPage = () => {
                 maxDistanceKm: MAX_DISANCE_KM,
                 cathegory,
                 price: price,
-                slots: slots.value,
+                timeWindows: timeWindows.value,
                 currency: "PLN",
             });
         } else {
+            const slotsResult = eventsData.events.map(event => eventWithIdAndCapacityToSlot(event));
+            const slots = combine(slotsResult);
+            if (slots.isErr()) {
+                toastError(DEFAULT_ERROR_MESSAGE_FOR_USER);
+                return;
+            }
+
             promise = servicesApi.createNoCustomAppointmentsEnterpriseService(enterpriseId, {
                 name: serviceName,
                 description: serviceDescription,

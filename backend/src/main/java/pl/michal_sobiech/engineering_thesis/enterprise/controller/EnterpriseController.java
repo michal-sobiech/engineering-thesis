@@ -34,7 +34,8 @@ import pl.michal_sobiech.engineering_thesis.enterprise_service.custom_appointmen
 import pl.michal_sobiech.engineering_thesis.enterprise_service.custom_appointments.CustomAppointmentsEnterpriseServiceService;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.no_custom_appointments.CreateNoCustomAppointmentsEnterpriseServiceCommand;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.no_custom_appointments.NonCustomAppointmentsEnterpriseServiceService;
-import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.CreateEnterpriseServiceSlotTemplateCommand;
+import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.custom_appointments.CreateCustomAppointmentsEnterpriseServiceTimeWindowTemplateCommand;
+import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.non_custom_appointments.CreateNonCustomAppointmentsEnterpriseServiceSlotTemplateCommand;
 import pl.michal_sobiech.engineering_thesis.entrepreneur.Entrepreneur;
 import pl.michal_sobiech.engineering_thesis.utils.DayOfWeekUtils;
 import pl.michal_sobiech.engineering_thesis.utils.HttpUtils;
@@ -163,12 +164,13 @@ public class EnterpriseController implements EnterprisesApi {
     public ResponseEntity<Void> createCustomAppointmentsEnterpriseService(
             Long enterpriseId,
             CreateCustomAppointmentsEnterpriseServiceRequest request) {
-        List<CreateEnterpriseServiceSlotTemplateCommand> createSlotCommands = request.getSlots()
+        List<CreateCustomAppointmentsEnterpriseServiceTimeWindowTemplateCommand> createTimeWindowCommands = request
+                .getTimeWindows()
                 .stream()
                 .map(slot -> {
                     LocalTime startTime = LocalTime.parse(slot.getStartTime());
                     LocalTime endTime = LocalTime.parse(slot.getEndTime());
-                    return new CreateEnterpriseServiceSlotTemplateCommand(
+                    return new CreateCustomAppointmentsEnterpriseServiceTimeWindowTemplateCommand(
                             DayOfWeekUtils.swaggerToStdDayOfWeek(slot.getDayOfWeek()),
                             startTime,
                             endTime);
@@ -183,10 +185,10 @@ public class EnterpriseController implements EnterprisesApi {
                 request.getMaxDistanceKm(),
                 EnterpriseServiceCathegory.valueOf(request.getCathegory()),
                 Optional.ofNullable(request.getPrice()),
-                CurrencyIso.valueOf(request.getCurrency()),
-                createSlotCommands);
+                CurrencyIso.valueOf(request.getCurrency()));
 
-        customAppointmentsEnterpriseServiceService.save(enterpriseId, command);
+        customAppointmentsEnterpriseServiceService.saveWithTImeWindows(enterpriseId, command,
+                createTimeWindowCommands);
         return ResponseEntity.ok().build();
     }
 
@@ -194,15 +196,17 @@ public class EnterpriseController implements EnterprisesApi {
     public ResponseEntity<Void> createNoCustomAppointmentsEnterpriseService(
             Long enterpriseId,
             CreateNoCustomAppointmentsEnterpriseServiceRequest request) {
-        List<CreateEnterpriseServiceSlotTemplateCommand> createSlotCommands = request.getSlots()
+        List<CreateNonCustomAppointmentsEnterpriseServiceSlotTemplateCommand> createSlotCommands = request
+                .getSlots()
                 .stream()
                 .map(slot -> {
                     LocalTime startTime = LocalTime.parse(slot.getStartTime());
                     LocalTime endTime = LocalTime.parse(slot.getEndTime());
-                    return new CreateEnterpriseServiceSlotTemplateCommand(
+                    return new CreateNonCustomAppointmentsEnterpriseServiceSlotTemplateCommand(
                             DayOfWeekUtils.swaggerToStdDayOfWeek(slot.getDayOfWeek()),
                             startTime,
-                            endTime);
+                            endTime,
+                            slot.getMaxOccupancy().shortValue());
                 })
                 .collect(Collectors.toList());
 
@@ -213,10 +217,10 @@ public class EnterpriseController implements EnterprisesApi {
                 ZoneId.of(request.getTimeZone()),
                 EnterpriseServiceCathegory.valueOf(request.getCathegory()),
                 Optional.ofNullable(request.getPrice()),
-                CurrencyIso.valueOf(request.getCurrency()),
-                createSlotCommands);
+                CurrencyIso.valueOf(request.getCurrency()));
 
-        nonCustomAppointmentsEnterpriseServiceService.save(enterpriseId, command);
+        nonCustomAppointmentsEnterpriseServiceService.saveWithSlotTemplates(enterpriseId, command,
+                createSlotCommands);
         return ResponseEntity.ok().build();
     }
 

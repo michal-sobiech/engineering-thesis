@@ -2,14 +2,12 @@ package pl.michal_sobiech.engineering_thesis.enterprise_service.custom_appointme
 
 import java.math.BigDecimal;
 import java.time.ZoneId;
-import java.util.List;
 import java.util.Optional;
 
 import org.SwaggerCodeGenExample.model.Location;
 
 import pl.michal_sobiech.engineering_thesis.currency_iso.CurrencyIso;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceCathegory;
-import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.CreateEnterpriseServiceSlotTemplateCommand;
 
 public record CreateCustomAppointmentsEnterpriseServiceCommand(
 
@@ -27,9 +25,7 @@ public record CreateCustomAppointmentsEnterpriseServiceCommand(
 
         Optional<BigDecimal> price,
 
-        CurrencyIso currency,
-
-        List<CreateEnterpriseServiceSlotTemplateCommand> slots
+        CurrencyIso currency
 
 ) {
 }

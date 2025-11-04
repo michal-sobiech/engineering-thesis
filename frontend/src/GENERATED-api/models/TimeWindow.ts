@@ -24,53 +24,46 @@ import {
 /**
  * 
  * @export
- * @interface Slot
+ * @interface TimeWindow
  */
-export interface Slot {
+export interface TimeWindow {
     /**
      * 
      * @type {DayOfWeek}
-     * @memberof Slot
+     * @memberof TimeWindow
      */
     dayOfWeek: DayOfWeek;
     /**
      * 
      * @type {string}
-     * @memberof Slot
+     * @memberof TimeWindow
      */
     startTime: string;
     /**
      * 
      * @type {string}
-     * @memberof Slot
+     * @memberof TimeWindow
      */
     endTime: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof Slot
-     */
-    maxOccupancy: number;
 }
 
 
 
 /**
- * Check if a given object implements the Slot interface.
+ * Check if a given object implements the TimeWindow interface.
  */
-export function instanceOfSlot(value: object): value is Slot {
+export function instanceOfTimeWindow(value: object): value is TimeWindow {
     if (!('dayOfWeek' in value) || value['dayOfWeek'] === undefined) return false;
     if (!('startTime' in value) || value['startTime'] === undefined) return false;
     if (!('endTime' in value) || value['endTime'] === undefined) return false;
-    if (!('maxOccupancy' in value) || value['maxOccupancy'] === undefined) return false;
     return true;
 }
 
-export function SlotFromJSON(json: any): Slot {
-    return SlotFromJSONTyped(json, false);
+export function TimeWindowFromJSON(json: any): TimeWindow {
+    return TimeWindowFromJSONTyped(json, false);
 }
 
-export function SlotFromJSONTyped(json: any, ignoreDiscriminator: boolean): Slot {
+export function TimeWindowFromJSONTyped(json: any, ignoreDiscriminator: boolean): TimeWindow {
     if (json == null) {
         return json;
     }
@@ -79,15 +72,14 @@ export function SlotFromJSONTyped(json: any, ignoreDiscriminator: boolean): Slot
         'dayOfWeek': DayOfWeekFromJSON(json['dayOfWeek']),
         'startTime': json['startTime'],
         'endTime': json['endTime'],
-        'maxOccupancy': json['maxOccupancy'],
     };
 }
 
-export function SlotToJSON(json: any): Slot {
-    return SlotToJSONTyped(json, false);
+export function TimeWindowToJSON(json: any): TimeWindow {
+    return TimeWindowToJSONTyped(json, false);
 }
 
-export function SlotToJSONTyped(value?: Slot | null, ignoreDiscriminator: boolean = false): any {
+export function TimeWindowToJSONTyped(value?: TimeWindow | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
@@ -97,7 +89,6 @@ export function SlotToJSONTyped(value?: Slot | null, ignoreDiscriminator: boolea
         'dayOfWeek': DayOfWeekToJSON(value['dayOfWeek']),
         'startTime': value['startTime'],
         'endTime': value['endTime'],
-        'maxOccupancy': value['maxOccupancy'],
     };
 }
 
