@@ -10,7 +10,7 @@ export interface NoCustomAppointmentsServicePublicPageSlotListProps {
 }
 
 export const ServicePublicPageNoCustomAppointmentsSlotList: FC<NoCustomAppointmentsServicePublicPageSlotListProps> = ({ start, end }) => {
-    const { selectedAppointment, setSelectedAppointment } = useContextOrThrow(NoCustomAppointmentsServicePublicPageContext);
+    const { selectedSlot: selectedAppointment, setSelectedSlot: setSelectedAppointment } = useContextOrThrow(NoCustomAppointmentsServicePublicPageContext);
 
     const onClick = () => {
         // TODO
@@ -18,6 +18,7 @@ export const ServicePublicPageNoCustomAppointmentsSlotList: FC<NoCustomAppointme
         //     LocalTime.parse(start),
         //     LocalTime.from(end)
         // ]);
+        console.log("ffffffffff")
     }
 
     const startTimeString = extractHHmmTimeFromDate(start);

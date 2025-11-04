@@ -2,31 +2,40 @@ import { Text } from "@chakra-ui/react";
 import { LocalTime } from "js-joda";
 import { JSX } from "react";
 import { ScrollableList } from "../../../../common/ScrollableList";
+import { sameElements } from "../../../../utils/array";
 import { extractHHmmTimeFromLocalTime } from "../../../../utils/date";
 import { useContextOrThrow } from "../../../../utils/useContextOrThrow";
 import { NoCustomAppointmentsServicePublicPageContext } from "./NoCustomAppointmentsServicePublicPageContextValue";
 
 export const NoCustomAppointmentsServicePublicPageSlotList = () => {
-    const { freeAppointmentsOnSelectedDate } = useContextOrThrow(NoCustomAppointmentsServicePublicPageContext);
+    const { freeSlotsOnSelectedDate, selectedSlot, setSelectedSlot } = useContextOrThrow(NoCustomAppointmentsServicePublicPageContext);
 
-    if (freeAppointmentsOnSelectedDate === null) {
+    function createItem(slot: [LocalTime, LocalTime]): JSX.Element {
+        const startTime = extractHHmmTimeFromLocalTime(slot[0]);
+        const endTime = extractHHmmTimeFromLocalTime(slot[1]);
+
+        const onClick = () => {
+            setSelectedSlot(slot);
+        }
+
+        const isChosen = selectedSlot && (sameElements(slot, selectedSlot));
+        const fontWeight = isChosen ? "bold" : "normal";
+
+        return <Text cursor="pointer" onClick={onClick} fontWeight={fontWeight}>
+            {`${startTime} - ${endTime}`}
+        </Text>
+    }
+
+    if (freeSlotsOnSelectedDate === null) {
         return null;
-    } else if (freeAppointmentsOnSelectedDate.length === 0) {
+    } else if (freeSlotsOnSelectedDate.length === 0) {
         return <Text>
             No free slots!
         </Text>
     } else {
-        const items = freeAppointmentsOnSelectedDate.map(createItem);
+        const items = freeSlotsOnSelectedDate.map(createItem);
         return <ScrollableList>
             {items}
         </ScrollableList>
     }
-}
-
-function createItem(slot: [LocalTime, LocalTime]): JSX.Element {
-    const startTime = extractHHmmTimeFromLocalTime(slot[0]);
-    const endTime = extractHHmmTimeFromLocalTime(slot[1]);
-    return <Text>
-        {`${startTime} - ${endTime}`}
-    </Text>
 }

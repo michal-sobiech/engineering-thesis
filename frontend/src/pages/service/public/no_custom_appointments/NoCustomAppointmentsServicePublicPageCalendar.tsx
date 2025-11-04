@@ -16,7 +16,7 @@ import { toastError } from "../../../../utils/toast";
 export const NoCustomAppointmentsServicePublicPageCalendar = () => {
     const serviceId = useIntParam("serviceId");
 
-    const { selectedDate, setSelectedDate, setFreeAppointmentsOnSelectedDate } = useContextOrThrow(NoCustomAppointmentsServicePublicPageContext);
+    const { selectedDate, setSelectedDate, setFreeSlotsOnSelectedDate: setFreeAppointmentsOnSelectedDate } = useContextOrThrow(NoCustomAppointmentsServicePublicPageContext);
 
     const onSelectSlot = async (slot: SlotInfo) => {
         const date = createDateInterpretedAsUTC(createDateWithoutTime(slot.start));

@@ -1,4 +1,4 @@
-import { Center, Text } from "@chakra-ui/react"
+import { Box, Center, Flex, Text } from "@chakra-ui/react"
 import { LocalTime } from "js-joda"
 import { useState } from "react"
 import { StandardFlex } from "../../../../common/StandardFlex"
@@ -6,19 +6,20 @@ import { StandardPanel } from "../../../../common/StandardPanel"
 import { NoCustomAppointmentsServicePublicPageCalendar } from "./NoCustomAppointmentsServicePublicPageCalendar"
 import { NoCustomAppointmentsServicePublicPageContext, NoCustomAppointmentsServicePublicPageContextValue } from "./NoCustomAppointmentsServicePublicPageContextValue"
 import { NoCustomAppointmentsServicePublicPageSlotList } from "./NoCustomAppointmentsServicePublicPageSlotList"
+import { NonCustomAppointmentsServicePublicPageAppointmentMaker } from "./NonCustomAppointmentsServicePageAppointmentMaker"
 
 export const NoCustomAppointmentsServicePublicPage = () => {
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-    const [freeAppointmentsOnSelectedDate, setFreeAppointmentsOnSelectedDate] = useState<[LocalTime, LocalTime][] | null>(null);
-    const [selectedAppointment, setSelectedAppointment] = useState<[LocalTime, LocalTime] | null>(null);
+    const [freeSlotsOnSelectedDate, setFreeSlotsOnSelectedDate] = useState<[LocalTime, LocalTime][] | null>(null);
+    const [selectedSlot, setSelectedSlot] = useState<[LocalTime, LocalTime] | null>(null);
 
     const contextValue: NoCustomAppointmentsServicePublicPageContextValue = {
         selectedDate,
         setSelectedDate,
-        freeAppointmentsOnSelectedDate,
-        setFreeAppointmentsOnSelectedDate,
-        selectedAppointment,
-        setSelectedAppointment,
+        freeSlotsOnSelectedDate,
+        setFreeSlotsOnSelectedDate,
+        selectedSlot,
+        setSelectedSlot,
     };
 
     return <NoCustomAppointmentsServicePublicPageContext.Provider value={contextValue}>
@@ -28,7 +29,14 @@ export const NoCustomAppointmentsServicePublicPage = () => {
                     <Text fontSize="3xl">Service</Text>
                     <Text>Enterprise</Text>
                     <NoCustomAppointmentsServicePublicPageCalendar />
-                    <NoCustomAppointmentsServicePublicPageSlotList />
+                    <Flex direction="row">
+                        <Box flex="1">
+                            <NoCustomAppointmentsServicePublicPageSlotList />
+                        </Box>
+                        <Box flex="1">
+                            <NonCustomAppointmentsServicePublicPageAppointmentMaker />
+                        </Box>
+                    </Flex>
                 </StandardFlex>
             </StandardPanel>
         </Center >
