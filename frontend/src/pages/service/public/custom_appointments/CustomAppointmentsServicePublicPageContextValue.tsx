@@ -1,5 +1,6 @@
 import { LocalDate, LocalTime } from "@js-joda/core";
 import { createContext } from "react";
+import { Position } from "../../../../utils/Position";
 import { UseStateSetter } from "../../../../utils/useState";
 
 export interface CustomAppointmentsServicePublicPageContextValue {
@@ -11,6 +12,10 @@ export interface CustomAppointmentsServicePublicPageContextValue {
     setSelectedTimeWindowStart: UseStateSetter<LocalTime | null>;
     selectedTimeWindowEnd: LocalTime | null;
     setSelectedTimeWindowEnd: UseStateSetter<LocalTime | null>;
+    position: Position | null;
+    setPosition: UseStateSetter<Position | null>;
+    address: string;
+    setAddress: UseStateSetter<string>;
 }
 
 export const CustomAppointmentsServicePublicPageContext = createContext<CustomAppointmentsServicePublicPageContextValue | null>(null);

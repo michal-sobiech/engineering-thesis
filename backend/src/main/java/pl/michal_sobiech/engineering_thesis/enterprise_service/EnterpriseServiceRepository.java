@@ -38,4 +38,7 @@ public interface EnterpriseServiceRepository extends JpaRepository<EnterpriseSer
             @Param("customerLongitude") double customerLongitude,
             @Param("maxDistance") double maxDistance);
 
+    @Query("SELECT e.takesCustomAppointments FROM EnterpriseServiceEntity e WHERE e.id = :id")
+    public boolean findTakesCustomAppointmentsByEnterpriseServiceId(@Param("id") long enterpriseServiceId);
+
 }

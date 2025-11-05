@@ -66,7 +66,7 @@ export const LocationAutocomplete: FC<LocationAutocompleteProps> = ({ position, 
             <Input
                 value={address}
                 onChange={(event) => handleChange(event.target.value)}
-                placeholder="-"
+                placeholder="Enter location"
                 onBlur={onBlur}
                 onFocus={() => setIsFocused(true)}
             />

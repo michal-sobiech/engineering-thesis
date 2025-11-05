@@ -149,10 +149,12 @@ CREATE TABLE public.appointment (
 	CONSTRAINT pk_appointment_id PRIMARY KEY (appointment_id),
 	CONSTRAINT fk_appointment_enterprise_service_id FOREIGN KEY (enterprise_service_id) REFERENCES public.enterprise_service(enterprise_service_id) ON DELETE CASCADE,
 	CONSTRAINT fk_appointment_customer_user_id FOREIGN KEY (customer_user_id) REFERENCES public.app_user(user_id) ON DELETE CASCADE,
-	CONSTRAINT chk_custom_appointment CHECK (
-		(is_custom = FALSE AND is_accepted IS NULL AND rejection_message IS NULL)
+	CONSTRAINT chk_is_accepted_and_rejection_message CHECK (
+		(is_custom = TRUE AND is_accepted IS NULL AND rejection_message IS NULL)
 		OR
-		(is_custom = TRUE AND is_accepted IS NOT NULL AND rejection_message IS NOT NULL)
+		(is_custom = TRUE AND is_accepted = FALSE AND rejection_message IS NOT NULL)
+		OR
+		(is_custom = TRUE AND is_accepted = TRUE AND rejection_message IS NULL)
 	),
 	CONSTRAINT chk_location CHECK (
 		(is_custom = FALSE AND address IS NULL AND latitude IS NULL AND longitude IS NULL)

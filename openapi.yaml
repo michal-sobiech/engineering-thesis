@@ -485,7 +485,7 @@ components:
 
     CreateCustomAppointmentRequest:
       type: object
-      required: [startDatetimeShopLocal, endDatetimeShopLocal]
+      required: [startDatetimeShopLocal, endDatetimeShopLocal, location]
       properties:
         startDatetimeShopLocal:
           $ref: "#/components/schemas/LocalDatetime"

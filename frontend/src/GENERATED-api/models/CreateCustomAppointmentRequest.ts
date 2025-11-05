@@ -50,7 +50,7 @@ export interface CreateCustomAppointmentRequest {
      * @type {Location}
      * @memberof CreateCustomAppointmentRequest
      */
-    location?: Location;
+    location: Location;
 }
 
 /**
@@ -59,6 +59,7 @@ export interface CreateCustomAppointmentRequest {
 export function instanceOfCreateCustomAppointmentRequest(value: object): value is CreateCustomAppointmentRequest {
     if (!('startDatetimeShopLocal' in value) || value['startDatetimeShopLocal'] === undefined) return false;
     if (!('endDatetimeShopLocal' in value) || value['endDatetimeShopLocal'] === undefined) return false;
+    if (!('location' in value) || value['location'] === undefined) return false;
     return true;
 }
 
@@ -75,7 +76,7 @@ export function CreateCustomAppointmentRequestFromJSONTyped(json: any, ignoreDis
         'startDatetimeShopLocal': json['startDatetimeShopLocal'],
         'endDatetimeShopLocal': json['endDatetimeShopLocal'],
         'price': json['price'] == null ? undefined : json['price'],
-        'location': json['location'] == null ? undefined : LocationFromJSON(json['location']),
+        'location': LocationFromJSON(json['location']),
     };
 }
 

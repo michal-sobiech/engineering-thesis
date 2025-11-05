@@ -46,7 +46,7 @@ export const CustomAppointmentsServicePublicPageCalendar = () => {
         return {
             style: {
                 backgroundColor:
-                    selectedDate?.equals(selectedDate)
+                    selectedDate?.equals(localDate)
                         ? "#6284ebff"
                         : undefined
             }

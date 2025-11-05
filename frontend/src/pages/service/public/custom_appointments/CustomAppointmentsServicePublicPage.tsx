@@ -4,6 +4,7 @@ import { useState } from "react"
 import { StandardFlex } from "../../../../common/StandardFlex"
 import { StandardPanel } from "../../../../common/StandardPanel"
 import { TimeIntervalsDisplay } from "../../../../common/TimeIntervalsDisplay"
+import { Position } from "../../../../utils/Position"
 import { CustomAppointmentsServicePublicPageAppointmentMaker } from "./CustomAppointmentsServicePublicPageAppointmentMaker"
 import { CustomAppointmentsServicePublicPageCalendar } from "./CustomAppointmentsServicePublicPageCalendar"
 import { CustomAppointmentsServicePublicPageContext, CustomAppointmentsServicePublicPageContextValue } from "./CustomAppointmentsServicePublicPageContextValue"
@@ -13,6 +14,8 @@ export const CustomAppointmentsServicePublicPage = () => {
     const [freeTimeWindowsOnSelectedDate, setFreeTimeWindowsOnSelectedDate] = useState<[LocalTime, LocalTime][] | null>(null);
     const [selectedTimeWindowStart, setSelectedTimeWindowStart] = useState<LocalTime | null>(null);
     const [selectedTimeWindowEnd, setSelectedTimeWindowEnd] = useState<LocalTime | null>(null);
+    const [address, setAddress] = useState<string>("");
+    const [position, setPosition] = useState<Position | null>(null);
 
     const contextValue: CustomAppointmentsServicePublicPageContextValue = {
         selectedDate,
@@ -23,6 +26,10 @@ export const CustomAppointmentsServicePublicPage = () => {
         setSelectedTimeWindowStart,
         selectedTimeWindowEnd,
         setSelectedTimeWindowEnd,
+        address,
+        setAddress,
+        position,
+        setPosition,
     };
 
     return <CustomAppointmentsServicePublicPageContext.Provider value={contextValue}>
@@ -32,16 +39,16 @@ export const CustomAppointmentsServicePublicPage = () => {
                     <Text fontSize="3xl">Service</Text>
                     <Text>Enterprise</Text>
                     <CustomAppointmentsServicePublicPageCalendar />
-                    <Flex direction="row">
-                        <Box flex="1">
-                            {freeTimeWindowsOnSelectedDate !== null ?
+                    {freeTimeWindowsOnSelectedDate !== null ?
+                        <Flex direction="row">
+                            <Box flex="1" height="30vh">
                                 <TimeIntervalsDisplay intervals={freeTimeWindowsOnSelectedDate} resolutionMinutes={30} />
-                                : null}
-                        </Box>
-                        <Box flex="1">
-                            <CustomAppointmentsServicePublicPageAppointmentMaker />
-                        </Box>
-                    </Flex>
+                            </Box>
+                            <Box flex="1">
+                                <CustomAppointmentsServicePublicPageAppointmentMaker />
+                            </Box>
+                        </Flex>
+                        : null}
                 </StandardFlex>
             </StandardPanel>
         </Center >
