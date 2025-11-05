@@ -1,5 +1,5 @@
 import { Flex, Text } from "@chakra-ui/react";
-import { LocalTime } from "js-joda";
+import { LocalTime } from "@js-joda/core";
 import { FC } from "react";
 import { LocalTimePicker } from "./LocalTimePicker";
 

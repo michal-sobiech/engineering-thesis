@@ -1,7 +1,7 @@
 import { Center } from "@chakra-ui/react";
 import { useContextOrThrow } from "../../../../utils/useContextOrThrow";
-import { NonCustomAppointmentsServicePublicPageAppointmentMakerButton } from "./CustomAppointmentsServicePublicPageAppointmentMakerButton";
 import { NoCustomAppointmentsServicePublicPageContext } from "./NoCustomAppointmentsServicePublicPageContextValue";
+import { NonCustomAppointmentsServicePublicPageAppointmentMakerButton } from "./NonCustomAppointmentsServicePublicPageAppointmentMakerButton";
 
 export const NonCustomAppointmentsServicePublicPageAppointmentMaker = () => {
     const { freeSlotsOnSelectedDate } = useContextOrThrow(NoCustomAppointmentsServicePublicPageContext);

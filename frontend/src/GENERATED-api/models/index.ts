@@ -1,6 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export * from './CheckIndependentEndUserEmailExists200Response';
+export * from './CreateCustomAppointmentRequest';
 export * from './CreateCustomAppointmentsEnterpriseServiceRequest';
 export * from './CreateEnterpriseEmployeeRequest';
 export * from './CreateEnterpriseEmployeeResponse';
@@ -8,6 +9,7 @@ export * from './CreateEnterpriseEmployeeResponseUser';
 export * from './CreateEnterpriseResponse';
 export * from './CreateIndependentEndUserRequest';
 export * from './CreateNoCustomAppointmentsEnterpriseServiceRequest';
+export * from './CreateNonCustomAppointmentRequest';
 export * from './DayOfWeek';
 export * from './EmployeeGetMeResponse';
 export * from './GetEnterpriseEmployeesResponseItem';

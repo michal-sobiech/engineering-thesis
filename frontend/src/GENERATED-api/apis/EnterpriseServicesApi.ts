@@ -80,8 +80,8 @@ export interface SearchServicesRequest {
     maxDistanceKm: number;
     serviceName?: string;
     enterpriseName?: string;
-    startDate?: Date;
-    endDate?: Date;
+    startDatetimeGlobal?: Date;
+    endDatetimeGlobal?: Date;
 }
 
 /**
@@ -219,7 +219,7 @@ export class EnterpriseServicesApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
 
-        let urlPath = `/services/{serviceId}/free-non-custom-appointments/`;
+        let urlPath = `/services/{serviceId}/free-non-custom-appointment-slots/`;
         urlPath = urlPath.replace(`{${"serviceId"}}`, encodeURIComponent(String(requestParameters['serviceId'])));
 
         const response = await this.request({
@@ -361,12 +361,12 @@ export class EnterpriseServicesApi extends runtime.BaseAPI {
             queryParameters['enterpriseName'] = requestParameters['enterpriseName'];
         }
 
-        if (requestParameters['startDate'] != null) {
-            queryParameters['startDate'] = (requestParameters['startDate'] as any).toISOString();
+        if (requestParameters['startDatetimeGlobal'] != null) {
+            queryParameters['startDatetimeGlobal'] = (requestParameters['startDatetimeGlobal'] as any).toISOString();
         }
 
-        if (requestParameters['endDate'] != null) {
-            queryParameters['endDate'] = (requestParameters['endDate'] as any).toISOString();
+        if (requestParameters['endDatetimeGlobal'] != null) {
+            queryParameters['endDatetimeGlobal'] = (requestParameters['endDatetimeGlobal'] as any).toISOString();
         }
 
         if (requestParameters['preferredLongitude'] != null) {
@@ -402,8 +402,8 @@ export class EnterpriseServicesApi extends runtime.BaseAPI {
 
     /**
      */
-    async searchServices(preferredLongitude: number, preferredLatitude: number, cathegory: string, maxDistanceKm: number, serviceName?: string, enterpriseName?: string, startDate?: Date, endDate?: Date, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<ServiceSearchResponseItem>> {
-        const response = await this.searchServicesRaw({ preferredLongitude: preferredLongitude, preferredLatitude: preferredLatitude, cathegory: cathegory, maxDistanceKm: maxDistanceKm, serviceName: serviceName, enterpriseName: enterpriseName, startDate: startDate, endDate: endDate }, initOverrides);
+    async searchServices(preferredLongitude: number, preferredLatitude: number, cathegory: string, maxDistanceKm: number, serviceName?: string, enterpriseName?: string, startDatetimeGlobal?: Date, endDatetimeGlobal?: Date, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<ServiceSearchResponseItem>> {
+        const response = await this.searchServicesRaw({ preferredLongitude: preferredLongitude, preferredLatitude: preferredLatitude, cathegory: cathegory, maxDistanceKm: maxDistanceKm, serviceName: serviceName, enterpriseName: enterpriseName, startDatetimeGlobal: startDatetimeGlobal, endDatetimeGlobal: endDatetimeGlobal }, initOverrides);
         return await response.value();
     }
 

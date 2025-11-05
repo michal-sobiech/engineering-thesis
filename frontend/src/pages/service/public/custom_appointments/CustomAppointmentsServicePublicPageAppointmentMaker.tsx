@@ -1,5 +1,4 @@
-import { Box, Center, Flex } from "@chakra-ui/react"
-import { TimeIntervalsDisplay } from "../../../../common/TimeIntervalsDisplay"
+import { Center, Flex } from "@chakra-ui/react"
 import { TimeRangePicker } from "../../../../common/TimeRangePicker"
 import { useContextOrThrow } from "../../../../utils/useContextOrThrow"
 import { CustomAppointmentsServicePublicPageAppointmentMakerButton } from "./CustomAppointmentsServicePublicPageAppointmentMakerButton"
@@ -7,26 +6,20 @@ import { CustomAppointmentsServicePublicPageContext } from "./CustomAppointments
 
 export const CustomAppointmentsServicePublicPageAppointmentMaker = () => {
     const {
-        freeTimeWindowsOnSelectedDate,
         selectedTimeWindowStart,
         setSelectedTimeWindowStart,
         selectedTimeWindowEnd,
         setSelectedTimeWindowEnd,
     } = useContextOrThrow(CustomAppointmentsServicePublicPageContext);
 
-    if (freeTimeWindowsOnSelectedDate === null) {
-        return null;
-    } else {
-        return <Flex direction="row">
-            <Box flex="1">
-                <TimeIntervalsDisplay intervals={freeTimeWindowsOnSelectedDate} resolutionMinutes={30} />
-            </Box>
-            <Center flex="1" height="100%">
-                <Flex direction="column">
-                    <TimeRangePicker time1={selectedTimeWindowStart} setTime1={setSelectedTimeWindowStart} time2={selectedTimeWindowEnd} setTime2={setSelectedTimeWindowEnd} />
-                    <CustomAppointmentsServicePublicPageAppointmentMakerButton />
-                </Flex>
-            </Center>
+    return <Center height="100%">
+        <Flex direction="column">
+            <TimeRangePicker
+                time1={selectedTimeWindowStart}
+                setTime1={setSelectedTimeWindowStart}
+                time2={selectedTimeWindowEnd}
+                setTime2={setSelectedTimeWindowEnd} />
+            <CustomAppointmentsServicePublicPageAppointmentMakerButton />
         </Flex>
-    }
+    </Center>
 }

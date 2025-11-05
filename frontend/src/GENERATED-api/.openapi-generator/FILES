@@ -1,3 +1,4 @@
+apis/AppointmentsApi.ts
 apis/AuthApi.ts
 apis/CustomersApi.ts
 apis/EnterpriseEmployeesApi.ts
@@ -10,6 +11,7 @@ apis/UserApi.ts
 apis/index.ts
 index.ts
 models/CheckIndependentEndUserEmailExists200Response.ts
+models/CreateCustomAppointmentRequest.ts
 models/CreateCustomAppointmentsEnterpriseServiceRequest.ts
 models/CreateEnterpriseEmployeeRequest.ts
 models/CreateEnterpriseEmployeeResponse.ts
@@ -17,6 +19,7 @@ models/CreateEnterpriseEmployeeResponseUser.ts
 models/CreateEnterpriseResponse.ts
 models/CreateIndependentEndUserRequest.ts
 models/CreateNoCustomAppointmentsEnterpriseServiceRequest.ts
+models/CreateNonCustomAppointmentRequest.ts
 models/DayOfWeek.ts
 models/EmployeeGetMeResponse.ts
 models/GetEnterpriseEmployeesResponseItem.ts

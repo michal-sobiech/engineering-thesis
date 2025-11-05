@@ -1,5 +1,5 @@
 import { Input } from "@chakra-ui/react";
-import { LocalTime } from "js-joda";
+import { LocalTime } from "@js-joda/core";
 import { FC } from "react";
 
 export interface LocalTimePickerProps {

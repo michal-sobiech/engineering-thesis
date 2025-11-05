@@ -4,12 +4,12 @@ import { useContextOrThrow } from "../../../../utils/useContextOrThrow";
 import { NoCustomAppointmentsServicePublicPageContext } from "./NoCustomAppointmentsServicePublicPageContextValue";
 
 import { Box } from "@chakra-ui/react";
-import { LocalTime } from "js-joda";
+import { LocalDate, LocalTime } from "@js-joda/core";
 import { ResultAsync } from "neverthrow";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { servicesApi } from "../../../../api/services-api";
 import { useIntParam } from "../../../../hooks/useIntParam";
-import { createDateInterpretedAsUTC, createDateWithoutTime } from "../../../../utils/date";
+import { createUtcDateFromLocalDate, extractLocalDateFromDate } from "../../../../utils/date";
 import { errorErrResultAsyncFromPromise } from "../../../../utils/result";
 import { toastError } from "../../../../utils/toast";
 
@@ -19,10 +19,11 @@ export const NoCustomAppointmentsServicePublicPageCalendar = () => {
     const { selectedDate, setSelectedDate, setFreeSlotsOnSelectedDate: setFreeAppointmentsOnSelectedDate } = useContextOrThrow(NoCustomAppointmentsServicePublicPageContext);
 
     const onSelectSlot = async (slot: SlotInfo) => {
-        const date = createDateInterpretedAsUTC(createDateWithoutTime(slot.start));
-        setSelectedDate(date);
+        const slotDate = slot.start;
+        const slotLocalDate = extractLocalDateFromDate(slotDate);
+        setSelectedDate(slotLocalDate);
 
-        const freeAppointments = await fetchFreeAppointmentsOnDateInServiceTimezone(date);
+        const freeAppointments = await fetchFreeAppointmentsOnDateInServiceTimezone(slotLocalDate);
         if (freeAppointments.isErr()) {
             toastError("Unexpected error while loading free slots");
             return;
@@ -31,17 +32,19 @@ export const NoCustomAppointmentsServicePublicPageCalendar = () => {
     }
 
     const dayPropGetter = (date: Date) => {
+        const localDate = extractLocalDateFromDate(date);
         return {
             style: {
                 backgroundColor:
-                    selectedDate?.toDateString() === date.toDateString()
+                    selectedDate?.equals(localDate)
                         ? "#6284ebff"
                         : undefined
             }
         }
     }
 
-    function fetchFreeAppointmentsOnDateInServiceTimezone(date: Date): ResultAsync<[LocalTime, LocalTime][], Error> {
+    function fetchFreeAppointmentsOnDateInServiceTimezone(localDate: LocalDate): ResultAsync<[LocalTime, LocalTime][], Error> {
+        const date = createUtcDateFromLocalDate(localDate);
         const promise = servicesApi.getFreeNonCustomAppointments(serviceId, date);
         return errorErrResultAsyncFromPromise(promise)
             .map(items => items.map(item => [

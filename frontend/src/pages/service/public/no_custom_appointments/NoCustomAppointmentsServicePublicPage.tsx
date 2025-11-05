@@ -1,5 +1,5 @@
 import { Box, Center, Flex, Text } from "@chakra-ui/react"
-import { LocalTime } from "js-joda"
+import { LocalDate, LocalTime } from "@js-joda/core"
 import { useState } from "react"
 import { StandardFlex } from "../../../../common/StandardFlex"
 import { StandardPanel } from "../../../../common/StandardPanel"
@@ -9,7 +9,7 @@ import { NoCustomAppointmentsServicePublicPageSlotList } from "./NoCustomAppoint
 import { NonCustomAppointmentsServicePublicPageAppointmentMaker } from "./NonCustomAppointmentsServicePageAppointmentMaker"
 
 export const NoCustomAppointmentsServicePublicPage = () => {
-    const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+    const [selectedDate, setSelectedDate] = useState<LocalDate | null>(null);
     const [freeSlotsOnSelectedDate, setFreeSlotsOnSelectedDate] = useState<[LocalTime, LocalTime][] | null>(null);
     const [selectedSlot, setSelectedSlot] = useState<[LocalTime, LocalTime] | null>(null);
 

@@ -432,7 +432,14 @@ components:
 
     ServiceSearchResponseItem:
       type: object
-      required: [serviceName, enterpriseName, address, startTime, endTime]
+      required:
+        [
+          serviceName,
+          enterpriseName,
+          address,
+          startDatetimeGlobal,
+          endDatetimeGlobal,
+        ]
       properties:
         serviceName:
           type: string
@@ -440,10 +447,10 @@ components:
           type: string
         address:
           type: string
-        startTime:
+        startDatetimeGlobal:
           type: string
           format: date-time
-        endTime:
+        endDatetimeGlobal:
           type: string
           format: date-time
 
@@ -467,15 +474,12 @@ components:
 
     CreateNonCustomAppointmentRequest:
       type: object
-      required: [enterpriseServiceId, startDatetime, endDatetime]
+      required: [startDatetimeShopLocal, endDatetimeShopLocal]
       properties:
-        enterpriseServiceId:
-          type: number
-          format: int64
-        startDatetime:
+        startDatetimeShopLocal:
           type: string
           format: date-time
-        endDatetime:
+        endDatetimeShopLocal:
           type: string
           format: date-time
         price:
@@ -483,15 +487,12 @@ components:
 
     CreateCustomAppointmentRequest:
       type: object
-      required: [enterpriseServiceId, startDatetime, endDatetime]
+      required: [startDatetimeShopLocal, endDatetimeShopLocal]
       properties:
-        enterpriseServiceId:
-          type: number
-          format: int64
-        startDatetime:
+        startDatetimeShopLocal:
           type: string
           format: date-time
-        endDatetime:
+        endDatetimeShopLocal:
           type: string
           format: date-time
         price:
@@ -1129,12 +1130,12 @@ paths:
           in: query
           schema:
             type: string
-        - name: startDate
+        - name: startDatetimeGlobal
           in: query
           schema:
             type: string
             format: date-time
-        - name: endDate
+        - name: endDatetimeGlobal
           in: query
           schema:
             type: string
@@ -1317,6 +1318,8 @@ paths:
     post:
       tags: [Appointments]
       operationId: createNonCustomAppointment
+      security:
+        - JwtBearerAuth: []
       parameters:
         - name: serviceId
           in: path
@@ -1325,7 +1328,11 @@ paths:
             type: integer
             format: int64
       requestBody:
-        $ref: "#/components/schemas/CreateNonCustomAppointmentRequest"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateNonCustomAppointmentRequest"
       responses:
         "201":
           description: *CREATED_DESCRIPTION
@@ -1342,6 +1349,8 @@ paths:
     post:
       tags: [Appointments]
       operationId: createCustomAppointment
+      security:
+        - JwtBearerAuth: []
       parameters:
         - name: serviceId
           in: path
@@ -1350,7 +1359,11 @@ paths:
             type: integer
             format: int64
       requestBody:
-        $ref: "#/components/schemas/CreateCustomAppointmentRequest"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateCustomAppointmentRequest"
       responses:
         "201":
           description: *CREATED_DESCRIPTION

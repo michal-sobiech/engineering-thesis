@@ -2,8 +2,8 @@ import { Box, Flex, Image, Text } from "@chakra-ui/react";
 import { FC } from "react";
 import { ServiceSearchServiceData } from "./ServiceSearchServiceData";
 
-export const ServicesSearchServicesListItem: FC<ServiceSearchServiceData> = ({ serviceName, enterpriseName, startTime, endTime, address }) => {
-    const timeRangeLabel = `${startTime.toLocaleString()} - ${endTime.toLocaleString()}`;
+export const ServicesSearchServicesListItem: FC<ServiceSearchServiceData> = ({ serviceName, enterpriseName, startDatetimeGlobal, endDatetimeGlobal, address }) => {
+    const timeRangeLabel = `${startDatetimeGlobal.toLocaleString()} - ${endDatetimeGlobal.toLocaleString()}`;
 
     return < Box >
         <Flex direction="row" gap="5px">

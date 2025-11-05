@@ -1,9 +1,9 @@
-import { LocalTime } from "js-joda";
 import { FC } from "react";
 import { Calendar } from "react-big-calendar";
 import { localizer } from "./localizer";
 
 import { Box } from "@chakra-ui/react";
+import { LocalTime } from "@js-joda/core";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { createNowWithTime } from "../utils/date";
 

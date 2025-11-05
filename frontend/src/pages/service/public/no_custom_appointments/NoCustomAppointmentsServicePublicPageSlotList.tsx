@@ -1,5 +1,5 @@
 import { Text } from "@chakra-ui/react";
-import { LocalTime } from "js-joda";
+import { LocalTime } from "@js-joda/core";
 import { JSX } from "react";
 import { ScrollableList } from "../../../../common/ScrollableList";
 import { sameElements } from "../../../../utils/array";

@@ -1,10 +1,10 @@
-import { LocalTime } from "js-joda";
+import { LocalDate, LocalTime } from "@js-joda/core";
 import { createContext } from "react";
 import { UseStateSetter } from "../../../../utils/useState";
 
 export interface NoCustomAppointmentsServicePublicPageContextValue {
-    selectedDate: Date | null;
-    setSelectedDate: UseStateSetter<Date | null>;
+    selectedDate: LocalDate | null;
+    setSelectedDate: UseStateSetter<LocalDate | null>;
     freeSlotsOnSelectedDate: [LocalTime, LocalTime][] | null;
     setFreeSlotsOnSelectedDate: UseStateSetter<[LocalTime, LocalTime][] | null>;
     selectedSlot: [LocalTime, LocalTime] | null;

@@ -26,6 +26,7 @@ export const CustomAppointmentsServicePublicPageAppointmentMakerButton = () => {
         if (selectedTimeWindowEnd === null) {
             toastError("Select an end time");
         }
+
         navigate(routes.mainPage);
     }
 

@@ -42,13 +42,13 @@ export interface ServiceSearchResponseItem {
      * @type {Date}
      * @memberof ServiceSearchResponseItem
      */
-    startTime: Date;
+    startDatetimeGlobal: Date;
     /**
      * 
      * @type {Date}
      * @memberof ServiceSearchResponseItem
      */
-    endTime: Date;
+    endDatetimeGlobal: Date;
 }
 
 /**
@@ -58,8 +58,8 @@ export function instanceOfServiceSearchResponseItem(value: object): value is Ser
     if (!('serviceName' in value) || value['serviceName'] === undefined) return false;
     if (!('enterpriseName' in value) || value['enterpriseName'] === undefined) return false;
     if (!('address' in value) || value['address'] === undefined) return false;
-    if (!('startTime' in value) || value['startTime'] === undefined) return false;
-    if (!('endTime' in value) || value['endTime'] === undefined) return false;
+    if (!('startDatetimeGlobal' in value) || value['startDatetimeGlobal'] === undefined) return false;
+    if (!('endDatetimeGlobal' in value) || value['endDatetimeGlobal'] === undefined) return false;
     return true;
 }
 
@@ -76,8 +76,8 @@ export function ServiceSearchResponseItemFromJSONTyped(json: any, ignoreDiscrimi
         'serviceName': json['serviceName'],
         'enterpriseName': json['enterpriseName'],
         'address': json['address'],
-        'startTime': (new Date(json['startTime'])),
-        'endTime': (new Date(json['endTime'])),
+        'startDatetimeGlobal': (new Date(json['startDatetimeGlobal'])),
+        'endDatetimeGlobal': (new Date(json['endDatetimeGlobal'])),
     };
 }
 
@@ -95,8 +95,8 @@ export function ServiceSearchResponseItemToJSONTyped(value?: ServiceSearchRespon
         'serviceName': value['serviceName'],
         'enterpriseName': value['enterpriseName'],
         'address': value['address'],
-        'startTime': ((value['startTime']).toISOString()),
-        'endTime': ((value['endTime']).toISOString()),
+        'startDatetimeGlobal': ((value['startDatetimeGlobal']).toISOString()),
+        'endDatetimeGlobal': ((value['endDatetimeGlobal']).toISOString()),
     };
 }
 

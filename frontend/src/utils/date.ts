@@ -1,5 +1,5 @@
+import { DateTimeFormatter, Instant, LocalDate, LocalDateTime, LocalTime, ZonedDateTime, ZoneId, ZoneOffset } from "@js-joda/core";
 import { add, Duration } from "date-fns";
-import { DateTimeFormatter, Instant, LocalDate, LocalTime, ZonedDateTime, ZoneId } from "js-joda";
 
 export function splitPeriod(start: Date, end: Date, segmentDuration: Duration): [Date, Date][] {
     const out: [Date, Date][] = [];
@@ -68,4 +68,21 @@ export function createZonedDateTimeFromDateAndZoneId(date: Date, timezone: ZoneI
 
 export function extractHHmmTimeFromLocalTime(time: LocalTime): string {
     return time.format(DateTimeFormatter.ofPattern("HH:mm"));
+}
+
+export function extractLocalDateFromDate(date: Date): LocalDate {
+    return LocalDate.of(
+        date.getFullYear(),
+        date.getMonth() + 1,
+        date.getDate()
+    );
+}
+
+export function createUtcDateFromLocalDate(localDate: LocalDate): Date {
+    return createUtcDateFromLocalDatetime(localDate.atStartOfDay());
+}
+
+export function createUtcDateFromLocalDatetime(localDatetime: LocalDateTime): Date {
+    const utcInstant = localDatetime.toInstant(ZoneOffset.UTC);
+    return new Date(utcInstant.toEpochMilli());
 }
