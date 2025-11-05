@@ -21,16 +21,16 @@ import { mapValues } from '../runtime';
 export interface CreateNonCustomAppointmentRequest {
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof CreateNonCustomAppointmentRequest
      */
-    startDatetimeShopLocal: Date;
+    startDatetimeShopLocal: string;
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof CreateNonCustomAppointmentRequest
      */
-    endDatetimeShopLocal: Date;
+    endDatetimeShopLocal: string;
     /**
      * 
      * @type {number}
@@ -58,8 +58,8 @@ export function CreateNonCustomAppointmentRequestFromJSONTyped(json: any, ignore
     }
     return {
         
-        'startDatetimeShopLocal': (new Date(json['startDatetimeShopLocal'])),
-        'endDatetimeShopLocal': (new Date(json['endDatetimeShopLocal'])),
+        'startDatetimeShopLocal': json['startDatetimeShopLocal'],
+        'endDatetimeShopLocal': json['endDatetimeShopLocal'],
         'price': json['price'] == null ? undefined : json['price'],
     };
 }
@@ -75,8 +75,8 @@ export function CreateNonCustomAppointmentRequestToJSONTyped(value?: CreateNonCu
 
     return {
         
-        'startDatetimeShopLocal': ((value['startDatetimeShopLocal']).toISOString()),
-        'endDatetimeShopLocal': ((value['endDatetimeShopLocal']).toISOString()),
+        'startDatetimeShopLocal': value['startDatetimeShopLocal'],
+        'endDatetimeShopLocal': value['endDatetimeShopLocal'],
         'price': value['price'],
     };
 }

@@ -29,16 +29,16 @@ import {
 export interface CreateCustomAppointmentRequest {
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof CreateCustomAppointmentRequest
      */
-    startDatetimeShopLocal: Date;
+    startDatetimeShopLocal: string;
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof CreateCustomAppointmentRequest
      */
-    endDatetimeShopLocal: Date;
+    endDatetimeShopLocal: string;
     /**
      * 
      * @type {number}
@@ -72,8 +72,8 @@ export function CreateCustomAppointmentRequestFromJSONTyped(json: any, ignoreDis
     }
     return {
         
-        'startDatetimeShopLocal': (new Date(json['startDatetimeShopLocal'])),
-        'endDatetimeShopLocal': (new Date(json['endDatetimeShopLocal'])),
+        'startDatetimeShopLocal': json['startDatetimeShopLocal'],
+        'endDatetimeShopLocal': json['endDatetimeShopLocal'],
         'price': json['price'] == null ? undefined : json['price'],
         'location': json['location'] == null ? undefined : LocationFromJSON(json['location']),
     };
@@ -90,8 +90,8 @@ export function CreateCustomAppointmentRequestToJSONTyped(value?: CreateCustomAp
 
     return {
         
-        'startDatetimeShopLocal': ((value['startDatetimeShopLocal']).toISOString()),
-        'endDatetimeShopLocal': ((value['endDatetimeShopLocal']).toISOString()),
+        'startDatetimeShopLocal': value['startDatetimeShopLocal'],
+        'endDatetimeShopLocal': value['endDatetimeShopLocal'],
         'price': value['price'],
         'location': LocationToJSON(value['location']),
     };

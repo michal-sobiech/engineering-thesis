@@ -1,6 +1,8 @@
 package pl.michal_sobiech.engineering_thesis.enterprise_service;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
@@ -9,6 +11,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.SwaggerCodeGenExample.api.ServicesApi;
+import org.SwaggerCodeGenExample.model.CreateCustomAppointmentRequest;
+import org.SwaggerCodeGenExample.model.CreateNonCustomAppointmentRequest;
 import org.SwaggerCodeGenExample.model.GetServiceCustomAppointmentsStatus200Response;
 import org.SwaggerCodeGenExample.model.GetServiceFreeCustomAppointmentsResponseItem;
 import org.SwaggerCodeGenExample.model.GetServiceFreeNonCustomAppointmentsResponseItem;
@@ -18,11 +22,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.micrometer.common.lang.Nullable;
 import lombok.RequiredArgsConstructor;
+import pl.michal_sobiech.engineering_thesis.appointment.custom.CustomAppointmentsService;
 import pl.michal_sobiech.engineering_thesis.appointment.non_custom.NonCustomAppointmentsService;
+import pl.michal_sobiech.engineering_thesis.auth.AuthService;
+import pl.michal_sobiech.engineering_thesis.customer.Customer;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.custom_appointments.CustomAppointmentsEnterpriseServiceService;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.no_custom_appointments.NonCustomAppointmentsEnterpriseServiceService;
-import pl.michal_sobiech.engineering_thesis.enterprise_service_search.EnterpriseServiceSearchService;
-import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.EnterpriseServiceSlotTemplateService;
 import pl.michal_sobiech.engineering_thesis.non_custom_appointments_enterprise_service_slot_search.NonCustomEnterpriseServiceSlotsSearchService;
 import pl.michal_sobiech.engineering_thesis.non_custom_appointments_enterprise_service_slot_search.NonCustomSlotSearchResultRow;
 import pl.michal_sobiech.engineering_thesis.utils.DateUtils;
@@ -35,13 +40,13 @@ public class EnterpriseServiceController implements ServicesApi {
 
     private static final double MAX_VALUE_OF_MAX_DISTANCE_KM = 100;
 
-    private final EnterpriseServiceSearchService enterpriseServiceSearchService;
-    private final EnterpriseServiceSlotTemplateService enterpriseServiceSlotService;
     private final EnterpriseServiceService enterpriseServiceService;
-    private final NonCustomAppointmentsService nonCustomAppointmentsService;
     private final CustomAppointmentsEnterpriseServiceService customAppointmentsEnterpriseServiceService;
     private final NonCustomAppointmentsEnterpriseServiceService nonCustomAppointmentsEnterpriseServiceService;
     private final NonCustomEnterpriseServiceSlotsSearchService nonCustomEnterpriseServiceSlotsSearchService;
+    private final CustomAppointmentsService customAppointmentsService;
+    private final NonCustomAppointmentsService nonCustomAppointmentsService;
+    private final AuthService authService;
 
     @Override
     public ResponseEntity<List<GetServiceFreeNonCustomAppointmentsResponseItem>> getFreeNonCustomAppointments(
@@ -137,4 +142,56 @@ public class EnterpriseServiceController implements ServicesApi {
                 .collect(Collectors.toList());
         return ResponseEntity.ok(body);
     }
+
+    @Override
+    public ResponseEntity<Void> createCustomAppointment(
+            Long enterpriseServiceId,
+            CreateCustomAppointmentRequest request) {
+        Customer customer = authService.requireCustomer();
+
+        // TODO check if appointment can be made
+
+        ZoneId timezone = enterpriseServiceService.getTimeZoneByServiceId(enterpriseServiceId);
+
+        LocalDateTime startParsed = LocalDateTime.parse(request.getStartDatetimeShopLocal());
+        Instant startInstant = startParsed.atZone(timezone).toInstant();
+
+        LocalDateTime endParsed = LocalDateTime.parse(request.getEndDatetimeShopLocal());
+        Instant endInstant = endParsed.atZone(timezone).toInstant();
+
+        customAppointmentsService.createCustomAppointment(
+                enterpriseServiceId,
+                customer.getUserId(),
+                Optional.ofNullable(request.getPrice()),
+                startInstant,
+                endInstant,
+                request.getLocation());
+        return ResponseEntity.ok().build();
+    }
+
+    @Override
+    public ResponseEntity<Void> createNonCustomAppointment(
+            Long enterpriseServiceId,
+            CreateNonCustomAppointmentRequest request) {
+        Customer customer = authService.requireCustomer();
+
+        // TODO check if appointment can be made
+
+        ZoneId timezone = enterpriseServiceService.getTimeZoneByServiceId(enterpriseServiceId);
+
+        LocalDateTime startParsed = LocalDateTime.parse(request.getStartDatetimeShopLocal());
+        Instant startInstant = startParsed.atZone(timezone).toInstant();
+
+        LocalDateTime endParsed = LocalDateTime.parse(request.getEndDatetimeShopLocal());
+        Instant endInstant = endParsed.atZone(timezone).toInstant();
+
+        nonCustomAppointmentsService.createNonCustomAppointment(
+                enterpriseServiceId,
+                customer.getUserId(),
+                Optional.ofNullable(request.getPrice()),
+                startInstant,
+                endInstant);
+        return ResponseEntity.ok().build();
+    }
+
 }

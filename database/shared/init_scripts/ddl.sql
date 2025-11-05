@@ -142,6 +142,9 @@ CREATE TABLE public.appointment (
 	is_custom boolean NOT NULL,
 	is_accepted boolean,
 	rejection_message text,
+	address text,
+	latitude double PRECISION, 
+	longitude double PRECISION,
 
 	CONSTRAINT pk_appointment_id PRIMARY KEY (appointment_id),
 	CONSTRAINT fk_appointment_enterprise_service_id FOREIGN KEY (enterprise_service_id) REFERENCES public.enterprise_service(enterprise_service_id) ON DELETE CASCADE,
@@ -150,6 +153,11 @@ CREATE TABLE public.appointment (
 		(is_custom = FALSE AND is_accepted IS NULL AND rejection_message IS NULL)
 		OR
 		(is_custom = TRUE AND is_accepted IS NOT NULL AND rejection_message IS NOT NULL)
+	),
+	CONSTRAINT chk_location CHECK (
+		(is_custom = FALSE AND address IS NULL AND latitude IS NULL AND longitude IS NULL)
+		OR 
+		(is_custom = TRUE AND address IS NOT NULL AND latitude IS NOT NULL and longitude IS NOT NULL)
 	)
 );
 

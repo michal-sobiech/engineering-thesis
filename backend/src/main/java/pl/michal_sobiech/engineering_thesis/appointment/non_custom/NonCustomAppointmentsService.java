@@ -1,7 +1,11 @@
 package pl.michal_sobiech.engineering_thesis.appointment.non_custom;
 
+import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -27,6 +31,28 @@ public class NonCustomAppointmentsService {
         OffsetDateTime from = DateUtils.createOffsetDateTimeWithResetTime(date);
         OffsetDateTime to = from.plusDays(1);
         return getAllByServiceIdAndDatetimeRange(serviceId, from, to);
+    }
+
+    public void createNonCustomAppointment(
+            long enterpriseServiceId,
+            long customerUserId,
+            Optional<BigDecimal> price,
+            Instant start,
+            Instant end) {
+        AppointmentEntity appointmentEntity = new AppointmentEntity(
+                null,
+                enterpriseServiceId,
+                customerUserId,
+                price.orElse(null),
+                start.atOffset(ZoneOffset.UTC),
+                end.atOffset(ZoneOffset.UTC),
+                false,
+                null,
+                null,
+                null,
+                null,
+                null);
+        appointmentRepository.save(appointmentEntity);
     }
 
 }

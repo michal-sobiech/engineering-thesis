@@ -26,14 +26,14 @@ public class AppointmentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "appointment_id")
-    private long appointmentId;
+    private Long appointmentId;
 
     @Column(name = "enterprise_service_id")
-    private long enterpriseServiceId;
+    private Long enterpriseServiceId;
 
     @Nullable
     @Column(name = "customer_user_id", nullable = true)
-    private long customerUserId;
+    private Long customerUserId;
 
     @Nullable
     @Column(nullable = true)
@@ -55,5 +55,17 @@ public class AppointmentEntity {
     @Nullable
     @Column(name = "rejection_message", nullable = true)
     private String rejectionMessage;
+
+    @Nullable
+    @Column(nullable = true)
+    private String address;
+
+    @Nullable
+    @Column(nullable = true)
+    private Double longitude;
+
+    @Nullable
+    @Column(nullable = true)
+    private Double latitude;
 
 }
