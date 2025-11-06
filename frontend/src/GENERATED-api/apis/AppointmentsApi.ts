@@ -167,6 +167,76 @@ export class AppointmentsApi extends runtime.BaseAPI {
 
     /**
      */
+    async getMyFutureScheduledAppointmentsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<GetCustomerLandingPageScheduledAppointmentResponseItem>>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("JwtBearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/appointments/my-future-scheduled-appointments`;
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(GetCustomerLandingPageScheduledAppointmentResponseItemFromJSON));
+    }
+
+    /**
+     */
+    async getMyFutureScheduledAppointments(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetCustomerLandingPageScheduledAppointmentResponseItem>> {
+        const response = await this.getMyFutureScheduledAppointmentsRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async getMyPastScheduledAppointmentsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<GetCustomerLandingPageScheduledAppointmentResponseItem>>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("JwtBearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/appointments/my-past-appointments`;
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(GetCustomerLandingPageScheduledAppointmentResponseItemFromJSON));
+    }
+
+    /**
+     */
+    async getMyPastScheduledAppointments(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetCustomerLandingPageScheduledAppointmentResponseItem>> {
+        const response = await this.getMyPastScheduledAppointmentsRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
     async getMyPendingAppointmentsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<GetCustomerLandingPagePendingAppointmentResponseItem>>> {
         const queryParameters: any = {};
 
@@ -232,41 +302,6 @@ export class AppointmentsApi extends runtime.BaseAPI {
      */
     async getMyRejectedAppointments(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetCustomerLandingPageRejectedAppointmentResponseItem>> {
         const response = await this.getMyRejectedAppointmentsRaw(initOverrides);
-        return await response.value();
-    }
-
-    /**
-     */
-    async getMyScheduledAppointmentsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<GetCustomerLandingPageScheduledAppointmentResponseItem>>> {
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("JwtBearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-
-        let urlPath = `/appointments/my-scheduled-appointments`;
-
-        const response = await this.request({
-            path: urlPath,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(GetCustomerLandingPageScheduledAppointmentResponseItemFromJSON));
-    }
-
-    /**
-     */
-    async getMyScheduledAppointments(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetCustomerLandingPageScheduledAppointmentResponseItem>> {
-        const response = await this.getMyScheduledAppointmentsRaw(initOverrides);
         return await response.value();
     }
 

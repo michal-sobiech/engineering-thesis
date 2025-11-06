@@ -11,12 +11,12 @@ import { StandardPanel } from "../../../common/StandardPanel";
 import { errorErrResultAsyncFromPromise } from "../../../utils/result";
 import { CustomerLandingPageScheduledAppointment } from "./CustomerLandingPageScheduledAppointment";
 
-export const CustomerLandingPageScheduledAppointmentsList = () => {
+export const CustomerLandingPagePastScheduledAppointments = () => {
     const [appointments, setAppointments] = useState<CustomerLandingPageScheduledAppointment[]>([]);
 
     useEffect(() => {
         async function loadAppointments() {
-            const promise = appointmentsApi.getMyScheduledAppointments();
+            const promise = appointmentsApi.getMyPastScheduledAppointments();
             const asyncResult = errorErrResultAsyncFromPromise(promise);
             const result = await asyncResult;
             if (result.isErr()) {
@@ -36,7 +36,7 @@ export const CustomerLandingPageScheduledAppointmentsList = () => {
         loadAppointments();
     }, []);
 
-    return <StandardLabeledContainer label="Scheduled appointments">
+    return <StandardLabeledContainer label="Past appointments">
         <StandardConcaveBox>
             <ScrollableList>
                 {appointments === null ? null : appointments.map(createItem)}

@@ -31,12 +31,6 @@ export interface CreateNonCustomAppointmentRequest {
      * @memberof CreateNonCustomAppointmentRequest
      */
     endDatetimeShopLocal: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof CreateNonCustomAppointmentRequest
-     */
-    price?: number;
 }
 
 /**
@@ -60,7 +54,6 @@ export function CreateNonCustomAppointmentRequestFromJSONTyped(json: any, ignore
         
         'startDatetimeShopLocal': json['startDatetimeShopLocal'],
         'endDatetimeShopLocal': json['endDatetimeShopLocal'],
-        'price': json['price'] == null ? undefined : json['price'],
     };
 }
 
@@ -77,7 +70,6 @@ export function CreateNonCustomAppointmentRequestToJSONTyped(value?: CreateNonCu
         
         'startDatetimeShopLocal': value['startDatetimeShopLocal'],
         'endDatetimeShopLocal': value['endDatetimeShopLocal'],
-        'price': value['price'],
     };
 }
 

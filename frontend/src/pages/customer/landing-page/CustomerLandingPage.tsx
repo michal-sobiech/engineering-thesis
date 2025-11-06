@@ -1,9 +1,9 @@
 import { Box, Center, Flex } from "@chakra-ui/react";
 import { useState } from "react";
 import { StandardPanel } from "../../../common/StandardPanel";
+import { CustomerLandingPageFutureScheduledAppointmentsList } from "./CustomerLandingPageFutureScheduledAppointmentsList";
 import { CustomerLandingPagePendingAppointmentsList } from "./CustomerLandingPagePendingAppointmentsList";
 import { CustomerLandingPageScheduledAppointment } from "./CustomerLandingPageScheduledAppointment";
-import { CustomerLandingPageScheduledAppointmentsList } from "./CustomerLandingPageScheduledAppointmentsList";
 
 export const CustomerLandingPage = () => {
     const [scheduledAppointments, setScheduledAppointments] = useState<CustomerLandingPageScheduledAppointment[]>([]);
@@ -14,7 +14,7 @@ export const CustomerLandingPage = () => {
             <StandardPanel>
                 <Flex direction="row" gap="50px">
                     <Box flex="1">
-                        <CustomerLandingPageScheduledAppointmentsList />
+                        <CustomerLandingPageFutureScheduledAppointmentsList />
                     </Box>
                     <Box flex="1">
                         <CustomerLandingPagePendingAppointmentsList />

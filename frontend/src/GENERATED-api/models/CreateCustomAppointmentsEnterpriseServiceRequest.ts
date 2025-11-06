@@ -75,7 +75,7 @@ export interface CreateCustomAppointmentsEnterpriseServiceRequest {
      * @type {number}
      * @memberof CreateCustomAppointmentsEnterpriseServiceRequest
      */
-    price?: number;
+    price: number;
     /**
      * currency ISO code
      * @type {string}
@@ -100,6 +100,7 @@ export function instanceOfCreateCustomAppointmentsEnterpriseServiceRequest(value
     if (!('timeZone' in value) || value['timeZone'] === undefined) return false;
     if (!('maxDistanceKm' in value) || value['maxDistanceKm'] === undefined) return false;
     if (!('cathegory' in value) || value['cathegory'] === undefined) return false;
+    if (!('price' in value) || value['price'] === undefined) return false;
     if (!('currency' in value) || value['currency'] === undefined) return false;
     if (!('timeWindows' in value) || value['timeWindows'] === undefined) return false;
     return true;
@@ -121,7 +122,7 @@ export function CreateCustomAppointmentsEnterpriseServiceRequestFromJSONTyped(js
         'timeZone': json['timeZone'],
         'maxDistanceKm': json['maxDistanceKm'],
         'cathegory': json['cathegory'],
-        'price': json['price'] == null ? undefined : json['price'],
+        'price': json['price'],
         'currency': json['currency'],
         'timeWindows': ((json['timeWindows'] as Array<any>).map(TimeWindowFromJSON)),
     };

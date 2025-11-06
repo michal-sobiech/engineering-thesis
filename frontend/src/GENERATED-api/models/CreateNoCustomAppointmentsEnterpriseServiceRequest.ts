@@ -69,7 +69,7 @@ export interface CreateNoCustomAppointmentsEnterpriseServiceRequest {
      * @type {number}
      * @memberof CreateNoCustomAppointmentsEnterpriseServiceRequest
      */
-    price?: number;
+    price: number;
     /**
      * currency ISO code
      * @type {string}
@@ -93,6 +93,7 @@ export function instanceOfCreateNoCustomAppointmentsEnterpriseServiceRequest(val
     if (!('location' in value) || value['location'] === undefined) return false;
     if (!('timeZone' in value) || value['timeZone'] === undefined) return false;
     if (!('cathegory' in value) || value['cathegory'] === undefined) return false;
+    if (!('price' in value) || value['price'] === undefined) return false;
     if (!('currency' in value) || value['currency'] === undefined) return false;
     if (!('slots' in value) || value['slots'] === undefined) return false;
     return true;
@@ -113,7 +114,7 @@ export function CreateNoCustomAppointmentsEnterpriseServiceRequestFromJSONTyped(
         'location': LocationFromJSON(json['location']),
         'timeZone': json['timeZone'],
         'cathegory': json['cathegory'],
-        'price': json['price'] == null ? undefined : json['price'],
+        'price': json['price'],
         'currency': json['currency'],
         'slots': ((json['slots'] as Array<any>).map(SlotFromJSON)),
     };
