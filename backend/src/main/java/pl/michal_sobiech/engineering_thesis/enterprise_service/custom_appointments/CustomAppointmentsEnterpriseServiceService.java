@@ -79,8 +79,8 @@ public class CustomAppointmentsEnterpriseServiceService {
                                 .getConfirmedAppointmentsInDatetimeRange(serviceId, from, to);
                 List<LocalDateTimeWindow> confirmedAppointmentsWindows = confirmedAppointments.stream().map(a -> {
                         return new LocalDateTimeWindow(
-                                        DateUtils.createLocalDateTime(a.startTime(), timeZone),
-                                        DateUtils.createLocalDateTime(a.endTime(), timeZone));
+                                        DateUtils.createLocalDateTime(a.startInstant(), timeZone),
+                                        DateUtils.createLocalDateTime(a.endInstant(), timeZone));
                 }).collect(Collectors.toList());
 
                 return DateUtils.subtractTimeWindowLists(defaultAvailability, confirmedAppointmentsWindows);

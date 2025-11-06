@@ -1468,10 +1468,10 @@ paths:
         "500":
           $ref: "#/components/responses/InternalServerError"
 
-  /appointments/my-scheduled-appointments:
+  /appointments/my-future-scheduled-appointments:
     get:
       tags: [Appointments]
-      operationId: getMyScheduledAppointments
+      operationId: getMyFutureScheduledAppointments
       security:
         - JwtBearerAuth: []
       responses:
@@ -1531,6 +1531,30 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/GetCustomerLandingPageRejectedAppointmentResponseItem"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /appointments/my-past-appointments:
+    get:
+      tags: [Appointments]
+      operationId: getMyPastScheduledAppointments
+      security:
+        - JwtBearerAuth: []
+      responses:
+        "200":
+          description: *OK_DESCRIPTION
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/GetCustomerLandingPageScheduledAppointmentResponseItem"
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":

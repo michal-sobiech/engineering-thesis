@@ -15,7 +15,6 @@ import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.appointment.custom.CustomAppointmentsService;
 import pl.michal_sobiech.engineering_thesis.appointment.custom.PendingCustomAppointment;
 import pl.michal_sobiech.engineering_thesis.appointment.custom.RejectedCustomAppointment;
-import pl.michal_sobiech.engineering_thesis.appointment.non_custom.NonCustomAppointment;
 import pl.michal_sobiech.engineering_thesis.appointment.non_custom.NonCustomAppointmentsService;
 import pl.michal_sobiech.engineering_thesis.auth.AuthService;
 import pl.michal_sobiech.engineering_thesis.customer.Customer;
@@ -34,6 +33,7 @@ public class AppointmentController implements AppointmentsApi {
     private final CustomAppointmentsService customAppointmentsService;
     private final EnterpriseServiceService enterpriseServiceService;
     private final EnterpriseService enterpriseService;
+    private final ScheduledAppointmentService scheduledAppointmentService;
 
     @Override
     public ResponseEntity<List<GetCustomerLandingPagePendingAppointmentResponseItem>> getMyPendingAppointments() {
@@ -47,7 +47,8 @@ public class AppointmentController implements AppointmentsApi {
                             .findById(appointment.enterpriseServiceId()).orElseThrow();
                     ZoneId timezone = service.getTimeZone();
 
-                    EnterpriseEntity enterprise = enterpriseService.getEnterprise(service.getEnterpriseId())
+                    EnterpriseEntity enterprise = enterpriseService
+                            .getEnterprise(service.getEnterpriseId())
                             .orElseThrow();
 
                     String startDatetimeServiceLocal = DateUtils.createIsoLocalDatetime(
@@ -81,7 +82,8 @@ public class AppointmentController implements AppointmentsApi {
                             .findById(appointment.enterpriseServiceId()).orElseThrow();
                     ZoneId timezone = service.getTimeZone();
 
-                    EnterpriseEntity enterprise = enterpriseService.getEnterprise(service.getEnterpriseId())
+                    EnterpriseEntity enterprise = enterpriseService
+                            .getEnterprise(service.getEnterpriseId())
                             .orElseThrow();
 
                     String startDatetimeServiceLocal = DateUtils.createIsoLocalDatetime(
@@ -105,10 +107,11 @@ public class AppointmentController implements AppointmentsApi {
     }
 
     @Override
-    public ResponseEntity<List<GetCustomerLandingPageScheduledAppointmentResponseItem>> getMyScheduledAppointments() {
+    public ResponseEntity<List<GetCustomerLandingPageScheduledAppointmentResponseItem>> getMyFutureScheduledAppointments() {
         Customer customer = authService.requireCustomer();
-        List<NonCustomAppointment> appointments = nonCustomAppointmentsService
-                .getNonCustomAppointmentsOfCustomer(customer.getUserId());
+
+        List<ScheduledAppointment> appointments = scheduledAppointmentService
+                .getFutureScheduledAppointmentsOfCustomer(customer.getUserId());
 
         List<GetCustomerLandingPageScheduledAppointmentResponseItem> body = appointments.stream()
                 .map(appointment -> {
@@ -116,7 +119,8 @@ public class AppointmentController implements AppointmentsApi {
                             .findById(appointment.enterpriseServiceId()).orElseThrow();
                     ZoneId timezone = service.getTimeZone();
 
-                    EnterpriseEntity enterprise = enterpriseService.getEnterprise(service.getEnterpriseId())
+                    EnterpriseEntity enterprise = enterpriseService
+                            .getEnterprise(service.getEnterpriseId())
                             .orElseThrow();
 
                     String startDatetimeServiceLocal = DateUtils.createIsoLocalDatetime(
@@ -136,7 +140,41 @@ public class AppointmentController implements AppointmentsApi {
                 })
                 .collect(Collectors.toList());
         return ResponseEntity.ok(body);
-
     }
 
+    @Override
+    public ResponseEntity<List<GetCustomerLandingPageScheduledAppointmentResponseItem>> getMyPastScheduledAppointments() {
+        Customer customer = authService.requireCustomer();
+
+        List<ScheduledAppointment> appointments = scheduledAppointmentService
+                .getPastScheduledAppointmentsOfCustomer(customer.getUserId());
+
+        List<GetCustomerLandingPageScheduledAppointmentResponseItem> body = appointments.stream()
+                .map(appointment -> {
+                    EnterpriseServiceEntity service = enterpriseServiceService
+                            .findById(appointment.enterpriseServiceId()).orElseThrow();
+                    ZoneId timezone = service.getTimeZone();
+
+                    EnterpriseEntity enterprise = enterpriseService
+                            .getEnterprise(service.getEnterpriseId())
+                            .orElseThrow();
+
+                    String startDatetimeServiceLocal = DateUtils.createIsoLocalDatetime(
+                            appointment.startInstant(), timezone);
+
+                    String endDatetimeServiceLocal = DateUtils.createIsoLocalDatetime(
+                            appointment.endInstant(), timezone);
+
+                    return new GetCustomerLandingPageScheduledAppointmentResponseItem(
+                            service.getName(),
+                            enterprise.getName(),
+                            service.getAddress(),
+                            startDatetimeServiceLocal,
+                            endDatetimeServiceLocal,
+                            timezone.toString(),
+                            appointment.price());
+                })
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(body);
+    }
 }
