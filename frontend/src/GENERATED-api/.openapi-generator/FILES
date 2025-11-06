@@ -22,6 +22,9 @@ models/CreateNoCustomAppointmentsEnterpriseServiceRequest.ts
 models/CreateNonCustomAppointmentRequest.ts
 models/DayOfWeek.ts
 models/EmployeeGetMeResponse.ts
+models/GetCustomerLandingPagePendingAppointmentResponseItem.ts
+models/GetCustomerLandingPageRejectedAppointmentResponseItem.ts
+models/GetCustomerLandingPageScheduledAppointmentResponseItem.ts
 models/GetEnterpriseEmployeesResponseItem.ts
 models/GetEnterpriseResponse.ts
 models/GetEnterpriseServicesResponseItem.ts

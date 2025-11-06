@@ -1,8 +1,7 @@
 package pl.michal_sobiech.engineering_thesis.appointment.non_custom;
 
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
-import java.util.Optional;
+import java.time.Instant;
 
 import pl.michal_sobiech.engineering_thesis.appointment.AppointmentEntity;
 
@@ -12,9 +11,9 @@ public record NonCustomAppointment(
         long enterpriseServiceId,
         long customerUserId,
 
-        Optional<BigDecimal> price,
-        OffsetDateTime startDatetime,
-        OffsetDateTime endDatetime
+        BigDecimal price,
+        Instant startInstant,
+        Instant endInstant
 
 ) {
 
@@ -35,9 +34,9 @@ public record NonCustomAppointment(
                 entity.getAppointmentId(),
                 entity.getEnterpriseServiceId(),
                 entity.getCustomerUserId(),
-                Optional.ofNullable(entity.getPrice()),
-                entity.getStartTime(),
-                entity.getEndTime());
+                entity.getPrice(),
+                entity.getStartTime().toInstant(),
+                entity.getEndTime().toInstant());
     }
 
 }

@@ -1,20 +1,55 @@
 package pl.michal_sobiech.engineering_thesis.appointment.custom;
 
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
-import java.util.Optional;
+import java.time.Instant;
+
+import org.SwaggerCodeGenExample.model.Location;
+
+import pl.michal_sobiech.engineering_thesis.appointment.AppointmentEntity;
 
 public record RejectedCustomAppointment(
 
-                long appointmentId,
-                long enterpriseServiceId,
-                Long customerUserId,
+        Long appointmentId,
+        Long enterpriseServiceId,
+        Long customerUserId,
 
-                Optional<BigDecimal> price,
-                OffsetDateTime startTime,
-                OffsetDateTime endTime,
-                String rejectionMessage
+        BigDecimal price,
+        Instant startInstant,
+        Instant endInstant,
+        Location location,
+
+        String rejectionMessage
 
 ) {
+
+    public static RejectedCustomAppointment fromEntity(AppointmentEntity entity) {
+        if (!entity.getIsCustom()) {
+            throw new IllegalArgumentException();
+        }
+
+        if (entity.getIsAccepted() != false) {
+            throw new IllegalArgumentException();
+        }
+
+        if (entity.getRejectionMessage() == null) {
+            throw new IllegalArgumentException();
+        }
+
+        Location location = new Location(
+                entity.getAddress(),
+                entity.getLongitude(),
+                entity.getLatitude());
+
+        return new RejectedCustomAppointment(
+                entity.getAppointmentId(),
+                entity.getEnterpriseServiceId(),
+                entity.getCustomerUserId(),
+                entity.getPrice(),
+                entity.getStartTime().toInstant(),
+                entity.getEndTime().toInstant(),
+                location,
+                entity.getRejectionMessage());
+
+    }
 
 }

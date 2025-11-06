@@ -45,8 +45,8 @@ public class NonCustomEnterpriseServiceAvailabilityService {
 
                 List<LocalDateTimeWindow> appointmentWindows = appointments.stream()
                                 .map(a -> new LocalDateTimeWindow(
-                                                DateUtils.createLocalDateTime(a.startDatetime(), timezone),
-                                                DateUtils.createLocalDateTime(a.endDatetime(), timezone)))
+                                                DateUtils.createLocalDateTime(a.startInstant(), timezone),
+                                                DateUtils.createLocalDateTime(a.endInstant(), timezone)))
                                 .collect(Collectors.toList());
 
                 // 3.

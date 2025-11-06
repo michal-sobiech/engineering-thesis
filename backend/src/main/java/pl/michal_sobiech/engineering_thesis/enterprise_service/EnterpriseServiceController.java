@@ -165,7 +165,6 @@ public class EnterpriseServiceController implements ServicesApi {
                 customAppointmentsService.createCustomAppointment(
                                 enterpriseServiceId,
                                 customer.getUserId(),
-                                Optional.ofNullable(request.getPrice()),
                                 startInstant,
                                 endInstant,
                                 request.getLocation());
@@ -191,7 +190,6 @@ public class EnterpriseServiceController implements ServicesApi {
                 nonCustomAppointmentsService.createNonCustomAppointment(
                                 enterpriseServiceId,
                                 customer.getUserId(),
-                                Optional.ofNullable(request.getPrice()),
                                 startInstant,
                                 endInstant);
                 return ResponseEntity.ok().build();

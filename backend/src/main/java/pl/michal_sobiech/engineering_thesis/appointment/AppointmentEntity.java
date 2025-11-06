@@ -35,8 +35,6 @@ public class AppointmentEntity {
     @Column(name = "customer_user_id", nullable = true)
     private Long customerUserId;
 
-    @Nullable
-    @Column(nullable = true)
     private BigDecimal price;
 
     @Column(name = "start_time")

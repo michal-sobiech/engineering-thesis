@@ -8,7 +8,7 @@ export const ScrollableList: React.FC<FlexProps> = ({ children, ...otherProps })
     const childrenAndSeparatorsValidElems = childrenAndSeparators.filter(isValidElement);
     const childrenAndSeparatorsWithKeys = addWrapper(childrenAndSeparatorsValidElems);
 
-    return <Flex overflowY="auto" maxHeight="100px" gap="2px" direction="column" {...otherProps}>
+    return <Flex overflowY="auto" gap="2px" direction="column" {...otherProps}>
         {childrenAndSeparatorsWithKeys}
     </Flex>;
 }

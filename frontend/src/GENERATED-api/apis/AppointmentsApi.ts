@@ -17,6 +17,9 @@ import * as runtime from '../runtime';
 import type {
   CreateCustomAppointmentRequest,
   CreateNonCustomAppointmentRequest,
+  GetCustomerLandingPagePendingAppointmentResponseItem,
+  GetCustomerLandingPageRejectedAppointmentResponseItem,
+  GetCustomerLandingPageScheduledAppointmentResponseItem,
   InlineObject,
   InlineObject1,
   InlineObject2,
@@ -27,6 +30,12 @@ import {
     CreateCustomAppointmentRequestToJSON,
     CreateNonCustomAppointmentRequestFromJSON,
     CreateNonCustomAppointmentRequestToJSON,
+    GetCustomerLandingPagePendingAppointmentResponseItemFromJSON,
+    GetCustomerLandingPagePendingAppointmentResponseItemToJSON,
+    GetCustomerLandingPageRejectedAppointmentResponseItemFromJSON,
+    GetCustomerLandingPageRejectedAppointmentResponseItemToJSON,
+    GetCustomerLandingPageScheduledAppointmentResponseItemFromJSON,
+    GetCustomerLandingPageScheduledAppointmentResponseItemToJSON,
     InlineObjectFromJSON,
     InlineObjectToJSON,
     InlineObject1FromJSON,
@@ -154,6 +163,111 @@ export class AppointmentsApi extends runtime.BaseAPI {
      */
     async createNonCustomAppointment(serviceId: number, createNonCustomAppointmentRequest: CreateNonCustomAppointmentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.createNonCustomAppointmentRaw({ serviceId: serviceId, createNonCustomAppointmentRequest: createNonCustomAppointmentRequest }, initOverrides);
+    }
+
+    /**
+     */
+    async getMyPendingAppointmentsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<GetCustomerLandingPagePendingAppointmentResponseItem>>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("JwtBearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/appointments/my-pending-appointments`;
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(GetCustomerLandingPagePendingAppointmentResponseItemFromJSON));
+    }
+
+    /**
+     */
+    async getMyPendingAppointments(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetCustomerLandingPagePendingAppointmentResponseItem>> {
+        const response = await this.getMyPendingAppointmentsRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async getMyRejectedAppointmentsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<GetCustomerLandingPageRejectedAppointmentResponseItem>>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("JwtBearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/appointments/my-rejected-appointments`;
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(GetCustomerLandingPageRejectedAppointmentResponseItemFromJSON));
+    }
+
+    /**
+     */
+    async getMyRejectedAppointments(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetCustomerLandingPageRejectedAppointmentResponseItem>> {
+        const response = await this.getMyRejectedAppointmentsRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async getMyScheduledAppointmentsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<GetCustomerLandingPageScheduledAppointmentResponseItem>>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("JwtBearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/appointments/my-scheduled-appointments`;
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(GetCustomerLandingPageScheduledAppointmentResponseItemFromJSON));
+    }
+
+    /**
+     */
+    async getMyScheduledAppointments(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetCustomerLandingPageScheduledAppointmentResponseItem>> {
+        const response = await this.getMyScheduledAppointmentsRaw(initOverrides);
+        return await response.value();
     }
 
 }

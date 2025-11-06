@@ -89,7 +89,7 @@ CREATE TABLE public.enterprise_service (
 	max_distance_km double PRECISION,
 
 	cathegory enterprise_service_cathegory NOT NULL,
-	price numeric,
+	price numeric NOT NULL,
 	currency currency_iso NOT NULL,
 
 	CONSTRAINT pk_enterprise_service PRIMARY KEY (enterprise_service_id),
@@ -135,7 +135,7 @@ CREATE TABLE public.appointment (
 	enterprise_service_id bigint NOT NULL,
 	customer_user_id bigint NOT NULL,
 
-	price numeric,
+	price numeric NOT NULL,
 	start_time timestamptz NOT NULL,
 	end_time timestamptz NOT NULL,
 

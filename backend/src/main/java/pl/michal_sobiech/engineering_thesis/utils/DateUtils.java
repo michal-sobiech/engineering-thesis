@@ -138,6 +138,10 @@ public class DateUtils {
         return offsetDatetime.atZoneSameInstant(timezone).toLocalDateTime();
     }
 
+    public static LocalDateTime createLocalDateTime(Instant instant, ZoneId timezone) {
+        return instant.atZone(timezone).toLocalDateTime();
+    }
+
     public static LocalDate createLocalDate(OffsetDateTime offsetDatetime, ZoneId timezone) {
         LocalDateTime datetime = createLocalDateTime(offsetDatetime, timezone);
         return datetime.toLocalDate();
@@ -162,6 +166,10 @@ public class DateUtils {
 
     public static Instant createInstant(LocalDateTime localDatetime, ZoneId timezone) {
         return createOffsetDateTime(localDatetime, timezone).toInstant();
+    }
+
+    public static String createIsoLocalDatetime(Instant instant, ZoneId timezone) {
+        return instant.atZone(timezone).toLocalDateTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
     }
 
 }

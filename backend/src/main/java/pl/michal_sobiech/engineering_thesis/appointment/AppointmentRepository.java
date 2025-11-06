@@ -35,4 +35,42 @@ public interface AppointmentRepository extends JpaRepository<AppointmentEntity, 
                         @Param("from") OffsetDateTime from,
                         @Param("to") OffsetDateTime to);
 
+        @Query("""
+                        SELECT appointment
+                        FROM AppointmentEntity appointment
+                        WHERE appointment.customerUserId = :customerUserId
+                        AND appointment.isCustom = TRUE
+                        AND appointment.isAccepted = TRUE
+                        """)
+        public List<AppointmentEntity> findConfirmedCustomAppointmentsOfCustomer(
+                        @Param("customerUserId") long customerUserId);
+
+        @Query("""
+                        SELECT appointment
+                        FROM AppointmentEntity appointment
+                        WHERE appointment.customerUserId = :customerUserId
+                        AND appointment.isCustom = TRUE
+                        AND appointment.isAccepted IS NULL
+                        """)
+        public List<AppointmentEntity> findPendingCustomAppointmentsOfCustomer(
+                        @Param("customerUserId") long customerUserId);
+
+        @Query("""
+                        SELECT appointment
+                        FROM AppointmentEntity appointment
+                        WHERE appointment.customerUserId = :customerUserId
+                        AND appointment.isCustom = TRUE
+                        AND appointment.isAccepted = FALSE
+                        """)
+        public List<AppointmentEntity> findRejectedCustomAppointmentsOfCustomer(
+                        @Param("customerUserId") long customerUserId);
+
+        @Query("""
+                        SELECT appointment
+                        FROM AppointmentEntity appointment
+                        WHERE appointment.customerUserId = :customerUserId
+                        AND appointment.isCustom = FALSE
+                        """)
+        public List<AppointmentEntity> findNonCustomAppointmentsOfCustomer(
+                        @Param("customerUserId") long customerUserId);
 }

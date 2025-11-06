@@ -1,8 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
-import { CustomerLandingPage } from "../pages/customer/CustomerLandingPage";
 import { CustomerLogInPage } from "../pages/customer/CustomerLogInPage";
 import { CustomerSignUpOrLogIn } from "../pages/customer/CustomerSignUpOrLogInPage";
 import { CustomerSignUpPage } from "../pages/customer/CustomerSignUpPage";
+import { CustomerLandingPage } from "../pages/customer/landing-page/CustomerLandingPage";
 import { EmployeeCreationWizard } from "../pages/employee/creation/wizard/EmployeeCreationWizard";
 import { EmployeeLogInPage } from "../pages/employee/log_in/EmployeeLogInPage";
 import { EnterprisePublicPage } from "../pages/enterprise/public/EnterprisePublicPage";

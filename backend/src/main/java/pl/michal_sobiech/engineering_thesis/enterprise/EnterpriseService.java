@@ -48,8 +48,8 @@ public class EnterpriseService {
     }
 
     @Transactional
-    public EnterpriseEntity getEnterprise(long enterpriseId) {
-        return enterpriseRepository.getReferenceById(enterpriseId);
+    public Optional<EnterpriseEntity> getEnterprise(long enterpriseId) {
+        return enterpriseRepository.findById(enterpriseId);
     }
 
     @Transactional

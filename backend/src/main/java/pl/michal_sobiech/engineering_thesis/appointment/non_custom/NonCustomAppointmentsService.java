@@ -5,7 +5,6 @@ import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -13,12 +12,15 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.appointment.AppointmentEntity;
 import pl.michal_sobiech.engineering_thesis.appointment.AppointmentRepository;
+import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceEntity;
+import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceService;
 import pl.michal_sobiech.engineering_thesis.utils.DateUtils;
 
 @Service
 @RequiredArgsConstructor
 public class NonCustomAppointmentsService {
 
+    private final EnterpriseServiceService enterpriseServiceService;
     private final AppointmentRepository appointmentRepository;
 
     public List<NonCustomAppointment> getAllByServiceIdAndDatetimeRange(long serviceId, OffsetDateTime from,
@@ -36,14 +38,19 @@ public class NonCustomAppointmentsService {
     public void createNonCustomAppointment(
             long enterpriseServiceId,
             long customerUserId,
-            Optional<BigDecimal> price,
             Instant start,
             Instant end) {
+
+        EnterpriseServiceEntity enterpriseService = enterpriseServiceService.findById(enterpriseServiceId)
+                .orElseThrow();
+
+        BigDecimal price = enterpriseService.getPrice();
+
         AppointmentEntity appointmentEntity = new AppointmentEntity(
                 null,
                 enterpriseServiceId,
                 customerUserId,
-                price.orElse(null),
+                price,
                 start.atOffset(ZoneOffset.UTC),
                 end.atOffset(ZoneOffset.UTC),
                 false,
@@ -53,6 +60,11 @@ public class NonCustomAppointmentsService {
                 null,
                 null);
         appointmentRepository.save(appointmentEntity);
+    }
+
+    public List<NonCustomAppointment> getNonCustomAppointmentsOfCustomer(long customerUserId) {
+        List<AppointmentEntity> records = appointmentRepository.findNonCustomAppointmentsOfCustomer(customerUserId);
+        return records.stream().map(record -> NonCustomAppointment.fromEntity(record)).collect(Collectors.toList());
     }
 
 }

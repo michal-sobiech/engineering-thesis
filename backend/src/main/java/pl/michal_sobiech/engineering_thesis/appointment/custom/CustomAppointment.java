@@ -2,7 +2,6 @@ package pl.michal_sobiech.engineering_thesis.appointment.custom;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
-import java.util.Optional;
 
 public interface CustomAppointment {
 
@@ -12,10 +11,16 @@ public interface CustomAppointment {
 
     public long customerUserId();
 
-    public Optional<BigDecimal> price();
+    public BigDecimal price();
 
     public OffsetDateTime startTime();
 
     public OffsetDateTime endTime();
+
+    public String address();
+
+    public Double longitude();
+
+    public Double latitude();
 
 }
