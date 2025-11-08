@@ -22,13 +22,13 @@ public class ReviewEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "review_id")
-    private long reviewId;
+    private Long reviewId;
 
     @Column(name = "creator_customer_user_id")
     private long creatorCustomerUserId;
 
-    @Column(name = "subject_enterprise_id")
-    private long subjectEnterpriseId;
+    @Column(name = "subject_enterprise_service_id")
+    private long subjectEnterpriseServiceId;
 
     @Column(name = "stars_out_of_5")
     private short startOutOf5;

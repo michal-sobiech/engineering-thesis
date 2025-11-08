@@ -263,7 +263,19 @@ components:
 
     GetEnterpriseServiceResponse:
       type: object
-      required: [serviceId, name, description]
+      required:
+        [
+          serviceId,
+          name,
+          description,
+          location,
+          timezone,
+          takesCustomAppointments,
+          maxDistanceKm,
+          cathegory,
+          price,
+          currencyIso,
+        ]
       properties:
         serviceId:
           type: integer
@@ -279,7 +291,7 @@ components:
           $ref: "#/components/schemas/Location"
         timezone:
           $ref: "#/components/schemas/IanaTimeZone"
-        takseCustomAppointments:
+        takesCustomAppointments:
           type: boolean
         maxDistanceKm:
           type: number

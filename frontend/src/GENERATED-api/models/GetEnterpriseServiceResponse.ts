@@ -50,43 +50,43 @@ export interface GetEnterpriseServiceResponse {
      * @type {Location}
      * @memberof GetEnterpriseServiceResponse
      */
-    location?: Location;
+    location: Location;
     /**
      * 
      * @type {string}
      * @memberof GetEnterpriseServiceResponse
      */
-    timezone?: string;
+    timezone: string;
     /**
      * 
      * @type {boolean}
      * @memberof GetEnterpriseServiceResponse
      */
-    takseCustomAppointments?: boolean;
+    takesCustomAppointments: boolean;
     /**
      * 
      * @type {number}
      * @memberof GetEnterpriseServiceResponse
      */
-    maxDistanceKm?: number;
+    maxDistanceKm: number;
     /**
      * 
      * @type {string}
      * @memberof GetEnterpriseServiceResponse
      */
-    cathegory?: string;
+    cathegory: string;
     /**
      * 
      * @type {number}
      * @memberof GetEnterpriseServiceResponse
      */
-    price?: number;
+    price: number;
     /**
      * 
      * @type {string}
      * @memberof GetEnterpriseServiceResponse
      */
-    currencyIso?: string;
+    currencyIso: string;
 }
 
 /**
@@ -96,6 +96,13 @@ export function instanceOfGetEnterpriseServiceResponse(value: object): value is 
     if (!('serviceId' in value) || value['serviceId'] === undefined) return false;
     if (!('name' in value) || value['name'] === undefined) return false;
     if (!('description' in value) || value['description'] === undefined) return false;
+    if (!('location' in value) || value['location'] === undefined) return false;
+    if (!('timezone' in value) || value['timezone'] === undefined) return false;
+    if (!('takesCustomAppointments' in value) || value['takesCustomAppointments'] === undefined) return false;
+    if (!('maxDistanceKm' in value) || value['maxDistanceKm'] === undefined) return false;
+    if (!('cathegory' in value) || value['cathegory'] === undefined) return false;
+    if (!('price' in value) || value['price'] === undefined) return false;
+    if (!('currencyIso' in value) || value['currencyIso'] === undefined) return false;
     return true;
 }
 
@@ -112,13 +119,13 @@ export function GetEnterpriseServiceResponseFromJSONTyped(json: any, ignoreDiscr
         'serviceId': json['serviceId'],
         'name': json['name'],
         'description': json['description'],
-        'location': json['location'] == null ? undefined : LocationFromJSON(json['location']),
-        'timezone': json['timezone'] == null ? undefined : json['timezone'],
-        'takseCustomAppointments': json['takseCustomAppointments'] == null ? undefined : json['takseCustomAppointments'],
-        'maxDistanceKm': json['maxDistanceKm'] == null ? undefined : json['maxDistanceKm'],
-        'cathegory': json['cathegory'] == null ? undefined : json['cathegory'],
-        'price': json['price'] == null ? undefined : json['price'],
-        'currencyIso': json['currencyIso'] == null ? undefined : json['currencyIso'],
+        'location': LocationFromJSON(json['location']),
+        'timezone': json['timezone'],
+        'takesCustomAppointments': json['takesCustomAppointments'],
+        'maxDistanceKm': json['maxDistanceKm'],
+        'cathegory': json['cathegory'],
+        'price': json['price'],
+        'currencyIso': json['currencyIso'],
     };
 }
 
@@ -138,7 +145,7 @@ export function GetEnterpriseServiceResponseToJSONTyped(value?: GetEnterpriseSer
         'description': value['description'],
         'location': LocationToJSON(value['location']),
         'timezone': value['timezone'],
-        'takseCustomAppointments': value['takseCustomAppointments'],
+        'takesCustomAppointments': value['takesCustomAppointments'],
         'maxDistanceKm': value['maxDistanceKm'],
         'cathegory': value['cathegory'],
         'price': value['price'],

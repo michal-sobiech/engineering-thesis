@@ -15,7 +15,7 @@ import org.SwaggerCodeGenExample.model.CreateEnterpriseResponse;
 import org.SwaggerCodeGenExample.model.CreateNoCustomAppointmentsEnterpriseServiceRequest;
 import org.SwaggerCodeGenExample.model.GetEnterpriseEmployeesResponseItem;
 import org.SwaggerCodeGenExample.model.GetEnterpriseResponse;
-import org.SwaggerCodeGenExample.model.GetEnterpriseServicesResponseItem;
+import org.SwaggerCodeGenExample.model.GetEnterpriseServiceResponse;
 import org.SwaggerCodeGenExample.model.Location;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -117,13 +117,23 @@ public class EnterpriseController implements EnterprisesApi {
     }
 
     @Override
-    public ResponseEntity<List<GetEnterpriseServicesResponseItem>> getEnterpriseServices(Long enterpriseId) {
+    public ResponseEntity<List<GetEnterpriseServiceResponse>> getEnterpriseServices(Long enterpriseId) {
         var services = enterpriseServiceService.findByEnterpriseId(enterpriseId);
         var body = services.stream()
-                .map(service -> new GetEnterpriseServicesResponseItem(
+                .map(service -> new GetEnterpriseServiceResponse(
                         service.getEnterpriseServiceId(),
                         service.getName(),
-                        service.getDescription()))
+                        service.getDescription(),
+                        new Location(
+                                service.getAddress(),
+                                service.getLongitude(),
+                                service.getLatitude()),
+                        service.getTimeZone().toString(),
+                        service.isTakesCustomAppointments(),
+                        service.getMaxDistanceKm(),
+                        service.getCathegory().toString(),
+                        service.getPrice(),
+                        service.getCurrency().toString()))
                 .collect(Collectors.toList());
         return ResponseEntity.ok(body);
     }

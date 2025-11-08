@@ -8,7 +8,6 @@ import java.util.Optional;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.EnterpriseServiceSlotTemplateService;
 import pl.michal_sobiech.engineering_thesis.time_slot.TimeSlot;
 import pl.michal_sobiech.engineering_thesis.time_slot.TimeSlotWithOccupancy;
 
@@ -17,7 +16,10 @@ import pl.michal_sobiech.engineering_thesis.time_slot.TimeSlotWithOccupancy;
 public class EnterpriseServiceService {
 
     private final EnterpriseServiceRepository enterpriseServiceRepository;
-    private final EnterpriseServiceSlotTemplateService enterpriseServiceSlotTemplateService;
+
+    public Optional<EnterpriseServiceEntity> getById(long enterpriseServiceId) {
+        return enterpriseServiceRepository.findById(enterpriseServiceId);
+    }
 
     public List<EnterpriseServiceEntity> findByEnterpriseId(long enterpriseId) {
         return enterpriseServiceRepository.findByEnterpriseId(enterpriseId);
