@@ -1,31 +1,31 @@
-import { Heading, Text } from "@chakra-ui/react";
+
+import { Heading, Text, Textarea } from "@chakra-ui/react";
 import { DateTimeFormatter } from "@js-joda/core";
 import { JSX } from "react";
 import { ScrollableList } from "../../../common/ScrollableList";
-import { StandardButton } from "../../../common/StandardButton";
 import { StandardConcaveBox } from "../../../common/StandardConcaveBox";
 import { StandardFlex } from "../../../common/StandardFlex";
 import { StandardLabeledContainer } from "../../../common/StandardLabeledContainer";
 import { StandardPanel } from "../../../common/StandardPanel";
 import { useContextOrThrow } from "../../../utils/useContextOrThrow";
 import { CustomerLandingPageContext } from "./CustomerLandingPageContext";
-import { CustomerLandingPageScheduledAppointment } from "./CustomerLandingPageScheduledAppointment";
+import { CustomerLandingPageRejectedAppointment } from "./CustomerLandingPageRejectedAppointment";
 
-export const CustomerLandingPageFutureScheduledAppointmentsList = () => {
-    const { futureScheduledAppointments } = useContextOrThrow(CustomerLandingPageContext);
+export const CustomerLandingPageRejectedAppointmentsList = () => {
+    const { rejectedAppointments } = useContextOrThrow(CustomerLandingPageContext);
 
-    return <StandardLabeledContainer label="Upcoming scheduled appointments">
+    return <StandardLabeledContainer label="Rejected appointment proposals">
         <StandardConcaveBox>
             <ScrollableList>
-                {futureScheduledAppointments === null
+                {rejectedAppointments === null
                     ? null
-                    : futureScheduledAppointments.map(createItem)}
+                    : rejectedAppointments.map(createItem)}
             </ScrollableList>
         </StandardConcaveBox>
     </StandardLabeledContainer>
 }
 
-function createItem(data: CustomerLandingPageScheduledAppointment): JSX.Element {
+function createItem(data: CustomerLandingPageRejectedAppointment): JSX.Element {
     const date = data.startDatetimeServiceLocal.toLocalDate();
     const dateFormatted = date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
 
@@ -43,9 +43,12 @@ function createItem(data: CustomerLandingPageScheduledAppointment): JSX.Element 
             <Text>
                 {dateFormatted} {startFormatted} - {endFormatted}
             </Text>
-            <StandardButton backgroundColor="primary.darkRed">
-                Cancel
-            </StandardButton>
+            <Text>
+                Reason for rejection:
+            </Text>
+            <Textarea>
+                {data.rejectionMessage}
+            </Textarea>
         </StandardFlex>
     </StandardPanel>;
 }

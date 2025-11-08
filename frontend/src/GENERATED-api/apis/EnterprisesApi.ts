@@ -13,19 +13,35 @@
  */
 
 
+import * as runtime from '../runtime';
 import type {
-    CreateEnterpriseResponse,
-    GetEnterpriseResponse,
-    GetEnterpriseServicesResponseItem,
-    Location
+  CreateEnterpriseResponse,
+  GetEnterpriseResponse,
+  GetEnterpriseServicesResponseItem,
+  InlineObject,
+  InlineObject1,
+  InlineObject2,
+  InlineObject4,
+  Location,
 } from '../models/index';
 import {
     CreateEnterpriseResponseFromJSON,
+    CreateEnterpriseResponseToJSON,
     GetEnterpriseResponseFromJSON,
+    GetEnterpriseResponseToJSON,
     GetEnterpriseServicesResponseItemFromJSON,
-    LocationToJSON
+    GetEnterpriseServicesResponseItemToJSON,
+    InlineObjectFromJSON,
+    InlineObjectToJSON,
+    InlineObject1FromJSON,
+    InlineObject1ToJSON,
+    InlineObject2FromJSON,
+    InlineObject2ToJSON,
+    InlineObject4FromJSON,
+    InlineObject4ToJSON,
+    LocationFromJSON,
+    LocationToJSON,
 } from '../models/index';
-import * as runtime from '../runtime';
 
 export interface CreateEnterpriseRequest {
     name: string;
@@ -420,8 +436,8 @@ export class EnterprisesApi extends runtime.BaseAPI {
         }
 
         if (requestParameters['location'] != null) {
-            formParams.append('location', new Blob([JSON.stringify(LocationToJSON(requestParameters['location']))], { type: "application/json", }));
-        }
+            formParams.append('location', new Blob([JSON.stringify(ToJSON(requestParameters['location']))], { type: "application/json", }));
+                    }
 
         if (requestParameters['timeZone'] != null) {
             formParams.append('timeZone', requestParameters['timeZone'] as any);
