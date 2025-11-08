@@ -261,7 +261,7 @@ components:
           format: password
           example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEyMywiaXNzdWVkX2F0IjoxNzU3NTkyMDIyLCJleHBpcmVzX2F0IjoxNzU3NjEzNjIyfQ.R0wpPhA5v-z_NYELi8PLxji0EJFcD75B5_psMb8ZNcc"
 
-    GetEnterpriseServicesResponseItem:
+    GetEnterpriseServiceResponse:
       type: object
       required: [serviceId, name, description]
       properties:
@@ -275,11 +275,26 @@ components:
         description:
           type: string
           example: Male or female basic haircut
+        location:
+          $ref: "#/components/schemas/Location"
+        timezone:
+          $ref: "#/components/schemas/IanaTimeZone"
+        takseCustomAppointments:
+          type: boolean
+        maxDistanceKm:
+          type: number
+          format: double
+        cathegory:
+          type: string
+        price:
+          type: number
+        currencyIso:
+          type: string
 
     GetEnterpriseServicesResponse:
       type: array
       items:
-        $ref: "#/components/schemas/GetEnterpriseServicesResponseItem"
+        $ref: "#/components/schemas/GetEnterpriseServiceResponse"
 
     PatchEnterpriseRequest:
       type: object
@@ -590,6 +605,15 @@ components:
         price:
           type: number
         rejectionMessage:
+          type: string
+
+    CreateEnterpriseServiceReviewRequest:
+      type: object
+      required: [numStarsOutOf5, text]
+      properties:
+        numStarsOutOf5:
+          type: number
+        text:
           type: string
 
   responses:
@@ -1555,6 +1579,62 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/GetCustomerLandingPageScheduledAppointmentResponseItem"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /services/{serviceId}:
+    get:
+      tags: [EnterpriseServices]
+      operationId: getEnterpriseService
+      parameters:
+        - name: serviceId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: *OK_DESCRIPTION
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetEnterpriseServiceResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /services/{serviceId}/reviews:
+    post:
+      tags: [EnterpriseServices]
+      operationId: createEnterpriseServiceReview
+      parameters:
+        - name: serviceId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateEnterpriseServiceReviewRequest"
+      responses:
+        "201":
+          description: *CREATED_DESCRIPTION
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":

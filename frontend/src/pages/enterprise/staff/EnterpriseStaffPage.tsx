@@ -10,7 +10,8 @@ import { StandardLabeledContainer } from "../../../common/StandardLabeledContain
 import { StandardPanel } from "../../../common/StandardPanel";
 import { StandardTextField } from "../../../common/StandardTextField";
 import { StandardVerticalSeparator } from "../../../common/StandardVerticalSeparator";
-import { GetEnterpriseServicesResponseItem, Location } from "../../../GENERATED-api";
+import { Location } from "../../../GENERATED-api";
+import { GetEnterpriseServicesResponseItem } from "../../../GENERATED-api/models/GetEnterpriseServicesResponseItem";
 import { useIntParam } from "../../../hooks/useIntParam";
 import { routes } from "../../../router/routes";
 import { fetchServices } from "../../service/service-utils";

@@ -1,0 +1,82 @@
+import { Box, Center, Text } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
+import { servicesApi } from "../../../api/services-api";
+import { FiveStarPicker } from "../../../common/FiveStarPicker";
+import { StandardButton } from "../../../common/StandardButton";
+import { StandardFlex } from "../../../common/StandardFlex";
+import { StandardPanel } from "../../../common/StandardPanel";
+import { StandardTextArea } from "../../../common/StandardTextArea";
+import { GetEnterpriseServiceResponse } from "../../../GENERATED-api";
+import { useIntParam } from "../../../hooks/useIntParam";
+import { routes } from "../../../router/routes";
+import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../../utils/error";
+import { errorErrResultAsyncFromPromise } from "../../../utils/result";
+import { toastError } from "../../../utils/toast";
+
+export const CreateServiceReviewPage = () => {
+    const serviceId = useIntParam("serviceId");
+    const navigate = useNavigate();
+
+    const [serviceData, setServiceData] = useState<GetEnterpriseServiceResponse | null>(null);
+    const [numStarsOutOf5, setNumStarsOutOf5] = useState<number | null>(null);
+    const [reviewText, setReviewText] = useState<string>("");
+
+    useEffect(() => {
+        async function loadData() {
+            const promise = servicesApi.getEnterpriseService(serviceId);
+            const resultAsync = errorErrResultAsyncFromPromise(promise);
+            const result = await resultAsync;
+            if (result.isErr()) {
+                toastError(DEFAULT_ERROR_MESSAGE_FOR_USER);
+                navigate(routes.mainPage);
+                return;
+            }
+            setServiceData(result.value);
+        }
+        loadData();
+    }, []);
+
+    const onSubmitClick = () => {
+        if (numStarsOutOf5 === null) {
+            toastError("Choose a star rating");
+            return;
+        }
+
+        if (reviewText === "") {
+            toastError("Describe your experience");
+            return;
+        }
+
+        servicesApi.createEnterpriseServiceReview(serviceId, {
+            numStarsOutOf5,
+            text: reviewText,
+        });
+        navigate(routes.mainPage);
+    }
+
+    if (serviceData === null) {
+        return null;
+    } else {
+        return <Center height="100vh">
+            <Box width="80vw" height="100%">
+                <StandardPanel>
+                    <StandardFlex>
+                        <Text>
+                            Write a review for {serviceData.name}
+                        </Text>
+                        <FiveStarPicker numStarsOutOf5={numStarsOutOf5} setNumStarsOutOf5={setNumStarsOutOf5} />
+                        <StandardTextArea
+                            placeholder="Share your experience"
+                            text={reviewText}
+                            setText={setReviewText}
+                        />
+                        <StandardButton>
+                            Submit review
+                        </StandardButton>
+                    </StandardFlex>
+                </StandardPanel>
+            </Box>
+        </Center>;
+    }
+}

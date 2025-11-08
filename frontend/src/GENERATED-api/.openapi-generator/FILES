@@ -1,4 +1,3 @@
-.openapi-generator-ignore
 apis/AppointmentsApi.ts
 apis/AuthApi.ts
 apis/CustomersApi.ts
@@ -18,6 +17,7 @@ models/CreateEnterpriseEmployeeRequest.ts
 models/CreateEnterpriseEmployeeResponse.ts
 models/CreateEnterpriseEmployeeResponseUser.ts
 models/CreateEnterpriseResponse.ts
+models/CreateEnterpriseServiceReviewRequest.ts
 models/CreateIndependentEndUserRequest.ts
 models/CreateNoCustomAppointmentsEnterpriseServiceRequest.ts
 models/CreateNonCustomAppointmentRequest.ts
@@ -28,7 +28,7 @@ models/GetCustomerLandingPageRejectedAppointmentResponseItem.ts
 models/GetCustomerLandingPageScheduledAppointmentResponseItem.ts
 models/GetEnterpriseEmployeesResponseItem.ts
 models/GetEnterpriseResponse.ts
-models/GetEnterpriseServicesResponseItem.ts
+models/GetEnterpriseServiceResponse.ts
 models/GetEntrepreneurEnterprisesResponseItem.ts
 models/GetMyUserGroup200Response.ts
 models/GetServiceCustomAppointmentsStatus200Response.ts

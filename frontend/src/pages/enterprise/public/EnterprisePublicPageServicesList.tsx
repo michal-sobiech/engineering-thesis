@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { enterprisesApi } from "../../../api/enterprises-api";
 import { LinkScrollableList } from "../../../common/LinkScrollableList";
 import { StandardBox } from "../../../common/StandardBox";
-import { GetEnterpriseServicesResponseItem } from "../../../GENERATED-api";
+import { GetEnterpriseServicesResponseItem } from "../../../GENERATED-api/models/GetEnterpriseServicesResponseItem";
 import { routes } from "../../../router/routes";
 import { errorErrResultAsyncFromPromise } from "../../../utils/result";
 

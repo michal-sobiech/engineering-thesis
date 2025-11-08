@@ -14,6 +14,7 @@ import { EntrepreneurSignUpOrLogInPage } from "../pages/entrepreneur/sign-up-or-
 import { EntrepreneurSignUpWizard } from "../pages/entrepreneur/sign-up/EntrepreneurSignUpWizard";
 import { MainPage } from "../pages/main_page/MainPage";
 import { ServiceCreationPage } from "../pages/service/ServiceCreationPage";
+import { CreateServiceReviewPage } from "../pages/service/create-service-review/CreateServiceReviewPage";
 import { ServicePublicPage } from "../pages/service/public/ServicePublicPage";
 import { ServiceSearchPage } from "../pages/service/search/ServiceSearchPage";
 import { PageLayout } from "./PageLayout";
@@ -96,6 +97,10 @@ export const router = createBrowserRouter([
             {
                 path: routeTemplates.customerLogIn,
                 element: <CustomerLogInPage />
+            },
+            {
+                path: routeTemplates.createServiceReview,
+                element: <CreateServiceReviewPage />
             }
         ]
     }

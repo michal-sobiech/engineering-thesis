@@ -16,7 +16,9 @@
 import * as runtime from '../runtime';
 import type {
   CreateCustomAppointmentsEnterpriseServiceRequest,
+  CreateEnterpriseServiceReviewRequest,
   CreateNoCustomAppointmentsEnterpriseServiceRequest,
+  GetEnterpriseServiceResponse,
   GetServiceCustomAppointmentsStatus200Response,
   GetServiceFreeCustomAppointmentsResponseItem,
   GetServiceFreeNonCustomAppointmentsResponseItem,
@@ -29,8 +31,12 @@ import type {
 import {
     CreateCustomAppointmentsEnterpriseServiceRequestFromJSON,
     CreateCustomAppointmentsEnterpriseServiceRequestToJSON,
+    CreateEnterpriseServiceReviewRequestFromJSON,
+    CreateEnterpriseServiceReviewRequestToJSON,
     CreateNoCustomAppointmentsEnterpriseServiceRequestFromJSON,
     CreateNoCustomAppointmentsEnterpriseServiceRequestToJSON,
+    GetEnterpriseServiceResponseFromJSON,
+    GetEnterpriseServiceResponseToJSON,
     GetServiceCustomAppointmentsStatus200ResponseFromJSON,
     GetServiceCustomAppointmentsStatus200ResponseToJSON,
     GetServiceFreeCustomAppointmentsResponseItemFromJSON,
@@ -54,9 +60,18 @@ export interface CreateCustomAppointmentsEnterpriseServiceOperationRequest {
     createCustomAppointmentsEnterpriseServiceRequest: CreateCustomAppointmentsEnterpriseServiceRequest;
 }
 
+export interface CreateEnterpriseServiceReviewOperationRequest {
+    serviceId: number;
+    createEnterpriseServiceReviewRequest: CreateEnterpriseServiceReviewRequest;
+}
+
 export interface CreateNoCustomAppointmentsEnterpriseServiceOperationRequest {
     enterpriseId: number;
     createNoCustomAppointmentsEnterpriseServiceRequest: CreateNoCustomAppointmentsEnterpriseServiceRequest;
+}
+
+export interface GetEnterpriseServiceRequest {
+    serviceId: number;
 }
 
 export interface GetFreeNonCustomAppointmentsRequest {
@@ -143,6 +158,50 @@ export class EnterpriseServicesApi extends runtime.BaseAPI {
 
     /**
      */
+    async createEnterpriseServiceReviewRaw(requestParameters: CreateEnterpriseServiceReviewOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['serviceId'] == null) {
+            throw new runtime.RequiredError(
+                'serviceId',
+                'Required parameter "serviceId" was null or undefined when calling createEnterpriseServiceReview().'
+            );
+        }
+
+        if (requestParameters['createEnterpriseServiceReviewRequest'] == null) {
+            throw new runtime.RequiredError(
+                'createEnterpriseServiceReviewRequest',
+                'Required parameter "createEnterpriseServiceReviewRequest" was null or undefined when calling createEnterpriseServiceReview().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+
+        let urlPath = `/services/{serviceId}/reviews`;
+        urlPath = urlPath.replace(`{${"serviceId"}}`, encodeURIComponent(String(requestParameters['serviceId'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: CreateEnterpriseServiceReviewRequestToJSON(requestParameters['createEnterpriseServiceReviewRequest']),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async createEnterpriseServiceReview(serviceId: number, createEnterpriseServiceReviewRequest: CreateEnterpriseServiceReviewRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.createEnterpriseServiceReviewRaw({ serviceId: serviceId, createEnterpriseServiceReviewRequest: createEnterpriseServiceReviewRequest }, initOverrides);
+    }
+
+    /**
+     */
     async createNoCustomAppointmentsEnterpriseServiceRaw(requestParameters: CreateNoCustomAppointmentsEnterpriseServiceOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters['enterpriseId'] == null) {
             throw new runtime.RequiredError(
@@ -191,6 +250,41 @@ export class EnterpriseServicesApi extends runtime.BaseAPI {
      */
     async createNoCustomAppointmentsEnterpriseService(enterpriseId: number, createNoCustomAppointmentsEnterpriseServiceRequest: CreateNoCustomAppointmentsEnterpriseServiceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.createNoCustomAppointmentsEnterpriseServiceRaw({ enterpriseId: enterpriseId, createNoCustomAppointmentsEnterpriseServiceRequest: createNoCustomAppointmentsEnterpriseServiceRequest }, initOverrides);
+    }
+
+    /**
+     */
+    async getEnterpriseServiceRaw(requestParameters: GetEnterpriseServiceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetEnterpriseServiceResponse>> {
+        if (requestParameters['serviceId'] == null) {
+            throw new runtime.RequiredError(
+                'serviceId',
+                'Required parameter "serviceId" was null or undefined when calling getEnterpriseService().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+
+        let urlPath = `/services/{serviceId}`;
+        urlPath = urlPath.replace(`{${"serviceId"}}`, encodeURIComponent(String(requestParameters['serviceId'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => GetEnterpriseServiceResponseFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async getEnterpriseService(serviceId: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetEnterpriseServiceResponse> {
+        const response = await this.getEnterpriseServiceRaw({ serviceId: serviceId }, initOverrides);
+        return await response.value();
     }
 
     /**

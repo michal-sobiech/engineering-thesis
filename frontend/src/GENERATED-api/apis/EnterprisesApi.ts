@@ -13,35 +13,19 @@
  */
 
 
-import * as runtime from '../runtime';
 import type {
-  CreateEnterpriseResponse,
-  GetEnterpriseResponse,
-  GetEnterpriseServicesResponseItem,
-  InlineObject,
-  InlineObject1,
-  InlineObject2,
-  InlineObject4,
-  Location,
+    CreateEnterpriseResponse,
+    GetEnterpriseResponse,
+    GetEnterpriseServiceResponse,
+    Location
 } from '../models/index';
 import {
     CreateEnterpriseResponseFromJSON,
-    CreateEnterpriseResponseToJSON,
     GetEnterpriseResponseFromJSON,
-    GetEnterpriseResponseToJSON,
-    GetEnterpriseServicesResponseItemFromJSON,
-    GetEnterpriseServicesResponseItemToJSON,
-    InlineObjectFromJSON,
-    InlineObjectToJSON,
-    InlineObject1FromJSON,
-    InlineObject1ToJSON,
-    InlineObject2FromJSON,
-    InlineObject2ToJSON,
-    InlineObject4FromJSON,
-    InlineObject4ToJSON,
-    LocationFromJSON,
-    LocationToJSON,
+    GetEnterpriseServiceResponseFromJSON,
+    LocationToJSON
 } from '../models/index';
+import * as runtime from '../runtime';
 
 export interface CreateEnterpriseRequest {
     name: string;
@@ -318,7 +302,7 @@ export class EnterprisesApi extends runtime.BaseAPI {
     /**
      * Get enterprise employees
      */
-    async getEnterpriseServicesRaw(requestParameters: GetEnterpriseServicesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<GetEnterpriseServicesResponseItem>>> {
+    async getEnterpriseServicesRaw(requestParameters: GetEnterpriseServicesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<GetEnterpriseServiceResponse>>> {
         if (requestParameters['enterpriseId'] == null) {
             throw new runtime.RequiredError(
                 'enterpriseId',
@@ -341,13 +325,13 @@ export class EnterprisesApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(GetEnterpriseServicesResponseItemFromJSON));
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(GetEnterpriseServiceResponseFromJSON));
     }
 
     /**
      * Get enterprise employees
      */
-    async getEnterpriseServices(enterpriseId: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetEnterpriseServicesResponseItem>> {
+    async getEnterpriseServices(enterpriseId: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetEnterpriseServiceResponse>> {
         const response = await this.getEnterpriseServicesRaw({ enterpriseId: enterpriseId }, initOverrides);
         return await response.value();
     }
@@ -436,8 +420,8 @@ export class EnterprisesApi extends runtime.BaseAPI {
         }
 
         if (requestParameters['location'] != null) {
-            formParams.append('location', new Blob([JSON.stringify(ToJSON(requestParameters['location']))], { type: "application/json", }));
-                    }
+            formParams.append('location', new Blob([JSON.stringify(LocationToJSON(requestParameters['location']))], { type: "application/json", }));
+        }
 
         if (requestParameters['timeZone'] != null) {
             formParams.append('timeZone', requestParameters['timeZone'] as any);
