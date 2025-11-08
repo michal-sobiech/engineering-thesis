@@ -51,4 +51,7 @@ public class EnterpriseEntity {
     @Column(name = "background_photo_file_bytes", nullable = true)
     private byte[] backgroundPhotoFileBytes;
 
+    @Column(name = "suspended_by_admin")
+    private boolean suspendedByAdmin;
+
 }

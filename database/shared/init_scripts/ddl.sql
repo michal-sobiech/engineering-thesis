@@ -36,6 +36,8 @@ CREATE TABLE public.enterprise (
 	background_photo_file_name text,
 	background_photo_file_bytes bytea,
 
+	suspended_by_admin boolean NOT NULL,
+
 	CONSTRAINT pk_enterprise PRIMARY KEY (enterprise_id),
 	CONSTRAINT chk_location CHECK (
 		(address IS NULL AND latitude IS NULL AND longitude IS NULL)
@@ -92,6 +94,8 @@ CREATE TABLE public.enterprise_service (
 	price numeric NOT NULL,
 	currency currency_iso NOT NULL,
 
+	suspended_by_admin boolean NOT NULL,
+
 	CONSTRAINT pk_enterprise_service PRIMARY KEY (enterprise_service_id),
 	CONSTRAINT fk_enterprise_id FOREIGN KEY (enterprise_id) REFERENCES public.enterprise(enterprise_id) ON DELETE CASCADE,
 	CONSTRAINT chk_max_distance_km CHECK (
@@ -122,7 +126,8 @@ CREATE TABLE public.review (
 
 	stars_out_of_5 smallint NOT NULL,
 	content text,
-	hidden_by_admin boolean NOT NULL,
+
+	suspended_by_admin boolean NOT NULL,
 
 	CONSTRAINT pk_review_id PRIMARY KEY (review_id),
 	CONSTRAINT fk_review_creator_customer_user_id FOREIGN KEY (creator_customer_user_id) REFERENCES public.app_user(user_id) ON DELETE CASCADE,

@@ -36,7 +36,7 @@ public class ReviewEntity {
     @Column(nullable = true)
     private String content;
 
-    @Column(name = "hidden_by_admin")
-    private boolean hiddenByAdmin;
+    @Column(name = "suspended_by_admin")
+    private boolean suspendedByAdmin;
 
 }

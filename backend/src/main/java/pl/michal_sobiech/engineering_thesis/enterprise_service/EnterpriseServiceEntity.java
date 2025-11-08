@@ -62,4 +62,7 @@ public class EnterpriseServiceEntity {
     @Column(name = "currency", columnDefinition = "currency_iso")
     private CurrencyIso currency;
 
+    @Column(name = "suspended_by_admin")
+    private boolean suspendedByAdmin;
+
 }
