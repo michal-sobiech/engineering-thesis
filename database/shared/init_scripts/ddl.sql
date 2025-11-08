@@ -171,6 +171,8 @@ CREATE TABLE public.report (
 	enterprise_service_id bigint,
 	review_id bigint,
 
+	is_resolved boolean NOT NULL,
+
 	CONSTRAINT pk_report PRIMARY KEY (report_id),
 	CONSTRAINT fk_report_enterprise_id FOREIGN KEY (enterprise_id) REFERENCES public.enterprise(enterprise_id) ON DELETE CASCADE,
 	CONSTRAINT fk_report_enterprise_service_id FOREIGN KEY (enterprise_service_id) REFERENCES public.enterprise_service(enterprise_service_id) ON DELETE CASCADE,

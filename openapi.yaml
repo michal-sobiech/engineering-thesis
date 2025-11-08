@@ -628,6 +628,16 @@ components:
         text:
           type: string
 
+    CreateReportRequest:
+      type: object
+      required: [enterpriseId, enterpriseServiceId, reviewId]
+      properties:
+        reportSubjectType:
+          type: string
+        reportSubjectId:
+          type: number
+          format: int64
+
   responses:
     OK:
       description: &OK_DESCRIPTION >
@@ -1644,6 +1654,28 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/CreateEnterpriseServiceReviewRequest"
+      responses:
+        "201":
+          description: *CREATED_DESCRIPTION
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /report:
+    post:
+      tags: [Report]
+      operationId: createReport
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateReportRequest"
       responses:
         "201":
           description: *CREATED_DESCRIPTION

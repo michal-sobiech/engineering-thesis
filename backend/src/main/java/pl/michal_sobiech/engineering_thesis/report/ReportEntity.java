@@ -22,7 +22,7 @@ public class ReportEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "report_id")
-    private long reportId;
+    private Long reportId;
 
     @Column(name = "creator_user_id")
     private long creatorUserId;
@@ -35,5 +35,8 @@ public class ReportEntity {
 
     @Column(name = "review_id", nullable = true)
     private long reviewId;
+
+    @Column(name = "is_resolved")
+    private boolean isResolved;
 
 }
