@@ -1703,6 +1703,8 @@ paths:
     post:
       tags: [EnterpriseServices]
       operationId: createEnterpriseServiceReview
+      security:
+        - JwtBearerAuth: []
       parameters:
         - name: serviceId
           in: path
@@ -1732,6 +1734,8 @@ paths:
     post:
       tags: [Report]
       operationId: createReport
+      security:
+        - JwtBearerAuth: []
       requestBody:
         required: true
         content:

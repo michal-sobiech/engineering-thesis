@@ -179,6 +179,14 @@ export class EnterpriseServicesApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("JwtBearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
 
         let urlPath = `/services/{serviceId}/reviews`;
         urlPath = urlPath.replace(`{${"serviceId"}}`, encodeURIComponent(String(requestParameters['serviceId'])));
