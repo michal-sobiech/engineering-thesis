@@ -40,8 +40,8 @@ public class EmployeeService {
                 .map(Employee::fromUser);
     }
 
-    public boolean checkEmployeeUsernameExists(long entepriseId, String username) {
-        return findEmployeeByEnterpriseIdAndUsername(entepriseId, username).isPresent();
+    public boolean checkEmployeeUsernameExists(long enterpriseId, String username) {
+        return findEmployeeByEnterpriseIdAndUsername(enterpriseId, username).isPresent();
     }
 
 }

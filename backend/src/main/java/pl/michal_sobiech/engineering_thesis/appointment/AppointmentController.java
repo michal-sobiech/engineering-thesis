@@ -18,9 +18,9 @@ import pl.michal_sobiech.engineering_thesis.appointment.custom.RejectedCustomApp
 import pl.michal_sobiech.engineering_thesis.appointment.non_custom.NonCustomAppointmentsService;
 import pl.michal_sobiech.engineering_thesis.auth.AuthService;
 import pl.michal_sobiech.engineering_thesis.customer.Customer;
-import pl.michal_sobiech.engineering_thesis.enterprise.EnterpriseEntity;
+import pl.michal_sobiech.engineering_thesis.enterprise.Enterprise;
 import pl.michal_sobiech.engineering_thesis.enterprise.EnterpriseService;
-import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceEntity;
+import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceDomain;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceService;
 import pl.michal_sobiech.engineering_thesis.utils.DateUtils;
 
@@ -43,23 +43,22 @@ public class AppointmentController implements AppointmentsApi {
 
         List<GetCustomerLandingPagePendingAppointmentResponseItem> body = appointments.stream()
                 .map(appointment -> {
-                    EnterpriseServiceEntity service = enterpriseServiceService
-                            .findById(appointment.enterpriseServiceId()).orElseThrow();
-                    ZoneId timezone = service.getTimeZone();
-
-                    EnterpriseEntity enterprise = enterpriseService
-                            .getEnterprise(service.getEnterpriseId())
+                    EnterpriseServiceDomain service = enterpriseServiceService
+                            .getById(appointment.enterpriseServiceId())
                             .orElseThrow();
+                    ZoneId timezone = service.timezone();
 
-                    String startDatetimeServiceLocal = DateUtils.createIsoLocalDatetime(
-                            appointment.startInstant(), timezone);
+                    Enterprise enterprise = enterpriseService.getEnterprise(service.enterpriseId()).orElseThrow();
 
-                    String endDatetimeServiceLocal = DateUtils.createIsoLocalDatetime(
-                            appointment.endInstant(), timezone);
+                    String startDatetimeServiceLocal = DateUtils.createIsoLocalDatetime(appointment.startInstant(),
+                            timezone);
+
+                    String endDatetimeServiceLocal = DateUtils.createIsoLocalDatetime(appointment.endInstant(),
+                            timezone);
 
                     return new GetCustomerLandingPagePendingAppointmentResponseItem(
-                            service.getName(),
-                            enterprise.getName(),
+                            service.name(),
+                            enterprise.name(),
                             appointment.location().getAddress(),
                             startDatetimeServiceLocal,
                             endDatetimeServiceLocal,
@@ -78,12 +77,12 @@ public class AppointmentController implements AppointmentsApi {
 
         List<GetCustomerLandingPageRejectedAppointmentResponseItem> body = appointments.stream()
                 .map(appointment -> {
-                    EnterpriseServiceEntity service = enterpriseServiceService
-                            .findById(appointment.enterpriseServiceId()).orElseThrow();
-                    ZoneId timezone = service.getTimeZone();
+                    EnterpriseServiceDomain service = enterpriseServiceService
+                            .getById(appointment.enterpriseServiceId())
+                            .orElseThrow();
+                    ZoneId timezone = service.timezone();
 
-                    EnterpriseEntity enterprise = enterpriseService
-                            .getEnterprise(service.getEnterpriseId())
+                    Enterprise enterprise = enterpriseService.getEnterprise(service.enterpriseId())
                             .orElseThrow();
 
                     String startDatetimeServiceLocal = DateUtils.createIsoLocalDatetime(
@@ -93,8 +92,8 @@ public class AppointmentController implements AppointmentsApi {
                             appointment.endInstant(), timezone);
 
                     return new GetCustomerLandingPageRejectedAppointmentResponseItem(
-                            service.getName(),
-                            enterprise.getName(),
+                            service.name(),
+                            enterprise.name(),
                             appointment.location().getAddress(),
                             startDatetimeServiceLocal,
                             endDatetimeServiceLocal,
@@ -115,13 +114,12 @@ public class AppointmentController implements AppointmentsApi {
 
         List<GetCustomerLandingPageScheduledAppointmentResponseItem> body = appointments.stream()
                 .map(appointment -> {
-                    EnterpriseServiceEntity service = enterpriseServiceService
-                            .findById(appointment.enterpriseServiceId()).orElseThrow();
-                    ZoneId timezone = service.getTimeZone();
-
-                    EnterpriseEntity enterprise = enterpriseService
-                            .getEnterprise(service.getEnterpriseId())
+                    EnterpriseServiceDomain service = enterpriseServiceService
+                            .getById(appointment.enterpriseServiceId())
                             .orElseThrow();
+                    ZoneId timezone = service.timezone();
+
+                    Enterprise enterprise = enterpriseService.getEnterprise(service.enterpriseId()).orElseThrow();
 
                     String startDatetimeServiceLocal = DateUtils.createIsoLocalDatetime(
                             appointment.startInstant(), timezone);
@@ -130,9 +128,9 @@ public class AppointmentController implements AppointmentsApi {
                             appointment.endInstant(), timezone);
 
                     return new GetCustomerLandingPageScheduledAppointmentResponseItem(
-                            service.getName(),
-                            enterprise.getName(),
-                            service.getAddress(),
+                            service.name(),
+                            enterprise.name(),
+                            service.location().getAddress(),
                             startDatetimeServiceLocal,
                             endDatetimeServiceLocal,
                             timezone.toString(),
@@ -151,13 +149,12 @@ public class AppointmentController implements AppointmentsApi {
 
         List<GetCustomerLandingPageScheduledAppointmentResponseItem> body = appointments.stream()
                 .map(appointment -> {
-                    EnterpriseServiceEntity service = enterpriseServiceService
-                            .findById(appointment.enterpriseServiceId()).orElseThrow();
-                    ZoneId timezone = service.getTimeZone();
-
-                    EnterpriseEntity enterprise = enterpriseService
-                            .getEnterprise(service.getEnterpriseId())
+                    EnterpriseServiceDomain service = enterpriseServiceService
+                            .getById(appointment.enterpriseServiceId())
                             .orElseThrow();
+                    ZoneId timezone = service.timezone();
+
+                    Enterprise enterprise = enterpriseService.getEnterprise(service.enterpriseId()).orElseThrow();
 
                     String startDatetimeServiceLocal = DateUtils.createIsoLocalDatetime(
                             appointment.startInstant(), timezone);
@@ -166,9 +163,9 @@ public class AppointmentController implements AppointmentsApi {
                             appointment.endInstant(), timezone);
 
                     return new GetCustomerLandingPageScheduledAppointmentResponseItem(
-                            service.getName(),
-                            enterprise.getName(),
-                            service.getAddress(),
+                            service.name(),
+                            enterprise.name(),
+                            service.location().getAddress(),
                             startDatetimeServiceLocal,
                             endDatetimeServiceLocal,
                             timezone.toString(),

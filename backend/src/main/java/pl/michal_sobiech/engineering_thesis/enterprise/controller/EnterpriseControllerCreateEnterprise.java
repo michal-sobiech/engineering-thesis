@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.auth.AuthService;
-import pl.michal_sobiech.engineering_thesis.enterprise.EnterpriseEntity;
+import pl.michal_sobiech.engineering_thesis.enterprise.Enterprise;
 import pl.michal_sobiech.engineering_thesis.enterprise.EnterpriseService;
 import pl.michal_sobiech.engineering_thesis.entrepreneur.Entrepreneur;
 
@@ -20,8 +20,8 @@ public class EnterpriseControllerCreateEnterprise {
     public ResponseEntity<CreateEnterpriseResponse> createEnterprise(CreateEnterpriseCommand command) {
         Entrepreneur entrepreneur = authService.requireEntrepreneur();
 
-        final EnterpriseEntity enterprise = enterpriseService.createEnterprise(entrepreneur.getUserId(), command);
-        final var responseBody = new CreateEnterpriseResponse(enterprise.getEnterpriseId());
+        Enterprise enterprise = enterpriseService.createEnterprise(entrepreneur.getUserId(), command);
+        var responseBody = new CreateEnterpriseResponse(enterprise.enterpriseId());
         return ResponseEntity.ok(responseBody);
     }
 

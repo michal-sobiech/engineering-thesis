@@ -57,7 +57,7 @@ VALUES (
     '15/19, Nowowiejska, Koszyki, Śródmieście Południowe, Midtown, Warsaw, Masovian Voivodeship, 00-665, Poland',
     52.2189917,
     21.011346,
-    "Europe/Warsaw",
+    'Europe/Warsaw',
     TRUE,
     10,
     'HAIRDRESSER',
@@ -106,7 +106,11 @@ INSERT INTO public.appointment (
     price,
     start_time,
     end_time,
-    is_custom
+    is_custom,
+    is_accepted,
+    address,
+    latitude,
+    longitude
 ) VALUES (
     2,
     2,
@@ -114,7 +118,11 @@ INSERT INTO public.appointment (
     300,
     '2025-12-03 13:00:00+00',
     '2025-12-03 14:00:00+00',
-    FALSE
+    TRUE,
+    TRUE,
+    '15/19, Nowowiejska, Koszyki, Śródmieście Południowe, Midtown, Warsaw, Masovian Voivodeship, 00-665, Poland',
+    52.2189917,
+    21.011346
 );
 
 INSERT INTO public.review
@@ -134,5 +142,5 @@ VALUES (
     1,
     NULL,
     NULL,
-    FALSE,
+    FALSE
 );

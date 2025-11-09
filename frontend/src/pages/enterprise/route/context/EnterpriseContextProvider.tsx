@@ -28,7 +28,7 @@ export const EnterpriseContextProvider: FC<PropsWithChildren> = ({ children }) =
 
             setEnterpriseName(result.value.name);
             setEnterpriseDescription(result.value.description);
-            setEnterpriseLocation(result.value.location);
+            setEnterpriseLocation(result.value.location ?? null);
         }
 
         loadEnterpriseData();

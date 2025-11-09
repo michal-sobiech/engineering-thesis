@@ -7,6 +7,7 @@ apis/EnterprisesApi.ts
 apis/EntrepreneursApi.ts
 apis/HealthCheckApi.ts
 apis/IndependentEndUsersApi.ts
+apis/ReportApi.ts
 apis/UserApi.ts
 apis/index.ts
 index.ts
@@ -21,6 +22,7 @@ models/CreateEnterpriseServiceReviewRequest.ts
 models/CreateIndependentEndUserRequest.ts
 models/CreateNoCustomAppointmentsEnterpriseServiceRequest.ts
 models/CreateNonCustomAppointmentRequest.ts
+models/CreateReportRequest.ts
 models/DayOfWeek.ts
 models/EmployeeGetMeResponse.ts
 models/GetCustomerLandingPagePendingAppointmentResponseItem.ts
@@ -28,7 +30,9 @@ models/GetCustomerLandingPageRejectedAppointmentResponseItem.ts
 models/GetCustomerLandingPageScheduledAppointmentResponseItem.ts
 models/GetEnterpriseEmployeesResponseItem.ts
 models/GetEnterpriseResponse.ts
-models/GetEnterpriseServiceResponse.ts
+models/GetEnterpriseService200Response.ts
+models/GetEnterpriseServiceCustomServiceResponse.ts
+models/GetEnterpriseServiceNonCustomServiceResponse.ts
 models/GetEntrepreneurEnterprisesResponseItem.ts
 models/GetMyUserGroup200Response.ts
 models/GetServiceCustomAppointmentsStatus200Response.ts
@@ -40,6 +44,7 @@ models/InlineObject1.ts
 models/InlineObject2.ts
 models/InlineObject3.ts
 models/InlineObject4.ts
+models/InlineObject5.ts
 models/Location.ts
 models/LogInEnterpriseEmployeeRequest.ts
 models/LogInEnterpriseEmployeeResponse.ts

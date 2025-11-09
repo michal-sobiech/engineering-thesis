@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.appointment.AppointmentEntity;
 import pl.michal_sobiech.engineering_thesis.appointment.AppointmentRepository;
-import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceEntity;
+import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceDomain;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceService;
 import pl.michal_sobiech.engineering_thesis.utils.DateUtils;
 
@@ -41,10 +41,9 @@ public class NonCustomAppointmentsService {
             Instant start,
             Instant end) {
 
-        EnterpriseServiceEntity enterpriseService = enterpriseServiceService.findById(enterpriseServiceId)
-                .orElseThrow();
+        EnterpriseServiceDomain enterpriseService = enterpriseServiceService.getById(enterpriseServiceId).orElseThrow();
 
-        BigDecimal price = enterpriseService.getPrice();
+        BigDecimal price = enterpriseService.price();
 
         AppointmentEntity appointmentEntity = new AppointmentEntity(
                 null,

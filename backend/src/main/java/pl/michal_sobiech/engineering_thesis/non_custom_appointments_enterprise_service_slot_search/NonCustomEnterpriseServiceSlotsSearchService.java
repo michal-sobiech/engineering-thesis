@@ -20,63 +20,63 @@ import pl.michal_sobiech.engineering_thesis.utils.LocalDateTimeWindow;
 @RequiredArgsConstructor
 public class NonCustomEnterpriseServiceSlotsSearchService {
 
-    private static final int DEFAULT_SEARCH_RANGE_DAYS = 7;
+        private static final int DEFAULT_SEARCH_RANGE_DAYS = 7;
 
-    private final NonCustomAppointmentsEnterpriseServiceSearchService nonCustomAppointmentsEnterpriseServiceSearchService;
-    private final NonCustomEnterpriseServiceAvailabilityService nonCustomEnterpriseServiceAvailabilityService;
+        private final NonCustomAppointmentsEnterpriseServiceSearchService nonCustomAppointmentsEnterpriseServiceSearchService;
+        private final NonCustomEnterpriseServiceAvailabilityService nonCustomEnterpriseServiceAvailabilityService;
 
-    public List<NonCustomSlotSearchResultRow> searchNoCustomAppointmentsSlots(
-            Optional<String> serviceName,
-            Optional<String> enterpriseName,
-            Optional<OffsetDateTime> startDate,
-            Optional<OffsetDateTime> endDate,
-            EnterpriseServiceCathegory cathegory,
-            double preferredLongitude,
-            double preferredLatitude,
-            double maxDistanceChosenByCustomerKm) {
-        // 1. Find services with matching name, enteprise name, cathegory and location
-        // 2. Load availability for them
+        public List<NonCustomSlotSearchResultRow> searchNoCustomAppointmentsSlots(
+                        Optional<String> serviceName,
+                        Optional<String> enterpriseName,
+                        Optional<OffsetDateTime> startDate,
+                        Optional<OffsetDateTime> endDate,
+                        EnterpriseServiceCathegory cathegory,
+                        double preferredLongitude,
+                        double preferredLatitude,
+                        double maxDistanceChosenByCustomerKm) {
+                // 1. Find services with matching name, enterprise name, cathegory and location
+                // 2. Load availability for them
 
-        OffsetDateTime finalStartDatetime = startDate.orElse(OffsetDateTime.now());
-        OffsetDateTime finalEndDatetime = endDate
-                .orElse(finalStartDatetime.plusDays(DEFAULT_SEARCH_RANGE_DAYS));
+                OffsetDateTime finalStartDatetime = startDate.orElse(OffsetDateTime.now());
+                OffsetDateTime finalEndDatetime = endDate
+                                .orElse(finalStartDatetime.plusDays(DEFAULT_SEARCH_RANGE_DAYS));
 
-        // 1.
-        List<EnterpriseServiceSearchResultRow> services = nonCustomAppointmentsEnterpriseServiceSearchService
-                .search(
-                        serviceName,
-                        enterpriseName, cathegory, preferredLongitude, preferredLatitude,
-                        maxDistanceChosenByCustomerKm);
+                // 1.
+                List<EnterpriseServiceSearchResultRow> services = nonCustomAppointmentsEnterpriseServiceSearchService
+                                .search(
+                                                serviceName,
+                                                enterpriseName, cathegory, preferredLongitude, preferredLatitude,
+                                                maxDistanceChosenByCustomerKm);
 
-        // 2.
-        List<NonCustomSlotSearchResultRow> availableSlots = services.stream()
-                .map(service -> {
-                    LocalDateTime start = DateUtils.createLocalDateTime(finalStartDatetime,
-                            service.getTimezone());
-                    LocalDateTime end = DateUtils.createLocalDateTime(finalEndDatetime,
-                            service.getTimezone());
-                    List<LocalDateTimeWindow> windows = nonCustomEnterpriseServiceAvailabilityService
-                            .getAvailableSlotsInDatetimeRange(
-                                    service.getEnterpriseServiceId(),
-                                    start,
-                                    end);
-                    List<NonCustomSlotSearchResultRow> windowsGlobal = windows.stream()
-                            .map(window -> new NonCustomSlotSearchResultRow(
-                                    service.getEnterpriseServiceId(),
-                                    service.getServiceName(),
-                                    service.getEnterpriseName(),
-                                    service.getAddress(),
-                                    service.getPrice(),
-                                    service.getTimezone(),
-                                    DateUtils.createInstant(window.start(),
-                                            service.getTimezone()),
-                                    DateUtils.createInstant(window.end(),
-                                            service.getTimezone())))
-                            .collect(Collectors.toList());
-                    return windowsGlobal;
-                }).flatMap(List::stream).collect(Collectors.toList());
+                // 2.
+                List<NonCustomSlotSearchResultRow> availableSlots = services.stream()
+                                .map(service -> {
+                                        LocalDateTime start = DateUtils.createLocalDateTime(finalStartDatetime,
+                                                        service.getTimezone());
+                                        LocalDateTime end = DateUtils.createLocalDateTime(finalEndDatetime,
+                                                        service.getTimezone());
+                                        List<LocalDateTimeWindow> windows = nonCustomEnterpriseServiceAvailabilityService
+                                                        .getAvailableSlotsInDatetimeRange(
+                                                                        service.getEnterpriseServiceId(),
+                                                                        start,
+                                                                        end);
+                                        List<NonCustomSlotSearchResultRow> windowsGlobal = windows.stream()
+                                                        .map(window -> new NonCustomSlotSearchResultRow(
+                                                                        service.getEnterpriseServiceId(),
+                                                                        service.getServiceName(),
+                                                                        service.getEnterpriseName(),
+                                                                        service.getAddress(),
+                                                                        service.getPrice(),
+                                                                        service.getTimezone(),
+                                                                        DateUtils.createInstant(window.start(),
+                                                                                        service.getTimezone()),
+                                                                        DateUtils.createInstant(window.end(),
+                                                                                        service.getTimezone())))
+                                                        .collect(Collectors.toList());
+                                        return windowsGlobal;
+                                }).flatMap(List::stream).collect(Collectors.toList());
 
-        return availableSlots;
-    }
+                return availableSlots;
+        }
 
 }

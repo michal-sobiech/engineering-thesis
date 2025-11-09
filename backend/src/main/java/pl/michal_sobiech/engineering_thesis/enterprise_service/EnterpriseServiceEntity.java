@@ -5,6 +5,7 @@ import java.time.ZoneId;
 
 import org.hibernate.annotations.JdbcType;
 import org.hibernate.dialect.PostgreSQLEnumJdbcType;
+import org.springframework.lang.Nullable;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -48,6 +49,7 @@ public class EnterpriseServiceEntity {
 
     private boolean takesCustomAppointments;
 
+    @Nullable
     @Column(name = "max_distance_km", nullable = true)
     private Double maxDistanceKm;
 

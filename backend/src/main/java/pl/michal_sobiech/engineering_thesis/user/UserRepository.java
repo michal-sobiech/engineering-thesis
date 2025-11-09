@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
-    public Optional<UserEntity> findByEnterpriseIdAndUsername(long entepriseId, String username);
+    public Optional<UserEntity> findByEnterpriseIdAndUsername(long enterpriseId, String username);
 
     public Optional<UserEntity> findByUserGroupInAndUsername(List<UserGroup> userGroups, String username);
 

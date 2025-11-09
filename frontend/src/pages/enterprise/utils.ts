@@ -27,7 +27,7 @@ export function fetchEnterpriseData(enterpriseId: number): ResultAsync<Enterpris
         return ok<EnterpriseData>({
             name: enterpriseResult.value.name,
             description: enterpriseResult.value.description,
-            location: enterpriseResult.value.location,
+            location: enterpriseResult.value.location ?? null,
             logo: null, //logoFile.value,
             backgroundPhoto: null, // backgroundPhotoFile.value,
         });

@@ -1,5 +1,6 @@
 package pl.michal_sobiech.engineering_thesis.enterprise;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -30,14 +31,17 @@ public class EnterpriseEntity {
     private String name;
     private String description;
 
+    @Nullable
     @Column(nullable = true)
     private String address;
 
+    @Nullable
     @Column(nullable = true)
-    private double latitude;
+    private Double latitude;
 
+    @Nullable
     @Column(nullable = true)
-    private double longitude;
+    private Double longitude;
 
     @Column(name = "logo_file_name", nullable = true)
     private String logoFileName;

@@ -3,7 +3,7 @@ import { Location } from "../../GENERATED-api";
 export interface EnterpriseData {
     name: string;
     description: string;
-    location: Location;
+    location: Location | null;
     logo: File | null;
     backgroundPhoto: File | null;
 }

@@ -2,6 +2,7 @@ package pl.michal_sobiech.engineering_thesis.enterprise;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +22,7 @@ public class EnterpriseService {
     }
 
     @Transactional
-    public EnterpriseEntity createEnterprise(
+    public Enterprise createEnterprise(
             long ownerUserId,
             CreateEnterpriseCommand enterpriseCommand) {
 
@@ -44,21 +45,19 @@ public class EnterpriseService {
         });
 
         EnterpriseEntity enterprise = builder.build();
-        return enterpriseRepository.save(enterprise);
+        enterprise = enterpriseRepository.save(enterprise);
+
+        return Enterprise.fromEntity(enterprise);
     }
 
-    @Transactional
-    public Optional<EnterpriseEntity> getEnterprise(long enterpriseId) {
-        return enterpriseRepository.findById(enterpriseId);
-    }
-
-    @Transactional
-    public Optional<EnterpriseEntity> findByEnterpriseId(long enterpriseId) {
-        return enterpriseRepository.findById(enterpriseId);
+    public Optional<Enterprise> getEnterprise(long enterpriseId) {
+        return enterpriseRepository.findById(enterpriseId).map(Enterprise::fromEntity);
     }
 
     @Transactional
     public void patchEnterprise(PatchEnterpriseRequestDto request) {
+
+        // TODO
 
         EnterpriseEntity enterprise = enterpriseRepository.findById(request.enterpriseId()).orElseThrow();
 
@@ -72,12 +71,18 @@ public class EnterpriseService {
         });
     }
 
-    public List<EnterpriseEntity> searchEnterprisesWithSubstringInName(String substring) {
-        return enterpriseRepository.findByNameContaining(substring);
+    public List<Enterprise> searchEnterprisesWithSubstringInName(String substring) {
+        return enterpriseRepository.findByNameContaining(substring)
+                .stream()
+                .map(Enterprise::fromEntity)
+                .collect(Collectors.toList());
     }
 
-    public List<EnterpriseEntity> getAll() {
-        return enterpriseRepository.findAll();
+    public List<Enterprise> getAll() {
+        return enterpriseRepository.findAll()
+                .stream()
+                .map(Enterprise::fromEntity)
+                .collect(Collectors.toList());
     }
 
 }

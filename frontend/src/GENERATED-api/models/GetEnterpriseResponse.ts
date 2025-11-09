@@ -44,7 +44,7 @@ export interface GetEnterpriseResponse {
      * @type {Location}
      * @memberof GetEnterpriseResponse
      */
-    location: Location;
+    location?: Location;
 }
 
 /**
@@ -53,7 +53,6 @@ export interface GetEnterpriseResponse {
 export function instanceOfGetEnterpriseResponse(value: object): value is GetEnterpriseResponse {
     if (!('name' in value) || value['name'] === undefined) return false;
     if (!('description' in value) || value['description'] === undefined) return false;
-    if (!('location' in value) || value['location'] === undefined) return false;
     return true;
 }
 
@@ -69,7 +68,7 @@ export function GetEnterpriseResponseFromJSONTyped(json: any, ignoreDiscriminato
         
         'name': json['name'],
         'description': json['description'],
-        'location': LocationFromJSON(json['location']),
+        'location': json['location'] == null ? undefined : LocationFromJSON(json['location']),
     };
 }
 

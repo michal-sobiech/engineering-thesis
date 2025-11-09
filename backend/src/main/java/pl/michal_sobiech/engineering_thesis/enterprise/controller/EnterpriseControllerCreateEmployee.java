@@ -1,7 +1,5 @@
 package pl.michal_sobiech.engineering_thesis.enterprise.controller;
 
-import java.util.Optional;
-
 import org.SwaggerCodeGenExample.model.CreateEnterpriseEmployeeRequest;
 import org.SwaggerCodeGenExample.model.CreateEnterpriseEmployeeResponse;
 import org.SwaggerCodeGenExample.model.CreateEnterpriseEmployeeResponseUser;
@@ -12,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.auth.AuthService;
 import pl.michal_sobiech.engineering_thesis.employee.Employee;
 import pl.michal_sobiech.engineering_thesis.employee.EmployeeService;
-import pl.michal_sobiech.engineering_thesis.enterprise.EnterpriseEntity;
+import pl.michal_sobiech.engineering_thesis.enterprise.Enterprise;
 import pl.michal_sobiech.engineering_thesis.enterprise.EnterpriseService;
 import pl.michal_sobiech.engineering_thesis.entrepreneur.Entrepreneur;
 import pl.michal_sobiech.engineering_thesis.entrepreneur.EntrepreneurService;
@@ -34,13 +32,9 @@ public class EnterpriseControllerCreateEmployee {
             CreateEnterpriseEmployeeRequest request) {
         Entrepreneur entrepreneur = authService.requireEntrepreneur();
 
-        Optional<EnterpriseEntity> optionalEnterprise = enterpriseService.findByEnterpriseId(enterpriseId);
-        if (optionalEnterprise.isEmpty()) {
-            return HttpUtils.createNotFoundReponse();
-        }
-        EnterpriseEntity enterprise = optionalEnterprise.get();
+        Enterprise enterprise = enterpriseService.getEnterprise(enterpriseId).orElseThrow();
 
-        if (entrepreneur.getUserId() != enterprise.getOwnerUserId()) {
+        if (entrepreneur.getUserId() != enterprise.ownerUserId()) {
             return HttpUtils.createForbiddenResponse();
         }
 

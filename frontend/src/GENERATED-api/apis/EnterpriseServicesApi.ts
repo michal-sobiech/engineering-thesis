@@ -18,7 +18,7 @@ import type {
   CreateCustomAppointmentsEnterpriseServiceRequest,
   CreateEnterpriseServiceReviewRequest,
   CreateNoCustomAppointmentsEnterpriseServiceRequest,
-  GetEnterpriseServiceResponse,
+  GetEnterpriseService200Response,
   GetServiceCustomAppointmentsStatus200Response,
   GetServiceFreeCustomAppointmentsResponseItem,
   GetServiceFreeNonCustomAppointmentsResponseItem,
@@ -35,8 +35,8 @@ import {
     CreateEnterpriseServiceReviewRequestToJSON,
     CreateNoCustomAppointmentsEnterpriseServiceRequestFromJSON,
     CreateNoCustomAppointmentsEnterpriseServiceRequestToJSON,
-    GetEnterpriseServiceResponseFromJSON,
-    GetEnterpriseServiceResponseToJSON,
+    GetEnterpriseService200ResponseFromJSON,
+    GetEnterpriseService200ResponseToJSON,
     GetServiceCustomAppointmentsStatus200ResponseFromJSON,
     GetServiceCustomAppointmentsStatus200ResponseToJSON,
     GetServiceFreeCustomAppointmentsResponseItemFromJSON,
@@ -254,7 +254,7 @@ export class EnterpriseServicesApi extends runtime.BaseAPI {
 
     /**
      */
-    async getEnterpriseServiceRaw(requestParameters: GetEnterpriseServiceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetEnterpriseServiceResponse>> {
+    async getEnterpriseServiceRaw(requestParameters: GetEnterpriseServiceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetEnterpriseService200Response>> {
         if (requestParameters['serviceId'] == null) {
             throw new runtime.RequiredError(
                 'serviceId',
@@ -277,12 +277,12 @@ export class EnterpriseServicesApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => GetEnterpriseServiceResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => GetEnterpriseService200ResponseFromJSON(jsonValue));
     }
 
     /**
      */
-    async getEnterpriseService(serviceId: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetEnterpriseServiceResponse> {
+    async getEnterpriseService(serviceId: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetEnterpriseService200Response> {
         const response = await this.getEnterpriseServiceRaw({ serviceId: serviceId }, initOverrides);
         return await response.value();
     }

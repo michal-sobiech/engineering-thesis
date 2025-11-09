@@ -24,115 +24,108 @@ import {
 /**
  * 
  * @export
- * @interface GetEnterpriseServiceResponse
+ * @interface GetEnterpriseServiceNonCustomServiceResponse
  */
-export interface GetEnterpriseServiceResponse {
+export interface GetEnterpriseServiceNonCustomServiceResponse {
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetEnterpriseServiceNonCustomServiceResponse
+     */
+    readonly takesCustomAppointments: boolean;
     /**
      * 
      * @type {number}
-     * @memberof GetEnterpriseServiceResponse
+     * @memberof GetEnterpriseServiceNonCustomServiceResponse
      */
     serviceId: number;
     /**
      * 
      * @type {string}
-     * @memberof GetEnterpriseServiceResponse
+     * @memberof GetEnterpriseServiceNonCustomServiceResponse
      */
     name: string;
     /**
      * 
      * @type {string}
-     * @memberof GetEnterpriseServiceResponse
+     * @memberof GetEnterpriseServiceNonCustomServiceResponse
      */
     description: string;
     /**
      * 
      * @type {Location}
-     * @memberof GetEnterpriseServiceResponse
+     * @memberof GetEnterpriseServiceNonCustomServiceResponse
      */
     location: Location;
     /**
      * 
      * @type {string}
-     * @memberof GetEnterpriseServiceResponse
+     * @memberof GetEnterpriseServiceNonCustomServiceResponse
      */
     timezone: string;
     /**
      * 
-     * @type {boolean}
-     * @memberof GetEnterpriseServiceResponse
-     */
-    takesCustomAppointments: boolean;
-    /**
-     * 
-     * @type {number}
-     * @memberof GetEnterpriseServiceResponse
-     */
-    maxDistanceKm?: number;
-    /**
-     * 
      * @type {string}
-     * @memberof GetEnterpriseServiceResponse
+     * @memberof GetEnterpriseServiceNonCustomServiceResponse
      */
     cathegory: string;
     /**
      * 
      * @type {number}
-     * @memberof GetEnterpriseServiceResponse
+     * @memberof GetEnterpriseServiceNonCustomServiceResponse
      */
     price: number;
     /**
      * 
      * @type {string}
-     * @memberof GetEnterpriseServiceResponse
+     * @memberof GetEnterpriseServiceNonCustomServiceResponse
      */
     currencyIso: string;
 }
 
 /**
- * Check if a given object implements the GetEnterpriseServiceResponse interface.
+ * Check if a given object implements the GetEnterpriseServiceNonCustomServiceResponse interface.
  */
-export function instanceOfGetEnterpriseServiceResponse(value: object): value is GetEnterpriseServiceResponse {
+export function instanceOfGetEnterpriseServiceNonCustomServiceResponse(value: object): value is GetEnterpriseServiceNonCustomServiceResponse {
+    if (!('takesCustomAppointments' in value) || value['takesCustomAppointments'] === undefined) return false;
     if (!('serviceId' in value) || value['serviceId'] === undefined) return false;
     if (!('name' in value) || value['name'] === undefined) return false;
     if (!('description' in value) || value['description'] === undefined) return false;
     if (!('location' in value) || value['location'] === undefined) return false;
     if (!('timezone' in value) || value['timezone'] === undefined) return false;
-    if (!('takesCustomAppointments' in value) || value['takesCustomAppointments'] === undefined) return false;
     if (!('cathegory' in value) || value['cathegory'] === undefined) return false;
     if (!('price' in value) || value['price'] === undefined) return false;
     if (!('currencyIso' in value) || value['currencyIso'] === undefined) return false;
     return true;
 }
 
-export function GetEnterpriseServiceResponseFromJSON(json: any): GetEnterpriseServiceResponse {
-    return GetEnterpriseServiceResponseFromJSONTyped(json, false);
+export function GetEnterpriseServiceNonCustomServiceResponseFromJSON(json: any): GetEnterpriseServiceNonCustomServiceResponse {
+    return GetEnterpriseServiceNonCustomServiceResponseFromJSONTyped(json, false);
 }
 
-export function GetEnterpriseServiceResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): GetEnterpriseServiceResponse {
+export function GetEnterpriseServiceNonCustomServiceResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): GetEnterpriseServiceNonCustomServiceResponse {
     if (json == null) {
         return json;
     }
     return {
         
+        'takesCustomAppointments': json['takesCustomAppointments'],
         'serviceId': json['serviceId'],
         'name': json['name'],
         'description': json['description'],
         'location': LocationFromJSON(json['location']),
         'timezone': json['timezone'],
-        'takesCustomAppointments': json['takesCustomAppointments'],
-        'maxDistanceKm': json['maxDistanceKm'] == null ? undefined : json['maxDistanceKm'],
         'cathegory': json['cathegory'],
         'price': json['price'],
         'currencyIso': json['currencyIso'],
     };
 }
 
-export function GetEnterpriseServiceResponseToJSON(json: any): GetEnterpriseServiceResponse {
-    return GetEnterpriseServiceResponseToJSONTyped(json, false);
+export function GetEnterpriseServiceNonCustomServiceResponseToJSON(json: any): GetEnterpriseServiceNonCustomServiceResponse {
+    return GetEnterpriseServiceNonCustomServiceResponseToJSONTyped(json, false);
 }
 
-export function GetEnterpriseServiceResponseToJSONTyped(value?: GetEnterpriseServiceResponse | null, ignoreDiscriminator: boolean = false): any {
+export function GetEnterpriseServiceNonCustomServiceResponseToJSONTyped(value?: Omit<GetEnterpriseServiceNonCustomServiceResponse, 'takesCustomAppointments'> | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
@@ -144,8 +137,6 @@ export function GetEnterpriseServiceResponseToJSONTyped(value?: GetEnterpriseSer
         'description': value['description'],
         'location': LocationToJSON(value['location']),
         'timezone': value['timezone'],
-        'takesCustomAppointments': value['takesCustomAppointments'],
-        'maxDistanceKm': value['maxDistanceKm'],
         'cathegory': value['cathegory'],
         'price': value['price'],
         'currencyIso': value['currencyIso'],

@@ -16,13 +16,13 @@
 import type {
     CreateEnterpriseResponse,
     GetEnterpriseResponse,
-    GetEnterpriseServiceResponse,
+    GetEnterpriseService200Response,
     Location
 } from '../models/index';
 import {
     CreateEnterpriseResponseFromJSON,
     GetEnterpriseResponseFromJSON,
-    GetEnterpriseServiceResponseFromJSON,
+    GetEnterpriseService200ResponseFromJSON,
     LocationToJSON
 } from '../models/index';
 import * as runtime from '../runtime';
@@ -244,7 +244,7 @@ export class EnterprisesApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
 
-        let urlPath = `/enteprises/{enterpriseId}/photos/background`;
+        let urlPath = `/enterprises/{enterpriseId}/photos/background`;
         urlPath = urlPath.replace(`{${"enterpriseId"}}`, encodeURIComponent(String(requestParameters['enterpriseId'])));
 
         const response = await this.request({
@@ -279,7 +279,7 @@ export class EnterprisesApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
 
-        let urlPath = `/enteprises/{enterpriseId}/photos/logo`;
+        let urlPath = `/enterprises/{enterpriseId}/photos/logo`;
         urlPath = urlPath.replace(`{${"enterpriseId"}}`, encodeURIComponent(String(requestParameters['enterpriseId'])));
 
         const response = await this.request({
@@ -302,7 +302,7 @@ export class EnterprisesApi extends runtime.BaseAPI {
     /**
      * Get enterprise employees
      */
-    async getEnterpriseServicesRaw(requestParameters: GetEnterpriseServicesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<GetEnterpriseServiceResponse>>> {
+    async getEnterpriseServicesRaw(requestParameters: GetEnterpriseServicesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<GetEnterpriseService200Response>>> {
         if (requestParameters['enterpriseId'] == null) {
             throw new runtime.RequiredError(
                 'enterpriseId',
@@ -325,13 +325,13 @@ export class EnterprisesApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(GetEnterpriseServiceResponseFromJSON));
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(GetEnterpriseService200ResponseFromJSON));
     }
 
     /**
      * Get enterprise employees
      */
-    async getEnterpriseServices(enterpriseId: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetEnterpriseServiceResponse>> {
+    async getEnterpriseServices(enterpriseId: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetEnterpriseService200Response>> {
         const response = await this.getEnterpriseServicesRaw({ enterpriseId: enterpriseId }, initOverrides);
         return await response.value();
     }

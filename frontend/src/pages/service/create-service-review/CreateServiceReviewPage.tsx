@@ -7,7 +7,7 @@ import { StandardButton } from "../../../common/StandardButton";
 import { StandardFlex } from "../../../common/StandardFlex";
 import { StandardPanel } from "../../../common/StandardPanel";
 import { StandardTextArea } from "../../../common/StandardTextArea";
-import { GetEnterpriseServiceResponse } from "../../../GENERATED-api";
+import { GetEnterpriseService200Response } from "../../../GENERATED-api";
 import { useIntParam } from "../../../hooks/useIntParam";
 import { routes } from "../../../router/routes";
 import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../../utils/error";
@@ -18,7 +18,7 @@ export const CreateServiceReviewPage = () => {
     const serviceId = useIntParam("serviceId");
     const navigate = useNavigate();
 
-    const [serviceData, setServiceData] = useState<GetEnterpriseServiceResponse | null>(null);
+    const [serviceData, setServiceData] = useState<GetEnterpriseService200Response | null>(null);
     const [numStarsOutOf5, setNumStarsOutOf5] = useState<number | null>(null);
     const [reviewText, setReviewText] = useState<string>("");
 
@@ -71,7 +71,7 @@ export const CreateServiceReviewPage = () => {
                             text={reviewText}
                             setText={setReviewText}
                         />
-                        <StandardButton>
+                        <StandardButton onClick={onSubmitClick}>
                             Submit review
                         </StandardButton>
                     </StandardFlex>

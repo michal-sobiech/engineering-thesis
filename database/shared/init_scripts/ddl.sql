@@ -116,7 +116,7 @@ CREATE TABLE public.enterprise_service_slot_template (
 	
 	CONSTRAINT pk_enterprise_service_slot_template PRIMARY KEY (enterprise_service_slot_template_id),
 	CONSTRAINT fk_enterprise_service_id FOREIGN KEY (enterprise_service_id) REFERENCES public.enterprise_service(enterprise_service_id) ON DELETE CASCADE,
-	CONSTRAINT chk_enteprise_service_slot_template_day_of_week CHECK (day_of_week BETWEEN 1 AND 7)
+	CONSTRAINT chk_enterprise_service_slot_template_day_of_week CHECK (day_of_week BETWEEN 1 AND 7)
 );
 
 CREATE TABLE public.review (
@@ -155,6 +155,8 @@ CREATE TABLE public.appointment (
 	CONSTRAINT fk_appointment_enterprise_service_id FOREIGN KEY (enterprise_service_id) REFERENCES public.enterprise_service(enterprise_service_id) ON DELETE CASCADE,
 	CONSTRAINT fk_appointment_customer_user_id FOREIGN KEY (customer_user_id) REFERENCES public.app_user(user_id) ON DELETE CASCADE,
 	CONSTRAINT chk_is_accepted_and_rejection_message CHECK (
+		(is_custom = FALSE AND is_accepted IS NULL AND rejection_message IS NULL)
+		OR
 		(is_custom = TRUE AND is_accepted IS NULL AND rejection_message IS NULL)
 		OR
 		(is_custom = TRUE AND is_accepted = FALSE AND rejection_message IS NOT NULL)

@@ -1,39 +1,24 @@
 package pl.michal_sobiech.engineering_thesis.enterprise_service.no_custom_appointments;
 
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
-import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.appointment.non_custom.NonCustomAppointment;
-import pl.michal_sobiech.engineering_thesis.appointment.non_custom.NonCustomAppointmentsService;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceEntity;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceRepository;
-import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceService;
-import pl.michal_sobiech.engineering_thesis.enterprise_service_availability.non_custom.NonCustomEnterpriseServiceAvailabilityService;
-import pl.michal_sobiech.engineering_thesis.enterprise_service_availability_template.non_custom.NonCustomEnterpriseServiceAvailabilityTemplateService;
-import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.EnterpriseServiceSlotTemplateService;
 import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.non_custom_appointments.CreateNonCustomAppointmentsEnterpriseServiceSlotTemplateCommand;
 import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.non_custom_appointments.NonCustomAppointmentsEnterpriseServiceSlotTemplateService;
-import pl.michal_sobiech.engineering_thesis.utils.DateUtils;
-import pl.michal_sobiech.engineering_thesis.utils.LocalDateTimeWindow;
 
 @Service
 @RequiredArgsConstructor
 public class NonCustomAppointmentsEnterpriseServiceService {
 
         private final EnterpriseServiceRepository enterpriseServiceRepository;
-        private final EnterpriseServiceSlotTemplateService enterpriseServiceSlotTemplateService;
-        private final EnterpriseServiceService enterpriseServiceService;
         private final NonCustomAppointmentsEnterpriseServiceSlotTemplateService nonCustomAppointmentsEnterpriseServiceSlotTemplateService;
-        private final NonCustomAppointmentsService nonCustomAppointmentsService;
-        private final NonCustomEnterpriseServiceAvailabilityService nonCustomEnterpriseServiceAvailabilityService;
-        private final NonCustomEnterpriseServiceAvailabilityTemplateService nonCustomEnterpriseServiceAvailabilityTemplateService;
 
         @Transactional
         public EnterpriseServiceEntity save(long enterpriseId,
@@ -65,36 +50,15 @@ public class NonCustomAppointmentsEnterpriseServiceService {
                 nonCustomAppointmentsEnterpriseServiceSlotTemplateService.saveMany(enterpriseServiceId, slots);
         }
 
-        public List<LocalDateTimeWindow> findFreeTimeWindowsInDatetimeRange(
-                        long serviceId,
-                        OffsetDateTime from,
-                        OffsetDateTime to) {
-                ZoneId timeZone = enterpriseServiceService.getTimeZoneByServiceId(serviceId);
-
-                LocalDateTime fromInServiceTimezone = DateUtils.createLocalDateTime(from, timeZone);
-                LocalDateTime toInServiceTimezone = DateUtils.createLocalDateTime(to, timeZone);
-
-                List<LocalDateTimeWindow> defaultAvailability = nonCustomEnterpriseServiceAvailabilityTemplateService
-                                .getAvailabilityTemplateForDatetimeRange(serviceId, fromInServiceTimezone,
-                                                toInServiceTimezone);
-
-                List<NonCustomAppointment> appointments = nonCustomAppointmentsService
-                                .getAllByServiceIdAndDatetimeRange(
-                                                serviceId,
-                                                from, to);
-                // List<LocalDateTimeWindow> appointmentWindows = appointments.stream().map(a ->
-                // {
-                // return new LocalDateTimeWindow(
-                // DateUtils.createLocalDateTime(a.startTime(), timeZone),
-                // DateUtils.createLocalDateTime(a.endTime(), timeZone));
-                // }).collect(Collectors.toList());
-                List<LocalDateTimeWindow> appointmentWindows = new ArrayList<>(List.of(
-                                defaultAvailability.get(1)));
-
-                return DateUtils.subtractTimeWindowLists(defaultAvailability,
-                                appointmentWindows);
-
-                // return defaultAvailability;
+        public List<NonCustomEnterpriseService> getByEnterpriseId(long enterpriseId) {
+                List<EnterpriseServiceEntity> entities = enterpriseServiceRepository
+                                .findNonCustomEnterpriseServicesByEnterpriseId(enterpriseId);
+                return entities.stream().map(NonCustomEnterpriseService::fromEntity).collect(Collectors.toList());
         }
 
+        public Optional<NonCustomEnterpriseService> getByEnterpriseServiceId(long enterpriseServiceId) {
+                return enterpriseServiceRepository
+                                .findById(enterpriseServiceId)
+                                .map(NonCustomEnterpriseService::fromEntity);
+        }
 }
