@@ -14,10 +14,15 @@ export const FiveStarPicker: FC<FiveStarPickerProps> = ({ numStarsOutOf5, setNum
     function createStarButton(rating: number) {
         const isFull = numStarsOutOf5 !== null && rating <= numStarsOutOf5;
 
+        const onClick = () => {
+            setNumStarsOutOf5(rating);
+            console.log(rating)
+        }
+
         return <IconButton
             key={rating}
-            colorScheme={isFull ? "primary.gold" : "primary.darkGray"}>
-            <Icon as={FaStar as any} />
+            onClick={onClick}>
+            <Icon as={FaStar as any} color={isFull ? "primary.gold" : "primary.white"} />
         </IconButton>
     }
 
