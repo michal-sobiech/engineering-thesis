@@ -38,6 +38,10 @@ models/GetMyUserGroup200Response.ts
 models/GetServiceCustomAppointmentsStatus200Response.ts
 models/GetServiceFreeCustomAppointmentsResponseItem.ts
 models/GetServiceFreeNonCustomAppointmentsResponseItem.ts
+models/GetUnresolvedEnterpriseReportResponse.ts
+models/GetUnresolvedEnterpriseServiceReportResponse.ts
+models/GetUnresolvedReports200ResponseInner.ts
+models/GetUnresolvedReviewReportResponse.ts
 models/IndependentEndUserGetMeResponse.ts
 models/InlineObject.ts
 models/InlineObject1.ts

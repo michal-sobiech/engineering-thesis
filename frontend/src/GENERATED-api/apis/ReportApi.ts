@@ -16,6 +16,7 @@
 import * as runtime from '../runtime';
 import type {
   CreateReportRequest,
+  GetUnresolvedReports200ResponseInner,
   InlineObject,
   InlineObject1,
   InlineObject2,
@@ -24,6 +25,8 @@ import type {
 import {
     CreateReportRequestFromJSON,
     CreateReportRequestToJSON,
+    GetUnresolvedReports200ResponseInnerFromJSON,
+    GetUnresolvedReports200ResponseInnerToJSON,
     InlineObjectFromJSON,
     InlineObjectToJSON,
     InlineObject1FromJSON,
@@ -36,6 +39,10 @@ import {
 
 export interface CreateReportOperationRequest {
     createReportRequest: CreateReportRequest;
+}
+
+export interface ResolveReportRequest {
+    reportId?: number;
 }
 
 /**
@@ -68,7 +75,7 @@ export class ReportApi extends runtime.BaseAPI {
             }
         }
 
-        let urlPath = `/report`;
+        let urlPath = `/reports`;
 
         const response = await this.request({
             path: urlPath,
@@ -85,6 +92,79 @@ export class ReportApi extends runtime.BaseAPI {
      */
     async createReport(createReportRequest: CreateReportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.createReportRaw({ createReportRequest: createReportRequest }, initOverrides);
+    }
+
+    /**
+     */
+    async getUnresolvedReportsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<GetUnresolvedReports200ResponseInner>>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("JwtBearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/reports/unresolved`;
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(GetUnresolvedReports200ResponseInnerFromJSON));
+    }
+
+    /**
+     */
+    async getUnresolvedReports(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetUnresolvedReports200ResponseInner>> {
+        const response = await this.getUnresolvedReportsRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async resolveReportRaw(requestParameters: ResolveReportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const queryParameters: any = {};
+
+        if (requestParameters['reportId'] != null) {
+            queryParameters['reportId'] = requestParameters['reportId'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("JwtBearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/reports/resolve`;
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async resolveReport(reportId?: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.resolveReportRaw({ reportId: reportId }, initOverrides);
     }
 
 }

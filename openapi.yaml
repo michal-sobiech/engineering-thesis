@@ -682,6 +682,102 @@ components:
           type: number
           format: int64
 
+    GetUnresolvedEnterpriseReportResponse:
+      type: object
+      required:
+        [
+          reportId,
+          reportSubjectType,
+          enterpriseId,
+          enterpriseName,
+          reportingUserType,
+          reportingUserId,
+          reportingUserUsername,
+        ]
+      properties:
+        reportId:
+          type: number
+          format: int64
+        reportSubjectType:
+          type: string
+          const: "ENTERPRISE"
+        enterpriseId:
+          type: number
+          format: int64
+        enterpriseName:
+          type: string
+        reportingUserType:
+          type: string
+        reportingUserId:
+          type: number
+          format: int64
+        reportingUserUsername:
+          type: string
+
+    GetUnresolvedEnterpriseServiceReportResponse:
+      type: object
+      required:
+        [
+          reportId,
+          reportSubjectType,
+          enterpriseServiceId,
+          enterpriseServiceName,
+          reportingUserType,
+          reportingUserId,
+          reportingUserUsername,
+        ]
+      properties:
+        reportId:
+          type: number
+          format: int64
+        reportSubjectType:
+          type: string
+          const: "SERVICE"
+        enterpriseServiceId:
+          type: number
+          format: int64
+        enterpriseServiceName:
+          type: string
+        reportingUserType:
+          type: string
+        reportingUserId:
+          type: number
+          format: int64
+        reportingUserUsername:
+          type: string
+
+    GetUnresolvedReviewReportResponse:
+      type: object
+      required:
+        [
+          reportId,
+          reportSubjectType,
+          reviewId,
+          reviewText,
+          reportingUserType,
+          reportingUserId,
+          reportingUserUsername,
+        ]
+      properties:
+        reportId:
+          type: number
+          format: int64
+        reportSubjectType:
+          type: string
+          const: "REVIEW"
+        reviewId:
+          type: number
+          format: int64
+        reviewText:
+          type: string
+        reportingUserType:
+          type: string
+        reportingUserId:
+          type: number
+          format: int64
+        reportingUserUsername:
+          type: string
+
   responses:
     OK:
       description: &OK_DESCRIPTION >
@@ -1730,7 +1826,7 @@ paths:
         "500":
           $ref: "#/components/responses/InternalServerError"
 
-  /report:
+  /reports:
     post:
       tags: [Report]
       operationId: createReport
@@ -1745,6 +1841,57 @@ paths:
       responses:
         "201":
           description: *CREATED_DESCRIPTION
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /reports/unresolved:
+    get:
+      tags: [Report]
+      operationId: getUnresolvedReports
+      security:
+        - JwtBearerAuth: []
+      responses:
+        "200":
+          description: *OK_DESCRIPTION
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  oneOf:
+                    - $ref: "#/components/schemas/GetUnresolvedEnterpriseReportResponse"
+                    - $ref: "#/components/schemas/GetUnresolvedEnterpriseServiceReportResponse"
+                    - $ref: "#/components/schemas/GetUnresolvedReviewReportResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /reports/resolve:
+    post:
+      tags: [Report]
+      operationId: resolveReport
+      parameters:
+        - name: reportId
+          in: query
+          schema:
+            type: number
+            format: int64
+      security:
+        - JwtBearerAuth: []
+      responses:
+        "200":
+          description: *OK_DESCRIPTION
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":
