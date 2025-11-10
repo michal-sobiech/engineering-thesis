@@ -8,7 +8,10 @@ import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../../utils/error";
 import { errorErrResultAsyncFromPromise } from "../../../utils/result";
 import { toastError } from "../../../utils/toast";
 import { AdminLandingPageContext, AdminLandingPageContextValue } from "./AdminLandingPageContext";
+import { AdminLandingPageUnresolvedEnterpriseReportsList } from "./AdminLandingPageUnresolvedEnterpriseReportsList";
 import { AdminLandingPageUnresolvedEnterpriseReport, AdminLandingPageUnresolvedReport, AdminLandingPageUnresolvedReviewReport, AdminLandingPageUnresolvedServiceReport } from "./AdminLandingPageUnresolvedReport";
+import { AdminLandingPageUnresolvedReviewReportsList } from "./AdminLandingPageUnresolvedReviewReportsList";
+import { AdminLandingPageUnresolvedServiceReportsList } from "./AdminLandingPageUnresolvedServiceReportsList";
 
 export const AdminLandingPage = () => {
     const [unresolvedEnterpriseReports, setUnresolvedEnterpriseReports] = useState<AdminLandingPageUnresolvedEnterpriseReport[]>([]);
@@ -50,7 +53,9 @@ export const AdminLandingPage = () => {
     return <AdminLandingPageContext.Provider value={contextValue}>
         <Center height="100vh">
             <Box width="80vw" height="100%">
-
+                <AdminLandingPageUnresolvedEnterpriseReportsList />
+                <AdminLandingPageUnresolvedServiceReportsList />
+                <AdminLandingPageUnresolvedReviewReportsList />
             </Box>
         </Center>
     </AdminLandingPageContext.Provider>
