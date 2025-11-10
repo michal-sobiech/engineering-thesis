@@ -6,16 +6,25 @@ import { StandardFlex } from "../../../common/StandardFlex";
 import { StandardPanel } from "../../../common/StandardPanel";
 import { errorErrResultAsyncFromPromise } from "../../../utils/result";
 import { toastError } from "../../../utils/toast";
+import { useContextOrThrow } from "../../../utils/useContextOrThrow";
+import { AdminLandingPageContext } from "./AdminLandingPageContext";
 import { AdminLandingPageUnresolvedEnterpriseReport } from "./AdminLandingPageUnresolvedReport";
 
 export const AdminLandingPageUnresolvedEnterpriseReportsListItem: FC<AdminLandingPageUnresolvedEnterpriseReport> = (props) => {
+    const { setUnresolvedEnterpriseReports } = useContextOrThrow(AdminLandingPageContext);
+
+    function removeUnresolvedEnterpriseReportFromList(reportId: number) {
+        setUnresolvedEnterpriseReports((reports) => reports.filter(report => report.reportId != reportId));
+    }
+
     const onClick = async () => {
         const promise = reportsApi.resolveReport(props.reportId);
         const result = await errorErrResultAsyncFromPromise(promise);
         if (result.isErr()) {
-            toastError("Couldn't load enterprise reports. Try again later.");
+            toastError("Couldn't resolve report. Try again later");
             return;
         }
+        removeUnresolvedEnterpriseReportFromList(props.reportId);
     }
 
     return <StandardPanel>
