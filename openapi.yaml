@@ -696,20 +696,20 @@ components:
         ]
       properties:
         reportId:
-          type: number
+          type: integer
           format: int64
         reportSubjectType:
           type: string
           const: "ENTERPRISE"
         enterpriseId:
-          type: number
+          type: integer
           format: int64
         enterpriseName:
           type: string
         reportingUserType:
           type: string
         reportingUserId:
-          type: number
+          type: integer
           format: int64
         reportingUserUsername:
           type: string
@@ -728,20 +728,20 @@ components:
         ]
       properties:
         reportId:
-          type: number
+          type: integer
           format: int64
         reportSubjectType:
           type: string
           const: "SERVICE"
         enterpriseServiceId:
-          type: number
+          type: integer
           format: int64
         enterpriseServiceName:
           type: string
         reportingUserType:
           type: string
         reportingUserId:
-          type: number
+          type: integer
           format: int64
         reportingUserUsername:
           type: string
@@ -760,20 +760,20 @@ components:
         ]
       properties:
         reportId:
-          type: number
+          type: integer
           format: int64
         reportSubjectType:
           type: string
           const: "REVIEW"
         reviewId:
-          type: number
+          type: integer
           format: int64
         reviewText:
           type: string
         reportingUserType:
           type: string
         reportingUserId:
-          type: number
+          type: integer
           format: int64
         reportingUserUsername:
           type: string
@@ -1885,7 +1885,7 @@ paths:
         - name: reportId
           in: query
           schema:
-            type: number
+            type: integer
             format: int64
       security:
         - JwtBearerAuth: []

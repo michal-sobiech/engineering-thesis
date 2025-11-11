@@ -1,5 +1,6 @@
 package pl.michal_sobiech.engineering_thesis.report;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -25,16 +26,19 @@ public class ReportEntity {
     private Long reportId;
 
     @Column(name = "creator_user_id")
-    private long creatorUserId;
+    private Long creatorUserId;
 
+    @Nullable
     @Column(name = "enterprise_id", nullable = true)
-    private long enterpriseId;
+    private Long enterpriseId;
 
+    @Nullable
     @Column(name = "enterprise_service_id", nullable = true)
-    private long enterpriseServiceId;
+    private Long enterpriseServiceId;
 
+    @Nullable
     @Column(name = "review_id", nullable = true)
-    private long reviewId;
+    private Long reviewId;
 
     @Column(name = "is_resolved")
     private boolean isResolved;

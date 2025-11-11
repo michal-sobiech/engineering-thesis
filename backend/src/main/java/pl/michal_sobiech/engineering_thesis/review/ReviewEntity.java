@@ -33,7 +33,6 @@ public class ReviewEntity {
     @Column(name = "stars_out_of_5")
     private short startOutOf5;
 
-    @Column(nullable = true)
     private String content;
 
     @Column(name = "suspended_by_admin")

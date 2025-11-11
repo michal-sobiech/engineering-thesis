@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import pl.michal_sobiech.engineering_thesis.admin.Admin;
 import pl.michal_sobiech.engineering_thesis.customer.Customer;
 import pl.michal_sobiech.engineering_thesis.employee.Employee;
 import pl.michal_sobiech.engineering_thesis.entrepreneur.Entrepreneur;
@@ -59,5 +60,10 @@ public class AuthService {
     public Customer requireCustomer() {
         User user = requireAuthorizedUser();
         return Customer.fromUser(user);
+    }
+
+    public Admin requireAdmin() {
+        User user = requireAuthorizedUser();
+        return Admin.fromUser(user);
     }
 }

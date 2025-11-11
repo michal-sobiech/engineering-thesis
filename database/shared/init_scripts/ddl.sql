@@ -125,7 +125,7 @@ CREATE TABLE public.review (
 	subject_enterprise_service_id bigint NOT NULL,
 
 	stars_out_of_5 smallint NOT NULL,
-	content text,
+	content text NOT NULL,
 
 	suspended_by_admin boolean NOT NULL,
 
