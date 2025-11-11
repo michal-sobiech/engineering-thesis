@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.admin.Admin;
 import pl.michal_sobiech.engineering_thesis.auth.AuthService;
 import pl.michal_sobiech.engineering_thesis.report.unresolved.GetUnresolvedReports200ResponseInnerFactory;
 import pl.michal_sobiech.engineering_thesis.report.unresolved.UnresolvedReportService;
@@ -40,8 +39,8 @@ public class ReportController implements ReportsApi {
 
     @Override
     public ResponseEntity<Void> resolveReport(Long reportId) {
-        Admin admin = authService.requireAdmin();
-        reportService.resolveReport(reportId);
+        authService.requireAdmin();
+        unresolvedReportService.resolveReport(reportId);
         return ResponseEntity.ok().build();
     }
 

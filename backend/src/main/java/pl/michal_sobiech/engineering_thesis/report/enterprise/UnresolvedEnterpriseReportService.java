@@ -9,14 +9,15 @@ import pl.michal_sobiech.engineering_thesis.report.ReportRepository;
 
 @Service
 @RequiredArgsConstructor
-public class EnterpriseReportService {
+public class UnresolvedEnterpriseReportService {
 
     private final ReportRepository reportRepository;
     private final EnterpriseReportFactory enterpriseReportFactory;
 
-    public Optional<EnterpriseReport> getByReportId(long reportId) {
+    public Optional<UnresolvedEnterpriseReport> getByReportId(long reportId) {
         return reportRepository.findDetailedUnresolvedReportByReportId(reportId)
-                .map(enterpriseReportFactory::fromRecord);
+                .map(enterpriseReportFactory::fromRecord)
+                .map(UnresolvedEnterpriseReport::fromEnterpriseReport);
     }
 
 }

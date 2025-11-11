@@ -1,13 +1,8 @@
 package pl.michal_sobiech.engineering_thesis.report;
 
-import java.util.Optional;
-
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.report.enterprise.EnterpriseReport;
-import pl.michal_sobiech.engineering_thesis.report.enterprise_service.EnterpriseServiceReport;
-import pl.michal_sobiech.engineering_thesis.report.review.ReviewReport;
 
 @Service
 @RequiredArgsConstructor
@@ -38,22 +33,18 @@ public class ReportService {
         reportRepository.save(report);
     }
 
-    public ReportSubjectType getReportSubjectType(long reportId) {
-        Report report = getById(reportId).orElseThrow();
-        return switch (report) {
-            case EnterpriseReport _ -> ReportSubjectType.ENTERPRISE;
-            case EnterpriseServiceReport _ -> ReportSubjectType.ENTERPRISE_SERVICE;
-            case ReviewReport _ -> ReportSubjectType.REVIEW;
-            default -> throw new UnsupportedOperationException();
-        };
-    }
+    // public ReportSubjectType getReportSubjectType(long reportId) {
+    // Report report = getById(reportId).orElseThrow();
+    // return switch (report) {
+    // case EnterpriseReport _ -> ReportSubjectType.ENTERPRISE;
+    // case EnterpriseServiceReport _ -> ReportSubjectType.ENTERPRISE_SERVICE;
+    // case ReviewReport _ -> ReportSubjectType.REVIEW;
+    // default -> throw new UnsupportedOperationException();
+    // };
+    // }
 
-    public Optional<? extends Report> getById(long reportId) {
-        return reportRepository.findById(reportId).map(ReportFactory::fromEntity);
-    }
-
-    public void resolveReport(long reportId) {
-        // TODO
-    }
+    // public Optional<? extends Report> getById(long reportId) {
+    // return reportRepository.findById(reportId).map(ReportFactory::fromEntity);
+    // }
 
 }

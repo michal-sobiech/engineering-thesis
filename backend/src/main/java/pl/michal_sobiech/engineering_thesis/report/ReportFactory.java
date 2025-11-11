@@ -1,28 +1,37 @@
 package pl.michal_sobiech.engineering_thesis.report;
 
-import pl.michal_sobiech.engineering_thesis.report.enterprise.EnterpriseReport;
-import pl.michal_sobiech.engineering_thesis.report.enterprise_service.EnterpriseServiceReport;
-import pl.michal_sobiech.engineering_thesis.report.review.ReviewReport;
+import org.springframework.stereotype.Component;
 
+import lombok.RequiredArgsConstructor;
+import pl.michal_sobiech.engineering_thesis.report.enterprise.EnterpriseReportFactory;
+import pl.michal_sobiech.engineering_thesis.report.enterprise_service.EnterpriseServiceReportFactory;
+import pl.michal_sobiech.engineering_thesis.report.review.ReviewReportFactory;
+
+@Component
+@RequiredArgsConstructor
 public class ReportFactory {
 
-    public static Report fromRecord(GetUnresolvedReportsRow record) {
-        if (record.enterpriseId() != null
-                || record.enterpriseServiceId() == null
-                || record.reviewId() == null) {
-            return EnterpriseReport.fromEntity(record);
+    private final EnterpriseReportFactory enterpriseReportFactory;
+    private final EnterpriseServiceReportFactory enterpriseServiceReportFactory;
+    private final ReviewReportFactory reviewReportFactory;
+
+    public Report fromRecord(GetUnresolvedReportsRow record) {
+        if (record.getEnterpriseId() != null
+                || record.getEnterpriseServiceId() == null
+                || record.getReviewId() == null) {
+            return enterpriseReportFactory.fromRecord(record);
         }
 
-        if (record.enterpriseId() == null
-                || record.enterpriseServiceId() != null
-                || record.reviewId() == null) {
-            return EnterpriseServiceReport.fromEntity(record);
+        if (record.getEnterpriseId() == null
+                || record.getEnterpriseServiceId() != null
+                || record.getReviewId() == null) {
+            return enterpriseServiceReportFactory.fromRecord(record);
         }
 
-        if (record.enterpriseId() == null
-                || record.enterpriseServiceId() == null
-                || record.reviewId() != null) {
-            return ReviewReport.fromEntity(record);
+        if (record.getEnterpriseId() == null
+                || record.getEnterpriseServiceId() == null
+                || record.getReviewId() != null) {
+            return reviewReportFactory.fromRecord(record);
         }
 
         throw new IllegalStateException("Record is invalid");

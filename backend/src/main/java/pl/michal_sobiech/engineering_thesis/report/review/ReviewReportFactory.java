@@ -13,7 +13,7 @@ public class ReviewReportFactory {
 
     private final ReviewService reviewService;
 
-    public ReviewReport fromEntity(GetUnresolvedReportsRow record) {
+    public ReviewReport fromRecord(GetUnresolvedReportsRow record) {
         if (record.getEnterpriseId() != null
                 || record.getEnterpriseServiceId() != null
                 || record.getReviewId() == null) {
