@@ -8,7 +8,7 @@ import { MapContainer, TileLayer, useMap } from 'react-leaflet';
 import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
-import { UseStateSetter } from "../utils/useState";
+import { UseStateSetter } from "../utils/use-state";
 
 L.Icon.Default.mergeOptions({
     iconRetinaUrl: markerIcon2x,

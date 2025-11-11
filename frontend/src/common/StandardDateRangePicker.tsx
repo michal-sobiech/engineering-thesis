@@ -1,7 +1,7 @@
 import { Flex, Input, Text } from "@chakra-ui/react";
 import { FC } from "react";
 import DatePicker from "react-datepicker";
-import { UseStateSetter } from "../utils/useState";
+import { UseStateSetter } from "../utils/use-state";
 
 import "react-datepicker/dist/react-datepicker.css";
 

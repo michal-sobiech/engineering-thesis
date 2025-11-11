@@ -1,7 +1,7 @@
 import { Text } from "@chakra-ui/react"
 import { FC } from "react"
+import { useContextOrThrow } from "../../../../hooks/useContextOrThrow"
 import { extractHHmmTimeFromDate } from "../../../../utils/date"
-import { useContextOrThrow } from "../../../../utils/useContextOrThrow"
 import { NoCustomAppointmentsServicePublicPageContext } from "./NoCustomAppointmentsServicePublicPageContextValue"
 
 export interface NoCustomAppointmentsServicePublicPageSlotListProps {

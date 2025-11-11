@@ -2,7 +2,7 @@ import { Box, Flex, Input } from "@chakra-ui/react";
 import { OpenStreetMapProvider } from "leaflet-geosearch";
 import { FC, JSX, useEffect, useState } from "react";
 import { Position } from "../utils/Position";
-import { UseStateSetter } from "../utils/useState";
+import { UseStateSetter } from "../utils/use-state";
 import { StandardPanel } from "./StandardPanel";
 
 export interface LocationAutocompleteProps {

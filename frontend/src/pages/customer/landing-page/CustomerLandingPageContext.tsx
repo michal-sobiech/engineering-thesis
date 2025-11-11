@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { UseStateSetter } from "../../../utils/useState";
+import { UseStateSetter } from "../../../utils/use-state";
 import { CustomerLandingPagePendingAppointment } from "./CustomerLandingPagePendingAppointment";
 import { CustomerLandingPageRejectedAppointment } from "./CustomerLandingPageRejectedAppointment";
 import { CustomerLandingPageScheduledAppointment } from "./CustomerLandingPageScheduledAppointment";

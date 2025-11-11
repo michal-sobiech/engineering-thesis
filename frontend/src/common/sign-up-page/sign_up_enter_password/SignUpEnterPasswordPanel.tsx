@@ -1,5 +1,5 @@
 import { Flex, Text } from "@chakra-ui/react";
-import { useContextOrThrow } from "../../../utils/useContextOrThrow";
+import { useContextOrThrow } from "../../../hooks/useContextOrThrow";
 import { signUpWizardContext } from "../wizard/SignUpWizardContext";
 import { SignUpEnterPasswordButton } from "./SignUpEnterPasswordButton";
 import { SignUpEnterPasswordField } from "./SignUpEnterPasswordField";

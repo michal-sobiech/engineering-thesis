@@ -1,7 +1,7 @@
 import { ScrollableList } from "../../../common/ScrollableList"
 import { StandardConcaveBox } from "../../../common/StandardConcaveBox"
 import { StandardLabeledContainer } from "../../../common/StandardLabeledContainer"
-import { useContextOrThrow } from "../../../utils/useContextOrThrow"
+import { useContextOrThrow } from "../../../hooks/useContextOrThrow"
 import { AdminLandingPageContext } from "./AdminLandingPageContext"
 import { AdminLandingPageUnresolvedEnterpriseReportsListItem } from "./AdminLandingPageUnresolvedEnterpriseReportsListItem"
 

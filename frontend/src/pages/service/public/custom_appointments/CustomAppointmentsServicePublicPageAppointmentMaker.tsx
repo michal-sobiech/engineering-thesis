@@ -1,7 +1,7 @@
 import { Box, Center, Flex } from "@chakra-ui/react"
 import { LocationAutocomplete } from "../../../../common/LocationAutocomplete"
 import { TimeRangePicker } from "../../../../common/TimeRangePicker"
-import { useContextOrThrow } from "../../../../utils/useContextOrThrow"
+import { useContextOrThrow } from "../../../../hooks/useContextOrThrow"
 import { CustomAppointmentsServicePublicPageAppointmentMakerButton } from "./CustomAppointmentsServicePublicPageAppointmentMakerButton"
 import { CustomAppointmentsServicePublicPageContext } from "./CustomAppointmentsServicePublicPageContextValue"
 

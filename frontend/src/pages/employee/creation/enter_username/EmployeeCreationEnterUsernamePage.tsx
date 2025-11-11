@@ -7,11 +7,11 @@ import { StandardButton } from "../../../../common/StandardButton";
 import { StandardFlex } from "../../../../common/StandardFlex";
 import { StandardPanel } from "../../../../common/StandardPanel";
 import { StandardTextField } from "../../../../common/StandardTextField";
+import { useContextOrThrow } from "../../../../hooks/useContextOrThrow";
 import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../../../utils/error";
 import { assertDefined, errorErrResultAsyncFromPromise, fromResult } from "../../../../utils/result";
 import { toInt } from "../../../../utils/string";
 import { toastError } from "../../../../utils/toast";
-import { useContextOrThrow } from "../../../../utils/useContextOrThrow";
 import { employeeCreationWizardContext } from "../wizard/EmployeeCreationWizardContext";
 
 export const EmployeeCreationEnterUsernamePage = () => {

@@ -6,7 +6,7 @@ import { EventWithIdAndCapacity } from "../../common/calendar/EventWithIdAndCapa
 import { WeeklyCalendar } from "../../common/calendar/WeeklyCalendar";
 import { StandardFloatInput } from "../../common/StandardFloatInput";
 import { StandardLabeledContainer } from "../../common/StandardLabeledContainer";
-import { UseStateSetter } from "../../utils/useState";
+import { UseStateSetter } from "../../utils/use-state";
 import { CustomOrNotAppointmentsEvents } from "./calendar/CustomAppointmentsEvents";
 import { WeeklyCalendarCustomAppoinmentsDisabled } from "./calendar/WeeklyCalendarCustomAppointmentsDisabled";
 

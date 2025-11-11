@@ -1,7 +1,7 @@
 import { Select } from "chakra-react-select";
 import { FC } from "react";
 import { typedEntries } from "../../utils/record";
-import { UseStateSetter } from "../../utils/useState";
+import { UseStateSetter } from "../../utils/use-state";
 import { ServiceCathegory, serviceCathegoryLabels } from "./ServiceCathegory";
 
 export interface ServiceCathegoryPickerProps {

@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
+import { useContextOrThrow } from "../../../../hooks/useContextOrThrow";
 import { toastError } from "../../../../utils/toast";
-import { useContextOrThrow } from "../../../../utils/useContextOrThrow";
 import { StandardButton } from "../../../StandardButton";
 import { signUpWizardContext } from "../../wizard/SignUpWizardContext";
 

@@ -1,9 +1,9 @@
 import { ResultAsync } from "neverthrow";
 import { toast } from "react-toastify";
+import { useContextOrThrow } from "../../../hooks/useContextOrThrow";
+import { validatePassword } from "../../../services/validate-password";
 import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../../utils/error";
 import { toastError } from "../../../utils/toast";
-import { useContextOrThrow } from "../../../utils/useContextOrThrow";
-import { validatePassword } from "../../../utils/validate-password";
 import { StandardButton } from "../../StandardButton";
 import { signUpWizardContext } from "../wizard/SignUpWizardContext";
 

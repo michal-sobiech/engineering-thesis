@@ -7,6 +7,7 @@ apis/EnterprisesApi.ts
 apis/EntrepreneursApi.ts
 apis/HealthCheckApi.ts
 apis/IndependentEndUsersApi.ts
+apis/RegularAdminsApi.ts
 apis/ReportApi.ts
 apis/UserApi.ts
 apis/index.ts
@@ -22,6 +23,7 @@ models/CreateEnterpriseServiceReviewRequest.ts
 models/CreateIndependentEndUserRequest.ts
 models/CreateNoCustomAppointmentsEnterpriseServiceRequest.ts
 models/CreateNonCustomAppointmentRequest.ts
+models/CreateRegularAdminRequest.ts
 models/CreateReportRequest.ts
 models/DayOfWeek.ts
 models/EmployeeGetMeResponse.ts
@@ -50,6 +52,8 @@ models/InlineObject3.ts
 models/InlineObject4.ts
 models/InlineObject5.ts
 models/Location.ts
+models/LogInAdminRequest.ts
+models/LogInAdminResponse.ts
 models/LogInEnterpriseEmployeeRequest.ts
 models/LogInEnterpriseEmployeeResponse.ts
 models/LogInIndependentEndUserRequest.ts

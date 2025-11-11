@@ -7,7 +7,7 @@ import { localizer } from "../../../common/localizer";
 import { getLastFromArray } from "../../../utils/array";
 import { durationToMs, splitPeriod } from "../../../utils/date";
 import { Position } from "../../../utils/Position";
-import { UseStateSetter } from "../../../utils/useState";
+import { UseStateSetter } from "../../../utils/use-state";
 import { WeeklyCalendarCustomAppoinmentsDisabledPopup } from "./WeeklyCalendarCustomAppoinmentsDisabledPopup";
 
 export interface WeeklyCalendarCustomAppoinmentsDisabledProps {

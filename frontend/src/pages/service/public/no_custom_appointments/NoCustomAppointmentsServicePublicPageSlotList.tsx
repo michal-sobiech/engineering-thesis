@@ -2,9 +2,9 @@ import { Text } from "@chakra-ui/react";
 import { LocalTime } from "@js-joda/core";
 import { JSX } from "react";
 import { ScrollableList } from "../../../../common/ScrollableList";
+import { useContextOrThrow } from "../../../../hooks/useContextOrThrow";
 import { sameElements } from "../../../../utils/array";
 import { extractHHmmTimeFromLocalTime } from "../../../../utils/date";
-import { useContextOrThrow } from "../../../../utils/useContextOrThrow";
 import { NoCustomAppointmentsServicePublicPageContext } from "./NoCustomAppointmentsServicePublicPageContextValue";
 
 export const NoCustomAppointmentsServicePublicPageSlotList = () => {

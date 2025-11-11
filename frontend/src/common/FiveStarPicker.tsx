@@ -1,7 +1,7 @@
 import { HStack, Icon, IconButton } from "@chakra-ui/react";
 import { FC } from "react";
 import { FaStar } from "react-icons/fa";
-import { UseStateSetter } from "../utils/useState";
+import { UseStateSetter } from "../utils/use-state";
 
 export interface FiveStarPickerProps {
     numStarsOutOf5: number | null,

@@ -9,5 +9,6 @@ export * from './EnterprisesApi';
 export * from './EntrepreneursApi';
 export * from './HealthCheckApi';
 export * from './IndependentEndUsersApi';
+export * from './RegularAdminsApi';
 export * from './ReportApi';
 export * from './UserApi';

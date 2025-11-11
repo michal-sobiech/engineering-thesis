@@ -7,7 +7,7 @@ import { StandardConcaveBox } from "../../../common/StandardConcaveBox";
 import { StandardFlex } from "../../../common/StandardFlex";
 import { StandardLabeledContainer } from "../../../common/StandardLabeledContainer";
 import { StandardPanel } from "../../../common/StandardPanel";
-import { useContextOrThrow } from "../../../utils/useContextOrThrow";
+import { useContextOrThrow } from "../../../hooks/useContextOrThrow";
 import { CustomerLandingPageContext } from "./CustomerLandingPageContext";
 import { CustomerLandingPagePendingAppointment } from "./CustomerLandingPagePendingAppointment";
 

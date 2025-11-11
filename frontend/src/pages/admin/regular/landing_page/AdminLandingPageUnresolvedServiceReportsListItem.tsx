@@ -4,17 +4,17 @@ import { reportsApi } from "../../../api/reports-api";
 import { StandardButton } from "../../../common/StandardButton";
 import { StandardFlex } from "../../../common/StandardFlex";
 import { StandardPanel } from "../../../common/StandardPanel";
+import { useContextOrThrow } from "../../../hooks/useContextOrThrow";
 import { errorErrResultAsyncFromPromise } from "../../../utils/result";
 import { toastError } from "../../../utils/toast";
-import { useContextOrThrow } from "../../../utils/useContextOrThrow";
 import { AdminLandingPageContext } from "./AdminLandingPageContext";
-import { AdminLandingPageUnresolvedReviewReport } from "./AdminLandingPageUnresolvedReport";
+import { AdminLandingPageUnresolvedServiceReport } from "./AdminLandingPageUnresolvedReport";
 
-export const AdminLandingPageUnresolvedReviewReportsListItem: FC<AdminLandingPageUnresolvedReviewReport> = (props) => {
-    const { setUnresolvedReviewReports } = useContextOrThrow(AdminLandingPageContext);
+export const AdminLandingPageUnresolvedServiceReportsListItem: FC<AdminLandingPageUnresolvedServiceReport> = (props) => {
+    const { setUnresolvedServiceReports } = useContextOrThrow(AdminLandingPageContext);
 
-    function removeUnresolvedReviewReportFromList(reportId: number) {
-        setUnresolvedReviewReports((reports) => reports.filter(report => report.reportId != reportId));
+    function removeUnresolvedReportFromList(reportId: number) {
+        setUnresolvedServiceReports((reports) => reports.filter(report => report.reportId != reportId));
     }
 
     const onClick = async () => {
@@ -24,7 +24,7 @@ export const AdminLandingPageUnresolvedReviewReportsListItem: FC<AdminLandingPag
             toastError("Couldn't resolve report. Try again later");
             return;
         }
-        removeUnresolvedReviewReportFromList(props.reportId);
+        removeUnresolvedReportFromList(props.reportId);
     }
 
     return <StandardPanel>
@@ -46,13 +46,13 @@ export const AdminLandingPageUnresolvedReviewReportsListItem: FC<AdminLandingPag
                 Subject of report
             </Heading>
             <Text>
-                Type: review
+                Type: service
             </Text>
             <Text>
-                Review ID: {props.reviewId}
+                Service ID: {props.serviceId}
             </Text>
             <Text>
-                Text: {props.reviewText}
+                Name: {props.serviceName}
             </Text>
 
             <StandardButton backgroundColor="primary.darkRed" onClick={onClick}>

@@ -20,6 +20,7 @@ import { ServiceSearchPage } from "../pages/service/search/ServiceSearchPage";
 import { PageLayout } from "./PageLayout";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { routeTemplates } from "./route-templates";
+import { AdminLogInPage } from "../pages/admin/log-in/AdminLogInPage";
 
 export const router = createBrowserRouter([
     {
@@ -101,6 +102,14 @@ export const router = createBrowserRouter([
             {
                 path: routeTemplates.createServiceReview,
                 element: <CreateServiceReviewPage />
+            },
+            {
+                path: routeTemplates.adminLogIn,
+                element: <AdminLogInPage />
+            },
+            {
+                path: routeTemplates.regularAdminLandingPage,
+                element: <RegularA
             }
         ]
     }

@@ -4,9 +4,9 @@ import { StandardButton } from "../../common/StandardButton";
 import { StandardFlex } from "../../common/StandardFlex";
 import { StandardHorizontalSeparator } from "../../common/StandardHorizontalSeparator";
 import { StandardPanel } from "../../common/StandardPanel";
+import { useContextOrThrow } from "../../hooks/useContextOrThrow";
 import { useIntParam } from "../../hooks/useIntParam";
 import { routes } from "../../router/routes";
-import { useContextOrThrow } from "../../utils/useContextOrThrow";
 import { EnterpriseContext } from "./route/context/EnterpriseContext";
 import { EmployeesScrollableList } from "./staff/EmployeesScrollableList";
 

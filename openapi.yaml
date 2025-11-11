@@ -778,6 +778,52 @@ components:
         reportingUserUsername:
           type: string
 
+    LogInAdminRequest:
+      type: object
+      required:
+        - username
+        - password
+      properties:
+        username:
+          type: string
+          example: jan.kowalski.1
+        password:
+          type: string
+          format: password
+          example: "5=2VPIzYHSIc0l4d1o&es]plB"
+
+    LogInAdminResponse:
+      type: object
+      required:
+        - accessToken
+      properties:
+        accessToken:
+          type: string
+          format: password
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEyMywiaXNzdWVkX2F0IjoxNzU3NTkyMDIyLCJleHBpcmVzX2F0IjoxNzU3NjEzNjIyfQ.R0wpPhA5v-z_NYELi8PLxji0EJFcD75B5_psMb8ZNcc"
+
+    CreateRegularAdminRequest:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - username
+        - password
+      properties:
+        firstName:
+          type: string
+          example: Jan
+        lastName:
+          type: string
+          example: Kowalski
+        username:
+          type: string
+          example: jan.kowalski.1
+        password:
+          type: string
+          format: password
+          example: "5=2VPIzYHSIc0l4d1o&es]plB"
+
   responses:
     OK:
       description: &OK_DESCRIPTION >
@@ -1898,5 +1944,50 @@ paths:
           $ref: "#/components/responses/Unauthorized"
         "403":
           $ref: "#/components/responses/Forbidden"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /auth/admin/log-in:
+    post:
+      tags: [Auth]
+      operationId: logInAdmin
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LogInAdminRequest"
+      responses:
+        "200":
+          description: *OK_DESCRIPTION
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LogInAdminResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /regular-admins:
+    post:
+      tags: [RegularAdmins]
+      operationId: createCreateRegularAdmin
+      security:
+        - JwtBearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateIndependentEndUserRequest"
+      responses:
+        "201":
+          description: *CREATED_DESCRIPTION
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "409":
+          $ref: "#/components/responses/Conflict"
         "500":
           $ref: "#/components/responses/InternalServerError"

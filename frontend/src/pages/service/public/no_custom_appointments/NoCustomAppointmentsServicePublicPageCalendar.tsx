@@ -1,6 +1,6 @@
 import { Calendar, SlotInfo } from "react-big-calendar";
 import { localizer } from "../../../../common/localizer";
-import { useContextOrThrow } from "../../../../utils/useContextOrThrow";
+import { useContextOrThrow } from "../../../../hooks/useContextOrThrow";
 import { NoCustomAppointmentsServicePublicPageContext } from "./NoCustomAppointmentsServicePublicPageContextValue";
 
 import { Box } from "@chakra-ui/react";

@@ -17,6 +17,8 @@ import * as runtime from '../runtime';
 import type {
   InlineObject1,
   InlineObject4,
+  LogInAdminRequest,
+  LogInAdminResponse,
   LogInEnterpriseEmployeeRequest,
   LogInEnterpriseEmployeeResponse,
   LogInIndependentEndUserRequest,
@@ -27,6 +29,10 @@ import {
     InlineObject1ToJSON,
     InlineObject4FromJSON,
     InlineObject4ToJSON,
+    LogInAdminRequestFromJSON,
+    LogInAdminRequestToJSON,
+    LogInAdminResponseFromJSON,
+    LogInAdminResponseToJSON,
     LogInEnterpriseEmployeeRequestFromJSON,
     LogInEnterpriseEmployeeRequestToJSON,
     LogInEnterpriseEmployeeResponseFromJSON,
@@ -36,6 +42,10 @@ import {
     LogInIndependentEndUserResponseFromJSON,
     LogInIndependentEndUserResponseToJSON,
 } from '../models/index';
+
+export interface LogInAdminOperationRequest {
+    logInAdminRequest: LogInAdminRequest;
+}
 
 export interface LogInEnterpriseEmployeeOperationRequest {
     logInEnterpriseEmployeeRequest: LogInEnterpriseEmployeeRequest;
@@ -49,6 +59,43 @@ export interface LogInIndependentEndUserOperationRequest {
  * 
  */
 export class AuthApi extends runtime.BaseAPI {
+
+    /**
+     */
+    async logInAdminRaw(requestParameters: LogInAdminOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<LogInAdminResponse>> {
+        if (requestParameters['logInAdminRequest'] == null) {
+            throw new runtime.RequiredError(
+                'logInAdminRequest',
+                'Required parameter "logInAdminRequest" was null or undefined when calling logInAdmin().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+
+        let urlPath = `/auth/admin/log-in`;
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: LogInAdminRequestToJSON(requestParameters['logInAdminRequest']),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => LogInAdminResponseFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async logInAdmin(logInAdminRequest: LogInAdminRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<LogInAdminResponse> {
+        const response = await this.logInAdminRaw({ logInAdminRequest: logInAdminRequest }, initOverrides);
+        return await response.value();
+    }
 
     /**
      */

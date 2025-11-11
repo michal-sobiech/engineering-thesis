@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router";
-import { useContextOrThrow } from "../../../utils/useContextOrThrow";
+import { useContextOrThrow } from "../../../hooks/useContextOrThrow";
 import { StandardButton } from "../../StandardButton";
 import { signUpWizardContext } from "../wizard/SignUpWizardContext";
 

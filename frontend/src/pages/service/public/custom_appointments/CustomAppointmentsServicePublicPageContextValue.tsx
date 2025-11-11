@@ -1,7 +1,7 @@
 import { LocalDate, LocalTime } from "@js-joda/core";
 import { createContext } from "react";
 import { Position } from "../../../../utils/Position";
-import { UseStateSetter } from "../../../../utils/useState";
+import { UseStateSetter } from "../../../../utils/use-state";
 
 export interface CustomAppointmentsServicePublicPageContextValue {
     selectedDate: LocalDate | null;

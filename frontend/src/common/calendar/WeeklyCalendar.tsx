@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { Calendar, SlotInfo } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { UseStateSetter } from "../../utils/useState";
+import { UseStateSetter } from "../../utils/use-state";
 import { localizer } from "../localizer";
 import { EventWithId } from "./EventWithId";
 

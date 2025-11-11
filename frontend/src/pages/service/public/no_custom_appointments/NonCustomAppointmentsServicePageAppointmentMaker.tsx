@@ -1,5 +1,5 @@
 import { Center } from "@chakra-ui/react";
-import { useContextOrThrow } from "../../../../utils/useContextOrThrow";
+import { useContextOrThrow } from "../../../../hooks/useContextOrThrow";
 import { NoCustomAppointmentsServicePublicPageContext } from "./NoCustomAppointmentsServicePublicPageContextValue";
 import { NonCustomAppointmentsServicePublicPageAppointmentMakerButton } from "./NonCustomAppointmentsServicePublicPageAppointmentMakerButton";
 
