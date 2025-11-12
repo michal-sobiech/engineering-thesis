@@ -1,4 +1,7 @@
 import { EnterpriseServicesApi } from "../GENERATED-api";
-import { auhtorizedApiConfiguration } from "./config/authorized-api-config";
+import { useAuthorizedApiConfig } from "./config/authorized-api-config";
 
-export const servicesApi = new EnterpriseServicesApi(auhtorizedApiConfiguration);
+export function useServicesApi() {
+    const authorizedApiConfig = useAuthorizedApiConfig();
+    return new EnterpriseServicesApi(authorizedApiConfig);
+}

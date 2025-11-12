@@ -4,7 +4,9 @@ import EmailField from "../EmailField";
 import { StandardFlex } from "../StandardFlex";
 import { StandardPanel } from "../StandardPanel";
 import { IndependentEndUserGroup } from "../UserGroup";
+import { IndependentEndUserLogInButton } from "./IndependentEndUserLogInButton";
 import { IndependentEndUserLogInContextValue, logInContext } from "./IndependentEndUserLogInContext";
+import { IndependentEndUserLogInPasswordField } from "./IndependentEndUserLogInPasswordField";
 
 export interface IndependentEndUserLogInPageProps {
     userGroup: IndependentEndUserGroup,

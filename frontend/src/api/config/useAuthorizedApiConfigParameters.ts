@@ -1,0 +1,17 @@
+import { useAuth } from "../../auth/useAuth";
+import { ConfigurationParameters } from "../../GENERATED-api";
+
+export function useAuthorizedApiConfigParameters() {
+    const { auth } = useAuth();
+
+    const jwt = auth.isAuthenticated ? auth.jwtToken : "";
+
+    const authorizedApiConfigurationParameters: ConfigurationParameters = {
+        // ...basicApiConfigParameters,
+        basePath: "http://localhost:8080",
+        accessToken: jwt,
+    };
+
+    return authorizedApiConfigurationParameters;
+
+}

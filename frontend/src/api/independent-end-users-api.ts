@@ -1,4 +1,7 @@
 import { IndependentEndUsersApi } from "../GENERATED-api";
-import { auhtorizedApiConfiguration } from "./config/authorized-api-config";
+import { useAuthorizedApiConfig } from "./config/authorized-api-config";
 
-export const independentEndUsersApi = new IndependentEndUsersApi(auhtorizedApiConfiguration)
+export function useIndependentEndUsersApi() {
+    const authorizedApiConfig = useAuthorizedApiConfig();
+    return new IndependentEndUsersApi(authorizedApiConfig);
+}

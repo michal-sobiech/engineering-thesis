@@ -1,4 +1,7 @@
 import { EntrepreneursApi } from "../GENERATED-api";
-import { auhtorizedApiConfiguration } from "./config/authorized-api-config";
+import { useAuthorizedApiConfig } from "./config/authorized-api-config";
 
-export const entrepreneursApi = new EntrepreneursApi(auhtorizedApiConfiguration);
+export function useEntrepreneursApi() {
+    const authorizedApiConfig = useAuthorizedApiConfig();
+    return new EntrepreneursApi(authorizedApiConfig);
+}

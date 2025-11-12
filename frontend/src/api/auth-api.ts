@@ -1,4 +1,7 @@
 import { AuthApi } from "../GENERATED-api";
-import { basicApiConfig } from "./config/basic-api-config";
+import { useBasicApiConfig } from "./config/useBasicApiConfig";
 
-export const authApi = new AuthApi(basicApiConfig);
+export function useIndependentEndUsersApi() {
+    const basicApiConfig = useBasicApiConfig();
+    return new AuthApi(basicApiConfig);
+}

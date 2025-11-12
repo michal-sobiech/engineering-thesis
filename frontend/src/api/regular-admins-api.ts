@@ -1,4 +1,7 @@
 import { RegularAdminsApi } from "../GENERATED-api";
-import { auhtorizedApiConfiguration } from "./config/authorized-api-config";
+import { useAuthorizedApiConfig } from "./config/authorized-api-config";
 
-export const regularAdminsApi = new RegularAdminsApi(auhtorizedApiConfiguration);
+export function useRegularAdminsApi() {
+    const authorizedApiConfig = useAuthorizedApiConfig();
+    return new RegularAdminsApi(authorizedApiConfig);
+}
