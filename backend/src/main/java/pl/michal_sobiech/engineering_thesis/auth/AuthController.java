@@ -1,6 +1,8 @@
 package pl.michal_sobiech.engineering_thesis.auth;
 
 import org.SwaggerCodeGenExample.api.AuthApi;
+import org.SwaggerCodeGenExample.model.LogInAdminRequest;
+import org.SwaggerCodeGenExample.model.LogInAdminResponse;
 import org.SwaggerCodeGenExample.model.LogInEnterpriseEmployeeRequest;
 import org.SwaggerCodeGenExample.model.LogInEnterpriseEmployeeResponse;
 import org.SwaggerCodeGenExample.model.LogInIndependentEndUserRequest;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.jwt.JwtCreationService;
 import pl.michal_sobiech.engineering_thesis.scope_username_password_authentication.EnterpriseIdUsernamePasswordAuthentication;
+import pl.michal_sobiech.engineering_thesis.security.authentication.AdminAuthenticationProvider;
 import pl.michal_sobiech.engineering_thesis.security.authentication.EmployeeAuthenticationProvider;
 import pl.michal_sobiech.engineering_thesis.security.authentication.IndependentEndUserAuthenticationProvider;
 import pl.michal_sobiech.engineering_thesis.security.authentication.StringUsernamePasswordAuthentication;
@@ -23,6 +26,7 @@ public class AuthController implements AuthApi {
     private final EmployeeAuthenticationProvider employeeAuthenticationProvider;
     private final IndependentEndUserAuthenticationProvider independentEndUserAuthenticationProvider;
     private final JwtCreationService jwtCreationService;
+    private final AdminAuthenticationProvider adminAuthenticationProvider;
 
     @Override
     public ResponseEntity<LogInEnterpriseEmployeeResponse> logInEnterpriseEmployee(
@@ -54,6 +58,20 @@ public class AuthController implements AuthApi {
         String jwt = jwtCreationService.generateTokenNow(userIdAsString);
 
         var responseBody = new LogInIndependentEndUserResponse(jwt);
+        return ResponseEntity.ok(responseBody);
+    }
+
+    @Override
+    public ResponseEntity<LogInAdminResponse> logInAdmin(LogInAdminRequest logInAdminRequest) {
+        var token = new StringUsernamePasswordAuthentication(
+                logInAdminRequest.getUsername(),
+                logInAdminRequest.getPassword());
+
+        UserIdAuthentication authentication = adminAuthenticationProvider.authenticate(token);
+        String userIdAsString = String.valueOf(authentication.getPrincipal());
+        String jwt = jwtCreationService.generateTokenNow(userIdAsString);
+
+        var responseBody = new LogInAdminResponse(jwt);
         return ResponseEntity.ok(responseBody);
     }
 
