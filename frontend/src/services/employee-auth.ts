@@ -5,9 +5,9 @@ import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../utils/error";
 import { errorErrResultAsyncFromPromise } from "../utils/result";
 import { LogInStatus } from "./LogInStatus";
 
-export function logInAdmin(username: string, password: string): ResultAsync<LogInStatus, Error> {
-    const requestParams = { logInAdminRequest: { username, password } };
-    const promise = authApi.logInAdminRaw(requestParams);
+export function logInEmployee(enterpriseId: number, username: string, password: string): ResultAsync<LogInStatus, Error> {
+    const requestParams = { logInEnterpriseEmployeeRequest: { enterpriseId, username, password } };
+    const promise = authApi.logInEnterpriseEmployeeRaw(requestParams);
 
     return errorErrResultAsyncFromPromise(promise)
         .andThen(response => {

@@ -3,13 +3,11 @@ import { FC, useState } from "react";
 import EmailField from "../EmailField";
 import { StandardFlex } from "../StandardFlex";
 import { StandardPanel } from "../StandardPanel";
-import { UserGroup } from "../UserGroup";
-import { LogInButton } from "./LogInButton";
-import { logInContext, LogInContextValue } from "./LogInContext";
-import { LogInPasswordField } from "./LogInPasswordField";
+import { IndependentEndUserGroup } from "../UserGroup";
+import { IndependentEndUserLogInContextValue, logInContext } from "./IndependentEndUserLogInContext";
 
 export interface IndependentEndUserLogInPageProps {
-    userGroup: UserGroup,
+    userGroup: IndependentEndUserGroup,
     landingPageUrl: string,
 }
 
@@ -17,7 +15,7 @@ export const IndependentEndUserLogInPage: FC<IndependentEndUserLogInPageProps> =
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
 
-    const contextValue: LogInContextValue = { email, password, userGroup, landingPageUrl };
+    const contextValue: IndependentEndUserLogInContextValue = { email, password, userGroup, landingPageUrl };
 
     return <Center height="100vh">
         <Box width="40vw">
@@ -28,8 +26,8 @@ export const IndependentEndUserLogInPage: FC<IndependentEndUserLogInPageProps> =
                             Log in
                         </Text>
                         <EmailField text={email} setText={setEmail} />
-                        <LogInPasswordField text={password} setText={setPassword} />
-                        <LogInButton />
+                        <IndependentEndUserLogInPasswordField text={password} setText={setPassword} />
+                        <IndependentEndUserLogInButton />
                     </StandardFlex>
                 </StandardPanel>
             </logInContext.Provider>

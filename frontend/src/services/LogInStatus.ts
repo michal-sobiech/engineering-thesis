@@ -1,0 +1,1 @@
+export type LogInStatus = "SUCCESS" | "BAD_CREDENTIALS";

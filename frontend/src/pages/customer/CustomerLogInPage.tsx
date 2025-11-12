@@ -1,4 +1,4 @@
-import { IndependentEndUserLogInPage } from "../../common/log_in/LogInPage"
+import { IndependentEndUserLogInPage } from "../../common/independent-end-user-log-in/IndependentEndUserLogInPage"
 import { routes } from "../../router/routes"
 
 export const CustomerLogInPage = () => {
