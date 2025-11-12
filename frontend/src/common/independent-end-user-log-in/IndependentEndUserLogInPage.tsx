@@ -1,4 +1,4 @@
-import { Box, Center, Text } from "@chakra-ui/react";
+import { Box, Flex, Text } from "@chakra-ui/react";
 import { FC, useState } from "react";
 import EmailField from "../EmailField";
 import { StandardFlex } from "../StandardFlex";
@@ -19,8 +19,10 @@ export const IndependentEndUserLogInPage: FC<IndependentEndUserLogInPageProps> =
 
     const contextValue: IndependentEndUserLogInContextValue = { email, password, userGroup, landingPageUrl };
 
-    return <Center height="100vh">
-        <Box width="40vw">
+    console.log("eeee")
+
+    return <Flex height="100%" align="center" justify="center">
+        <Box width="60%">
             <logInContext.Provider value={contextValue}>
                 <StandardPanel>
                     <StandardFlex>
@@ -34,5 +36,5 @@ export const IndependentEndUserLogInPage: FC<IndependentEndUserLogInPageProps> =
                 </StandardPanel>
             </logInContext.Provider>
         </Box>
-    </Center>;
+    </Flex>;
 };

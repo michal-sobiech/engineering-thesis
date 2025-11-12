@@ -1,6 +1,8 @@
+import { Box, Flex } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { Outlet, useNavigation } from "react-router";
 import { toast, ToastContainer } from "react-toastify";
+import { Navbar } from "../common/navbar/Navbar";
 
 export function PageLayout() {
     const location = useNavigation();
@@ -10,7 +12,18 @@ export function PageLayout() {
     return (
         <>
             <ToastContainer position="top-center" />
-            <Outlet />
+            <Flex direction="column">
+                <Box
+                    height="8vh"
+                    width="100vw">
+                    <Navbar />
+                </Box>
+                <Box
+                    height="92vh"
+                    width="100vw">
+                    <Outlet />
+                </Box>
+            </Flex>
         </>
     );
 }

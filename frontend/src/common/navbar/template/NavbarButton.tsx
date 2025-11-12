@@ -14,7 +14,7 @@ export const NavbarButton: FC<NavbarButtonProps> = ({ text, link }) => {
         navigate(link);
     }
 
-    return <Button onClick={onClick}>
-        text
+    return <Button onClick={onClick} background="transparent">
+        {text}
     </Button>
 }
