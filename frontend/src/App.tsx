@@ -10,7 +10,7 @@ function App() {
         <ChakraProvider value={system}>
             <RouterProvider router={router} />
         </ChakraProvider>
-    </AppProviders>
+    </AppProviders>;
 }
 
 export default App;

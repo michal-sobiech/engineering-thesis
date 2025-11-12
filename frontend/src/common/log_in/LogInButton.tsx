@@ -2,8 +2,6 @@ import { errAsync, ok, okAsync, Result, ResultAsync } from "neverthrow";
 import { useNavigate } from "react-router";
 import { authApi } from "../../api/auth-api";
 import { userApi } from "../../api/user-api";
-import { Auth } from "../../auth/Auth";
-import { authCell } from "../../auth/AuthProvider";
 import { setJwtTokenInLocalStorage } from "../../auth/storage";
 import { useContextOrThrow } from "../../hooks/useContextOrThrow";
 import { errorErrResultAsyncFromPromise, promiseResultToErrorAsyncResult } from "../../utils/result";

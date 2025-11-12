@@ -1,4 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
+import { AdminLogInPage } from "../pages/admin/log-in/AdminLogInPage";
 import { CustomerLogInPage } from "../pages/customer/CustomerLogInPage";
 import { CustomerSignUpOrLogIn } from "../pages/customer/CustomerSignUpOrLogInPage";
 import { CustomerSignUpPage } from "../pages/customer/CustomerSignUpPage";
@@ -20,7 +21,6 @@ import { ServiceSearchPage } from "../pages/service/search/ServiceSearchPage";
 import { PageLayout } from "./PageLayout";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { routeTemplates } from "./route-templates";
-import { AdminLogInPage } from "../pages/admin/log-in/AdminLogInPage";
 
 export const router = createBrowserRouter([
     {
@@ -107,10 +107,10 @@ export const router = createBrowserRouter([
                 path: routeTemplates.adminLogIn,
                 element: <AdminLogInPage />
             },
-            {
-                path: routeTemplates.regularAdminLandingPage,
-                element: <RegularA
-            }
+            // {
+            //     path: routeTemplates.regularAdminLandingPage,
+            //     element: <RegularA
+            // }
         ]
     }
 ])

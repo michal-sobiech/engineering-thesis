@@ -1,12 +1,12 @@
 import { Heading, Text } from "@chakra-ui/react";
 import { FC } from "react";
-import { reportsApi } from "../../../api/reports-api";
-import { StandardButton } from "../../../common/StandardButton";
-import { StandardFlex } from "../../../common/StandardFlex";
-import { StandardPanel } from "../../../common/StandardPanel";
-import { useContextOrThrow } from "../../../hooks/useContextOrThrow";
-import { errorErrResultAsyncFromPromise } from "../../../utils/result";
-import { toastError } from "../../../utils/toast";
+import { reportsApi } from "../../../../api/reports-api";
+import { StandardButton } from "../../../../common/StandardButton";
+import { StandardFlex } from "../../../../common/StandardFlex";
+import { StandardPanel } from "../../../../common/StandardPanel";
+import { useContextOrThrow } from "../../../../hooks/useContextOrThrow";
+import { errorErrResultAsyncFromPromise } from "../../../../utils/result";
+import { toastError } from "../../../../utils/toast";
 import { AdminLandingPageContext } from "./AdminLandingPageContext";
 import { AdminLandingPageUnresolvedReviewReport } from "./AdminLandingPageUnresolvedReport";
 
@@ -14,7 +14,9 @@ export const AdminLandingPageUnresolvedReviewReportsListItem: FC<AdminLandingPag
     const { setUnresolvedReviewReports } = useContextOrThrow(AdminLandingPageContext);
 
     function removeUnresolvedReviewReportFromList(reportId: number) {
-        setUnresolvedReviewReports((reports) => reports.filter(report => report.reportId != reportId));
+        setUnresolvedReviewReports((reports: AdminLandingPageUnresolvedReviewReport[]) => {
+            return reports.filter(report => report.reportId != reportId)
+        });
     }
 
     const onClick = async () => {

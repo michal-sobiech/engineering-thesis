@@ -1,6 +1,5 @@
 import { FC, ReactNode } from "react";
 import { Navigate } from "react-router";
-import { authCell } from "../auth/AuthProvider";
 import { routes } from "./routes";
 
 export interface ProtectedRouteProps {
@@ -8,7 +7,9 @@ export interface ProtectedRouteProps {
 }
 
 export const ProtectedRoute: FC<ProtectedRouteProps> = ({ children }) => {
-    if (authCell === null) {
+    // TODO
+    // if (authCell === null) {
+    if (false) {
         return <Navigate to={routes.mainPage} replace />;
     } else {
         return <>

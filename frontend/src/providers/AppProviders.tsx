@@ -1,11 +1,8 @@
-import { ReactNode } from "react";
+import { FC, PropsWithChildren } from "react";
+import { AuthContextProvider } from "./AuthContextProvider";
 
-export const AppProviders = ({ children }: { children: ReactNode }) => {
-    // return <EnterpriseContextProvider>
-    //     {children}
-    // </EnterpriseContextProvider>;
-
-    return <>
+export const AppProviders: FC<PropsWithChildren> = ({ children }) => {
+    return <AuthContextProvider>
         {children}
-    </>
+    </AuthContextProvider >
 }
