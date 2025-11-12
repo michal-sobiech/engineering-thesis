@@ -1,6 +1,7 @@
 import { Center, Text } from "@chakra-ui/react"
 import { useState } from "react"
 import { useNavigate } from "react-router"
+import { useAuthApi } from "../../../api/auth-api"
 import { StandardButton } from "../../../common/StandardButton"
 import { StandardFlex } from "../../../common/StandardFlex"
 import { StandardPanel } from "../../../common/StandardPanel"
@@ -10,13 +11,14 @@ import { logInAdmin } from "../../../services/admin-auth"
 import { toastError } from "../../../utils/toast"
 
 export const AdminLogInPage = () => {
+    const authApi = useAuthApi();
     const navigate = useNavigate();
 
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
 
     const onClick = async () => {
-        const logInResult = await logInAdmin(username, password);
+        const logInResult = await logInAdmin(username, password, authApi);
 
         if (logInResult.isOk()) {
             navigate(routes.regularAdminLandingPage);

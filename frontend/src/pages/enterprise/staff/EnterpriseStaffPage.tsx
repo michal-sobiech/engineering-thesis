@@ -1,6 +1,7 @@
 import { Box, Center, Flex, Heading } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { useEnterprisesApi } from "../../../api/enterprises-api";
 import { LinkScrollableList } from "../../../common/LinkScrollableList";
 import { StandardBox } from "../../../common/StandardBox";
 import { StandardButton } from "../../../common/StandardButton";
@@ -18,6 +19,7 @@ import { fetchServices } from "../../service/service-utils";
 import { fetchEnterpriseData } from "../utils";
 
 export const EnterpriseStaffPage = () => {
+    const enterprisesApi = useEnterprisesApi();
     const navigate = useNavigate();
     const enterpriseId = useIntParam("enterpriseId");
 
@@ -48,7 +50,7 @@ export const EnterpriseStaffPage = () => {
 
     useEffect(() => {
         async function loadEnterpriseData(): Promise<void> {
-            const data = await fetchEnterpriseData(enterpriseId);
+            const data = await fetchEnterpriseData(enterpriseId, enterprisesApi);
             if (data.isErr()) {
                 navigate(routes.mainPage);
                 return;
@@ -64,7 +66,7 @@ export const EnterpriseStaffPage = () => {
 
     useEffect(() => {
         async function loadServicesData(): Promise<void> {
-            const result = await fetchServices(enterpriseId);
+            const result = await fetchServices(enterpriseId, enterprisesApi);
             if (result.isErr()) {
                 navigate(routes.mainPage);
                 return;

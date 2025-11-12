@@ -1,11 +1,11 @@
 import { errAsync, okAsync, ResultAsync } from "neverthrow";
-import { authApi } from "../api/auth-api";
 import { setJwtTokenInLocalStorage } from "../auth/storage";
+import { AuthApi } from "../GENERATED-api";
 import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../utils/error";
 import { errorErrResultAsyncFromPromise } from "../utils/result";
 import { LogInStatus } from "./LogInStatus";
 
-export function logInAdmin(username: string, password: string): ResultAsync<LogInStatus, Error> {
+export function logInAdmin(username: string, password: string, authApi: AuthApi): ResultAsync<LogInStatus, Error> {
     const requestParams = { logInAdminRequest: { username, password } };
     const promise = authApi.logInAdminRaw(requestParams);
 

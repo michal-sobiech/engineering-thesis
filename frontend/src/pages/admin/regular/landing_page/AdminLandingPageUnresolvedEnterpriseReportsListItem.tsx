@@ -1,6 +1,6 @@
 import { Heading, Text } from "@chakra-ui/react";
 import { FC } from "react";
-import { reportsApi } from "../../../../api/reports-api";
+import { useReportsApi } from "../../../../api/reports-api";
 import { StandardButton } from "../../../../common/StandardButton";
 import { StandardFlex } from "../../../../common/StandardFlex";
 import { StandardPanel } from "../../../../common/StandardPanel";
@@ -11,6 +11,8 @@ import { AdminLandingPageContext } from "./AdminLandingPageContext";
 import { AdminLandingPageUnresolvedEnterpriseReport } from "./AdminLandingPageUnresolvedReport";
 
 export const AdminLandingPageUnresolvedEnterpriseReportsListItem: FC<AdminLandingPageUnresolvedEnterpriseReport> = (props) => {
+    const reportsApi = useReportsApi();
+
     const { setUnresolvedEnterpriseReports } = useContextOrThrow(AdminLandingPageContext);
 
     function removeUnresolvedEnterpriseReportFromList(reportId: number) {

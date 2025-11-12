@@ -1,11 +1,12 @@
 import { ResultAsync } from "neverthrow";
-import { entrepreneursApi } from "../../../api/entrepreneurs-api";
+import { useEntrepreneursApi } from "../../../api/entrepreneurs-api";
 import { IndependentEndUserSignUpWizard } from "../../../common/sign-up-page/wizard/SignUpWizard";
 import { CreateIndependentEndUserRequest } from "../../../GENERATED-api";
 import { routes } from "../../../router/routes";
 import { errorErrResultAsyncFromPromise } from "../../../utils/result";
 
 export const EntrepreneurSignUpWizard = () => {
+    const entrepreneursApi = useEntrepreneursApi();
 
     function createUser(request: CreateIndependentEndUserRequest): ResultAsync<void, Error> {
         const promise = entrepreneursApi.createEntrepreneur(request);

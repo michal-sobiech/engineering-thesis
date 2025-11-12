@@ -1,7 +1,7 @@
 import { Box, Center } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { reportsApi } from "../../../../api/reports-api";
+import { useReportsApi } from "../../../../api/reports-api";
 import { GetUnresolvedReports200ResponseInner } from "../../../../GENERATED-api";
 import { routes } from "../../../../router/routes";
 import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../../../utils/error";
@@ -19,6 +19,7 @@ export const AdminLandingPage = () => {
     const [unresolvedReviewReports, setUnresolvedReviewReports] = useState<AdminLandingPageUnresolvedReviewReport[]>([]);
 
     const navigate = useNavigate();
+    const reportsApi = useReportsApi();
 
     const contextValue: AdminLandingPageContextValue = {
         unresolvedEnterpriseReports,

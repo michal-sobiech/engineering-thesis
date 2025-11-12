@@ -1,6 +1,7 @@
 import { Box, Center, Flex, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { useEnterprisesApi } from "../../../api/enterprises-api";
 import { ScrollableList } from "../../../common/ScrollableList";
 import { StandardBox } from "../../../common/StandardBox";
 import { StandardHorizontalSeparator } from "../../../common/StandardHorizontalSeparator";
@@ -14,6 +15,7 @@ import { EnterprisePublicPageHeader } from "./EnterprisePublicPageHeader";
 import { EnterprisePublicPageServicesList } from "./EnterprisePublicPageServicesList";
 
 export const EnterprisePublicPage = () => {
+    const enteprisesApi = useEnterprisesApi();
     const navigate = useNavigate();
     const enterpriseId = useIntParam("enterpriseId");
 
@@ -25,7 +27,7 @@ export const EnterprisePublicPage = () => {
 
     useEffect(() => {
         async function loadData(): Promise<void> {
-            const data = await fetchEnterpriseData(enterpriseId);
+            const data = await fetchEnterpriseData(enterpriseId, enteprisesApi);
             if (data.isErr()) {
                 throw navigate(routes.mainPage);
             }

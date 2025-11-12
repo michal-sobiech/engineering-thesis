@@ -1,7 +1,7 @@
 import { Box, Center, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { servicesApi } from "../../../api/services-api";
+import { useServicesApi } from "../../../api/services-api";
 import { FiveStarPicker } from "../../../common/FiveStarPicker";
 import { StandardButton } from "../../../common/StandardButton";
 import { StandardFlex } from "../../../common/StandardFlex";
@@ -15,6 +15,7 @@ import { errorErrResultAsyncFromPromise } from "../../../utils/result";
 import { toastError } from "../../../utils/toast";
 
 export const CreateServiceReviewPage = () => {
+    const servicesApi = useServicesApi();
     const serviceId = useIntParam("serviceId");
     const navigate = useNavigate();
 

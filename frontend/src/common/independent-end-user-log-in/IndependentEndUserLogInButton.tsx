@@ -1,4 +1,6 @@
 import { Result } from "neverthrow";
+import { useAuthApi } from "../../api/auth-api";
+import { useUsersApi } from "../../api/user-api";
 import { useContextOrThrow } from "../../hooks/useContextOrThrow";
 import { useNavigateWithToastDismiss } from "../../hooks/useNavigateWithToastDismiss";
 import { logInCustomer } from "../../services/customer-auth";
@@ -10,15 +12,17 @@ import { StandardButton } from "../StandardButton";
 import { logInContext } from "./IndependentEndUserLogInContext";
 
 export const IndependentEndUserLogInButton = () => {
+    const authApi = useAuthApi();
+    const userApi = useUsersApi();
     const { email, password, userGroup, landingPageUrl } = useContextOrThrow(logInContext);
     const navigate = useNavigateWithToastDismiss();
 
     const onClick = async () => {
         var result: Result<IndependentEndUserLogInStatus, Error>;
         if (userGroup === "CUSTOMER") {
-            result = await logInCustomer(email, password);
+            result = await logInCustomer(email, password, authApi, userApi);
         } else {
-            result = await logInEntrepreneur(email, password);
+            result = await logInEntrepreneur(email, password, authApi, userApi);
         }
 
         if (result.isErr()) {

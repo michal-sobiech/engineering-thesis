@@ -1,7 +1,7 @@
 import { Flex, Text } from "@chakra-ui/react";
 import { ReactElement, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { entrepreneursApi } from "../../../api/entrepreneurs-api";
+import { useEntrepreneursApi } from "../../../api/entrepreneurs-api";
 import { ScrollableList } from "../../../common/ScrollableList";
 import { StandardBox } from "../../../common/StandardBox";
 import { StandardButton } from "../../../common/StandardButton";
@@ -11,6 +11,7 @@ import { routes } from "../../../router/routes";
 import { errorErrResultAsyncFromPromise } from "../../../utils/result";
 
 export const EnterprisesScrollableList = () => {
+    const entrepreneursApi = useEntrepreneursApi();
     const navigate = useNavigate();
     const [itemsData, setItemsData] = useState<GetEntrepreneurEnterprisesResponseItem[] | null>(null);
 

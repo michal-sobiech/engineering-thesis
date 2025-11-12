@@ -1,6 +1,6 @@
 import { Box, Center, Text } from "@chakra-ui/react";
 import { toast } from "react-toastify";
-import { enterpriseEmployeesApi } from "../../../../api/enterprise-employees-api";
+import { useEnterpriseEmployeesApi } from "../../../../api/enterprise-employees-api";
 import { StandardButton } from "../../../../common/StandardButton";
 import { StandardFlex } from "../../../../common/StandardFlex";
 import { StandardPanel } from "../../../../common/StandardPanel";
@@ -13,6 +13,7 @@ import { toastError } from "../../../../utils/toast";
 import { employeeCreationWizardContext } from "../wizard/EmployeeCreationWizardContext";
 
 export const EmployeeCreationEnterPasswordPage = () => {
+    const enterpriseEmployeesApi = useEnterpriseEmployeesApi();
     const enterpriseId = useIntParam("enterpriseId");
     const { incrementStep, username, firstName, lastName, password, setPassword } = useContextOrThrow(employeeCreationWizardContext);
 

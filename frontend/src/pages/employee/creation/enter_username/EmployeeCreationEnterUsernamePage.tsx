@@ -2,11 +2,12 @@ import { Center, Text } from "@chakra-ui/react";
 import { ResultAsync } from "neverthrow";
 import { useParams } from "react-router";
 import { toast } from "react-toastify";
-import { enterpriseEmployeesApi } from "../../../../api/enterprise-employees-api";
+import { useEnterpriseEmployeesApi } from "../../../../api/enterprise-employees-api";
 import { StandardButton } from "../../../../common/StandardButton";
 import { StandardFlex } from "../../../../common/StandardFlex";
 import { StandardPanel } from "../../../../common/StandardPanel";
 import { StandardTextField } from "../../../../common/StandardTextField";
+import { EnterpriseEmployeesApi } from "../../../../GENERATED-api";
 import { useContextOrThrow } from "../../../../hooks/useContextOrThrow";
 import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../../../utils/error";
 import { assertDefined, errorErrResultAsyncFromPromise, fromResult } from "../../../../utils/result";
@@ -15,6 +16,7 @@ import { toastError } from "../../../../utils/toast";
 import { employeeCreationWizardContext } from "../wizard/EmployeeCreationWizardContext";
 
 export const EmployeeCreationEnterUsernamePage = () => {
+    const enterpriseEmployeesApi = useEnterpriseEmployeesApi();
     const { enterpriseId } = useParams<{ enterpriseId: string }>();
     const { incrementStep, username, setUsername } = useContextOrThrow(employeeCreationWizardContext);
 
@@ -27,7 +29,7 @@ export const EmployeeCreationEnterUsernamePage = () => {
         const result = await fromResult(assertDefined(enterpriseId))
             .map(enterpriseId => toInt(enterpriseId))
             .andThen(enterpriseId => assertDefined(enterpriseId))
-            .andThen(enterpriseId => checkUsernameAvailable(enterpriseId, username));
+            .andThen(enterpriseId => checkUsernameAvailable(enterpriseId, username, enterpriseEmployeesApi));
         if (result.isOk()) {
             const usernameExists = result.value;
             if (usernameExists) {
@@ -61,7 +63,7 @@ export const EmployeeCreationEnterUsernamePage = () => {
     </Center>;
 }
 
-function checkUsernameAvailable(enterpriseId: number, username: string): ResultAsync<boolean, Error> {
+function checkUsernameAvailable(enterpriseId: number, username: string, enterpriseEmployeesApi: EnterpriseEmployeesApi): ResultAsync<boolean, Error> {
     const promise = enterpriseEmployeesApi.checkEmployeeUsernameExists(enterpriseId, username);
     return errorErrResultAsyncFromPromise(promise)
         .map(response => !response.isExisting);

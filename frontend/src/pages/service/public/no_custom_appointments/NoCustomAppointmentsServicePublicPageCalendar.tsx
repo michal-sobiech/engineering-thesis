@@ -7,13 +7,14 @@ import { Box } from "@chakra-ui/react";
 import { LocalDate, LocalTime } from "@js-joda/core";
 import { ResultAsync } from "neverthrow";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { servicesApi } from "../../../../api/services-api";
+import { useServicesApi } from "../../../../api/services-api";
 import { useIntParam } from "../../../../hooks/useIntParam";
 import { createUtcDateFromLocalDate, extractLocalDateFromDate } from "../../../../utils/date";
 import { errorErrResultAsyncFromPromise } from "../../../../utils/result";
 import { toastError } from "../../../../utils/toast";
 
 export const NoCustomAppointmentsServicePublicPageCalendar = () => {
+    const servicesApi = useServicesApi();
     const serviceId = useIntParam("serviceId");
 
     const { selectedDate, setSelectedDate, setFreeSlotsOnSelectedDate: setFreeAppointmentsOnSelectedDate } = useContextOrThrow(NoCustomAppointmentsServicePublicPageContext);

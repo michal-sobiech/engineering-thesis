@@ -1,5 +1,5 @@
 import { LocalDateTime } from "@js-joda/core";
-import { appointmentsApi } from "../../../../api/appointments-api";
+import { useAppointmentsApi } from "../../../../api/appointments-api";
 import { StandardButton } from "../../../../common/StandardButton";
 import { useContextOrThrow } from "../../../../hooks/useContextOrThrow";
 import { useIntParam } from "../../../../hooks/useIntParam";
@@ -11,6 +11,7 @@ import { toastError } from "../../../../utils/toast";
 import { NoCustomAppointmentsServicePublicPageContext } from "./NoCustomAppointmentsServicePublicPageContextValue";
 
 export const NonCustomAppointmentsServicePublicPageAppointmentMakerButton = () => {
+    const appointmentsApi = useAppointmentsApi();
     const serviceId = useIntParam("serviceId");
 
     const {

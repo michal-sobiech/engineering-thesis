@@ -1,7 +1,7 @@
 import { Center, Separator, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { entrepreneursApi } from "../../../api/entrepreneurs-api";
+import { useEntrepreneursApi } from "../../../api/entrepreneurs-api";
 import { StandardButton } from "../../../common/StandardButton";
 import { StandardFlex } from "../../../common/StandardFlex";
 import { StandardPanel } from "../../../common/StandardPanel";
@@ -10,6 +10,7 @@ import { errorErrResultAsyncFromPromise } from "../../../utils/result";
 import { EnterprisesScrollableList } from "./EntreprisesScrollableList";
 
 export const EntrepreneurLandingPage = () => {
+    const entrepreneursApi = useEntrepreneursApi();
     const navigate = useNavigate();
 
     const [firstName, setFirstName] = useState<string>("");

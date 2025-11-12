@@ -1,11 +1,12 @@
 import { errAsync, okAsync, ResultAsync } from "neverthrow";
-import { authApi } from "../api/auth-api";
+import { useAuthApi } from "../api/auth-api";
 import { setJwtTokenInLocalStorage } from "../auth/storage";
 import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../utils/error";
 import { errorErrResultAsyncFromPromise } from "../utils/result";
 import { LogInStatus } from "./LogInStatus";
 
 export function logInEmployee(enterpriseId: number, username: string, password: string): ResultAsync<LogInStatus, Error> {
+    const authApi = useAuthApi();
     const requestParams = { logInEnterpriseEmployeeRequest: { enterpriseId, username, password } };
     const promise = authApi.logInEnterpriseEmployeeRaw(requestParams);
 

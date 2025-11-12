@@ -1,7 +1,7 @@
 import { Box, Center } from "@chakra-ui/react";
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { enterprisesApi } from "../../../api/enterprises-api";
+import { useEnterprisesApi } from "../../../api/enterprises-api";
 import { MapLocationPicker } from "../../../common/MapLocationPicker";
 import { StandardButton } from "../../../common/StandardButton";
 import { StandardFileInput } from "../../../common/StandardFileInput";
@@ -15,6 +15,7 @@ import { errorErrResultAsyncFromPromise } from "../../../utils/result";
 import { toastError } from "../../../utils/toast";
 
 export const CreateEnterprisePage = () => {
+    const enterprisesApi = useEnterprisesApi();
     const navigate = useNavigate();
 
     const [name, setName] = useState<string>("");

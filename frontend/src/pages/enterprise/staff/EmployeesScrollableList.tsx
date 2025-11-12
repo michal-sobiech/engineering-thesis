@@ -1,7 +1,7 @@
 import { Box, Text } from "@chakra-ui/react";
 import { FC, ReactElement, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { enterpriseEmployeesApi } from "../../../api/enterprise-employees-api";
+import { useEnterpriseEmployeesApi } from "../../../api/enterprise-employees-api";
 import { ScrollableList } from "../../../common/ScrollableList";
 import { StandardBox } from "../../../common/StandardBox";
 import { GetEnterpriseEmployeesResponseItem } from "../../../GENERATED-api";
@@ -13,6 +13,7 @@ export interface EmployeesScrollableListProps {
 }
 
 export const EmployeesScrollableList: FC<EmployeesScrollableListProps> = ({ enterpriseId }) => {
+    const enterpriseEmployeesApi = useEnterpriseEmployeesApi();
     const navigate = useNavigate();
     const [employees, setEmployees] = useState<GetEnterpriseEmployeesResponseItem[]>([]);
 

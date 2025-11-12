@@ -1,7 +1,7 @@
 import { Box, Center, Flex } from "@chakra-ui/react";
 import { LocalDateTime } from "@js-joda/core";
 import { useEffect, useState } from "react";
-import { appointmentsApi } from "../../../api/appointments-api";
+import { useAppointmentsApi } from "../../../api/appointments-api";
 import { StandardPanel } from "../../../common/StandardPanel";
 import { errorErrResultAsyncFromPromise } from "../../../utils/result";
 import { CustomerLandingPageContext, CustomerLandingPageContextValue } from "./CustomerLandingPageContext";
@@ -13,6 +13,8 @@ import { CustomerLandingPageRejectedAppointment } from "./CustomerLandingPageRej
 import { CustomerLandingPageScheduledAppointment } from "./CustomerLandingPageScheduledAppointment";
 
 export const CustomerLandingPage = () => {
+    const appointmentsApi = useAppointmentsApi();
+
     const [futureScheduledAppointments, setFutureScheduledAppointments] = useState<CustomerLandingPageScheduledAppointment[]>([]);
     const [pastScheduledAppointments, setPastScheduledAppointments] = useState<CustomerLandingPageScheduledAppointment[]>([]);
     const [pendingAppointments, setPendingAppointments] = useState<CustomerLandingPagePendingAppointment[]>([]);

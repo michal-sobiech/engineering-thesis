@@ -1,9 +1,9 @@
 import { err, ok, Result, ResultAsync } from "neverthrow";
-import { enterprisesApi } from "../../api/enterprises-api";
+import { EnterprisesApi } from "../../GENERATED-api";
 import { errorErrResultAsyncFromPromise, promiseResultToErrorAsyncResult } from "../../utils/result";
 import { EnterpriseData } from "./EnterpriseData";
 
-export function fetchEnterpriseData(enterpriseId: number): ResultAsync<EnterpriseData, Error> {
+export function fetchEnterpriseData(enterpriseId: number, enterprisesApi: EnterprisesApi): ResultAsync<EnterpriseData, Error> {
     async function createPromise(): Promise<Result<EnterpriseData, Error>> {
         const enterprisePromise = enterprisesApi.getEnterprise(enterpriseId);
         const enterpriseResult = await errorErrResultAsyncFromPromise(enterprisePromise);

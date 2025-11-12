@@ -1,6 +1,6 @@
 import { Box, Center, Heading } from "@chakra-ui/react"
 import { useState } from "react"
-import { servicesApi } from "../../../api/services-api"
+import { useServicesApi } from "../../../api/services-api"
 import { LocationAutocomplete } from "../../../common/LocationAutocomplete"
 import { StandardButton } from "../../../common/StandardButton"
 import { StandardDateRangePicker } from "../../../common/StandardDateRangePicker"
@@ -21,6 +21,8 @@ import { ServiceSearchServicesList } from "./ServiceSearchServicesList"
 const MAX_DISTANCE_KM = 50;
 
 export const ServiceSearchPage = () => {
+    const servicesApi = useServicesApi();
+
     const [serviceName, setServiceName] = useState<string>("");
     const [enterpriseName, setEnterpriseName] = useState<string>("");
     const [serviceCathegory, setServiceCathegory] = useState<ServiceCathegory | null>(null);

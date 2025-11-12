@@ -2,7 +2,8 @@ import { Flex, Text } from "@chakra-ui/react";
 import { ok, ResultAsync } from "neverthrow";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { independentEndUsersApi } from "../../../../api/independent-end-users-api";
+import { useIndependentEndUsersApi } from "../../../../api/independent-end-users-api";
+import { IndependentEndUsersApi } from "../../../../GENERATED-api";
 import { useContextOrThrow } from "../../../../hooks/useContextOrThrow";
 import { matchesEmailPattern } from "../../../../utils/email";
 import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../../../utils/error";
@@ -13,11 +14,13 @@ import { signUpWizardContext } from "../../wizard/SignUpWizardContext";
 import { SignUpEnterEmailNextButton } from "./SignUpEnterEmailNextButton";
 
 export const SignUpEnterEmailPanel = () => {
+    const independentEndUsersApi = useIndependentEndUsersApi();
+
     const [loading, setLoading] = useState<boolean>(false);
     const { incrementStep, email, setEmail } = useContextOrThrow(signUpWizardContext);
 
     const onNextButtonClick = async () => {
-        const result = await isEmailValid(email);
+        const result = await isEmailValid(email, independentEndUsersApi);
         if (!result.isOk()) {
             toastError(DEFAULT_ERROR_MESSAGE_FOR_USER);
             return;
@@ -52,12 +55,12 @@ export const SignUpEnterEmailPanel = () => {
     </Flex>
 }
 
-function isEmailValid(email: string): ResultAsync<boolean, Error> {
+function isEmailValid(email: string, independentEndUsersApi: IndependentEndUsersApi): ResultAsync<boolean, Error> {
     return ok(matchesEmailPattern(email))
-        .asyncAndThen(() => checkEmailAvailable(email));
+        .asyncAndThen(() => checkEmailAvailable(email, independentEndUsersApi));
 }
 
-function checkEmailAvailable(email: string): ResultAsync<boolean, Error> {
+function checkEmailAvailable(email: string, independentEndUsersApi: IndependentEndUsersApi): ResultAsync<boolean, Error> {
     const promise = independentEndUsersApi.checkIndependentEndUserEmailExists(email);
     return errorErrResultAsyncFromPromise(promise)
         .map(response => !response.isExisting);

@@ -2,8 +2,8 @@ import { Box, Center, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { Location } from "../../GENERATED-api";
-import { enterprisesApi } from "../../api/enterprises-api";
-import { servicesApi } from "../../api/services-api";
+import { useEnterprisesApi } from "../../api/enterprises-api";
+import { useServicesApi } from "../../api/services-api";
 import { MapLocationPicker } from "../../common/MapLocationPicker";
 import { StandardButton } from "../../common/StandardButton";
 import { StandardFlex } from "../../common/StandardFlex";
@@ -27,6 +27,8 @@ import { CustomOrNotAppointmentsEvents } from "./calendar/CustomAppointmentsEven
 export const ServiceCreationPage = () => {
     const MAX_DISANCE_KM = 50;
 
+    const enterprisesApi = useEnterprisesApi();
+    const servicesApi = useServicesApi();
     const navigate = useNavigate();
     const enterpriseId = useIntParam("enterpriseId");
 

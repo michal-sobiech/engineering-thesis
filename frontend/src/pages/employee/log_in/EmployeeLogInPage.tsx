@@ -1,8 +1,8 @@
 import { Center, Text } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router"
-import { authApi } from "../../../api/auth-api"
-import { enterprisesApi } from "../../../api/enterprises-api"
+import { useAuthApi } from "../../../api/auth-api"
+import { useEnterprisesApi } from "../../../api/enterprises-api"
 import { StandardButton } from "../../../common/StandardButton"
 import { StandardFlex } from "../../../common/StandardFlex"
 import { StandardPanel } from "../../../common/StandardPanel"
@@ -14,6 +14,8 @@ import { errorErrResultAsyncFromPromise } from "../../../utils/result"
 import { toastError } from "../../../utils/toast"
 
 export const EmployeeLogInPage = () => {
+    const authApi = useAuthApi();
+    const enterprisesApi = useEnterprisesApi();
     const navigate = useNavigate();
     const enterpriseId = useIntParam("enterpriseId");
 
