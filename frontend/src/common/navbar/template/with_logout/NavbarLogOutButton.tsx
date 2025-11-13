@@ -12,7 +12,7 @@ export const NavbarLogOutButton = () => {
         logOut();
     };
 
-    return <Button onClick={onClick}>
+    return <Button background="transparent" onClick={onClick}>
         Log out
     </Button>
 }
