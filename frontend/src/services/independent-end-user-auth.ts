@@ -1,13 +1,25 @@
 import { ResultAsync } from "neverthrow";
-import { setJwtTokenInLocalStorage } from "../auth/storage";
 import { UserGroup } from "../common/UserGroup";
 import { AuthApi, UserApi } from "../GENERATED-api";
 import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../utils/error";
 import { errorErrResultAsyncFromPromise } from "../utils/result";
 
-export type IndependentEndUserLogInStatus = "SUCCESS" | "BAD_CREDENTIALS" | "GOOD_CREDENTIALS_BUT_INVALID_USER_GROUP";
+export interface IndependentEndUserLogInOutcomeSuccess {
+    status: "SUCCESS",
+    jwt: string,
+}
 
-export function logInIndependentEndUser(email: string, password: string, expectedUserGroup: UserGroup, authApi: AuthApi, userApi: UserApi): ResultAsync<IndependentEndUserLogInStatus, Error> {
+export interface IndependentEndUserLogInOutcomeBadCredentials {
+    status: "BAD_CREDENTIALS",
+}
+
+export interface IndependentEndUserLogInOutcomeWrongUserGroup {
+    status: "WRONG_USER_GROUP",
+}
+
+export type IndependentEndUserLogInOutcome = IndependentEndUserLogInOutcomeSuccess | IndependentEndUserLogInOutcomeBadCredentials | IndependentEndUserLogInOutcomeWrongUserGroup;
+
+export function logInIndependentEndUser(email: string, password: string, expectedUserGroup: UserGroup, authApi: AuthApi, userApi: UserApi): ResultAsync<IndependentEndUserLogInOutcome, Error> {
     async function createPromise() {
         const requestParams = { logInIndependentEndUserRequest: { email, password } };
         const logInPromise = authApi.logInIndependentEndUserRaw(requestParams);
@@ -19,7 +31,7 @@ export function logInIndependentEndUser(email: string, password: string, expecte
 
         const status = logInResult.value.raw.status;
         if (status === 401) {
-            return "BAD_CREDENTIALS" as IndependentEndUserLogInStatus;
+            return { status: "BAD_CREDENTIALS" } as IndependentEndUserLogInOutcomeBadCredentials;
         }
         if (status !== 200) {
             throw new Error(DEFAULT_ERROR_MESSAGE_FOR_USER);
@@ -42,11 +54,13 @@ export function logInIndependentEndUser(email: string, password: string, expecte
         const userGroup = userGroupResult.value.userGroup;
 
         if (userGroup !== expectedUserGroup) {
-            return "GOOD_CREDENTIALS_BUT_INVALID_USER_GROUP" as IndependentEndUserLogInStatus;
+            return { status: "WRONG_USER_GROUP" } as IndependentEndUserLogInOutcomeWrongUserGroup;
         }
 
-        setJwtTokenInLocalStorage(accessToken);
-        return "SUCCESS" as IndependentEndUserLogInStatus;
+        return {
+            status: "SUCCESS",
+            jwt: accessToken,
+        } as IndependentEndUserLogInOutcomeSuccess;
     }
 
     return errorErrResultAsyncFromPromise(createPromise());

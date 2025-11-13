@@ -4,7 +4,7 @@ import { MainPageEntrepreneurPanel } from "./MainPageEntrepreneurPanel";
 import { MainPageSeparator } from "./MainPageSeparator";
 
 export const MainPage = () => {
-    return <Flex direction="horizontal">
+    return <Flex direction="horizontal" height="100%">
         <Box flex={1}>
             <MainPageCustomerPanel />
         </Box>

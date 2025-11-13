@@ -2,12 +2,20 @@ import { Box, Flex } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { Outlet, useNavigation } from "react-router";
 import { toast, ToastContainer } from "react-toastify";
+import { useLoadJwtFromLocalStorage } from "../auth/useLoadJwtFromLocalStorage";
 import { Navbar } from "../common/navbar/Navbar";
 
 export function PageLayout() {
     const location = useNavigation();
+    const loadJwtFromLocalStorage = useLoadJwtFromLocalStorage();
 
-    useEffect(() => removeAllToasts(), [location]);
+    useEffect(() => {
+        removeAllToasts();
+    }, [location]);
+
+    useEffect(() => {
+        loadJwtFromLocalStorage();
+    }, []);
 
     return (
         <>

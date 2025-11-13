@@ -13,7 +13,7 @@ export const MainPageEntrepreneurPanel = () => {
     }
 
     return <FullSpaceCenter>
-        <Flex direction="vertical">
+        <Flex direction="column" gap="5px">
             <TextWithColoredSegment
                 textBeforeSegment="Log in as "
                 segmentText="entrepreneur"
