@@ -2,7 +2,7 @@ import { ResultAsync } from "neverthrow";
 import { useUsersApi } from "../api/user-api";
 import { isUserGroup } from "../common/UserGroup";
 import { errorErrResultAsyncFromPromise } from "../utils/result";
-import { getJwtFromLocalStorage } from "./storage";
+import { getJwtFromLocalStorage, removeJwtTokenFromLocalStorage } from "./storage";
 import { useAuth } from "./useAuth";
 
 export function useLoadJwtFromLocalStorage() {
@@ -16,15 +16,18 @@ export function useLoadJwtFromLocalStorage() {
             return;
         }
 
+        console.log("jwt: ", jwt);
         const userGroupPromise = userApi.getMyUserGroup({ headers: { Authorization: `Bearer ${jwt}` } });
         const userGroupResult = await errorErrResultAsyncFromPromise(userGroupPromise);
         if (userGroupResult.isErr()) {
+            removeJwtTokenFromLocalStorage();
             setAuth({ isAuthenticated: false });
             return;
         }
 
         const userGroup = userGroupResult.value.userGroup;
         if (!isUserGroup(userGroup)) {
+            removeJwtTokenFromLocalStorage();
             setAuth({ isAuthenticated: false });
             return;
         }

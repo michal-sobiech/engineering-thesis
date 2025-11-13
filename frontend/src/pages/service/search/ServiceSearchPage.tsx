@@ -80,7 +80,7 @@ export const ServiceSearchPage = () => {
         }
     }
 
-    return <Center height="100%">
+    return <Center height="100%" overflowY="scroll">
         <Box width="80%" height="100%">
             <StandardPanel>
                 <StandardFlex>

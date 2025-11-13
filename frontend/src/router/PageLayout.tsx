@@ -16,8 +16,8 @@ export function PageLayout() {
     }, [location]);
 
     useEffect(() => {
-        loadJwtFromLocalStorage();
-        setJwtLoadingFinished(true);
+        loadJwtFromLocalStorage()
+            .map(() => { setJwtLoadingFinished(true) });
     }, []);
 
     if (!jwtLoadingFinished) {
