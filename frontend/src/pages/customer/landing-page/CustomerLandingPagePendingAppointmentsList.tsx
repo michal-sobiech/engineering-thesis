@@ -14,9 +14,11 @@ import { CustomerLandingPagePendingAppointment } from "./CustomerLandingPagePend
 export const CustomerLandingPagePendingAppointmentsList = () => {
     const { pendingAppointments } = useContextOrThrow(CustomerLandingPageContext);
 
-    return <StandardLabeledContainer label="Past appointments">
-        <StandardConcaveBox>
-            <ScrollableList>
+    return <StandardLabeledContainer
+        label="Past appointments"
+        height="100%">
+        <StandardConcaveBox maxHeight="100%" minHeight={0}>
+            <ScrollableList height="100%">
                 {pendingAppointments === null
                     ? null
                     : pendingAppointments.map(createItem)}

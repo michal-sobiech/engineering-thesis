@@ -14,9 +14,11 @@ import { CustomerLandingPageRejectedAppointment } from "./CustomerLandingPageRej
 export const CustomerLandingPageRejectedAppointmentsList = () => {
     const { rejectedAppointments } = useContextOrThrow(CustomerLandingPageContext);
 
-    return <StandardLabeledContainer label="Rejected appointment proposals">
-        <StandardConcaveBox>
-            <ScrollableList>
+    return <StandardLabeledContainer
+        label="Rejected appointment proposals"
+        height="100%">
+        <StandardConcaveBox maxHeight="100%" minHeight={0}>
+            <ScrollableList height="100%">
                 {rejectedAppointments === null
                     ? null
                     : rejectedAppointments.map(createItem)}

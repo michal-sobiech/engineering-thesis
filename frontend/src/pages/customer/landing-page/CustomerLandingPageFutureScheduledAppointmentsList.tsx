@@ -14,9 +14,11 @@ import { CustomerLandingPageScheduledAppointment } from "./CustomerLandingPageSc
 export const CustomerLandingPageFutureScheduledAppointmentsList = () => {
     const { futureScheduledAppointments } = useContextOrThrow(CustomerLandingPageContext);
 
-    return <StandardLabeledContainer label="Upcoming scheduled appointments">
-        <StandardConcaveBox>
-            <ScrollableList>
+    return <StandardLabeledContainer
+        label="Upcoming scheduled appointments"
+        height="100%">
+        <StandardConcaveBox maxHeight="100%" minHeight={0}>
+            <ScrollableList height="100%">
                 {futureScheduledAppointments === null
                     ? null
                     : futureScheduledAppointments.map(createItem)}

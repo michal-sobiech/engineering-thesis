@@ -6,7 +6,7 @@ import { StandardPanel } from "../../../common/StandardPanel";
 import { errorErrResultAsyncFromPromise } from "../../../utils/result";
 import { CustomerLandingPageContext, CustomerLandingPageContextValue } from "./CustomerLandingPageContext";
 import { CustomerLandingPageFutureScheduledAppointmentsList } from "./CustomerLandingPageFutureScheduledAppointmentsList";
-import { CustomerLandingPagePastScheduledAppointments } from "./CustomerLandingPagePastScheduledAppointments";
+import { CustomerLandingPagePastScheduledAppointmentsList } from "./CustomerLandingPagePastScheduledAppointmentsList";
 import { CustomerLandingPagePendingAppointment } from "./CustomerLandingPagePendingAppointment";
 import { CustomerLandingPagePendingAppointmentsList } from "./CustomerLandingPagePendingAppointmentsList";
 import { CustomerLandingPageRejectedAppointment } from "./CustomerLandingPageRejectedAppointment";
@@ -119,33 +119,33 @@ export const CustomerLandingPage = () => {
 
     const futureScheduledAppointmentsList = futureScheduledAppointments.length === 0
         ? null
-        : <Box flex="1">
+        : <Box flex="1" height="100%">
             <CustomerLandingPageFutureScheduledAppointmentsList />
         </Box>;
 
     const pastScheduledAppointmentsList = pastScheduledAppointments.length === 0
         ? null
-        : <Box flex="1">
-            <CustomerLandingPagePastScheduledAppointments />
+        : <Box flex="1" height="100%">
+            <CustomerLandingPagePastScheduledAppointmentsList />
         </Box>;
 
     const pendingAppointmentsList = pendingAppointments.length === 0
         ? null
-        : <Box flex="1">
+        : <Box flex="1" height="100%">
             <CustomerLandingPagePendingAppointmentsList />
         </Box>;
 
     const rejectedAppointmentsList = rejectedAppointments.length === 0
         ? null
-        : <Box flex="1">
+        : <Box flex="1" height="100%">
             <CustomerLandingPageRejectedAppointmentsList />
         </Box>;
 
     return <CustomerLandingPageContext.Provider value={contextValue}>
         <Center height="100%">
-            <Box width="80vw" height="100%">
-                <StandardPanel>
-                    <Flex direction="row" gap="50px">
+            <Box width="80%" height="100%">
+                <StandardPanel height="100%">
+                    <Flex direction="row" gap="50px" height="100%">
                         {futureScheduledAppointmentsList}
                         {pendingAppointmentsList}
                         {rejectedAppointmentsList}

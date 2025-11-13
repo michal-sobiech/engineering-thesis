@@ -11,12 +11,14 @@ import { useContextOrThrow } from "../../../hooks/useContextOrThrow";
 import { CustomerLandingPageContext } from "./CustomerLandingPageContext";
 import { CustomerLandingPageScheduledAppointment } from "./CustomerLandingPageScheduledAppointment";
 
-export const CustomerLandingPagePastScheduledAppointments = () => {
+export const CustomerLandingPagePastScheduledAppointmentsList = () => {
     const { pastScheduledAppointments } = useContextOrThrow(CustomerLandingPageContext);
 
-    return <StandardLabeledContainer label="Past appointments">
-        <StandardConcaveBox>
-            <ScrollableList>
+    return <StandardLabeledContainer
+        label="Past appointments"
+        height="100%">
+        <StandardConcaveBox maxHeight="100%" minHeight={0}>
+            <ScrollableList height="100%">
                 {pastScheduledAppointments === null
                     ? null
                     : pastScheduledAppointments.map(createItem)}

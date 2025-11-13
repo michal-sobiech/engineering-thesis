@@ -1,12 +1,15 @@
-import { Flex, Text } from "@chakra-ui/react";
-import { FC, PropsWithChildren } from "react";
+import { Flex, FlexProps, Text } from "@chakra-ui/react";
+import { FC } from "react";
 
-export type StandardLabeledContainerProps = PropsWithChildren & {
+export type StandardLabeledContainerProps = FlexProps & {
     label: string;
 }
 
-export const StandardLabeledContainer: FC<StandardLabeledContainerProps> = ({ children, label }) => {
-    return <Flex direction="column" gap="5px">
+export const StandardLabeledContainer: FC<StandardLabeledContainerProps> = ({ children, label, ...otherProps }) => {
+    return <Flex
+        direction="column"
+        gap="5px"
+        {...otherProps}>
         <Text>
             {label}
         </Text>
