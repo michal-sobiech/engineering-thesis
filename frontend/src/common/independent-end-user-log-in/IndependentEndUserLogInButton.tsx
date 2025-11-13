@@ -1,6 +1,7 @@
 import { Result } from "neverthrow";
 import { useAuthApi } from "../../api/auth-api";
 import { useUsersApi } from "../../api/user-api";
+import { setJwtTokenInLocalStorage } from "../../auth/storage";
 import { useAuth } from "../../auth/useAuth";
 import { useContextOrThrow } from "../../hooks/useContextOrThrow";
 import { useNavigateWithToastDismiss } from "../../hooks/useNavigateWithToastDismiss";
@@ -37,7 +38,8 @@ export const IndependentEndUserLogInButton = () => {
                 isAuthenticated: true,
                 jwtToken: result.value.jwt,
                 userGroup,
-            })
+            });
+            setJwtTokenInLocalStorage(result.value.jwt);
             navigate(landingPageUrl);
             return;
         } else {

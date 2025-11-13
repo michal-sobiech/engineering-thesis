@@ -1,5 +1,5 @@
 import { Button } from "@chakra-ui/react";
-import { useLogOut } from "../../../../hooks/useLogOut";
+import { useLogOut } from "../../../../auth/useLogOut";
 import { useNavigateWithToastDismiss } from "../../../../hooks/useNavigateWithToastDismiss";
 import { routes } from "../../../../router/routes";
 

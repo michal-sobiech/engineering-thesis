@@ -1,4 +1,5 @@
 import { UnauthenticatedAuth } from "./AuthContext";
+import { removeJwtTokenFromLocalStorage } from "./storage";
 import { useAuth } from "./useAuth";
 
 export const useLogOut = () => {
@@ -7,5 +8,7 @@ export const useLogOut = () => {
     return () => {
         const newAuth: UnauthenticatedAuth = { isAuthenticated: false };
         setAuth(newAuth);
+        console.log("aaaa");
+        removeJwtTokenFromLocalStorage();
     }
 }

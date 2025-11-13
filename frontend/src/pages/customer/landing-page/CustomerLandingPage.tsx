@@ -10,6 +10,7 @@ import { CustomerLandingPagePastScheduledAppointments } from "./CustomerLandingP
 import { CustomerLandingPagePendingAppointment } from "./CustomerLandingPagePendingAppointment";
 import { CustomerLandingPagePendingAppointmentsList } from "./CustomerLandingPagePendingAppointmentsList";
 import { CustomerLandingPageRejectedAppointment } from "./CustomerLandingPageRejectedAppointment";
+import { CustomerLandingPageRejectedAppointmentsList } from "./CustomerLandingPageRejectedAppointmentsList";
 import { CustomerLandingPageScheduledAppointment } from "./CustomerLandingPageScheduledAppointment";
 
 export const CustomerLandingPage = () => {
@@ -137,12 +138,12 @@ export const CustomerLandingPage = () => {
     const rejectedAppointmentsList = rejectedAppointments.length === 0
         ? null
         : <Box flex="1">
-
+            <CustomerLandingPageRejectedAppointmentsList />
         </Box>;
 
     return <CustomerLandingPageContext.Provider value={contextValue}>
         <Center height="100%">
-            <Box width="80%" height="100%">
+            <Box width="80vw" height="100%">
                 <StandardPanel>
                     <Flex direction="row" gap="50px">
                         {futureScheduledAppointmentsList}

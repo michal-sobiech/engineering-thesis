@@ -19,8 +19,6 @@ export const IndependentEndUserLogInPage: FC<IndependentEndUserLogInPageProps> =
 
     const contextValue: IndependentEndUserLogInContextValue = { email, password, userGroup, landingPageUrl };
 
-    console.log("eeee")
-
     return <Flex height="100%" align="center" justify="center">
         <Box width="60%">
             <logInContext.Provider value={contextValue}>
