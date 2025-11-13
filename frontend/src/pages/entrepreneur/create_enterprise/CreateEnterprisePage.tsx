@@ -71,7 +71,7 @@ export const CreateEnterprisePage = () => {
     }
 
     return <Center height="100%">
-        <Box width="80vw" height="100%">
+        <Box width="80%" height="100%">
             <StandardPanel>
                 <StandardFlex>
                     <StandardLabeledContainer label="Name">

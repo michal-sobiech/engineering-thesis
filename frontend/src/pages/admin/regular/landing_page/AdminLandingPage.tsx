@@ -53,7 +53,7 @@ export const AdminLandingPage = () => {
 
     return <AdminLandingPageContext.Provider value={contextValue}>
         <Center height="100%">
-            <Box width="80vw" height="100%">
+            <Box width="80%" height="100%">
                 <AdminLandingPageUnresolvedEnterpriseReportsList />
                 <AdminLandingPageUnresolvedServiceReportsList />
                 <AdminLandingPageUnresolvedReviewReportsList />

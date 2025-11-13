@@ -40,7 +40,7 @@ export const EmployeeCreationEnterPasswordPage = () => {
     };
 
     return <Center height="100%">
-        <Box width="40vw">
+        <Box width="40%">
             <StandardPanel>
                 <StandardFlex>
                     <Text textAlign="center">

@@ -3,7 +3,7 @@ import { EmployeeCreationEnterNamePagePanel } from "./EmployeeCreationEnterNameP
 
 export const EmployeeCreationEnterNamePage = () => {
     return <Center height="100%">
-        <Box width="40vw">
+        <Box width="40%">
             <EmployeeCreationEnterNamePagePanel />
         </Box>
     </Center>;
