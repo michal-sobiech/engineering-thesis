@@ -59,7 +59,7 @@ export const CreateServiceReviewPage = () => {
     if (serviceData === null) {
         return null;
     } else {
-        return <Center height="100vh">
+        return <Center height="100%">
             <Box width="80vw" height="100%">
                 <StandardPanel>
                     <StandardFlex>

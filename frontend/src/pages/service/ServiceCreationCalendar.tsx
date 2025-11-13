@@ -40,7 +40,7 @@ export const ServiceCreationCalendar: FC<ServiceCreationCalendarProps> = ({ appo
         }
 
         calendarComponent = (
-            <Box maxHeight="50vh" overflowY="scroll">
+            <Box maxHeight="50%" overflowY="scroll">
                 <WeeklyCalendar
                     events={eventsData.events}
                     setEvents={setEventsWrapper}
@@ -73,7 +73,7 @@ export const ServiceCreationCalendar: FC<ServiceCreationCalendarProps> = ({ appo
                 <StandardFloatInput value={appointmentDurationMinutes} setValue={setAppointmentDurationMinutes} min={0} precision={0} step={5} />
             </StandardLabeledContainer>
 
-            <Box maxHeight="50vh" overflowY="scroll">
+            <Box maxHeight="50%" overflowY="scroll">
                 <WeeklyCalendarCustomAppoinmentsDisabled
                     events={eventsData.events}
                     setEvents={setEventsWrapper}

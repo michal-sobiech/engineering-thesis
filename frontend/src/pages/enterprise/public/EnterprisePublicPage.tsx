@@ -45,8 +45,8 @@ export const EnterprisePublicPage = () => {
 
     return <Center>
         <Box
-            width="100vw"
-            height="100vh"
+            width="100%"
+            height="100%"
             backgroundImage={`url(${logoObjectUrl})`}
             backgroundRepeat="no-repeat"
             backgroundPosition="center"

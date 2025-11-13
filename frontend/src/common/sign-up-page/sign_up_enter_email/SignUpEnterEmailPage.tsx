@@ -8,8 +8,8 @@ export interface SignUpEnterEmailPageProps {
 }
 
 export const SignUpEnterEmailPage = () => {
-    return <Center height="100vh">
-        <Box width="40vw">
+    return <Center height="100%">
+        <Box width="40%">
             <SignUpEnterEmailPanel />
         </Box>
     </Center>;

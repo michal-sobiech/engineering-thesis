@@ -33,7 +33,7 @@ export const CustomAppointmentsServicePublicPage = () => {
     };
 
     return <CustomAppointmentsServicePublicPageContext.Provider value={contextValue}>
-        <Center height="100vh">
+        <Center height="100%">
             <StandardPanel width="80%" height="90vh" padding="20px" >
                 <StandardFlex>
                     <Text fontSize="3xl">Service</Text>
@@ -41,7 +41,7 @@ export const CustomAppointmentsServicePublicPage = () => {
                     <CustomAppointmentsServicePublicPageCalendar />
                     {freeTimeWindowsOnSelectedDate !== null ?
                         <Flex direction="row">
-                            <Box flex="1" height="30vh">
+                            <Box flex="1" height="30%">
                                 <TimeIntervalsDisplay intervals={freeTimeWindowsOnSelectedDate} resolutionMinutes={30} />
                             </Box>
                             <Box flex="1">

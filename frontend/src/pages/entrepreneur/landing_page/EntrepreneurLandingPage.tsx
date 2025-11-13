@@ -32,8 +32,8 @@ export const EntrepreneurLandingPage = () => {
         navigate(routes.createEnterprise);
     }
 
-    return <Center height="100vh">
-        <StandardPanel width="80%" height="90vh" padding="20px" >
+    return <Center height="100%">
+        <StandardPanel width="80%" height="100%" padding="20px" >
             <StandardFlex>
                 <Text fontSize="xl">
                     Hello, {firstName}!

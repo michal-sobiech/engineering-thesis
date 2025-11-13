@@ -5,7 +5,7 @@ import SignUpSuccessButton from "./SignUpSuccessButton";
 import Message from "./SignUpSuccessMessage";
 
 export const SignUpSuccessPanel = () => {
-    return <StandardPanel>
+    return <StandardPanel width="30%">
         <StandardFlex>
             <Center>
                 <Message />

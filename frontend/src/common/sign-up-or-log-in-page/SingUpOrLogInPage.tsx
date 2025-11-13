@@ -11,8 +11,8 @@ export interface SignUpOrLogInPageProps {
 }
 
 export const SignUpOrLogInPage: FC<SignUpOrLogInPageProps> = ({ roleLabel, onLogInButtonClick, onSignUpButtonClick }) => {
-    return <Center height="100vh">
-        <StandardPanel>
+    return <Center height="100%">
+        <StandardPanel width="30%">
             <StandardFlex>
                 <Text fontSize="xxl">{roleLabel}</Text>
                 <StandardButton onClick={onLogInButtonClick}>

@@ -39,7 +39,7 @@ export const EmployeeCreationEnterPasswordPage = () => {
         }
     };
 
-    return <Center height="100vh">
+    return <Center height="100%">
         <Box width="40vw">
             <StandardPanel>
                 <StandardFlex>

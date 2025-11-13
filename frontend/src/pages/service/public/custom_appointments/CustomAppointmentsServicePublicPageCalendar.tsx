@@ -54,7 +54,7 @@ export const CustomAppointmentsServicePublicPageCalendar = () => {
         }
     }
 
-    return <Box height="40vh">
+    return <Box height="40%">
         <Calendar
             localizer={localizer}
             views={["month"]}

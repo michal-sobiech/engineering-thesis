@@ -15,7 +15,7 @@ export const EmployeeCreationSuccessPage = () => {
         navigate(routes.enterprisePublic(enterpriseId));
     }
 
-    return (<Center width="100vw" height="100vh">
+    return (<Center width="100%" height="100%">
         <Box>
             <StandardPanel>
                 <StandardFlex>

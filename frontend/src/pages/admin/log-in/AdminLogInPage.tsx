@@ -27,7 +27,7 @@ export const AdminLogInPage = () => {
         }
     }
 
-    return <Center height="100vh">
+    return <Center height="100%">
         <StandardPanel>
             <StandardFlex>
                 <Text textAlign="center">

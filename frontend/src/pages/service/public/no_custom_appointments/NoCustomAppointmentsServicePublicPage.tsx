@@ -23,8 +23,8 @@ export const NoCustomAppointmentsServicePublicPage = () => {
     };
 
     return <NoCustomAppointmentsServicePublicPageContext.Provider value={contextValue}>
-        <Center height="100vh">
-            <StandardPanel width="80%" height="90vh" padding="20px" >
+        <Center height="100%">
+            <StandardPanel width="80%" height="90%" padding="20%" >
                 <StandardFlex>
                     <Text fontSize="3xl">Service</Text>
                     <Text>Enterprise</Text>

@@ -141,8 +141,8 @@ export const CustomerLandingPage = () => {
         </Box>;
 
     return <CustomerLandingPageContext.Provider value={contextValue}>
-        <Center height="100vh">
-            <Box width="80vw" height="100%">
+        <Center height="100%">
+            <Box width="80%" height="100%">
                 <StandardPanel>
                     <Flex direction="row" gap="50px">
                         {futureScheduledAppointmentsList}

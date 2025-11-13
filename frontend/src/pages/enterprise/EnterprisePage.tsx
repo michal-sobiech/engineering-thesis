@@ -20,7 +20,7 @@ export const EnterprisePage = () => {
         navigate(routes.createEnterpriseEmployee(enterpriseId))
     }
 
-    return <Center height="100vh">
+    return <Center height="100%">
         <StandardPanel>
             <StandardFlex>
                 <Text fontSize="xxl">{enterpriseName}</Text>
