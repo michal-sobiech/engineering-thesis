@@ -44,7 +44,7 @@ public class CustomAppointmentsEnterpriseServiceTimeWindowTemplateService {
         return CustomAppointmentsEnterpriseServiceSlotTemplate.from(slot);
     }
 
-    public List<LocalDateTimeWindow> getAvailabilityTemplateForDatetimeRange(
+    public List<LocalDateTimeWindow> getAvailabilityTemplateForLocalDatetimeRange(
             long enterpriseServiceId,
             LocalDateTime from,
             LocalDateTime to) {
@@ -55,7 +55,8 @@ public class CustomAppointmentsEnterpriseServiceTimeWindowTemplateService {
         return DateUtils.filterWindowsFullyContainedInRange(fullDaysTemplate, from, to);
     }
 
-    public List<LocalDateTimeWindow> getAvailabilityTemplateForDateRange(long enterpriseServiceId,
+    public List<LocalDateTimeWindow> getAvailabilityTemplateForDateRange(
+            long enterpriseServiceId,
             LocalDate from,
             LocalDate to) {
         List<LocalDateTimeWindow> out = new ArrayList<>();
@@ -88,7 +89,8 @@ public class CustomAppointmentsEnterpriseServiceTimeWindowTemplateService {
             DayOfWeek dayOfWeek) {
         List<EnterpriseServiceSlotTemplateEntity> slots = enterpriseServiceSlotTemplateService
                 .getAvailabilityTemplateForDayOfWeek(enterpiseServiceId, dayOfWeek);
-        return slots.stream().map(slot -> CustomAppointmentsEnterpriseServiceSlotTemplate.from(slot))
+        return slots.stream()
+                .map(CustomAppointmentsEnterpriseServiceSlotTemplate::from)
                 .collect(Collectors.toList());
     }
 

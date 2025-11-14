@@ -513,27 +513,19 @@ components:
 
     ServiceSearchResponseItem:
       type: object
-      required:
-        [
-          serviceName,
-          enterpriseName,
-          address,
-          startDatetimeGlobal,
-          endDatetimeGlobal,
-        ]
+      required: [serviceId, serviceName, enterpriseName, address, price]
       properties:
+        serviceId:
+          type: integer
+          format: int64
         serviceName:
           type: string
         enterpriseName:
           type: string
         address:
           type: string
-        startDatetimeGlobal:
-          type: string
-          format: date-time
-        endDatetimeGlobal:
-          type: string
-          format: date-time
+        price:
+          type: number
 
     GetServiceFreeNonCustomAppointmentsResponseItem:
       type: object

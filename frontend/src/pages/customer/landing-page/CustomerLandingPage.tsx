@@ -1,8 +1,10 @@
 import { Box, Center, Flex } from "@chakra-ui/react";
 import { LocalDateTime } from "@js-joda/core";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import { useAppointmentsApi } from "../../../api/appointments-api";
 import { StandardPanel } from "../../../common/StandardPanel";
+import { routes } from "../../../router/routes";
 import { errorErrResultAsyncFromPromise } from "../../../utils/result";
 import { CustomerLandingPageContext, CustomerLandingPageContextValue } from "./CustomerLandingPageContext";
 import { CustomerLandingPageFutureScheduledAppointmentsList } from "./CustomerLandingPageFutureScheduledAppointmentsList";
@@ -15,6 +17,7 @@ import { CustomerLandingPageScheduledAppointment } from "./CustomerLandingPageSc
 
 export const CustomerLandingPage = () => {
     const appointmentsApi = useAppointmentsApi();
+    const navigate = useNavigate();
 
     const [futureScheduledAppointments, setFutureScheduledAppointments] = useState<CustomerLandingPageScheduledAppointment[]>([]);
     const [pastScheduledAppointments, setPastScheduledAppointments] = useState<CustomerLandingPageScheduledAppointment[]>([]);
@@ -34,6 +37,7 @@ export const CustomerLandingPage = () => {
             const asyncResult = errorErrResultAsyncFromPromise(promise);
             const result = await asyncResult;
             if (result.isErr()) {
+                navigate(routes.mainPage);
                 return;
             }
             const mapped: CustomerLandingPageScheduledAppointment[] = result.value.map(item => ({
@@ -56,6 +60,7 @@ export const CustomerLandingPage = () => {
             const asyncResult = errorErrResultAsyncFromPromise(promise);
             const result = await asyncResult;
             if (result.isErr()) {
+                navigate(routes.mainPage);
                 return;
             }
             const mapped: CustomerLandingPageScheduledAppointment[] = result.value.map(item => ({
@@ -78,6 +83,7 @@ export const CustomerLandingPage = () => {
             const asyncResult = errorErrResultAsyncFromPromise(promise);
             const result = await asyncResult;
             if (result.isErr()) {
+                navigate(routes.mainPage);
                 return;
             }
             const mapped: CustomerLandingPageScheduledAppointment[] = result.value.map(item => ({
@@ -100,6 +106,7 @@ export const CustomerLandingPage = () => {
             const asyncResult = errorErrResultAsyncFromPromise(promise);
             const result = await asyncResult;
             if (result.isErr()) {
+                navigate(routes.mainPage);
                 return;
             }
             const mapped: CustomerLandingPageRejectedAppointment[] = result.value.map(item => ({

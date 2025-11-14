@@ -1,4 +1,4 @@
-package pl.michal_sobiech.engineering_thesis.enterprise_service_availability_template.non_custom;
+package pl.michal_sobiech.engineering_thesis.enterprise_service_availability_template.custom;
 
 import java.time.DayOfWeek;
 import java.util.List;
@@ -8,20 +8,20 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.EnterpriseServiceSlotTemplateService;
-import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.non_custom_appointments.NonCustomAppointmentsEnterpriseServiceSlotTemplate;
+import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.custom_appointments.CustomAppointmentsEnterpriseServiceSlotTemplate;
 
 @Service
 @RequiredArgsConstructor
-public class NonCustomEnterpriseServiceAvailabilityTemplateService {
+public class CustomEnterpriseServiceAvailabilityTemplateService {
 
     private final EnterpriseServiceSlotTemplateService enterpriseServiceSlotTemplateService;
 
-    public List<NonCustomAppointmentsEnterpriseServiceSlotTemplate> getAvailabilityTemplateForDayOfWeek(
+    public List<CustomAppointmentsEnterpriseServiceSlotTemplate> getAvailabilityTemplateForDayOfWeek(
             long enterpiseServiceId,
             DayOfWeek dayOfWeek) {
         return enterpriseServiceSlotTemplateService.getAvailabilityTemplateForDayOfWeek(enterpiseServiceId, dayOfWeek)
                 .stream()
-                .map(NonCustomAppointmentsEnterpriseServiceSlotTemplate::from)
+                .map(CustomAppointmentsEnterpriseServiceSlotTemplate::from)
                 .collect(Collectors.toList());
     }
 

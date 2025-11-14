@@ -7,62 +7,64 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import pl.michal_sobiech.engineering_thesis.enteprise_service_search.EnterpriseServiceSearchResultRow;
+
 public interface EnterpriseServiceRepository extends JpaRepository<EnterpriseServiceEntity, Long> {
 
-        public List<EnterpriseServiceEntity> findByEnterpriseId(long enterpriseId);
+    public List<EnterpriseServiceEntity> findByEnterpriseId(long enterpriseId);
 
-        @Query(value = """
-                        SELECT
-                            service.enterprise_service_id AS enterpriseServiceId,
-                            service.name AS serviceName,
-                            enterprise.name AS enterpriseName,
-                            enterprise.address AS address,
-                            service.price AS price,
-                            service.time_zone as timezone
-                        FROM enterprise_service service
-                        JOIN enterprise enterprise ON enterprise.enterprise_id = service.enterprise_id
-                        WHERE (service.takes_custom_appointments = :takesCustomAppointments)
-                        AND (:serviceName IS NULL OR LOWER(service.name) LIKE LOWER('%' || :serviceName || '%'))
-                        AND (:enterpriseName IS NULL OR LOWER(enterprise.name) LIKE LOWER('%' || :enterpriseName || '%'))
-                        AND (:cathegory IS NULL OR CAST(service.cathegory AS text) = :#{#cathegory?.name()})
-                        AND (ST_DistanceSphere(
-                            ST_MakePoint(service.longitude, service.latitude),
-                            ST_MakePoint(:customerLongitude, :customerLatitude)
-                        ) / 1000 <= :maxDistance)
-                        """, nativeQuery = true)
-        public List<EnterpriseServiceSearchResultRow> search(
-                        @Param("takesCustomAppointments") boolean takesCustomAppointments,
-                        @Param("serviceName") String serviceName,
-                        @Param("enterpriseName") String enterpriseName,
-                        @Param("cathegory") EnterpriseServiceCathegory cathegory,
-                        @Param("customerLatitude") double customerLatitude,
-                        @Param("customerLongitude") double customerLongitude,
-                        @Param("maxDistance") double maxDistance);
+    @Query(value = """
+            SELECT
+                service.enterprise_service_id AS enterpriseServiceId,
+                service.name AS serviceName,
+                enterprise.name AS enterpriseName,
+                enterprise.address AS address,
+                service.price AS price,
+                service.time_zone as timezone
+            FROM enterprise_service service
+            JOIN enterprise enterprise ON enterprise.enterprise_id = service.enterprise_id
+            WHERE (service.takes_custom_appointments = :takesCustomAppointments)
+            AND (:serviceName IS NULL OR LOWER(service.name) LIKE LOWER('%' || :serviceName || '%'))
+            AND (:enterpriseName IS NULL OR LOWER(enterprise.name) LIKE LOWER('%' || :enterpriseName || '%'))
+            AND (:cathegory IS NULL OR CAST(service.cathegory AS text) = :#{#cathegory?.name()})
+            AND (ST_DistanceSphere(
+                ST_MakePoint(service.longitude, service.latitude),
+                ST_MakePoint(:customerLongitude, :customerLatitude)
+            ) / 1000 <= :maxDistance)
+            """, nativeQuery = true)
+    public List<EnterpriseServiceSearchResultRow> search(
+            @Param("takesCustomAppointments") boolean takesCustomAppointments,
+            @Param("serviceName") String serviceName,
+            @Param("enterpriseName") String enterpriseName,
+            @Param("cathegory") EnterpriseServiceCathegory cathegory,
+            @Param("customerLatitude") double customerLatitude,
+            @Param("customerLongitude") double customerLongitude,
+            @Param("maxDistance") double maxDistance);
 
-        @Query("""
-                        SELECT e.takesCustomAppointments
-                        FROM EnterpriseServiceEntity e
-                        WHERE e.enterpriseServiceId = :enterpriseServiceId
-                        """)
-        public Optional<Boolean> findTakesCustomAppointmentsByEnterpriseServiceId(
-                        @Param("enterpriseServiceId") long enterpriseServiceId);
+    @Query("""
+            SELECT e.takesCustomAppointments
+            FROM EnterpriseServiceEntity e
+            WHERE e.enterpriseServiceId = :enterpriseServiceId
+            """)
+    public Optional<Boolean> findTakesCustomAppointmentsByEnterpriseServiceId(
+            @Param("enterpriseServiceId") long enterpriseServiceId);
 
-        @Query("""
-                        SELECT e
-                        FROM EnterpriseServiceEntity e
-                        WHERE e.enterpriseId = :enterpriseId
-                        AND e.takesCustomAppointments = FALSE
-                        """)
-        public List<EnterpriseServiceEntity> findNonCustomEnterpriseServicesByEnterpriseId(
-                        @Param("enterpriseId") long enterpriseId);
+    @Query("""
+            SELECT e
+            FROM EnterpriseServiceEntity e
+            WHERE e.enterpriseId = :enterpriseId
+            AND e.takesCustomAppointments = FALSE
+            """)
+    public List<EnterpriseServiceEntity> findNonCustomEnterpriseServicesByEnterpriseId(
+            @Param("enterpriseId") long enterpriseId);
 
-        @Query("""
-                        SELECT e
-                        FROM EnterpriseServiceEntity e
-                        WHERE e.enterpriseId = :enterpriseId
-                        AND e.takesCustomAppointments = TRUE
-                        """)
-        public List<EnterpriseServiceEntity> findCustomEnterpriseServicesByEnterpriseId(
-                        @Param("enterpriseId") long enterpriseId);
+    @Query("""
+            SELECT e
+            FROM EnterpriseServiceEntity e
+            WHERE e.enterpriseId = :enterpriseId
+            AND e.takesCustomAppointments = TRUE
+            """)
+    public List<EnterpriseServiceEntity> findCustomEnterpriseServicesByEnterpriseId(
+            @Param("enterpriseId") long enterpriseId);
 
 }

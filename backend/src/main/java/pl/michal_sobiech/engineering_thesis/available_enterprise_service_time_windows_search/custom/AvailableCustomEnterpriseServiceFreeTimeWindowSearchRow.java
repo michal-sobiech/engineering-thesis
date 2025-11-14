@@ -1,10 +1,10 @@
-package pl.michal_sobiech.engineering_thesis.non_custom_appointments_enterprise_service_slot_search;
+package pl.michal_sobiech.engineering_thesis.available_enterprise_service_time_windows_search.custom;
 
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.ZoneId;
 
-public record NonCustomSlotSearchResultRow(
+public record AvailableCustomEnterpriseServiceFreeTimeWindowSearchRow(
 
         Long enterpriseServiceId,
 

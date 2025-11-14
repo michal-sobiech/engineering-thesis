@@ -53,222 +53,222 @@ import pl.michal_sobiech.engineering_thesis.utils.HttpUtils;
 @RequiredArgsConstructor
 public class EnterpriseController implements EnterprisesApi {
 
-        private final AuthService authService;
-        private final EnterpriseService enterpriseService;
-        private final EmployeeService employeeService;
-        private final NonCustomAppointmentsEnterpriseServiceService nonCustomAppointmentsEnterpriseServiceService;
-        private final CustomAppointmentsEnterpriseServiceService customAppointmentsEnterpriseServiceService;
+    private final AuthService authService;
+    private final EnterpriseService enterpriseService;
+    private final EmployeeService employeeService;
+    private final NonCustomAppointmentsEnterpriseServiceService nonCustomAppointmentsEnterpriseServiceService;
+    private final CustomAppointmentsEnterpriseServiceService customAppointmentsEnterpriseServiceService;
 
-        private final EnterpriseControllerCreateEnterprise enterpriseControllerCreateEnterprise;
-        private final EnterpriseControllerCreateEmployee enterpriseControllerCreateEmployee;
+    private final EnterpriseControllerCreateEnterprise enterpriseControllerCreateEnterprise;
+    private final EnterpriseControllerCreateEmployee enterpriseControllerCreateEmployee;
 
-        public ResponseEntity<CreateEnterpriseResponse> createEnterprise(
-                        String name,
-                        String description,
-                        String address,
-                        Double longitude,
-                        Double latitude,
-                        MultipartFile logoFile,
-                        MultipartFile backgroundPhotoFile) {
-                var command = new CreateEnterpriseCommand(
-                                name,
-                                description,
-                                new Location(address, longitude, latitude),
-                                Optional.ofNullable(logoFile),
-                                Optional.ofNullable(backgroundPhotoFile));
+    public ResponseEntity<CreateEnterpriseResponse> createEnterprise(
+            String name,
+            String description,
+            String address,
+            Double longitude,
+            Double latitude,
+            MultipartFile logoFile,
+            MultipartFile backgroundPhotoFile) {
+        var command = new CreateEnterpriseCommand(
+                name,
+                description,
+                new Location(address, longitude, latitude),
+                Optional.ofNullable(logoFile),
+                Optional.ofNullable(backgroundPhotoFile));
 
-                return enterpriseControllerCreateEnterprise.createEnterprise(command);
+        return enterpriseControllerCreateEnterprise.createEnterprise(command);
+    }
+
+    @Override
+    public ResponseEntity<CheckIndependentEndUserEmailExists200Response> checkEmployeeUsernameExists(
+            Long enterpriseId, String username) {
+        final boolean exists = employeeService.checkEmployeeUsernameExists(enterpriseId, username);
+        final var responseBody = new CheckIndependentEndUserEmailExists200Response(exists);
+        return ResponseEntity.ok(responseBody);
+    }
+
+    @Override
+    public ResponseEntity<CreateEnterpriseEmployeeResponse> createEnterpriseEmployee(
+            Long enterpriseId,
+            CreateEnterpriseEmployeeRequest createEnterpriseEmployeeRequest) {
+        return enterpriseControllerCreateEmployee.createEnterpriseEmployee(enterpriseId,
+                createEnterpriseEmployeeRequest);
+    }
+
+    @Override
+    public ResponseEntity<GetEnterpriseResponse> getEnterprise(Long enterpriseId) {
+
+        Enterprise enterprise = enterpriseService.getEnterprise(enterpriseId).orElseThrow();
+
+        var responseBody = new GetEnterpriseResponse(
+                enterprise.name(),
+                enterprise.description());
+        responseBody = responseBody.location(enterprise.location().orElse(null));
+
+        return ResponseEntity.ok(responseBody);
+    }
+
+    @Override
+    public ResponseEntity<List<GetEnterpriseEmployeesResponseItem>> getEnterpriseEmployees(Long enterpriseId) {
+        return HttpUtils.createInternalServerErrorResponse();
+    }
+
+    @Override
+    public ResponseEntity<List<GetEnterpriseService200Response>> getEnterpriseServices(Long enterpriseId) {
+
+        List<GetEnterpriseServiceNonCustomServiceResponse> nonCustomServices = nonCustomAppointmentsEnterpriseServiceService
+                .getByEnterpriseId(enterpriseId)
+                .stream()
+                .map(GetEnterpriseServiceNonCustomServiceResponseFactory::fromDomain)
+                .collect(Collectors.toList());
+
+        List<GetEnterpriseServiceCustomServiceResponse> customServices = customAppointmentsEnterpriseServiceService
+                .getByEnterpriseId(enterpriseId)
+                .stream()
+                .map(GetEnterpriseServiceCustomServiceResponseFactory::fromDomain)
+                .collect(Collectors.toList());
+
+        List<GetEnterpriseService200Response> body = new ArrayList<>();
+        body.addAll(nonCustomServices);
+        body.addAll(customServices);
+
+        return ResponseEntity.ok(body);
+    }
+
+    // TODO cache invalidation
+    @Override
+    public ResponseEntity<Void> patchEnterprise(
+            Long enterpriseId,
+            String name,
+            String description,
+            Location location,
+            String timeZone,
+            Boolean takesCustomAppointments,
+            MultipartFile logoFile,
+            MultipartFile backgroundPhotoFile) {
+
+        Entrepreneur entrepreneur = authService.requireEntrepreneur();
+
+        Enterprise enterprise = enterpriseService.getEnterprise(enterpriseId).orElseThrow();
+
+        if (enterprise.ownerUserId() != entrepreneur.getUserId()) {
+            return HttpUtils.createForbiddenResponse();
         }
 
-        @Override
-        public ResponseEntity<CheckIndependentEndUserEmailExists200Response> checkEmployeeUsernameExists(
-                        Long enterpriseId, String username) {
-                final boolean exists = employeeService.checkEmployeeUsernameExists(enterpriseId, username);
-                final var responseBody = new CheckIndependentEndUserEmailExists200Response(exists);
-                return ResponseEntity.ok(responseBody);
+        PatchEnterpriseRequestDto requestDto = new PatchEnterpriseRequestDto(
+                enterpriseId,
+                Optional.ofNullable(name),
+                Optional.ofNullable(description),
+                Optional.ofNullable(location),
+                Optional.ofNullable(logoFile),
+                Optional.ofNullable(backgroundPhotoFile));
+        enterpriseService.patchEnterprise(requestDto);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @Override
+    public ResponseEntity<Void> createCustomAppointmentsEnterpriseService(
+            Long enterpriseId,
+            CreateCustomAppointmentsEnterpriseServiceRequest request) {
+        List<CreateCustomAppointmentsEnterpriseServiceTimeWindowTemplateCommand> createTimeWindowCommands = request
+                .getTimeWindows()
+                .stream()
+                .map(slot -> {
+                    LocalTime startTime = LocalTime.parse(slot.getStartTime());
+                    LocalTime endTime = LocalTime.parse(slot.getEndTime());
+                    return new CreateCustomAppointmentsEnterpriseServiceTimeWindowTemplateCommand(
+                            DayOfWeekUtils.swaggerToStdDayOfWeek(slot.getDayOfWeek()),
+                            startTime,
+                            endTime);
+                })
+                .collect(Collectors.toList());
+
+        var command = new CreateCustomAppointmentsEnterpriseServiceCommand(
+                request.getName(),
+                request.getDescription(),
+                request.getLocation(),
+                ZoneId.of(request.getTimeZone()),
+                request.getMaxDistanceKm(),
+                EnterpriseServiceCathegory.valueOf(request.getCathegory()),
+                Optional.ofNullable(request.getPrice()),
+                CurrencyIso.valueOf(request.getCurrency()));
+
+        customAppointmentsEnterpriseServiceService.saveWithTimeWindows(enterpriseId, command,
+                createTimeWindowCommands);
+        return ResponseEntity.ok().build();
+    }
+
+    @Override
+    public ResponseEntity<Void> createNoCustomAppointmentsEnterpriseService(
+            Long enterpriseId,
+            CreateNoCustomAppointmentsEnterpriseServiceRequest request) {
+        List<CreateNonCustomAppointmentsEnterpriseServiceSlotTemplateCommand> createSlotCommands = request
+                .getSlots()
+                .stream()
+                .map(slot -> {
+                    LocalTime startTime = LocalTime.parse(slot.getStartTime());
+                    LocalTime endTime = LocalTime.parse(slot.getEndTime());
+                    return new CreateNonCustomAppointmentsEnterpriseServiceSlotTemplateCommand(
+                            DayOfWeekUtils.swaggerToStdDayOfWeek(slot.getDayOfWeek()),
+                            startTime,
+                            endTime,
+                            slot.getMaxOccupancy().shortValue());
+                })
+                .collect(Collectors.toList());
+
+        var command = new CreateNoCustomAppointmentsEnterpriseServiceCommand(
+                request.getName(),
+                request.getDescription(),
+                request.getLocation(),
+                ZoneId.of(request.getTimeZone()),
+                EnterpriseServiceCathegory.valueOf(request.getCathegory()),
+                Optional.ofNullable(request.getPrice()),
+                CurrencyIso.valueOf(request.getCurrency()));
+
+        nonCustomAppointmentsEnterpriseServiceService.saveWithSlotTemplates(enterpriseId, command,
+                createSlotCommands);
+        return ResponseEntity.ok().build();
+    }
+
+    @Override
+    public ResponseEntity<Resource> getEnterpriseLogoPhoto(Long enterpriseId) {
+        Enterprise enterprise = enterpriseService.getEnterprise(enterpriseId).orElseThrow();
+
+        if (enterprise.logo().isPresent()) {
+            File logo = enterprise.logo().get();
+
+            String contentDispositionHeader = "inline; filename=\"%s\"".formatted(logo.name());
+
+            Resource body = new ByteArrayResource(logo.bytes(), logo.name());
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, contentDispositionHeader)
+                    .contentType(MediaType.IMAGE_PNG)
+                    .body(body);
+        } else {
+            return ResponseEntity.noContent().build();
+        }
+    }
+
+    @Override
+    public ResponseEntity<Resource> getEnterpriseBackgroundPhoto(Long enterpriseId) {
+        Enterprise enterprise = enterpriseService.getEnterprise(enterpriseId).orElseThrow();
+
+        if (enterprise.backgroundPhoto().isPresent()) {
+            File backgroundPhoto = enterprise.backgroundPhoto().get();
+
+            String contentDispositionHeader = "inline; filename=\"%s\"".formatted(backgroundPhoto.name());
+
+            Resource body = new ByteArrayResource(backgroundPhoto.bytes(), backgroundPhoto.name());
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, contentDispositionHeader)
+                    .contentType(MediaType.IMAGE_PNG)
+                    .body(body);
+        } else {
+            return ResponseEntity.noContent().build();
         }
 
-        @Override
-        public ResponseEntity<CreateEnterpriseEmployeeResponse> createEnterpriseEmployee(
-                        Long enterpriseId,
-                        CreateEnterpriseEmployeeRequest createEnterpriseEmployeeRequest) {
-                return enterpriseControllerCreateEmployee.createEnterpriseEmployee(enterpriseId,
-                                createEnterpriseEmployeeRequest);
-        }
-
-        @Override
-        public ResponseEntity<GetEnterpriseResponse> getEnterprise(Long enterpriseId) {
-
-                Enterprise enterprise = enterpriseService.getEnterprise(enterpriseId).orElseThrow();
-
-                var responseBody = new GetEnterpriseResponse(
-                                enterprise.name(),
-                                enterprise.description());
-                responseBody = responseBody.location(enterprise.location().orElse(null));
-
-                return ResponseEntity.ok(responseBody);
-        }
-
-        @Override
-        public ResponseEntity<List<GetEnterpriseEmployeesResponseItem>> getEnterpriseEmployees(Long enterpriseId) {
-                return HttpUtils.createInternalServerErrorResponse();
-        }
-
-        @Override
-        public ResponseEntity<List<GetEnterpriseService200Response>> getEnterpriseServices(Long enterpriseId) {
-
-                List<GetEnterpriseServiceNonCustomServiceResponse> nonCustomServices = nonCustomAppointmentsEnterpriseServiceService
-                                .getByEnterpriseId(enterpriseId)
-                                .stream()
-                                .map(GetEnterpriseServiceNonCustomServiceResponseFactory::fromDomain)
-                                .collect(Collectors.toList());
-
-                List<GetEnterpriseServiceCustomServiceResponse> customServices = customAppointmentsEnterpriseServiceService
-                                .getByEnterpriseId(enterpriseId)
-                                .stream()
-                                .map(GetEnterpriseServiceCustomServiceResponseFactory::fromDomain)
-                                .collect(Collectors.toList());
-
-                List<GetEnterpriseService200Response> body = new ArrayList<>();
-                body.addAll(nonCustomServices);
-                body.addAll(customServices);
-
-                return ResponseEntity.ok(body);
-        }
-
-        // TODO cache invalidation
-        @Override
-        public ResponseEntity<Void> patchEnterprise(
-                        Long enterpriseId,
-                        String name,
-                        String description,
-                        Location location,
-                        String timeZone,
-                        Boolean takesCustomAppointments,
-                        MultipartFile logoFile,
-                        MultipartFile backgroundPhotoFile) {
-
-                Entrepreneur entrepreneur = authService.requireEntrepreneur();
-
-                Enterprise enterprise = enterpriseService.getEnterprise(enterpriseId).orElseThrow();
-
-                if (enterprise.ownerUserId() != entrepreneur.getUserId()) {
-                        return HttpUtils.createForbiddenResponse();
-                }
-
-                PatchEnterpriseRequestDto requestDto = new PatchEnterpriseRequestDto(
-                                enterpriseId,
-                                Optional.ofNullable(name),
-                                Optional.ofNullable(description),
-                                Optional.ofNullable(location),
-                                Optional.ofNullable(logoFile),
-                                Optional.ofNullable(backgroundPhotoFile));
-                enterpriseService.patchEnterprise(requestDto);
-
-                return ResponseEntity.ok().build();
-        }
-
-        @Override
-        public ResponseEntity<Void> createCustomAppointmentsEnterpriseService(
-                        Long enterpriseId,
-                        CreateCustomAppointmentsEnterpriseServiceRequest request) {
-                List<CreateCustomAppointmentsEnterpriseServiceTimeWindowTemplateCommand> createTimeWindowCommands = request
-                                .getTimeWindows()
-                                .stream()
-                                .map(slot -> {
-                                        LocalTime startTime = LocalTime.parse(slot.getStartTime());
-                                        LocalTime endTime = LocalTime.parse(slot.getEndTime());
-                                        return new CreateCustomAppointmentsEnterpriseServiceTimeWindowTemplateCommand(
-                                                        DayOfWeekUtils.swaggerToStdDayOfWeek(slot.getDayOfWeek()),
-                                                        startTime,
-                                                        endTime);
-                                })
-                                .collect(Collectors.toList());
-
-                var command = new CreateCustomAppointmentsEnterpriseServiceCommand(
-                                request.getName(),
-                                request.getDescription(),
-                                request.getLocation(),
-                                ZoneId.of(request.getTimeZone()),
-                                request.getMaxDistanceKm(),
-                                EnterpriseServiceCathegory.valueOf(request.getCathegory()),
-                                Optional.ofNullable(request.getPrice()),
-                                CurrencyIso.valueOf(request.getCurrency()));
-
-                customAppointmentsEnterpriseServiceService.saveWithTimeWindows(enterpriseId, command,
-                                createTimeWindowCommands);
-                return ResponseEntity.ok().build();
-        }
-
-        @Override
-        public ResponseEntity<Void> createNoCustomAppointmentsEnterpriseService(
-                        Long enterpriseId,
-                        CreateNoCustomAppointmentsEnterpriseServiceRequest request) {
-                List<CreateNonCustomAppointmentsEnterpriseServiceSlotTemplateCommand> createSlotCommands = request
-                                .getSlots()
-                                .stream()
-                                .map(slot -> {
-                                        LocalTime startTime = LocalTime.parse(slot.getStartTime());
-                                        LocalTime endTime = LocalTime.parse(slot.getEndTime());
-                                        return new CreateNonCustomAppointmentsEnterpriseServiceSlotTemplateCommand(
-                                                        DayOfWeekUtils.swaggerToStdDayOfWeek(slot.getDayOfWeek()),
-                                                        startTime,
-                                                        endTime,
-                                                        slot.getMaxOccupancy().shortValue());
-                                })
-                                .collect(Collectors.toList());
-
-                var command = new CreateNoCustomAppointmentsEnterpriseServiceCommand(
-                                request.getName(),
-                                request.getDescription(),
-                                request.getLocation(),
-                                ZoneId.of(request.getTimeZone()),
-                                EnterpriseServiceCathegory.valueOf(request.getCathegory()),
-                                Optional.ofNullable(request.getPrice()),
-                                CurrencyIso.valueOf(request.getCurrency()));
-
-                nonCustomAppointmentsEnterpriseServiceService.saveWithSlotTemplates(enterpriseId, command,
-                                createSlotCommands);
-                return ResponseEntity.ok().build();
-        }
-
-        @Override
-        public ResponseEntity<Resource> getEnterpriseLogoPhoto(Long enterpriseId) {
-                Enterprise enterprise = enterpriseService.getEnterprise(enterpriseId).orElseThrow();
-
-                if (enterprise.logo().isPresent()) {
-                        File logo = enterprise.logo().get();
-
-                        String contentDispositionHeader = "inline; filename=\"%s\"".formatted(logo.name());
-
-                        Resource body = new ByteArrayResource(logo.bytes(), logo.name());
-                        return ResponseEntity.ok()
-                                        .header(HttpHeaders.CONTENT_DISPOSITION, contentDispositionHeader)
-                                        .contentType(MediaType.IMAGE_PNG)
-                                        .body(body);
-                } else {
-                        return ResponseEntity.noContent().build();
-                }
-        }
-
-        @Override
-        public ResponseEntity<Resource> getEnterpriseBackgroundPhoto(Long enterpriseId) {
-                Enterprise enterprise = enterpriseService.getEnterprise(enterpriseId).orElseThrow();
-
-                if (enterprise.backgroundPhoto().isPresent()) {
-                        File backgroundPhoto = enterprise.backgroundPhoto().get();
-
-                        String contentDispositionHeader = "inline; filename=\"%s\"".formatted(backgroundPhoto.name());
-
-                        Resource body = new ByteArrayResource(backgroundPhoto.bytes(), backgroundPhoto.name());
-                        return ResponseEntity.ok()
-                                        .header(HttpHeaders.CONTENT_DISPOSITION, contentDispositionHeader)
-                                        .contentType(MediaType.IMAGE_PNG)
-                                        .body(body);
-                } else {
-                        return ResponseEntity.noContent().build();
-                }
-
-        }
+    }
 
 }

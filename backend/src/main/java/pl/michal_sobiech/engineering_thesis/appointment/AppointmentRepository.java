@@ -9,68 +9,68 @@ import org.springframework.data.repository.query.Param;
 
 public interface AppointmentRepository extends JpaRepository<AppointmentEntity, Long> {
 
-        @Query("""
-                        SELECT appointment
-                        FROM AppointmentEntity appointment
-                        WHERE appointment.startTime >= :from
-                        AND appointment.endTime <= :to
-                        AND appointment.enterpriseServiceId = :serviceId
-                        """)
-        public List<AppointmentEntity> findAllInRange(
-                        @Param("serviceId") long serviceId,
-                        @Param("from") OffsetDateTime from,
-                        @Param("to") OffsetDateTime to);
+    @Query("""
+            SELECT appointment
+            FROM AppointmentEntity appointment
+            WHERE appointment.startTime >= :from
+            AND appointment.endTime <= :to
+            AND appointment.enterpriseServiceId = :serviceId
+            """)
+    public List<AppointmentEntity> findAllInRange(
+            @Param("serviceId") long serviceId,
+            @Param("from") OffsetDateTime from,
+            @Param("to") OffsetDateTime to);
 
-        @Query("""
-                        SELECT appointment
-                        FROM AppointmentEntity appointment
-                        WHERE appointment.startTime >= :from
-                        AND appointment.endTime <= :to
-                        AND appointment.enterpriseServiceId = :serviceId
-                        AND appointment.isCustom = true
-                        AND appointment.isAccepted = true
-                        """)
-        public List<AppointmentEntity> findConfirmedInDatetimeRange(
-                        @Param("serviceId") long serviceId,
-                        @Param("from") OffsetDateTime from,
-                        @Param("to") OffsetDateTime to);
+    @Query("""
+            SELECT appointment
+            FROM AppointmentEntity appointment
+            WHERE appointment.startTime >= :from
+            AND appointment.endTime <= :to
+            AND appointment.enterpriseServiceId = :serviceId
+            AND appointment.isCustom = true
+            AND appointment.isAccepted = true
+            """)
+    public List<AppointmentEntity> findConfirmedInDatetimeRange(
+            @Param("serviceId") long serviceId,
+            @Param("from") OffsetDateTime from,
+            @Param("to") OffsetDateTime to);
 
-        @Query("""
-                        SELECT appointment
-                        FROM AppointmentEntity appointment
-                        WHERE appointment.customerUserId = :customerUserId
-                        AND appointment.isCustom = TRUE
-                        AND appointment.isAccepted = TRUE
-                        """)
-        public List<AppointmentEntity> findConfirmedCustomAppointmentsOfCustomer(
-                        @Param("customerUserId") long customerUserId);
+    @Query("""
+            SELECT appointment
+            FROM AppointmentEntity appointment
+            WHERE appointment.customerUserId = :customerUserId
+            AND appointment.isCustom = TRUE
+            AND appointment.isAccepted = TRUE
+            """)
+    public List<AppointmentEntity> findConfirmedCustomAppointmentsOfCustomer(
+            @Param("customerUserId") long customerUserId);
 
-        @Query("""
-                        SELECT appointment
-                        FROM AppointmentEntity appointment
-                        WHERE appointment.customerUserId = :customerUserId
-                        AND appointment.isCustom = TRUE
-                        AND appointment.isAccepted IS NULL
-                        """)
-        public List<AppointmentEntity> findPendingCustomAppointmentsOfCustomer(
-                        @Param("customerUserId") long customerUserId);
+    @Query("""
+            SELECT appointment
+            FROM AppointmentEntity appointment
+            WHERE appointment.customerUserId = :customerUserId
+            AND appointment.isCustom = TRUE
+            AND appointment.isAccepted IS NULL
+            """)
+    public List<AppointmentEntity> findPendingCustomAppointmentsOfCustomer(
+            @Param("customerUserId") long customerUserId);
 
-        @Query("""
-                        SELECT appointment
-                        FROM AppointmentEntity appointment
-                        WHERE appointment.customerUserId = :customerUserId
-                        AND appointment.isCustom = TRUE
-                        AND appointment.isAccepted = FALSE
-                        """)
-        public List<AppointmentEntity> findRejectedCustomAppointmentsOfCustomer(
-                        @Param("customerUserId") long customerUserId);
+    @Query("""
+            SELECT appointment
+            FROM AppointmentEntity appointment
+            WHERE appointment.customerUserId = :customerUserId
+            AND appointment.isCustom = TRUE
+            AND appointment.isAccepted = FALSE
+            """)
+    public List<AppointmentEntity> findRejectedCustomAppointmentsOfCustomer(
+            @Param("customerUserId") long customerUserId);
 
-        @Query("""
-                        SELECT appointment
-                        FROM AppointmentEntity appointment
-                        WHERE appointment.customerUserId = :customerUserId
-                        AND appointment.isCustom = FALSE
-                        """)
-        public List<AppointmentEntity> findNonCustomAppointmentsOfCustomer(
-                        @Param("customerUserId") long customerUserId);
+    @Query("""
+            SELECT appointment
+            FROM AppointmentEntity appointment
+            WHERE appointment.customerUserId = :customerUserId
+            AND appointment.isCustom = FALSE
+            """)
+    public List<AppointmentEntity> findNonCustomAppointmentsOfCustomer(
+            @Param("customerUserId") long customerUserId);
 }

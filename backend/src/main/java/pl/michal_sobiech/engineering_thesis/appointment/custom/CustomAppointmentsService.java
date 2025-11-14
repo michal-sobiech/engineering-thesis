@@ -2,7 +2,6 @@ package pl.michal_sobiech.engineering_thesis.appointment.custom;
 
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,9 +22,14 @@ public class CustomAppointmentsService {
     private final EnterpriseServiceService enterpriseServiceService;
     private final AppointmentRepository appointmentRepository;
 
-    public List<ConfirmedCustomAppointment> getConfirmedAppointmentsInDatetimeRange(long serviceId, OffsetDateTime from,
-            OffsetDateTime to) {
-        List<AppointmentEntity> appointments = appointmentRepository.findConfirmedInDatetimeRange(serviceId, from, to);
+    public List<ConfirmedCustomAppointment> getConfirmedAppointmentsInDatetimeRange(
+            long serviceId,
+            Instant from,
+            Instant to) {
+        List<AppointmentEntity> appointments = appointmentRepository.findConfirmedInDatetimeRange(
+                serviceId,
+                from.atOffset(ZoneOffset.UTC),
+                to.atOffset(ZoneOffset.UTC));
         return appointments.stream().map(a -> ConfirmedCustomAppointment.fromEntity(a)).collect(Collectors.toList());
     }
 
