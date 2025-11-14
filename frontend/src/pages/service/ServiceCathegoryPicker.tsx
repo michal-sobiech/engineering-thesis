@@ -15,6 +15,7 @@ export const ServiceCathegoryPicker: FC<ServiceCathegoryPickerProps> = ({ value,
     return <Select
         options={options}
         placeholder="-"
+        value={options.find(option => option.value === value) || null}
         onChange={(option) => setValue(option?.value ?? null)}
     />;
 }

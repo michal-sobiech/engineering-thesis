@@ -1,8 +1,8 @@
 import { ResultAsync } from "neverthrow";
 import { useUsersApi } from "../api/user-api";
+import { getJwtFromLocalStorage, removeJwtTokenFromLocalStorage } from "../common/local-storage";
 import { isUserGroup } from "../common/UserGroup";
 import { errorErrResultAsyncFromPromise } from "../utils/result";
-import { getJwtFromLocalStorage, removeJwtTokenFromLocalStorage } from "./storage";
 import { useAuth } from "./useAuth";
 
 export function useLoadJwtFromLocalStorage() {

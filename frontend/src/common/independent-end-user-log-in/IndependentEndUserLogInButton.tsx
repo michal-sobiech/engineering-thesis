@@ -1,7 +1,6 @@
 import { Result } from "neverthrow";
 import { useAuthApi } from "../../api/auth-api";
 import { useUsersApi } from "../../api/user-api";
-import { setJwtTokenInLocalStorage } from "../../auth/storage";
 import { useAuth } from "../../auth/useAuth";
 import { useContextOrThrow } from "../../hooks/useContextOrThrow";
 import { useNavigateWithToastDismiss } from "../../hooks/useNavigateWithToastDismiss";
@@ -11,6 +10,7 @@ import { IndependentEndUserLogInOutcome } from "../../services/independent-end-u
 import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../utils/error";
 import { toastError } from "../../utils/toast";
 import { StandardButton } from "../StandardButton";
+import { setJwtTokenInLocalStorage } from "../local-storage";
 import { logInContext } from "./IndependentEndUserLogInContext";
 
 export const IndependentEndUserLogInButton = () => {

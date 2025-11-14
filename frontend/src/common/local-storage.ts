@@ -1,5 +1,5 @@
 const localStorageKeys = {
-    JWT: "jwt",
+    JWT: "jwt"
 };
 
 export function getJwtFromLocalStorage(): string | null {

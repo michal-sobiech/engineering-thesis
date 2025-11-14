@@ -21,6 +21,12 @@ import { mapValues } from '../runtime';
 export interface ServiceSearchResponseItem {
     /**
      * 
+     * @type {number}
+     * @memberof ServiceSearchResponseItem
+     */
+    serviceId: number;
+    /**
+     * 
      * @type {string}
      * @memberof ServiceSearchResponseItem
      */
@@ -39,27 +45,21 @@ export interface ServiceSearchResponseItem {
     address: string;
     /**
      * 
-     * @type {Date}
+     * @type {number}
      * @memberof ServiceSearchResponseItem
      */
-    startDatetimeGlobal: Date;
-    /**
-     * 
-     * @type {Date}
-     * @memberof ServiceSearchResponseItem
-     */
-    endDatetimeGlobal: Date;
+    price: number;
 }
 
 /**
  * Check if a given object implements the ServiceSearchResponseItem interface.
  */
 export function instanceOfServiceSearchResponseItem(value: object): value is ServiceSearchResponseItem {
+    if (!('serviceId' in value) || value['serviceId'] === undefined) return false;
     if (!('serviceName' in value) || value['serviceName'] === undefined) return false;
     if (!('enterpriseName' in value) || value['enterpriseName'] === undefined) return false;
     if (!('address' in value) || value['address'] === undefined) return false;
-    if (!('startDatetimeGlobal' in value) || value['startDatetimeGlobal'] === undefined) return false;
-    if (!('endDatetimeGlobal' in value) || value['endDatetimeGlobal'] === undefined) return false;
+    if (!('price' in value) || value['price'] === undefined) return false;
     return true;
 }
 
@@ -73,11 +73,11 @@ export function ServiceSearchResponseItemFromJSONTyped(json: any, ignoreDiscrimi
     }
     return {
         
+        'serviceId': json['serviceId'],
         'serviceName': json['serviceName'],
         'enterpriseName': json['enterpriseName'],
         'address': json['address'],
-        'startDatetimeGlobal': (new Date(json['startDatetimeGlobal'])),
-        'endDatetimeGlobal': (new Date(json['endDatetimeGlobal'])),
+        'price': json['price'],
     };
 }
 
@@ -92,11 +92,11 @@ export function ServiceSearchResponseItemToJSONTyped(value?: ServiceSearchRespon
 
     return {
         
+        'serviceId': value['serviceId'],
         'serviceName': value['serviceName'],
         'enterpriseName': value['enterpriseName'],
         'address': value['address'],
-        'startDatetimeGlobal': ((value['startDatetimeGlobal']).toISOString()),
-        'endDatetimeGlobal': ((value['endDatetimeGlobal']).toISOString()),
+        'price': value['price'],
     };
 }
 

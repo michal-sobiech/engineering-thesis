@@ -1,5 +1,6 @@
 import { Box, Center, Heading } from "@chakra-ui/react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useSearchParams } from "react-router-dom"
 import { useServicesApi } from "../../../api/services-api"
 import { LocationAutocomplete } from "../../../common/LocationAutocomplete"
 import { StandardButton } from "../../../common/StandardButton"
@@ -20,20 +21,68 @@ import { ServiceSearchServicesList } from "./ServiceSearchServicesList"
 
 const MAX_DISTANCE_KM = 50;
 
+const urlParams = {
+    serviceName: "serviceName",
+    enterpriseName: "enterpriseName",
+    serviceCathegory: "serviceCathegory",
+    address: "address",
+    positionX: "positionX",
+    positionY: "positionY",
+    startDate: "startDate",
+    endDate: "endDate",
+} as const;
+
 export const ServiceSearchPage = () => {
+    const [searchParams, setSearchParams] = useSearchParams();
+
     const servicesApi = useServicesApi();
 
-    const [serviceName, setServiceName] = useState<string>("");
-    const [enterpriseName, setEnterpriseName] = useState<string>("");
-    const [serviceCathegory, setServiceCathegory] = useState<ServiceCathegory | null>(null);
-    const [address, setAddress] = useState<string>("");
-    const [position, setPosition] = useState<Position | null>(null);
+    const [serviceName, setServiceName] = useState<string>(searchParams.get(urlParams.serviceName) ?? "");
+    const [enterpriseName, setEnterpriseName] = useState<string>(searchParams.get(urlParams.enterpriseName) ?? "");
+    const [serviceCathegory, setServiceCathegory] = useState<ServiceCathegory | null>(searchParams.get(urlParams.serviceCathegory)
+        ? searchParams.get(urlParams.serviceCathegory) as ServiceCathegory
+        : null);
+    const [address, setAddress] = useState<string>(searchParams.get(urlParams.address) ?? "");
+    const [positionX, setPositionX] = useState<number | null>(searchParams.get(urlParams.positionX)
+        ? Number(searchParams.get(urlParams.positionX))
+        : null);
+    const [positionY, setPositionY] = useState<number | null>(searchParams.get(urlParams.positionY)
+        ? Number(searchParams.get(urlParams.positionY))
+        : null);
+    const [startDate, setStartDate] = useState<Date | null>(searchParams.get(urlParams.startDate)
+        ? new Date(searchParams.get(urlParams.startDate)!)
+        : null);
+    const [endDate, setEndDate] = useState<Date | null>(searchParams.get(urlParams.endDate)
+        ? new Date(searchParams.get(urlParams.endDate)!)
+        : null);
+
     const [services, setServices] = useState<ServiceSearchServiceData[]>([]);
-    const [startDate, setStartDate] = useState<Date | null>(null);
-    const [endDate, setEndDate] = useState<Date | null>(null);
+
+    useEffect(() => {
+        setSearchParams({
+            serviceName,
+            enterpriseName,
+            serviceCathegory: serviceCathegory ?? "",
+            address,
+            positionX: positionX?.toString() ?? "",
+            positionY: positionY?.toString() ?? "",
+            startDate: startDate?.toISOString() ?? "",
+            endDate: endDate?.toISOString() ?? "",
+        } satisfies Record<keyof typeof urlParams, unknown>,
+            { replace: true });
+    }, [
+        serviceName,
+        enterpriseName,
+        serviceCathegory,
+        address,
+        positionX,
+        positionY,
+        startDate,
+        endDate
+    ])
 
     const onSearchClick = async () => {
-        if (address === "" || position === null) {
+        if (address === "" || positionX === null || positionY === null) {
             toastError("Enter your location");
             return;
         }
@@ -58,8 +107,8 @@ export const ServiceSearchPage = () => {
             return;
         }
 
-        const longitude = position.x;
-        const latitude = position.y
+        const longitude = positionX;
+        const latitude = positionY;
         const promise = servicesApi.searchServices(
             longitude,
             latitude,
@@ -77,6 +126,16 @@ export const ServiceSearchPage = () => {
             return;
         } else {
             setServices(result.value);
+        }
+    }
+
+    const position: Position | null = positionX !== null && positionY !== null
+        ? { x: positionX, y: positionY }
+        : null;
+    const setPosition = (value: Position | null) => {
+        if (value !== null) {
+            setPositionX(value.x);
+            setPositionY(value.y);
         }
     }
 

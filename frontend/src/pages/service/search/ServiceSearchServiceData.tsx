@@ -1,7 +1,7 @@
 export interface ServiceSearchServiceData {
+    serviceId: number;
     serviceName: string;
     enterpriseName: string;
     address: string;
-    startDatetimeGlobal: Date;
-    endDatetimeGlobal: Date;
+    price: number;
 }

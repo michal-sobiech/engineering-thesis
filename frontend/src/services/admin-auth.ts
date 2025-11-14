@@ -1,5 +1,5 @@
 import { errAsync, okAsync, ResultAsync } from "neverthrow";
-import { setJwtTokenInLocalStorage } from "../auth/storage";
+import { setJwtTokenInLocalStorage } from "../common/local-storage";
 import { AuthApi } from "../GENERATED-api";
 import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../utils/error";
 import { errorErrResultAsyncFromPromise } from "../utils/result";

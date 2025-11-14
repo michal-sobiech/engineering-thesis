@@ -1,5 +1,5 @@
+import { removeJwtTokenFromLocalStorage } from "../common/local-storage";
 import { UnauthenticatedAuth } from "./AuthContext";
-import { removeJwtTokenFromLocalStorage } from "./storage";
 import { useAuth } from "./useAuth";
 
 export const useLogOut = () => {
