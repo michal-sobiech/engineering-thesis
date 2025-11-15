@@ -27,6 +27,16 @@ VALUES (
     FALSE
 );
 
+INSERT INTO public.app_user (user_group, username, first_name, last_name, password_hash, enterprise_id)
+VALUES (
+    'EMPLOYEE',
+    'anna.nowak.1',
+    'Anna',
+    'Nowak',
+    '$2a$14$H3Xb1uyNVBoVq7aXZI.mQO/L.iavvGIGjqsrOhm/5HRT9D0A0xkOO',
+    1
+);
+
 INSERT INTO public.enterprise_service (
     enterprise_id,
     name,

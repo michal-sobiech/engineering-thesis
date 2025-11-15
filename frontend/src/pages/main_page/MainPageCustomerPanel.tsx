@@ -15,7 +15,7 @@ export const MainPageCustomerPanel = () => {
     return <FullSpaceCenter>
         <Flex direction="column" gap="5px">
             <TextWithColoredSegment
-                textBeforeSegment="Log in as "
+                textBeforeSegment="I am a "
                 segmentText="customer"
                 segmentColor="primary.gold"
                 segmentWeight="bold"

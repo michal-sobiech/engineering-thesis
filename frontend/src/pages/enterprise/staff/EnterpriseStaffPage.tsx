@@ -1,4 +1,4 @@
-import { Box, Center, Flex, Heading } from "@chakra-ui/react";
+import { Box, Center, Flex, Heading, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useEnterprisesApi } from "../../../api/enterprises-api";
@@ -83,6 +83,9 @@ export const EnterpriseStaffPage = () => {
                     <Heading size="xl" marginBottom={0}>
                         General settings
                     </Heading>
+                    <StandardLabeledContainer label="Enterprise ID">
+                        <Text>{enterpriseId}</Text>
+                    </StandardLabeledContainer>
                     <StandardLabeledContainer label="Name">
                         <StandardTextField text={name ?? ""} setText={setName} placeholder="Name" />
                     </StandardLabeledContainer>

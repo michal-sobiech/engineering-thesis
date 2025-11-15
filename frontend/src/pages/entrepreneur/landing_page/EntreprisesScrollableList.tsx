@@ -54,15 +54,19 @@ const ListItem = ({ data }: { data: GetEntrepreneurEnterprisesResponseItem }) =>
     const staffPageUrl = routes.enterpriseStaff(data.enterpriseId);
 
     return <StandardPanel>
-        <Flex direction="row" gap="5px">
+        <Flex direction="row" gap="10px" align="center">
             <Text>
                 {data.enterpriseName}
             </Text>
-            <StandardButton onClick={() => navigate(publicPageUrl)}>
-                Public view
+            {/* TODO */}
+            <StandardButton onClick={() => navigate(routes.mainPage)}>
+                Manage
             </StandardButton>
             <StandardButton onClick={() => navigate(staffPageUrl)}>
                 Edit
+            </StandardButton>
+            <StandardButton onClick={() => navigate(publicPageUrl)}>
+                Public view
             </StandardButton>
         </Flex>
     </StandardPanel>;

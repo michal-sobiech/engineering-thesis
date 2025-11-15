@@ -9,14 +9,14 @@ export const MainPageEntrepreneurPanel = () => {
     const navigate = useNavigate();
 
     const onClick = () => {
-        navigate(routes.entrepreneurSignUpOrLogIn)
+        navigate(routes.enterpriseStaffSignUpOrLogIn)
     }
 
     return <FullSpaceCenter>
         <Flex direction="column" gap="5px">
             <TextWithColoredSegment
-                textBeforeSegment="Log in as "
-                segmentText="entrepreneur"
+                textBeforeSegment="I have / work at an "
+                segmentText="entreprise"
                 segmentColor="primary.purple"
                 segmentWeight="bold"
                 fontSize="xxl"

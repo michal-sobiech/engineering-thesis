@@ -8,10 +8,10 @@ import { EmployeeCreationWizard } from "../pages/employee/creation/wizard/Employ
 import { EmployeeLogInPage } from "../pages/employee/log_in/EmployeeLogInPage";
 import { EnterprisePublicPage } from "../pages/enterprise/public/EnterprisePublicPage";
 import { EnterpriseStaffPage } from "../pages/enterprise/staff/EnterpriseStaffPage";
+import { EnterpriseStaffSignUpOrLogIn } from "../pages/enterprise_staff/sign-up-or-log-in/EnterpriseStaffSignUpOrLogInPage";
 import { CreateEnterprisePage } from "../pages/entrepreneur/create_enterprise/CreateEnterprisePage";
 import { EntrepreneurLandingPage } from "../pages/entrepreneur/landing_page/EntrepreneurLandingPage";
 import { EntrepreneurLogInPage } from "../pages/entrepreneur/log-in/EntrepreneurLogInPage";
-import { EntrepreneurSignUpOrLogInPage } from "../pages/entrepreneur/sign-up-or-log-in/EntrepreneurSignUpOrLogInPage";
 import { EntrepreneurSignUpWizard } from "../pages/entrepreneur/sign-up/EntrepreneurSignUpWizard";
 import { MainPage } from "../pages/main_page/MainPage";
 import { ServiceCreationPage } from "../pages/service/ServiceCreationPage";
@@ -32,8 +32,8 @@ export const router = createBrowserRouter([
                 element: <MainPage />
             },
             {
-                path: routeTemplates.entrepreneurSignUpOrLogIn,
-                element: <EntrepreneurSignUpOrLogInPage />
+                path: routeTemplates.enterpriseStaffSignUpOrLogIn,
+                element: <EnterpriseStaffSignUpOrLogIn />
             },
             {
                 path: routeTemplates.entrepreneurSignUp,
