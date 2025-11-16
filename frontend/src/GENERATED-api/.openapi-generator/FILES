@@ -34,7 +34,9 @@ models/GetEnterpriseEmployeesResponseItem.ts
 models/GetEnterpriseResponse.ts
 models/GetEnterpriseService200Response.ts
 models/GetEnterpriseServiceCustomServiceResponse.ts
+models/GetEnterpriseServiceFutureAppointmentResponse.ts
 models/GetEnterpriseServiceNonCustomServiceResponse.ts
+models/GetEnterpriseServicePendingAppointmentResponse.ts
 models/GetEntrepreneurEnterprisesResponseItem.ts
 models/GetMyUserGroup200Response.ts
 models/GetServiceCustomAppointmentsStatus200Response.ts
@@ -58,6 +60,7 @@ models/LogInEnterpriseEmployeeRequest.ts
 models/LogInEnterpriseEmployeeResponse.ts
 models/LogInIndependentEndUserRequest.ts
 models/LogInIndependentEndUserResponse.ts
+models/RejectPendingAppointmentRequest.ts
 models/ServiceSearchResponseItem.ts
 models/Slot.ts
 models/TimeWindow.ts

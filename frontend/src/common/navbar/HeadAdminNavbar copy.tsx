@@ -14,8 +14,7 @@ export const HeadAdminNavbar = () => {
         },
         {
             text: "Reports",
-            // TODO
-            link: routes.mainPage,
+            link: routes.adminReportsPage,
         },
         {
             text: "Add an admin",

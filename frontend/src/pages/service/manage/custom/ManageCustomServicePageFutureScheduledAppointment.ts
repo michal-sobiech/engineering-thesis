@@ -1,0 +1,14 @@
+import { LocalDateTime } from "@js-joda/core";
+
+export interface ManageCustomServicePageFutureScheduledAppointment {
+    appointmentId: number;
+    username: string;
+    userFirstName: string;
+    userLastName: string;
+    address: string;
+    startDatetimeServiceLocal: LocalDateTime;
+    endDatetimeServiceLocal: LocalDateTime;
+    timezone: string;
+    price: number;
+    currency: string;
+}

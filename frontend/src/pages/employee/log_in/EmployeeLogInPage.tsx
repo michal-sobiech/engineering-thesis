@@ -2,20 +2,25 @@ import { Center, Text } from "@chakra-ui/react"
 import { useState } from "react"
 import { useNavigate } from "react-router"
 import { useAuthApi } from "../../../api/auth-api"
-import { useEnterprisesApi } from "../../../api/enterprises-api"
+import { useUsersApi } from "../../../api/user-api"
+import { useAuth } from "../../../auth/useAuth"
+import { setJwtTokenInLocalStorage } from "../../../common/local-storage"
 import { StandardButton } from "../../../common/StandardButton"
 import { StandardFlex } from "../../../common/StandardFlex"
 import { StandardIntInput } from "../../../common/StandardIntInput"
 import { StandardPanel } from "../../../common/StandardPanel"
 import { StandardTextField } from "../../../common/StandardTextField"
 import { routes } from "../../../router/routes"
+import { logInEmployee } from "../../../services/employee-auth"
 import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../../utils/error"
 import { toastError } from "../../../utils/toast"
 
 export const EmployeeLogInPage = () => {
-    const authApi = useAuthApi();
-    const enterprisesApi = useEnterprisesApi();
     const navigate = useNavigate();
+
+    const authApi = useAuthApi();
+    const usersApi = useUsersApi();
+    const { setAuth } = useAuth();
 
     const [enterpriseId, setEnterpriseId] = useState<number | null>(null);
     const [username, setUsername] = useState<string>("");
@@ -27,16 +32,25 @@ export const EmployeeLogInPage = () => {
             return;
         }
 
-        const requestParams = { logInEnterpriseEmployeeRequest: { enterpriseId, username, password } };
-        const response = await authApi.logInEnterpriseEmployeeRaw(requestParams);
-        const status = response.raw.status;
-        if (status === 200) {
-            navigate(routes.enterprisePublic(enterpriseId));
-        } else if (status === 401) {
-            toastError("Invalid credentials");
-        } else {
+        const result = await logInEmployee(enterpriseId, username, password, authApi, usersApi);
+
+        if (result.isErr()) {
             toastError(DEFAULT_ERROR_MESSAGE_FOR_USER);
+            setAuth({ isAuthenticated: false });
+            return;
         }
+        if (result.value.status === "BAD_CREDENTIALS") {
+            toastError("Invalid credentials");
+            setAuth({ isAuthenticated: false });
+            return;
+        }
+        setAuth({
+            isAuthenticated: true,
+            jwtToken: result.value.jwt,
+            userGroup: "EMPLOYEE"
+        })
+        setJwtTokenInLocalStorage(result.value.jwt);
+        navigate(routes.enterprisePublic(enterpriseId));
     }
 
     return <Center height="100%">

@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import { AdminLogInPage } from "../pages/admin/log-in/AdminLogInPage";
+import { AdminReportsPage } from "../pages/admin/reports/AdminReportsPage";
 import { CustomerLogInPage } from "../pages/customer/CustomerLogInPage";
 import { CustomerSignUpOrLogIn } from "../pages/customer/CustomerSignUpOrLogInPage";
 import { CustomerSignUpPage } from "../pages/customer/CustomerSignUpPage";
@@ -107,10 +108,10 @@ export const router = createBrowserRouter([
                 path: routeTemplates.adminLogIn,
                 element: <AdminLogInPage />
             },
-            // {
-            //     path: routeTemplates.regularAdminLandingPage,
-            //     element: <RegularA
-            // }
+            {
+                path: routeTemplates.adminReportsPage,
+                element: <AdminReportsPage />
+            }
         ]
     }
 ])

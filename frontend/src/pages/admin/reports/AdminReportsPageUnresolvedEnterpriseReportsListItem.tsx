@@ -1,22 +1,22 @@
 import { Heading, Text } from "@chakra-ui/react";
 import { FC } from "react";
-import { useReportsApi } from "../../../../api/reports-api";
-import { StandardButton } from "../../../../common/StandardButton";
-import { StandardFlex } from "../../../../common/StandardFlex";
-import { StandardPanel } from "../../../../common/StandardPanel";
-import { useContextOrThrow } from "../../../../hooks/useContextOrThrow";
-import { errorErrResultAsyncFromPromise } from "../../../../utils/result";
-import { toastError } from "../../../../utils/toast";
-import { AdminLandingPageContext } from "./AdminLandingPageContext";
-import { AdminLandingPageUnresolvedEnterpriseReport } from "./AdminLandingPageUnresolvedReport";
+import { useReportsApi } from "../../../api/reports-api";
+import { StandardButton } from "../../../common/StandardButton";
+import { StandardFlex } from "../../../common/StandardFlex";
+import { StandardPanel } from "../../../common/StandardPanel";
+import { useContextOrThrow } from "../../../hooks/useContextOrThrow";
+import { errorErrResultAsyncFromPromise } from "../../../utils/result";
+import { toastError } from "../../../utils/toast";
+import { AdminReportsPageContext } from "./AdminReportsPageContext";
+import { AdminReportsPageUnresolvedEnterpriseReport } from "./AdminReportsPageUnresolvedReport";
 
-export const AdminLandingPageUnresolvedEnterpriseReportsListItem: FC<AdminLandingPageUnresolvedEnterpriseReport> = (props) => {
+export const AdminReportsPageUnresolvedEnterpriseReportsListItem: FC<AdminReportsPageUnresolvedEnterpriseReport> = (props) => {
     const reportsApi = useReportsApi();
 
-    const { setUnresolvedEnterpriseReports } = useContextOrThrow(AdminLandingPageContext);
+    const { setUnresolvedEnterpriseReports } = useContextOrThrow(AdminReportsPageContext);
 
     function removeUnresolvedEnterpriseReportFromList(reportId: number) {
-        setUnresolvedEnterpriseReports((reports: AdminLandingPageUnresolvedEnterpriseReport[]) => reports.filter(report => report.reportId != reportId));
+        setUnresolvedEnterpriseReports((reports: AdminReportsPageUnresolvedEnterpriseReport[]) => reports.filter(report => report.reportId != reportId));
     }
 
     const onClick = async () => {

@@ -20,6 +20,6 @@ export const routes = {
     serviceSearch: routeTemplates.serviceSearch,
     servicePublicPage: (serviceId) => generatePath(routeTemplates.servicePublicPage, { serviceId }),
     createServiceReview: (serviceId) => generatePath(routeTemplates.createServiceReview, { serviceId }),
-    regularAdminLandingPage: routeTemplates.regularAdminLandingPage,
+    adminReportsPage: routeTemplates.adminReportsPage,
     adminLogIn: routeTemplates.adminLogIn,
 } satisfies Record<keyof typeof routeTemplates, string | ((...args: any[]) => string)>;

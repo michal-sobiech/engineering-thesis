@@ -1,22 +1,22 @@
 import { Heading, Text } from "@chakra-ui/react";
 import { FC } from "react";
-import { useReportsApi } from "../../../../api/reports-api";
-import { StandardButton } from "../../../../common/StandardButton";
-import { StandardFlex } from "../../../../common/StandardFlex";
-import { StandardPanel } from "../../../../common/StandardPanel";
-import { useContextOrThrow } from "../../../../hooks/useContextOrThrow";
-import { errorErrResultAsyncFromPromise } from "../../../../utils/result";
-import { toastError } from "../../../../utils/toast";
-import { AdminLandingPageContext } from "./AdminLandingPageContext";
-import { AdminLandingPageUnresolvedReviewReport } from "./AdminLandingPageUnresolvedReport";
+import { useReportsApi } from "../../../api/reports-api";
+import { StandardButton } from "../../../common/StandardButton";
+import { StandardFlex } from "../../../common/StandardFlex";
+import { StandardPanel } from "../../../common/StandardPanel";
+import { useContextOrThrow } from "../../../hooks/useContextOrThrow";
+import { errorErrResultAsyncFromPromise } from "../../../utils/result";
+import { toastError } from "../../../utils/toast";
+import { AdminReportsPageContext } from "./AdminReportsPageContext";
+import { AdminReportsPageUnresolvedReviewReport } from "./AdminReportsPageUnresolvedReport";
 
-export const AdminLandingPageUnresolvedReviewReportsListItem: FC<AdminLandingPageUnresolvedReviewReport> = (props) => {
+export const AdminReportsPageUnresolvedReviewReportsListItem: FC<AdminReportsPageUnresolvedReviewReport> = (props) => {
     const reportsApi = useReportsApi();
 
-    const { setUnresolvedReviewReports } = useContextOrThrow(AdminLandingPageContext);
+    const { setUnresolvedReviewReports } = useContextOrThrow(AdminReportsPageContext);
 
     function removeUnresolvedReviewReportFromList(reportId: number) {
-        setUnresolvedReviewReports((reports: AdminLandingPageUnresolvedReviewReport[]) => {
+        setUnresolvedReviewReports((reports: AdminReportsPageUnresolvedReviewReport[]) => {
             return reports.filter(report => report.reportId != reportId)
         });
     }

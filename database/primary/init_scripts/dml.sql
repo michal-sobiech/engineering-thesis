@@ -1,5 +1,23 @@
 INSERT INTO public.app_user (user_group, username, first_name, last_name, password_hash)
 VALUES (
+    'HEAD_ADMIN',
+    'michal.sobiech',
+    'Michał',
+    'Sobiech',
+    '$2a$14$H3Xb1uyNVBoVq7aXZI.mQO/L.iavvGIGjqsrOhm/5HRT9D0A0xkOO'
+);
+
+INSERT INTO public.app_user (user_group, username, first_name, last_name, password_hash)
+VALUES (
+    'REGULAR_ADMIN',
+    'andrzej.kowal',
+    'Andrzej',
+    'Kowal',
+    '$2a$14$H3Xb1uyNVBoVq7aXZI.mQO/L.iavvGIGjqsrOhm/5HRT9D0A0xkOO'
+);
+
+INSERT INTO public.app_user (user_group, username, first_name, last_name, password_hash)
+VALUES (
     'ENTREPRENEUR',
     'adam.adamczyk@example.com',
     'Adam',
@@ -18,7 +36,7 @@ VALUES (
 
 INSERT INTO public.enterprise (owner_user_id, name, description, address, latitude, longitude, suspended_by_admin)
 VALUES (
-    1,
+    3,
     'The Good Hairdresser',
     'Description here',
     '15/19, Nowowiejska, Koszyki, Śródmieście Południowe, Midtown, Warsaw, Masovian Voivodeship, 00-665, Poland',
@@ -121,7 +139,7 @@ INSERT INTO public.appointment (
     is_custom
 ) VALUES (
     1,
-    2,
+    4,
     100,
     '2025-12-01 12:00:00+00',
     '2025-12-01 12:30:00+00',
@@ -141,7 +159,7 @@ INSERT INTO public.appointment (
     longitude
 ) VALUES (
     2,
-    2,
+    4,
     300,
     '2025-12-03 13:00:00+00',
     '2025-12-03 14:00:00+00',
@@ -159,7 +177,7 @@ INSERT INTO public.review (
     content,
     suspended_by_admin
 ) VALUES (
-    2,
+    4,
     1,
     4,
     'It was alright',
@@ -172,7 +190,7 @@ INSERT INTO public.report (
     is_resolved
 )
 VALUES (
-    2,
+    4,
     1,
     FALSE
 );

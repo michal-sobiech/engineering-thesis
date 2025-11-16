@@ -24,6 +24,7 @@ import type {
   InlineObject1,
   InlineObject2,
   InlineObject4,
+  RejectPendingAppointmentRequest,
 } from '../models/index';
 import {
     CreateCustomAppointmentRequestFromJSON,
@@ -44,7 +45,17 @@ import {
     InlineObject2ToJSON,
     InlineObject4FromJSON,
     InlineObject4ToJSON,
+    RejectPendingAppointmentRequestFromJSON,
+    RejectPendingAppointmentRequestToJSON,
 } from '../models/index';
+
+export interface AcceptPendingAppointmentRequest {
+    appointmentId: number;
+}
+
+export interface CancelAppointmentRequest {
+    appointmentId: number;
+}
 
 export interface CreateCustomAppointmentOperationRequest {
     serviceId: number;
@@ -56,10 +67,99 @@ export interface CreateNonCustomAppointmentOperationRequest {
     createNonCustomAppointmentRequest: CreateNonCustomAppointmentRequest;
 }
 
+export interface RejectPendingAppointmentOperationRequest {
+    appointmentId: number;
+    rejectPendingAppointmentRequest: RejectPendingAppointmentRequest;
+}
+
 /**
  * 
  */
 export class AppointmentsApi extends runtime.BaseAPI {
+
+    /**
+     */
+    async acceptPendingAppointmentRaw(requestParameters: AcceptPendingAppointmentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['appointmentId'] == null) {
+            throw new runtime.RequiredError(
+                'appointmentId',
+                'Required parameter "appointmentId" was null or undefined when calling acceptPendingAppointment().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("JwtBearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/appointments/{appointmentId}/accept`;
+        urlPath = urlPath.replace(`{${"appointmentId"}}`, encodeURIComponent(String(requestParameters['appointmentId'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'PATCH',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async acceptPendingAppointment(appointmentId: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.acceptPendingAppointmentRaw({ appointmentId: appointmentId }, initOverrides);
+    }
+
+    /**
+     */
+    async cancelAppointmentRaw(requestParameters: CancelAppointmentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['appointmentId'] == null) {
+            throw new runtime.RequiredError(
+                'appointmentId',
+                'Required parameter "appointmentId" was null or undefined when calling cancelAppointment().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("JwtBearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/appointments/{appointmentId}/cancel`;
+        urlPath = urlPath.replace(`{${"appointmentId"}}`, encodeURIComponent(String(requestParameters['appointmentId'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'PATCH',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async cancelAppointment(appointmentId: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.cancelAppointmentRaw({ appointmentId: appointmentId }, initOverrides);
+    }
 
     /**
      */
@@ -303,6 +403,58 @@ export class AppointmentsApi extends runtime.BaseAPI {
     async getMyRejectedAppointments(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetCustomerLandingPageRejectedAppointmentResponseItem>> {
         const response = await this.getMyRejectedAppointmentsRaw(initOverrides);
         return await response.value();
+    }
+
+    /**
+     */
+    async rejectPendingAppointmentRaw(requestParameters: RejectPendingAppointmentOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['appointmentId'] == null) {
+            throw new runtime.RequiredError(
+                'appointmentId',
+                'Required parameter "appointmentId" was null or undefined when calling rejectPendingAppointment().'
+            );
+        }
+
+        if (requestParameters['rejectPendingAppointmentRequest'] == null) {
+            throw new runtime.RequiredError(
+                'rejectPendingAppointmentRequest',
+                'Required parameter "rejectPendingAppointmentRequest" was null or undefined when calling rejectPendingAppointment().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("JwtBearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/appointments/{appointmentId}/reject`;
+        urlPath = urlPath.replace(`{${"appointmentId"}}`, encodeURIComponent(String(requestParameters['appointmentId'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'PATCH',
+            headers: headerParameters,
+            query: queryParameters,
+            body: RejectPendingAppointmentRequestToJSON(requestParameters['rejectPendingAppointmentRequest']),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async rejectPendingAppointment(appointmentId: number, rejectPendingAppointmentRequest: RejectPendingAppointmentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.rejectPendingAppointmentRaw({ appointmentId: appointmentId, rejectPendingAppointmentRequest: rejectPendingAppointmentRequest }, initOverrides);
     }
 
 }

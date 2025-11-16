@@ -8,4 +8,5 @@ export interface CustomerLandingPageScheduledAppointment {
     endDatetimeServiceLocal: LocalDateTime;
     timezone: string;
     price: number | null;
+    // TODO add currency?
 }

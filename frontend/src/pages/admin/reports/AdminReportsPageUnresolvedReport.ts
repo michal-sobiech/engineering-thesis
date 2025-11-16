@@ -1,27 +1,27 @@
 export const reportSubjectTypes = ["ENTERPRISE", "SERVICE", "REVIEW"] as const;
 export type ReportSubjectType = (typeof reportSubjectTypes)[number];
 
-export type AdminLandingPageUnresolvedEnterpriseReport = AdminLandingPageUnresolvedReportBase & {
+export type AdminReportsPageUnresolvedEnterpriseReport = AdminReportsPageUnresolvedReportBase & {
     subjectType: "ENTERPRISE",
     enterpriseId: number;
     enterpriseName: string;
 };
 
-export type AdminLandingPageUnresolvedServiceReport = AdminLandingPageUnresolvedReportBase & {
+export type AdminReportsPageUnresolvedServiceReport = AdminReportsPageUnresolvedReportBase & {
     subjectType: "SERVICE",
     serviceId: number;
     serviceName: string;
 };
 
-export type AdminLandingPageUnresolvedReviewReport = AdminLandingPageUnresolvedReportBase & {
+export type AdminReportsPageUnresolvedReviewReport = AdminReportsPageUnresolvedReportBase & {
     subjectType: "REVIEW",
     reviewId: number;
     reviewText: string;
 };
 
-export type AdminLandingPageUnresolvedReport = AdminLandingPageUnresolvedEnterpriseReport | AdminLandingPageUnresolvedServiceReport | AdminLandingPageUnresolvedReviewReport;
+export type AdminReportsPageUnresolvedReport = AdminReportsPageUnresolvedEnterpriseReport | AdminReportsPageUnresolvedServiceReport | AdminReportsPageUnresolvedReviewReport;
 
-interface AdminLandingPageUnresolvedReportBase {
+interface AdminReportsPageUnresolvedReportBase {
     reportId: number;
 
     reportingUserType: string,

@@ -1,27 +1,28 @@
-import { Box, Center } from "@chakra-ui/react";
+import { Center, Flex } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { useReportsApi } from "../../../../api/reports-api";
-import { GetUnresolvedReports200ResponseInner } from "../../../../GENERATED-api";
-import { routes } from "../../../../router/routes";
-import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../../../utils/error";
-import { errorErrResultAsyncFromPromise } from "../../../../utils/result";
-import { toastError } from "../../../../utils/toast";
-import { AdminLandingPageContext, AdminLandingPageContextValue } from "./AdminLandingPageContext";
-import { AdminLandingPageUnresolvedEnterpriseReportsList } from "./AdminLandingPageUnresolvedEnterpriseReportsList";
-import { AdminLandingPageUnresolvedEnterpriseReport, AdminLandingPageUnresolvedReport, AdminLandingPageUnresolvedReviewReport, AdminLandingPageUnresolvedServiceReport } from "./AdminLandingPageUnresolvedReport";
-import { AdminLandingPageUnresolvedReviewReportsList } from "./AdminLandingPageUnresolvedReviewReportsList";
-import { AdminLandingPageUnresolvedServiceReportsList } from "./AdminLandingPageUnresolvedServiceReportsList";
+import { useReportsApi } from "../../../api/reports-api";
+import { StandardPanel } from "../../../common/StandardPanel";
+import { GetUnresolvedReports200ResponseInner } from "../../../GENERATED-api";
+import { routes } from "../../../router/routes";
+import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../../utils/error";
+import { errorErrResultAsyncFromPromise } from "../../../utils/result";
+import { toastError } from "../../../utils/toast";
+import { AdminReportsPageContext, AdminReportsPageContextValue } from "./AdminReportsPageContext";
+import { AdminReportsPageUnresolvedEnterpriseReportsList } from "./AdminReportsPageUnresolvedEnterpriseReportsList";
+import { AdminReportsPageUnresolvedEnterpriseReport, AdminReportsPageUnresolvedReport, AdminReportsPageUnresolvedReviewReport, AdminReportsPageUnresolvedServiceReport } from "./AdminReportsPageUnresolvedReport";
+import { AdminReportsPageUnresolvedReviewReportsList } from "./AdminReportsPageUnresolvedReviewReportsList";
+import { AdminReportsPageUnresolvedServiceReportsList } from "./AdminReportsPageUnresolvedServiceReportsList";
 
-export const AdminLandingPage = () => {
-    const [unresolvedEnterpriseReports, setUnresolvedEnterpriseReports] = useState<AdminLandingPageUnresolvedEnterpriseReport[]>([]);
-    const [unresolvedServiceReports, setUnresolvedServiceReports] = useState<AdminLandingPageUnresolvedServiceReport[]>([]);
-    const [unresolvedReviewReports, setUnresolvedReviewReports] = useState<AdminLandingPageUnresolvedReviewReport[]>([]);
+export const AdminReportsPage = () => {
+    const [unresolvedEnterpriseReports, setUnresolvedEnterpriseReports] = useState<AdminReportsPageUnresolvedEnterpriseReport[]>([]);
+    const [unresolvedServiceReports, setUnresolvedServiceReports] = useState<AdminReportsPageUnresolvedServiceReport[]>([]);
+    const [unresolvedReviewReports, setUnresolvedReviewReports] = useState<AdminReportsPageUnresolvedReviewReport[]>([]);
 
     const navigate = useNavigate();
     const reportsApi = useReportsApi();
 
-    const contextValue: AdminLandingPageContextValue = {
+    const contextValue: AdminReportsPageContextValue = {
         unresolvedEnterpriseReports,
         setUnresolvedEnterpriseReports,
         unresolvedServiceReports,
@@ -51,18 +52,26 @@ export const AdminLandingPage = () => {
         loadUnresolvedReports();
     }, [])
 
-    return <AdminLandingPageContext.Provider value={contextValue}>
+    return <AdminReportsPageContext.Provider value={contextValue}>
         <Center height="100%">
-            <Box width="80%" height="100%">
-                <AdminLandingPageUnresolvedEnterpriseReportsList />
-                <AdminLandingPageUnresolvedServiceReportsList />
-                <AdminLandingPageUnresolvedReviewReportsList />
-            </Box>
+            <StandardPanel height="100%" width="80%">
+                <Flex height="100%" direction="row">
+                    {unresolvedEnterpriseReports.length !== 0
+                        ? <AdminReportsPageUnresolvedEnterpriseReportsList />
+                        : null}
+                    {unresolvedServiceReports.length !== 0
+                        ? <AdminReportsPageUnresolvedServiceReportsList />
+                        : null}
+                    {unresolvedReviewReports.length !== 0
+                        ? <AdminReportsPageUnresolvedReviewReportsList />
+                        : null}
+                </Flex>
+            </StandardPanel>
         </Center>
-    </AdminLandingPageContext.Provider>
+    </AdminReportsPageContext.Provider>
 }
 
-function createReportDomain(reportDto: GetUnresolvedReports200ResponseInner): AdminLandingPageUnresolvedReport {
+function createReportDomain(reportDto: GetUnresolvedReports200ResponseInner): AdminReportsPageUnresolvedReport {
     if (reportDto.reportSubjectType === "ENTERPRISE") {
         return {
             reportId: reportDto.reportId,
@@ -74,7 +83,7 @@ function createReportDomain(reportDto: GetUnresolvedReports200ResponseInner): Ad
             subjectType: reportDto.reportSubjectType,
             enterpriseId: reportDto.enterpriseId,
             enterpriseName: reportDto.enterpriseName,
-        } satisfies AdminLandingPageUnresolvedEnterpriseReport;
+        } satisfies AdminReportsPageUnresolvedEnterpriseReport;
     } else if (reportDto.reportSubjectType === "SERVICE") {
         return {
             reportId: reportDto.reportId,
@@ -86,7 +95,7 @@ function createReportDomain(reportDto: GetUnresolvedReports200ResponseInner): Ad
             subjectType: reportDto.reportSubjectType,
             serviceId: reportDto.enterpriseServiceId,
             serviceName: reportDto.enterpriseServiceName,
-        } satisfies AdminLandingPageUnresolvedServiceReport;
+        } satisfies AdminReportsPageUnresolvedServiceReport;
     } else if (reportDto.reportSubjectType === "REVIEW") {
         return {
             reportId: reportDto.reportId,
@@ -98,22 +107,22 @@ function createReportDomain(reportDto: GetUnresolvedReports200ResponseInner): Ad
             subjectType: reportDto.reportSubjectType,
             reviewId: reportDto.reviewId,
             reviewText: reportDto.reviewText,
-        } satisfies AdminLandingPageUnresolvedReviewReport;
+        } satisfies AdminReportsPageUnresolvedReviewReport;
     } else {
         throw new Error("Invalid argument, couldn't match with any supported report subject type");
     }
 }
 
-function splitReportsIntoGroups(reports: AdminLandingPageUnresolvedReport[]): {
-    ENTERPRISE: AdminLandingPageUnresolvedEnterpriseReport[],
-    SERVICE: AdminLandingPageUnresolvedServiceReport[],
-    REVIEW: AdminLandingPageUnresolvedReviewReport[],
+function splitReportsIntoGroups(reports: AdminReportsPageUnresolvedReport[]): {
+    ENTERPRISE: AdminReportsPageUnresolvedEnterpriseReport[],
+    SERVICE: AdminReportsPageUnresolvedServiceReport[],
+    REVIEW: AdminReportsPageUnresolvedReviewReport[],
 } {
 
     const out: {
-        ENTERPRISE: AdminLandingPageUnresolvedEnterpriseReport[],
-        SERVICE: AdminLandingPageUnresolvedServiceReport[],
-        REVIEW: AdminLandingPageUnresolvedReviewReport[],
+        ENTERPRISE: AdminReportsPageUnresolvedEnterpriseReport[],
+        SERVICE: AdminReportsPageUnresolvedServiceReport[],
+        REVIEW: AdminReportsPageUnresolvedReviewReport[],
     } = {
         ENTERPRISE: [],
         SERVICE: [],

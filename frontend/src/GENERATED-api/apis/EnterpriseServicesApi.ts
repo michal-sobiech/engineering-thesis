@@ -19,6 +19,8 @@ import type {
   CreateEnterpriseServiceReviewRequest,
   CreateNoCustomAppointmentsEnterpriseServiceRequest,
   GetEnterpriseService200Response,
+  GetEnterpriseServiceFutureAppointmentResponse,
+  GetEnterpriseServicePendingAppointmentResponse,
   GetServiceCustomAppointmentsStatus200Response,
   GetServiceFreeCustomAppointmentsResponseItem,
   GetServiceFreeNonCustomAppointmentsResponseItem,
@@ -37,6 +39,10 @@ import {
     CreateNoCustomAppointmentsEnterpriseServiceRequestToJSON,
     GetEnterpriseService200ResponseFromJSON,
     GetEnterpriseService200ResponseToJSON,
+    GetEnterpriseServiceFutureAppointmentResponseFromJSON,
+    GetEnterpriseServiceFutureAppointmentResponseToJSON,
+    GetEnterpriseServicePendingAppointmentResponseFromJSON,
+    GetEnterpriseServicePendingAppointmentResponseToJSON,
     GetServiceCustomAppointmentsStatus200ResponseFromJSON,
     GetServiceCustomAppointmentsStatus200ResponseToJSON,
     GetServiceFreeCustomAppointmentsResponseItemFromJSON,
@@ -71,6 +77,14 @@ export interface CreateNoCustomAppointmentsEnterpriseServiceOperationRequest {
 }
 
 export interface GetEnterpriseServiceRequest {
+    serviceId: number;
+}
+
+export interface GetEnterpriseServiceFutureAppointmentsRequest {
+    serviceId: number;
+}
+
+export interface GetEnterpriseServicePendingAppointmentsRequest {
     serviceId: number;
 }
 
@@ -292,6 +306,92 @@ export class EnterpriseServicesApi extends runtime.BaseAPI {
      */
     async getEnterpriseService(serviceId: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetEnterpriseService200Response> {
         const response = await this.getEnterpriseServiceRaw({ serviceId: serviceId }, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async getEnterpriseServiceFutureAppointmentsRaw(requestParameters: GetEnterpriseServiceFutureAppointmentsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<GetEnterpriseServiceFutureAppointmentResponse>>> {
+        if (requestParameters['serviceId'] == null) {
+            throw new runtime.RequiredError(
+                'serviceId',
+                'Required parameter "serviceId" was null or undefined when calling getEnterpriseServiceFutureAppointments().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("JwtBearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/services/{serviceId}/future-appointments`;
+        urlPath = urlPath.replace(`{${"serviceId"}}`, encodeURIComponent(String(requestParameters['serviceId'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(GetEnterpriseServiceFutureAppointmentResponseFromJSON));
+    }
+
+    /**
+     */
+    async getEnterpriseServiceFutureAppointments(serviceId: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetEnterpriseServiceFutureAppointmentResponse>> {
+        const response = await this.getEnterpriseServiceFutureAppointmentsRaw({ serviceId: serviceId }, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async getEnterpriseServicePendingAppointmentsRaw(requestParameters: GetEnterpriseServicePendingAppointmentsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<GetEnterpriseServicePendingAppointmentResponse>>> {
+        if (requestParameters['serviceId'] == null) {
+            throw new runtime.RequiredError(
+                'serviceId',
+                'Required parameter "serviceId" was null or undefined when calling getEnterpriseServicePendingAppointments().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("JwtBearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/services/{serviceId}/pending-appointments`;
+        urlPath = urlPath.replace(`{${"serviceId"}}`, encodeURIComponent(String(requestParameters['serviceId'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(GetEnterpriseServicePendingAppointmentResponseFromJSON));
+    }
+
+    /**
+     */
+    async getEnterpriseServicePendingAppointments(serviceId: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetEnterpriseServicePendingAppointmentResponse>> {
+        const response = await this.getEnterpriseServicePendingAppointmentsRaw({ serviceId: serviceId }, initOverrides);
         return await response.value();
     }
 

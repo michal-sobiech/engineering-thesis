@@ -1,22 +1,22 @@
 import { Heading, Text } from "@chakra-ui/react";
 import { FC } from "react";
-import { useReportsApi } from "../../../../api/reports-api";
-import { StandardButton } from "../../../../common/StandardButton";
-import { StandardFlex } from "../../../../common/StandardFlex";
-import { StandardPanel } from "../../../../common/StandardPanel";
-import { useContextOrThrow } from "../../../../hooks/useContextOrThrow";
-import { errorErrResultAsyncFromPromise } from "../../../../utils/result";
-import { toastError } from "../../../../utils/toast";
-import { AdminLandingPageContext } from "./AdminLandingPageContext";
-import { AdminLandingPageUnresolvedServiceReport } from "./AdminLandingPageUnresolvedReport";
+import { useReportsApi } from "../../../api/reports-api";
+import { StandardButton } from "../../../common/StandardButton";
+import { StandardFlex } from "../../../common/StandardFlex";
+import { StandardPanel } from "../../../common/StandardPanel";
+import { useContextOrThrow } from "../../../hooks/useContextOrThrow";
+import { errorErrResultAsyncFromPromise } from "../../../utils/result";
+import { toastError } from "../../../utils/toast";
+import { AdminReportsPageContext } from "./AdminReportsPageContext";
+import { AdminReportsPageUnresolvedServiceReport } from "./AdminReportsPageUnresolvedReport";
 
-export const AdminLandingPageUnresolvedServiceReportsListItem: FC<AdminLandingPageUnresolvedServiceReport> = (props) => {
+export const AdminReportsPageUnresolvedServiceReportsListItem: FC<AdminReportsPageUnresolvedServiceReport> = (props) => {
     const reportsApi = useReportsApi();
 
-    const { setUnresolvedServiceReports } = useContextOrThrow(AdminLandingPageContext);
+    const { setUnresolvedServiceReports } = useContextOrThrow(AdminReportsPageContext);
 
     function removeUnresolvedReportFromList(reportId: number) {
-        setUnresolvedServiceReports((reports: AdminLandingPageUnresolvedServiceReport[]) => {
+        setUnresolvedServiceReports((reports: AdminReportsPageUnresolvedServiceReport[]) => {
             return reports.filter(report => report.reportId != reportId)
         });
     }

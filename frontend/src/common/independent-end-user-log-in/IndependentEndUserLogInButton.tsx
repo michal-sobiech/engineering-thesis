@@ -30,6 +30,7 @@ export const IndependentEndUserLogInButton = () => {
 
         if (result.isErr()) {
             toastError(DEFAULT_ERROR_MESSAGE_FOR_USER);
+            setAuth({ isAuthenticated: false });
             return;
         }
 
@@ -44,6 +45,7 @@ export const IndependentEndUserLogInButton = () => {
             return;
         } else {
             toastError(DEFAULT_ERROR_MESSAGE_FOR_USER);
+            setAuth({ isAuthenticated: false });
             return;
         }
 

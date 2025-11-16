@@ -17,6 +17,6 @@ export const routeTemplates = {
     serviceSearch: "/services/search",
     servicePublicPage: "/services/:serviceId",
     createServiceReview: "/services/:serviceId/create-review",
-    regularAdminLandingPage: "/regular-admins/ladning-page",
+    adminReportsPage: "/admins/landing-page",
     adminLogIn: "/admins/log-in",
 };

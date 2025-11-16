@@ -66,4 +66,6 @@ public class AppointmentEntity {
     @Column(nullable = true)
     private Double latitude;
 
+    private boolean cancelled;
+
 }

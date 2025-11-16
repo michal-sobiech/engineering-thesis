@@ -1,29 +1,40 @@
-import { errAsync, okAsync, ResultAsync } from "neverthrow";
-import { useAuthApi } from "../api/auth-api";
-import { setJwtTokenInLocalStorage } from "../common/local-storage";
+import { ResultAsync } from "neverthrow";
+import { AuthApi, UserApi } from "../GENERATED-api";
 import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../utils/error";
 import { errorErrResultAsyncFromPromise } from "../utils/result";
-import { LogInStatus } from "./LogInStatus";
+import { LogInOutcome, LogInOutcomeBadCredentials, LogInOutcomeSuccess } from "./LogInOutcome";
 
-export function logInEmployee(enterpriseId: number, username: string, password: string): ResultAsync<LogInStatus, Error> {
-    const authApi = useAuthApi();
-    const requestParams = { logInEnterpriseEmployeeRequest: { enterpriseId, username, password } };
-    const promise = authApi.logInEnterpriseEmployeeRaw(requestParams);
+export function logInEmployee(enterpriseId: number, username: string, password: string, authApi: AuthApi, userApi: UserApi): ResultAsync<LogInOutcome, Error> {
+    async function createPromise() {
+        const requestParams = { logInEnterpriseEmployeeRequest: { enterpriseId, username, password } };
+        const promise = authApi.logInEnterpriseEmployeeRaw(requestParams);
+        const logInResult = await errorErrResultAsyncFromPromise(promise);
 
-    return errorErrResultAsyncFromPromise(promise)
-        .andThen(response => {
-            const status = response.raw.status;
-            if (status === 200) {
-                return errorErrResultAsyncFromPromise(response.value())
-                    .map(value => value.accessToken)
-                    .map(token => {
-                        setJwtTokenInLocalStorage(token);
-                        return "LOGGED_IN" as LogInStatus;
-                    });
-            } else if (status === 401) {
-                return okAsync("BAD_CREDENTIALS" as LogInStatus);
-            } else {
-                return errAsync(new Error(DEFAULT_ERROR_MESSAGE_FOR_USER));
-            }
-        });
+        if (logInResult.isErr()) {
+            throw new Error(DEFAULT_ERROR_MESSAGE_FOR_USER);
+        }
+
+        const status = logInResult.value.raw.status;
+        if (status === 401) {
+            return { status: "BAD_CREDENTIALS" } as LogInOutcomeBadCredentials;
+        }
+        if (status !== 200) {
+            throw new Error(DEFAULT_ERROR_MESSAGE_FOR_USER);
+        }
+
+        const accessTokenPromise = logInResult.value.value();
+        const accessTokenResult = await errorErrResultAsyncFromPromise(accessTokenPromise);
+
+        if (accessTokenResult.isErr()) {
+            throw new Error(DEFAULT_ERROR_MESSAGE_FOR_USER);
+        }
+        const accessToken = accessTokenResult.value.accessToken;
+
+        return {
+            status: "SUCCESS",
+            jwt: accessToken,
+        } as LogInOutcomeSuccess;
+    }
+
+    return errorErrResultAsyncFromPromise(createPromise());
 }
