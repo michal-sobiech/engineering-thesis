@@ -27,6 +27,7 @@ import io.micrometer.common.lang.Nullable;
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.appointment.ScheduledAppointmentService;
 import pl.michal_sobiech.engineering_thesis.appointment.custom.CustomAppointmentsService;
+import pl.michal_sobiech.engineering_thesis.appointment.custom.pending.PendingAppointmentService;
 import pl.michal_sobiech.engineering_thesis.appointment.non_custom.NonCustomAppointmentsService;
 import pl.michal_sobiech.engineering_thesis.appointment.scheduled.future.FutureScheduledAppointmentService;
 import pl.michal_sobiech.engineering_thesis.auth.AuthService;
@@ -63,6 +64,7 @@ public class EnterpriseServiceController implements ServicesApi {
     private final AvailableEnterpriseServiceSearchService availableEnterpriseServiceSearchService;
     private final ScheduledAppointmentService scheduledAppointmentService;
     private final FutureScheduledAppointmentService futureScheduledAppointmentService;
+    private final PendingAppointmentService pendingAppointmentService;
 
     @Override
     public ResponseEntity<List<GetServiceFreeNonCustomAppointmentsResponseItem>> getFreeNonCustomAppointments(
@@ -280,8 +282,31 @@ public class EnterpriseServiceController implements ServicesApi {
 
     @Override
     public ResponseEntity<List<GetEnterpriseServicePendingAppointmentResponse>> getEnterpriseServicePendingAppointments(
-            Long serviceId) {
-        return 
+            Long enterpriseServiceId) {
+        var body = pendingAppointmentService
+                .getEnterpriseServiceUncancelledFuturePendingAppointments(enterpriseServiceId)
+                .stream()
+                .map(appointment -> {
+                    String startDatetimeServiceLocal = DateUtils.createIsoLocalDatetime(
+                            appointment.getStartGlobalDatetime().toInstant(),
+                            appointment.getTimezone());
+                    String endDatetimeServiceLocal = DateUtils.createIsoLocalDatetime(
+                            appointment.getEndGlobalDatetime().toInstant(),
+                            appointment.getTimezone());
+                    return new GetEnterpriseServicePendingAppointmentResponse(
+                            appointment.getAppointmentId(),
+                            appointment.getUsername(),
+                            appointment.getUserFirstName(),
+                            appointment.getUserLastName(),
+                            appointment.getAddress(),
+                            startDatetimeServiceLocal,
+                            endDatetimeServiceLocal,
+                            appointment.getTimezone().toString(),
+                            appointment.getPrice(),
+                            appointment.getCurrency().toString());
+                })
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(body);
     }
 
 }

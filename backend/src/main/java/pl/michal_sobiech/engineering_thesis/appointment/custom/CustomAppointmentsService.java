@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.appointment.AppointmentEntity;
 import pl.michal_sobiech.engineering_thesis.appointment.AppointmentRepository;
+import pl.michal_sobiech.engineering_thesis.appointment.custom.pending.PendingCustomAppointment;
+import pl.michal_sobiech.engineering_thesis.currency_iso.CurrencyIso;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceDomain;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceService;
 
@@ -43,12 +45,14 @@ public class CustomAppointmentsService {
         EnterpriseServiceDomain enterpriseService = enterpriseServiceService.getById(enterpriseServiceId).orElseThrow();
 
         BigDecimal price = enterpriseService.price();
+        CurrencyIso currency = enterpriseService.currency();
 
         AppointmentEntity appointmentEntity = new AppointmentEntity(
                 null,
                 enterpriseServiceId,
                 customerUserId,
                 price,
+                currency,
                 start.atOffset(ZoneOffset.UTC),
                 end.atOffset(ZoneOffset.UTC),
                 true,
@@ -92,17 +96,4 @@ public class CustomAppointmentsService {
         appointmentRepository.save(appointment);
     }
 
-    public List<ConfirmedCustomAppointment> getConfirmedCustomAppointmentsOfEnterpriseService(
-            long enterpriseServiceId) {
-        List<AppointmentEntity> records = appointmentRepository
-                .findConfirmedCustomAppointmentsOfEnterpriseService(enterpriseServiceId);
-        return records.stream().map(record -> ConfirmedCustomAppointment.fromEntity(record))
-                .collect(Collectors.toList());
-    }
-
-    public List<PendingCustomAppointment> getPendingCustomAppointmentsOfEnterpriseService(long enterpriseServiceId) {
-        List<AppointmentEntity> records = appointmentRepository
-                .findPendingCustomAppointmentsOfEnterpriseService(enterpriseServiceId);
-        return records.stream().map(record -> PendingCustomAppointment.fromEntity(record)).collect(Collectors.toList());
-    }
 }

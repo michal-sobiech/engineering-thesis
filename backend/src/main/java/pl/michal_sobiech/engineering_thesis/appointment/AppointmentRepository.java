@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import pl.michal_sobiech.engineering_thesis.appointment.custom.pending.GetEnterpriseServiceUncancelledFuturePendingAppointmentsResponseRow;
 import pl.michal_sobiech.engineering_thesis.appointment.scheduled.future.GetEnterpriseServiceFutureScheduledAppointmentsResponseRow;
 
 public interface AppointmentRepository extends JpaRepository<AppointmentEntity, Long> {
@@ -77,16 +78,6 @@ public interface AppointmentRepository extends JpaRepository<AppointmentEntity, 
             @Param("customerUserId") long customerUserId);
 
     @Query("""
-            SELECT appointment
-            FROM AppointmentEntity appointment
-            WHERE appointment.enterpriseServiceId = :enterpriseServiceId
-            AND appointment.isCustom = TRUE
-            AND appointment.isAccepted IS NULL
-            """)
-    public List<AppointmentEntity> findPendingCustomAppointmentsOfEnterpriseService(
-            @Param("enterpriseServiceId") long enterpriseServiceId);
-
-    @Query("""
             SELECT
             appointment.appointmentId as appointmentId,
             user.username as username,
@@ -111,4 +102,27 @@ public interface AppointmentRepository extends JpaRepository<AppointmentEntity, 
 
     // TODO what about cancelled appointments
 
+    @Query("""
+            SELECT
+            appointment.appointmentId as appointmentId,
+            user.username as username,
+            user.firstName as userFirstName,
+            user.lastName as userLastName,
+            appointment.address as address,
+            appointment.startTime as startGlobalDatetime,
+            appointment.endTime as endGlobalDatetime,
+            service.timeZone as timezone,
+            appointment.price as price,
+            appointment.currency as currency
+            FROM AppointmentEntity appointment
+            JOIN User user ON user.userId = appointment.customerUserId
+            JOIN EnterpriseService service ON appointment.enterpriseServiceId = service.enterpriseServiceId
+            WHERE appointment.enterpriseServiceId = :enterpriseServiceId
+            AND appointment.cancelled = FALSE
+            AND appointment.isCustom = TRUE
+            AND appointment.isAccepted IS NULL
+            AND CURRENT_TIMESTAMP > appointment.endTime
+            """)
+    public List<GetEnterpriseServiceUncancelledFuturePendingAppointmentsResponseRow> getEnterpriseServiceUncancelledFuturePendingAppointments(
+            @Param("enterpriseServiceId") long enterpriseServiceId);
 }

@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.appointment.custom.CustomAppointmentsService;
-import pl.michal_sobiech.engineering_thesis.appointment.custom.PendingCustomAppointment;
 import pl.michal_sobiech.engineering_thesis.appointment.custom.RejectedCustomAppointment;
+import pl.michal_sobiech.engineering_thesis.appointment.custom.pending.PendingCustomAppointment;
 import pl.michal_sobiech.engineering_thesis.appointment.non_custom.NonCustomAppointmentsService;
 import pl.michal_sobiech.engineering_thesis.auth.AuthService;
 import pl.michal_sobiech.engineering_thesis.customer.Customer;

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.appointment.AppointmentEntity;
 import pl.michal_sobiech.engineering_thesis.appointment.AppointmentRepository;
+import pl.michal_sobiech.engineering_thesis.currency_iso.CurrencyIso;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceDomain;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceService;
 import pl.michal_sobiech.engineering_thesis.utils.DateUtils;
@@ -44,12 +45,14 @@ public class NonCustomAppointmentsService {
         EnterpriseServiceDomain enterpriseService = enterpriseServiceService.getById(enterpriseServiceId).orElseThrow();
 
         BigDecimal price = enterpriseService.price();
+        CurrencyIso currency = enterpriseService.currency();
 
         AppointmentEntity appointmentEntity = new AppointmentEntity(
                 null,
                 enterpriseServiceId,
                 customerUserId,
                 price,
+                currency,
                 start.atOffset(ZoneOffset.UTC),
                 end.atOffset(ZoneOffset.UTC),
                 false,
@@ -64,12 +67,6 @@ public class NonCustomAppointmentsService {
 
     public List<NonCustomAppointment> getNonCustomAppointmentsOfCustomer(long customerUserId) {
         List<AppointmentEntity> records = appointmentRepository.findNonCustomAppointmentsOfCustomer(customerUserId);
-        return records.stream().map(record -> NonCustomAppointment.fromEntity(record)).collect(Collectors.toList());
-    }
-
-    public List<NonCustomAppointment> getNonCustomAppointmentsOfEnterpriseService(long enterpriseServiceId) {
-        List<AppointmentEntity> records = appointmentRepository
-                .findNonCustomAppointmentsOfEnterpriseService(enterpriseServiceId);
         return records.stream().map(record -> NonCustomAppointment.fromEntity(record)).collect(Collectors.toList());
     }
 
