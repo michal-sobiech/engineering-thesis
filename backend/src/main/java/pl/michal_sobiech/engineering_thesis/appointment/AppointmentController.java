@@ -8,6 +8,7 @@ import org.SwaggerCodeGenExample.api.AppointmentsApi;
 import org.SwaggerCodeGenExample.model.GetCustomerLandingPagePendingAppointmentResponseItem;
 import org.SwaggerCodeGenExample.model.GetCustomerLandingPageRejectedAppointmentResponseItem;
 import org.SwaggerCodeGenExample.model.GetCustomerLandingPageScheduledAppointmentResponseItem;
+import org.SwaggerCodeGenExample.model.RejectPendingAppointmentRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -174,4 +175,23 @@ public class AppointmentController implements AppointmentsApi {
                 .collect(Collectors.toList());
         return ResponseEntity.ok(body);
     }
+
+    @Override
+    public ResponseEntity<Void> acceptPendingAppointment(Long appointmentId) {
+        customAppointmentsService.acceptAppointment(appointmentId);
+        return ResponseEntity.ok().build();
+    }
+
+    @Override
+    public ResponseEntity<Void> rejectPendingAppointment(Long appointmentId, RejectPendingAppointmentRequest request) {
+        customAppointmentsService.rejectAppointment(appointmentId, request.getRejectionMessage());
+        return ResponseEntity.ok().build();
+    }
+
+    @Override
+    public ResponseEntity<Void> cancelAppointment(Long appointmentId) {
+        scheduledAppointmentService.cancelAppointment(appointmentId);
+        return ResponseEntity.ok().build();
+    }
+
 }

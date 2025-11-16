@@ -56,7 +56,8 @@ public class CustomAppointmentsService {
                 null,
                 location.getAddress(),
                 location.getLongitude(),
-                location.getLatitude());
+                location.getLatitude(),
+                false);
         appointmentRepository.save(appointmentEntity);
     }
 
@@ -76,5 +77,32 @@ public class CustomAppointmentsService {
         List<AppointmentEntity> records = appointmentRepository.findPendingCustomAppointmentsOfCustomer(customerUserId);
         return records.stream().map(record -> RejectedCustomAppointment.fromEntity(record))
                 .collect(Collectors.toList());
+    }
+
+    public void acceptAppointment(long appointmentId) {
+        AppointmentEntity appointment = appointmentRepository.findById(appointmentId).orElseThrow();
+        appointment.setIsAccepted(true);
+        appointmentRepository.save(appointment);
+    }
+
+    public void rejectAppointment(long appointmentId, String rejectionMessage) {
+        AppointmentEntity appointment = appointmentRepository.findById(appointmentId).orElseThrow();
+        appointment.setIsAccepted(false);
+        appointment.setRejectionMessage(rejectionMessage);
+        appointmentRepository.save(appointment);
+    }
+
+    public List<ConfirmedCustomAppointment> getConfirmedCustomAppointmentsOfEnterpriseService(
+            long enterpriseServiceId) {
+        List<AppointmentEntity> records = appointmentRepository
+                .findConfirmedCustomAppointmentsOfEnterpriseService(enterpriseServiceId);
+        return records.stream().map(record -> ConfirmedCustomAppointment.fromEntity(record))
+                .collect(Collectors.toList());
+    }
+
+    public List<PendingCustomAppointment> getPendingCustomAppointmentsOfEnterpriseService(long enterpriseServiceId) {
+        List<AppointmentEntity> records = appointmentRepository
+                .findPendingCustomAppointmentsOfEnterpriseService(enterpriseServiceId);
+        return records.stream().map(record -> PendingCustomAppointment.fromEntity(record)).collect(Collectors.toList());
     }
 }

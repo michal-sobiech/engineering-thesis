@@ -14,6 +14,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pl.michal_sobiech.engineering_thesis.currency_iso.CurrencyIso;
 
 @Entity
 @Table(name = "appointment")
@@ -36,6 +37,8 @@ public class AppointmentEntity {
     private Long customerUserId;
 
     private BigDecimal price;
+
+    private CurrencyIso currency;
 
     @Column(name = "start_time")
     private OffsetDateTime startTime;

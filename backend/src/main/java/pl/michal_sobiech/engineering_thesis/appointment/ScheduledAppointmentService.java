@@ -58,4 +58,10 @@ public class ScheduledAppointmentService {
                 .collect(Collectors.toList());
     }
 
+    public void cancelAppointment(long appointmentId) {
+        AppointmentEntity appointment = appointmentRepository.findById(appointmentId).orElseThrow();
+        appointment.setCancelled(true);
+        appointmentRepository.save(appointment);
+    }
+
 }

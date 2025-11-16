@@ -14,6 +14,8 @@ import org.SwaggerCodeGenExample.model.CreateCustomAppointmentRequest;
 import org.SwaggerCodeGenExample.model.CreateEnterpriseServiceReviewRequest;
 import org.SwaggerCodeGenExample.model.CreateNonCustomAppointmentRequest;
 import org.SwaggerCodeGenExample.model.GetEnterpriseService200Response;
+import org.SwaggerCodeGenExample.model.GetEnterpriseServicePendingAppointmentResponse;
+import org.SwaggerCodeGenExample.model.GetEnterpriseServiceUncancelledFutureAppointmentResponse;
 import org.SwaggerCodeGenExample.model.GetServiceCustomAppointmentsStatus200Response;
 import org.SwaggerCodeGenExample.model.GetServiceFreeCustomAppointmentsResponseItem;
 import org.SwaggerCodeGenExample.model.GetServiceFreeNonCustomAppointmentsResponseItem;
@@ -23,8 +25,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.micrometer.common.lang.Nullable;
 import lombok.RequiredArgsConstructor;
+import pl.michal_sobiech.engineering_thesis.appointment.ScheduledAppointmentService;
 import pl.michal_sobiech.engineering_thesis.appointment.custom.CustomAppointmentsService;
 import pl.michal_sobiech.engineering_thesis.appointment.non_custom.NonCustomAppointmentsService;
+import pl.michal_sobiech.engineering_thesis.appointment.scheduled.future.FutureScheduledAppointmentService;
 import pl.michal_sobiech.engineering_thesis.auth.AuthService;
 import pl.michal_sobiech.engineering_thesis.available_enterprise_service_search.AvailableEnterpriseServiceSearchResultRow;
 import pl.michal_sobiech.engineering_thesis.available_enterprise_service_search.AvailableEnterpriseServiceSearchService;
@@ -57,6 +61,8 @@ public class EnterpriseServiceController implements ServicesApi {
     private final CustomEnterpriseServiceAvailabilityService customEnterpriseServiceAvailabilityService;
     private final EnterpriseServiceSearchService enterpriseServiceSearchService;
     private final AvailableEnterpriseServiceSearchService availableEnterpriseServiceSearchService;
+    private final ScheduledAppointmentService scheduledAppointmentService;
+    private final FutureScheduledAppointmentService futureScheduledAppointmentService;
 
     @Override
     public ResponseEntity<List<GetServiceFreeNonCustomAppointmentsResponseItem>> getFreeNonCustomAppointments(
@@ -241,6 +247,41 @@ public class EnterpriseServiceController implements ServicesApi {
                 request.getNumStarsOutOf5().shortValue(),
                 request.getText());
         return ResponseEntity.ok().build();
+    }
+
+    @Override
+    public ResponseEntity<List<GetEnterpriseServiceUncancelledFutureAppointmentResponse>> getEnterpriseServiceUncancelledFutureAppointments(
+            Long enterpriseServiceId) {
+        var body = futureScheduledAppointmentService
+                .getUncancelledFutureScheduledAppointmentsOfEnterpriseService(enterpriseServiceId)
+                .stream()
+                .map(appointment -> {
+                    String startDatetimeServiceLocal = DateUtils.createIsoLocalDatetime(
+                            appointment.getStartGlobalDatetime().toInstant(),
+                            appointment.getTimezone());
+                    String endDatetimeServiceLocal = DateUtils.createIsoLocalDatetime(
+                            appointment.getEndGlobalDatetime().toInstant(),
+                            appointment.getTimezone());
+                    return new GetEnterpriseServiceUncancelledFutureAppointmentResponse(
+                            appointment.getAppointmentId(),
+                            appointment.getUsername(),
+                            appointment.getUserFirstName(),
+                            appointment.getUserLastName(),
+                            appointment.getAddress(),
+                            startDatetimeServiceLocal,
+                            endDatetimeServiceLocal,
+                            appointment.getTimezone().toString(),
+                            appointment.getPrice(),
+                            appointment.getCurrency().toString());
+                })
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(body);
+    }
+
+    @Override
+    public ResponseEntity<List<GetEnterpriseServicePendingAppointmentResponse>> getEnterpriseServicePendingAppointments(
+            Long serviceId) {
+        return 
     }
 
 }

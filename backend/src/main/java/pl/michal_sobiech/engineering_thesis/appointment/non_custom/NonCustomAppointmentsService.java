@@ -57,12 +57,19 @@ public class NonCustomAppointmentsService {
                 null,
                 null,
                 null,
-                null);
+                null,
+                false);
         appointmentRepository.save(appointmentEntity);
     }
 
     public List<NonCustomAppointment> getNonCustomAppointmentsOfCustomer(long customerUserId) {
         List<AppointmentEntity> records = appointmentRepository.findNonCustomAppointmentsOfCustomer(customerUserId);
+        return records.stream().map(record -> NonCustomAppointment.fromEntity(record)).collect(Collectors.toList());
+    }
+
+    public List<NonCustomAppointment> getNonCustomAppointmentsOfEnterpriseService(long enterpriseServiceId) {
+        List<AppointmentEntity> records = appointmentRepository
+                .findNonCustomAppointmentsOfEnterpriseService(enterpriseServiceId);
         return records.stream().map(record -> NonCustomAppointment.fromEntity(record)).collect(Collectors.toList());
     }
 
