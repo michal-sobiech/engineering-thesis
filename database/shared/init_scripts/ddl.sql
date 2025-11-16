@@ -36,7 +36,7 @@ CREATE TABLE public.enterprise (
 	background_photo_file_name text,
 	background_photo_file_bytes bytea,
 
-	suspended_by_admin boolean NOT NULL,
+	suspended_by_admin boolean NOT NULL DEFAULT FALSE,
 
 	CONSTRAINT pk_enterprise PRIMARY KEY (enterprise_id),
 	CONSTRAINT chk_location CHECK (
@@ -94,7 +94,7 @@ CREATE TABLE public.enterprise_service (
 	price numeric NOT NULL,
 	currency currency_iso NOT NULL,
 
-	suspended_by_admin boolean NOT NULL,
+	suspended_by_admin boolean NOT NULL DEFAULT FALSE,
 
 	CONSTRAINT pk_enterprise_service PRIMARY KEY (enterprise_service_id),
 	CONSTRAINT fk_enterprise_id FOREIGN KEY (enterprise_id) REFERENCES public.enterprise(enterprise_id) ON DELETE CASCADE,
@@ -127,7 +127,7 @@ CREATE TABLE public.review (
 	stars_out_of_5 smallint NOT NULL,
 	content text NOT NULL,
 
-	suspended_by_admin boolean NOT NULL,
+	suspended_by_admin boolean NOT NULL DEFAULT FALSE,
 
 	CONSTRAINT pk_review_id PRIMARY KEY (review_id),
 	CONSTRAINT fk_review_creator_customer_user_id FOREIGN KEY (creator_customer_user_id) REFERENCES public.app_user(user_id) ON DELETE CASCADE,
@@ -141,6 +141,7 @@ CREATE TABLE public.appointment (
 	customer_user_id bigint NOT NULL,
 
 	price numeric NOT NULL,
+	currency currency_iso NOT NULL,
 	start_time timestamptz NOT NULL,
 	end_time timestamptz NOT NULL,
 
@@ -151,7 +152,7 @@ CREATE TABLE public.appointment (
 	latitude double PRECISION, 
 	longitude double PRECISION,
 
-    cancelled boolean NOT NULL,
+    cancelled boolean NOT NULL DEFAULT FALSE,
 
 	CONSTRAINT pk_appointment_id PRIMARY KEY (appointment_id),
 	CONSTRAINT fk_appointment_enterprise_service_id FOREIGN KEY (enterprise_service_id) REFERENCES public.enterprise_service(enterprise_service_id) ON DELETE CASCADE,

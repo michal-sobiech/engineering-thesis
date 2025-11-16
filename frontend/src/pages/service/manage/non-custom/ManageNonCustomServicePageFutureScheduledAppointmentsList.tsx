@@ -24,7 +24,7 @@ export const ManageNonCustomServicePageFutureScheduledAppointmentsList = () => {
     return <StandardLabeledContainer
         label="Upcoming scheduled appointments"
         height="100%">
-        <StandardConcaveBox maxHeight="100%" minHeight={0}>
+        <StandardConcaveBox maxHeight="100%" minHeight={5}>
             <ScrollableList height="100%">
                 {futureScheduledAppointments === null
                     ? null

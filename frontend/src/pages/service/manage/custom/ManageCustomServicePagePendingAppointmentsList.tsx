@@ -1,6 +1,6 @@
 import { Text } from "@chakra-ui/react";
 import { DateTimeFormatter } from "@js-joda/core";
-import { JSX, useState } from "react";
+import { FC, useState } from "react";
 import { useAppointmentsApi } from "../../../../api/appointments-api";
 import { ScrollableList } from "../../../../common/ScrollableList";
 import { StandardButton } from "../../../../common/StandardButton";
@@ -9,7 +9,6 @@ import { StandardFlex } from "../../../../common/StandardFlex";
 import { StandardLabeledContainer } from "../../../../common/StandardLabeledContainer";
 import { StandardPanel } from "../../../../common/StandardPanel";
 import { StandardTextArea } from "../../../../common/StandardTextArea";
-import { AppointmentsApi } from "../../../../GENERATED-api";
 import { useContextOrThrow } from "../../../../hooks/useContextOrThrow";
 import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../../../utils/error";
 import { errorErrResultAsyncFromPromise } from "../../../../utils/result";
@@ -25,17 +24,22 @@ export const ManageCustomServicePagePendingAppointmentsList = () => {
     return <StandardLabeledContainer
         label="Pending appointments"
         height="100%">
-        <StandardConcaveBox maxHeight="100%" minHeight={0}>
+        <StandardConcaveBox maxHeight="100%" minHeight={5}>
             <ScrollableList height="100%">
                 {futureScheduledAppointments === null
                     ? null
-                    : futureScheduledAppointments.map(appointment => createItem(appointment, appointmentsApi))}
+                    : futureScheduledAppointments.map(appointment => <Item data={appointment} />)}
             </ScrollableList>
         </StandardConcaveBox>
     </StandardLabeledContainer>
 }
 
-function createItem(data: ManageCustomServicePageFutureScheduledAppointment, appointmentsApi: AppointmentsApi): JSX.Element {
+interface ItemProps {
+    data: ManageCustomServicePageFutureScheduledAppointment,
+}
+
+const Item: FC<ItemProps> = ({ data }) => {
+    const appointmentsApi = useAppointmentsApi();
     const [rejectionMessage, setRejectionMessage] = useState<string>("");
 
     const date = data.startDatetimeServiceLocal.toLocalDate();

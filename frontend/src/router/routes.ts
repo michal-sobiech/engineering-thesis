@@ -22,4 +22,5 @@ export const routes = {
     createServiceReview: (serviceId) => generatePath(routeTemplates.createServiceReview, { serviceId }),
     adminReportsPage: routeTemplates.adminReportsPage,
     adminLogIn: routeTemplates.adminLogIn,
+    manageServicePage: (serviceId: number) => generatePath(routeTemplates.manageServicePage, { serviceId }),
 } satisfies Record<keyof typeof routeTemplates, string | ((...args: any[]) => string)>;

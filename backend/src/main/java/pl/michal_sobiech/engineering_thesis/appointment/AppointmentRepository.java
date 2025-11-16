@@ -90,14 +90,38 @@ public interface AppointmentRepository extends JpaRepository<AppointmentEntity, 
             appointment.price as price,
             appointment.currency as currency
             FROM AppointmentEntity appointment
-            JOIN User user ON user.userId = appointment.customerUserId
-            JOIN EnterpriseService service ON appointment.enterpriseServiceId = service.enterpriseServiceId
+            JOIN UserEntity user ON user.userId = appointment.customerUserId
+            JOIN EnterpriseServiceEntity service ON appointment.enterpriseServiceId = service.enterpriseServiceId
+            WHERE appointment.enterpriseServiceId = :enterpriseServiceId
+            AND appointment.cancelled = FALSE
+            AND appointment.isCustom = TRUE
+            AND appointment.isAccepted = TRUE
+            AND CURRENT_TIMESTAMP < appointment.endTime
+            """)
+    public List<GetEnterpriseServiceFutureScheduledAppointmentsResponseRow> getUncancelledFutureScheduledCustomAppointmentsOfEnterpriseService(
+            @Param("enterpriseServiceId") long enterpriseServiceId);
+
+    @Query("""
+            SELECT
+            appointment.appointmentId as appointmentId,
+            user.username as username,
+            user.firstName as userFirstName,
+            user.lastName as userLastName,
+            service.address as address,
+            appointment.startTime as startGlobalDatetime,
+            appointment.endTime as endGlobalDatetime,
+            service.timeZone as timezone,
+            appointment.price as price,
+            appointment.currency as currency
+            FROM AppointmentEntity appointment
+            JOIN UserEntity user ON user.userId = appointment.customerUserId
+            JOIN EnterpriseServiceEntity service ON appointment.enterpriseServiceId = service.enterpriseServiceId
             WHERE appointment.enterpriseServiceId = :enterpriseServiceId
             AND appointment.cancelled = FALSE
             AND appointment.isCustom = FALSE
-            AND CURRENT_TIMESTAMP > appointment.endTime
+            AND CURRENT_TIMESTAMP < appointment.endTime
             """)
-    public List<GetEnterpriseServiceFutureScheduledAppointmentsResponseRow> findUncancelledFutureScheduledAppointmentsOfEnterpriseService(
+    public List<GetEnterpriseServiceFutureScheduledAppointmentsResponseRow> getUncancelledFutureScheduledNonCustomAppointmentsOfEnterpriseService(
             @Param("enterpriseServiceId") long enterpriseServiceId);
 
     // TODO what about cancelled appointments
@@ -115,13 +139,13 @@ public interface AppointmentRepository extends JpaRepository<AppointmentEntity, 
             appointment.price as price,
             appointment.currency as currency
             FROM AppointmentEntity appointment
-            JOIN User user ON user.userId = appointment.customerUserId
-            JOIN EnterpriseService service ON appointment.enterpriseServiceId = service.enterpriseServiceId
+            JOIN UserEntity user ON user.userId = appointment.customerUserId
+            JOIN EnterpriseServiceEntity service ON appointment.enterpriseServiceId = service.enterpriseServiceId
             WHERE appointment.enterpriseServiceId = :enterpriseServiceId
             AND appointment.cancelled = FALSE
             AND appointment.isCustom = TRUE
             AND appointment.isAccepted IS NULL
-            AND CURRENT_TIMESTAMP > appointment.endTime
+            AND CURRENT_TIMESTAMP < appointment.endTime
             """)
     public List<GetEnterpriseServiceUncancelledFuturePendingAppointmentsResponseRow> getEnterpriseServiceUncancelledFuturePendingAppointments(
             @Param("enterpriseServiceId") long enterpriseServiceId);

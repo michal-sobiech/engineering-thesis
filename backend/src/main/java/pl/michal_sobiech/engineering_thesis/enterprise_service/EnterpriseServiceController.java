@@ -15,7 +15,7 @@ import org.SwaggerCodeGenExample.model.CreateEnterpriseServiceReviewRequest;
 import org.SwaggerCodeGenExample.model.CreateNonCustomAppointmentRequest;
 import org.SwaggerCodeGenExample.model.GetEnterpriseService200Response;
 import org.SwaggerCodeGenExample.model.GetEnterpriseServicePendingAppointmentResponse;
-import org.SwaggerCodeGenExample.model.GetEnterpriseServiceUncancelledFutureAppointmentResponse;
+import org.SwaggerCodeGenExample.model.GetEnterpriseServiceUncancelledFutureScheduledAppointmentResponse;
 import org.SwaggerCodeGenExample.model.GetServiceCustomAppointmentsStatus200Response;
 import org.SwaggerCodeGenExample.model.GetServiceFreeCustomAppointmentsResponseItem;
 import org.SwaggerCodeGenExample.model.GetServiceFreeNonCustomAppointmentsResponseItem;
@@ -252,7 +252,7 @@ public class EnterpriseServiceController implements ServicesApi {
     }
 
     @Override
-    public ResponseEntity<List<GetEnterpriseServiceUncancelledFutureAppointmentResponse>> getEnterpriseServiceUncancelledFutureAppointments(
+    public ResponseEntity<List<GetEnterpriseServiceUncancelledFutureScheduledAppointmentResponse>> getEnterpriseServiceUncancelledFutureScheduledAppointments(
             Long enterpriseServiceId) {
         var body = futureScheduledAppointmentService
                 .getUncancelledFutureScheduledAppointmentsOfEnterpriseService(enterpriseServiceId)
@@ -264,7 +264,7 @@ public class EnterpriseServiceController implements ServicesApi {
                     String endDatetimeServiceLocal = DateUtils.createIsoLocalDatetime(
                             appointment.getEndGlobalDatetime().toInstant(),
                             appointment.getTimezone());
-                    return new GetEnterpriseServiceUncancelledFutureAppointmentResponse(
+                    return new GetEnterpriseServiceUncancelledFutureScheduledAppointmentResponse(
                             appointment.getAppointmentId(),
                             appointment.getUsername(),
                             appointment.getUserFirstName(),

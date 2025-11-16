@@ -23,7 +23,7 @@ export const ManageCustomServicePage = () => {
 
     useEffect(() => {
         async function loadFutureAppointments() {
-            const promise = servicesApi.getEnterpriseServiceFutureAppointments(serviceId);
+            const promise = servicesApi.getEnterpriseServiceUncancelledFutureScheduledAppointments(serviceId);
             const resultAsync = errorErrResultAsyncFromPromise(promise);
             const result = await resultAsync;
             if (result.isErr()) {
@@ -84,9 +84,13 @@ export const ManageCustomServicePage = () => {
         <Center height="100%" overflowY="scroll">
             <Box width="80%" height="100%">
                 <StandardPanel height="100%">
-                    <Flex direction="row" height="100%">
-                        <ManageCustomServicePageFutureScheduledAppointmentsList />
-                        <ManageCustomServicePagePendingAppointmentsList />
+                    <Flex direction="row" height="100%" gap="10px">
+                        <Box flex="1">
+                            <ManageCustomServicePageFutureScheduledAppointmentsList />
+                        </Box>
+                        <Box flex="1">
+                            <ManageCustomServicePagePendingAppointmentsList />
+                        </Box>
                     </Flex>
                 </StandardPanel>
             </Box>

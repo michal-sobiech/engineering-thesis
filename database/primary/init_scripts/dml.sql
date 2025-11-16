@@ -134,6 +134,7 @@ INSERT INTO public.appointment (
     enterprise_service_id,
     customer_user_id,
     price,
+    currency,
     start_time,
     end_time,
     is_custom
@@ -141,8 +142,9 @@ INSERT INTO public.appointment (
     1,
     4,
     100,
-    '2025-12-01 12:00:00+00',
-    '2025-12-01 12:30:00+00',
+    'PLN',
+    '2026-12-01 12:00:00+00',
+    '2026-12-01 12:30:00+00',
     FALSE
 );
 
@@ -150,6 +152,7 @@ INSERT INTO public.appointment (
     enterprise_service_id,
     customer_user_id,
     price,
+    currency,
     start_time,
     end_time,
     is_custom,
@@ -161,8 +164,9 @@ INSERT INTO public.appointment (
     2,
     4,
     300,
-    '2025-12-03 13:00:00+00',
-    '2025-12-03 14:00:00+00',
+    'PLN',
+    '2026-12-03 13:00:00+00',
+    '2026-12-03 14:00:00+00',
     TRUE,
     TRUE,
     '15/19, Nowowiejska, Koszyki, Śródmieście Południowe, Midtown, Warsaw, Masovian Voivodeship, 00-665, Poland',

@@ -1,5 +1,6 @@
 package pl.michal_sobiech.engineering_thesis.appointment.scheduled.future;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -15,8 +16,17 @@ public class FutureScheduledAppointmentService {
 
     public List<GetEnterpriseServiceFutureScheduledAppointmentsResponseRow> getUncancelledFutureScheduledAppointmentsOfEnterpriseService(
             long enterpriseServiceId) {
-        return appointmentRepository
-                .findUncancelledFutureScheduledAppointmentsOfEnterpriseService(enterpriseServiceId);
+        List<GetEnterpriseServiceFutureScheduledAppointmentsResponseRow> out = new ArrayList<>();
+
+        var futureScheduledNonCustomAppointments = appointmentRepository
+                .getUncancelledFutureScheduledNonCustomAppointmentsOfEnterpriseService(enterpriseServiceId);
+        var futureScheduledCustomAppointments = appointmentRepository
+                .getUncancelledFutureScheduledCustomAppointmentsOfEnterpriseService(enterpriseServiceId);
+
+        out.addAll(futureScheduledNonCustomAppointments);
+        out.addAll(futureScheduledCustomAppointments);
+
+        return out;
     }
 
 }

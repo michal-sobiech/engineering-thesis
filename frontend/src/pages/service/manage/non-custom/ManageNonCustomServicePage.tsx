@@ -20,7 +20,7 @@ export const ManageNonCustomServicePage = () => {
 
     useEffect(() => {
         async function loadFutureAppointments() {
-            const promise = servicesApi.getEnterpriseServiceFutureAppointments(serviceId);
+            const promise = servicesApi.getEnterpriseServiceUncancelledFutureScheduledAppointments(serviceId);
             const resultAsync = errorErrResultAsyncFromPromise(promise);
             const result = await resultAsync;
             if (result.isErr()) {

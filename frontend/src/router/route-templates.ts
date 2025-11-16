@@ -1,3 +1,4 @@
+
 export const routeTemplates = {
     mainPage: "/",
     customerSignUp: "/customers/sign-up",
@@ -19,4 +20,5 @@ export const routeTemplates = {
     createServiceReview: "/services/:serviceId/create-review",
     adminReportsPage: "/admins/landing-page",
     adminLogIn: "/admins/log-in",
+    manageServicePage: "/services/:serviceId/manage",
 };

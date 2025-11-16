@@ -816,7 +816,7 @@ components:
           format: password
           example: "5=2VPIzYHSIc0l4d1o&es]plB"
 
-    GetEnterpriseServiceUncancelledFutureAppointmentResponse:
+    GetEnterpriseServiceUncancelledFutureScheduledAppointmentResponse:
       type: object
       required:
         [
@@ -2085,10 +2085,10 @@ paths:
         "500":
           $ref: "#/components/responses/InternalServerError"
 
-  /services/{serviceId}/uncancelled-future-appointments:
+  /services/{serviceId}/uncancelled-future-scheduled-appointments:
     get:
       tags: [EnterpriseServices]
-      operationId: getEnterpriseServiceUncancelledFutureAppointments
+      operationId: getEnterpriseServiceUncancelledFutureScheduledAppointments
       security:
         - JwtBearerAuth: []
       parameters:
@@ -2106,7 +2106,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/GetEnterpriseServiceUncancelledFutureAppointmentResponse"
+                  $ref: "#/components/schemas/GetEnterpriseServiceUncancelledFutureScheduledAppointmentResponse"
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":

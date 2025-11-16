@@ -17,6 +17,7 @@ import { EntrepreneurSignUpWizard } from "../pages/entrepreneur/sign-up/Entrepre
 import { MainPage } from "../pages/main_page/MainPage";
 import { ServiceCreationPage } from "../pages/service/ServiceCreationPage";
 import { CreateServiceReviewPage } from "../pages/service/create-service-review/CreateServiceReviewPage";
+import { ManageServicePage } from "../pages/service/manage/ManageServicePage";
 import { ServicePublicPage } from "../pages/service/public/ServicePublicPage";
 import { ServiceSearchPage } from "../pages/service/search/ServiceSearchPage";
 import { PageLayout } from "./PageLayout";
@@ -111,6 +112,10 @@ export const router = createBrowserRouter([
             {
                 path: routeTemplates.adminReportsPage,
                 element: <AdminReportsPage />
+            },
+            {
+                path: routeTemplates.manageServicePage,
+                element: <ManageServicePage />
             }
         ]
     }

@@ -9,6 +9,8 @@ import pl.michal_sobiech.engineering_thesis.currency_iso.CurrencyIso;
 
 public interface EnterpriseServiceDomain {
 
+    // TODO with "get" or without?
+
     public long enterpriseServiceId();
 
     public long enterpriseId();
