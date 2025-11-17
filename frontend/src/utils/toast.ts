@@ -5,5 +5,5 @@ export function toastError(message: string): Id {
 }
 
 export function toastSuccess(message: string): Id {
-    return toast.error(message, { autoClose: 10000 });
+    return toast.success(message, { autoClose: 10000 });
 }
