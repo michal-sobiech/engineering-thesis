@@ -2,7 +2,6 @@ import { Box, Center, Flex, Spacer, Text } from "@chakra-ui/react"
 import { LocalDate, LocalTime } from "@js-joda/core"
 import { useState } from "react"
 import { ReportServiceButton } from "../../../../common/report/ReportServiceButton.tsx"
-import { StandardFlex } from "../../../../common/StandardFlex"
 import { StandardPanel } from "../../../../common/StandardPanel"
 import { useIntParam } from "../../../../hooks/useIntParam"
 import { NoCustomAppointmentsServicePublicPageCalendar } from "./NoCustomAppointmentsServicePublicPageCalendar"
@@ -28,16 +27,18 @@ export const NoCustomAppointmentsServicePublicPage = () => {
 
     return <NoCustomAppointmentsServicePublicPageContext.Provider value={contextValue}>
         <Center height="100%">
-            <StandardPanel width="80%" height="90%" padding="20%" >
-                <StandardFlex>
+            <StandardPanel width="80%" height="100%" padding="2%" >
+                <Flex height="100%" direction="column">
                     <Flex direction="row">
                         <Text fontSize="3xl">Service</Text>
                         <Spacer />
                         <ReportServiceButton serviceId={serviceId} />
                     </Flex>
-                    <Text>Enterprise</Text>
-                    <NoCustomAppointmentsServicePublicPageCalendar />
-                    <Flex direction="row">
+                    <Text>Enterpriseeeee</Text>
+                    <Box height="100%">
+                        <NoCustomAppointmentsServicePublicPageCalendar />
+                    </Box>
+                    <Flex direction="row" height="100%">
                         <Box flex="1">
                             <NoCustomAppointmentsServicePublicPageSlotList />
                         </Box>
@@ -45,7 +46,7 @@ export const NoCustomAppointmentsServicePublicPage = () => {
                             <NonCustomAppointmentsServicePublicPageAppointmentMaker />
                         </Box>
                     </Flex>
-                </StandardFlex>
+                </Flex>
             </StandardPanel>
         </Center >
     </NoCustomAppointmentsServicePublicPageContext.Provider>

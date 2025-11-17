@@ -2,7 +2,6 @@ import { Box, Center, Flex, Spacer, Text } from "@chakra-ui/react"
 import { LocalDate, LocalTime } from "@js-joda/core"
 import { useState } from "react"
 import { ReportServiceButton } from "../../../../common/report/ReportServiceButton.tsx"
-import { StandardFlex } from "../../../../common/StandardFlex"
 import { StandardPanel } from "../../../../common/StandardPanel"
 import { TimeIntervalsDisplay } from "../../../../common/TimeIntervalsDisplay"
 import { useIntParam } from "../../../../hooks/useIntParam"
@@ -38,18 +37,24 @@ export const CustomAppointmentsServicePublicPage = () => {
 
     return <CustomAppointmentsServicePublicPageContext.Provider value={contextValue}>
         <Center height="100%">
-            <StandardPanel width="80%" height="90vh" padding="20px" >
-                <StandardFlex>
-                    <Flex direction="row">
+            <StandardPanel width="80%" height="100%" padding="20px" overflowY="scroll">
+                <Flex direction="column" height="100%" minHeight={0}>
+
+                    <Flex flexShrink={0} direction="row">
                         <Text fontSize="3xl">Service</Text>
                         <Spacer />
                         <ReportServiceButton serviceId={serviceId} />
                     </Flex>
-                    <Text>Enterprise</Text>
-                    <CustomAppointmentsServicePublicPageCalendar />
+
+                    <Text flexShrink={0}>Enterprise</Text>
+
+                    <Box flexShrink={0} height="100%">
+                        <CustomAppointmentsServicePublicPageCalendar />
+                    </Box>
+
                     {freeTimeWindowsOnSelectedDate !== null ?
-                        <Flex direction="row">
-                            <Box flex="1" height="30%">
+                        <Flex flex={1} direction="row" height="100%">
+                            <Box flex="1" height="100%">
                                 <TimeIntervalsDisplay intervals={freeTimeWindowsOnSelectedDate} resolutionMinutes={30} />
                             </Box>
                             <Box flex="1">
@@ -57,7 +62,7 @@ export const CustomAppointmentsServicePublicPage = () => {
                             </Box>
                         </Flex>
                         : null}
-                </StandardFlex>
+                </Flex>
             </StandardPanel>
         </Center >
     </CustomAppointmentsServicePublicPageContext.Provider>
