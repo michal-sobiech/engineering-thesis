@@ -1,15 +1,19 @@
-import { Box, Center, Flex, Text } from "@chakra-ui/react"
+import { Box, Center, Flex, Spacer, Text } from "@chakra-ui/react"
 import { LocalDate, LocalTime } from "@js-joda/core"
 import { useState } from "react"
+import { ReportServiceButton } from "../../../../common/report/ReportServiceButton.tsx"
 import { StandardFlex } from "../../../../common/StandardFlex"
 import { StandardPanel } from "../../../../common/StandardPanel"
 import { TimeIntervalsDisplay } from "../../../../common/TimeIntervalsDisplay"
+import { useIntParam } from "../../../../hooks/useIntParam"
 import { Position } from "../../../../utils/Position"
 import { CustomAppointmentsServicePublicPageAppointmentMaker } from "./CustomAppointmentsServicePublicPageAppointmentMaker"
 import { CustomAppointmentsServicePublicPageCalendar } from "./CustomAppointmentsServicePublicPageCalendar"
 import { CustomAppointmentsServicePublicPageContext, CustomAppointmentsServicePublicPageContextValue } from "./CustomAppointmentsServicePublicPageContextValue"
 
 export const CustomAppointmentsServicePublicPage = () => {
+    const serviceId = useIntParam("serviceId");
+
     const [selectedDate, setSelectedDate] = useState<LocalDate | null>(null);
     const [freeTimeWindowsOnSelectedDate, setFreeTimeWindowsOnSelectedDate] = useState<[LocalTime, LocalTime][] | null>(null);
     const [selectedTimeWindowStart, setSelectedTimeWindowStart] = useState<LocalTime | null>(null);
@@ -36,7 +40,11 @@ export const CustomAppointmentsServicePublicPage = () => {
         <Center height="100%">
             <StandardPanel width="80%" height="90vh" padding="20px" >
                 <StandardFlex>
-                    <Text fontSize="3xl">Service</Text>
+                    <Flex direction="row">
+                        <Text fontSize="3xl">Service</Text>
+                        <Spacer />
+                        <ReportServiceButton serviceId={serviceId} />
+                    </Flex>
                     <Text>Enterprise</Text>
                     <CustomAppointmentsServicePublicPageCalendar />
                     {freeTimeWindowsOnSelectedDate !== null ?
