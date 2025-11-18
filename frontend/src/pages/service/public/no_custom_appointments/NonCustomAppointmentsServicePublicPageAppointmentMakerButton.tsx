@@ -1,13 +1,13 @@
 import { LocalDateTime } from "@js-joda/core";
+import { useNavigate } from "react-router";
 import { useAppointmentsApi } from "../../../../api/appointments-api";
 import { StandardButton } from "../../../../common/StandardButton";
+import { ResponseError } from "../../../../GENERATED-api";
 import { useContextOrThrow } from "../../../../hooks/useContextOrThrow";
 import { useIntParam } from "../../../../hooks/useIntParam";
-import { useNavigateWithToastDismiss } from "../../../../hooks/useNavigateWithToastDismiss";
 import { routes } from "../../../../router/routes";
 import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../../../utils/error";
-import { errorErrResultAsyncFromPromise } from "../../../../utils/result";
-import { toastError } from "../../../../utils/toast";
+import { toastError, toastSuccess } from "../../../../utils/toast";
 import { NoCustomAppointmentsServicePublicPageContext } from "./NoCustomAppointmentsServicePublicPageContextValue";
 
 export const NonCustomAppointmentsServicePublicPageAppointmentMakerButton = () => {
@@ -19,7 +19,7 @@ export const NonCustomAppointmentsServicePublicPageAppointmentMakerButton = () =
         selectedSlot,
     } = useContextOrThrow(NoCustomAppointmentsServicePublicPageContext);
 
-    const navigate = useNavigateWithToastDismiss();
+    const navigate = useNavigate();
 
     const onClick = async () => {
         if (selectedDate === null) {
@@ -34,18 +34,32 @@ export const NonCustomAppointmentsServicePublicPageAppointmentMakerButton = () =
         const startServiceLocal = LocalDateTime.of(selectedDate, selectedSlot[0]);
         const endServiceLocal = LocalDateTime.of(selectedDate, selectedSlot[0]);
 
-        const promise = appointmentsApi.createNonCustomAppointment(serviceId, {
-            startDatetimeShopLocal: startServiceLocal.toString(),
-            endDatetimeShopLocal: endServiceLocal.toString(),
-        });
-        const result = await errorErrResultAsyncFromPromise(promise);
+        const requestParameters = {
+            serviceId,
+            createNonCustomAppointmentRequest: {
+                startDatetimeShopLocal: startServiceLocal.toString(),
+                endDatetimeShopLocal: endServiceLocal.toString(),
+            },
+        };
 
-        if (result.isErr()) {
-            toastError(DEFAULT_ERROR_MESSAGE_FOR_USER);
-            return;
+        // TODO fix other fetch code relying on statuses
+
+        try {
+            const promise = appointmentsApi.createNonCustomAppointmentRaw(requestParameters);
+            await promise;
+            toastSuccess("Booked an appointment!")
+            navigate(routes.customerLandingPage);
+        } catch (error: unknown) {
+            if (error instanceof ResponseError) {
+                if (error.response.status === 401) {
+                    toastError("Log in as customer first!");
+                } else {
+                    toastError(DEFAULT_ERROR_MESSAGE_FOR_USER);
+                }
+            } else {
+                toastError(DEFAULT_ERROR_MESSAGE_FOR_USER);
+            }
         }
-
-        navigate(routes.mainPage);
     }
 
     const enabled = selectedDate !== null && selectedSlot !== null;
