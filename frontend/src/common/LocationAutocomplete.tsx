@@ -1,7 +1,9 @@
 import { Box, Flex, Input } from "@chakra-ui/react";
 import { OpenStreetMapProvider } from "leaflet-geosearch";
 import { FC, JSX, useEffect, useState } from "react";
+import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../utils/error";
 import { Position } from "../utils/Position";
+import { toastError } from "../utils/toast";
 import { UseStateSetter } from "../utils/use-state";
 import { StandardPanel } from "./StandardPanel";
 
@@ -28,14 +30,18 @@ export const LocationAutocomplete: FC<LocationAutocompleteProps> = ({ position, 
                 setSearchResults([]);
                 return;
             }
-            const searchResults = await provider.search({ query: address });
-            setSearchResults(searchResults);
+            try {
+                const searchResults = await provider.search({ query: address });
+                setSearchResults(searchResults);
+            } catch (error: unknown) {
+                toastError(DEFAULT_ERROR_MESSAGE_FOR_USER);
+            }
         }, 200);
         return () => clearTimeout(timeout);
     }, [address]);
 
     const SuggestionsList = ({ suggestions }: { suggestions: any[] }) => {
-        return <StandardPanel zIndex={9999} position="relative">
+        return <StandardPanel zIndex={9999} position="absolute">
             <Flex direction="column" gap="2px">
                 {suggestions.map(createSuggestionListItem)}
             </Flex>
@@ -62,7 +68,7 @@ export const LocationAutocomplete: FC<LocationAutocompleteProps> = ({ position, 
     }, 200);
 
     return (
-        <Box>
+        <Box position="relative">
             <Input
                 value={address}
                 onChange={(event) => handleChange(event.target.value)}

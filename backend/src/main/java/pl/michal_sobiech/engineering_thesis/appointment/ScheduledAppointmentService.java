@@ -46,7 +46,7 @@ public class ScheduledAppointmentService {
         List<ScheduledAppointment> all = getScheduledAppointmentsOfCustomer(customerUserId);
         Instant now = Instant.now();
         return all.stream()
-                .filter(appointment -> appointment.endInstant().isAfter(now))
+                .filter(appointment -> appointment.endInstant().isBefore(now))
                 .collect(Collectors.toList());
     }
 

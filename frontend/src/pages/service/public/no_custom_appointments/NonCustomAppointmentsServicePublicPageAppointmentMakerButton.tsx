@@ -32,7 +32,7 @@ export const NonCustomAppointmentsServicePublicPageAppointmentMakerButton = () =
         }
 
         const startServiceLocal = LocalDateTime.of(selectedDate, selectedSlot[0]);
-        const endServiceLocal = LocalDateTime.of(selectedDate, selectedSlot[0]);
+        const endServiceLocal = LocalDateTime.of(selectedDate, selectedSlot[1]);
 
         const requestParameters = {
             serviceId,

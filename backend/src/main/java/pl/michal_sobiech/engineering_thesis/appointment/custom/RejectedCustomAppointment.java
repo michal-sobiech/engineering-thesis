@@ -27,7 +27,7 @@ public record RejectedCustomAppointment(
             throw new IllegalArgumentException();
         }
 
-        if (entity.getIsAccepted() != false) {
+        if (entity.getIsAccepted() != null || entity.getIsAccepted() == true) {
             throw new IllegalArgumentException();
         }
 

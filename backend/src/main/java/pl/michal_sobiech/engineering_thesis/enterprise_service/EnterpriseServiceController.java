@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.micrometer.common.lang.Nullable;
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.appointment.ScheduledAppointmentService;
 import pl.michal_sobiech.engineering_thesis.appointment.custom.CustomAppointmentsService;
 import pl.michal_sobiech.engineering_thesis.appointment.custom.pending.PendingAppointmentService;
 import pl.michal_sobiech.engineering_thesis.appointment.non_custom.NonCustomAppointmentsService;
@@ -34,7 +33,6 @@ import pl.michal_sobiech.engineering_thesis.auth.AuthService;
 import pl.michal_sobiech.engineering_thesis.available_enterprise_service_search.AvailableEnterpriseServiceSearchResultRow;
 import pl.michal_sobiech.engineering_thesis.available_enterprise_service_search.AvailableEnterpriseServiceSearchService;
 import pl.michal_sobiech.engineering_thesis.customer.Customer;
-import pl.michal_sobiech.engineering_thesis.enteprise_service_search.EnterpriseServiceSearchService;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.custom_appointments.CustomAppointmentsEnterpriseServiceService;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.custom_appointments.GetEnterpriseServiceCustomServiceResponseFactory;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.no_custom_appointments.GetEnterpriseServiceNonCustomServiceResponseFactory;
@@ -60,9 +58,7 @@ public class EnterpriseServiceController implements ServicesApi {
     private final ReviewService reviewService;
     private final NonCustomEnterpriseServiceAvailabilityService nonCustomEnterpriseServiceAvailabilityService;
     private final CustomEnterpriseServiceAvailabilityService customEnterpriseServiceAvailabilityService;
-    private final EnterpriseServiceSearchService enterpriseServiceSearchService;
     private final AvailableEnterpriseServiceSearchService availableEnterpriseServiceSearchService;
-    private final ScheduledAppointmentService scheduledAppointmentService;
     private final FutureScheduledAppointmentService futureScheduledAppointmentService;
     private final PendingAppointmentService pendingAppointmentService;
 

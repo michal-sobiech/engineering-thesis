@@ -1,10 +1,10 @@
 import { LocalDateTime } from "@js-joda/core";
+import { useNavigate } from "react-router";
 import { useAppointmentsApi } from "../../../../api/appointments-api";
 import { StandardButton } from "../../../../common/StandardButton";
 import { ResponseError } from "../../../../GENERATED-api";
 import { useContextOrThrow } from "../../../../hooks/useContextOrThrow";
 import { useIntParam } from "../../../../hooks/useIntParam";
-import { useNavigateWithToastDismiss } from "../../../../hooks/useNavigateWithToastDismiss";
 import { routes } from "../../../../router/routes";
 import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../../../utils/error";
 import { toastError, toastSuccess } from "../../../../utils/toast";
@@ -23,7 +23,7 @@ export const CustomAppointmentsServicePublicPageAppointmentMakerButton = () => {
 
     const serviceId = useIntParam("serviceId");
 
-    const navigate = useNavigateWithToastDismiss();
+    const navigate = useNavigate();
 
     const onClick = async () => {
         if (selectedDate === null) {
@@ -62,7 +62,7 @@ export const CustomAppointmentsServicePublicPageAppointmentMakerButton = () => {
         try {
             const promise = appointmentsApi.createCustomAppointmentRaw(requestParameters);
             await promise;
-            toastSuccess("Booked an appointment!")
+            toastSuccess("Submitted appointment proposal!")
             navigate(routes.customerLandingPage);
         } catch (error: unknown) {
             if (error instanceof ResponseError) {
