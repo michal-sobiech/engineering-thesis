@@ -2,12 +2,13 @@ package pl.michal_sobiech.engineering_thesis.employee;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import pl.michal_sobiech.engineering_thesis.enterprise_staff.EnterpriseStaff;
 import pl.michal_sobiech.engineering_thesis.user.User;
 import pl.michal_sobiech.engineering_thesis.user.UserGroup;
 
 @Getter
 @RequiredArgsConstructor
-public class Employee {
+public class Employee implements EnterpriseStaff {
 
     private final long userId;
     private final String username;
@@ -35,5 +36,4 @@ public class Employee {
                 user.getPasswordHash(),
                 enterpriseId);
     }
-
 }

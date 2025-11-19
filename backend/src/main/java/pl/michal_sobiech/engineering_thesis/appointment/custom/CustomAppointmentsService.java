@@ -96,4 +96,8 @@ public class CustomAppointmentsService {
         appointmentRepository.save(appointment);
     }
 
+    public boolean getAppointment(long appointmentId) {
+        r
+    }
+
 }

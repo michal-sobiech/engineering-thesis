@@ -23,6 +23,7 @@ import pl.michal_sobiech.engineering_thesis.enterprise.Enterprise;
 import pl.michal_sobiech.engineering_thesis.enterprise.EnterpriseService;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceDomain;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceService;
+import pl.michal_sobiech.engineering_thesis.entrepreneur.Entrepreneur;
 import pl.michal_sobiech.engineering_thesis.utils.DateUtils;
 
 @RestController
@@ -39,6 +40,7 @@ public class AppointmentController implements AppointmentsApi {
     @Override
     public ResponseEntity<List<GetCustomerLandingPagePendingAppointmentResponseItem>> getMyPendingAppointments() {
         Customer customer = authService.requireCustomer();
+
         List<PendingCustomAppointment> appointments = customAppointmentsService
                 .getPendingCustomAppointmentsOfCustomer(customer.getUserId());
 
@@ -73,6 +75,7 @@ public class AppointmentController implements AppointmentsApi {
     @Override
     public ResponseEntity<List<GetCustomerLandingPageRejectedAppointmentResponseItem>> getMyRejectedAppointments() {
         Customer customer = authService.requireCustomer();
+
         List<RejectedCustomAppointment> appointments = customAppointmentsService
                 .getRejectedCustomAppointmentsOfCustomer(customer.getUserId());
 
@@ -178,6 +181,10 @@ public class AppointmentController implements AppointmentsApi {
 
     @Override
     public ResponseEntity<Void> acceptPendingAppointment(Long appointmentId) {
+        Entrepreneur entrepreneur = authService.requireEntrepreneur();
+
+        AppointmentEntity appointment = customAppointmentsService.g
+
         customAppointmentsService.acceptAppointment(appointmentId);
         return ResponseEntity.ok().build();
     }

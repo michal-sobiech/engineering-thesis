@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.admin.Admin;
 import pl.michal_sobiech.engineering_thesis.customer.Customer;
 import pl.michal_sobiech.engineering_thesis.employee.Employee;
+import pl.michal_sobiech.engineering_thesis.enterprise_staff.EnterpriseStaff;
 import pl.michal_sobiech.engineering_thesis.entrepreneur.Entrepreneur;
 import pl.michal_sobiech.engineering_thesis.exceptions.exceptions.ForbiddenException;
 import pl.michal_sobiech.engineering_thesis.exceptions.exceptions.UnauthorizedException;
@@ -53,7 +54,26 @@ public class AuthService {
 
     public Employee requireEmployee() {
         User user = requireAuthorizedUser();
-        return Employee.fromUser(user);
+        try {
+            return Employee.fromUser(user);
+        } catch (Exception exception) {
+            throw new ForbiddenException();
+        }
+    }
+
+    public EnterpriseStaff requireEnterpriseStaff() {
+        User user = requireAuthorizedUser();
+        try {
+            return Entrepreneur.fromUser(user);
+        } catch (Exception exception) {
+        }
+
+        try {
+            return Employee.fromUser(user);
+        } catch (Exception exception) {
+        }
+
+        throw new ForbiddenException();
     }
 
     public Customer requireCustomer() {
