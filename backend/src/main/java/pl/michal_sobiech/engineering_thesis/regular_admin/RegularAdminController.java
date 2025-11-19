@@ -8,15 +8,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import pl.michal_sobiech.engineering_thesis.auth.AuthService;
 
 @RestController
 @RequiredArgsConstructor
 public class RegularAdminController implements RegularAdminsApi {
 
     private final RegularAdminsService regularAdminsService;
+    private final AuthService authService;
 
     @Override
     public ResponseEntity<Void> createRegularAdmin(CreateIndependentEndUserRequest request) {
+        // TODO maybe do the authorization in security chain?
+        authService.requireHeadAdmin();
+
         regularAdminsService.createRegularAdmin(
                 request.getEmail(),
                 request.getFirstName(),
@@ -27,6 +32,8 @@ public class RegularAdminController implements RegularAdminsApi {
 
     @Override
     public ResponseEntity<List<GetRegularAdminResponse>> getRegularAdmins() {
+        authService.requireHeadAdmin();
+
         var body = regularAdminsService.getRegularAdmins()
                 .stream()
                 .map(admin -> new GetRegularAdminResponse(

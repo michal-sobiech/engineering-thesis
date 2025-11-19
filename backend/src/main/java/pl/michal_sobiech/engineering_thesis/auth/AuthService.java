@@ -11,6 +11,7 @@ import pl.michal_sobiech.engineering_thesis.employee.Employee;
 import pl.michal_sobiech.engineering_thesis.entrepreneur.Entrepreneur;
 import pl.michal_sobiech.engineering_thesis.exceptions.exceptions.ForbiddenException;
 import pl.michal_sobiech.engineering_thesis.exceptions.exceptions.UnauthorizedException;
+import pl.michal_sobiech.engineering_thesis.head_admin.HeadAdmin;
 import pl.michal_sobiech.engineering_thesis.independent_end_user.IndependentEndUser;
 import pl.michal_sobiech.engineering_thesis.user.User;
 import pl.michal_sobiech.engineering_thesis.user.UserEntity;
@@ -66,4 +67,10 @@ public class AuthService {
         User user = requireAuthorizedUser();
         return Admin.fromUser(user);
     }
+
+    public HeadAdmin requireHeadAdmin() {
+        User user = requireAuthorizedUser();
+        return HeadAdmin.fromUser(user);
+    }
+
 }
