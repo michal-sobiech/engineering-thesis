@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { Outlet, useNavigation } from "react-router";
 import { toast, ToastContainer } from "react-toastify";
 import { useLoadJwtFromLocalStorage } from "../auth/useLoadJwtFromLocalStorage";
-import { GlobalErrorHandler } from "../common/GlobalErrorHandler";
 import { Navbar } from "../common/navbar/Navbar";
 
 export function PageLayout() {
@@ -28,20 +27,18 @@ export function PageLayout() {
     return (
         <>
             <ToastContainer position="top-center" />
-            <GlobalErrorHandler>
-                <Flex direction="column">
-                    <Box
-                        height="8vh"
-                        width="100vw">
-                        <Navbar />
-                    </Box>
-                    <Box
-                        height="92vh"
-                        width="100vw">
-                        <Outlet />
-                    </Box>
-                </Flex>
-            </GlobalErrorHandler>
+            <Flex direction="column">
+                <Box
+                    height="8vh"
+                    width="100vw">
+                    <Navbar />
+                </Box>
+                <Box
+                    height="92vh"
+                    width="100vw">
+                    <Outlet />
+                </Box>
+            </Flex>
         </>
     );
 }

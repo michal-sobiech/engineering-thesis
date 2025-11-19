@@ -1,9 +1,10 @@
 import { useAuth } from "../../auth/useAuth";
 import { ConfigurationParameters } from "../../GENERATED-api";
-import { authorizedApiFetch } from "./authorized-api-fetch";
+import { useAuthorizedApiFetch } from "./useAuthorizedApiFetch";
 
 export function useAuthorizedApiConfigParameters() {
     const { auth } = useAuth();
+    const authorizedApiFetch = useAuthorizedApiFetch();
 
     const jwt = auth.isAuthenticated ? auth.jwtToken : "";
 
