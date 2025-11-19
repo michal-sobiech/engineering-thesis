@@ -906,6 +906,18 @@ components:
         lastName:
           type: string
 
+    PatchRegularAdminRequest:
+      type: object
+      properties:
+        username:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        password:
+          type: string
+
   responses:
     OK:
       description: &OK_DESCRIPTION >
@@ -2088,6 +2100,64 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/GetRegularAdminResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /regular-admins/{userId}:
+    get:
+      tags: [RegularAdmins]
+      operationId: getRegularAdmin
+      security:
+        - JwtBearerAuth: []
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: *OK_DESCRIPTION
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetRegularAdminResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+    patch:
+      tags: [RegularAdmins]
+      operationId: patchRegularAdmin
+      security:
+        - JwtBearerAuth: []
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PatchRegularAdminRequest"
+      responses:
+        "200":
+          description: *OK_DESCRIPTION
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":

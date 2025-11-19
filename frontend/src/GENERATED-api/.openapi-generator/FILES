@@ -61,6 +61,7 @@ models/LogInEnterpriseEmployeeRequest.ts
 models/LogInEnterpriseEmployeeResponse.ts
 models/LogInIndependentEndUserRequest.ts
 models/LogInIndependentEndUserResponse.ts
+models/PatchRegularAdminRequest.ts
 models/RejectPendingAppointmentRequest.ts
 models/ServiceSearchResponseItem.ts
 models/Slot.ts

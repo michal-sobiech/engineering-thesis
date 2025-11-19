@@ -22,6 +22,7 @@ import type {
   InlineObject2,
   InlineObject3,
   InlineObject4,
+  PatchRegularAdminRequest,
 } from '../models/index';
 import {
     CreateIndependentEndUserRequestFromJSON,
@@ -38,10 +39,21 @@ import {
     InlineObject3ToJSON,
     InlineObject4FromJSON,
     InlineObject4ToJSON,
+    PatchRegularAdminRequestFromJSON,
+    PatchRegularAdminRequestToJSON,
 } from '../models/index';
 
 export interface CreateRegularAdminRequest {
     createIndependentEndUserRequest: CreateIndependentEndUserRequest;
+}
+
+export interface GetRegularAdminRequest {
+    userId: number;
+}
+
+export interface PatchRegularAdminOperationRequest {
+    userId: number;
+    patchRegularAdminRequest?: PatchRegularAdminRequest;
 }
 
 /**
@@ -95,7 +107,50 @@ export class RegularAdminsApi extends runtime.BaseAPI {
 
     /**
      */
-    async getRegularAdminsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetRegularAdminResponse>> {
+    async getRegularAdminRaw(requestParameters: GetRegularAdminRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetRegularAdminResponse>> {
+        if (requestParameters['userId'] == null) {
+            throw new runtime.RequiredError(
+                'userId',
+                'Required parameter "userId" was null or undefined when calling getRegularAdmin().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("JwtBearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/regular-admins/{userId}`;
+        urlPath = urlPath.replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters['userId'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => GetRegularAdminResponseFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async getRegularAdmin(userId: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetRegularAdminResponse> {
+        const response = await this.getRegularAdminRaw({ userId: userId }, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async getRegularAdminsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<GetRegularAdminResponse>>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -118,14 +173,59 @@ export class RegularAdminsApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => GetRegularAdminResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(GetRegularAdminResponseFromJSON));
     }
 
     /**
      */
-    async getRegularAdmins(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetRegularAdminResponse> {
+    async getRegularAdmins(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetRegularAdminResponse>> {
         const response = await this.getRegularAdminsRaw(initOverrides);
         return await response.value();
+    }
+
+    /**
+     */
+    async patchRegularAdminRaw(requestParameters: PatchRegularAdminOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['userId'] == null) {
+            throw new runtime.RequiredError(
+                'userId',
+                'Required parameter "userId" was null or undefined when calling patchRegularAdmin().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("JwtBearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/regular-admins/{userId}`;
+        urlPath = urlPath.replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters['userId'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'PATCH',
+            headers: headerParameters,
+            query: queryParameters,
+            body: PatchRegularAdminRequestToJSON(requestParameters['patchRegularAdminRequest']),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async patchRegularAdmin(userId: number, patchRegularAdminRequest?: PatchRegularAdminRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.patchRegularAdminRaw({ userId: userId, patchRegularAdminRequest: patchRegularAdminRequest }, initOverrides);
     }
 
 }
