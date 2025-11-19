@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import { useEnterprisesApi } from "../../../api/enterprises-api";
 import { LinkScrollableList } from "../../../common/LinkScrollableList";
 import { StandardBox } from "../../../common/StandardBox";
-import { GetEnterpriseServicesResponseItem } from "../../../GENERATED-api/models/GetEnterpriseServicesResponseItem";
+import { GetEnterpriseService200Response } from "../../../GENERATED-api";
 import { routes } from "../../../router/routes";
 import { errorErrResultAsyncFromPromise } from "../../../utils/result";
 
 export const EnterprisePublicPageServicesList = ({ enterpriseId }: { enterpriseId: number }) => {
     const enterprisesApi = useEnterprisesApi();
-    const [services, setServices] = useState<GetEnterpriseServicesResponseItem[]>([]);
+    const [services, setServices] = useState<GetEnterpriseService200Response[]>([]);
 
     useEffect(() => {
         async function loadServicesData(): Promise<void> {

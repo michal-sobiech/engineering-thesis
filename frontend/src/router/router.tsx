@@ -1,4 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
+import { CreateRegularAdminPage } from "../pages/admin/create-regular-admin/CreateAdminPage";
+import { EditRegularAdminPage } from "../pages/admin/edit-regular-admin/EditRegularAdminPage";
 import { AdminLogInPage } from "../pages/admin/log-in/AdminLogInPage";
 import { RegularAdminsListPage } from "../pages/admin/regular-admins-list/RegularAdminsListPage";
 import { AdminReportsPage } from "../pages/admin/reports/AdminReportsPage";
@@ -121,6 +123,14 @@ export const router = createBrowserRouter([
             {
                 path: routeTemplates.regularAdminListPage,
                 element: <RegularAdminsListPage />
+            },
+            {
+                path: routeTemplates.createRegularAdminPage,
+                element: <CreateRegularAdminPage />
+            },
+            {
+                path: routeTemplates.editRegularAdminPage,
+                element: <EditRegularAdminPage />
             }
         ]
     }

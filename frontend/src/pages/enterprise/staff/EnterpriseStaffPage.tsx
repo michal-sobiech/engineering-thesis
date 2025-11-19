@@ -11,8 +11,7 @@ import { StandardLabeledContainer } from "../../../common/StandardLabeledContain
 import { StandardPanel } from "../../../common/StandardPanel";
 import { StandardTextField } from "../../../common/StandardTextField";
 import { StandardVerticalSeparator } from "../../../common/StandardVerticalSeparator";
-import { Location } from "../../../GENERATED-api";
-import { GetEnterpriseServicesResponseItem } from "../../../GENERATED-api/models/GetEnterpriseServicesResponseItem";
+import { GetEnterpriseService200Response, Location } from "../../../GENERATED-api";
 import { useIntParam } from "../../../hooks/useIntParam";
 import { routes } from "../../../router/routes";
 import { fetchServices } from "../../service/service-utils";
@@ -29,7 +28,7 @@ export const EnterpriseStaffPage = () => {
     const [logoFile, setLogoFile] = useState<File | null>(null);
     const [backgroundPhotoFile, setBackgroundPhotoFile] = useState<File | null>(null);
 
-    const [services, setServices] = useState<GetEnterpriseServicesResponseItem[]>([]);
+    const [services, setServices] = useState<GetEnterpriseService200Response[]>([]);
 
     const onDicardClick = () => {
         navigate(routes.enterprisePublic(enterpriseId));

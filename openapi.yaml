@@ -2075,7 +2075,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateIndependentEndUserRequest"
+              $ref: "#/components/schemas/CreateRegularAdminRequest"
       responses:
         "201":
           description: *CREATED_DESCRIPTION

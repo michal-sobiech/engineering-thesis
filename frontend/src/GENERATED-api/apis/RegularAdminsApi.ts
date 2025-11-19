@@ -15,7 +15,7 @@
 
 import * as runtime from '../runtime';
 import type {
-  CreateIndependentEndUserRequest,
+  CreateRegularAdminRequest,
   GetRegularAdminResponse,
   InlineObject,
   InlineObject1,
@@ -25,8 +25,8 @@ import type {
   PatchRegularAdminRequest,
 } from '../models/index';
 import {
-    CreateIndependentEndUserRequestFromJSON,
-    CreateIndependentEndUserRequestToJSON,
+    CreateRegularAdminRequestFromJSON,
+    CreateRegularAdminRequestToJSON,
     GetRegularAdminResponseFromJSON,
     GetRegularAdminResponseToJSON,
     InlineObjectFromJSON,
@@ -43,8 +43,8 @@ import {
     PatchRegularAdminRequestToJSON,
 } from '../models/index';
 
-export interface CreateRegularAdminRequest {
-    createIndependentEndUserRequest: CreateIndependentEndUserRequest;
+export interface CreateRegularAdminOperationRequest {
+    createRegularAdminRequest: CreateRegularAdminRequest;
 }
 
 export interface GetRegularAdminRequest {
@@ -63,11 +63,11 @@ export class RegularAdminsApi extends runtime.BaseAPI {
 
     /**
      */
-    async createRegularAdminRaw(requestParameters: CreateRegularAdminRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters['createIndependentEndUserRequest'] == null) {
+    async createRegularAdminRaw(requestParameters: CreateRegularAdminOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['createRegularAdminRequest'] == null) {
             throw new runtime.RequiredError(
-                'createIndependentEndUserRequest',
-                'Required parameter "createIndependentEndUserRequest" was null or undefined when calling createRegularAdmin().'
+                'createRegularAdminRequest',
+                'Required parameter "createRegularAdminRequest" was null or undefined when calling createRegularAdmin().'
             );
         }
 
@@ -93,7 +93,7 @@ export class RegularAdminsApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: CreateIndependentEndUserRequestToJSON(requestParameters['createIndependentEndUserRequest']),
+            body: CreateRegularAdminRequestToJSON(requestParameters['createRegularAdminRequest']),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -101,8 +101,8 @@ export class RegularAdminsApi extends runtime.BaseAPI {
 
     /**
      */
-    async createRegularAdmin(createIndependentEndUserRequest: CreateIndependentEndUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.createRegularAdminRaw({ createIndependentEndUserRequest: createIndependentEndUserRequest }, initOverrides);
+    async createRegularAdmin(createRegularAdminRequest: CreateRegularAdminRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.createRegularAdminRaw({ createRegularAdminRequest: createRegularAdminRequest }, initOverrides);
     }
 
     /**

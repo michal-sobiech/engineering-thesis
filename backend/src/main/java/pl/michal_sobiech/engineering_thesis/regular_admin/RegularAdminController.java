@@ -5,7 +5,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.SwaggerCodeGenExample.api.RegularAdminsApi;
-import org.SwaggerCodeGenExample.model.CreateIndependentEndUserRequest;
+import org.SwaggerCodeGenExample.model.CreateRegularAdminRequest;
 import org.SwaggerCodeGenExample.model.GetRegularAdminResponse;
 import org.SwaggerCodeGenExample.model.PatchRegularAdminRequest;
 import org.springframework.http.ResponseEntity;
@@ -24,12 +24,12 @@ public class RegularAdminController implements RegularAdminsApi {
     private final AuthService authService;
 
     @Override
-    public ResponseEntity<Void> createRegularAdmin(CreateIndependentEndUserRequest request) {
+    public ResponseEntity<Void> createRegularAdmin(CreateRegularAdminRequest request) {
         // TODO maybe do the authorization in security chain?
         authService.requireHeadAdmin();
 
         regularAdminsService.createRegularAdmin(
-                request.getEmail(),
+                request.getUsername(),
                 request.getFirstName(),
                 request.getLastName(),
                 request.getPassword());
@@ -70,7 +70,7 @@ public class RegularAdminController implements RegularAdminsApi {
         userService.patch(
                 adminUserId,
                 Optional.ofNullable(request.getUsername()),
-                Optional.ofNullable(request.getLastName()),
+                Optional.ofNullable(request.getFirstName()),
                 Optional.ofNullable(request.getLastName()),
                 Optional.ofNullable(request.getPassword()));
         return ResponseEntity.ok().build();

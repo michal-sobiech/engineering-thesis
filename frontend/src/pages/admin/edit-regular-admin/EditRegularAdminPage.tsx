@@ -1,17 +1,18 @@
-import { Center, Heading } from "@chakra-ui/react";
+import { Center, Flex, Heading } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useRegularAdminsApi } from "../../../api/regular-admins-api";
 import { StandardButton } from "../../../common/StandardButton";
 import { StandardFlex } from "../../../common/StandardFlex";
 import { StandardLabeledContainer } from "../../../common/StandardLabeledContainer";
+import { StandardPanel } from "../../../common/StandardPanel";
 import { StandardTextField } from "../../../common/StandardTextField";
-import { PatchRegularAdminRequest } from "../../../GENERATED-api";
+import { PatchRegularAdminRequest, ResponseError } from "../../../GENERATED-api";
 import { useIntParam } from "../../../hooks/useIntParam";
 import { routes } from "../../../router/routes";
 import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../../utils/error";
 import { errorErrResultAsyncFromPromise } from "../../../utils/result";
-import { toastError } from "../../../utils/toast";
+import { toastError, toastSuccess } from "../../../utils/toast";
 
 export const EditRegularAdminPage = () => {
     const adminUserId = useIntParam("userId");
@@ -41,9 +42,13 @@ export const EditRegularAdminPage = () => {
             setLastName(result.value.lastName);
         }
         loadData();
-    })
+    }, [])
 
-    const onSaveClick = () => {
+    const onDiscardClick = () => {
+        navigate(routes.regularAdminListPage);
+    }
+
+    const onSaveClick = async () => {
         if (password1 !== password2) {
             toastError("Passwords don't match!");
             return;
@@ -55,30 +60,54 @@ export const EditRegularAdminPage = () => {
             lastName: lastName === "" ? undefined : lastName,
             password: password1 === "" ? undefined : password1
         };
-        regularAdminsApi.patchRegularAdmin(adminUserId, request);
+
+        try {
+            await regularAdminsApi.patchRegularAdmin(adminUserId, request);
+            toastSuccess("Edited admin!");
+            navigate(routes.regularAdminListPage);
+        } catch (error: unknown) {
+            if (error instanceof ResponseError && error.response.status == 409) {
+                toastError("Chosen username is already taken");
+            } else {
+                toastError(DEFAULT_ERROR_MESSAGE_FOR_USER);
+            }
+        }
     }
 
     return <Center height="100%">
-        <StandardFlex>
-            <Heading>Edit admin</Heading>
-            <StandardLabeledContainer label="Username">
-                <StandardTextField text={username} setText={setUsername} />
-            </StandardLabeledContainer>
-            <StandardLabeledContainer label="First name">
-                <StandardTextField text={firstName} setText={setFirstName} />
-            </StandardLabeledContainer>
-            <StandardLabeledContainer label="Last name">
-                <StandardTextField text={lastName} setText={setLastName} />
-            </StandardLabeledContainer>
-            <StandardLabeledContainer label="Password">
-                <StandardTextField text={password1} setText={setPassword1} type="password" placeholder="New password" />
-            </StandardLabeledContainer>
-            <StandardLabeledContainer label="Confirm password">
-                <StandardTextField text={password2} setText={setPassword2} type="password" placeholder="Confirm new password" />
-            </StandardLabeledContainer>
-            <StandardButton onClick={onSaveClick}>
-                Save
-            </StandardButton>
-        </StandardFlex>
+        <StandardPanel height="100%" width="80%">
+            <StandardFlex height="100%">
+                <Heading>Edit admin</Heading>
+                <StandardLabeledContainer label="Username">
+                    <StandardTextField text={username} setText={setUsername} />
+                </StandardLabeledContainer>
+                <StandardLabeledContainer label="First name">
+                    <StandardTextField text={firstName} setText={setFirstName} />
+                </StandardLabeledContainer>
+                <StandardLabeledContainer label="Last name">
+                    <StandardTextField text={lastName} setText={setLastName} />
+                </StandardLabeledContainer>
+                <StandardLabeledContainer label="Password">
+                    <StandardTextField text={password1} setText={setPassword1} type="password" placeholder="New password" />
+                </StandardLabeledContainer>
+                <StandardLabeledContainer label="Confirm password">
+                    <StandardTextField text={password2} setText={setPassword2} type="password" placeholder="Confirm new password" />
+                </StandardLabeledContainer>
+                <Flex direction="row" gap="5px">
+                    <StandardButton
+                        onClick={onDiscardClick}
+                        backgroundColor="primary.darkRed"
+                        flex={1}>
+                        Discard
+                    </StandardButton>
+                    <StandardButton
+                        onClick={onSaveClick}
+                        backgroundColor="primary.lightGreen"
+                        flex={1}>
+                        Save
+                    </StandardButton>
+                </Flex>
+            </StandardFlex>
+        </StandardPanel>
     </Center>;
 }

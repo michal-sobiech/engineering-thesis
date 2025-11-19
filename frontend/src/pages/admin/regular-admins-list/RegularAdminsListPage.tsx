@@ -25,10 +25,14 @@ export const RegularAdminsListPage = () => {
             const promise = regularAdminsApi.getRegularAdmins();
             const resultAsync = errorErrResultAsyncFromPromise(promise);
             const result = await resultAsync;
+
             if (result.isErr()) {
                 toastError(DEFAULT_ERROR_MESSAGE_FOR_USER);
                 navigate(routes.mainPage);
+                return;
             }
+
+            setRegularAdmins(result.value);
         }
         loadRegularAdmins();
     }, []);
@@ -37,23 +41,35 @@ export const RegularAdminsListPage = () => {
 
     const items = regularAdmins.map(admin => <ListItem {...admin} />);
 
+    const onCreateAdminClick = () => {
+        navigate(routes.createRegularAdminPage);
+    }
+
     return <RegularAdminsListPageContext.Provider value={contextValue}>
         <Center height="100%">
-            <StandardFlex>
-                <StandardConcaveBox flex="1">
-                    <ScrollableList height="100%">
-                        {items}
-                    </ScrollableList>
-                </StandardConcaveBox>
-                <StandardButton>
-                    Add an admin
-                </StandardButton>
-            </StandardFlex>
+            <StandardPanel height="100%" width="80%">
+                <StandardFlex height="100%">
+                    <StandardConcaveBox overflowY="scroll">
+                        <ScrollableList maxHeight="100%">
+                            {items}
+                        </ScrollableList>
+                    </StandardConcaveBox >
+                    <StandardButton onClick={onCreateAdminClick}>
+                        Add an admin
+                    </StandardButton>
+                </StandardFlex>
+            </StandardPanel>
         </Center>
     </RegularAdminsListPageContext.Provider>
 }
 
 const ListItem: FC<GetRegularAdminResponse> = ({ userId, username, firstName, lastName }) => {
+    const navigate = useNavigate();
+
+    const onEditClick = () => {
+        navigate(routes.editRegularAdminPage(userId));
+    }
+
     return <StandardPanel height="100%">
         <StandardFlex height="100%">
             <Text>
@@ -65,7 +81,7 @@ const ListItem: FC<GetRegularAdminResponse> = ({ userId, username, firstName, la
             <Text>
                 {firstName} {lastName}
             </Text>
-            <StandardButton>
+            <StandardButton onClick={onEditClick}>
                 Edit
             </StandardButton>
         </StandardFlex>
