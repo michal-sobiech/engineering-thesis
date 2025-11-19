@@ -8,7 +8,6 @@ export const useLogOut = () => {
     return () => {
         const newAuth: UnauthenticatedAuth = { isAuthenticated: false };
         setAuth(newAuth);
-        console.log("aaaa");
         removeJwtTokenFromLocalStorage();
     }
 }

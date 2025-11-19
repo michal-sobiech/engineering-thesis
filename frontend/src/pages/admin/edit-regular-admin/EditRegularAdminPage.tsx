@@ -11,7 +11,6 @@ import { PatchRegularAdminRequest, ResponseError } from "../../../GENERATED-api"
 import { useIntParam } from "../../../hooks/useIntParam";
 import { routes } from "../../../router/routes";
 import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../../utils/error";
-import { errorErrResultAsyncFromPromise } from "../../../utils/result";
 import { toastError, toastSuccess } from "../../../utils/toast";
 
 export const EditRegularAdminPage = () => {
@@ -28,18 +27,18 @@ export const EditRegularAdminPage = () => {
     useEffect(() => {
         async function loadData() {
             const promise = regularAdminsApi.getRegularAdmin(adminUserId);
-            const resultAsync = errorErrResultAsyncFromPromise(promise);
-            const result = await resultAsync;
+            // const resultAsync = errorErrResultAsyncFromPromise(promise);
+            const result = await promise;
 
-            if (result.isErr()) {
-                toastError(DEFAULT_ERROR_MESSAGE_FOR_USER);
-                navigate(routes.mainPage);
-                return;
-            }
+            // if (result.isErr()) {
+            //     toastError(DEFAULT_ERROR_MESSAGE_FOR_USER);
+            //     navigate(routes.mainPage);
+            //     return;
+            // }
 
-            setUsername(result.value.username);
-            setFirstName(result.value.firstName);
-            setLastName(result.value.lastName);
+            setUsername(result.username);
+            setFirstName(result.firstName);
+            setLastName(result.lastName);
         }
         loadData();
     }, [])

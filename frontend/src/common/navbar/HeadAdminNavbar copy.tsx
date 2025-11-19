@@ -17,9 +17,8 @@ export const HeadAdminNavbar = () => {
             link: routes.adminReportsPage,
         },
         {
-            text: "Add an admin",
-            // TODO
-            link: routes.mainPage,
+            text: "Manage regular admins",
+            link: routes.regularAdminListPage,
         }
     ];
     return <NavbarTemplateWithLogOut routeButtonProps={buttonsProps} />;
