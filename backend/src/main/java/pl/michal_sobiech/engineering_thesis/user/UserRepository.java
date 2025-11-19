@@ -13,4 +13,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
     public Optional<UserEntity> findByUserGroupAndUsername(UserGroup userGroup, String username);
 
+    public List<UserEntity> findAllByUserGroup(UserGroup userGroup);
+
 }

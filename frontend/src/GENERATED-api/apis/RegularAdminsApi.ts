@@ -40,7 +40,7 @@ import {
     InlineObject4ToJSON,
 } from '../models/index';
 
-export interface CreateCreateRegularAdminRequest {
+export interface CreateRegularAdminRequest {
     createIndependentEndUserRequest: CreateIndependentEndUserRequest;
 }
 
@@ -51,11 +51,11 @@ export class RegularAdminsApi extends runtime.BaseAPI {
 
     /**
      */
-    async createCreateRegularAdminRaw(requestParameters: CreateCreateRegularAdminRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async createRegularAdminRaw(requestParameters: CreateRegularAdminRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters['createIndependentEndUserRequest'] == null) {
             throw new runtime.RequiredError(
                 'createIndependentEndUserRequest',
-                'Required parameter "createIndependentEndUserRequest" was null or undefined when calling createCreateRegularAdmin().'
+                'Required parameter "createIndependentEndUserRequest" was null or undefined when calling createRegularAdmin().'
             );
         }
 
@@ -89,8 +89,8 @@ export class RegularAdminsApi extends runtime.BaseAPI {
 
     /**
      */
-    async createCreateRegularAdmin(createIndependentEndUserRequest: CreateIndependentEndUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.createCreateRegularAdminRaw({ createIndependentEndUserRequest: createIndependentEndUserRequest }, initOverrides);
+    async createRegularAdmin(createIndependentEndUserRequest: CreateIndependentEndUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.createRegularAdminRaw({ createIndependentEndUserRequest: createIndependentEndUserRequest }, initOverrides);
     }
 
     /**

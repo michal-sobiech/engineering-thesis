@@ -2,6 +2,7 @@ package pl.michal_sobiech.engineering_thesis.user;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -53,6 +54,13 @@ public class UserService {
         } catch (DataIntegrityViolationException exception) {
             throw new ConflictException(exception);
         }
+    }
+
+    public List<User> getAllInUserGroup(UserGroup userGroup) {
+        return userRepository.findAllByUserGroup(userGroup)
+                .stream()
+                .map(User::fromEntity)
+                .collect(Collectors.toList());
     }
 
 }

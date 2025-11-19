@@ -2055,7 +2055,7 @@ paths:
   /regular-admins:
     post:
       tags: [RegularAdmins]
-      operationId: createCreateRegularAdmin
+      operationId: createRegularAdmin
       security:
         - JwtBearerAuth: []
       requestBody:
@@ -2085,7 +2085,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/GetRegularAdminResponse"
+                type: array
+                items:
+                  $ref: "#/components/schemas/GetRegularAdminResponse"
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":

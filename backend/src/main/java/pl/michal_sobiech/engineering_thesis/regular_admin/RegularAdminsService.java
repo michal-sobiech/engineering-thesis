@@ -1,0 +1,25 @@
+package pl.michal_sobiech.engineering_thesis.regular_admin;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Service;
+
+import lombok.RequiredArgsConstructor;
+import pl.michal_sobiech.engineering_thesis.user.UserGroup;
+import pl.michal_sobiech.engineering_thesis.user.UserService;
+
+@Service
+@RequiredArgsConstructor
+public class RegularAdminsService {
+
+    private final UserService userService;
+
+    public List<RegularAdmin> getRegularAdmins() {
+        return userService.getAllInUserGroup(UserGroup.REGULAR_ADMIN)
+                .stream()
+                .map(RegularAdmin::fromUser)
+                .collect(Collectors.toList());
+    }
+
+}
