@@ -1,6 +1,7 @@
 package pl.michal_sobiech.engineering_thesis.regular_admin;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -20,6 +21,20 @@ public class RegularAdminsService {
                 .stream()
                 .map(RegularAdmin::fromUser)
                 .collect(Collectors.toList());
+    }
+
+    public void createRegularAdmin(
+            String username,
+            String firstName,
+            String lastName,
+            String passwordRaw) {
+        userService.save(
+                UserGroup.REGULAR_ADMIN,
+                username,
+                firstName,
+                lastName,
+                passwordRaw,
+                Optional.empty());
     }
 
 }

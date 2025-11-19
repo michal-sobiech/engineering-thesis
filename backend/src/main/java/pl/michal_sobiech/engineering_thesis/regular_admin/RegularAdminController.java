@@ -17,7 +17,11 @@ public class RegularAdminController implements RegularAdminsApi {
 
     @Override
     public ResponseEntity<Void> createRegularAdmin(CreateIndependentEndUserRequest request) {
-        // TODO
+        regularAdminsService.createRegularAdmin(
+                request.getEmail(),
+                request.getFirstName(),
+                request.getLastName(),
+                request.getPassword());
         return ResponseEntity.ok().build();
     }
 
