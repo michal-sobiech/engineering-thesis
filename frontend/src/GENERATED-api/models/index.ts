@@ -27,6 +27,7 @@ export * from './GetEnterpriseServicePendingAppointmentResponse';
 export * from './GetEnterpriseServiceUncancelledFutureScheduledAppointmentResponse';
 export * from './GetEntrepreneurEnterprisesResponseItem';
 export * from './GetMyUserGroup200Response';
+export * from './GetRegularAdminResponse';
 export * from './GetServiceCustomAppointmentsStatus200Response';
 export * from './GetServiceFreeCustomAppointmentsResponseItem';
 export * from './GetServiceFreeNonCustomAppointmentsResponseItem';

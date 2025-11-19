@@ -22,6 +22,13 @@ public class CustomEnterpriseServiceAvailabilityService {
     private final CustomAppointmentsEnterpriseServiceTimeWindowTemplateService customAppointmentsEnterpriseServiceTimeWindowTemplateService;
     private final CustomAppointmentsService customAppointmentsService;
 
+    // public boolean isEnterpriseServiceAvailableInServiceLocalDatetimeRange(
+    // long enterpriseServiceId,
+    // LocalDateTime fromInServiceTimezone,
+    // LocalDateTime toInServiceTimezone) {
+    // List<
+    // }
+
     public List<LocalDateTimeWindow> findFreeTimeWindowsInLocalDatetimeRangeForService(
             long enterpriseServiceId,
             LocalDateTime from,

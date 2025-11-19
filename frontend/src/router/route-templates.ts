@@ -21,4 +21,5 @@ export const routeTemplates = {
     adminReportsPage: "/admins/landing-page",
     adminLogIn: "/admins/log-in",
     manageServicePage: "/services/:serviceId/manage",
+    regularAdminListPage: "/head-admin/regular-admins"
 };

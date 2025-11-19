@@ -30,6 +30,7 @@ export const CustomAppointmentsServicePublicPageAppointmentMakerButton = () => {
             toastError("Select a date");
             return;
         }
+
         if (selectedTimeWindowStart === null) {
             toastError("Select a start time");
             return;
@@ -38,13 +39,18 @@ export const CustomAppointmentsServicePublicPageAppointmentMakerButton = () => {
             toastError("Select an end time");
             return;
         }
+        const startServiceLocal = LocalDateTime.of(selectedDate, selectedTimeWindowStart);
+        const endServiceLocal = LocalDateTime.of(selectedDate, selectedTimeWindowEnd);
+        if (!endServiceLocal.isAfter(startServiceLocal)) {
+            toastError("End time must be after start time");
+            return;
+        }
+
         if (address === null || position === null) {
             toastError("Choose a location");
             return;
         }
 
-        const startServiceLocal = LocalDateTime.of(selectedDate, selectedTimeWindowStart);
-        const endServiceLocal = LocalDateTime.of(selectedDate, selectedTimeWindowEnd);
 
         const requestParameters = {
             serviceId,

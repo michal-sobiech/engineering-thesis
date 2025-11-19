@@ -42,6 +42,8 @@ public class NonCustomAppointmentsService {
             Instant start,
             Instant end) {
 
+        // TODO check if appointment can be made
+
         EnterpriseServiceDomain enterpriseService = enterpriseServiceService.getById(enterpriseServiceId).orElseThrow();
 
         BigDecimal price = enterpriseService.price();

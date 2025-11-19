@@ -892,6 +892,20 @@ components:
         currency:
           type: string
 
+    GetRegularAdminResponse:
+      type: object
+      required: [userId, username, firstName, lastName]
+      properties:
+        userId:
+          type: integer
+          format: int64
+        username:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+
   responses:
     OK:
       description: &OK_DESCRIPTION >
@@ -2057,6 +2071,27 @@ paths:
           $ref: "#/components/responses/BadRequest"
         "409":
           $ref: "#/components/responses/Conflict"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+    get:
+      tags: [RegularAdmins]
+      operationId: getRegularAdmins
+      security:
+        - JwtBearerAuth: []
+      responses:
+        "200":
+          description: *OK_DESCRIPTION
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetRegularAdminResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
         "500":
           $ref: "#/components/responses/InternalServerError"
 

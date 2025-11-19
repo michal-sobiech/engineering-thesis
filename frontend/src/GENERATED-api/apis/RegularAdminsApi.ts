@@ -16,15 +16,24 @@
 import * as runtime from '../runtime';
 import type {
   CreateIndependentEndUserRequest,
+  GetRegularAdminResponse,
+  InlineObject,
   InlineObject1,
+  InlineObject2,
   InlineObject3,
   InlineObject4,
 } from '../models/index';
 import {
     CreateIndependentEndUserRequestFromJSON,
     CreateIndependentEndUserRequestToJSON,
+    GetRegularAdminResponseFromJSON,
+    GetRegularAdminResponseToJSON,
+    InlineObjectFromJSON,
+    InlineObjectToJSON,
     InlineObject1FromJSON,
     InlineObject1ToJSON,
+    InlineObject2FromJSON,
+    InlineObject2ToJSON,
     InlineObject3FromJSON,
     InlineObject3ToJSON,
     InlineObject4FromJSON,
@@ -82,6 +91,41 @@ export class RegularAdminsApi extends runtime.BaseAPI {
      */
     async createCreateRegularAdmin(createIndependentEndUserRequest: CreateIndependentEndUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.createCreateRegularAdminRaw({ createIndependentEndUserRequest: createIndependentEndUserRequest }, initOverrides);
+    }
+
+    /**
+     */
+    async getRegularAdminsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetRegularAdminResponse>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("JwtBearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/regular-admins`;
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => GetRegularAdminResponseFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async getRegularAdmins(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetRegularAdminResponse> {
+        const response = await this.getRegularAdminsRaw(initOverrides);
+        return await response.value();
     }
 
 }
