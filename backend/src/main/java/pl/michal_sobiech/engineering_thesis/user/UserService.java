@@ -18,8 +18,8 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public Optional<UserEntity> findById(long userId) {
-        return userRepository.findById(userId);
+    public Optional<User> findById(long userId) {
+        return userRepository.findById(userId).map(User::fromEntity);
     }
 
     public Optional<UserEntity> findByEnterpriseIdAndUsername(long enterpriseId, String username) {
@@ -61,6 +61,34 @@ public class UserService {
                 .stream()
                 .map(User::fromEntity)
                 .collect(Collectors.toList());
+    }
+
+    public void patch(
+            long userId,
+            Optional<String> username,
+            Optional<String> firstName,
+            Optional<String> lastName,
+            Optional<String> passwordRaw) {
+        UserEntity user = userRepository.findById(userId).orElseThrow();
+
+        username.ifPresent(usernameString -> {
+            user.setUsername(usernameString);
+        });
+
+        firstName.ifPresent(firstNameString -> {
+            user.setFirstName(firstNameString);
+        });
+
+        lastName.ifPresent(lastNameString -> {
+            user.setLastName(lastNameString);
+        });
+
+        passwordRaw.ifPresent(passwordRawString -> {
+            String passwordHash = passwordEncoder.encode(passwordRawString);
+            user.setPasswordHash(passwordHash);
+        });
+
+        userRepository.save(user);
     }
 
 }

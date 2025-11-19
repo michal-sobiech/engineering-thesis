@@ -14,7 +14,6 @@ import pl.michal_sobiech.engineering_thesis.exceptions.exceptions.UnauthorizedEx
 import pl.michal_sobiech.engineering_thesis.head_admin.HeadAdmin;
 import pl.michal_sobiech.engineering_thesis.independent_end_user.IndependentEndUser;
 import pl.michal_sobiech.engineering_thesis.user.User;
-import pl.michal_sobiech.engineering_thesis.user.UserEntity;
 import pl.michal_sobiech.engineering_thesis.user.UserService;
 import pl.michal_sobiech.engineering_thesis.utils.AuthUtils;
 
@@ -31,8 +30,7 @@ public class AuthService {
         }
         long userId = optionalUserId.get();
 
-        UserEntity user = userService.findById(userId).orElseThrow();
-        return User.fromEntity(user);
+        return userService.findById(userId).orElseThrow();
     }
 
     public IndependentEndUser requireIndependentEndUser() {

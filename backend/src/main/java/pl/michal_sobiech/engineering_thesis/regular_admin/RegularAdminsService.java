@@ -16,6 +16,10 @@ public class RegularAdminsService {
 
     private final UserService userService;
 
+    public Optional<RegularAdmin> getRegularAdmin(long userId) {
+        return userService.findById(userId).map(RegularAdmin::fromUser);
+    }
+
     public List<RegularAdmin> getRegularAdmins() {
         return userService.getAllInUserGroup(UserGroup.REGULAR_ADMIN)
                 .stream()
