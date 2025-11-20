@@ -21,7 +21,7 @@ public record ConfirmedCustomAppointment(
 ) {
 
     public static ConfirmedCustomAppointment fromEntity(AppointmentEntity entity) {
-        if (entity.getIsCustom() == false) {
+        if (entity.isCustom() == false) {
             throw new IllegalArgumentException();
         }
 

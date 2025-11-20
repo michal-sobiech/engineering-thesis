@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.appointment.AppointmentEntity;
 import pl.michal_sobiech.engineering_thesis.appointment.AppointmentRepository;
-import pl.michal_sobiech.engineering_thesis.appointment.custom.pending.PendingCustomAppointment;
 import pl.michal_sobiech.engineering_thesis.currency_iso.CurrencyIso;
 import pl.michal_sobiech.engineering_thesis.enterprise_member.EnterpriseMemberService;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceDomain;
@@ -73,15 +72,6 @@ public class CustomAppointmentsService {
         return records
                 .stream()
                 .map(ConfirmedCustomAppointment::fromEntity)
-                .collect(Collectors.toList());
-    }
-
-    public List<PendingCustomAppointment> getUncancelledFuturePendingCustomAppointmentsOfCustomer(long customerUserId) {
-        List<AppointmentEntity> records = appointmentRepository
-                .findCustomerUncancelledFuturePendingCustomAppointments(customerUserId);
-        return records
-                .stream()
-                .map(PendingCustomAppointment::fromEntity)
                 .collect(Collectors.toList());
     }
 
