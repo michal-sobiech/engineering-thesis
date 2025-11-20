@@ -1,6 +1,8 @@
 package pl.michal_sobiech.engineering_thesis.employee;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -42,6 +44,14 @@ public class EmployeeService {
 
     public boolean checkEmployeeUsernameExists(long enterpriseId, String username) {
         return findEmployeeByEnterpriseIdAndUsername(enterpriseId, username).isPresent();
+    }
+
+    public List<Employee> getEnterpriseEmployees(long appointmentId) {
+        return userRepository.getEnterpriseEmployees(appointmentId)
+                .stream()
+                .map(User::fromEntity)
+                .map(Employee::fromUser)
+                .collect(Collectors.toList());
     }
 
 }

@@ -16,14 +16,14 @@ import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.appointment.custom.CustomAppointmentsService;
 import pl.michal_sobiech.engineering_thesis.appointment.custom.RejectedCustomAppointment;
 import pl.michal_sobiech.engineering_thesis.appointment.custom.pending.PendingCustomAppointment;
-import pl.michal_sobiech.engineering_thesis.appointment.non_custom.NonCustomAppointmentsService;
 import pl.michal_sobiech.engineering_thesis.auth.AuthService;
 import pl.michal_sobiech.engineering_thesis.customer.Customer;
 import pl.michal_sobiech.engineering_thesis.enterprise.Enterprise;
 import pl.michal_sobiech.engineering_thesis.enterprise.EnterpriseService;
+import pl.michal_sobiech.engineering_thesis.enterprise_member.EnterpriseMember;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceDomain;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceService;
-import pl.michal_sobiech.engineering_thesis.entrepreneur.Entrepreneur;
+import pl.michal_sobiech.engineering_thesis.exceptions.exceptions.UnauthorizedException;
 import pl.michal_sobiech.engineering_thesis.utils.DateUtils;
 
 @RestController
@@ -31,11 +31,11 @@ import pl.michal_sobiech.engineering_thesis.utils.DateUtils;
 public class AppointmentController implements AppointmentsApi {
 
     private final AuthService authService;
-    private final NonCustomAppointmentsService nonCustomAppointmentsService;
     private final CustomAppointmentsService customAppointmentsService;
     private final EnterpriseServiceService enterpriseServiceService;
     private final EnterpriseService enterpriseService;
     private final ScheduledAppointmentService scheduledAppointmentService;
+    private final AppointmentService appointmentService;
 
     @Override
     public ResponseEntity<List<GetCustomerLandingPagePendingAppointmentResponseItem>> getMyPendingAppointments() {
@@ -181,9 +181,11 @@ public class AppointmentController implements AppointmentsApi {
 
     @Override
     public ResponseEntity<Void> acceptPendingAppointment(Long appointmentId) {
-        Entrepreneur entrepreneur = authService.requireEntrepreneur();
+        EnterpriseMember enterpriseMember = authService.requireEnterpriseMember();
 
-        AppointmentEntity appointment = customAppointmentsService.g
+        if (!appointmentService.canUserManageAppointment(enterpriseMember.getUserId(), appointmentId)) {
+            throw new UnauthorizedException();
+        }
 
         customAppointmentsService.acceptAppointment(appointmentId);
         return ResponseEntity.ok().build();
@@ -191,6 +193,13 @@ public class AppointmentController implements AppointmentsApi {
 
     @Override
     public ResponseEntity<Void> rejectPendingAppointment(Long appointmentId, RejectPendingAppointmentRequest request) {
+        // TODO auth everywhere
+        EnterpriseMember enterpriseMember = authService.requireEnterpriseMember();
+
+        if (!appointmentService.canUserManageAppointment(enterpriseMember.getUserId(), appointmentId)) {
+            throw new UnauthorizedException();
+        }
+
         customAppointmentsService.rejectAppointment(appointmentId, request.getRejectionMessage());
         return ResponseEntity.ok().build();
     }

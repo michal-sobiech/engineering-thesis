@@ -7,7 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.user.User;
+import pl.michal_sobiech.engineering_thesis.user.UserEntity;
 import pl.michal_sobiech.engineering_thesis.user.UserGroup;
+import pl.michal_sobiech.engineering_thesis.user.UserRepository;
 import pl.michal_sobiech.engineering_thesis.user.UserService;
 
 @Service
@@ -15,6 +17,7 @@ import pl.michal_sobiech.engineering_thesis.user.UserService;
 public class EntrepreneurService {
 
     private final UserService userService;
+    private final UserRepository userRepository;
 
     @Transactional
     public Entrepreneur save(
@@ -32,5 +35,10 @@ public class EntrepreneurService {
                 Optional.empty());
 
         return Entrepreneur.fromUser(user);
+    }
+
+    public Entrepreneur getEnterpriseOwner(long appointmentId) {
+        UserEntity user = userRepository.getEnterpriseOwner(appointmentId).orElseThrow();
+        return Entrepreneur.fromUser(User.fromEntity(user));
     }
 }

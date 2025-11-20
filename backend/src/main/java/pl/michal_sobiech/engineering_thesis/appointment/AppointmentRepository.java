@@ -149,4 +149,5 @@ public interface AppointmentRepository extends JpaRepository<AppointmentEntity, 
             """)
     public List<GetEnterpriseServiceUncancelledFuturePendingAppointmentsResponseRow> getEnterpriseServiceUncancelledFuturePendingAppointments(
             @Param("enterpriseServiceId") long enterpriseServiceId);
+
 }

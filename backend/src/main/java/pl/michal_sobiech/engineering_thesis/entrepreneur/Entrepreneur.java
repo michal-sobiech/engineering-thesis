@@ -2,13 +2,13 @@ package pl.michal_sobiech.engineering_thesis.entrepreneur;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.enterprise_staff.EnterpriseStaff;
+import pl.michal_sobiech.engineering_thesis.enterprise_member.EnterpriseMember;
 import pl.michal_sobiech.engineering_thesis.user.User;
 import pl.michal_sobiech.engineering_thesis.user.UserGroup;
 
 @Getter
 @RequiredArgsConstructor
-public class Entrepreneur implements EnterpriseStaff {
+public class Entrepreneur implements EnterpriseMember {
 
     private final long userId;
     private final String email;
