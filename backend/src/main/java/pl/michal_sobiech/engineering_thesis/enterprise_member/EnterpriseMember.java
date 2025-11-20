@@ -4,8 +4,6 @@ public interface EnterpriseMember {
 
     public long getUserId();
 
-    public String getEmail();
-
     public String getFirstName();
 
     public String getLastName();
