@@ -13,9 +13,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import pl.michal_sobiech.engineering_thesis.appointment.custom.CustomAppointmentQueryService;
 import pl.michal_sobiech.engineering_thesis.appointment.custom.CustomAppointmentsService;
-import pl.michal_sobiech.engineering_thesis.appointment.custom.RejectedCustomAppointment;
-import pl.michal_sobiech.engineering_thesis.appointment.custom.pending.PendingCustomAppointment;
+import pl.michal_sobiech.engineering_thesis.appointment.custom.rejected.RejectedCustomAppointment;
 import pl.michal_sobiech.engineering_thesis.auth.AuthService;
 import pl.michal_sobiech.engineering_thesis.customer.Customer;
 import pl.michal_sobiech.engineering_thesis.enterprise.Enterprise;
@@ -36,15 +36,18 @@ public class AppointmentController implements AppointmentsApi {
     private final EnterpriseService enterpriseService;
     private final ScheduledAppointmentService scheduledAppointmentService;
     private final AppointmentService appointmentService;
+    private final CustomAppointmentQueryService customAppointmentQueryService;
 
     @Override
-    public ResponseEntity<List<GetCustomerLandingPagePendingAppointmentResponseItem>> getMyPendingAppointments() {
+    public ResponseEntity<List<GetCustomerLandingPagePendingAppointmentResponseItem>> getMyUncancelledFuturePendingAppointments() {
         Customer customer = authService.requireCustomer();
 
-        List<PendingCustomAppointment> appointments = customAppointmentsService
-                .getPendingCustomAppointmentsOfCustomer(customer.getUserId());
+        List<GetCustomerLandingPagePendingAppointmentResponseItem> body = customAppointmentQueryService
+                .findByQuery(
+                    customer.getUserId(),
 
-        List<GetCustomerLandingPagePendingAppointmentResponseItem> body = appointments.stream()
+                )
+                .stream()
                 .map(appointment -> {
                     EnterpriseServiceDomain service = enterpriseServiceService
                             .getById(appointment.enterpriseServiceId())
@@ -69,6 +72,7 @@ public class AppointmentController implements AppointmentsApi {
                             appointment.price());
                 })
                 .collect(Collectors.toList());
+
         return ResponseEntity.ok(body);
     }
 

@@ -1,4 +1,4 @@
-package pl.michal_sobiech.engineering_thesis.appointment.scheduled.future;
+package pl.michal_sobiech.engineering_thesis.appointment.scheduled;
 
 import java.util.ArrayList;
 import java.util.List;

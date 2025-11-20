@@ -28,7 +28,7 @@ import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.appointment.custom.CustomAppointmentsService;
 import pl.michal_sobiech.engineering_thesis.appointment.custom.pending.PendingAppointmentService;
 import pl.michal_sobiech.engineering_thesis.appointment.non_custom.NonCustomAppointmentsService;
-import pl.michal_sobiech.engineering_thesis.appointment.scheduled.future.FutureScheduledAppointmentService;
+import pl.michal_sobiech.engineering_thesis.appointment.scheduled.FutureScheduledAppointmentService;
 import pl.michal_sobiech.engineering_thesis.auth.AuthService;
 import pl.michal_sobiech.engineering_thesis.available_enterprise_service_search.AvailableEnterpriseServiceSearchResultRow;
 import pl.michal_sobiech.engineering_thesis.available_enterprise_service_search.AvailableEnterpriseServiceSearchService;
@@ -278,7 +278,7 @@ public class EnterpriseServiceController implements ServicesApi {
     public ResponseEntity<List<GetEnterpriseServicePendingAppointmentResponse>> getEnterpriseServicePendingAppointments(
             Long enterpriseServiceId) {
         var body = pendingAppointmentService
-                .getEnterpriseServiceUncancelledFuturePendingAppointments(enterpriseServiceId)
+                .findEnterpriseServiceUncancelledFuturePendingAppointments(enterpriseServiceId)
                 .stream()
                 .map(appointment -> {
                     String startDatetimeServiceLocal = DateUtils.createIsoLocalDatetime(

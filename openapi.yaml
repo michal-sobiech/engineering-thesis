@@ -1810,10 +1810,10 @@ paths:
         "500":
           $ref: "#/components/responses/InternalServerError"
 
-  /appointments/my-future-scheduled-appointments:
+  /appointments/my-uncancelled-future-scheduled-appointments:
     get:
       tags: [Appointments]
-      operationId: getMyFutureScheduledAppointments
+      operationId: getMyUncancelledFutureScheduledAppointments
       security:
         - JwtBearerAuth: []
       responses:
@@ -1834,10 +1834,10 @@ paths:
         "500":
           $ref: "#/components/responses/InternalServerError"
 
-  /appointments/my-pending-appointments:
+  /appointments/my-uncancelled-future-pending-appointments:
     get:
       tags: [Appointments]
-      operationId: getMyPendingAppointments
+      operationId: getMyUncancelledFuturePendingAppointments
       security:
         - JwtBearerAuth: []
       responses:
@@ -1858,10 +1858,10 @@ paths:
         "500":
           $ref: "#/components/responses/InternalServerError"
 
-  /appointments/my-rejected-appointments:
+  /appointments/my-future-rejected-appointments:
     get:
       tags: [Appointments]
-      operationId: getMyRejectedAppointments
+      operationId: getMyRejectedFutureAppointments
       security:
         - JwtBearerAuth: []
       responses:
@@ -1882,7 +1882,7 @@ paths:
         "500":
           $ref: "#/components/responses/InternalServerError"
 
-  /appointments/my-past-appointments:
+  /appointments/my-past-scheduled-appointments:
     get:
       tags: [Appointments]
       operationId: getMyPastScheduledAppointments
@@ -2223,7 +2223,7 @@ paths:
         "500":
           $ref: "#/components/responses/InternalServerError"
 
-  /services/{serviceId}/pending-appointments:
+  /services/{serviceId}/uncancelled-future-pending-appointments:
     get:
       tags: [EnterpriseServices]
       operationId: getEnterpriseServicePendingAppointments

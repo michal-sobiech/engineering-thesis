@@ -1,7 +1,11 @@
 package pl.michal_sobiech.engineering_thesis.appointment.custom;
 
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
+import java.time.Instant;
+
+import org.SwaggerCodeGenExample.model.Location;
+
+import pl.michal_sobiech.engineering_thesis.currency_iso.CurrencyIso;
 
 public interface CustomAppointment {
 
@@ -13,14 +17,12 @@ public interface CustomAppointment {
 
     public BigDecimal price();
 
-    public OffsetDateTime startTime();
+    public CurrencyIso currency();
 
-    public OffsetDateTime endTime();
+    public Instant startInstant();
 
-    public String address();
+    public Instant endInstant();
 
-    public Double longitude();
-
-    public Double latitude();
+    public Location location();
 
 }

@@ -55,7 +55,7 @@ public class AppointmentEntity {
     private OffsetDateTime endTime;
 
     @Column(name = "is_custom")
-    private Boolean isCustom;
+    private boolean isCustom;
 
     @Nullable
     @Column(name = "is_accepted", nullable = true)

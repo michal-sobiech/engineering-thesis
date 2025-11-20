@@ -22,7 +22,7 @@ public class ScheduledAppointmentService {
     private final NonCustomAppointmentsService nonCustomAppointmentsService;
     private final ScheduledAppointmentFactory scheduledAppointmentFactory;
 
-    public List<ScheduledAppointment> getScheduledAppointmentsOfCustomer(long customerUserId) {
+    public List<ScheduledAppointment> getUncancelledScheduledAppointmentsOfCustomer(long customerUserId) {
         List<ConfirmedCustomAppointment> confirmedCustomAppointments = customAppointmentsService
                 .getConfirmedCustomAppointmentsOfCustomer(customerUserId);
         List<ScheduledAppointment> scheduledConfirmedCustomAppointments = confirmedCustomAppointments.stream()
@@ -50,8 +50,8 @@ public class ScheduledAppointmentService {
                 .collect(Collectors.toList());
     }
 
-    public List<ScheduledAppointment> getFutureScheduledAppointmentsOfCustomer(long customerUserId) {
-        List<ScheduledAppointment> all = getScheduledAppointmentsOfCustomer(customerUserId);
+    public List<ScheduledAppointment> getUncancelledFutureScheduledAppointmentsOfCustomer(long customerUserId) {
+        List<ScheduledAppointment> all = getUncancelledFutureScheduledAppointmentsOfCustomer(customerUserId);
         Instant now = Instant.now();
         return all.stream()
                 .filter(appointment -> appointment.startInstant().isAfter(now))

@@ -70,18 +70,18 @@ public class CustomAppointmentsService {
     public List<ConfirmedCustomAppointment> getConfirmedCustomAppointmentsOfCustomer(long customerUserId) {
         List<AppointmentEntity> records = appointmentRepository
                 .findConfirmedCustomAppointmentsOfCustomer(customerUserId);
-        return records.stream().map(record -> ConfirmedCustomAppointment.fromEntity(record))
+        return records
+                .stream()
+                .map(ConfirmedCustomAppointment::fromEntity)
                 .collect(Collectors.toList());
     }
 
-    public List<PendingCustomAppointment> getPendingCustomAppointmentsOfCustomer(long customerUserId) {
-        List<AppointmentEntity> records = appointmentRepository.findPendingCustomAppointmentsOfCustomer(customerUserId);
-        return records.stream().map(record -> PendingCustomAppointment.fromEntity(record)).collect(Collectors.toList());
-    }
-
-    public List<RejectedCustomAppointment> getRejectedCustomAppointmentsOfCustomer(long customerUserId) {
-        List<AppointmentEntity> records = appointmentRepository.findPendingCustomAppointmentsOfCustomer(customerUserId);
-        return records.stream().map(record -> RejectedCustomAppointment.fromEntity(record))
+    public List<PendingCustomAppointment> getUncancelledFuturePendingCustomAppointmentsOfCustomer(long customerUserId) {
+        List<AppointmentEntity> records = appointmentRepository
+                .findCustomerUncancelledFuturePendingCustomAppointments(customerUserId);
+        return records
+                .stream()
+                .map(PendingCustomAppointment::fromEntity)
                 .collect(Collectors.toList());
     }
 
@@ -97,5 +97,7 @@ public class CustomAppointmentsService {
         appointment.setRejectionMessage(rejectionMessage);
         appointmentRepository.save(appointment);
     }
+
+    public List<PendingCustomAppointment> 
 
 }

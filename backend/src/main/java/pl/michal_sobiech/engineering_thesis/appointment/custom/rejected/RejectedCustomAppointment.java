@@ -1,4 +1,4 @@
-package pl.michal_sobiech.engineering_thesis.appointment.custom;
+package pl.michal_sobiech.engineering_thesis.appointment.custom.rejected;
 
 import java.math.BigDecimal;
 import java.time.Instant;

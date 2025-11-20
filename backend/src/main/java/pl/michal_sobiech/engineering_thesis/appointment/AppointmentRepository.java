@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import pl.michal_sobiech.engineering_thesis.appointment.custom.pending.GetEnterpriseServiceUncancelledFuturePendingAppointmentsResponseRow;
-import pl.michal_sobiech.engineering_thesis.appointment.scheduled.future.GetEnterpriseServiceFutureScheduledAppointmentsResponseRow;
+import pl.michal_sobiech.engineering_thesis.appointment.scheduled.GetEnterpriseServiceFutureScheduledAppointmentsResponseRow;
 
 public interface AppointmentRepository extends JpaRepository<AppointmentEntity, Long> {
 
@@ -52,10 +52,12 @@ public interface AppointmentRepository extends JpaRepository<AppointmentEntity, 
             SELECT appointment
             FROM AppointmentEntity appointment
             WHERE appointment.customerUserId = :customerUserId
+            AND appointment.cancelled = FALSE
+            AND CURRENT_TIMESTAMP < appointment.endTime
             AND appointment.isCustom = TRUE
             AND appointment.isAccepted IS NULL
             """)
-    public List<AppointmentEntity> findPendingCustomAppointmentsOfCustomer(
+    public List<AppointmentEntity> findCustomerUncancelledFuturePendingCustomAppointments(
             @Param("customerUserId") long customerUserId);
 
     @Query("""
@@ -147,7 +149,37 @@ public interface AppointmentRepository extends JpaRepository<AppointmentEntity, 
             AND appointment.isAccepted IS NULL
             AND CURRENT_TIMESTAMP < appointment.endTime
             """)
-    public List<GetEnterpriseServiceUncancelledFuturePendingAppointmentsResponseRow> getEnterpriseServiceUncancelledFuturePendingAppointments(
+    public List<GetEnterpriseServiceUncancelledFuturePendingAppointmentsResponseRow> findEnterpriseServiceUncancelledFuturePendingAppointments(
             @Param("enterpriseServiceId") long enterpriseServiceId);
+
+    @Query("""
+            SELECT appointment
+            FROM AppointmentEntity appointment
+            JOIN UserEntity user ON user.userId = appointment.customerUserId
+            JOIN EnterpriseServiceEntity service ON appointment.enterpriseServiceId = service.enterpriseServiceId
+            JOIN EnterpriseEntity enterprise ON enterprise.enterpriseId = service.enterpriseId
+            WHERE appointment.isCustom = TRUE
+            AND appointment.cancelled = :isCancelled
+            AND (:customerUserId IS NULL OR appointment.customerUserId = :customerUserId )
+            AND (:enterpriseServiceId IS NULL OR service.enterpriseServiceId = :enterpriseServiceId)
+            AND (:enterpriseId IS NULL OR enterprise.enterpriseId = :enterpriseId)
+            AND (
+                (:isAccepted IS NULL AND appointment.isAccepted IS NULL)
+                OR
+                (:isAccepted IS NOT NULL AND appointment.isAccepted = :isAccepted)
+            )
+            AND (
+                (:isFutureAccepted = TRUE AND CURRENT_TIMESTAMP < appointment.endTime)
+                OR
+                (:isPastAccepted = TRUE AND CURRENT_TIMESTAMP > appointment.endTime)
+            )
+            """)
+    public List<AppointmentEntity> findCustomAppointments(
+            @Param("customerUserId") Long customerUserId,
+            @Param("enterpriseServiceId") Long enterpriseServiceId,
+            @Param("enterpriseId") Long enterpriseId,
+            @Param("isCancelled") boolean isCancelled,
+            @Param("futureVsPast") Boolean futureVsPast,
+            @Param("isAccepted") Boolean acceptedVsRejected);
 
 }

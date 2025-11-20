@@ -155,6 +155,24 @@ INSERT INTO public.appointment (
     currency,
     start_time,
     end_time,
+    is_custom
+) VALUES (
+    1,
+    4,
+    100,
+    'PLN',
+    '2024-12-01 12:00:00+00',
+    '2024-12-01 12:30:00+00',
+    FALSE
+);
+
+INSERT INTO public.appointment (
+    enterprise_service_id,
+    customer_user_id,
+    price,
+    currency,
+    start_time,
+    end_time,
     is_custom,
     is_accepted,
     address,
@@ -169,6 +187,110 @@ INSERT INTO public.appointment (
     '2026-12-03 14:00:00+00',
     TRUE,
     TRUE,
+    '15/19, Nowowiejska, Koszyki, Śródmieście Południowe, Midtown, Warsaw, Masovian Voivodeship, 00-665, Poland',
+    52.2189917,
+    21.011346
+);
+
+INSERT INTO public.appointment (
+    enterprise_service_id,
+    customer_user_id,
+    price,
+    currency,
+    start_time,
+    end_time,
+    is_custom,
+    is_accepted,
+    address,
+    latitude,
+    longitude
+) VALUES (
+    2,
+    4,
+    300,
+    'PLN',
+    '2024-12-03 13:00:00+00',
+    '2024-12-03 14:00:00+00',
+    TRUE,
+    TRUE,
+    '15/19, Nowowiejska, Koszyki, Śródmieście Południowe, Midtown, Warsaw, Masovian Voivodeship, 00-665, Poland',
+    52.2189917,
+    21.011346
+);
+
+INSERT INTO public.appointment (
+    enterprise_service_id,
+    customer_user_id,
+    price,
+    currency,
+    start_time,
+    end_time,
+    is_custom,
+    is_accepted,
+    address,
+    latitude,
+    longitude
+) VALUES (
+    2,
+    4,
+    300,
+    'PLN',
+    '2024-12-03 13:00:00+00',
+    '2024-12-03 14:00:00+00',
+    TRUE,
+    NULL,
+    '15/19, Nowowiejska, Koszyki, Śródmieście Południowe, Midtown, Warsaw, Masovian Voivodeship, 00-665, Poland',
+    52.2189917,
+    21.011346
+);
+
+INSERT INTO public.appointment (
+    enterprise_service_id,
+    customer_user_id,
+    price,
+    currency,
+    start_time,
+    end_time,
+    is_custom,
+    is_accepted,
+    address,
+    latitude,
+    longitude
+) VALUES (
+    2,
+    4,
+    123,
+    'PLN',
+    '2026-12-03 14:00:00+00',
+    '2026-12-03 14:30:00+00',
+    TRUE,
+    NULL,
+    '15/19, Nowowiejska, Koszyki, Śródmieście Południowe, Midtown, Warsaw, Masovian Voivodeship, 00-665, Poland',
+    52.2189917,
+    21.011346
+);
+
+INSERT INTO public.appointment (
+    enterprise_service_id,
+    customer_user_id,
+    price,
+    currency,
+    start_time,
+    end_time,
+    is_custom,
+    is_accepted,
+    address,
+    latitude,
+    longitude
+) VALUES (
+    2,
+    4,
+    9.99,
+    'PLN',
+    '2026-12-03 14:00:00+00',
+    '2026-12-03 14:30:00+00',
+    TRUE,
+    FALSE,
     '15/19, Nowowiejska, Koszyki, Śródmieście Południowe, Midtown, Warsaw, Masovian Voivodeship, 00-665, Poland',
     52.2189917,
     21.011346

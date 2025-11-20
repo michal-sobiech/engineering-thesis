@@ -1,0 +1,55 @@
+package pl.michal_sobiech.engineering_thesis.appointment.custom.pending;
+
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.Optional;
+
+import org.SwaggerCodeGenExample.model.Location;
+
+import pl.michal_sobiech.engineering_thesis.appointment.AppointmentEntity;
+import pl.michal_sobiech.engineering_thesis.appointment.custom.CustomAppointment;
+import pl.michal_sobiech.engineering_thesis.currency_iso.CurrencyIso;
+
+public record UncancelledPendingCustomAppointment(
+
+        long appointmentId,
+        long enterpriseServiceId,
+        long customerUserId,
+        BigDecimal price,
+        CurrencyIso currency,
+        Instant startInstant,
+        Instant endInstant,
+        Location location
+
+) implements CustomAppointment {
+
+    private static boolean matchesEntity(AppointmentEntity entity) {
+        return (entity.isCustom()
+                && entity.getIsAccepted() != null
+                && entity.getRejectionMessage() != null
+                && entity.isCancelled());
+    }
+
+    public static Optional<UncancelledPendingCustomAppointment> fromEntity(AppointmentEntity entity) {
+        if (!matchesEntity(entity)) {
+            return Optional.empty();
+        }
+
+        Location location = new Location(
+                entity.getAddress(),
+                entity.getLongitude(),
+                entity.getLatitude());
+
+        var domain = new UncancelledPendingCustomAppointment(
+                entity.getAppointmentId(),
+                entity.getEnterpriseServiceId(),
+                entity.getCustomerUserId(),
+                entity.getPrice(),
+                entity.getCurrency(),
+                entity.getStartTime().toInstant(),
+                entity.getEndTime().toInstant(),
+                location);
+        return Optional.of(domain);
+    }
+
+}
