@@ -33,7 +33,7 @@ export const CustomerLandingPage = () => {
 
     useEffect(() => {
         async function loadFutureScheduledAppointments() {
-            const promise = appointmentsApi.getMyFutureScheduledAppointments();
+            const promise = appointmentsApi.getMyUncancelledFutureScheduledAppointments();
             const asyncResult = errorErrResultAsyncFromPromise(promise);
             const result = await asyncResult;
             if (result.isErr()) {
@@ -79,7 +79,7 @@ export const CustomerLandingPage = () => {
 
     useEffect(() => {
         async function loadPendingAppointments() {
-            const promise = appointmentsApi.getMyPendingAppointments();
+            const promise = appointmentsApi.getMyUncancelledFuturePendingAppointments();
             const asyncResult = errorErrResultAsyncFromPromise(promise);
             const result = await asyncResult;
             if (result.isErr()) {
@@ -102,7 +102,7 @@ export const CustomerLandingPage = () => {
 
     useEffect(() => {
         async function loadRejectedAppointments() {
-            const promise = appointmentsApi.getMyRejectedAppointments();
+            const promise = appointmentsApi.getMyFutureRejectedAppointments();
             const asyncResult = errorErrResultAsyncFromPromise(promise);
             const result = await asyncResult;
             if (result.isErr()) {

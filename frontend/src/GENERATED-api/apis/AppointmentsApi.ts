@@ -267,7 +267,7 @@ export class AppointmentsApi extends runtime.BaseAPI {
 
     /**
      */
-    async getMyFutureScheduledAppointmentsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<GetCustomerLandingPageScheduledAppointmentResponseItem>>> {
+    async getMyFutureRejectedAppointmentsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<GetCustomerLandingPageRejectedAppointmentResponseItem>>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -281,7 +281,7 @@ export class AppointmentsApi extends runtime.BaseAPI {
             }
         }
 
-        let urlPath = `/appointments/my-future-scheduled-appointments`;
+        let urlPath = `/appointments/my-future-rejected-appointments`;
 
         const response = await this.request({
             path: urlPath,
@@ -290,13 +290,13 @@ export class AppointmentsApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(GetCustomerLandingPageScheduledAppointmentResponseItemFromJSON));
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(GetCustomerLandingPageRejectedAppointmentResponseItemFromJSON));
     }
 
     /**
      */
-    async getMyFutureScheduledAppointments(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetCustomerLandingPageScheduledAppointmentResponseItem>> {
-        const response = await this.getMyFutureScheduledAppointmentsRaw(initOverrides);
+    async getMyFutureRejectedAppointments(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetCustomerLandingPageRejectedAppointmentResponseItem>> {
+        const response = await this.getMyFutureRejectedAppointmentsRaw(initOverrides);
         return await response.value();
     }
 
@@ -316,7 +316,7 @@ export class AppointmentsApi extends runtime.BaseAPI {
             }
         }
 
-        let urlPath = `/appointments/my-past-appointments`;
+        let urlPath = `/appointments/my-past-scheduled-appointments`;
 
         const response = await this.request({
             path: urlPath,
@@ -337,7 +337,7 @@ export class AppointmentsApi extends runtime.BaseAPI {
 
     /**
      */
-    async getMyPendingAppointmentsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<GetCustomerLandingPagePendingAppointmentResponseItem>>> {
+    async getMyUncancelledFuturePendingAppointmentsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<GetCustomerLandingPagePendingAppointmentResponseItem>>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -351,7 +351,7 @@ export class AppointmentsApi extends runtime.BaseAPI {
             }
         }
 
-        let urlPath = `/appointments/my-pending-appointments`;
+        let urlPath = `/appointments/my-uncancelled-future-pending-appointments`;
 
         const response = await this.request({
             path: urlPath,
@@ -365,14 +365,14 @@ export class AppointmentsApi extends runtime.BaseAPI {
 
     /**
      */
-    async getMyPendingAppointments(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetCustomerLandingPagePendingAppointmentResponseItem>> {
-        const response = await this.getMyPendingAppointmentsRaw(initOverrides);
+    async getMyUncancelledFuturePendingAppointments(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetCustomerLandingPagePendingAppointmentResponseItem>> {
+        const response = await this.getMyUncancelledFuturePendingAppointmentsRaw(initOverrides);
         return await response.value();
     }
 
     /**
      */
-    async getMyRejectedAppointmentsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<GetCustomerLandingPageRejectedAppointmentResponseItem>>> {
+    async getMyUncancelledFutureScheduledAppointmentsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<GetCustomerLandingPageScheduledAppointmentResponseItem>>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -386,7 +386,7 @@ export class AppointmentsApi extends runtime.BaseAPI {
             }
         }
 
-        let urlPath = `/appointments/my-rejected-appointments`;
+        let urlPath = `/appointments/my-uncancelled-future-scheduled-appointments`;
 
         const response = await this.request({
             path: urlPath,
@@ -395,13 +395,13 @@ export class AppointmentsApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(GetCustomerLandingPageRejectedAppointmentResponseItemFromJSON));
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(GetCustomerLandingPageScheduledAppointmentResponseItemFromJSON));
     }
 
     /**
      */
-    async getMyRejectedAppointments(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetCustomerLandingPageRejectedAppointmentResponseItem>> {
-        const response = await this.getMyRejectedAppointmentsRaw(initOverrides);
+    async getMyUncancelledFutureScheduledAppointments(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetCustomerLandingPageScheduledAppointmentResponseItem>> {
+        const response = await this.getMyUncancelledFutureScheduledAppointmentsRaw(initOverrides);
         return await response.value();
     }
 

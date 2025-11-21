@@ -332,7 +332,7 @@ export class EnterpriseServicesApi extends runtime.BaseAPI {
             }
         }
 
-        let urlPath = `/services/{serviceId}/pending-appointments`;
+        let urlPath = `/services/{serviceId}/uncancelled-future-pending-appointments`;
         urlPath = urlPath.replace(`{${"serviceId"}}`, encodeURIComponent(String(requestParameters['serviceId'])));
 
         const response = await this.request({
