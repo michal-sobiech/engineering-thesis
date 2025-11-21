@@ -18,7 +18,7 @@ public class NonCustomAppointmentQueryService {
 
     private final AppointmentRepository appointmentRepository;
 
-    public List<AppointmentEntity> getNonCustomAppointments(
+    public List<AppointmentEntity> getAppointments(
             Optional<Long> customerUserId,
             Optional<Long> enterpriseServiceId,
             Optional<Long> enterpriseId,
@@ -42,8 +42,8 @@ public class NonCustomAppointmentQueryService {
                 futureVsPast);
     }
 
-    public List<ScheduledAppointment> getCustomerUncancelledFutureScheduledCustomAppointments(long customerUserId) {
-        return getNonCustomAppointments(
+    public List<ScheduledAppointment> getCustomerUncancelledFutureScheduledAppointments(long customerUserId) {
+        return getAppointments(
                 Optional.of(customerUserId),
                 Optional.empty(),
                 Optional.empty(),
@@ -55,8 +55,8 @@ public class NonCustomAppointmentQueryService {
                 .collect(Collectors.toList());
     }
 
-    public List<ScheduledAppointment> getCustomerUncancelledPastScheduledCustomAppointments(long customerUserId) {
-        return getNonCustomAppointments(
+    public List<ScheduledAppointment> getCustomerUncancelledPastScheduledAppointments(long customerUserId) {
+        return getAppointments(
                 Optional.of(customerUserId),
                 Optional.empty(),
                 Optional.empty(),

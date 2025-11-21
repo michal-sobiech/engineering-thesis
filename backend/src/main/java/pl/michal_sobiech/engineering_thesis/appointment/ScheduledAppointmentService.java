@@ -1,61 +1,49 @@
 package pl.michal_sobiech.engineering_thesis.appointment;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.appointment.custom.CustomAppointmentsService;
+import pl.michal_sobiech.engineering_thesis.appointment.custom.CustomAppointmentQueryService;
 import pl.michal_sobiech.engineering_thesis.appointment.custom.ScheduledAppointment;
-import pl.michal_sobiech.engineering_thesis.appointment.non_custom.NonCustomAppointment;
-import pl.michal_sobiech.engineering_thesis.appointment.non_custom.NonCustomAppointmentsService;
+import pl.michal_sobiech.engineering_thesis.appointment.non_custom.NonCustomAppointmentQueryService;
 
 @Service
 @RequiredArgsConstructor
 public class ScheduledAppointmentService {
 
     private final AppointmentRepository appointmentRepository;
-    private final CustomAppointmentsService customAppointmentsService;
-    private final NonCustomAppointmentsService nonCustomAppointmentsService;
-    private final ScheduledAppointmentFactory scheduledAppointmentFactory;
+    private final CustomAppointmentQueryService customAppointmentQueryService;
+    private final NonCustomAppointmentQueryService nonCustomAppointmentQueryService;
 
-    public List<ScheduledAppointment> getUncancelledScheduledAppointmentsOfCustomer(long customerUserId) {
-        List<ScheduledAppointment> confirmedCustomAppointments = customAppointmentsService
-                .getConfirmedCustomAppointmentsOfCustomer(customerUserId);
-        List<ScheduledAppointment> scheduledConfirmedCustomAppointments = confirmedCustomAppointments.stream()
-                .map(scheduledAppointmentFactory::fromConfirmedCustom)
-                .collect(Collectors.toList());
+    public List<ScheduledAppointment> getCustomerUncancelledFutureScheduledAppointments(long customerUserId) {
+        List<ScheduledAppointment> nonCustom = nonCustomAppointmentQueryService
+                .getCustomerUncancelledFutureScheduledAppointments(customerUserId);
 
-        List<NonCustomAppointment> nonCustomAppointments = nonCustomAppointmentsService
-                .getNonCustomAppointmentsOfCustomer(customerUserId);
-        List<ScheduledAppointment> scheduledNonCustomAppointments = nonCustomAppointments.stream()
-                .map(scheduledAppointmentFactory::fromNonCustom)
-                .collect(Collectors.toList());
+        List<ScheduledAppointment> custom = customAppointmentQueryService
+                .getCustomerUncancelledFutureScheduledAppointments(customerUserId);
 
         List<ScheduledAppointment> all = new ArrayList<>();
-        all.addAll(scheduledConfirmedCustomAppointments);
-        all.addAll(scheduledNonCustomAppointments);
+        all.addAll(nonCustom);
+        all.addAll(custom);
 
         return all;
     }
 
     public List<ScheduledAppointment> getPastScheduledAppointmentsOfCustomer(long customerUserId) {
-        List<ScheduledAppointment> all = getScheduledAppointmentsOfCustomer(customerUserId);
-        Instant now = Instant.now();
-        return all.stream()
-                .filter(appointment -> appointment.endInstant().isBefore(now))
-                .collect(Collectors.toList());
-    }
+        List<ScheduledAppointment> nonCustom = nonCustomAppointmentQueryService
+                .getCustomerUncancelledPastScheduledAppointments(customerUserId);
 
-    public List<ScheduledAppointment> getUncancelledFutureScheduledAppointmentsOfCustomer(long customerUserId) {
-        List<ScheduledAppointment> all = getUncancelledFutureScheduledAppointmentsOfCustomer(customerUserId);
-        Instant now = Instant.now();
-        return all.stream()
-                .filter(appointment -> appointment.startInstant().isAfter(now))
-                .collect(Collectors.toList());
+        List<ScheduledAppointment> custom = customAppointmentQueryService
+                .getCustomerUncancelledPastScheduledAppointments(customerUserId);
+
+        List<ScheduledAppointment> all = new ArrayList<>();
+        all.addAll(nonCustom);
+        all.addAll(custom);
+
+        return all;
     }
 
     public void cancelAppointment(long appointmentId) {

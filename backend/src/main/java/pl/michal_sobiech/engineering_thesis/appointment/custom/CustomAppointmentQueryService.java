@@ -18,7 +18,7 @@ public class CustomAppointmentQueryService {
 
     private final AppointmentRepository appointmentRepository;
 
-    public List<AppointmentEntity> getCustomAppointments(
+    public List<AppointmentEntity> getAppointments(
             Optional<Long> customerUserId,
             Optional<Long> enterpriseServiceId,
             Optional<Long> enterpriseId,
@@ -50,9 +50,9 @@ public class CustomAppointmentQueryService {
                 acceptedVsRejected);
     }
 
-    public List<UncancelledPendingAppointment> getCustomerUncancelledFuturePendingCustomAppointments(
+    public List<UncancelledPendingAppointment> getCustomerUncancelledFuturePendingAppointments(
             long customerUserId) {
-        return getCustomAppointments(
+        return getAppointments(
                 Optional.of(customerUserId),
                 Optional.empty(),
                 Optional.empty(),
@@ -65,8 +65,8 @@ public class CustomAppointmentQueryService {
                 .collect(Collectors.toList());
     }
 
-    public List<RejectedAppointment> getCustomerFutureRejectedCustomAppointments(long customerUserId) {
-        return getCustomAppointments(
+    public List<RejectedAppointment> getCustomerFutureRejectedAppointments(long customerUserId) {
+        return getAppointments(
                 Optional.of(customerUserId),
                 Optional.empty(),
                 Optional.empty(),
@@ -79,8 +79,8 @@ public class CustomAppointmentQueryService {
                 .collect(Collectors.toList());
     }
 
-    public List<ScheduledAppointment> getCustomerUncancelledFutureScheduledCustomAppointments(long customerUserId) {
-        return getCustomAppointments(
+    public List<ScheduledAppointment> getCustomerUncancelledFutureScheduledAppointments(long customerUserId) {
+        return getAppointments(
                 Optional.of(customerUserId),
                 Optional.empty(),
                 Optional.empty(),
@@ -93,8 +93,8 @@ public class CustomAppointmentQueryService {
                 .collect(Collectors.toList());
     }
 
-    public List<ScheduledAppointment> getCustomerUncancelledPastScheduledCustomAppointments(long customerUserId) {
-        return getCustomAppointments(
+    public List<ScheduledAppointment> getCustomerUncancelledPastScheduledAppointments(long customerUserId) {
+        return getAppointments(
                 Optional.of(customerUserId),
                 Optional.empty(),
                 Optional.empty(),

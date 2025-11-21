@@ -28,15 +28,4 @@ public class ScheduledAppointmentFactory {
                 enterpriseService.location());
     }
 
-    public ScheduledAppointment fromConfirmedCustom(ScheduledAppointment appointment) {
-        return new ScheduledAppointment(
-                appointment.appointmentId(),
-                appointment.enterpriseServiceId(),
-                appointment.customerUserId(),
-                appointment.price(),
-                appointment.startInstant(),
-                appointment.endInstant(),
-                appointment.location());
-    }
-
 }
