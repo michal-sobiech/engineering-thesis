@@ -90,14 +90,78 @@ public interface AppointmentRepository extends JpaRepository<AppointmentEntity, 
             AND (:enterpriseServiceId IS NULL OR service.enterpriseServiceId = :enterpriseServiceId)
             AND (:enterpriseId IS NULL OR enterprise.enterpriseId = :enterpriseId)
             AND (
+                :futureVsPast IS NULL
+                OR
+                (:futureVsPast = TRUE AND CURRENT_TIMESTAMP < appointment.endTime)
+                OR
+                (:futureVsPast = FALSE AND CURRENT_TIMESTAMP > appointment.endTime)
+            )
+            """)
+    public List<AppointmentEntity> findNonCustomAppointments(
+            @Param("customerUserId") Long customerUserId,
+            @Param("enterpriseServiceId") Long enterpriseServiceId,
+            @Param("enterpriseId") Long enterpriseId,
+            @Param("isCancelled") boolean isCancelled,
+            @Param("futureVsPast") Boolean futureVsPast);
+
+    @Query("""
+            SELECT
+            appointment.appointmentId as appointmentId,
+            user.username as username,
+            user.firstName as userFirstName,
+            user.lastName as userLastName,
+            appointment.address as address,
+            appointment.startTime as startGlobalDatetime,
+            appointment.endTime as endGlobalDatetime,
+            service.timeZone as timezone,
+            appointment.price as price,
+            appointment.currency as currency
+            FROM AppointmentEntity appointment
+            JOIN UserEntity user ON user.userId = appointment.customerUserId
+            JOIN EnterpriseServiceEntity service ON appointment.enterpriseServiceId = service.enterpriseServiceId
+            JOIN EnterpriseEntity enterprise ON enterprise.enterpriseId = service.enterpriseId
+            WHERE appointment.isCustom = TRUE
+            AND appointment.cancelled = :isCancelled
+            AND (:customerUserId IS NULL OR appointment.customerUserId = :customerUserId )
+            AND (:enterpriseServiceId IS NULL OR service.enterpriseServiceId = :enterpriseServiceId)
+            AND (:enterpriseId IS NULL OR enterprise.enterpriseId = :enterpriseId)
+            AND (
+                :futureVsPast IS NULL
+                OR
+                (:futureVsPast = TRUE AND CURRENT_TIMESTAMP < appointment.endTime)
+                OR
+                (:futureVsPast = FALSE AND CURRENT_TIMESTAMP > appointment.endTime)
+            )
+            """)
+    public List<GetEnterpriseServiceFutureScheduledAppointmentsResponseRow> findNonCustomAppointmentsWithDetails(
+            @Param("customerUserId") Long customerUserId,
+            @Param("enterpriseServiceId") Long enterpriseServiceId,
+            @Param("enterpriseId") Long enterpriseId,
+            @Param("isCancelled") boolean isCancelled,
+            @Param("futureVsPast") Boolean futureVsPast);
+
+    @Query("""
+            SELECT appointment
+            FROM AppointmentEntity appointment
+            JOIN UserEntity user ON user.userId = appointment.customerUserId
+            JOIN EnterpriseServiceEntity service ON appointment.enterpriseServiceId = service.enterpriseServiceId
+            JOIN EnterpriseEntity enterprise ON enterprise.enterpriseId = service.enterpriseId
+            WHERE appointment.isCustom = TRUE
+            AND appointment.cancelled = :isCancelled
+            AND (:customerUserId IS NULL OR appointment.customerUserId = :customerUserId )
+            AND (:enterpriseServiceId IS NULL OR service.enterpriseServiceId = :enterpriseServiceId)
+            AND (:enterpriseId IS NULL OR enterprise.enterpriseId = :enterpriseId)
+            AND (
                 (:isAccepted IS NULL AND appointment.isAccepted IS NULL)
                 OR
                 (:isAccepted IS NOT NULL AND appointment.isAccepted = :isAccepted)
             )
             AND (
-                (:isFutureAccepted = TRUE AND CURRENT_TIMESTAMP < appointment.endTime)
+                :futureVsPast IS NULL
                 OR
-                (:isPastAccepted = TRUE AND CURRENT_TIMESTAMP > appointment.endTime)
+                (:futureVsPast = TRUE AND CURRENT_TIMESTAMP < appointment.endTime)
+                OR
+                (:futureVsPast = FALSE AND CURRENT_TIMESTAMP > appointment.endTime)
             )
             """)
     public List<AppointmentEntity> findCustomAppointments(
@@ -135,9 +199,11 @@ public interface AppointmentRepository extends JpaRepository<AppointmentEntity, 
                 (:isAccepted IS NOT NULL AND appointment.isAccepted = :isAccepted)
             )
             AND (
-                (:isFutureAccepted = TRUE AND CURRENT_TIMESTAMP < appointment.endTime)
+                :futureVsPast IS NULL
                 OR
-                (:isPastAccepted = TRUE AND CURRENT_TIMESTAMP > appointment.endTime)
+                (:futureVsPast = TRUE AND CURRENT_TIMESTAMP < appointment.endTime)
+                OR
+                (:futureVsPast = FALSE AND CURRENT_TIMESTAMP > appointment.endTime)
             )
             """)
     public List<GetEnterpriseServiceFutureScheduledAppointmentsResponseRow> findCustomAppointmentsWithDetails(
@@ -147,5 +213,4 @@ public interface AppointmentRepository extends JpaRepository<AppointmentEntity, 
             @Param("isCancelled") boolean isCancelled,
             @Param("futureVsPast") Boolean futureVsPast,
             @Param("isAccepted") Boolean acceptedVsRejected);
-
 }
