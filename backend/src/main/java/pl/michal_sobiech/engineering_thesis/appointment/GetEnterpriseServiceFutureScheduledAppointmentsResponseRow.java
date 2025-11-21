@@ -1,4 +1,4 @@
-package pl.michal_sobiech.engineering_thesis.appointment.scheduled;
+package pl.michal_sobiech.engineering_thesis.appointment;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;

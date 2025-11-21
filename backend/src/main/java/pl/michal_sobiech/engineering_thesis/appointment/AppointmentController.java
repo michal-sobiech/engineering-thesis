@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.appointment.custom.CustomAppointmentQueryService;
+import pl.michal_sobiech.engineering_thesis.appointment.custom.CustomAppointmentService;
 import pl.michal_sobiech.engineering_thesis.auth.AuthService;
 import pl.michal_sobiech.engineering_thesis.customer.Customer;
 import pl.michal_sobiech.engineering_thesis.enterprise.Enterprise;
@@ -34,13 +35,14 @@ public class AppointmentController implements AppointmentsApi {
     private final ScheduledAppointmentService scheduledAppointmentService;
     private final AppointmentService appointmentService;
     private final CustomAppointmentQueryService customAppointmentQueryService;
+    private final CustomAppointmentService customAppointmentService;
 
     @Override
     public ResponseEntity<List<GetCustomerLandingPagePendingAppointmentResponseItem>> getMyUncancelledFuturePendingAppointments() {
         Customer customer = authService.requireCustomer();
 
         List<GetCustomerLandingPagePendingAppointmentResponseItem> body = customAppointmentQueryService
-                .getCustomerUncancelledFuturePendingCustomAppointments(customer.getUserId())
+                .getCustomerUncancelledFuturePendingAppointments(customer.getUserId())
                 .stream()
                 .map(appointment -> {
                     EnterpriseServiceDomain service = enterpriseServiceService
@@ -75,7 +77,7 @@ public class AppointmentController implements AppointmentsApi {
         Customer customer = authService.requireCustomer();
 
         List<GetCustomerLandingPageRejectedAppointmentResponseItem> body = customAppointmentQueryService
-                .getCustomerFutureRejectedCustomAppointments(customer.getUserId())
+                .getCustomerFutureRejectedAppointments(customer.getUserId())
                 .stream()
                 .map(appointment -> {
                     EnterpriseServiceDomain service = enterpriseServiceService
@@ -110,10 +112,9 @@ public class AppointmentController implements AppointmentsApi {
     public ResponseEntity<List<GetCustomerLandingPageScheduledAppointmentResponseItem>> getMyUncancelledFutureScheduledAppointments() {
         Customer customer = authService.requireCustomer();
 
-        List<ScheduledAppointment> appointments = scheduledAppointmentService
-                .getFutureScheduledAppointmentsOfCustomer(customer.getUserId());
-
-        List<GetCustomerLandingPageScheduledAppointmentResponseItem> body = appointments.stream()
+        List<GetCustomerLandingPageScheduledAppointmentResponseItem> body = scheduledAppointmentService
+                .getCustomerUncancelledFutureScheduledAppointments(customer.getUserId())
+                .stream()
                 .map(appointment -> {
                     EnterpriseServiceDomain service = enterpriseServiceService
                             .getById(appointment.enterpriseServiceId())
@@ -145,10 +146,9 @@ public class AppointmentController implements AppointmentsApi {
     public ResponseEntity<List<GetCustomerLandingPageScheduledAppointmentResponseItem>> getMyPastScheduledAppointments() {
         Customer customer = authService.requireCustomer();
 
-        List<ScheduledAppointment> appointments = scheduledAppointmentService
-                .getPastScheduledAppointmentsOfCustomer(customer.getUserId());
-
-        List<GetCustomerLandingPageScheduledAppointmentResponseItem> body = appointments.stream()
+        List<GetCustomerLandingPageScheduledAppointmentResponseItem> body = scheduledAppointmentService
+                .getPastScheduledAppointmentsOfCustomer(customer.getUserId())
+                .stream()
                 .map(appointment -> {
                     EnterpriseServiceDomain service = enterpriseServiceService
                             .getById(appointment.enterpriseServiceId())
@@ -184,7 +184,7 @@ public class AppointmentController implements AppointmentsApi {
             throw new UnauthorizedException();
         }
 
-        customAppointmentsService.acceptAppointment(appointmentId);
+        customAppointmentService.acceptAppointment(appointmentId);
         return ResponseEntity.ok().build();
     }
 
@@ -197,7 +197,7 @@ public class AppointmentController implements AppointmentsApi {
             throw new UnauthorizedException();
         }
 
-        customAppointmentsService.rejectAppointment(appointmentId, request.getRejectionMessage());
+        customAppointmentService.rejectAppointment(appointmentId, request.getRejectionMessage());
         return ResponseEntity.ok().build();
     }
 

@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.appointment.custom.CustomAppointmentsService;
+import pl.michal_sobiech.engineering_thesis.appointment.custom.CustomAppointmentService;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceService;
 import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.custom_appointments.CustomAppointmentsEnterpriseServiceTimeWindowTemplateService;
 import pl.michal_sobiech.engineering_thesis.utils.DateUtils;
@@ -20,7 +20,7 @@ public class CustomEnterpriseServiceAvailabilityService {
 
     private final EnterpriseServiceService enterpriseServiceService;
     private final CustomAppointmentsEnterpriseServiceTimeWindowTemplateService customAppointmentsEnterpriseServiceTimeWindowTemplateService;
-    private final CustomAppointmentsService customAppointmentsService;
+    private final CustomAppointmentService customAppointmentService;
 
     // public boolean isEnterpriseServiceAvailableInServiceLocalDatetimeRange(
     // long enterpriseServiceId,
@@ -47,7 +47,7 @@ public class CustomEnterpriseServiceAvailabilityService {
                         to);
 
         // 2.
-        List<LocalDateTimeWindow> confirmedAppointmentWindows = customAppointmentsService
+        List<LocalDateTimeWindow> confirmedAppointmentWindows = customAppointmentService
                 .getConfirmedAppointmentsInDatetimeRange(
                         enterpriseServiceId,
                         from.atZone(timezone).toInstant(),

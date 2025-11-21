@@ -1,11 +1,14 @@
 package pl.michal_sobiech.engineering_thesis.appointment;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import pl.michal_sobiech.engineering_thesis.appointment.custom.CustomAppointmentQueryService;
+import pl.michal_sobiech.engineering_thesis.appointment.non_custom.NonCustomAppointmentQueryService;
 import pl.michal_sobiech.engineering_thesis.enterprise_member.EnterpriseMember;
 import pl.michal_sobiech.engineering_thesis.enterprise_member.EnterpriseMemberService;
 
@@ -14,6 +17,8 @@ import pl.michal_sobiech.engineering_thesis.enterprise_member.EnterpriseMemberSe
 public class AppointmentService {
 
     private EnterpriseMemberService enterpriseMemberService;
+    private final NonCustomAppointmentQueryService nonCustomAppointmentQueryService;
+    private final CustomAppointmentQueryService customAppointmentQueryService;
 
     public boolean canUserManageAppointment(long userId, long appointmentId) {
         // Appointment with given id must be an appointment of a service of an
@@ -24,6 +29,21 @@ public class AppointmentService {
                 .collect(Collectors.toList());
 
         return enterpriseMemberUserIds.contains(userId);
+    }
+
+    public List<ScheduledAppointment> getEnterpriseServiceUncancelledFutureScheduledAppointments(
+            long customerUserId) {
+        List<ScheduledAppointment> nonCustom = nonCustomAppointmentQueryService
+                .getCustomerUncancelledFutureScheduledAppointments(customerUserId);
+
+        List<ScheduledAppointment> custom = customAppointmentQueryService
+                .getCustomerUncancelledFutureScheduledAppointments(customerUserId);
+
+        List<ScheduledAppointment> all = new ArrayList<>();
+        all.addAll(nonCustom);
+        all.addAll(custom);
+
+        return all;
     }
 
 }

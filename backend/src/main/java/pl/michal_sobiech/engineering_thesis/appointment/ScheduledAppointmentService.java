@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.appointment.custom.CustomAppointmentQueryService;
-import pl.michal_sobiech.engineering_thesis.appointment.custom.ScheduledAppointment;
 import pl.michal_sobiech.engineering_thesis.appointment.non_custom.NonCustomAppointmentQueryService;
 
 @Service

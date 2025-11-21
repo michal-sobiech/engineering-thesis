@@ -18,7 +18,7 @@ public record NonCustomAppointment(
 ) {
 
     public static NonCustomAppointment fromEntity(AppointmentEntity entity) {
-        if (entity.getIsCustom()) {
+        if (entity.isCustom()) {
             throw new IllegalArgumentException();
         }
 

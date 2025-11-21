@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.SwaggerCodeGenExample.model.Location;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.appointment.AppointmentEntity;
 import pl.michal_sobiech.engineering_thesis.appointment.AppointmentRepository;
+import pl.michal_sobiech.engineering_thesis.appointment.ScheduledAppointment;
 import pl.michal_sobiech.engineering_thesis.currency_iso.CurrencyIso;
 import pl.michal_sobiech.engineering_thesis.enterprise_member.EnterpriseMemberService;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceDomain;
@@ -33,7 +35,11 @@ public class CustomAppointmentService {
                 serviceId,
                 from.atOffset(ZoneOffset.UTC),
                 to.atOffset(ZoneOffset.UTC));
-        return appointments.stream().map(a -> ScheduledAppointment.fromEntity(a)).collect(Collectors.toList());
+        return appointments
+                .stream()
+                .map(ScheduledAppointment::fromEntity)
+                .map(Optional::orElseThrow)
+                .collect(Collectors.toList());
     }
 
     public void createCustomAppointment(
@@ -72,6 +78,7 @@ public class CustomAppointmentService {
         return records
                 .stream()
                 .map(ScheduledAppointment::fromEntity)
+                .map(Optional::orElseThrow)
                 .collect(Collectors.toList());
     }
 

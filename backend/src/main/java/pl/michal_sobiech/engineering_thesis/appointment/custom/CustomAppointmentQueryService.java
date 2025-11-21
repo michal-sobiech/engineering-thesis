@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.appointment.AppointmentEntity;
 import pl.michal_sobiech.engineering_thesis.appointment.AppointmentRepository;
+import pl.michal_sobiech.engineering_thesis.appointment.ScheduledAppointment;
 import pl.michal_sobiech.engineering_thesis.appointment.query.AppointmentQueryTimeRange;
 import pl.michal_sobiech.engineering_thesis.appointment.query.CustomAppointmentStatus;
 
@@ -103,6 +104,21 @@ public class CustomAppointmentQueryService {
                 CustomAppointmentStatus.ACCEPTED)
                 .stream()
                 .map(ScheduledAppointment::fromEntity)
+                .map(Optional::orElseThrow)
+                .collect(Collectors.toList());
+    }
+
+    public List<UncancelledPendingAppointment> getEnterpriseServiceUncancelledFuturePendingAppointments(
+            long enterpriseServiceId) {
+        return getAppointments(
+                Optional.empty(),
+                Optional.of(enterpriseServiceId),
+                Optional.empty(),
+                Optional.of(false),
+                Optional.of(AppointmentQueryTimeRange.FUTURE),
+                CustomAppointmentStatus.PENDING)
+                .stream()
+                .map(UncancelledPendingAppointment::fromEntity)
                 .map(Optional::orElseThrow)
                 .collect(Collectors.toList());
     }

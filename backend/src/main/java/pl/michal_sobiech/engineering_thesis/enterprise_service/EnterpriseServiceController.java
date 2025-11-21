@@ -25,10 +25,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.micrometer.common.lang.Nullable;
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.appointment.custom.CustomAppointmentsService;
-import pl.michal_sobiech.engineering_thesis.appointment.custom.pending.PendingAppointmentService;
+import pl.michal_sobiech.engineering_thesis.appointment.AppointmentWithDetailsService;
+import pl.michal_sobiech.engineering_thesis.appointment.custom.CustomAppointmentService;
+import pl.michal_sobiech.engineering_thesis.appointment.custom.CustomAppointmentWithDetailsService;
 import pl.michal_sobiech.engineering_thesis.appointment.non_custom.NonCustomAppointmentsService;
-import pl.michal_sobiech.engineering_thesis.appointment.scheduled.FutureScheduledAppointmentService;
 import pl.michal_sobiech.engineering_thesis.auth.AuthService;
 import pl.michal_sobiech.engineering_thesis.available_enterprise_service_search.AvailableEnterpriseServiceSearchResultRow;
 import pl.michal_sobiech.engineering_thesis.available_enterprise_service_search.AvailableEnterpriseServiceSearchService;
@@ -52,15 +52,15 @@ public class EnterpriseServiceController implements ServicesApi {
     private final EnterpriseServiceService enterpriseServiceService;
     private final CustomAppointmentsEnterpriseServiceService customAppointmentsEnterpriseServiceService;
     private final NonCustomAppointmentsEnterpriseServiceService nonCustomAppointmentsEnterpriseServiceService;
-    private final CustomAppointmentsService customAppointmentsService;
+    private final CustomAppointmentService customAppointmentService;
     private final NonCustomAppointmentsService nonCustomAppointmentsService;
     private final AuthService authService;
     private final ReviewService reviewService;
     private final NonCustomEnterpriseServiceAvailabilityService nonCustomEnterpriseServiceAvailabilityService;
     private final CustomEnterpriseServiceAvailabilityService customEnterpriseServiceAvailabilityService;
     private final AvailableEnterpriseServiceSearchService availableEnterpriseServiceSearchService;
-    private final FutureScheduledAppointmentService futureScheduledAppointmentService;
-    private final PendingAppointmentService pendingAppointmentService;
+    private final AppointmentWithDetailsService appointmentWithDetailsService;
+    private final CustomAppointmentWithDetailsService customAppointmentWithDetailsService;
 
     @Override
     public ResponseEntity<List<GetServiceFreeNonCustomAppointmentsResponseItem>> getFreeNonCustomAppointments(
@@ -173,7 +173,7 @@ public class EnterpriseServiceController implements ServicesApi {
         LocalDateTime endParsed = LocalDateTime.parse(request.getEndDatetimeShopLocal());
         Instant endInstant = endParsed.atZone(timezone).toInstant();
 
-        customAppointmentsService.createCustomAppointment(
+        customAppointmentService.createCustomAppointment(
                 enterpriseServiceId,
                 customer.getUserId(),
                 startInstant,
@@ -248,27 +248,30 @@ public class EnterpriseServiceController implements ServicesApi {
     @Override
     public ResponseEntity<List<GetEnterpriseServiceUncancelledFutureScheduledAppointmentResponse>> getEnterpriseServiceUncancelledFutureScheduledAppointments(
             Long enterpriseServiceId) {
-        var body = futureScheduledAppointmentService
-                .getUncancelledFutureScheduledAppointmentsOfEnterpriseService(enterpriseServiceId)
+        var body = appointmentWithDetailsService
+                .getEnterpriseServiceUncancelledFutureScheduledAppointmentsWithDetails(enterpriseServiceId)
                 .stream()
                 .map(appointment -> {
+                    ZoneId timezone = enterpriseServiceService
+                            .getTimeZoneByServiceId(appointment.enterpriseServiceId());
+
                     String startDatetimeServiceLocal = DateUtils.createIsoLocalDatetime(
-                            appointment.getStartGlobalDatetime().toInstant(),
-                            appointment.getTimezone());
+                            appointment.startInstant(),
+                            timezone);
                     String endDatetimeServiceLocal = DateUtils.createIsoLocalDatetime(
-                            appointment.getEndGlobalDatetime().toInstant(),
-                            appointment.getTimezone());
+                            appointment.endInstant(),
+                            timezone);
                     return new GetEnterpriseServiceUncancelledFutureScheduledAppointmentResponse(
-                            appointment.getAppointmentId(),
-                            appointment.getUsername(),
-                            appointment.getUserFirstName(),
-                            appointment.getUserLastName(),
-                            appointment.getAddress(),
+                            appointment.appointmentId(),
+                            appointment.customerUsername(),
+                            appointment.customerFirstName(),
+                            appointment.customerLastName(),
+                            appointment.location().getAddress(),
                             startDatetimeServiceLocal,
                             endDatetimeServiceLocal,
-                            appointment.getTimezone().toString(),
-                            appointment.getPrice(),
-                            appointment.getCurrency().toString());
+                            timezone.toString(),
+                            appointment.price(),
+                            appointment.currency().toString());
                 })
                 .collect(Collectors.toList());
         return ResponseEntity.ok(body);
@@ -277,27 +280,30 @@ public class EnterpriseServiceController implements ServicesApi {
     @Override
     public ResponseEntity<List<GetEnterpriseServicePendingAppointmentResponse>> getEnterpriseServicePendingAppointments(
             Long enterpriseServiceId) {
-        var body = pendingAppointmentService
-                .findEnterpriseServiceUncancelledFuturePendingAppointments(enterpriseServiceId)
+        var body = customAppointmentWithDetailsService
+                .getEnterpriseServiceUncancelledPendingAppointmentsWithDetails(enterpriseServiceId)
                 .stream()
                 .map(appointment -> {
+                    ZoneId timezone = enterpriseServiceService
+                            .getTimeZoneByServiceId(appointment.enterpriseServiceId());
+
                     String startDatetimeServiceLocal = DateUtils.createIsoLocalDatetime(
-                            appointment.getStartGlobalDatetime().toInstant(),
-                            appointment.getTimezone());
+                            appointment.startInstant(),
+                            timezone);
                     String endDatetimeServiceLocal = DateUtils.createIsoLocalDatetime(
-                            appointment.getEndGlobalDatetime().toInstant(),
-                            appointment.getTimezone());
+                            appointment.endInstant(),
+                            timezone);
                     return new GetEnterpriseServicePendingAppointmentResponse(
-                            appointment.getAppointmentId(),
-                            appointment.getUsername(),
-                            appointment.getUserFirstName(),
-                            appointment.getUserLastName(),
-                            appointment.getAddress(),
+                            appointment.appointmentId(),
+                            appointment.customerUsername(),
+                            appointment.customerFirstName(),
+                            appointment.customerLastName(),
+                            appointment.location().getAddress(),
                             startDatetimeServiceLocal,
                             endDatetimeServiceLocal,
-                            appointment.getTimezone().toString(),
-                            appointment.getPrice(),
-                            appointment.getCurrency().toString());
+                            timezone.toString(),
+                            appointment.price(),
+                            appointment.currency().toString());
                 })
                 .collect(Collectors.toList());
         return ResponseEntity.ok(body);

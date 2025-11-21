@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.appointment.AppointmentEntity;
 import pl.michal_sobiech.engineering_thesis.appointment.AppointmentRepository;
-import pl.michal_sobiech.engineering_thesis.appointment.custom.ScheduledAppointment;
+import pl.michal_sobiech.engineering_thesis.appointment.ScheduledAppointment;
 import pl.michal_sobiech.engineering_thesis.appointment.query.AppointmentQueryTimeRange;
 
 @Service
