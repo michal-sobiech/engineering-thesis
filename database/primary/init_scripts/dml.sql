@@ -279,6 +279,7 @@ INSERT INTO public.appointment (
     end_time,
     is_custom,
     is_accepted,
+    rejection_message,
     address,
     latitude,
     longitude
@@ -291,6 +292,7 @@ INSERT INTO public.appointment (
     '2026-12-03 14:30:00+00',
     TRUE,
     FALSE,
+    'Rejection reason here',
     '15/19, Nowowiejska, Koszyki, Śródmieście Południowe, Midtown, Warsaw, Masovian Voivodeship, 00-665, Poland',
     52.2189917,
     21.011346
