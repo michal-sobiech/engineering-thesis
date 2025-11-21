@@ -37,9 +37,8 @@ public class AppointmentEntity {
     @Column(name = "enterprise_service_id")
     private Long enterpriseServiceId;
 
-    @Nullable
-    @Column(name = "customer_user_id", nullable = true)
-    private Long customerUserId;
+    @Column(name = "customer_user_id")
+    private long customerUserId;
 
     private BigDecimal price;
 
@@ -65,17 +64,11 @@ public class AppointmentEntity {
     @Column(name = "rejection_message", nullable = true)
     private String rejectionMessage;
 
-    @Nullable
-    @Column(nullable = true)
     private String address;
 
-    @Nullable
-    @Column(nullable = true)
-    private Double longitude;
+    private double longitude;
 
-    @Nullable
-    @Column(nullable = true)
-    private Double latitude;
+    private double latitude;
 
     private boolean cancelled;
 

@@ -2,7 +2,6 @@ package pl.michal_sobiech.engineering_thesis.appointment;
 
 import java.time.ZoneId;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.SwaggerCodeGenExample.api.AppointmentsApi;
@@ -16,8 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.appointment.custom.CustomAppointmentQueryService;
 import pl.michal_sobiech.engineering_thesis.appointment.custom.CustomAppointmentsService;
-import pl.michal_sobiech.engineering_thesis.appointment.query.AppointmentQueryTimeRange;
-import pl.michal_sobiech.engineering_thesis.appointment.query.CustomAppointmentStatus;
 import pl.michal_sobiech.engineering_thesis.auth.AuthService;
 import pl.michal_sobiech.engineering_thesis.customer.Customer;
 import pl.michal_sobiech.engineering_thesis.enterprise.Enterprise;
@@ -45,13 +42,7 @@ public class AppointmentController implements AppointmentsApi {
         Customer customer = authService.requireCustomer();
 
         List<GetCustomerLandingPagePendingAppointmentResponseItem> body = customAppointmentQueryService
-                .getCustomAppointments(
-                        Optional.of(customer.getUserId()),
-                        Optional.empty(),
-                        Optional.empty(),
-                        Optional.of(false),
-                        Optional.of(AppointmentQueryTimeRange.FUTURE),
-                        CustomAppointmentStatus.PENDING)
+                .getCustomerUncancelledFuturePendingCustomAppointments(customer.getUserId())
                 .stream()
                 .map(appointment -> {
                     EnterpriseServiceDomain service = enterpriseServiceService
@@ -82,10 +73,12 @@ public class AppointmentController implements AppointmentsApi {
     }
 
     @Override
-    public ResponseEntity<List<GetCustomerLandingPageRejectedAppointmentResponseItem>> getMyRejectedAppointments() {
+    public ResponseEntity<List<GetCustomerLandingPageRejectedAppointmentResponseItem>> getMyFutureRejectedAppointments() {
         Customer customer = authService.requireCustomer();
 
-        List<GetCustomerLandingPageRejectedAppointmentResponseItem> body = appointments.stream()
+        List<GetCustomerLandingPageRejectedAppointmentResponseItem> body = customAppointmentQueryService
+                .getCustomerFutureRejectedCustomAppointments(customer.getUserId())
+                .stream()
                 .map(appointment -> {
                     EnterpriseServiceDomain service = enterpriseServiceService
                             .getById(appointment.enterpriseServiceId())
@@ -116,7 +109,7 @@ public class AppointmentController implements AppointmentsApi {
     }
 
     @Override
-    public ResponseEntity<List<GetCustomerLandingPageScheduledAppointmentResponseItem>> getMyFutureScheduledAppointments() {
+    public ResponseEntity<List<GetCustomerLandingPageScheduledAppointmentResponseItem>> getMyUncancelledFutureScheduledAppointments() {
         Customer customer = authService.requireCustomer();
 
         List<ScheduledAppointment> appointments = scheduledAppointmentService

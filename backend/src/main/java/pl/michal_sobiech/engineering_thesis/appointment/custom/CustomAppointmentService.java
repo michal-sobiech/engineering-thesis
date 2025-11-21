@@ -19,7 +19,7 @@ import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseService
 
 @Service
 @RequiredArgsConstructor
-public class CustomAppointmentsService {
+public class CustomAppointmentService {
 
     private final EnterpriseServiceService enterpriseServiceService;
     private final AppointmentRepository appointmentRepository;
@@ -87,7 +87,5 @@ public class CustomAppointmentsService {
         appointment.setRejectionMessage(rejectionMessage);
         appointmentRepository.save(appointment);
     }
-
-    public List<PendingCustomAppointment> 
 
 }

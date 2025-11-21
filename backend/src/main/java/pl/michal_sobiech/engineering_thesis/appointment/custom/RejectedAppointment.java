@@ -1,4 +1,4 @@
-package pl.michal_sobiech.engineering_thesis.appointment.custom.pending;
+package pl.michal_sobiech.engineering_thesis.appointment.custom;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -7,10 +7,9 @@ import java.util.Optional;
 import org.SwaggerCodeGenExample.model.Location;
 
 import pl.michal_sobiech.engineering_thesis.appointment.AppointmentEntity;
-import pl.michal_sobiech.engineering_thesis.appointment.custom.CustomAppointment;
 import pl.michal_sobiech.engineering_thesis.currency_iso.CurrencyIso;
 
-public record UncancelledPendingCustomAppointment(
+public record RejectedAppointment(
 
         long appointmentId,
         long enterpriseServiceId,
@@ -19,18 +18,29 @@ public record UncancelledPendingCustomAppointment(
         CurrencyIso currency,
         Instant startInstant,
         Instant endInstant,
-        Location location
+        Location location,
 
-) implements CustomAppointment {
+        String rejectionMessage
 
-    private static boolean matchesEntity(AppointmentEntity entity) {
-        return (entity.isCustom()
-                && entity.getIsAccepted() != null
-                && entity.getRejectionMessage() != null
-                && entity.isCancelled());
+) {
+
+    public static boolean matchesEntity(AppointmentEntity entity) {
+        if (!entity.isCustom()) {
+            return false;
+        }
+
+        if (entity.getIsAccepted() != null || entity.getIsAccepted() == true) {
+            return false;
+        }
+
+        if (entity.getRejectionMessage() == null) {
+            return false;
+        }
+
+        return true;
     }
 
-    public static Optional<UncancelledPendingCustomAppointment> fromEntity(AppointmentEntity entity) {
+    public static Optional<RejectedAppointment> fromEntity(AppointmentEntity entity) {
         if (!matchesEntity(entity)) {
             return Optional.empty();
         }
@@ -40,7 +50,7 @@ public record UncancelledPendingCustomAppointment(
                 entity.getLongitude(),
                 entity.getLatitude());
 
-        var domain = new UncancelledPendingCustomAppointment(
+        var domain = new RejectedAppointment(
                 entity.getAppointmentId(),
                 entity.getEnterpriseServiceId(),
                 entity.getCustomerUserId(),
@@ -48,7 +58,8 @@ public record UncancelledPendingCustomAppointment(
                 entity.getCurrency(),
                 entity.getStartTime().toInstant(),
                 entity.getEndTime().toInstant(),
-                location);
+                location,
+                entity.getRejectionMessage());
         return Optional.of(domain);
     }
 

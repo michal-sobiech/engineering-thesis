@@ -27,4 +27,8 @@ public class CustomerService {
         return Customer.fromUser(user);
     }
 
+    public Optional<Customer> getByUserId(long userId) {
+        return userService.findById(userId).map(Customer::fromUser);
+    }
+
 }

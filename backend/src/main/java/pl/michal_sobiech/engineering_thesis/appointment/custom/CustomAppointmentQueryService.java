@@ -2,7 +2,6 @@ package pl.michal_sobiech.engineering_thesis.appointment.custom;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -51,17 +50,32 @@ public class CustomAppointmentQueryService {
                 acceptedVsRejected);
     }
 
-    public <T extends CustomAppointment> List<T> getCustomAppointments(
-            Optional<Long> customerUserId,
-            Optional<Long> enterpriseServiceId,
-            Optional<Long> enterpriseId,
-            Optional<Boolean> isCancelled,
-            Optional<AppointmentQueryTimeRange> timeRange,
-            CustomAppointmentStatus status,
-            Function<AppointmentEntity, T> factoryFunction) {
-        return getCustomAppointments(customerUserId, enterpriseServiceId, enterpriseId, isCancelled, timeRange, status)
+    public List<UncancelledPendingAppointment> getCustomerUncancelledFuturePendingCustomAppointments(
+            long customerUserId) {
+        return getCustomAppointments(
+                Optional.of(customerUserId),
+                Optional.empty(),
+                Optional.empty(),
+                Optional.of(false),
+                Optional.of(AppointmentQueryTimeRange.FUTURE),
+                CustomAppointmentStatus.PENDING)
                 .stream()
-                .map(factoryFunction)
+                .map(UncancelledPendingAppointment::fromEntity)
+                .map(Optional::orElseThrow)
+                .collect(Collectors.toList());
+    }
+
+    public List<RejectedAppointment> getCustomerFutureRejectedCustomAppointments(long customerUserId) {
+        return getCustomAppointments(
+                Optional.of(customerUserId),
+                Optional.empty(),
+                Optional.empty(),
+                Optional.of(false),
+                Optional.of(AppointmentQueryTimeRange.FUTURE),
+                CustomAppointmentStatus.REJECTED)
+                .stream()
+                .map(RejectedAppointment::fromEntity)
+                .map(Optional::orElseThrow)
                 .collect(Collectors.toList());
     }
 
