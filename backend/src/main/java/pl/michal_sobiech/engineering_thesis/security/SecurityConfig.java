@@ -14,6 +14,7 @@ import pl.michal_sobiech.engineering_thesis.jwt.JwtAuthRequestFilter;
 import pl.michal_sobiech.engineering_thesis.security.cors.CorsSetupper;
 import pl.michal_sobiech.engineering_thesis.security.csrf.CsrfSetupper;
 import pl.michal_sobiech.engineering_thesis.security.no_auth_endpoints.NoAuthEndpointsSetupper;
+import pl.michal_sobiech.engineering_thesis.security.oauth2.Oauth2Setupper;
 import pl.michal_sobiech.engineering_thesis.security.session_management.SessionManagementSetupper;
 
 @Configuration
@@ -26,14 +27,17 @@ public class SecurityConfig {
     private final CsrfSetupper csrfSetupper;
     private final SessionManagementSetupper sessionManagementSetupper;
     private final NoAuthEndpointsSetupper noAuthEndpointsSetupper;
+    private final Oauth2Setupper oauth2Setupper;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) {
         httpSecurity = corsSetupper.setUpCors(httpSecurity);
         httpSecurity = csrfSetupper.setupCsrf(httpSecurity);
         httpSecurity = sessionManagementSetupper.setupSessionManagement(httpSecurity);
+        httpSecurity = oauth2Setupper.setUp(httpSecurity);
         httpSecurity.addFilterBefore(jwtAuthRequestFilter, UsernamePasswordAuthenticationFilter.class);
         // httpSecurity = noAuthEndpointsSetupper.setupNoAuthEndpoints(httpSecurity);
+
         return buildSecurityFilterChain(httpSecurity);
     }
 

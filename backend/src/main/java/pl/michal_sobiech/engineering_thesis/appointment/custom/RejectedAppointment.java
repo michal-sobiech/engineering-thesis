@@ -29,7 +29,7 @@ public record RejectedAppointment(
             return false;
         }
 
-        if (entity.getIsAccepted() != null || entity.getIsAccepted() == true) {
+        if (entity.getIsAccepted() == null || entity.getIsAccepted() == true) {
             return false;
         }
 

@@ -22,19 +22,15 @@ public record ScheduledAppointment(
 ) {
 
     public static boolean matchesEntity(AppointmentEntity entity) {
-        if (entity.isCustom() == false) {
-            return false;
-        }
+        boolean isCustomScheduledAppointment = (entity.isCustom()
+                && entity.getIsAccepted() == true
+                && entity.getRejectionMessage() == null);
 
-        if (entity.getIsAccepted() == false) {
-            return false;
-        }
+        boolean isNonCustomScheduledAppointment = (!entity.isCustom()
+                && entity.getIsAccepted() == null
+                && entity.getRejectionMessage() == null);
 
-        if (entity.getRejectionMessage() != null) {
-            return false;
-        }
-
-        return true;
+        return isCustomScheduledAppointment || isNonCustomScheduledAppointment;
     }
 
     public static Optional<ScheduledAppointment> fromEntity(AppointmentEntity entity) {
