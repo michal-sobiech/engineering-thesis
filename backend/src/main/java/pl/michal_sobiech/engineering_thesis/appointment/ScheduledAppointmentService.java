@@ -8,8 +8,8 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.appointment.custom.ConfirmedCustomAppointment;
 import pl.michal_sobiech.engineering_thesis.appointment.custom.CustomAppointmentsService;
+import pl.michal_sobiech.engineering_thesis.appointment.custom.ScheduledAppointment;
 import pl.michal_sobiech.engineering_thesis.appointment.non_custom.NonCustomAppointment;
 import pl.michal_sobiech.engineering_thesis.appointment.non_custom.NonCustomAppointmentsService;
 
@@ -23,7 +23,7 @@ public class ScheduledAppointmentService {
     private final ScheduledAppointmentFactory scheduledAppointmentFactory;
 
     public List<ScheduledAppointment> getUncancelledScheduledAppointmentsOfCustomer(long customerUserId) {
-        List<ConfirmedCustomAppointment> confirmedCustomAppointments = customAppointmentsService
+        List<ScheduledAppointment> confirmedCustomAppointments = customAppointmentsService
                 .getConfirmedCustomAppointmentsOfCustomer(customerUserId);
         List<ScheduledAppointment> scheduledConfirmedCustomAppointments = confirmedCustomAppointments.stream()
                 .map(scheduledAppointmentFactory::fromConfirmedCustom)

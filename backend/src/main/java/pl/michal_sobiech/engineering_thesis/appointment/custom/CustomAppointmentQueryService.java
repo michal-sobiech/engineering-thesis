@@ -79,4 +79,18 @@ public class CustomAppointmentQueryService {
                 .collect(Collectors.toList());
     }
 
+    public List<ScheduledAppointment> getCustomerUncancelledFutureScheduledCustomAppointments(long customerUserId) {
+        return getCustomAppointments(
+                Optional.of(customerUserId),
+                Optional.empty(),
+                Optional.empty(),
+                Optional.of(false),
+                Optional.of(AppointmentQueryTimeRange.FUTURE),
+                CustomAppointmentStatus.ACCEPTED)
+                .stream()
+                .map(ScheduledAppointment::fromEntity)
+                .map(Optional::orElseThrow)
+                .collect(Collectors.toList());
+    }
+
 }

@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.appointment.custom.CustomAppointmentQueryService;
-import pl.michal_sobiech.engineering_thesis.appointment.custom.CustomAppointmentsService;
 import pl.michal_sobiech.engineering_thesis.auth.AuthService;
 import pl.michal_sobiech.engineering_thesis.customer.Customer;
 import pl.michal_sobiech.engineering_thesis.enterprise.Enterprise;
@@ -30,7 +29,6 @@ import pl.michal_sobiech.engineering_thesis.utils.DateUtils;
 public class AppointmentController implements AppointmentsApi {
 
     private final AuthService authService;
-    private final CustomAppointmentsService customAppointmentsService;
     private final EnterpriseServiceService enterpriseServiceService;
     private final EnterpriseService enterpriseService;
     private final ScheduledAppointmentService scheduledAppointmentService;

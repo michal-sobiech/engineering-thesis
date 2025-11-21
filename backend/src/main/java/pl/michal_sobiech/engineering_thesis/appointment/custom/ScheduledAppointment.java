@@ -2,12 +2,13 @@ package pl.michal_sobiech.engineering_thesis.appointment.custom;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.Optional;
 
 import org.SwaggerCodeGenExample.model.Location;
 
 import pl.michal_sobiech.engineering_thesis.appointment.AppointmentEntity;
 
-public record ConfirmedCustomAppointment(
+public record ScheduledAppointment(
 
         long appointmentId,
         long enterpriseServiceId,
@@ -20,17 +21,25 @@ public record ConfirmedCustomAppointment(
 
 ) {
 
-    public static ConfirmedCustomAppointment fromEntity(AppointmentEntity entity) {
+    public static boolean matchesEntity(AppointmentEntity entity) {
         if (entity.isCustom() == false) {
-            throw new IllegalArgumentException();
+            return false;
         }
 
         if (entity.getIsAccepted() == false) {
-            throw new IllegalArgumentException();
+            return false;
         }
 
         if (entity.getRejectionMessage() != null) {
-            throw new IllegalArgumentException();
+            return false;
+        }
+
+        return true;
+    }
+
+    public static Optional<ScheduledAppointment> fromEntity(AppointmentEntity entity) {
+        if (!matchesEntity(entity)) {
+            return Optional.empty();
         }
 
         Location location = new Location(
@@ -38,7 +47,7 @@ public record ConfirmedCustomAppointment(
                 entity.getLongitude(),
                 entity.getLatitude());
 
-        return new ConfirmedCustomAppointment(
+        var domain = new ScheduledAppointment(
                 entity.getAppointmentId(),
                 entity.getEnterpriseServiceId(),
                 entity.getCustomerUserId(),
@@ -46,6 +55,8 @@ public record ConfirmedCustomAppointment(
                 entity.getStartTime().toInstant(),
                 entity.getEndTime().toInstant(),
                 location);
+
+        return Optional.of(domain);
     }
 
 }

@@ -1861,7 +1861,7 @@ paths:
   /appointments/my-future-rejected-appointments:
     get:
       tags: [Appointments]
-      operationId: getMyRejectedFutureAppointments
+      operationId: getMyFutureRejectedAppointments
       security:
         - JwtBearerAuth: []
       responses:

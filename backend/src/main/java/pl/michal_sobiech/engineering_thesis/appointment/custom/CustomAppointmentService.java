@@ -25,7 +25,7 @@ public class CustomAppointmentService {
     private final AppointmentRepository appointmentRepository;
     private final EnterpriseMemberService enterpriseMemberService;
 
-    public List<ConfirmedCustomAppointment> getConfirmedAppointmentsInDatetimeRange(
+    public List<ScheduledAppointment> getConfirmedAppointmentsInDatetimeRange(
             long serviceId,
             Instant from,
             Instant to) {
@@ -33,7 +33,7 @@ public class CustomAppointmentService {
                 serviceId,
                 from.atOffset(ZoneOffset.UTC),
                 to.atOffset(ZoneOffset.UTC));
-        return appointments.stream().map(a -> ConfirmedCustomAppointment.fromEntity(a)).collect(Collectors.toList());
+        return appointments.stream().map(a -> ScheduledAppointment.fromEntity(a)).collect(Collectors.toList());
     }
 
     public void createCustomAppointment(
@@ -66,12 +66,12 @@ public class CustomAppointmentService {
         appointmentRepository.save(appointmentEntity);
     }
 
-    public List<ConfirmedCustomAppointment> getConfirmedCustomAppointmentsOfCustomer(long customerUserId) {
+    public List<ScheduledAppointment> getConfirmedCustomAppointmentsOfCustomer(long customerUserId) {
         List<AppointmentEntity> records = appointmentRepository
                 .findConfirmedCustomAppointmentsOfCustomer(customerUserId);
         return records
                 .stream()
-                .map(ConfirmedCustomAppointment::fromEntity)
+                .map(ScheduledAppointment::fromEntity)
                 .collect(Collectors.toList());
     }
 
