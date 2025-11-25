@@ -5,7 +5,7 @@ import { Calendar, SlotInfo } from "react-big-calendar";
 import { EventWithIdAndCapacity } from "../../../common/calendar/EventWithIdAndCapacity";
 import { localizer } from "../../../common/localizer";
 import { getLastFromArray } from "../../../utils/array";
-import { durationToMs, splitPeriod } from "../../../utils/date";
+import { doDateTimeWindowsGroupsOverlap, durationToMs, splitPeriod } from "../../../utils/date";
 import { Position } from "../../../utils/Position";
 import { UseStateSetter } from "../../../utils/use-state";
 import { WeeklyCalendarCustomAppoinmentsDisabledPopup } from "./WeeklyCalendarCustomAppoinmentsDisabledPopup";
@@ -23,7 +23,12 @@ export const WeeklyCalendarCustomAppoinmentsDisabled: FC<WeeklyCalendarCustomApp
     const onSelectSlot = (slot: SlotInfo) => {
         const intervals = splitPeriodIntoIntervals(slot.start, slot.end, eventDuration);
 
-        const events: EventWithIdAndCapacity[] = intervals.map(interval => ({
+        const eventsWindows: [Date, Date][] = events.map(event => [event.start, event.end]);
+        if (doDateTimeWindowsGroupsOverlap(intervals, eventsWindows)) {
+            return;
+        }
+
+        const newEvents: EventWithIdAndCapacity[] = intervals.map(interval => ({
             start: interval[0],
             end: interval[1],
             resource: {
@@ -32,7 +37,7 @@ export const WeeklyCalendarCustomAppoinmentsDisabled: FC<WeeklyCalendarCustomApp
             }
         }));
 
-        setEvents(previousEvents => [...previousEvents, ...events]);
+        setEvents(previousEvents => [...previousEvents, ...newEvents]);
     }
 
     function deleteEvent(eventId: string) {

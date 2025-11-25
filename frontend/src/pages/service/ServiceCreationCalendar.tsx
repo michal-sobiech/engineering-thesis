@@ -6,6 +6,7 @@ import { EventWithIdAndCapacity } from "../../common/calendar/EventWithIdAndCapa
 import { WeeklyCalendar } from "../../common/calendar/WeeklyCalendar";
 import { StandardFloatInput } from "../../common/StandardFloatInput";
 import { StandardLabeledContainer } from "../../common/StandardLabeledContainer";
+import { doesDateTimeWindowsGroupHaveOverlap } from "../../utils/date";
 import { UseStateSetter } from "../../utils/use-state";
 import { CustomOrNotAppointmentsEvents } from "./calendar/CustomAppointmentsEvents";
 import { WeeklyCalendarCustomAppoinmentsDisabled } from "./calendar/WeeklyCalendarCustomAppointmentsDisabled";
@@ -23,18 +24,33 @@ export const ServiceCreationCalendar: FC<ServiceCreationCalendarProps> = ({ appo
         const setEventsWrapper = (valueOrUpdater: (EventWithId[] | ((prevEvents: EventWithId[]) => EventWithId[]))) => {
             if (typeof valueOrUpdater === "function") {
                 const updater = valueOrUpdater as (prevEvents: EventWithId[]) => EventWithId[];
+
                 setEventsData(prevEventsData => {
                     const newEvents = updater(prevEventsData.events);
+
+                    const newEventsWindows: [Date, Date][] = newEvents.map(event => [event.start, event.end]);
+                    if (doesDateTimeWindowsGroupHaveOverlap(newEventsWindows)) {
+                        return {
+                            areCustomAppointmentsEnabled: true,
+                            events: prevEventsData.events,
+                        };
+                    }
+
                     return {
                         areCustomAppointmentsEnabled: true,
                         events: newEvents,
                     };
                 });
             } else {
-                const value = valueOrUpdater as EventWithId[];
+                const events = valueOrUpdater as EventWithId[];
+                const windows: [Date, Date][] = events.map(event => [event.start, event.end]);
+                if (doesDateTimeWindowsGroupHaveOverlap(windows)) {
+                    return;
+                }
+
                 setEventsData({
                     areCustomAppointmentsEnabled: true,
-                    events: value,
+                    events,
                 });
             }
         }
@@ -54,16 +70,32 @@ export const ServiceCreationCalendar: FC<ServiceCreationCalendarProps> = ({ appo
                 const updater = valueOrUpdater as (prevEvents: EventWithIdAndCapacity[]) => EventWithIdAndCapacity[];
                 setEventsData(prevEventsData => {
                     const newEvents = updater(prevEventsData.events as EventWithIdAndCapacity[]);
+
+                    // TODO REFACTOR!!!!!
+
+                    const newEventsWindows: [Date, Date][] = newEvents.map(event => [event.start, event.end]);
+                    if (doesDateTimeWindowsGroupHaveOverlap(newEventsWindows)) {
+                        return {
+                            areCustomAppointmentsEnabled: false,
+                            events: prevEventsData.events as EventWithIdAndCapacity[]
+                        };
+                    }
+
                     return {
                         areCustomAppointmentsEnabled: false,
                         events: newEvents,
                     };
                 });
             } else {
-                const value = valueOrUpdater as EventWithIdAndCapacity[];
+                const events = valueOrUpdater as EventWithIdAndCapacity[];
+                const windows: [Date, Date][] = events.map(event => [event.start, event.end]);
+                if (doesDateTimeWindowsGroupHaveOverlap(windows)) {
+                    return;
+                }
+
                 setEventsData({
                     areCustomAppointmentsEnabled: false,
-                    events: value,
+                    events
                 });
             }
         }

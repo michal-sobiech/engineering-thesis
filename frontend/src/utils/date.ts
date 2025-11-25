@@ -86,3 +86,49 @@ export function createUtcDateFromLocalDatetime(localDatetime: LocalDateTime): Da
     const utcInstant = localDatetime.toInstant(ZoneOffset.UTC);
     return new Date(utcInstant.toEpochMilli());
 }
+
+export function doInstantTimeWindowGroupsOverlap(group1: [Instant, Instant][], group2: [Instant, Instant][]): boolean {
+    return group1.some(window1 =>
+        group2.some(window2 =>
+            doInstantTimeWindowsOverlap(window1, window2)
+        ));
+}
+
+export function doInstantTimeWindowsOverlap(window1: [Instant, Instant], window2: [Instant, Instant]): boolean {
+    const [start1, end1] = window1;
+    const [start2, end2] = window2;
+    return end2.isAfter(start1) && start2.isBefore(end1);
+}
+
+export function doDateTimeWindowsGroupsOverlap(group1: [Date, Date][], group2: [Date, Date][]): boolean {
+    const group1Instant: [Instant, Instant][] = group1.map(dateWindowToInstantWindow);
+    const group2Instant: [Instant, Instant][] = group2.map(dateWindowToInstantWindow);
+    return doInstantTimeWindowGroupsOverlap(group1Instant, group2Instant);
+}
+
+export function doesInstantTimeWindowOverlapWithGroup(window: [Instant, Instant], group: [Instant, Instant][]): boolean {
+    return doInstantTimeWindowGroupsOverlap([window], group);
+}
+
+export function doesDateTimeWindowsGroupHaveOverlap(windows: [Date, Date][]): boolean {
+    const instantWindows = windows.map(dateWindowToInstantWindow);
+    return doesInstantTimeWindowsGroupHaveOverlap(instantWindows);
+}
+
+export function doesInstantTimeWindowsGroupHaveOverlap(windows: [Instant, Instant][]): boolean {
+    for (let i = 0; i < windows.length - 1; i++) {
+        for (let k = i + 1; k < windows.length; k++) {
+            if (doInstantTimeWindowsOverlap(windows[i], windows[k])) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+export function dateWindowToInstantWindow(window: [Date, Date]): [Instant, Instant] {
+    return [
+        Instant.ofEpochMilli(window[0].getTime()),
+        Instant.ofEpochMilli(window[1].getTime()),
+    ];
+}
