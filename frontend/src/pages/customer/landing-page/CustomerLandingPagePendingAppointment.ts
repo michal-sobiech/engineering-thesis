@@ -8,4 +8,5 @@ export interface CustomerLandingPagePendingAppointment {
     endDatetimeServiceLocal: LocalDateTime;
     timezone: string;
     price: number | null;
+    currencyIso: string;
 }

@@ -42,6 +42,7 @@ export const CustomerLandingPage = () => {
             }
             const mapped: CustomerLandingPageScheduledAppointment[] = result.value.map(item => ({
                 appointmentId: item.appointmentId,
+                serviceId: item.serviceId,
                 serviceName: item.serviceName,
                 enterpriseName: item.enterpriseName,
                 address: item.address,
@@ -67,6 +68,7 @@ export const CustomerLandingPage = () => {
             }
             const mapped: CustomerLandingPageScheduledAppointment[] = result.value.map(item => ({
                 appointmentId: item.appointmentId,
+                serviceId: item.serviceId,
                 serviceName: item.serviceName,
                 enterpriseName: item.enterpriseName,
                 address: item.address,
@@ -90,7 +92,7 @@ export const CustomerLandingPage = () => {
                 navigate(routes.mainPage);
                 return;
             }
-            const mapped: CustomerLandingPageScheduledAppointment[] = result.value.map(item => ({
+            const mapped: CustomerLandingPagePendingAppointment[] = result.value.map(item => ({
                 appointmentId: item.appointmentId,
                 serviceName: item.serviceName,
                 enterpriseName: item.enterpriseName,

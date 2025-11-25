@@ -62,6 +62,9 @@ const Item = (data: CustomerLandingPageScheduledAppointment) => {
             <Text>
                 {dateFormatted} {startFormatted} - {endFormatted}
             </Text>
+            <Text>
+                {data.price} {data.currencyIso}
+            </Text>
             <StandardButton
                 backgroundColor="primary.darkRed"
                 onClick={onCancelClick}>

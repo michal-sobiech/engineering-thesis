@@ -573,6 +573,7 @@ components:
       required:
         [
           appointmentId,
+          serviceId,
           serviceName,
           enterpriseName,
           address,
@@ -584,6 +585,9 @@ components:
         ]
       properties:
         appointmentId:
+          type: integer
+          format: int64
+        serviceId:
           type: integer
           format: int64
         serviceName:

@@ -1,6 +1,6 @@
 import { Heading, Text } from "@chakra-ui/react";
 import { DateTimeFormatter } from "@js-joda/core";
-import { JSX } from "react";
+import { useNavigate } from "react-router";
 import { ScrollableList } from "../../../common/ScrollableList";
 import { StandardButton } from "../../../common/StandardButton";
 import { StandardConcaveBox } from "../../../common/StandardConcaveBox";
@@ -8,6 +8,7 @@ import { StandardFlex } from "../../../common/StandardFlex";
 import { StandardLabeledContainer } from "../../../common/StandardLabeledContainer";
 import { StandardPanel } from "../../../common/StandardPanel";
 import { useContextOrThrow } from "../../../hooks/useContextOrThrow";
+import { routes } from "../../../router/routes";
 import { CustomerLandingPageContext } from "./CustomerLandingPageContext";
 import { CustomerLandingPageScheduledAppointment } from "./CustomerLandingPageScheduledAppointment";
 
@@ -21,18 +22,24 @@ export const CustomerLandingPagePastScheduledAppointmentsList = () => {
             <ScrollableList height="100%">
                 {pastScheduledAppointments === null
                     ? null
-                    : pastScheduledAppointments.map(createItem)}
+                    : pastScheduledAppointments.map(Item)}
             </ScrollableList>
         </StandardConcaveBox>
     </StandardLabeledContainer>
 }
 
-function createItem(data: CustomerLandingPageScheduledAppointment): JSX.Element {
+const Item = (data: CustomerLandingPageScheduledAppointment) => {
+    const navigate = useNavigate();
+
     const date = data.startDatetimeServiceLocal.toLocalDate();
     const dateFormatted = date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
 
     const startFormatted = data.startDatetimeServiceLocal.format(DateTimeFormatter.ofPattern("HH:mm"));
     const endFormatted = data.endDatetimeServiceLocal.format(DateTimeFormatter.ofPattern("HH:mm"));
+
+    const onWriteReviewClick = () => {
+        navigate(routes.createServiceReview(data.serviceId));
+    }
 
     return <StandardPanel>
         <StandardFlex>
@@ -45,7 +52,12 @@ function createItem(data: CustomerLandingPageScheduledAppointment): JSX.Element 
             <Text>
                 {dateFormatted} {startFormatted} - {endFormatted}
             </Text>
-            <StandardButton backgroundColor="primary.blue">
+            <Text>
+                {data.price} {data.currencyIso}
+            </Text>
+            <StandardButton
+                backgroundColor="primary.blue"
+                onClick={onWriteReviewClick}>
                 Write a review
             </StandardButton>
         </StandardFlex>

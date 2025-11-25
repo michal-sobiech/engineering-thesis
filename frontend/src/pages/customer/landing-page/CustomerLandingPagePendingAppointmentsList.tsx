@@ -45,6 +45,9 @@ function createItem(data: CustomerLandingPagePendingAppointment): JSX.Element {
             <Text>
                 {dateFormatted} {startFormatted} - {endFormatted}
             </Text>
+            <Text>
+                {data.price} {data.currencyIso}
+            </Text>
             <StandardButton backgroundColor="primary.darkRed">
                 Withdraw appointment proposal
             </StandardButton>

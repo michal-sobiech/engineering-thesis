@@ -1,6 +1,5 @@
 package pl.michal_sobiech.engineering_thesis.appointment;
 
-import java.math.BigDecimal;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -60,7 +59,7 @@ public class AppointmentController implements AppointmentsApi {
                             timezone);
 
                     return new GetCustomerLandingPagePendingAppointmentResponseItem(
-                            BigDecimal.valueOf(appointment.appointmentId()),
+                            appointment.appointmentId(),
                             service.name(),
                             enterprise.name(),
                             appointment.location().getAddress(),
@@ -98,7 +97,7 @@ public class AppointmentController implements AppointmentsApi {
                             appointment.endInstant(), timezone);
 
                     return new GetCustomerLandingPageRejectedAppointmentResponseItem(
-                            BigDecimal.valueOf(appointment.appointmentId()),
+                            appointment.appointmentId(),
                             service.name(),
                             enterprise.name(),
                             appointment.location().getAddress(),
@@ -135,7 +134,8 @@ public class AppointmentController implements AppointmentsApi {
                             appointment.endInstant(), timezone);
 
                     return new GetCustomerLandingPageScheduledAppointmentResponseItem(
-                            BigDecimal.valueOf(appointment.appointmentId()),
+                            appointment.appointmentId(),
+                            service.enterpriseServiceId(),
                             service.name(),
                             enterprise.name(),
                             service.location().getAddress(),
@@ -171,7 +171,8 @@ public class AppointmentController implements AppointmentsApi {
                             appointment.endInstant(), timezone);
 
                     return new GetCustomerLandingPageScheduledAppointmentResponseItem(
-                            BigDecimal.valueOf(appointment.appointmentId()),
+                            appointment.appointmentId(),
+                            service.enterpriseServiceId(),
                             service.name(),
                             enterprise.name(),
                             service.location().getAddress(),

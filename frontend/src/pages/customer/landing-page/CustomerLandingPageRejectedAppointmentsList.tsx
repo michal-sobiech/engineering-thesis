@@ -45,6 +45,9 @@ function createItem(data: CustomerLandingPageRejectedAppointment): JSX.Element {
                 {dateFormatted} {startFormatted} - {endFormatted}
             </Text>
             <Text>
+                {data.price} {data.currencyIso}
+            </Text>
+            <Text>
                 Reason for rejection:
             </Text>
             <Textarea readOnly>
