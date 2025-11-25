@@ -572,6 +572,7 @@ components:
       type: object
       required:
         [
+          appointmentId,
           serviceName,
           enterpriseName,
           address,
@@ -579,8 +580,11 @@ components:
           endDatetimeServiceLocal,
           timezone,
           price,
+          currencyIso,
         ]
       properties:
+        appointmentId:
+          type: number
         serviceName:
           type: string
         enterpriseName:
@@ -595,11 +599,14 @@ components:
           $ref: "#/components/schemas/IanaTimeZone"
         price:
           type: number
+        currencyIso:
+          type: string
 
     GetCustomerLandingPagePendingAppointmentResponseItem:
       type: object
       required:
         [
+          appointmentId,
           serviceName,
           enterpriseName,
           address,
@@ -607,8 +614,11 @@ components:
           endDatetimeServiceLocal,
           timezone,
           price,
+          currencyIso,
         ]
       properties:
+        appointmentId:
+          type: number
         serviceName:
           type: string
         enterpriseName:
@@ -623,11 +633,14 @@ components:
           $ref: "#/components/schemas/IanaTimeZone"
         price:
           type: number
+        currencyIso:
+          type: string
 
     GetCustomerLandingPageRejectedAppointmentResponseItem:
       type: object
       required:
         [
+          appointmentId,
           serviceName,
           enterpriseName,
           address,
@@ -635,9 +648,12 @@ components:
           endDatetimeServiceLocal,
           timezone,
           price,
+          currencyIso,
           rejectionMessage,
         ]
       properties:
+        appointmentId:
+          type: number
         serviceName:
           type: string
         enterpriseName:
@@ -652,6 +668,8 @@ components:
           $ref: "#/components/schemas/IanaTimeZone"
         price:
           type: number
+        currencyIso:
+          type: string
         rejectionMessage:
           type: string
 

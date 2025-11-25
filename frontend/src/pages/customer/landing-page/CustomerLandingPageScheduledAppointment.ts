@@ -1,6 +1,7 @@
 import { LocalDateTime } from "@js-joda/core";
 
 export interface CustomerLandingPageScheduledAppointment {
+    appointmentId: number;
     serviceName: string,
     enterpriseName: string;
     address: string;
@@ -8,5 +9,5 @@ export interface CustomerLandingPageScheduledAppointment {
     endDatetimeServiceLocal: LocalDateTime;
     timezone: string;
     price: number | null;
-    // TODO add currency?
+    currencyIso: string;
 }

@@ -41,13 +41,15 @@ export const CustomerLandingPage = () => {
                 return;
             }
             const mapped: CustomerLandingPageScheduledAppointment[] = result.value.map(item => ({
+                appointmentId: item.appointmentId,
                 serviceName: item.serviceName,
                 enterpriseName: item.enterpriseName,
                 address: item.address,
                 startDatetimeServiceLocal: LocalDateTime.parse(item.startDatetimeServiceLocal),
                 endDatetimeServiceLocal: LocalDateTime.parse(item.endDatetimeServiceLocal),
                 timezone: item.timezone,
-                price: item.price
+                price: item.price,
+                currencyIso: item.currencyIso,
             }));
             setFutureScheduledAppointments(mapped);
         }
@@ -64,13 +66,15 @@ export const CustomerLandingPage = () => {
                 return;
             }
             const mapped: CustomerLandingPageScheduledAppointment[] = result.value.map(item => ({
+                appointmentId: item.appointmentId,
                 serviceName: item.serviceName,
                 enterpriseName: item.enterpriseName,
                 address: item.address,
                 startDatetimeServiceLocal: LocalDateTime.parse(item.startDatetimeServiceLocal),
                 endDatetimeServiceLocal: LocalDateTime.parse(item.endDatetimeServiceLocal),
                 timezone: item.timezone,
-                price: item.price
+                price: item.price,
+                currencyIso: item.currencyIso,
             }));
             setPastScheduledAppointments(mapped);
         }
@@ -87,13 +91,15 @@ export const CustomerLandingPage = () => {
                 return;
             }
             const mapped: CustomerLandingPageScheduledAppointment[] = result.value.map(item => ({
+                appointmentId: item.appointmentId,
                 serviceName: item.serviceName,
                 enterpriseName: item.enterpriseName,
                 address: item.address,
                 startDatetimeServiceLocal: LocalDateTime.parse(item.startDatetimeServiceLocal),
                 endDatetimeServiceLocal: LocalDateTime.parse(item.endDatetimeServiceLocal),
                 timezone: item.timezone,
-                price: item.price
+                price: item.price,
+                currencyIso: item.currencyIso,
             }));
             setPendingAppointments(mapped);
         }
@@ -110,6 +116,7 @@ export const CustomerLandingPage = () => {
                 return;
             }
             const mapped: CustomerLandingPageRejectedAppointment[] = result.value.map(item => ({
+                appointmentId: item.appointmentId,
                 serviceName: item.serviceName,
                 enterpriseName: item.enterpriseName,
                 address: item.address,
@@ -117,6 +124,7 @@ export const CustomerLandingPage = () => {
                 endDatetimeServiceLocal: LocalDateTime.parse(item.endDatetimeServiceLocal),
                 timezone: item.timezone,
                 price: item.price,
+                currencyIso: item.currencyIso,
                 rejectionMessage: item.rejectionMessage,
             }));
             setRejectedAppointments(mapped);

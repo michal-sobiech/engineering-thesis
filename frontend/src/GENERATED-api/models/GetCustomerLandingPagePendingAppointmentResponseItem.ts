@@ -21,6 +21,12 @@ import { mapValues } from '../runtime';
 export interface GetCustomerLandingPagePendingAppointmentResponseItem {
     /**
      * 
+     * @type {number}
+     * @memberof GetCustomerLandingPagePendingAppointmentResponseItem
+     */
+    appointmentId: number;
+    /**
+     * 
      * @type {string}
      * @memberof GetCustomerLandingPagePendingAppointmentResponseItem
      */
@@ -61,12 +67,19 @@ export interface GetCustomerLandingPagePendingAppointmentResponseItem {
      * @memberof GetCustomerLandingPagePendingAppointmentResponseItem
      */
     price: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetCustomerLandingPagePendingAppointmentResponseItem
+     */
+    currencyIso: string;
 }
 
 /**
  * Check if a given object implements the GetCustomerLandingPagePendingAppointmentResponseItem interface.
  */
 export function instanceOfGetCustomerLandingPagePendingAppointmentResponseItem(value: object): value is GetCustomerLandingPagePendingAppointmentResponseItem {
+    if (!('appointmentId' in value) || value['appointmentId'] === undefined) return false;
     if (!('serviceName' in value) || value['serviceName'] === undefined) return false;
     if (!('enterpriseName' in value) || value['enterpriseName'] === undefined) return false;
     if (!('address' in value) || value['address'] === undefined) return false;
@@ -74,6 +87,7 @@ export function instanceOfGetCustomerLandingPagePendingAppointmentResponseItem(v
     if (!('endDatetimeServiceLocal' in value) || value['endDatetimeServiceLocal'] === undefined) return false;
     if (!('timezone' in value) || value['timezone'] === undefined) return false;
     if (!('price' in value) || value['price'] === undefined) return false;
+    if (!('currencyIso' in value) || value['currencyIso'] === undefined) return false;
     return true;
 }
 
@@ -87,6 +101,7 @@ export function GetCustomerLandingPagePendingAppointmentResponseItemFromJSONType
     }
     return {
         
+        'appointmentId': json['appointmentId'],
         'serviceName': json['serviceName'],
         'enterpriseName': json['enterpriseName'],
         'address': json['address'],
@@ -94,6 +109,7 @@ export function GetCustomerLandingPagePendingAppointmentResponseItemFromJSONType
         'endDatetimeServiceLocal': json['endDatetimeServiceLocal'],
         'timezone': json['timezone'],
         'price': json['price'],
+        'currencyIso': json['currencyIso'],
     };
 }
 
@@ -108,6 +124,7 @@ export function GetCustomerLandingPagePendingAppointmentResponseItemToJSONTyped(
 
     return {
         
+        'appointmentId': value['appointmentId'],
         'serviceName': value['serviceName'],
         'enterpriseName': value['enterpriseName'],
         'address': value['address'],
@@ -115,6 +132,7 @@ export function GetCustomerLandingPagePendingAppointmentResponseItemToJSONTyped(
         'endDatetimeServiceLocal': value['endDatetimeServiceLocal'],
         'timezone': value['timezone'],
         'price': value['price'],
+        'currencyIso': value['currencyIso'],
     };
 }
 

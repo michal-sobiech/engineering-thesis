@@ -21,6 +21,12 @@ import { mapValues } from '../runtime';
 export interface GetCustomerLandingPageRejectedAppointmentResponseItem {
     /**
      * 
+     * @type {number}
+     * @memberof GetCustomerLandingPageRejectedAppointmentResponseItem
+     */
+    appointmentId: number;
+    /**
+     * 
      * @type {string}
      * @memberof GetCustomerLandingPageRejectedAppointmentResponseItem
      */
@@ -66,6 +72,12 @@ export interface GetCustomerLandingPageRejectedAppointmentResponseItem {
      * @type {string}
      * @memberof GetCustomerLandingPageRejectedAppointmentResponseItem
      */
+    currencyIso: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetCustomerLandingPageRejectedAppointmentResponseItem
+     */
     rejectionMessage: string;
 }
 
@@ -73,6 +85,7 @@ export interface GetCustomerLandingPageRejectedAppointmentResponseItem {
  * Check if a given object implements the GetCustomerLandingPageRejectedAppointmentResponseItem interface.
  */
 export function instanceOfGetCustomerLandingPageRejectedAppointmentResponseItem(value: object): value is GetCustomerLandingPageRejectedAppointmentResponseItem {
+    if (!('appointmentId' in value) || value['appointmentId'] === undefined) return false;
     if (!('serviceName' in value) || value['serviceName'] === undefined) return false;
     if (!('enterpriseName' in value) || value['enterpriseName'] === undefined) return false;
     if (!('address' in value) || value['address'] === undefined) return false;
@@ -80,6 +93,7 @@ export function instanceOfGetCustomerLandingPageRejectedAppointmentResponseItem(
     if (!('endDatetimeServiceLocal' in value) || value['endDatetimeServiceLocal'] === undefined) return false;
     if (!('timezone' in value) || value['timezone'] === undefined) return false;
     if (!('price' in value) || value['price'] === undefined) return false;
+    if (!('currencyIso' in value) || value['currencyIso'] === undefined) return false;
     if (!('rejectionMessage' in value) || value['rejectionMessage'] === undefined) return false;
     return true;
 }
@@ -94,6 +108,7 @@ export function GetCustomerLandingPageRejectedAppointmentResponseItemFromJSONTyp
     }
     return {
         
+        'appointmentId': json['appointmentId'],
         'serviceName': json['serviceName'],
         'enterpriseName': json['enterpriseName'],
         'address': json['address'],
@@ -101,6 +116,7 @@ export function GetCustomerLandingPageRejectedAppointmentResponseItemFromJSONTyp
         'endDatetimeServiceLocal': json['endDatetimeServiceLocal'],
         'timezone': json['timezone'],
         'price': json['price'],
+        'currencyIso': json['currencyIso'],
         'rejectionMessage': json['rejectionMessage'],
     };
 }
@@ -116,6 +132,7 @@ export function GetCustomerLandingPageRejectedAppointmentResponseItemToJSONTyped
 
     return {
         
+        'appointmentId': value['appointmentId'],
         'serviceName': value['serviceName'],
         'enterpriseName': value['enterpriseName'],
         'address': value['address'],
@@ -123,6 +140,7 @@ export function GetCustomerLandingPageRejectedAppointmentResponseItemToJSONTyped
         'endDatetimeServiceLocal': value['endDatetimeServiceLocal'],
         'timezone': value['timezone'],
         'price': value['price'],
+        'currencyIso': value['currencyIso'],
         'rejectionMessage': value['rejectionMessage'],
     };
 }

@@ -1,6 +1,6 @@
 import { Heading, Text } from "@chakra-ui/react";
 import { DateTimeFormatter } from "@js-joda/core";
-import { JSX } from "react";
+import { useAppointmentsApi } from "../../../api/appointments-api";
 import { ScrollableList } from "../../../common/ScrollableList";
 import { StandardButton } from "../../../common/StandardButton";
 import { StandardConcaveBox } from "../../../common/StandardConcaveBox";
@@ -8,6 +8,10 @@ import { StandardFlex } from "../../../common/StandardFlex";
 import { StandardLabeledContainer } from "../../../common/StandardLabeledContainer";
 import { StandardPanel } from "../../../common/StandardPanel";
 import { useContextOrThrow } from "../../../hooks/useContextOrThrow";
+import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../../utils/error";
+import { refresh } from "../../../utils/refresh";
+import { errorErrResultAsyncFromPromise } from "../../../utils/result";
+import { toastError, toastSuccess } from "../../../utils/toast";
 import { CustomerLandingPageContext } from "./CustomerLandingPageContext";
 import { CustomerLandingPageScheduledAppointment } from "./CustomerLandingPageScheduledAppointment";
 
@@ -21,18 +25,33 @@ export const CustomerLandingPageFutureScheduledAppointmentsList = () => {
             <ScrollableList height="100%">
                 {futureScheduledAppointments === null
                     ? null
-                    : futureScheduledAppointments.map(createItem)}
+                    : futureScheduledAppointments.map(Item)}
             </ScrollableList>
         </StandardConcaveBox>
     </StandardLabeledContainer>
 }
 
-function createItem(data: CustomerLandingPageScheduledAppointment): JSX.Element {
+const Item = (data: CustomerLandingPageScheduledAppointment) => {
+    const appointmentsApi = useAppointmentsApi();
+
     const date = data.startDatetimeServiceLocal.toLocalDate();
     const dateFormatted = date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
 
     const startFormatted = data.startDatetimeServiceLocal.format(DateTimeFormatter.ofPattern("HH:mm"));
     const endFormatted = data.endDatetimeServiceLocal.format(DateTimeFormatter.ofPattern("HH:mm"));
+
+    const onCancelClick = async () => {
+        // const promise = appointmentsApi.cancelAppointment(data.appointmentId);
+        const promise = Promise.resolve();
+        const resultAsync = errorErrResultAsyncFromPromise(promise);
+        const result = await resultAsync;
+        if (result.isErr()) {
+            toastError(DEFAULT_ERROR_MESSAGE_FOR_USER);
+        } else {
+            toastSuccess("Cancelled appointment!");
+            refresh();
+        }
+    }
 
     return <StandardPanel>
         <StandardFlex>
@@ -45,7 +64,9 @@ function createItem(data: CustomerLandingPageScheduledAppointment): JSX.Element 
             <Text>
                 {dateFormatted} {startFormatted} - {endFormatted}
             </Text>
-            <StandardButton backgroundColor="primary.darkRed">
+            <StandardButton
+                backgroundColor="primary.darkRed"
+                onClick={onCancelClick}>
                 Cancel
             </StandardButton>
         </StandardFlex>
