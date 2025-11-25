@@ -47,7 +47,7 @@ function createItem(data: CustomerLandingPageRejectedAppointment): JSX.Element {
             <Text>
                 Reason for rejection:
             </Text>
-            <Textarea>
+            <Textarea readOnly>
                 {data.rejectionMessage}
             </Textarea>
         </StandardFlex>
