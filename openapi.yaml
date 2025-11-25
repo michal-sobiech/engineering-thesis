@@ -584,7 +584,8 @@ components:
         ]
       properties:
         appointmentId:
-          type: number
+          type: integer
+          format: int64
         serviceName:
           type: string
         enterpriseName:
@@ -618,7 +619,8 @@ components:
         ]
       properties:
         appointmentId:
-          type: number
+          type: integer
+          format: int64
         serviceName:
           type: string
         enterpriseName:
@@ -653,7 +655,8 @@ components:
         ]
       properties:
         appointmentId:
-          type: number
+          type: integer
+          format: int64
         serviceName:
           type: string
         enterpriseName:
