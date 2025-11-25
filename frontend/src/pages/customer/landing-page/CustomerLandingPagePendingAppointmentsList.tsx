@@ -15,7 +15,7 @@ export const CustomerLandingPagePendingAppointmentsList = () => {
     const { pendingAppointments } = useContextOrThrow(CustomerLandingPageContext);
 
     return <StandardLabeledContainer
-        label="Past appointments"
+        label="Pending appointments"
         height="100%">
         <StandardConcaveBox maxHeight="100%" minHeight={0}>
             <ScrollableList height="100%">

@@ -1,4 +1,3 @@
-
 import { Heading, Text, Textarea } from "@chakra-ui/react";
 import { DateTimeFormatter } from "@js-joda/core";
 import { JSX } from "react";
