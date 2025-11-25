@@ -30,11 +30,10 @@ public class SecurityConfig {
     private final Oauth2Setupper oauth2Setupper;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) {
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity = corsSetupper.setUpCors(httpSecurity);
         httpSecurity = csrfSetupper.setupCsrf(httpSecurity);
         httpSecurity = sessionManagementSetupper.setupSessionManagement(httpSecurity);
-        httpSecurity = oauth2Setupper.setUp(httpSecurity);
         httpSecurity.addFilterBefore(jwtAuthRequestFilter, UsernamePasswordAuthenticationFilter.class);
         // httpSecurity = noAuthEndpointsSetupper.setupNoAuthEndpoints(httpSecurity);
 
