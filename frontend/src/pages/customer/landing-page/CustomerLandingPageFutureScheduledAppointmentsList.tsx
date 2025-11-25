@@ -11,7 +11,7 @@ import { useContextOrThrow } from "../../../hooks/useContextOrThrow";
 import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../../utils/error";
 import { refresh } from "../../../utils/refresh";
 import { errorErrResultAsyncFromPromise } from "../../../utils/result";
-import { toastError, toastSuccess } from "../../../utils/toast";
+import { toastError } from "../../../utils/toast";
 import { CustomerLandingPageContext } from "./CustomerLandingPageContext";
 import { CustomerLandingPageScheduledAppointment } from "./CustomerLandingPageScheduledAppointment";
 
@@ -41,14 +41,12 @@ const Item = (data: CustomerLandingPageScheduledAppointment) => {
     const endFormatted = data.endDatetimeServiceLocal.format(DateTimeFormatter.ofPattern("HH:mm"));
 
     const onCancelClick = async () => {
-        // const promise = appointmentsApi.cancelAppointment(data.appointmentId);
-        const promise = Promise.resolve();
+        const promise = appointmentsApi.cancelAppointment(data.appointmentId);
         const resultAsync = errorErrResultAsyncFromPromise(promise);
         const result = await resultAsync;
         if (result.isErr()) {
             toastError(DEFAULT_ERROR_MESSAGE_FOR_USER);
         } else {
-            toastSuccess("Cancelled appointment!");
             refresh();
         }
     }

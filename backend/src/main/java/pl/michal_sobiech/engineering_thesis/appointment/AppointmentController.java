@@ -1,5 +1,6 @@
 package pl.michal_sobiech.engineering_thesis.appointment;
 
+import java.math.BigDecimal;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -59,13 +60,15 @@ public class AppointmentController implements AppointmentsApi {
                             timezone);
 
                     return new GetCustomerLandingPagePendingAppointmentResponseItem(
+                            BigDecimal.valueOf(appointment.appointmentId()),
                             service.name(),
                             enterprise.name(),
                             appointment.location().getAddress(),
                             startDatetimeServiceLocal,
                             endDatetimeServiceLocal,
                             timezone.toString(),
-                            appointment.price());
+                            appointment.price(),
+                            appointment.currency().toString());
                 })
                 .collect(Collectors.toList());
 
@@ -95,6 +98,7 @@ public class AppointmentController implements AppointmentsApi {
                             appointment.endInstant(), timezone);
 
                     return new GetCustomerLandingPageRejectedAppointmentResponseItem(
+                            BigDecimal.valueOf(appointment.appointmentId()),
                             service.name(),
                             enterprise.name(),
                             appointment.location().getAddress(),
@@ -102,6 +106,7 @@ public class AppointmentController implements AppointmentsApi {
                             endDatetimeServiceLocal,
                             timezone.toString(),
                             appointment.price(),
+                            appointment.currency().toString(),
                             appointment.rejectionMessage());
                 })
                 .collect(Collectors.toList());
@@ -130,13 +135,15 @@ public class AppointmentController implements AppointmentsApi {
                             appointment.endInstant(), timezone);
 
                     return new GetCustomerLandingPageScheduledAppointmentResponseItem(
+                            BigDecimal.valueOf(appointment.appointmentId()),
                             service.name(),
                             enterprise.name(),
                             service.location().getAddress(),
                             startDatetimeServiceLocal,
                             endDatetimeServiceLocal,
                             timezone.toString(),
-                            appointment.price());
+                            appointment.price(),
+                            appointment.currency().toString());
                 })
                 .collect(Collectors.toList());
         return ResponseEntity.ok(body);
@@ -164,13 +171,15 @@ public class AppointmentController implements AppointmentsApi {
                             appointment.endInstant(), timezone);
 
                     return new GetCustomerLandingPageScheduledAppointmentResponseItem(
+                            BigDecimal.valueOf(appointment.appointmentId()),
                             service.name(),
                             enterprise.name(),
                             service.location().getAddress(),
                             startDatetimeServiceLocal,
                             endDatetimeServiceLocal,
                             timezone.toString(),
-                            appointment.price());
+                            appointment.price(),
+                            appointment.currency().toString());
                 })
                 .collect(Collectors.toList());
         return ResponseEntity.ok(body);
