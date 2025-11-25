@@ -1,6 +1,5 @@
 import { Box, Center, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
 import { useServicesApi } from "../../../api/services-api";
 import { FiveStarPicker } from "../../../common/FiveStarPicker";
 import { StandardButton } from "../../../common/StandardButton";
@@ -9,6 +8,7 @@ import { StandardPanel } from "../../../common/StandardPanel";
 import { StandardTextArea } from "../../../common/StandardTextArea";
 import { GetEnterpriseService200Response } from "../../../GENERATED-api";
 import { useIntParam } from "../../../hooks/useIntParam";
+import { useNavigateWithToastDismiss } from "../../../hooks/useNavigateWithToastDismiss";
 import { routes } from "../../../router/routes";
 import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../../utils/error";
 import { errorErrResultAsyncFromPromise } from "../../../utils/result";
@@ -17,7 +17,7 @@ import { toastError } from "../../../utils/toast";
 export const CreateServiceReviewPage = () => {
     const servicesApi = useServicesApi();
     const serviceId = useIntParam("serviceId");
-    const navigate = useNavigate();
+    const navigate = useNavigateWithToastDismiss();
 
     const [serviceData, setServiceData] = useState<GetEnterpriseService200Response | null>(null);
     const [numStarsOutOf5, setNumStarsOutOf5] = useState<number | null>(null);

@@ -27,6 +27,12 @@ export interface GetCustomerLandingPagePendingAppointmentResponseItem {
     appointmentId: number;
     /**
      * 
+     * @type {number}
+     * @memberof GetCustomerLandingPagePendingAppointmentResponseItem
+     */
+    serviceId: number;
+    /**
+     * 
      * @type {string}
      * @memberof GetCustomerLandingPagePendingAppointmentResponseItem
      */
@@ -80,6 +86,7 @@ export interface GetCustomerLandingPagePendingAppointmentResponseItem {
  */
 export function instanceOfGetCustomerLandingPagePendingAppointmentResponseItem(value: object): value is GetCustomerLandingPagePendingAppointmentResponseItem {
     if (!('appointmentId' in value) || value['appointmentId'] === undefined) return false;
+    if (!('serviceId' in value) || value['serviceId'] === undefined) return false;
     if (!('serviceName' in value) || value['serviceName'] === undefined) return false;
     if (!('enterpriseName' in value) || value['enterpriseName'] === undefined) return false;
     if (!('address' in value) || value['address'] === undefined) return false;
@@ -102,6 +109,7 @@ export function GetCustomerLandingPagePendingAppointmentResponseItemFromJSONType
     return {
         
         'appointmentId': json['appointmentId'],
+        'serviceId': json['serviceId'],
         'serviceName': json['serviceName'],
         'enterpriseName': json['enterpriseName'],
         'address': json['address'],
@@ -125,6 +133,7 @@ export function GetCustomerLandingPagePendingAppointmentResponseItemToJSONTyped(
     return {
         
         'appointmentId': value['appointmentId'],
+        'serviceId': value['serviceId'],
         'serviceName': value['serviceName'],
         'enterpriseName': value['enterpriseName'],
         'address': value['address'],

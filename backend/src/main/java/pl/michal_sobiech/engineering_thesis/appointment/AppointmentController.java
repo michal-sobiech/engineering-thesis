@@ -60,6 +60,7 @@ public class AppointmentController implements AppointmentsApi {
 
                     return new GetCustomerLandingPagePendingAppointmentResponseItem(
                             appointment.appointmentId(),
+                            service.enterpriseServiceId(),
                             service.name(),
                             enterprise.name(),
                             appointment.location().getAddress(),

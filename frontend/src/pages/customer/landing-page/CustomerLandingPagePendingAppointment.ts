@@ -1,6 +1,8 @@
 import { LocalDateTime } from "@js-joda/core";
 
 export interface CustomerLandingPagePendingAppointment {
+    appointmentId: number;
+    serviceId: number;
     serviceName: string,
     enterpriseName: string;
     address: string;

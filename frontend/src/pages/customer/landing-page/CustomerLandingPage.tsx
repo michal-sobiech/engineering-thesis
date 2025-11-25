@@ -94,6 +94,7 @@ export const CustomerLandingPage = () => {
             }
             const mapped: CustomerLandingPagePendingAppointment[] = result.value.map(item => ({
                 appointmentId: item.appointmentId,
+                serviceId: item.serviceId,
                 serviceName: item.serviceName,
                 enterpriseName: item.enterpriseName,
                 address: item.address,
