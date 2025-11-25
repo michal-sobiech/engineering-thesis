@@ -38,17 +38,19 @@ export const StandardDateRangePicker: FC<StandardDateRangePickerProps> = ({ date
         <Text>From:</Text>
         <DatePicker
             selected={date1}
-            onSelect={onPicker1Select}
+            onChange={onPicker1Select}
             showTimeSelect
-            timeFormat="yyyy-MM-dd HH:mm"
+            dateFormat="yyyy-MM-dd HH:mm"
+            timeFormat="HH:mm"
             customInput={<Input />}
         />
         <Text>to:</Text>
         <DatePicker
             selected={date2}
-            onSelect={onPicker2Select}
+            onChange={onPicker2Select}
             showTimeSelect
-            timeFormat="yyyy-MM-dd HH:mm"
+            dateFormat="yyyy-MM-dd HH:mm"
+            timeFormat="HH:mm"
             customInput={<Input />}
         />
     </Flex>
