@@ -39,7 +39,7 @@ CREATE TABLE public.enterprise (
 	suspended_by_admin boolean NOT NULL DEFAULT FALSE,
 
 	CONSTRAINT pk_enterprise PRIMARY KEY (enterprise_id),
-	CONSTRAINT chk_location CHECK (
+	CONSTRAINT chk_enterprise_location CHECK (
 		(address IS NULL AND latitude IS NULL AND longitude IS NULL)
 		OR
 		(address IS NOT NULL AND latitude IS NOT NULL AND longitude IS NOT NULL)
@@ -166,7 +166,7 @@ CREATE TABLE public.appointment (
 		OR
 		(is_custom = TRUE AND is_accepted = TRUE AND rejection_message IS NULL)
 	),
-	CONSTRAINT chk_location CHECK (
+	CONSTRAINT chk_appointment_location CHECK (
 		(is_custom = FALSE AND address IS NULL AND latitude IS NULL AND longitude IS NULL)
 		OR 
 		(is_custom = TRUE AND address IS NOT NULL AND latitude IS NOT NULL and longitude IS NOT NULL)
