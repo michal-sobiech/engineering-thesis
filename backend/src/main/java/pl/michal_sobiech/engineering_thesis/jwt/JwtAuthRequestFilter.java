@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.security.authentication.jwt.JwtAuthentication;
 import pl.michal_sobiech.engineering_thesis.security.authentication.jwt.JwtAuthenticationProvider;
+import pl.michal_sobiech.engineering_thesis.user.UserIdAuthentication;
 import pl.michal_sobiech.engineering_thesis.utils.AuthUtils;
 
 @Component
@@ -37,7 +38,14 @@ public class JwtAuthRequestFilter extends OncePerRequestFilter {
         Optional.ofNullable(request.getHeader("Authorization"))
                 .flatMap(this::extractJwtFromHeader)
                 .map(JwtAuthentication::new)
-                .map(jwtAuthenticationProvider::authenticate)
+                .flatMap(authToken -> {
+                    try {
+                        UserIdAuthentication authentication = jwtAuthenticationProvider.authenticate(authToken);
+                        return Optional.of(authentication);
+                    } catch (Exception exception) {
+                        return Optional.empty();
+                    }
+                })
                 .ifPresent(this::setAuthentication);
     }
 
