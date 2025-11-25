@@ -102,6 +102,11 @@ export const ServiceSearchPage = () => {
             return
         }
 
+        if (startDate < new Date()) {
+            toastError("Choose a future time range");
+            return;
+        }
+
         if (endDate === null) {
             toastError("Choose second time boundary");
             return;
