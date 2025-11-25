@@ -8,6 +8,7 @@ import org.SwaggerCodeGenExample.model.Location;
 
 import pl.michal_sobiech.engineering_thesis.currency_iso.CurrencyIso;
 
+// TODO cancelled or not?
 public record ScheduledAppointment(
 
         long appointmentId,
@@ -23,7 +24,7 @@ public record ScheduledAppointment(
 
     public static boolean matchesEntity(AppointmentEntity entity) {
         boolean isCustomScheduledAppointment = (entity.isCustom()
-                && entity.getIsAccepted() == true
+                && entity.getIsAccepted() != null && entity.getIsAccepted() == true
                 && entity.getRejectionMessage() == null);
 
         boolean isNonCustomScheduledAppointment = (!entity.isCustom()

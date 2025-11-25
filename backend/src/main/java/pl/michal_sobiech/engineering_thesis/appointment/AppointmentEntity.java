@@ -19,12 +19,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import pl.michal_sobiech.engineering_thesis.currency_iso.CurrencyIso;
 
 @Entity
 @Table(name = "appointment")
 @Data
 @Builder
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class AppointmentEntity {

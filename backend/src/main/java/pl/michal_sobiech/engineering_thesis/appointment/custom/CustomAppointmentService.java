@@ -15,7 +15,6 @@ import pl.michal_sobiech.engineering_thesis.appointment.AppointmentEntity;
 import pl.michal_sobiech.engineering_thesis.appointment.AppointmentRepository;
 import pl.michal_sobiech.engineering_thesis.appointment.ScheduledAppointment;
 import pl.michal_sobiech.engineering_thesis.currency_iso.CurrencyIso;
-import pl.michal_sobiech.engineering_thesis.enterprise_member.EnterpriseMemberService;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceDomain;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceService;
 
@@ -25,7 +24,6 @@ public class CustomAppointmentService {
 
     private final EnterpriseServiceService enterpriseServiceService;
     private final AppointmentRepository appointmentRepository;
-    private final EnterpriseMemberService enterpriseMemberService;
 
     public List<ScheduledAppointment> getConfirmedAppointmentsInDatetimeRange(
             long serviceId,
