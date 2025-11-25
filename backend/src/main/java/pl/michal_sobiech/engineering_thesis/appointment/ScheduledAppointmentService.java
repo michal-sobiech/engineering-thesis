@@ -17,28 +17,29 @@ public class ScheduledAppointmentService {
     private final CustomAppointmentQueryService customAppointmentQueryService;
     private final NonCustomAppointmentQueryService nonCustomAppointmentQueryService;
 
-    public List<ScheduledAppointment> getCustomerUncancelledFutureScheduledAppointments(long customerUserId) {
-        List<ScheduledAppointment> nonCustom = nonCustomAppointmentQueryService
+    public List<UncancelledScheduledAppointment> getCustomerUncancelledFutureScheduledAppointments(
+            long customerUserId) {
+        List<UncancelledScheduledAppointment> nonCustom = nonCustomAppointmentQueryService
                 .getCustomerUncancelledFutureScheduledAppointments(customerUserId);
 
-        List<ScheduledAppointment> custom = customAppointmentQueryService
+        List<UncancelledScheduledAppointment> custom = customAppointmentQueryService
                 .getCustomerUncancelledFutureScheduledAppointments(customerUserId);
 
-        List<ScheduledAppointment> all = new ArrayList<>();
+        List<UncancelledScheduledAppointment> all = new ArrayList<>();
         all.addAll(nonCustom);
         all.addAll(custom);
 
         return all;
     }
 
-    public List<ScheduledAppointment> getPastScheduledAppointmentsOfCustomer(long customerUserId) {
-        List<ScheduledAppointment> nonCustom = nonCustomAppointmentQueryService
+    public List<UncancelledScheduledAppointment> getPastScheduledAppointmentsOfCustomer(long customerUserId) {
+        List<UncancelledScheduledAppointment> nonCustom = nonCustomAppointmentQueryService
                 .getCustomerUncancelledPastScheduledAppointments(customerUserId);
 
-        List<ScheduledAppointment> custom = customAppointmentQueryService
+        List<UncancelledScheduledAppointment> custom = customAppointmentQueryService
                 .getCustomerUncancelledPastScheduledAppointments(customerUserId);
 
-        List<ScheduledAppointment> all = new ArrayList<>();
+        List<UncancelledScheduledAppointment> all = new ArrayList<>();
         all.addAll(nonCustom);
         all.addAll(custom);
 

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.appointment.AppointmentEntity;
 import pl.michal_sobiech.engineering_thesis.appointment.AppointmentRepository;
-import pl.michal_sobiech.engineering_thesis.appointment.ScheduledAppointment;
+import pl.michal_sobiech.engineering_thesis.appointment.UncancelledScheduledAppointment;
 import pl.michal_sobiech.engineering_thesis.appointment.query.AppointmentQueryTimeRange;
 
 @Service
@@ -42,7 +42,8 @@ public class NonCustomAppointmentQueryService {
                 futureVsPast);
     }
 
-    public List<ScheduledAppointment> getCustomerUncancelledFutureScheduledAppointments(long customerUserId) {
+    public List<UncancelledScheduledAppointment> getCustomerUncancelledFutureScheduledAppointments(
+            long customerUserId) {
         return getAppointments(
                 Optional.of(customerUserId),
                 Optional.empty(),
@@ -50,12 +51,12 @@ public class NonCustomAppointmentQueryService {
                 Optional.of(false),
                 Optional.of(AppointmentQueryTimeRange.FUTURE))
                 .stream()
-                .map(ScheduledAppointment::fromEntity)
+                .map(UncancelledScheduledAppointment::fromEntity)
                 .map(Optional::orElseThrow)
                 .collect(Collectors.toList());
     }
 
-    public List<ScheduledAppointment> getCustomerUncancelledPastScheduledAppointments(long customerUserId) {
+    public List<UncancelledScheduledAppointment> getCustomerUncancelledPastScheduledAppointments(long customerUserId) {
         return getAppointments(
                 Optional.of(customerUserId),
                 Optional.empty(),
@@ -63,7 +64,7 @@ public class NonCustomAppointmentQueryService {
                 Optional.of(false),
                 Optional.of(AppointmentQueryTimeRange.PAST))
                 .stream()
-                .map(ScheduledAppointment::fromEntity)
+                .map(UncancelledScheduledAppointment::fromEntity)
                 .map(Optional::orElseThrow)
                 .collect(Collectors.toList());
     }

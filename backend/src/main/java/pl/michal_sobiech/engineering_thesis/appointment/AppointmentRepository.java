@@ -82,7 +82,7 @@ public interface AppointmentRepository extends JpaRepository<AppointmentEntity, 
             JOIN UserEntity user ON user.userId = appointment.customerUserId
             JOIN EnterpriseServiceEntity service ON appointment.enterpriseServiceId = service.enterpriseServiceId
             JOIN EnterpriseEntity enterprise ON enterprise.enterpriseId = service.enterpriseId
-            WHERE appointment.isCustom = TRUE
+            WHERE appointment.isCustom = FALSE
             AND appointment.cancelled = :isCancelled
             AND (:customerUserId IS NULL OR appointment.customerUserId = :customerUserId )
             AND (:enterpriseServiceId IS NULL OR service.enterpriseServiceId = :enterpriseServiceId)

@@ -8,8 +8,7 @@ import org.SwaggerCodeGenExample.model.Location;
 
 import pl.michal_sobiech.engineering_thesis.currency_iso.CurrencyIso;
 
-// TODO cancelled or not?
-public record ScheduledAppointment(
+public record UncancelledScheduledAppointment(
 
         long appointmentId,
         long enterpriseServiceId,
@@ -25,16 +24,18 @@ public record ScheduledAppointment(
     public static boolean matchesEntity(AppointmentEntity entity) {
         boolean isCustomScheduledAppointment = (entity.isCustom()
                 && entity.getIsAccepted() != null && entity.getIsAccepted() == true
-                && entity.getRejectionMessage() == null);
+                && entity.getRejectionMessage() == null
+                && !entity.isCancelled());
 
         boolean isNonCustomScheduledAppointment = (!entity.isCustom()
                 && entity.getIsAccepted() == null
-                && entity.getRejectionMessage() == null);
+                && entity.getRejectionMessage() == null
+                && !entity.isCancelled());
 
         return isCustomScheduledAppointment || isNonCustomScheduledAppointment;
     }
 
-    public static Optional<ScheduledAppointment> fromEntity(AppointmentEntity entity) {
+    public static Optional<UncancelledScheduledAppointment> fromEntity(AppointmentEntity entity) {
         if (!matchesEntity(entity)) {
             return Optional.empty();
         }
@@ -44,7 +45,7 @@ public record ScheduledAppointment(
                 entity.getLongitude(),
                 entity.getLatitude());
 
-        var domain = new ScheduledAppointment(
+        var domain = new UncancelledScheduledAppointment(
                 entity.getAppointmentId(),
                 entity.getEnterpriseServiceId(),
                 entity.getCustomerUserId(),

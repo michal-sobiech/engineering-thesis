@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.appointment.AppointmentEntity;
 import pl.michal_sobiech.engineering_thesis.appointment.AppointmentRepository;
-import pl.michal_sobiech.engineering_thesis.appointment.ScheduledAppointment;
+import pl.michal_sobiech.engineering_thesis.appointment.UncancelledScheduledAppointment;
 import pl.michal_sobiech.engineering_thesis.currency_iso.CurrencyIso;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceDomain;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceService;
@@ -25,7 +25,8 @@ public class CustomAppointmentService {
     private final EnterpriseServiceService enterpriseServiceService;
     private final AppointmentRepository appointmentRepository;
 
-    public List<ScheduledAppointment> getConfirmedAppointmentsInDatetimeRange(
+    // TODO add uncancelled to method name?
+    public List<UncancelledScheduledAppointment> getConfirmedAppointmentsInDatetimeRange(
             long serviceId,
             Instant from,
             Instant to) {
@@ -35,7 +36,7 @@ public class CustomAppointmentService {
                 to.atOffset(ZoneOffset.UTC));
         return appointments
                 .stream()
-                .map(ScheduledAppointment::fromEntity)
+                .map(UncancelledScheduledAppointment::fromEntity)
                 .map(Optional::orElseThrow)
                 .collect(Collectors.toList());
     }
@@ -70,12 +71,12 @@ public class CustomAppointmentService {
         appointmentRepository.save(appointmentEntity);
     }
 
-    public List<ScheduledAppointment> getConfirmedCustomAppointmentsOfCustomer(long customerUserId) {
+    public List<UncancelledScheduledAppointment> getConfirmedCustomAppointmentsOfCustomer(long customerUserId) {
         List<AppointmentEntity> records = appointmentRepository
                 .findConfirmedCustomAppointmentsOfCustomer(customerUserId);
         return records
                 .stream()
-                .map(ScheduledAppointment::fromEntity)
+                .map(UncancelledScheduledAppointment::fromEntity)
                 .map(Optional::orElseThrow)
                 .collect(Collectors.toList());
     }
