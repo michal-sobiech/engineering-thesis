@@ -948,11 +948,51 @@ components:
         password:
           type: string
 
-    PayForAppointmentResponse:
+    AdyenAmount:
       type: object
-      required: [paymentUrl]
+      required: [currency, value]
       properties:
-        paymentUrl:
+        currency:
+          type: string
+        value:
+          type: integer
+
+    AdyenPaymentMethod:
+      type: object
+      required: [brand, scheme]
+      properties:
+        brand:
+          type: string
+        scheme:
+          type: string
+
+    CreateAdyenSessionRequest:
+      type: object
+      required: [returnUrl]
+      properties:
+        returnUrl:
+          type: string
+
+    CreateAdyenSessionResponsePayment:
+      type: object
+      required: [amount, paymentMethod, pspReference, resultCode]
+      properties:
+        amount:
+          $ref: "#/components/schemas/AdyenAmount"
+        paymentMethod:
+          $ref: "#/components/schemas/AdyenPaymentMethod"
+        pspReference:
+          type: string
+        resultCode:
+          type: string
+
+    CreateAdyenSessionResponse:
+      type: object
+      required: [sessionId, sessionData]
+      properties:
+        sessionId:
+          type: string
+        sessionData:
           type: string
 
     AdyenWebhookRequest:
@@ -2402,10 +2442,10 @@ paths:
         "500":
           $ref: "#/components/responses/InternalServerError"
 
-  /appointments/{appointmentId}/pay:
+  /appointments/{appointmentId}/create-adyen-session:
     post:
       tags: [Appointments]
-      operationId: payForAppointment
+      operationId: createAdyenSession
       security:
         - JwtBearerAuth: []
       parameters:
@@ -2415,13 +2455,18 @@ paths:
           schema:
             type: integer
             format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateAdyenSessionRequest"
       responses:
         "200":
           description: *OK_DESCRIPTION
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PayForAppointmentResponse"
+                $ref: "#/components/schemas/CreateAdyenSessionResponse"
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":
@@ -2433,6 +2478,7 @@ paths:
 
   /webhooks/adyen:
     post:
+      tags: [Adyen]
       operationId: sendAdyenPaymentStatus
       requestBody:
         required: true

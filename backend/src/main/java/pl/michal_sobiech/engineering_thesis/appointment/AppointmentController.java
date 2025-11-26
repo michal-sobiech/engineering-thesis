@@ -1,10 +1,14 @@
 package pl.michal_sobiech.engineering_thesis.appointment;
 
+import java.net.URI;
+import java.net.URL;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.SwaggerCodeGenExample.api.AppointmentsApi;
+import org.SwaggerCodeGenExample.model.CreateAdyenSessionRequest;
+import org.SwaggerCodeGenExample.model.CreateAdyenSessionResponse;
 import org.SwaggerCodeGenExample.model.GetCustomerLandingPagePendingAppointmentResponseItem;
 import org.SwaggerCodeGenExample.model.GetCustomerLandingPageRejectedAppointmentResponseItem;
 import org.SwaggerCodeGenExample.model.GetCustomerLandingPageScheduledAppointmentResponseItem;
@@ -12,7 +16,10 @@ import org.SwaggerCodeGenExample.model.RejectPendingAppointmentRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.adyen.model.checkout.CreateCheckoutSessionResponse;
+
 import lombok.RequiredArgsConstructor;
+import pl.michal_sobiech.engineering_thesis.adyen.AdyenService;
 import pl.michal_sobiech.engineering_thesis.appointment.custom.CustomAppointmentQueryService;
 import pl.michal_sobiech.engineering_thesis.appointment.custom.CustomAppointmentService;
 import pl.michal_sobiech.engineering_thesis.auth.AuthService;
@@ -36,6 +43,7 @@ public class AppointmentController implements AppointmentsApi {
     private final AppointmentService appointmentService;
     private final CustomAppointmentQueryService customAppointmentQueryService;
     private final CustomAppointmentService customAppointmentService;
+    private final AdyenService adyenService;
 
     @Override
     public ResponseEntity<List<GetCustomerLandingPagePendingAppointmentResponseItem>> getMyUncancelledFuturePendingAppointments() {
@@ -216,6 +224,26 @@ public class AppointmentController implements AppointmentsApi {
     public ResponseEntity<Void> cancelAppointment(Long appointmentId) {
         scheduledAppointmentService.cancelAppointment(appointmentId);
         return ResponseEntity.ok().build();
+    }
+
+    @Override
+    public ResponseEntity<CreateAdyenSessionResponse> createAdyenSession(
+            Long appointmentId,
+            CreateAdyenSessionRequest createAdyenSessionRequest) {
+        URL url;
+        try {
+            url = URI.create(createAdyenSessionRequest.getReturnUrl()).toURL();
+        } catch (Exception exception) {
+            throw new RuntimeException(exception);
+        }
+
+        CreateCheckoutSessionResponse createSessionResponse = adyenService.createSession(appointmentId, url);
+
+        CreateAdyenSessionResponse body = new CreateAdyenSessionResponse(
+                createSessionResponse.getId(),
+                createSessionResponse.getSessionData());
+
+        return ResponseEntity.ok(body);
     }
 
 }
