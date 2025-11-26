@@ -964,7 +964,7 @@ components:
         notificationItems:
           type: array
           items:
-            $ref: "#/components/schemas/AdyenWebookRequestNotificationItem"
+            $ref: "#/components/schemas/AdyenWebhookRequestNotificationItem"
 
     AdyenWebhookRequestNotificationItem:
       type: object
