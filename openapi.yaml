@@ -948,6 +948,64 @@ components:
         password:
           type: string
 
+    PayForAppointmentResponse:
+      type: object
+      required: [paymentUrl]
+      properties:
+        paymentUrl:
+          type: string
+
+    AdyenWebhookRequest:
+      type: object
+      required: [live, notificationItems]
+      properties:
+        live:
+          type: boolean
+        notificationItems:
+          type: array
+          items:
+            $ref: "#/components/schemas/AdyenWebookRequestNotificationItem"
+
+    AdyenWebhookRequestNotificationItem:
+      type: object
+      required:
+        [
+          eventCode,
+          success,
+          eventDate,
+          merchantAccountCode,
+          pspReference,
+          merchantReference,
+          amount,
+        ]
+      properties:
+        additionalData:
+          type: object
+          additionalProperties: true
+        eventCode:
+          type: string
+        success:
+          type: string
+        eventDate:
+          type: string
+          format: date-time
+        merchantAccountCode:
+          type: string
+        pspReference:
+          type: string
+        merchantReference:
+          type: string
+        amount:
+          type: object
+          required: [value, currency]
+          properties:
+            value:
+              type: number
+              example: 1130
+            currency:
+              type: string
+              example: EUR
+
   responses:
     OK:
       description: &OK_DESCRIPTION >
@@ -2343,3 +2401,45 @@ paths:
           $ref: "#/components/responses/Forbidden"
         "500":
           $ref: "#/components/responses/InternalServerError"
+
+  /appointments/{appointmentId}/pay:
+    post:
+      tags: [Appointments]
+      operationId: payForAppointment
+      security:
+        - JwtBearerAuth: []
+      parameters:
+        - name: appointmentId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: *OK_DESCRIPTION
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PayForAppointmentResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /webhooks/adyen:
+    post:
+      operationId: sendAdyenPaymentStatus
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdyenWebhookRequest"
+      responses:
+        "200":
+          description: *OK_DESCRIPTION
