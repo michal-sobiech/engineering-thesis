@@ -24,6 +24,7 @@ import type {
   InlineObject1,
   InlineObject2,
   InlineObject4,
+  PayForAppointmentResponse,
   RejectPendingAppointmentRequest,
 } from '../models/index';
 import {
@@ -45,6 +46,8 @@ import {
     InlineObject2ToJSON,
     InlineObject4FromJSON,
     InlineObject4ToJSON,
+    PayForAppointmentResponseFromJSON,
+    PayForAppointmentResponseToJSON,
     RejectPendingAppointmentRequestFromJSON,
     RejectPendingAppointmentRequestToJSON,
 } from '../models/index';
@@ -65,6 +68,10 @@ export interface CreateCustomAppointmentOperationRequest {
 export interface CreateNonCustomAppointmentOperationRequest {
     serviceId: number;
     createNonCustomAppointmentRequest: CreateNonCustomAppointmentRequest;
+}
+
+export interface PayForAppointmentRequest {
+    appointmentId: number;
 }
 
 export interface RejectPendingAppointmentOperationRequest {
@@ -402,6 +409,49 @@ export class AppointmentsApi extends runtime.BaseAPI {
      */
     async getMyUncancelledFutureScheduledAppointments(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetCustomerLandingPageScheduledAppointmentResponseItem>> {
         const response = await this.getMyUncancelledFutureScheduledAppointmentsRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async payForAppointmentRaw(requestParameters: PayForAppointmentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PayForAppointmentResponse>> {
+        if (requestParameters['appointmentId'] == null) {
+            throw new runtime.RequiredError(
+                'appointmentId',
+                'Required parameter "appointmentId" was null or undefined when calling payForAppointment().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("JwtBearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/appointments/{appointmentId}/pay`;
+        urlPath = urlPath.replace(`{${"appointmentId"}}`, encodeURIComponent(String(requestParameters['appointmentId'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => PayForAppointmentResponseFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async payForAppointment(appointmentId: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PayForAppointmentResponse> {
+        const response = await this.payForAppointmentRaw({ appointmentId: appointmentId }, initOverrides);
         return await response.value();
     }
 

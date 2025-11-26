@@ -1,6 +1,7 @@
 apis/AppointmentsApi.ts
 apis/AuthApi.ts
 apis/CustomersApi.ts
+apis/DefaultApi.ts
 apis/EnterpriseEmployeesApi.ts
 apis/EnterpriseServicesApi.ts
 apis/EnterprisesApi.ts
@@ -12,6 +13,9 @@ apis/ReportApi.ts
 apis/UserApi.ts
 apis/index.ts
 index.ts
+models/AdyenWebhookRequest.ts
+models/AdyenWebhookRequestNotificationItem.ts
+models/AdyenWebhookRequestNotificationItemAmount.ts
 models/CheckIndependentEndUserEmailExists200Response.ts
 models/CreateCustomAppointmentRequest.ts
 models/CreateCustomAppointmentsEnterpriseServiceRequest.ts
@@ -62,6 +66,7 @@ models/LogInEnterpriseEmployeeResponse.ts
 models/LogInIndependentEndUserRequest.ts
 models/LogInIndependentEndUserResponse.ts
 models/PatchRegularAdminRequest.ts
+models/PayForAppointmentResponse.ts
 models/RejectPendingAppointmentRequest.ts
 models/ServiceSearchResponseItem.ts
 models/Slot.ts

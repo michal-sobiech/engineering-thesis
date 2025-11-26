@@ -1,5 +1,8 @@
 /* tslint:disable */
 /* eslint-disable */
+export * from './AdyenWebhookRequest';
+export * from './AdyenWebhookRequestNotificationItem';
+export * from './AdyenWebhookRequestNotificationItemAmount';
 export * from './CheckIndependentEndUserEmailExists200Response';
 export * from './CreateCustomAppointmentRequest';
 export * from './CreateCustomAppointmentsEnterpriseServiceRequest';
@@ -50,6 +53,7 @@ export * from './LogInEnterpriseEmployeeResponse';
 export * from './LogInIndependentEndUserRequest';
 export * from './LogInIndependentEndUserResponse';
 export * from './PatchRegularAdminRequest';
+export * from './PayForAppointmentResponse';
 export * from './RejectPendingAppointmentRequest';
 export * from './ServiceSearchResponseItem';
 export * from './Slot';
