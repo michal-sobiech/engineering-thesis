@@ -36,6 +36,53 @@ components:
           format: password
           example: "5=2VPIzYHSIc0l4d1o&es]plB"
 
+    CreateEntrepreneurRequest:
+      type: object
+      required:
+        [
+          firstName,
+          lastName,
+          email,
+          password,
+          dateOfBirth,
+          country,
+          city,
+          street,
+          postalCode,
+          iban,
+        ]
+      properties:
+        firstName:
+          type: string
+          example: Jan
+        lastName:
+          type: string
+          example: Kowalski
+        email:
+          type: string
+          example: jan.kowalski@test.com
+        password:
+          type: string
+          format: password
+          example: "5=2VPIzYHSIc0l4d1o&es]plB"
+        dateOfBirth:
+          $ref: "#/components/schemas/LocalDate"
+        country:
+          type: string
+        city:
+          type: string
+        street:
+          type: string
+        postalCode:
+          $ref: "#/components/schemas/PostalCode"
+        iban:
+          type: string
+
+    PostalCode:
+      type: string
+      pattern: "^\\d{2}-\\d{3}$"
+      example: "12-345"
+
     LogInIndependentEndUserRequest:
       type: object
       required:
@@ -562,6 +609,11 @@ components:
           $ref: "#/components/schemas/LocalDatetime"
         location:
           $ref: "#/components/schemas/Location"
+
+    LocalDate:
+      type: string
+      pattern: "^\\d{4}-\\d{2}-\\d{2}"
+      example: "2025-11-05"
 
     LocalDatetime:
       type: string
@@ -1145,7 +1197,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateIndependentEndUserRequest"
+              $ref: "#/components/schemas/CreateEntrepreneurRequest"
       responses:
         "201":
           description: *CREATED_DESCRIPTION

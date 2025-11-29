@@ -1,6 +1,6 @@
 import { Text } from "@chakra-ui/react";
 
-const Message = () => {
+export const SignUpSuccessMessage = () => {
     return <Text fontSize="xxl">
         <Text as="span" color="primary.lightGreen" fontWeight="bold" >
             Successful
@@ -9,5 +9,3 @@ const Message = () => {
         sign up!
     </Text>
 }
-
-export default Message;

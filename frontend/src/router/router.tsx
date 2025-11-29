@@ -6,17 +6,17 @@ import { RegularAdminsListPage } from "../pages/admin/regular-admins-list/Regula
 import { AdminReportsPage } from "../pages/admin/reports/AdminReportsPage";
 import { CustomerLogInPage } from "../pages/customer/CustomerLogInPage";
 import { CustomerSignUpOrLogIn } from "../pages/customer/CustomerSignUpOrLogInPage";
-import { CustomerSignUpPage } from "../pages/customer/CustomerSignUpPage";
+import { CustomerSignUpWizard } from "../pages/customer/CustomerSignUpWizard";
 import { CustomerLandingPage } from "../pages/customer/landing-page/CustomerLandingPage";
 import { EmployeeCreationWizard } from "../pages/employee/creation/wizard/EmployeeCreationWizard";
 import { EmployeeLogInPage } from "../pages/employee/log_in/EmployeeLogInPage";
 import { EnterprisePublicPage } from "../pages/enterprise/public/EnterprisePublicPage";
 import { EnterpriseStaffPage } from "../pages/enterprise/staff/EnterpriseStaffPage";
 import { EnterpriseStaffSignUpOrLogIn } from "../pages/enterprise_staff/sign-up-or-log-in/EnterpriseStaffSignUpOrLogInPage";
+import { EntrepreneurSignUpWizard } from "../pages/entrepreneur/EntrepreneurSignUpWizard";
 import { CreateEnterprisePage } from "../pages/entrepreneur/create_enterprise/CreateEnterprisePage";
 import { EntrepreneurLandingPage } from "../pages/entrepreneur/landing_page/EntrepreneurLandingPage";
 import { EntrepreneurLogInPage } from "../pages/entrepreneur/log-in/EntrepreneurLogInPage";
-import { EntrepreneurSignUpWizard } from "../pages/entrepreneur/sign-up/EntrepreneurSignUpWizard";
 import { MainPage } from "../pages/main_page/MainPage";
 import { ServiceCreationPage } from "../pages/service/ServiceCreationPage";
 import { CreateServiceReviewPage } from "../pages/service/create-service-review/CreateServiceReviewPage";
@@ -90,7 +90,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: routeTemplates.customerSignUp,
-                element: <CustomerSignUpPage />
+                element: <CustomerSignUpWizard />
             },
             {
                 path: routeTemplates.customerSignUpOrLogIn,

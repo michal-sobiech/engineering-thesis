@@ -15,7 +15,7 @@
 
 import * as runtime from '../runtime';
 import type {
-  CreateIndependentEndUserRequest,
+  CreateEntrepreneurRequest,
   GetEntrepreneurEnterprisesResponseItem,
   IndependentEndUserGetMeResponse,
   InlineObject,
@@ -25,8 +25,8 @@ import type {
   InlineObject4,
 } from '../models/index';
 import {
-    CreateIndependentEndUserRequestFromJSON,
-    CreateIndependentEndUserRequestToJSON,
+    CreateEntrepreneurRequestFromJSON,
+    CreateEntrepreneurRequestToJSON,
     GetEntrepreneurEnterprisesResponseItemFromJSON,
     GetEntrepreneurEnterprisesResponseItemToJSON,
     IndependentEndUserGetMeResponseFromJSON,
@@ -43,8 +43,8 @@ import {
     InlineObject4ToJSON,
 } from '../models/index';
 
-export interface CreateEntrepreneurRequest {
-    createIndependentEndUserRequest: CreateIndependentEndUserRequest;
+export interface CreateEntrepreneurOperationRequest {
+    createEntrepreneurRequest: CreateEntrepreneurRequest;
 }
 
 export interface GetEntrepreneurEnterprisesRequest {
@@ -59,11 +59,11 @@ export class EntrepreneursApi extends runtime.BaseAPI {
     /**
      * Create an entrepreneur
      */
-    async createEntrepreneurRaw(requestParameters: CreateEntrepreneurRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters['createIndependentEndUserRequest'] == null) {
+    async createEntrepreneurRaw(requestParameters: CreateEntrepreneurOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['createEntrepreneurRequest'] == null) {
             throw new runtime.RequiredError(
-                'createIndependentEndUserRequest',
-                'Required parameter "createIndependentEndUserRequest" was null or undefined when calling createEntrepreneur().'
+                'createEntrepreneurRequest',
+                'Required parameter "createEntrepreneurRequest" was null or undefined when calling createEntrepreneur().'
             );
         }
 
@@ -81,7 +81,7 @@ export class EntrepreneursApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: CreateIndependentEndUserRequestToJSON(requestParameters['createIndependentEndUserRequest']),
+            body: CreateEntrepreneurRequestToJSON(requestParameters['createEntrepreneurRequest']),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -90,8 +90,8 @@ export class EntrepreneursApi extends runtime.BaseAPI {
     /**
      * Create an entrepreneur
      */
-    async createEntrepreneur(createIndependentEndUserRequest: CreateIndependentEndUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.createEntrepreneurRaw({ createIndependentEndUserRequest: createIndependentEndUserRequest }, initOverrides);
+    async createEntrepreneur(createEntrepreneurRequest: CreateEntrepreneurRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.createEntrepreneurRaw({ createEntrepreneurRequest: createEntrepreneurRequest }, initOverrides);
     }
 
     /**

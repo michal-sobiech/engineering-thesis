@@ -1,6 +1,6 @@
 import { Box, Center } from "@chakra-ui/react";
 import { useNavigate } from "react-router";
-import Message from "../../../../common/sign-up-page/sign_up_success/SignUpSuccessMessage";
+import { SignUpSuccessMessage } from "../../../../common/sign-up-page/sign_up_success/SignUpSuccessMessage";
 import { StandardButton } from "../../../../common/StandardButton";
 import { StandardFlex } from "../../../../common/StandardFlex";
 import { StandardPanel } from "../../../../common/StandardPanel";
@@ -20,7 +20,7 @@ export const EmployeeCreationSuccessPage = () => {
             <StandardPanel>
                 <StandardFlex>
                     <Center>
-                        <Message />
+                        <SignUpSuccessMessage />
                     </Center>
                     <StandardButton
                         onClick={onClick}>

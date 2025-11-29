@@ -12,13 +12,13 @@ import { StandardPanel } from "../StandardPanel";
 import { StandardTextField } from "../StandardTextField";
 
 export interface PayoutInfoPageProps {
-    onNextClick: () => void;
+    submit: () => Promise<void>;
 
     dateOfBirth: LocalDate | null;
     country: string;
+    city: string;
     street: string;
     postalCode: string;
-    city: string;
     iban: string;
 
     setDateOfBirth: UseStateSetter<LocalDate | null>;
@@ -30,7 +30,7 @@ export interface PayoutInfoPageProps {
 }
 
 export const PayoutInfoPage: FC<PayoutInfoPageProps> = ({
-    onNextClick,
+    submit,
 
     dateOfBirth,
     country,
@@ -88,7 +88,7 @@ export const PayoutInfoPage: FC<PayoutInfoPageProps> = ({
             return;
         }
 
-        onNextClick();
+        submit();
     }
 
     return <Center height="100%">

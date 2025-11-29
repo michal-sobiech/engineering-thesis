@@ -45,10 +45,10 @@ export interface CreateEntrepreneurRequest {
     password: string;
     /**
      * 
-     * @type {CreateEntrepreneurRequest}
+     * @type {string}
      * @memberof CreateEntrepreneurRequest
      */
-    dateOfBirth: CreateEntrepreneurRequest;
+    dateOfBirth: string;
     /**
      * 
      * @type {string}
@@ -112,7 +112,7 @@ export function CreateEntrepreneurRequestFromJSONTyped(json: any, ignoreDiscrimi
         'lastName': json['lastName'],
         'email': json['email'],
         'password': json['password'],
-        'dateOfBirth': CreateEntrepreneurRequestFromJSON(json['dateOfBirth']),
+        'dateOfBirth': json['dateOfBirth'],
         'country': json['country'],
         'city': json['city'],
         'street': json['street'],
@@ -136,7 +136,7 @@ export function CreateEntrepreneurRequestToJSONTyped(value?: CreateEntrepreneurR
         'lastName': value['lastName'],
         'email': value['email'],
         'password': value['password'],
-        'dateOfBirth': CreateEntrepreneurRequestToJSON(value['dateOfBirth']),
+        'dateOfBirth': value['dateOfBirth'],
         'country': value['country'],
         'city': value['city'],
         'street': value['street'],
