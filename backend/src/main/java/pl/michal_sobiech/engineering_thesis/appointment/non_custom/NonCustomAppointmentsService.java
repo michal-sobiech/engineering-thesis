@@ -63,7 +63,9 @@ public class NonCustomAppointmentsService {
                 null,
                 null,
                 null,
-                false);
+                false,
+                false,
+                null);
         appointmentRepository.save(appointmentEntity);
     }
 

@@ -83,7 +83,8 @@ public class AppointmentEntity {
     @Column(name = "is_paid")
     private boolean isPaid;
 
-    @Column(name = "payment_id")
-    private long paymentId;
+    @Nullable
+    @Column(name = "payment_id", nullable = true)
+    private Long paymentId;
 
 }
