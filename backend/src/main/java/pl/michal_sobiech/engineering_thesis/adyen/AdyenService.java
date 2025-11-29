@@ -2,8 +2,8 @@ package pl.michal_sobiech.engineering_thesis.adyen;
 
 import java.math.BigDecimal;
 import java.net.URL;
-import java.util.UUID;
 
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
 import com.adyen.model.RequestOptions;
@@ -14,25 +14,32 @@ import com.adyen.service.checkout.PaymentsApi;
 
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.appointment.AppointmentService;
+import pl.michal_sobiech.engineering_thesis.currency_iso.CurrencyIso;
+import pl.michal_sobiech.engineering_thesis.payment.MerchantReferenceUtils;
+import pl.michal_sobiech.engineering_thesis.payment.PaymentSubjectType;
 
 @Service
 @RequiredArgsConstructor
 public class AdyenService {
 
     private final AdyenProperties adyenProperties;
-    private final AppointmentService appointmentService;
     private final PaymentsApi adyenPaymentsApi;
+    private final AppointmentService appointmentService;
 
-    public CreateCheckoutSessionResponse createSession(long appointmentId, URL returnUrl) {
-        var priceAndCurrency = appointmentService.getAppointmentPriceAndCurrency(appointmentId);
+    public CreateCheckoutSessionResponse createSession(
+            PaymentSubjectType paymentSubjectType,
+            long paymentSubjectId,
+            URL returnUrl) {
+        Pair<Long, String> priceAndCurrency = getPriceAndCurrencyOfPaymentSubject(paymentSubjectType, paymentSubjectId);
 
         Amount amount = new Amount();
-        long priceMinorUnits = priceAndCurrency.getFirst().multiply(BigDecimal.valueOf(100)).longValue();
+        amount.setValue(priceAndCurrency.getFirst());
         amount.setCurrency(priceAndCurrency.getSecond().toString());
-        amount.setValue(priceMinorUnits);
+
+        String merchantReference = MerchantReferenceUtils.createMerchantReference(paymentSubjectType, paymentSubjectId);
 
         CreateCheckoutSessionRequest request = new CreateCheckoutSessionRequest()
-                .reference(UUID.randomUUID().toString())
+                .reference(merchantReference)
                 .amount(amount)
                 .merchantAccount(adyenProperties.merchantAccount())
                 .returnUrl(returnUrl.toString());
@@ -44,6 +51,20 @@ public class AdyenService {
         } catch (Exception exception) {
             throw new RuntimeException(exception);
         }
+    }
+
+    private Pair<Long, String> getPriceAndCurrencyOfPaymentSubject(
+            PaymentSubjectType paymentSubjectType,
+            long paymentSubjectId) {
+        return switch (paymentSubjectType) {
+            case APPOINTMENT -> {
+                Pair<BigDecimal, CurrencyIso> priceAndCurrency = appointmentService
+                        .getAppointmentPriceAndCurrency(paymentSubjectId);
+                long priceMinorUnits = priceAndCurrency.getFirst().multiply(BigDecimal.valueOf(100)).longValue();
+                String currency = priceAndCurrency.getSecond().toString();
+                yield Pair.of(priceMinorUnits, currency);
+            }
+        };
     }
 
 }

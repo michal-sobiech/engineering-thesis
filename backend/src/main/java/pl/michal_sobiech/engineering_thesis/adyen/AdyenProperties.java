@@ -7,7 +7,11 @@ public record AdyenProperties(
 
         String merchantAccount,
 
-        String apiKey
+        String apiKey,
+
+        String hmacKey,
+
+        String environment
 
 ) {
 

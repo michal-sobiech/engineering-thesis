@@ -154,6 +154,9 @@ CREATE TABLE public.appointment (
 
     cancelled boolean NOT NULL DEFAULT FALSE,
 
+    is_paid boolean NOT NULL DEFAULT FALSE,
+    payment_id bigint
+
 	CONSTRAINT pk_appointment_id PRIMARY KEY (appointment_id),
 	CONSTRAINT fk_appointment_enterprise_service_id FOREIGN KEY (enterprise_service_id) REFERENCES public.enterprise_service(enterprise_service_id) ON DELETE CASCADE,
 	CONSTRAINT fk_appointment_customer_user_id FOREIGN KEY (customer_user_id) REFERENCES public.app_user(user_id) ON DELETE CASCADE,
@@ -171,6 +174,11 @@ CREATE TABLE public.appointment (
 		OR 
 		(is_custom = TRUE AND address IS NOT NULL AND latitude IS NOT NULL and longitude IS NOT NULL)
 	)
+    CONSTRAINT fk_appointment_payment_id FOREIGN KEY (payment_id) REFERENCES public.payment(payment_id) ON DELETE SET NULL
+    CONSTRAINT chk_appointment_payment (
+        (is_paid = FALSE AND payment_id IS NULL)
+        -- is_paid = TRUE AND payment_id IS NULL is a valid combination, it means there was a payment on site.
+    )
 );
 
 CREATE TABLE public.report (
@@ -196,3 +204,8 @@ CREATE TABLE public.report (
 		(enterprise_id IS     NULL AND enterprise_service_id IS     NULL AND review_id IS NOT NULL)
 	)
 );
+
+CREATE TABLE public.payment (
+    payment_id bigint GENERATED ALWAYS AS IDENTITY NOT NULL,
+    adyenPspReference text
+)

@@ -956,6 +956,7 @@ components:
           type: string
         value:
           type: integer
+          format: int64
 
     AdyenPaymentMethod:
       type: object
@@ -1021,11 +1022,15 @@ components:
       properties:
         additionalData:
           type: object
+          required: [hmacSignature]
+          properties:
+            hmacSignature:
+              type: string
           additionalProperties: true
         eventCode:
           type: string
         success:
-          type: string
+          type: boolean
         eventDate:
           type: string
           format: date-time
@@ -1036,15 +1041,7 @@ components:
         merchantReference:
           type: string
         amount:
-          type: object
-          required: [value, currency]
-          properties:
-            value:
-              type: number
-              example: 1130
-            currency:
-              type: string
-              example: EUR
+          $ref: "#/components/schemas/AdyenAmount"
 
   responses:
     OK:
@@ -2476,7 +2473,7 @@ paths:
         "500":
           $ref: "#/components/responses/InternalServerError"
 
-  /webhooks/adyen:
+  /adyen/webhook:
     post:
       tags: [Adyen]
       operationId: sendAdyenPaymentStatus

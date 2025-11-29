@@ -55,4 +55,11 @@ public class AppointmentService {
         return Pair.of(record.getPrice(), record.getCurrency());
     }
 
+    public void linkPayment(long appointmentId, long paymentId) {
+        AppointmentEntity record = appointmentRepository.findById(appointmentId).orElseThrow();
+        record.setPaymentId(paymentId);
+        record.setPaid(true);
+        appointmentRepository.save(record);
+    }
+
 }

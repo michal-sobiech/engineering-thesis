@@ -30,6 +30,7 @@ import pl.michal_sobiech.engineering_thesis.enterprise_member.EnterpriseMember;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceDomain;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceService;
 import pl.michal_sobiech.engineering_thesis.exceptions.exceptions.UnauthorizedException;
+import pl.michal_sobiech.engineering_thesis.payment.PaymentSubjectType;
 import pl.michal_sobiech.engineering_thesis.utils.DateUtils;
 
 @RestController
@@ -230,14 +231,17 @@ public class AppointmentController implements AppointmentsApi {
     public ResponseEntity<CreateAdyenSessionResponse> createAdyenSession(
             Long appointmentId,
             CreateAdyenSessionRequest createAdyenSessionRequest) {
-        URL url;
+        URL returnUrl;
         try {
-            url = URI.create(createAdyenSessionRequest.getReturnUrl()).toURL();
+            returnUrl = URI.create(createAdyenSessionRequest.getReturnUrl()).toURL();
         } catch (Exception exception) {
             throw new RuntimeException(exception);
         }
 
-        CreateCheckoutSessionResponse createSessionResponse = adyenService.createSession(appointmentId, url);
+        CreateCheckoutSessionResponse createSessionResponse = adyenService.createSession(
+                PaymentSubjectType.APPOINTMENT,
+                appointmentId,
+                returnUrl);
 
         CreateAdyenSessionResponse body = new CreateAdyenSessionResponse(
                 createSessionResponse.getId(),

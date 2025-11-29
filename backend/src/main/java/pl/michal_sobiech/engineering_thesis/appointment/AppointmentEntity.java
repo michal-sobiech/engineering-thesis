@@ -80,4 +80,10 @@ public class AppointmentEntity {
 
     private boolean cancelled;
 
+    @Column(name = "is_paid")
+    private boolean isPaid;
+
+    @Column(name = "payment_id")
+    private long paymentId;
+
 }
