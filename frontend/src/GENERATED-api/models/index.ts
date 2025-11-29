@@ -1,9 +1,14 @@
 /* tslint:disable */
 /* eslint-disable */
+export * from './AdyenAmount';
+export * from './AdyenPaymentMethod';
 export * from './AdyenWebhookRequest';
 export * from './AdyenWebhookRequestNotificationItem';
-export * from './AdyenWebhookRequestNotificationItemAmount';
+export * from './AdyenWebhookRequestNotificationItemAdditionalData';
 export * from './CheckIndependentEndUserEmailExists200Response';
+export * from './CreateAdyenSessionRequest';
+export * from './CreateAdyenSessionResponse';
+export * from './CreateAdyenSessionResponsePayment';
 export * from './CreateCustomAppointmentRequest';
 export * from './CreateCustomAppointmentsEnterpriseServiceRequest';
 export * from './CreateEnterpriseEmployeeRequest';
@@ -11,6 +16,7 @@ export * from './CreateEnterpriseEmployeeResponse';
 export * from './CreateEnterpriseEmployeeResponseUser';
 export * from './CreateEnterpriseResponse';
 export * from './CreateEnterpriseServiceReviewRequest';
+export * from './CreateEntrepreneurRequest';
 export * from './CreateIndependentEndUserRequest';
 export * from './CreateNoCustomAppointmentsEnterpriseServiceRequest';
 export * from './CreateNonCustomAppointmentRequest';
@@ -53,7 +59,6 @@ export * from './LogInEnterpriseEmployeeResponse';
 export * from './LogInIndependentEndUserRequest';
 export * from './LogInIndependentEndUserResponse';
 export * from './PatchRegularAdminRequest';
-export * from './PayForAppointmentResponse';
 export * from './RejectPendingAppointmentRequest';
 export * from './ServiceSearchResponseItem';
 export * from './Slot';

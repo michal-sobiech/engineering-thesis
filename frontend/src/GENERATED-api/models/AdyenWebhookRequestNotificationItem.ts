@@ -13,13 +13,20 @@
  */
 
 import { mapValues } from '../runtime';
-import type { AdyenWebhookRequestNotificationItemAmount } from './AdyenWebhookRequestNotificationItemAmount';
+import type { AdyenAmount } from './AdyenAmount';
 import {
-    AdyenWebhookRequestNotificationItemAmountFromJSON,
-    AdyenWebhookRequestNotificationItemAmountFromJSONTyped,
-    AdyenWebhookRequestNotificationItemAmountToJSON,
-    AdyenWebhookRequestNotificationItemAmountToJSONTyped,
-} from './AdyenWebhookRequestNotificationItemAmount';
+    AdyenAmountFromJSON,
+    AdyenAmountFromJSONTyped,
+    AdyenAmountToJSON,
+    AdyenAmountToJSONTyped,
+} from './AdyenAmount';
+import type { AdyenWebhookRequestNotificationItemAdditionalData } from './AdyenWebhookRequestNotificationItemAdditionalData';
+import {
+    AdyenWebhookRequestNotificationItemAdditionalDataFromJSON,
+    AdyenWebhookRequestNotificationItemAdditionalDataFromJSONTyped,
+    AdyenWebhookRequestNotificationItemAdditionalDataToJSON,
+    AdyenWebhookRequestNotificationItemAdditionalDataToJSONTyped,
+} from './AdyenWebhookRequestNotificationItemAdditionalData';
 
 /**
  * 
@@ -29,10 +36,10 @@ import {
 export interface AdyenWebhookRequestNotificationItem {
     /**
      * 
-     * @type {{ [key: string]: any; }}
+     * @type {AdyenWebhookRequestNotificationItemAdditionalData}
      * @memberof AdyenWebhookRequestNotificationItem
      */
-    additionalData?: { [key: string]: any; };
+    additionalData?: AdyenWebhookRequestNotificationItemAdditionalData;
     /**
      * 
      * @type {string}
@@ -41,10 +48,10 @@ export interface AdyenWebhookRequestNotificationItem {
     eventCode: string;
     /**
      * 
-     * @type {string}
+     * @type {boolean}
      * @memberof AdyenWebhookRequestNotificationItem
      */
-    success: string;
+    success: boolean;
     /**
      * 
      * @type {Date}
@@ -71,10 +78,10 @@ export interface AdyenWebhookRequestNotificationItem {
     merchantReference: string;
     /**
      * 
-     * @type {AdyenWebhookRequestNotificationItemAmount}
+     * @type {AdyenAmount}
      * @memberof AdyenWebhookRequestNotificationItem
      */
-    amount: AdyenWebhookRequestNotificationItemAmount;
+    amount: AdyenAmount;
 }
 
 /**
@@ -101,14 +108,14 @@ export function AdyenWebhookRequestNotificationItemFromJSONTyped(json: any, igno
     }
     return {
         
-        'additionalData': json['additionalData'] == null ? undefined : json['additionalData'],
+        'additionalData': json['additionalData'] == null ? undefined : AdyenWebhookRequestNotificationItemAdditionalDataFromJSON(json['additionalData']),
         'eventCode': json['eventCode'],
         'success': json['success'],
         'eventDate': (new Date(json['eventDate'])),
         'merchantAccountCode': json['merchantAccountCode'],
         'pspReference': json['pspReference'],
         'merchantReference': json['merchantReference'],
-        'amount': AdyenWebhookRequestNotificationItemAmountFromJSON(json['amount']),
+        'amount': AdyenAmountFromJSON(json['amount']),
     };
 }
 
@@ -123,14 +130,14 @@ export function AdyenWebhookRequestNotificationItemToJSONTyped(value?: AdyenWebh
 
     return {
         
-        'additionalData': value['additionalData'],
+        'additionalData': AdyenWebhookRequestNotificationItemAdditionalDataToJSON(value['additionalData']),
         'eventCode': value['eventCode'],
         'success': value['success'],
         'eventDate': ((value['eventDate']).toISOString()),
         'merchantAccountCode': value['merchantAccountCode'],
         'pspReference': value['pspReference'],
         'merchantReference': value['merchantReference'],
-        'amount': AdyenWebhookRequestNotificationItemAmountToJSON(value['amount']),
+        'amount': AdyenAmountToJSON(value['amount']),
     };
 }
 

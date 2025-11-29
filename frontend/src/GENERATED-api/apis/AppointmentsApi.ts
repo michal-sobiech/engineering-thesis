@@ -15,6 +15,8 @@
 
 import * as runtime from '../runtime';
 import type {
+  CreateAdyenSessionRequest,
+  CreateAdyenSessionResponse,
   CreateCustomAppointmentRequest,
   CreateNonCustomAppointmentRequest,
   GetCustomerLandingPagePendingAppointmentResponseItem,
@@ -24,10 +26,13 @@ import type {
   InlineObject1,
   InlineObject2,
   InlineObject4,
-  PayForAppointmentResponse,
   RejectPendingAppointmentRequest,
 } from '../models/index';
 import {
+    CreateAdyenSessionRequestFromJSON,
+    CreateAdyenSessionRequestToJSON,
+    CreateAdyenSessionResponseFromJSON,
+    CreateAdyenSessionResponseToJSON,
     CreateCustomAppointmentRequestFromJSON,
     CreateCustomAppointmentRequestToJSON,
     CreateNonCustomAppointmentRequestFromJSON,
@@ -46,8 +51,6 @@ import {
     InlineObject2ToJSON,
     InlineObject4FromJSON,
     InlineObject4ToJSON,
-    PayForAppointmentResponseFromJSON,
-    PayForAppointmentResponseToJSON,
     RejectPendingAppointmentRequestFromJSON,
     RejectPendingAppointmentRequestToJSON,
 } from '../models/index';
@@ -60,6 +63,11 @@ export interface CancelAppointmentRequest {
     appointmentId: number;
 }
 
+export interface CreateAdyenSessionOperationRequest {
+    appointmentId: number;
+    createAdyenSessionRequest?: CreateAdyenSessionRequest;
+}
+
 export interface CreateCustomAppointmentOperationRequest {
     serviceId: number;
     createCustomAppointmentRequest: CreateCustomAppointmentRequest;
@@ -68,10 +76,6 @@ export interface CreateCustomAppointmentOperationRequest {
 export interface CreateNonCustomAppointmentOperationRequest {
     serviceId: number;
     createNonCustomAppointmentRequest: CreateNonCustomAppointmentRequest;
-}
-
-export interface PayForAppointmentRequest {
-    appointmentId: number;
 }
 
 export interface RejectPendingAppointmentOperationRequest {
@@ -166,6 +170,52 @@ export class AppointmentsApi extends runtime.BaseAPI {
      */
     async cancelAppointment(appointmentId: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.cancelAppointmentRaw({ appointmentId: appointmentId }, initOverrides);
+    }
+
+    /**
+     */
+    async createAdyenSessionRaw(requestParameters: CreateAdyenSessionOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CreateAdyenSessionResponse>> {
+        if (requestParameters['appointmentId'] == null) {
+            throw new runtime.RequiredError(
+                'appointmentId',
+                'Required parameter "appointmentId" was null or undefined when calling createAdyenSession().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("JwtBearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/appointments/{appointmentId}/create-adyen-session`;
+        urlPath = urlPath.replace(`{${"appointmentId"}}`, encodeURIComponent(String(requestParameters['appointmentId'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: CreateAdyenSessionRequestToJSON(requestParameters['createAdyenSessionRequest']),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => CreateAdyenSessionResponseFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async createAdyenSession(appointmentId: number, createAdyenSessionRequest?: CreateAdyenSessionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CreateAdyenSessionResponse> {
+        const response = await this.createAdyenSessionRaw({ appointmentId: appointmentId, createAdyenSessionRequest: createAdyenSessionRequest }, initOverrides);
+        return await response.value();
     }
 
     /**
@@ -409,49 +459,6 @@ export class AppointmentsApi extends runtime.BaseAPI {
      */
     async getMyUncancelledFutureScheduledAppointments(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetCustomerLandingPageScheduledAppointmentResponseItem>> {
         const response = await this.getMyUncancelledFutureScheduledAppointmentsRaw(initOverrides);
-        return await response.value();
-    }
-
-    /**
-     */
-    async payForAppointmentRaw(requestParameters: PayForAppointmentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PayForAppointmentResponse>> {
-        if (requestParameters['appointmentId'] == null) {
-            throw new runtime.RequiredError(
-                'appointmentId',
-                'Required parameter "appointmentId" was null or undefined when calling payForAppointment().'
-            );
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("JwtBearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-
-        let urlPath = `/appointments/{appointmentId}/pay`;
-        urlPath = urlPath.replace(`{${"appointmentId"}}`, encodeURIComponent(String(requestParameters['appointmentId'])));
-
-        const response = await this.request({
-            path: urlPath,
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => PayForAppointmentResponseFromJSON(jsonValue));
-    }
-
-    /**
-     */
-    async payForAppointment(appointmentId: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PayForAppointmentResponse> {
-        const response = await this.payForAppointmentRaw({ appointmentId: appointmentId }, initOverrides);
         return await response.value();
     }
 

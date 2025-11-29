@@ -1,9 +1,9 @@
 /* tslint:disable */
 /* eslint-disable */
+export * from './AdyenApi';
 export * from './AppointmentsApi';
 export * from './AuthApi';
 export * from './CustomersApi';
-export * from './DefaultApi';
 export * from './EnterpriseEmployeesApi';
 export * from './EnterpriseServicesApi';
 export * from './EnterprisesApi';
