@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.adyen.model.checkout.CreateCheckoutSessionResponse;
 
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.adyen.AdyenService;
+import pl.michal_sobiech.engineering_thesis.adyen.AdyenSessionService;
 import pl.michal_sobiech.engineering_thesis.appointment.custom.CustomAppointmentQueryService;
 import pl.michal_sobiech.engineering_thesis.appointment.custom.CustomAppointmentService;
 import pl.michal_sobiech.engineering_thesis.auth.AuthService;
@@ -44,7 +44,7 @@ public class AppointmentController implements AppointmentsApi {
     private final AppointmentService appointmentService;
     private final CustomAppointmentQueryService customAppointmentQueryService;
     private final CustomAppointmentService customAppointmentService;
-    private final AdyenService adyenService;
+    private final AdyenSessionService adyenService;
 
     @Override
     public ResponseEntity<List<GetCustomerLandingPagePendingAppointmentResponseItem>> getMyUncancelledFuturePendingAppointments() {

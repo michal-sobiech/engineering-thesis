@@ -2,6 +2,7 @@ package pl.michal_sobiech.engineering_thesis.adyen;
 
 import java.time.LocalDate;
 
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
 import com.adyen.model.balanceplatform.AccountHolder;
@@ -18,7 +19,7 @@ public class AdyenAccountHolderService {
     private final AdyenLegalEntityService adyenLegalEntityService;
     private final AccountHoldersApi adyenAccountHoldersApi;
 
-    public AccountHolder createAccountHolder(
+    public Pair<LegalEntity, AccountHolder> createLegalEntityAndAccountHolder(
             String firstName,
             String lastName,
             LocalDate dateOfBirth,
@@ -26,14 +27,15 @@ public class AdyenAccountHolderService {
             String city,
             String street,
             String postalCode) {
-        LegalEntity legalEntity = adyenLegalEntityService.createIndividualLegalEntity(
+        LegalEntity legalEntity = adyenLegalEntityService.createLegalEntityForIndividual(
                 firstName, lastName, dateOfBirth, country, city, street, postalCode);
 
         AccountHolderInfo accountHolderInfo = new AccountHolderInfo()
                 .legalEntityId(legalEntity.getId());
 
         try {
-            return adyenAccountHoldersApi.createAccountHolder(accountHolderInfo);
+            AccountHolder accountHolder = adyenAccountHoldersApi.createAccountHolder(accountHolderInfo);
+            return Pair.of(legalEntity, accountHolder);
         } catch (Exception exception) {
             throw new RuntimeException(exception);
         }

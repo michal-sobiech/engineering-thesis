@@ -20,7 +20,7 @@ import pl.michal_sobiech.engineering_thesis.payment.PaymentSubjectType;
 
 @Service
 @RequiredArgsConstructor
-public class AdyenService {
+public class AdyenSessionService {
 
     private final AdyenProperties adyenProperties;
     private final PaymentsApi adyenPaymentsApi;

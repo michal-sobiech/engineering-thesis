@@ -20,7 +20,7 @@ public class AdyenLegalEntityService {
 
     private final LegalEntitiesApi adyenLegalEntitiesApi;
 
-    public LegalEntity createIndividual(
+    public LegalEntity createLegalEntityForIndividual(
             String firstName,
             String lastName,
             LocalDate dateOfBirth,

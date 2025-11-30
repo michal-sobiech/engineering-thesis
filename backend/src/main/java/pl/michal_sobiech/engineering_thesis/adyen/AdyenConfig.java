@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import com.adyen.Client;
 import com.adyen.enums.Environment;
 import com.adyen.service.balanceplatform.AccountHoldersApi;
+import com.adyen.service.balanceplatform.BalanceAccountsApi;
 import com.adyen.service.checkout.PaymentsApi;
 import com.adyen.service.legalentitymanagement.LegalEntitiesApi;
 
@@ -35,6 +36,11 @@ public class AdyenConfig {
     @Bean
     public AccountHoldersApi adyenAccountHoldersApi(Client adyenClient) {
         return new AccountHoldersApi(adyenClient);
+    }
+
+    @Bean
+    public BalanceAccountsApi adyenBalanceAccountsApi(Client adyenClient) {
+        return new BalanceAccountsApi(adyenClient);
     }
 
 }
