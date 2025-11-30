@@ -2,7 +2,6 @@ import { LocalDate } from "@js-joda/core";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { useEntrepreneursApi } from "../../api/entrepreneurs-api";
-import { PayoutInfoPage } from "../../common/payout/PayoutInfoPage";
 import { SignUpSuccessPage } from "../../common/sign-up-page/sign_up_success/SignUpSuccessPage";
 import { SignUpEnterEmailPage } from "../../common/sign-up-page/SignUpEnterEmailPage";
 import { SignUpEnterNamePage } from "../../common/sign-up-page/SignUpEnterNamePage";
@@ -39,12 +38,6 @@ export const EntrepreneurSignUpWizard = () => {
             lastName,
             email,
             password,
-            dateOfBirth: dateOfBirth!.toString(),
-            country,
-            city,
-            street,
-            postalCode,
-            iban
         });
         const result = await errorErrResultAsyncFromPromise(promise);
         if (result.isErr()) {
@@ -68,29 +61,10 @@ export const EntrepreneurSignUpWizard = () => {
             setLastName={setLastName} />
     } else if (step === 2) {
         return <SignUpEnterPasswordPage
-            submit={() => {
-                incrementStep();
-                return Promise.resolve()
-            }}
+            submit={accountCreationSubmit}
             password={password}
             setPassword={setPassword} />;
     } else if (step === 3) {
-        return <PayoutInfoPage
-            submit={accountCreationSubmit}
-            dateOfBirth={dateOfBirth}
-            setDateOfBirth={setDateOfBirth}
-            country={country}
-            setCountry={setCountry}
-            city={city}
-            setCity={setCity}
-            street={street}
-            setStreet={setStreet}
-            postalCode={postalCode}
-            setPostalCode={setPostalCode}
-            iban={iban}
-            setIban={setIban}
-        />;
-    } else if (step === 4) {
         return <SignUpSuccessPage logInPageUrl={logInPageUrl} />;
     } else {
         return null;

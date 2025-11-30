@@ -197,7 +197,7 @@ export class AppointmentsApi extends runtime.BaseAPI {
             }
         }
 
-        let urlPath = `/appointments/{appointmentId}/create-adyen-session`;
+        let urlPath = `/appointments/{appointmentId}/adyen-session`;
         urlPath = urlPath.replace(`{${"appointmentId"}}`, encodeURIComponent(String(requestParameters['appointmentId'])));
 
         const response = await this.request({

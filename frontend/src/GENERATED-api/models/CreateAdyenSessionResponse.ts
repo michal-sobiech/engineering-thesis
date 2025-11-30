@@ -24,21 +24,14 @@ export interface CreateAdyenSessionResponse {
      * @type {string}
      * @memberof CreateAdyenSessionResponse
      */
-    sessionId: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof CreateAdyenSessionResponse
-     */
-    sessionData: string;
+    redirectUrl: string;
 }
 
 /**
  * Check if a given object implements the CreateAdyenSessionResponse interface.
  */
 export function instanceOfCreateAdyenSessionResponse(value: object): value is CreateAdyenSessionResponse {
-    if (!('sessionId' in value) || value['sessionId'] === undefined) return false;
-    if (!('sessionData' in value) || value['sessionData'] === undefined) return false;
+    if (!('redirectUrl' in value) || value['redirectUrl'] === undefined) return false;
     return true;
 }
 
@@ -52,8 +45,7 @@ export function CreateAdyenSessionResponseFromJSONTyped(json: any, ignoreDiscrim
     }
     return {
         
-        'sessionId': json['sessionId'],
-        'sessionData': json['sessionData'],
+        'redirectUrl': json['redirectUrl'],
     };
 }
 
@@ -68,8 +60,7 @@ export function CreateAdyenSessionResponseToJSONTyped(value?: CreateAdyenSession
 
     return {
         
-        'sessionId': value['sessionId'],
-        'sessionData': value['sessionData'],
+        'redirectUrl': value['redirectUrl'],
     };
 }
 

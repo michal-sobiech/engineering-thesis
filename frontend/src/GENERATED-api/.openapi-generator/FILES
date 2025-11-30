@@ -1,3 +1,4 @@
+.openapi-generator-ignore
 apis/AdyenApi.ts
 apis/AppointmentsApi.ts
 apis/AuthApi.ts
@@ -15,13 +16,9 @@ apis/index.ts
 index.ts
 models/AdyenAmount.ts
 models/AdyenPaymentMethod.ts
-models/AdyenWebhookRequest.ts
-models/AdyenWebhookRequestNotificationItem.ts
-models/AdyenWebhookRequestNotificationItemAdditionalData.ts
 models/CheckIndependentEndUserEmailExists200Response.ts
 models/CreateAdyenSessionRequest.ts
 models/CreateAdyenSessionResponse.ts
-models/CreateAdyenSessionResponsePayment.ts
 models/CreateCustomAppointmentRequest.ts
 models/CreateCustomAppointmentsEnterpriseServiceRequest.ts
 models/CreateEnterpriseEmployeeRequest.ts
@@ -73,6 +70,8 @@ models/LogInIndependentEndUserRequest.ts
 models/LogInIndependentEndUserResponse.ts
 models/PatchRegularAdminRequest.ts
 models/RejectPendingAppointmentRequest.ts
+models/SendAdyenSessionResultRequest.ts
+models/SendAdyenSessionResultResponse.ts
 models/ServiceSearchResponseItem.ts
 models/Slot.ts
 models/TimeWindow.ts

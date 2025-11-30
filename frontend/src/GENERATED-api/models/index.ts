@@ -2,13 +2,9 @@
 /* eslint-disable */
 export * from './AdyenAmount';
 export * from './AdyenPaymentMethod';
-export * from './AdyenWebhookRequest';
-export * from './AdyenWebhookRequestNotificationItem';
-export * from './AdyenWebhookRequestNotificationItemAdditionalData';
 export * from './CheckIndependentEndUserEmailExists200Response';
 export * from './CreateAdyenSessionRequest';
 export * from './CreateAdyenSessionResponse';
-export * from './CreateAdyenSessionResponsePayment';
 export * from './CreateCustomAppointmentRequest';
 export * from './CreateCustomAppointmentsEnterpriseServiceRequest';
 export * from './CreateEnterpriseEmployeeRequest';
@@ -60,6 +56,8 @@ export * from './LogInIndependentEndUserRequest';
 export * from './LogInIndependentEndUserResponse';
 export * from './PatchRegularAdminRequest';
 export * from './RejectPendingAppointmentRequest';
+export * from './SendAdyenSessionResultRequest';
+export * from './SendAdyenSessionResultResponse';
 export * from './ServiceSearchResponseItem';
 export * from './Slot';
 export * from './TimeWindow';

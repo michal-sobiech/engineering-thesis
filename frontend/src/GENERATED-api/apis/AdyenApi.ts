@@ -15,15 +15,18 @@
 
 import * as runtime from '../runtime';
 import type {
-  AdyenWebhookRequest,
+  SendAdyenSessionResultRequest,
+  SendAdyenSessionResultResponse,
 } from '../models/index';
 import {
-    AdyenWebhookRequestFromJSON,
-    AdyenWebhookRequestToJSON,
+    SendAdyenSessionResultRequestFromJSON,
+    SendAdyenSessionResultRequestToJSON,
+    SendAdyenSessionResultResponseFromJSON,
+    SendAdyenSessionResultResponseToJSON,
 } from '../models/index';
 
-export interface SendAdyenPaymentStatusRequest {
-    adyenWebhookRequest: AdyenWebhookRequest;
+export interface SendAdyenSessionResultOperationRequest {
+    sendAdyenSessionResultRequest: SendAdyenSessionResultRequest;
 }
 
 /**
@@ -33,11 +36,11 @@ export class AdyenApi extends runtime.BaseAPI {
 
     /**
      */
-    async sendAdyenPaymentStatusRaw(requestParameters: SendAdyenPaymentStatusRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters['adyenWebhookRequest'] == null) {
+    async sendAdyenSessionResultRaw(requestParameters: SendAdyenSessionResultOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SendAdyenSessionResultResponse>> {
+        if (requestParameters['sendAdyenSessionResultRequest'] == null) {
             throw new runtime.RequiredError(
-                'adyenWebhookRequest',
-                'Required parameter "adyenWebhookRequest" was null or undefined when calling sendAdyenPaymentStatus().'
+                'sendAdyenSessionResultRequest',
+                'Required parameter "sendAdyenSessionResultRequest" was null or undefined when calling sendAdyenSessionResult().'
             );
         }
 
@@ -48,23 +51,24 @@ export class AdyenApi extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
 
-        let urlPath = `/adyen/webhook`;
+        let urlPath = `/adyen/adyen-session-result`;
 
         const response = await this.request({
             path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: AdyenWebhookRequestToJSON(requestParameters['adyenWebhookRequest']),
+            body: SendAdyenSessionResultRequestToJSON(requestParameters['sendAdyenSessionResultRequest']),
         }, initOverrides);
 
-        return new runtime.VoidApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => SendAdyenSessionResultResponseFromJSON(jsonValue));
     }
 
     /**
      */
-    async sendAdyenPaymentStatus(adyenWebhookRequest: AdyenWebhookRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.sendAdyenPaymentStatusRaw({ adyenWebhookRequest: adyenWebhookRequest }, initOverrides);
+    async sendAdyenSessionResult(sendAdyenSessionResultRequest: SendAdyenSessionResultRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SendAdyenSessionResultResponse> {
+        const response = await this.sendAdyenSessionResultRaw({ sendAdyenSessionResultRequest: sendAdyenSessionResultRequest }, initOverrides);
+        return await response.value();
     }
 
 }

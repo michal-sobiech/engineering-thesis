@@ -43,42 +43,6 @@ export interface CreateEntrepreneurRequest {
      * @memberof CreateEntrepreneurRequest
      */
     password: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof CreateEntrepreneurRequest
-     */
-    dateOfBirth: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof CreateEntrepreneurRequest
-     */
-    country: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof CreateEntrepreneurRequest
-     */
-    city: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof CreateEntrepreneurRequest
-     */
-    street: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof CreateEntrepreneurRequest
-     */
-    postalCode: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof CreateEntrepreneurRequest
-     */
-    iban: string;
 }
 
 /**
@@ -89,12 +53,6 @@ export function instanceOfCreateEntrepreneurRequest(value: object): value is Cre
     if (!('lastName' in value) || value['lastName'] === undefined) return false;
     if (!('email' in value) || value['email'] === undefined) return false;
     if (!('password' in value) || value['password'] === undefined) return false;
-    if (!('dateOfBirth' in value) || value['dateOfBirth'] === undefined) return false;
-    if (!('country' in value) || value['country'] === undefined) return false;
-    if (!('city' in value) || value['city'] === undefined) return false;
-    if (!('street' in value) || value['street'] === undefined) return false;
-    if (!('postalCode' in value) || value['postalCode'] === undefined) return false;
-    if (!('iban' in value) || value['iban'] === undefined) return false;
     return true;
 }
 
@@ -112,12 +70,6 @@ export function CreateEntrepreneurRequestFromJSONTyped(json: any, ignoreDiscrimi
         'lastName': json['lastName'],
         'email': json['email'],
         'password': json['password'],
-        'dateOfBirth': json['dateOfBirth'],
-        'country': json['country'],
-        'city': json['city'],
-        'street': json['street'],
-        'postalCode': json['postalCode'],
-        'iban': json['iban'],
     };
 }
 
@@ -136,12 +88,6 @@ export function CreateEntrepreneurRequestToJSONTyped(value?: CreateEntrepreneurR
         'lastName': value['lastName'],
         'email': value['email'],
         'password': value['password'],
-        'dateOfBirth': value['dateOfBirth'],
-        'country': value['country'],
-        'city': value['city'],
-        'street': value['street'],
-        'postalCode': value['postalCode'],
-        'iban': value['iban'],
     };
 }
 
