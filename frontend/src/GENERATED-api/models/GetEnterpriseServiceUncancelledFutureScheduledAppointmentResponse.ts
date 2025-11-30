@@ -79,6 +79,12 @@ export interface GetEnterpriseServiceUncancelledFutureScheduledAppointmentRespon
      * @memberof GetEnterpriseServiceUncancelledFutureScheduledAppointmentResponse
      */
     currency: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetEnterpriseServiceUncancelledFutureScheduledAppointmentResponse
+     */
+    isPaid: boolean;
 }
 
 /**
@@ -95,6 +101,7 @@ export function instanceOfGetEnterpriseServiceUncancelledFutureScheduledAppointm
     if (!('timezone' in value) || value['timezone'] === undefined) return false;
     if (!('price' in value) || value['price'] === undefined) return false;
     if (!('currency' in value) || value['currency'] === undefined) return false;
+    if (!('isPaid' in value) || value['isPaid'] === undefined) return false;
     return true;
 }
 
@@ -118,6 +125,7 @@ export function GetEnterpriseServiceUncancelledFutureScheduledAppointmentRespons
         'timezone': json['timezone'],
         'price': json['price'],
         'currency': json['currency'],
+        'isPaid': json['isPaid'],
     };
 }
 
@@ -142,6 +150,7 @@ export function GetEnterpriseServiceUncancelledFutureScheduledAppointmentRespons
         'timezone': value['timezone'],
         'price': value['price'],
         'currency': value['currency'],
+        'isPaid': value['isPaid'],
     };
 }
 

@@ -6,10 +6,17 @@ import { toastError } from "../../utils/toast";
 import { StandardButton } from "../StandardButton";
 
 export interface PayForAppointmentButtonProps {
+    isAppointmentPaid: boolean;
     appointmentId: number;
 }
 
-export const PayForAppointmentButton: FC<PayForAppointmentButtonProps> = ({ appointmentId }) => {
+export const PayForAppointmentButton: FC<PayForAppointmentButtonProps> = ({ isAppointmentPaid, appointmentId }) => {
+    return isAppointmentPaid
+        ? <PayForAppointmentButtonAppointmentPaid />
+        : <PayForAppointmentButtonAppointmentNotPaid appointmentId={appointmentId} />;
+};
+
+const PayForAppointmentButtonAppointmentNotPaid = ({ appointmentId }: { appointmentId: number }) => {
     const appointmentsApi = useAppointmentsApi();
 
     const onClick = async () => {
@@ -25,7 +32,13 @@ export const PayForAppointmentButton: FC<PayForAppointmentButtonProps> = ({ appo
         window.location.href = result.value.redirectUrl;
     }
 
-    return <StandardButton>
+    return <StandardButton onClick={onClick}>
         Pay
     </StandardButton>;
-}
+};
+
+const PayForAppointmentButtonAppointmentPaid = () => {
+    return <StandardButton disabled>
+        Already paid
+    </StandardButton>
+};

@@ -1,4 +1,3 @@
-.openapi-generator-ignore
 apis/AdyenApi.ts
 apis/AppointmentsApi.ts
 apis/AuthApi.ts

@@ -8,31 +8,29 @@ export type StandardButtonProps = ButtonProps & {
     delayMs?: number;
 }
 
-export const StandardButton: React.FC<StandardButtonProps> = ({ children, delayMs, ...props }) => {
-    const [disabled, setDisabled] = useState<boolean>(false);
+export const StandardButton: React.FC<StandardButtonProps> = ({ delayMs, children, onClick, disabled, ...props }) => {
+    const [onCooldown, setOnCooldown] = useState<boolean>(false);
 
-    const finalDelayMs = delayMs === undefined
-        ? DEFAULT_DELAY_MS
-        : delayMs;
+    const finalDelayMs = delayMs ?? DEFAULT_DELAY_MS;
 
-    function decorateOnClick(onClick: React.MouseEventHandler<HTMLButtonElement>): React.MouseEventHandler<HTMLButtonElement> {
-        return async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-            setDisabled(true);
-            await sleep(finalDelayMs);
-            onClick(event);
-            setDisabled(false);
-        }
+    const decoratedOnClick = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        setOnCooldown(true);
+        await sleep(finalDelayMs);
+        console.log(onClick);
+        onClick?.(event);
+        setOnCooldown(false);
     }
 
-    props.onClick = props.onClick && decorateOnClick(props.onClick);
-    props.disabled = disabled;
+    const isDisabled = disabled || onCooldown;
 
     return <Button
         background="primary.blue"
         padding="5"
         rounded="lg"
         shadow="lg"
-        {...props}>
+        {...props}
+        onClick={decoratedOnClick}
+        disabled={isDisabled}>
         {children}
-    </Button >
+    </Button >;
 }

@@ -610,6 +610,7 @@ components:
           timezone,
           price,
           currencyIso,
+          isPaid,
         ]
       properties:
         appointmentId:
@@ -634,6 +635,8 @@ components:
           type: number
         currencyIso:
           type: string
+        isPaid:
+          type: boolean
 
     GetCustomerLandingPagePendingAppointmentResponseItem:
       type: object
@@ -888,6 +891,7 @@ components:
           timezone,
           price,
           currency,
+          isPaid,
         ]
       properties:
         appointmentId:
@@ -911,6 +915,8 @@ components:
           type: number
         currency:
           type: string
+        isPaid:
+          type: boolean
 
     GetEnterpriseServicePendingAppointmentResponse:
       type: object
@@ -2472,3 +2478,34 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/SendAdyenSessionResultResponse"
+
+  /uncancelled-scheduled-appointments/{appointmentId}:
+    get:
+      tags: [EnterpriseServices]
+      operationId: getUncancelledScheduledAppointment
+      security:
+        - JwtBearerAuth: []
+      parameters:
+        - name: appointmentId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: *OK_DESCRIPTION
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/GetEnterpriseServicePendingAppointmentResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "500":
+          $ref: "#/components/responses/InternalServerError"

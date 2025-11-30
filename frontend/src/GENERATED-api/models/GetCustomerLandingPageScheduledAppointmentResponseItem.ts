@@ -79,6 +79,12 @@ export interface GetCustomerLandingPageScheduledAppointmentResponseItem {
      * @memberof GetCustomerLandingPageScheduledAppointmentResponseItem
      */
     currencyIso: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetCustomerLandingPageScheduledAppointmentResponseItem
+     */
+    isPaid: boolean;
 }
 
 /**
@@ -95,6 +101,7 @@ export function instanceOfGetCustomerLandingPageScheduledAppointmentResponseItem
     if (!('timezone' in value) || value['timezone'] === undefined) return false;
     if (!('price' in value) || value['price'] === undefined) return false;
     if (!('currencyIso' in value) || value['currencyIso'] === undefined) return false;
+    if (!('isPaid' in value) || value['isPaid'] === undefined) return false;
     return true;
 }
 
@@ -118,6 +125,7 @@ export function GetCustomerLandingPageScheduledAppointmentResponseItemFromJSONTy
         'timezone': json['timezone'],
         'price': json['price'],
         'currencyIso': json['currencyIso'],
+        'isPaid': json['isPaid'],
     };
 }
 
@@ -142,6 +150,7 @@ export function GetCustomerLandingPageScheduledAppointmentResponseItemToJSONType
         'timezone': value['timezone'],
         'price': value['price'],
         'currencyIso': value['currencyIso'],
+        'isPaid': value['isPaid'],
     };
 }
 

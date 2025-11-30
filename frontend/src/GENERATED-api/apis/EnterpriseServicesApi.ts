@@ -102,6 +102,10 @@ export interface GetServiceCustomAppointmentsStatusRequest {
     serviceId: number;
 }
 
+export interface GetUncancelledScheduledAppointmentRequest {
+    appointmentId: number;
+}
+
 export interface SearchServicesRequest {
     preferredLongitude: number;
     preferredLatitude: number;
@@ -519,6 +523,49 @@ export class EnterpriseServicesApi extends runtime.BaseAPI {
      */
     async getServiceCustomAppointmentsStatus(serviceId: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetServiceCustomAppointmentsStatus200Response> {
         const response = await this.getServiceCustomAppointmentsStatusRaw({ serviceId: serviceId }, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async getUncancelledScheduledAppointmentRaw(requestParameters: GetUncancelledScheduledAppointmentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<GetEnterpriseServicePendingAppointmentResponse>>> {
+        if (requestParameters['appointmentId'] == null) {
+            throw new runtime.RequiredError(
+                'appointmentId',
+                'Required parameter "appointmentId" was null or undefined when calling getUncancelledScheduledAppointment().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("JwtBearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/uncancelled-scheduled-appointments/{appointmentId}`;
+        urlPath = urlPath.replace(`{${"appointmentId"}}`, encodeURIComponent(String(requestParameters['appointmentId'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(GetEnterpriseServicePendingAppointmentResponseFromJSON));
+    }
+
+    /**
+     */
+    async getUncancelledScheduledAppointment(appointmentId: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetEnterpriseServicePendingAppointmentResponse>> {
+        const response = await this.getUncancelledScheduledAppointmentRaw({ appointmentId: appointmentId }, initOverrides);
         return await response.value();
     }
 
