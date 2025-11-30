@@ -5,7 +5,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.SwaggerCodeGenExample.api.EntrepreneursApi;
-import org.SwaggerCodeGenExample.model.CreateIndependentEndUserRequest;
+import org.SwaggerCodeGenExample.model.CreateEntrepreneurRequest;
 import org.SwaggerCodeGenExample.model.GetEntrepreneurEnterprisesResponseItem;
 import org.SwaggerCodeGenExample.model.IndependentEndUserGetMeResponse;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +39,7 @@ public class EntrepreneurController implements EntrepreneursApi {
 
     @Override
     public ResponseEntity<Void> createEntrepreneur(
-            CreateIndependentEndUserRequest request) {
+            CreateEntrepreneurRequest request) {
         entrepreneurService.save(
                 request.getEmail(),
                 request.getFirstName(),

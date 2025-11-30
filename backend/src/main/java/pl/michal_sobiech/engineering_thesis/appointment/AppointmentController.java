@@ -244,8 +244,7 @@ public class AppointmentController implements AppointmentsApi {
                 returnUrl);
 
         CreateAdyenSessionResponse body = new CreateAdyenSessionResponse(
-                createSessionResponse.getId(),
-                createSessionResponse.getSessionData());
+                createSessionResponse.getUrl());
 
         return ResponseEntity.ok(body);
     }

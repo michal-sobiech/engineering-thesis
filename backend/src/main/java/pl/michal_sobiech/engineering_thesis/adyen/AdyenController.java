@@ -1,7 +1,8 @@
 package pl.michal_sobiech.engineering_thesis.adyen;
 
 import org.SwaggerCodeGenExample.api.AdyenApi;
-import org.SwaggerCodeGenExample.model.AdyenWebhookRequest;
+import org.SwaggerCodeGenExample.model.SendAdyenSessionResultRequest;
+import org.SwaggerCodeGenExample.model.SendAdyenSessionResultResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -11,15 +12,17 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AdyenController implements AdyenApi {
 
-    private final AdyenWebhookService adyenWebhookService;
+    private final AdyenSessionService adyenSessionService;
 
     @Override
-    public ResponseEntity<Void> sendAdyenPaymentStatus(AdyenWebhookRequest request) {
-        // TODO verify this request
+    public ResponseEntity<SendAdyenSessionResultResponse> sendAdyenSessionResult(
+            SendAdyenSessionResultRequest request) {
+        boolean isSessionSuccessful = adyenSessionService.fetchIsSessionSuccessful(
+                request.getSessionId(),
+                request.getSessionResultToken());
 
-        adyenWebhookService.handleWebhook(request);
-
-        return ResponseEntity.ok().build();
+        var body = new SendAdyenSessionResultResponse(isSessionSuccessful);
+        return ResponseEntity.ok(body);
     }
 
 }

@@ -38,19 +38,7 @@ components:
 
     CreateEntrepreneurRequest:
       type: object
-      required:
-        [
-          firstName,
-          lastName,
-          email,
-          password,
-          dateOfBirth,
-          country,
-          city,
-          street,
-          postalCode,
-          iban,
-        ]
+      required: [firstName, lastName, email, password]
       properties:
         firstName:
           type: string
@@ -65,18 +53,6 @@ components:
           type: string
           format: password
           example: "5=2VPIzYHSIc0l4d1o&es]plB"
-        dateOfBirth:
-          $ref: "#/components/schemas/LocalDate"
-        country:
-          type: string
-        city:
-          type: string
-        street:
-          type: string
-        postalCode:
-          $ref: "#/components/schemas/PostalCode"
-        iban:
-          type: string
 
     PostalCode:
       type: string
@@ -1026,74 +1002,28 @@ components:
         returnUrl:
           type: string
 
-    CreateAdyenSessionResponsePayment:
-      type: object
-      required: [amount, paymentMethod, pspReference, resultCode]
-      properties:
-        amount:
-          $ref: "#/components/schemas/AdyenAmount"
-        paymentMethod:
-          $ref: "#/components/schemas/AdyenPaymentMethod"
-        pspReference:
-          type: string
-        resultCode:
-          type: string
-
     CreateAdyenSessionResponse:
       type: object
-      required: [sessionId, sessionData]
+      required: [redirectUrl]
+      properties:
+        redirectUrl:
+          type: string
+
+    SendAdyenSessionResultRequest:
+      type: object
+      required: [sessionId, sessionResultToken]
       properties:
         sessionId:
           type: string
-        sessionData:
+        sessionResultToken:
           type: string
 
-    AdyenWebhookRequest:
+    SendAdyenSessionResultResponse:
       type: object
-      required: [live, notificationItems]
+      required: [isTransactionSuccessful]
       properties:
-        live:
+        isTransactionSuccessful:
           type: boolean
-        notificationItems:
-          type: array
-          items:
-            $ref: "#/components/schemas/AdyenWebhookRequestNotificationItem"
-
-    AdyenWebhookRequestNotificationItem:
-      type: object
-      required:
-        [
-          eventCode,
-          success,
-          eventDate,
-          merchantAccountCode,
-          pspReference,
-          merchantReference,
-          amount,
-        ]
-      properties:
-        additionalData:
-          type: object
-          required: [hmacSignature]
-          properties:
-            hmacSignature:
-              type: string
-          additionalProperties: true
-        eventCode:
-          type: string
-        success:
-          type: boolean
-        eventDate:
-          type: string
-          format: date-time
-        merchantAccountCode:
-          type: string
-        pspReference:
-          type: string
-        merchantReference:
-          type: string
-        amount:
-          $ref: "#/components/schemas/AdyenAmount"
 
   responses:
     OK:
@@ -2491,7 +2421,7 @@ paths:
         "500":
           $ref: "#/components/responses/InternalServerError"
 
-  /appointments/{appointmentId}/create-adyen-session:
+  /appointments/{appointmentId}/adyen-session:
     post:
       tags: [Appointments]
       operationId: createAdyenSession
@@ -2525,16 +2455,20 @@ paths:
         "500":
           $ref: "#/components/responses/InternalServerError"
 
-  /adyen/webhook:
+  /adyen/adyen-session-result:
     post:
       tags: [Adyen]
-      operationId: sendAdyenPaymentStatus
+      operationId: sendAdyenSessionResult
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/AdyenWebhookRequest"
+              $ref: "#/components/schemas/SendAdyenSessionResultRequest"
       responses:
         "200":
           description: *OK_DESCRIPTION
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SendAdyenSessionResultResponse"

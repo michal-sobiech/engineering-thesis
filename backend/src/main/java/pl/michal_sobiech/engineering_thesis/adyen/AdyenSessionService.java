@@ -2,6 +2,9 @@ package pl.michal_sobiech.engineering_thesis.adyen;
 
 import java.math.BigDecimal;
 import java.net.URL;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
@@ -10,12 +13,18 @@ import com.adyen.model.RequestOptions;
 import com.adyen.model.checkout.Amount;
 import com.adyen.model.checkout.CreateCheckoutSessionRequest;
 import com.adyen.model.checkout.CreateCheckoutSessionResponse;
+import com.adyen.model.checkout.Payment;
+import com.adyen.model.checkout.Payment.ResultCodeEnum;
+import com.adyen.model.checkout.SessionResultResponse;
+import com.adyen.model.checkout.SessionResultResponse.StatusEnum;
 import com.adyen.service.checkout.PaymentsApi;
 
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.appointment.AppointmentService;
 import pl.michal_sobiech.engineering_thesis.currency_iso.CurrencyIso;
 import pl.michal_sobiech.engineering_thesis.payment.MerchantReferenceUtils;
+import pl.michal_sobiech.engineering_thesis.payment.PaymentService;
+import pl.michal_sobiech.engineering_thesis.payment.PaymentServiceProvider;
 import pl.michal_sobiech.engineering_thesis.payment.PaymentSubjectType;
 
 @Service
@@ -25,6 +34,7 @@ public class AdyenSessionService {
     private final AdyenProperties adyenProperties;
     private final PaymentsApi adyenPaymentsApi;
     private final AppointmentService appointmentService;
+    private final PaymentService paymentService;
 
     public CreateCheckoutSessionResponse createSession(
             PaymentSubjectType paymentSubjectType,
@@ -32,14 +42,15 @@ public class AdyenSessionService {
             URL returnUrl) {
         Pair<Long, String> priceAndCurrency = getPriceAndCurrencyOfPaymentSubject(paymentSubjectType, paymentSubjectId);
 
-        Amount amount = new Amount();
-        amount.setValue(priceAndCurrency.getFirst());
-        amount.setCurrency(priceAndCurrency.getSecond().toString());
+        Amount amount = new Amount()
+                .value(priceAndCurrency.getFirst())
+                .currency(priceAndCurrency.getSecond().toString());
 
         String merchantReference = MerchantReferenceUtils.createMerchantReference(paymentSubjectType, paymentSubjectId);
 
         CreateCheckoutSessionRequest request = new CreateCheckoutSessionRequest()
                 .reference(merchantReference)
+                .mode(CreateCheckoutSessionRequest.ModeEnum.HOSTED)
                 .amount(amount)
                 .merchantAccount(adyenProperties.merchantAccount())
                 .returnUrl(returnUrl.toString());
@@ -65,6 +76,67 @@ public class AdyenSessionService {
                 yield Pair.of(priceMinorUnits, currency);
             }
         };
+    }
+
+    public void handleSessionResult(String sessionId, String sessionResultToken) {
+        SessionResultResponse sessionResult = getSessionResult(sessionId, sessionResultToken);
+        boolean isSessionSuccessful = isSessionSuccessful(sessionResult);
+        if (!isSessionSuccessful) {
+            return;
+        }
+
+        Payment successfulPayment = getSuccessfulPayment(sessionResult.getPayments()).orElseThrow();
+        String merchantReference = sessionResult.getReference();
+        handleSuccessfulSessionResult(merchantReference, successfulPayment);
+    }
+
+    private void handleSuccessfulSessionResult(String merchantReference, Payment payment) {
+        paymentService.createPaymentAndLinkItToSubject(
+                PaymentServiceProvider.ADYEN,
+                payment.getPspReference(),
+                merchantReference);
+    }
+
+    public boolean fetchIsSessionSuccessful(String sessionId, String sessionResultToken) {
+        SessionResultResponse sessionResult = getSessionResult(sessionId, sessionResultToken);
+        return isSessionSuccessful(sessionResult);
+    }
+
+    public boolean isSessionSuccessful(SessionResultResponse sessionResult) {
+        return (sessionResult.getStatus() == StatusEnum.COMPLETED
+                &&
+                isAnySessionPaymentsSuccessful(sessionResult.getPayments()));
+    }
+
+    private Optional<Payment> getSuccessfulPayment(List<Payment> payments) {
+        List<Payment> successfulPayments = getSuccessfulPayments(payments);
+        if (successfulPayments.size() == 0) {
+            return Optional.empty();
+        } else if (successfulPayments.size() == 1) {
+            return Optional.of(payments.get(0));
+        } else {
+            throw new IllegalArgumentException(">1 successful payments in list");
+        }
+    }
+
+    private List<Payment> getSuccessfulPayments(List<Payment> payments) {
+        return payments.stream()
+                .filter(payment -> payment.getResultCode() == ResultCodeEnum.AUTHORISED)
+                .collect(Collectors.toList());
+    }
+
+    private boolean isAnySessionPaymentsSuccessful(List<Payment> payments) {
+        return getSuccessfulPayments(payments).size() > 0;
+    }
+
+    public SessionResultResponse getSessionResult(
+            String sessionId,
+            String sessionResultToken) {
+        try {
+            return adyenPaymentsApi.getResultOfPaymentSession(sessionId, sessionResultToken);
+        } catch (Exception exception) {
+            throw new RuntimeException(exception);
+        }
     }
 
 }
