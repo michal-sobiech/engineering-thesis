@@ -1,4 +1,4 @@
-package pl.michal_sobiech.engineering_thesis;
+package pl.michal_sobiech.shared;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -8,10 +8,11 @@ import org.springframework.cache.annotation.EnableCaching;
 @SpringBootApplication
 @EnableCaching
 @ConfigurationPropertiesScan
-public class EngineeringThesisApplication {
+public class SharedApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(EngineeringThesisApplication.class, args);
-	}
+    public static void main(String[] args) {
+        System.out.println("SHARED");
+        SpringApplication.run(SharedApplication.class, args);
+    }
 
 }
