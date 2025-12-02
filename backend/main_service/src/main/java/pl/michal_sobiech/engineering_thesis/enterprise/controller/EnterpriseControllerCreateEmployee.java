@@ -12,10 +12,10 @@ import pl.michal_sobiech.engineering_thesis.employee.Employee;
 import pl.michal_sobiech.engineering_thesis.employee.EmployeeService;
 import pl.michal_sobiech.engineering_thesis.enterprise.Enterprise;
 import pl.michal_sobiech.engineering_thesis.enterprise.EnterpriseService;
-import pl.michal_sobiech.engineering_thesis.entrepreneur.Entrepreneur;
-import pl.michal_sobiech.engineering_thesis.entrepreneur.EntrepreneurService;
 import pl.michal_sobiech.engineering_thesis.jwt.JwtCreationService;
 import pl.michal_sobiech.engineering_thesis.utils.HttpUtils;
+import pl.michal_sobiech.shared.entrepreneur.Entrepreneur;
+import pl.michal_sobiech.shared.entrepreneur.EntrepreneurService;
 
 @Component
 @RequiredArgsConstructor

@@ -5,8 +5,8 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.user.User;
-import pl.michal_sobiech.engineering_thesis.user.UserRepository;
+import pl.michal_sobiech.shared.user.User;
+import pl.michal_sobiech.shared.user.UserRepository;
 
 @Service
 @RequiredArgsConstructor

@@ -2,7 +2,7 @@ package pl.michal_sobiech.engineering_thesis.admin;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.user.User;
+import pl.michal_sobiech.shared.user.User;
 
 @Getter
 @RequiredArgsConstructor

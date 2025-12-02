@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.auth.AuthService;
 import pl.michal_sobiech.engineering_thesis.report.unresolved.GetUnresolvedReports200ResponseInnerFactory;
 import pl.michal_sobiech.engineering_thesis.report.unresolved.UnresolvedReportService;
-import pl.michal_sobiech.engineering_thesis.user.User;
+import pl.michal_sobiech.shared.user.User;
 
 @RestController
 @RequiredArgsConstructor

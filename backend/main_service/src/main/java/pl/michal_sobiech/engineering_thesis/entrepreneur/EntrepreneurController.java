@@ -15,49 +15,51 @@ import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.auth.AuthService;
 import pl.michal_sobiech.engineering_thesis.enterprise.EnterpriseEntity;
 import pl.michal_sobiech.engineering_thesis.enterprise.EnterpriseService;
+import pl.michal_sobiech.shared.entrepreneur.Entrepreneur;
+import pl.michal_sobiech.shared.entrepreneur.EntrepreneurService;
 
 @RestController
 @RequiredArgsConstructor
 public class EntrepreneurController implements EntrepreneursApi {
 
-    private final AuthService authService;
-    private final EntrepreneurService entrepreneurService;
-    private final EnterpriseService enterpriseService;
+        private final AuthService authService;
+        private final EntrepreneurService entrepreneurService;
+        private final EnterpriseService enterpriseService;
 
-    @Override
-    public ResponseEntity<List<GetEntrepreneurEnterprisesResponseItem>> getEntrepreneurEnterprises(
-            Long entrepreneurUserId) {
-        List<EnterpriseEntity> enterprises = enterpriseService.findAllByOwnerUserId(entrepreneurUserId);
-        Function<EnterpriseEntity, GetEntrepreneurEnterprisesResponseItem> mapperFn = (
-                EnterpriseEntity enterprise) -> new GetEntrepreneurEnterprisesResponseItem(
-                        enterprise.getEnterpriseId(),
-                        enterprise.getName());
-        List<GetEntrepreneurEnterprisesResponseItem> mappedEnterprises = enterprises.stream().map(mapperFn)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(mappedEnterprises);
-    }
+        @Override
+        public ResponseEntity<List<GetEntrepreneurEnterprisesResponseItem>> getEntrepreneurEnterprises(
+                        Long entrepreneurUserId) {
+                List<EnterpriseEntity> enterprises = enterpriseService.findAllByOwnerUserId(entrepreneurUserId);
+                Function<EnterpriseEntity, GetEntrepreneurEnterprisesResponseItem> mapperFn = (
+                                EnterpriseEntity enterprise) -> new GetEntrepreneurEnterprisesResponseItem(
+                                                enterprise.getEnterpriseId(),
+                                                enterprise.getName());
+                List<GetEntrepreneurEnterprisesResponseItem> mappedEnterprises = enterprises.stream().map(mapperFn)
+                                .collect(Collectors.toList());
+                return ResponseEntity.ok(mappedEnterprises);
+        }
 
-    @Override
-    public ResponseEntity<Void> createEntrepreneur(
-            CreateEntrepreneurRequest request) {
-        entrepreneurService.save(
-                request.getEmail(),
-                request.getFirstName(),
-                request.getLastName(),
-                request.getPassword());
-        return ResponseEntity.ok().build();
-    }
+        @Override
+        public ResponseEntity<Void> createEntrepreneur(
+                        CreateEntrepreneurRequest request) {
+                entrepreneurService.save(
+                                request.getEmail(),
+                                request.getFirstName(),
+                                request.getLastName(),
+                                request.getPassword());
+                return ResponseEntity.ok().build();
+        }
 
-    @Override
-    public ResponseEntity<IndependentEndUserGetMeResponse> getMeEntrepreneur() {
-        Entrepreneur entrepreneur = authService.requireEntrepreneur();
+        @Override
+        public ResponseEntity<IndependentEndUserGetMeResponse> getMeEntrepreneur() {
+                Entrepreneur entrepreneur = authService.requireEntrepreneur();
 
-        var responseBody = new IndependentEndUserGetMeResponse(
-                entrepreneur.getUserId(),
-                entrepreneur.getEmail(),
-                entrepreneur.getFirstName(),
-                entrepreneur.getLastName());
-        return ResponseEntity.ok(responseBody);
-    }
+                var responseBody = new IndependentEndUserGetMeResponse(
+                                entrepreneur.getUserId(),
+                                entrepreneur.getEmail(),
+                                entrepreneur.getFirstName(),
+                                entrepreneur.getLastName());
+                return ResponseEntity.ok(responseBody);
+        }
 
 }

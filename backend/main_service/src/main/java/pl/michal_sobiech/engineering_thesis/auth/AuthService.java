@@ -8,16 +8,16 @@ import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.admin.Admin;
 import pl.michal_sobiech.engineering_thesis.customer.Customer;
 import pl.michal_sobiech.engineering_thesis.employee.Employee;
-import pl.michal_sobiech.engineering_thesis.enterprise_member.EnterpriseMember;
-import pl.michal_sobiech.engineering_thesis.enterprise_member.EnterpriseMemberFactory;
-import pl.michal_sobiech.engineering_thesis.entrepreneur.Entrepreneur;
 import pl.michal_sobiech.engineering_thesis.exceptions.exceptions.ForbiddenException;
 import pl.michal_sobiech.engineering_thesis.exceptions.exceptions.UnauthorizedException;
 import pl.michal_sobiech.engineering_thesis.head_admin.HeadAdmin;
 import pl.michal_sobiech.engineering_thesis.independent_end_user.IndependentEndUser;
-import pl.michal_sobiech.engineering_thesis.user.User;
-import pl.michal_sobiech.engineering_thesis.user.UserService;
 import pl.michal_sobiech.engineering_thesis.utils.AuthUtils;
+import pl.michal_sobiech.shared.enterprise_member.EnterpriseMember;
+import pl.michal_sobiech.shared.enterprise_member.EnterpriseMemberFactory;
+import pl.michal_sobiech.shared.entrepreneur.Entrepreneur;
+import pl.michal_sobiech.shared.user.User;
+import pl.michal_sobiech.shared.user.UserService;
 
 @Service
 @RequiredArgsConstructor

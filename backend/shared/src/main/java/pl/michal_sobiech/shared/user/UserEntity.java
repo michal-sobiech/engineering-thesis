@@ -1,4 +1,4 @@
-package pl.michal_sobiech.engineering_thesis.user;
+package pl.michal_sobiech.shared.user;
 
 import org.hibernate.annotations.JdbcType;
 import org.hibernate.dialect.PostgreSQLEnumJdbcType;

@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.auth.AuthService;
 import pl.michal_sobiech.engineering_thesis.enterprise.Enterprise;
 import pl.michal_sobiech.engineering_thesis.enterprise.EnterpriseService;
-import pl.michal_sobiech.engineering_thesis.entrepreneur.Entrepreneur;
+import pl.michal_sobiech.shared.entrepreneur.Entrepreneur;
 
 @Component
 @RequiredArgsConstructor

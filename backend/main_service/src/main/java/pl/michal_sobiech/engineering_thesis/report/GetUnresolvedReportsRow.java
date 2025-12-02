@@ -2,7 +2,7 @@ package pl.michal_sobiech.engineering_thesis.report;
 
 import org.springframework.lang.Nullable;
 
-import pl.michal_sobiech.engineering_thesis.user.UserGroup;
+import pl.michal_sobiech.shared.user.UserGroup;
 
 public interface GetUnresolvedReportsRow {
 

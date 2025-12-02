@@ -1,8 +1,8 @@
-package pl.michal_sobiech.engineering_thesis.enterprise_member;
+package pl.michal_sobiech.shared.enterprise_member;
 
 import pl.michal_sobiech.engineering_thesis.employee.Employee;
-import pl.michal_sobiech.engineering_thesis.entrepreneur.Entrepreneur;
-import pl.michal_sobiech.engineering_thesis.user.User;
+import pl.michal_sobiech.shared.entrepreneur.Entrepreneur;
+import pl.michal_sobiech.shared.user.User;
 
 public class EnterpriseMemberFactory {
 

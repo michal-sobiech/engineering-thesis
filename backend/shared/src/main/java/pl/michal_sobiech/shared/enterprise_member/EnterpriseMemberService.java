@@ -1,4 +1,4 @@
-package pl.michal_sobiech.engineering_thesis.enterprise_member;
+package pl.michal_sobiech.shared.enterprise_member;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.employee.Employee;
 import pl.michal_sobiech.engineering_thesis.employee.EmployeeService;
-import pl.michal_sobiech.engineering_thesis.entrepreneur.Entrepreneur;
-import pl.michal_sobiech.engineering_thesis.entrepreneur.EntrepreneurService;
+import pl.michal_sobiech.shared.entrepreneur.Entrepreneur;
+import pl.michal_sobiech.shared.entrepreneur.EntrepreneurService;
 
 @Service
 @RequiredArgsConstructor

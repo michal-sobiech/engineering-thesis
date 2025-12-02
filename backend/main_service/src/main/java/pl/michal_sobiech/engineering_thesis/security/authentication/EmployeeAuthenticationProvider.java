@@ -13,10 +13,10 @@ import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.scope_username_password_authentication.EnterpriseIdAndUsername;
 import pl.michal_sobiech.engineering_thesis.scope_username_password_authentication.EnterpriseIdUsernamePasswordAuthentication;
-import pl.michal_sobiech.engineering_thesis.user.User;
-import pl.michal_sobiech.engineering_thesis.user.UserEntity;
 import pl.michal_sobiech.engineering_thesis.user.UserIdAuthentication;
-import pl.michal_sobiech.engineering_thesis.user.UserService;
+import pl.michal_sobiech.shared.user.User;
+import pl.michal_sobiech.shared.user.UserEntity;
+import pl.michal_sobiech.shared.user.UserService;
 
 @Component
 @RequiredArgsConstructor

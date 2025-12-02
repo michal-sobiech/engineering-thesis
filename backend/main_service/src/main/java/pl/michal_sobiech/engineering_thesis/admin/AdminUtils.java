@@ -2,7 +2,7 @@ package pl.michal_sobiech.engineering_thesis.admin;
 
 import java.util.List;
 
-import pl.michal_sobiech.engineering_thesis.user.UserGroup;
+import pl.michal_sobiech.shared.user.UserGroup;
 
 public class AdminUtils {
 

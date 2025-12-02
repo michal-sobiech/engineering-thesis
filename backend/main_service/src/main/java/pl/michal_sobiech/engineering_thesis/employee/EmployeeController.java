@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.auth.AuthService;
-import pl.michal_sobiech.engineering_thesis.user.User;
+import pl.michal_sobiech.shared.user.User;
 
 @RestController
 @RequiredArgsConstructor

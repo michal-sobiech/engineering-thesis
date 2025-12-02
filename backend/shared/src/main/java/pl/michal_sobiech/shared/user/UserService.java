@@ -1,4 +1,4 @@
-package pl.michal_sobiech.engineering_thesis.user;
+package pl.michal_sobiech.shared.user;
 
 import java.util.List;
 import java.util.Optional;
@@ -9,7 +9,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.exceptions.exceptions.ConflictException;
+import pl.michal_sobiech.shared.exceptions.exceptions.ConflictException;
+import pl.michal_sobiech.engineering_thesis.user.User;
+import pl.michal_sobiech.engineering_thesis.user.UserEntity;
+import pl.michal_sobiech.engineering_thesis.user.UserGroup;
 
 @Service
 @RequiredArgsConstructor

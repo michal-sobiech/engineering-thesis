@@ -7,10 +7,10 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.user.User;
-import pl.michal_sobiech.engineering_thesis.user.UserGroup;
-import pl.michal_sobiech.engineering_thesis.user.UserRepository;
-import pl.michal_sobiech.engineering_thesis.user.UserService;
+import pl.michal_sobiech.shared.user.User;
+import pl.michal_sobiech.shared.user.UserGroup;
+import pl.michal_sobiech.shared.user.UserRepository;
+import pl.michal_sobiech.shared.user.UserService;
 
 @Service
 @RequiredArgsConstructor

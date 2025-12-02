@@ -1,7 +1,7 @@
 package pl.michal_sobiech.engineering_thesis.report.review;
 
 import pl.michal_sobiech.engineering_thesis.report.UnresolvedReport;
-import pl.michal_sobiech.engineering_thesis.user.UserGroup;
+import pl.michal_sobiech.shared.user.UserGroup;
 
 public record UnresolvedReviewReport(
 

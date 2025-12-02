@@ -12,8 +12,8 @@ import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.appointment.custom.CustomAppointmentQueryService;
 import pl.michal_sobiech.engineering_thesis.appointment.non_custom.NonCustomAppointmentQueryService;
 import pl.michal_sobiech.engineering_thesis.currency_iso.CurrencyIso;
-import pl.michal_sobiech.engineering_thesis.enterprise_member.EnterpriseMember;
-import pl.michal_sobiech.engineering_thesis.enterprise_member.EnterpriseMemberService;
+import pl.michal_sobiech.shared.enterprise_member.EnterpriseMember;
+import pl.michal_sobiech.shared.enterprise_member.EnterpriseMemberService;
 
 @Service
 @RequiredArgsConstructor
