@@ -34,12 +34,12 @@ public class EntrepreneurService {
                 passwordRaw,
                 Optional.empty());
 
-        return Entrepreneur.fromUser(user);
+        return Entrepreneur.fromUserOrThrow(user);
     }
 
     public Entrepreneur getEnterpriseOwner(long appointmentId) {
         UserEntity user = userRepository.getEnterpriseOwner(appointmentId).orElseThrow();
-        return Entrepreneur.fromUser(User.fromEntity(user));
+        return Entrepreneur.fromUserOrThrow(User.fromEntity(user));
     }
 
     public Optional<Entrepreneur> getByUserId(long userId) {

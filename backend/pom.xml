@@ -5,12 +5,14 @@
 
 	<groupId>pl.michal_sobiech</groupId>
 	<artifactId>engineering_thesis</artifactId>
-    <packaging>pom</packaging>
 	<version>0.0.1-SNAPSHOT</version>
+
+    <packaging>pom</packaging>
 	<description>Michal Sobiech&apos;s engineering thesis</description>
 
     <modules>
         <module>shared</module>
+        <module>main_service</module>
         <module>payout_worker</module>
     </modules>
 

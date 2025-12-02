@@ -1,4 +1,4 @@
-package pl.michal_sobiech.engineering_thesis.exceptions.exceptions;
+package pl.michal_sobiech.shared.exceptions.exceptions;
 
 public class ForbiddenException extends RuntimeException {
 

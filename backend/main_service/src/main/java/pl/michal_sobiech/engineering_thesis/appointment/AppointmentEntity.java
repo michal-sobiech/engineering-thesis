@@ -87,4 +87,7 @@ public class AppointmentEntity {
     @Column(name = "payment_id", nullable = true)
     private Long paymentId;
 
+    @Column(name = "was_payout_processed")
+    private boolean wasPayoutProcessed;
+
 }

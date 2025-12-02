@@ -1,15 +1,14 @@
-package pl.michal_sobiech.engineering_thesis.exceptions;
+package pl.michal_sobiech.shared.exceptions;
 
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import pl.michal_sobiech.engineering_thesis.exceptions.exceptions.ConflictException;
-import pl.michal_sobiech.engineering_thesis.exceptions.exceptions.ForbiddenException;
-import pl.michal_sobiech.engineering_thesis.exceptions.exceptions.UnauthorizedException;
+import pl.michal_sobiech.shared.exceptions.exceptions.ConflictException;
+import pl.michal_sobiech.shared.exceptions.exceptions.ForbiddenException;
+import pl.michal_sobiech.shared.exceptions.exceptions.UnauthorizedException;
 
 @ControllerAdvice
 public class ControllerExceptionHandler {
@@ -27,11 +26,6 @@ public class ControllerExceptionHandler {
     @ExceptionHandler(ConflictException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public void handleConflict() {
-    }
-
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    @ResponseStatus(HttpStatus.CONFLICT)
-    public void handleDataIngegrityViolationException() {
     }
 
     @ExceptionHandler(BadCredentialsException.class)

@@ -7,8 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import pl.michal_sobiech.engineering_thesis.user.UserEntity;
-import pl.michal_sobiech.engineering_thesis.user.UserGroup;
+import pl.michal_sobiech.shared.user.UserEntity;
+import pl.michal_sobiech.shared.user.UserGroup;
 
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
