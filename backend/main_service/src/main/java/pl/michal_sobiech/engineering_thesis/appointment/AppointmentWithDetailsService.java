@@ -33,7 +33,8 @@ public class AppointmentWithDetailsService {
                             appointment.currency(),
                             appointment.startInstant(),
                             appointment.endInstant(),
-                            appointment.location());
+                            appointment.location(),
+                            appointment.paymentStatus());
                 })
                 .collect(Collectors.toList());
     }

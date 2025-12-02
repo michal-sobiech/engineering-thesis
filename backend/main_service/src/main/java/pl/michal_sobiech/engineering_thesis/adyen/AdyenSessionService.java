@@ -91,10 +91,7 @@ public class AdyenSessionService {
     }
 
     private void handleSuccessfulSessionResult(String merchantReference, Payment payment) {
-        paymentService.createPaymentAndLinkItToSubject(
-                PaymentServiceProvider.ADYEN,
-                payment.getPspReference(),
-                merchantReference);
+        // TODO
     }
 
     public boolean fetchIsSessionSuccessful(String sessionId, String sessionResultToken) {

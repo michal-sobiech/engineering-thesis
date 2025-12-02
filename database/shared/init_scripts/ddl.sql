@@ -171,8 +171,8 @@ CREATE TABLE public.appointment (
     cancelled boolean NOT NULL DEFAULT FALSE,
 
     is_paid boolean NOT NULL DEFAULT FALSE,
-    payment_service_provider psp_type DEFAULT NULL,
-    psp_reference text DEFAULT NULL,
+    payment_service_provider psp_type,
+    psp_reference text,
 
     was_payout_processed boolean,
 

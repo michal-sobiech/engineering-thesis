@@ -39,6 +39,9 @@ import pl.michal_sobiech.engineering_thesis.enterprise_service.no_custom_appoint
 import pl.michal_sobiech.engineering_thesis.enterprise_service.no_custom_appointments.NonCustomAppointmentsEnterpriseServiceService;
 import pl.michal_sobiech.engineering_thesis.enterprise_service_availability.CustomEnterpriseServiceAvailabilityService;
 import pl.michal_sobiech.engineering_thesis.enterprise_service_availability.NonCustomEnterpriseServiceAvailabilityService;
+import pl.michal_sobiech.engineering_thesis.payment.payment_status.PaymentStatusNotPaid;
+import pl.michal_sobiech.engineering_thesis.payment.payment_status.PaymentStatusPaidOnSite;
+import pl.michal_sobiech.engineering_thesis.payment.payment_status.PaymentStatusPaidOnline;
 import pl.michal_sobiech.engineering_thesis.review.ReviewService;
 import pl.michal_sobiech.engineering_thesis.utils.DateUtils;
 import pl.michal_sobiech.engineering_thesis.utils.HttpUtils;
@@ -261,6 +264,14 @@ public class EnterpriseServiceController implements ServicesApi {
                     String endDatetimeServiceLocal = DateUtils.createIsoLocalDatetime(
                             appointment.endInstant(),
                             timezone);
+
+                    boolean isPaid = switch (appointment.paymentStatus()) {
+                        case PaymentStatusNotPaid _ -> false;
+                        case PaymentStatusPaidOnSite _ -> true;
+                        case PaymentStatusPaidOnline _ -> true;
+                        default -> throw new IllegalArgumentException();
+                    };
+
                     return new GetEnterpriseServiceUncancelledFutureScheduledAppointmentResponse(
                             appointment.appointmentId(),
                             appointment.customerUsername(),
@@ -271,7 +282,8 @@ public class EnterpriseServiceController implements ServicesApi {
                             endDatetimeServiceLocal,
                             timezone.toString(),
                             appointment.price(),
-                            appointment.currency().toString());
+                            appointment.currency().toString(),
+                            isPaid);
                 })
                 .collect(Collectors.toList());
         return ResponseEntity.ok(body);

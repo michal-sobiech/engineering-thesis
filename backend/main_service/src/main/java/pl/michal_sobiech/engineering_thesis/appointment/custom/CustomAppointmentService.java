@@ -69,6 +69,8 @@ public class CustomAppointmentService {
                 location.getLatitude(),
                 false,
                 false,
+                null,
+                null,
                 null);
         appointmentRepository.save(appointmentEntity);
     }

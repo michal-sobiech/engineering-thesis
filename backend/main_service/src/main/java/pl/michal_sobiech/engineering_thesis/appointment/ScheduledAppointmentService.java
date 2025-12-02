@@ -60,11 +60,4 @@ public class ScheduledAppointmentService {
         appointmentRepository.save(appointment);
     }
 
-    public void markAppointmentAsPaidOnline(long appointmentId, long paymentId) {
-        AppointmentEntity appointment = appointmentRepository.findById(appointmentId).orElseThrow();
-        appointment.setPaid(true);
-        appointment.setPaymentId(paymentId);
-        appointmentRepository.save(appointment);
-    }
-
 }

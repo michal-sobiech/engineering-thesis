@@ -7,55 +7,64 @@ import java.util.Optional;
 import org.SwaggerCodeGenExample.model.Location;
 
 import pl.michal_sobiech.engineering_thesis.currency_iso.CurrencyIso;
+import pl.michal_sobiech.engineering_thesis.payment.payment_status.PaymentStatus;
 
 public record UncancelledScheduledAppointment(
 
-        long appointmentId,
-        long enterpriseServiceId,
-        Long customerUserId,
-        BigDecimal price,
-        CurrencyIso currency,
-        Instant startInstant,
-        Instant endInstant,
-        Location location
+                long appointmentId,
+                long enterpriseServiceId,
+                Long customerUserId,
+                BigDecimal price,
+                CurrencyIso currency,
+                Instant startInstant,
+                Instant endInstant,
+                Location location,
+                PaymentStatus paymentStatus
 
 ) {
 
-    public static boolean matchesEntity(AppointmentEntity entity) {
-        boolean isCustomScheduledAppointment = (entity.isCustom()
-                && entity.getIsAccepted() != null && entity.getIsAccepted() == true
-                && entity.getRejectionMessage() == null
-                && !entity.isCancelled());
+        public static boolean matchesEntity(AppointmentEntity entity) {
+                boolean isCustomScheduledAppointment = (entity.isCustom()
+                                && entity.getIsAccepted() != null && entity.getIsAccepted() == true
+                                && entity.getRejectionMessage() == null
+                                && !entity.isCancelled());
 
-        boolean isNonCustomScheduledAppointment = (!entity.isCustom()
-                && entity.getIsAccepted() == null
-                && entity.getRejectionMessage() == null
-                && !entity.isCancelled());
+                boolean isNonCustomScheduledAppointment = (!entity.isCustom()
+                                && entity.getIsAccepted() == null
+                                && entity.getRejectionMessage() == null
+                                && !entity.isCancelled());
 
-        return isCustomScheduledAppointment || isNonCustomScheduledAppointment;
-    }
-
-    public static Optional<UncancelledScheduledAppointment> fromEntity(AppointmentEntity entity) {
-        if (!matchesEntity(entity)) {
-            return Optional.empty();
+                return isCustomScheduledAppointment || isNonCustomScheduledAppointment;
         }
 
-        Location location = new Location(
-                entity.getAddress(),
-                entity.getLongitude(),
-                entity.getLatitude());
+        public static Optional<UncancelledScheduledAppointment> fromEntity(AppointmentEntity entity) {
+                if (!matchesEntity(entity)) {
+                        return Optional.empty();
+                }
 
-        var domain = new UncancelledScheduledAppointment(
-                entity.getAppointmentId(),
-                entity.getEnterpriseServiceId(),
-                entity.getCustomerUserId(),
-                entity.getPrice(),
-                entity.getCurrency(),
-                entity.getStartTime().toInstant(),
-                entity.getEndTime().toInstant(),
-                location);
+                Location location = new Location(
+                                entity.getAddress(),
+                                entity.getLongitude(),
+                                entity.getLatitude());
 
-        return Optional.of(domain);
-    }
+                PaymentStatus paymentStatus = PaymentStatus.of(
+                                entity.isPaid(),
+                                Optional.of(entity.getPaymentServiceProvider()),
+                                Optional.of(entity.getPspReference()),
+                                Optional.of(entity.getWasPayoutProcessed()));
+
+                var domain = new UncancelledScheduledAppointment(
+                                entity.getAppointmentId(),
+                                entity.getEnterpriseServiceId(),
+                                entity.getCustomerUserId(),
+                                entity.getPrice(),
+                                entity.getCurrency(),
+                                entity.getStartTime().toInstant(),
+                                entity.getEndTime().toInstant(),
+                                location,
+                                paymentStatus);
+
+                return Optional.of(domain);
+        }
 
 }

@@ -21,7 +21,4 @@ public class PaymentEntity {
     @Column(name = "paymentId")
     private Long paymentId;
 
-    @Column(name = "adyen_psp_reference")
-    private String adyenPspReference;
-
 }

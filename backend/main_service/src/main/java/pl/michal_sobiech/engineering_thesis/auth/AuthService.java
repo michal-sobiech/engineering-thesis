@@ -47,7 +47,7 @@ public class AuthService {
     public Entrepreneur requireEntrepreneur() {
         User user = requireAuthorizedUser();
         try {
-            return Entrepreneur.fromUser(user);
+            return Entrepreneur.fromUserOrThrow(user);
         } catch (Exception exception) {
             throw new ForbiddenException(exception);
         }

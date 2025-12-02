@@ -6,6 +6,7 @@ import java.time.Instant;
 import org.SwaggerCodeGenExample.model.Location;
 
 import pl.michal_sobiech.engineering_thesis.currency_iso.CurrencyIso;
+import pl.michal_sobiech.engineering_thesis.payment.payment_status.PaymentStatus;
 
 public record ScheduledAppointmentWithDetails(
 
@@ -29,7 +30,9 @@ public record ScheduledAppointmentWithDetails(
 
         Instant endInstant,
 
-        Location location
+        Location location,
+
+        PaymentStatus paymentStatus
 
 ) {
 }

@@ -15,12 +15,14 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Null;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import pl.michal_sobiech.engineering_thesis.currency_iso.CurrencyIso;
+import pl.michal_sobiech.engineering_thesis.payment.PaymentServiceProvider;
 
 @Entity
 @Table(name = "appointment")
@@ -84,10 +86,17 @@ public class AppointmentEntity {
     private boolean isPaid;
 
     @Nullable
-    @Column(name = "payment_id", nullable = true)
-    private Long paymentId;
+    @Enumerated(EnumType.STRING)
+    @JdbcType(PostgreSQLEnumJdbcType.class)
+    @Column(name = "payment_service_provider", columnDefinition = "psp_type", nullable = true)
+    private PaymentServiceProvider paymentServiceProvider;
 
-    @Column(name = "was_payout_processed")
-    private boolean wasPayoutProcessed;
+    @Nullable
+    @Column(name = "psp_reference", nullable = true)
+    private String pspReference;
+
+    @Nullable
+    @Column(name = "was_payout_processed", nullable = true)
+    private Boolean wasPayoutProcessed;
 
 }
