@@ -9,7 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.shared.exceptions.exceptions.ConflictException;
+import pl.michal_sobiech.shared.exceptions.ConflictException;
 import pl.michal_sobiech.shared.user.User;
 import pl.michal_sobiech.shared.user.UserEntity;
 import pl.michal_sobiech.shared.user.UserGroup;
