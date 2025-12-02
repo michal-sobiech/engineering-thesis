@@ -43,6 +43,12 @@ export interface CreateEntrepreneurRequest {
      * @memberof CreateEntrepreneurRequest
      */
     password: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateEntrepreneurRequest
+     */
+    iban: string;
 }
 
 /**
@@ -53,6 +59,7 @@ export function instanceOfCreateEntrepreneurRequest(value: object): value is Cre
     if (!('lastName' in value) || value['lastName'] === undefined) return false;
     if (!('email' in value) || value['email'] === undefined) return false;
     if (!('password' in value) || value['password'] === undefined) return false;
+    if (!('iban' in value) || value['iban'] === undefined) return false;
     return true;
 }
 
@@ -70,6 +77,7 @@ export function CreateEntrepreneurRequestFromJSONTyped(json: any, ignoreDiscrimi
         'lastName': json['lastName'],
         'email': json['email'],
         'password': json['password'],
+        'iban': json['iban'],
     };
 }
 
@@ -88,6 +96,7 @@ export function CreateEntrepreneurRequestToJSONTyped(value?: CreateEntrepreneurR
         'lastName': value['lastName'],
         'email': value['email'],
         'password': value['password'],
+        'iban': value['iban'],
     };
 }
 

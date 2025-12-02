@@ -1,7 +1,7 @@
-import { LocalDate } from "@js-joda/core";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { useEntrepreneursApi } from "../../api/entrepreneurs-api";
+import { PayoutInfoPage } from "../../common/payout/PayoutInfoPage";
 import { SignUpSuccessPage } from "../../common/sign-up-page/sign_up_success/SignUpSuccessPage";
 import { SignUpEnterEmailPage } from "../../common/sign-up-page/SignUpEnterEmailPage";
 import { SignUpEnterNamePage } from "../../common/sign-up-page/SignUpEnterNamePage";
@@ -25,11 +25,6 @@ export const EntrepreneurSignUpWizard = () => {
     const [lastName, setLastName] = useState<string>("");
     const [password, setPassword] = useState<string>("");
 
-    const [dateOfBirth, setDateOfBirth] = useState<LocalDate | null>(null);
-    const [country, setCountry] = useState<string>("");
-    const [city, setCity] = useState<string>("");
-    const [street, setStreet] = useState<string>("");
-    const [postalCode, setPostalCode] = useState<string>("");
     const [iban, setIban] = useState<string>("");
 
     const accountCreationSubmit = async () => {
@@ -38,6 +33,7 @@ export const EntrepreneurSignUpWizard = () => {
             lastName,
             email,
             password,
+            iban
         });
         const result = await errorErrResultAsyncFromPromise(promise);
         if (result.isErr()) {
@@ -61,10 +57,12 @@ export const EntrepreneurSignUpWizard = () => {
             setLastName={setLastName} />
     } else if (step === 2) {
         return <SignUpEnterPasswordPage
-            submit={accountCreationSubmit}
+            submit={async () => { incrementStep(); }}
             password={password}
             setPassword={setPassword} />;
     } else if (step === 3) {
+        return <PayoutInfoPage submit={accountCreationSubmit} iban={iban} setIban={setIban} />
+    } else if (step === 4) {
         return <SignUpSuccessPage logInPageUrl={logInPageUrl} />;
     } else {
         return null;
