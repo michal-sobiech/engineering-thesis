@@ -38,7 +38,7 @@ components:
 
     CreateEntrepreneurRequest:
       type: object
-      required: [firstName, lastName, email, password]
+      required: [firstName, lastName, email, password, iban]
       properties:
         firstName:
           type: string
@@ -53,6 +53,8 @@ components:
           type: string
           format: password
           example: "5=2VPIzYHSIc0l4d1o&es]plB"
+        iban:
+          type: string
 
     PostalCode:
       type: string

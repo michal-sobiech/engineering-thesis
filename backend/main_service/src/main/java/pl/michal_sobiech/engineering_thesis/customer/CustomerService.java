@@ -23,6 +23,7 @@ public class CustomerService {
                 request.getFirstName(),
                 request.getLastName(),
                 request.getPassword(),
+                Optional.empty(),
                 Optional.empty());
         return Customer.fromUser(user);
     }

@@ -31,7 +31,8 @@ public class EmployeeService {
                 firstName,
                 lastName,
                 password,
-                Optional.of(enterpriseId));
+                Optional.of(enterpriseId),
+                Optional.empty());
 
         return Employee.fromUser(user);
     }

@@ -24,7 +24,8 @@ public class EntrepreneurService {
             String email,
             String firstName,
             String lastName,
-            String passwordRaw) {
+            String passwordRaw,
+            String iban) {
 
         User user = userService.save(
                 UserGroup.ENTREPRENEUR,
@@ -32,7 +33,8 @@ public class EntrepreneurService {
                 firstName,
                 lastName,
                 passwordRaw,
-                Optional.empty());
+                Optional.empty(),
+                Optional.of(iban));
 
         return Entrepreneur.fromUserOrThrow(user);
     }

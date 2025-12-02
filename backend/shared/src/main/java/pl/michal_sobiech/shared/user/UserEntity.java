@@ -2,6 +2,7 @@ package pl.michal_sobiech.shared.user;
 
 import org.hibernate.annotations.JdbcType;
 import org.hibernate.dialect.PostgreSQLEnumJdbcType;
+import org.springframework.lang.Nullable;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -47,5 +48,9 @@ public class UserEntity {
 
     @Column(name = "enterprise_id", nullable = true)
     private Long enterpriseId;
+
+    @Nullable
+    @Column(name = "iban", nullable = true)
+    private String iban;
 
 }

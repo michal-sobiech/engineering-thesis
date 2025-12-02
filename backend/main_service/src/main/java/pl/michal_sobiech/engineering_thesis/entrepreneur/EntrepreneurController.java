@@ -46,7 +46,8 @@ public class EntrepreneurController implements EntrepreneursApi {
                                 request.getEmail(),
                                 request.getFirstName(),
                                 request.getLastName(),
-                                request.getPassword());
+                                request.getPassword(),
+                                request.getIban());
                 return ResponseEntity.ok().build();
         }
 

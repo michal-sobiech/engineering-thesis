@@ -41,7 +41,8 @@ public class UserService {
             String firstName,
             String lastName,
             String passwordRaw,
-            Optional<Long> enterpriseId) {
+            Optional<Long> enterpriseId,
+            Optional<String> iban) {
         try {
             String passwordHash = passwordEncoder.encode(passwordRaw);
             UserEntity user = new UserEntity(
@@ -51,7 +52,8 @@ public class UserService {
                     firstName,
                     lastName,
                     passwordHash,
-                    enterpriseId.orElse(null));
+                    enterpriseId.orElse(null),
+                    iban.orElse(null));
             user = userRepository.save(user);
             return User.fromEntity(user);
         } catch (DataIntegrityViolationException exception) {

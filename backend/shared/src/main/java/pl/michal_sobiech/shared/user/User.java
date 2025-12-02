@@ -16,8 +16,10 @@ public class User {
     private final String lastName;
     private final String passwordHash;
     private final Optional<Long> enterpriseId;
+    private final Optional<String> iban;
 
     public static User fromEntity(UserEntity entity) {
+
         return new User(
                 entity.getUserId(),
                 entity.getUserGroup(),
@@ -25,7 +27,8 @@ public class User {
                 entity.getFirstName(),
                 entity.getLastName(),
                 entity.getPasswordHash(),
-                Optional.ofNullable(entity.getEnterpriseId()));
+                Optional.ofNullable(entity.getEnterpriseId()),
+                Optional.ofNullable(entity.getIban()));
     }
 
 }
