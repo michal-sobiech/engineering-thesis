@@ -174,7 +174,7 @@ CREATE TABLE public.appointment (
     payment_service_provider psp_type DEFAULT NULL,
     psp_reference text DEFAULT NULL,
 
-    was_payout_processed boolean NOT NULL DEFAULT FALSE,
+    was_payout_processed boolean,
 
 	CONSTRAINT pk_appointment_id PRIMARY KEY (appointment_id),
 	CONSTRAINT fk_appointment_enterprise_service_id FOREIGN KEY (enterprise_service_id) REFERENCES public.enterprise_service(enterprise_service_id) ON DELETE CASCADE,
@@ -201,7 +201,7 @@ CREATE TABLE public.appointment (
         (is_paid = FALSE AND payment_service_provider IS NOT NULL AND psp_reference IS NOT NULL) -- paid online
     ),
     CONSTRAINT chk_appointment_was_payout_processed CHECK (
-        (was_payout_processed = FALSE OR (is_paid = TRUE AND psp_reference IS NOT NULL))
+        (NOT (is_paid = TRUE AND psp_reference IS NOT NULL)) OR was_payout_processed IS NOT NULL
     )
 );
 
