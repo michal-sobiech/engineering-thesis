@@ -2,6 +2,8 @@ CREATE TYPE user_group AS ENUM ('CUSTOMER', 'ENTREPRENEUR', 'EMPLOYEE', 'REGULAR
 
 CREATE TYPE currency_iso AS ENUM ('PLN', 'USD');
 
+CREATE TYPE psp_type AS ENUM ('ADYEN');
+
 CREATE TYPE enterprise_service_cathegory AS ENUM (
 	'BEAUTY_AND_WELLNESS',
     'HAIRDRESSER',
@@ -169,7 +171,8 @@ CREATE TABLE public.appointment (
     cancelled boolean NOT NULL DEFAULT FALSE,
 
     is_paid boolean NOT NULL DEFAULT FALSE,
-    payment_id bigint,
+    payment_service_provider psp_type DEFAULT NULL,
+    psp_reference text DEFAULT NULL,
 
     was_payout_processed boolean NOT NULL DEFAULT FALSE,
 
@@ -190,10 +193,15 @@ CREATE TABLE public.appointment (
 		OR 
 		(is_custom = TRUE AND address IS NOT NULL AND latitude IS NOT NULL and longitude IS NOT NULL)
 	),
-    CONSTRAINT fk_appointment_payment_id FOREIGN KEY (payment_id) REFERENCES public.payment(payment_id) ON DELETE SET NULL,
     CONSTRAINT chk_appointment_payment CHECK (
-        (is_paid = FALSE AND payment_id IS NULL)
-        -- is_paid = TRUE AND payment_id IS NULL is a valid combination, it means there was a payment on site.
+        (is_paid = FALSE AND payment_service_provider IS NULL AND psp_reference IS NULL)
+        OR
+        (is_paid = FALSE AND payment_service_provider IS NULL AND psp_reference IS NULL) -- paid on site
+        OR 
+        (is_paid = FALSE AND payment_service_provider IS NOT NULL AND psp_reference IS NOT NULL) -- paid online
+    ),
+    CONSTRAINT chk_appointment_was_payout_processed CHECK (
+        (was_payout_processed = FALSE OR (is_paid = TRUE AND psp_reference IS NOT NULL))
     )
 );
 
