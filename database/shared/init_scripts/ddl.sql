@@ -58,13 +58,20 @@ CREATE TABLE public.app_user (
 	
 	enterprise_id bigint,
 
+    iban text,
+
 	CONSTRAINT pk_user_id PRIMARY KEY (user_id),
 	CONSTRAINT chk_user_enterprise_id CHECK (
 		(user_group = 'EMPLOYEE' AND enterprise_id IS NOT NULL)
 		OR
 		(user_group != 'EMPLOYEE' AND enterprise_id IS NULL)
 	),
-	CONSTRAINT fk_user_enterprise_id FOREIGN KEY (enterprise_id) REFERENCES public.enterprise(enterprise_id) ON DELETE CASCADE
+	CONSTRAINT fk_user_enterprise_id FOREIGN KEY (enterprise_id) REFERENCES public.enterprise(enterprise_id) ON DELETE CASCADE,
+    CONSTRAINT chk_app_user_entrepreneur_has_iban CHECK (
+        (user_group != 'ENTREPRENEUR' AND iban IS NULL)
+        OR    
+        (user_group = 'ENTREPRENEUR' AND iban IS NOT NULL)
+    )
 );
 
 ALTER TABLE public.enterprise

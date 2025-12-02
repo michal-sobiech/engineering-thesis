@@ -16,13 +16,14 @@ VALUES (
     '$2a$14$H3Xb1uyNVBoVq7aXZI.mQO/L.iavvGIGjqsrOhm/5HRT9D0A0xkOO'
 );
 
-INSERT INTO public.app_user (user_group, username, first_name, last_name, password_hash)
+INSERT INTO public.app_user (user_group, username, first_name, last_name, password_hash, iban)
 VALUES (
     'ENTREPRENEUR',
     'adam.adamczyk@example.com',
     'Adam',
     'Adamczyk',
-    '$2a$14$H3Xb1uyNVBoVq7aXZI.mQO/L.iavvGIGjqsrOhm/5HRT9D0A0xkOO'
+    '$2a$14$H3Xb1uyNVBoVq7aXZI.mQO/L.iavvGIGjqsrOhm/5HRT9D0A0xkOO',
+    'PL10105000997603123456789123'
 );
 
 INSERT INTO public.app_user (user_group, username, first_name, last_name, password_hash)
