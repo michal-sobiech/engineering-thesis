@@ -1,8 +1,0 @@
-FROM eclipse-temurin:23-jdk-alpine
-RUN apk add --no-cache maven curl ca-certificates openssl
-WORKDIR /app/backend
-COPY backend/pom.xml .
-COPY openapi.yaml ..
-RUN [ "mvn", "dependency:go-offline", "-B" ]
-COPY backend .
-CMD [ "mvn", "spring-boot:run" ]

@@ -1,13 +1,4 @@
 x-backend-shared-config: &backend_shared_config
-  build:
-    context: ..
-    dockerfile: ./docker/Dockerfile.backend
-  environment:
-    DB_NAME: ${DB_NAME}
-    DB_USER: ${DB_BE_USER}
-    DB_PASSWORD: ${DB_BE_PASSWORD}
-    FRONTEND_HOST: http://localhost:3000 # TODO put this in .env or somewhere like that
-    JWT_SECRET: ${BACKEND_JWT_SECRET}
   depends_on:
     database_primary:
       condition: service_healthy
@@ -23,6 +14,29 @@ x-backend-shared-config: &backend_shared_config
   networks:
     - nginx_and_backend
     - backend_and_database
+
+x-backend-main-service-shared-config: &backend_main_service_shared_config
+  build:
+    context: ..
+    dockerfile: ./docker/Dockerfile.backend_main_service
+  environment:
+    DB_NAME: ${DB_NAME}
+    DB_USER: ${DB_BE_USER}
+    DB_PASSWORD: ${DB_BE_PASSWORD}
+    FRONTEND_HOST: http://localhost:3000 # TODO put this in .env or somewhere like that
+    JWT_SECRET: ${BACKEND_JWT_SECRET}
+    ADYEN_MERCHANT_ACCOUNT: ${ADYEN_MERCHANT_ACCOUNT}
+    ADYEN_API_KEY: ${ADYEN_API_KEY}
+
+x-backend-payout-worker-shared-config: &backend_payout_worker_shared_config
+  build:
+    context: ..
+    dockerfile: ./docker/Dockerfile.backend_payout_worker
+  environment:
+    DB_NAME: ${DB_NAME}
+    DB_USER: ${DB_BE_USER}
+    DB_PASSWORD: ${DB_BE_PASSWORD}
+    FRONTEND_HOST: http://localhost:3000 # TODO put this in .env or somewhere like that
 
 x-database-shared-config: &database_shared_config
   image: postgis/postgis:18-3.6
@@ -68,9 +82,9 @@ services:
     ports:
       - 8000:80
     depends_on:
-      backend_1:
+      backend_main_service_1:
         condition: service_healthy
-      backend_2:
+      backend_main_service_2:
         condition: service_healthy
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost/health-check"]
@@ -84,15 +98,26 @@ services:
     volumes:
       - ../nginx/nginx.conf:/etc/nginx/nginx.conf:ro
 
-  backend_1:
+  backend_main_service_1:
     ports:
       - 8080:80
-    <<: *backend_shared_config
+    <<:
+      - *backend_shared_config
+      - *backend_main_service_shared_config
 
-  backend_2:
+  backend_main_service_2:
     ports:
       - 8081:80
-    <<: *backend_shared_config
+    <<:
+      - *backend_shared_config
+      - *backend_main_service_shared_config
+
+  backend_payout_worker_2:
+    ports:
+      - 8081:80
+    <<:
+      - *backend_shared_config
+      - *backend_payout_worker_shared_config
 
   database_primary:
     ports:

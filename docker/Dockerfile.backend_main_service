@@ -1,0 +1,23 @@
+FROM eclipse-temurin:23-jdk-alpine AS build
+RUN apk add --no-cache maven curl ca-certificates openssl
+WORKDIR /app/backend
+
+COPY backend/pom.xml pom.xml
+COPY backend/shared/pom.xml shared/pom.xml
+COPY backend/payout_worker/pom.xml payout_worker/pom.xml
+COPY backend/main_service/pom.xml main_service/pom.xml
+
+RUN mkdir -p shared/src/main/java
+RUN mkdir -p payout_worker/src/main/java
+RUN mkdir -p main_service/src/main/java
+
+COPY openapi.yaml ..
+RUN [ "mvn", "dependency:go-offline", "-B" ]
+COPY backend .
+RUN mvn package -pl main_service -am -DskipTests
+
+FROM eclipse-temurin:23-jdk-alpine
+RUN apk add --no-cache curl ca-certificates openssl
+WORKDIR /app/backend
+COPY --from=build /app/backend/main_service/target/*.jar app.jar
+CMD [ "java", "-jar", "app.jar" ]
