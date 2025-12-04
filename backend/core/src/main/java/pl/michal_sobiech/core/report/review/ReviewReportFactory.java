@@ -7,7 +7,7 @@ import pl.michal_sobiech.engineering_thesis.report.GetUnresolvedReportsRow;
 import pl.michal_sobiech.engineering_thesis.review.Review;
 import pl.michal_sobiech.engineering_thesis.review.ReviewService;
 
-@Component
+
 @RequiredArgsConstructor
 public class ReviewReportFactory {
 

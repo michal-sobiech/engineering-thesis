@@ -7,7 +7,7 @@ import pl.michal_sobiech.engineering_thesis.enterprise.Enterprise;
 import pl.michal_sobiech.engineering_thesis.enterprise.EnterpriseService;
 import pl.michal_sobiech.engineering_thesis.report.GetUnresolvedReportsRow;
 
-@Component
+
 @RequiredArgsConstructor
 public class EnterpriseReportFactory {
 

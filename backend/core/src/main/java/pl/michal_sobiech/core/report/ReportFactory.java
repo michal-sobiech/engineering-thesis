@@ -7,7 +7,7 @@ import pl.michal_sobiech.engineering_thesis.report.enterprise.EnterpriseReportFa
 import pl.michal_sobiech.engineering_thesis.report.enterprise_service.EnterpriseServiceReportFactory;
 import pl.michal_sobiech.engineering_thesis.report.review.ReviewReportFactory;
 
-@Component
+
 @RequiredArgsConstructor
 public class ReportFactory {
 

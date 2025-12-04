@@ -13,7 +13,7 @@ import pl.michal_sobiech.engineering_thesis.enterprise_service.no_custom_appoint
 import pl.michal_sobiech.engineering_thesis.time_slot.TimeSlot;
 import pl.michal_sobiech.engineering_thesis.time_slot.TimeSlotWithOccupancy;
 
-@Component
+
 @RequiredArgsConstructor
 public class EnterpriseServiceService {
 
