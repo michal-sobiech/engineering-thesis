@@ -20,8 +20,6 @@ import com.adyen.model.checkout.CreateCheckoutSessionResponse;
 
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.adyen.AdyenSessionService;
-import pl.michal_sobiech.engineering_thesis.appointment.custom.CustomAppointmentQueryService;
-import pl.michal_sobiech.engineering_thesis.appointment.custom.CustomAppointmentService;
 import pl.michal_sobiech.engineering_thesis.auth.AuthService;
 import pl.michal_sobiech.engineering_thesis.customer.Customer;
 import pl.michal_sobiech.engineering_thesis.enterprise.Enterprise;
@@ -29,12 +27,16 @@ import pl.michal_sobiech.engineering_thesis.enterprise.EnterpriseService;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceDomain;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceService;
 import pl.michal_sobiech.engineering_thesis.exceptions.exceptions.UnauthorizedException;
-import pl.michal_sobiech.engineering_thesis.payment.PaymentSubjectType;
-import pl.michal_sobiech.engineering_thesis.payment.payment_status.PaymentStatusNotPaid;
-import pl.michal_sobiech.engineering_thesis.payment.payment_status.PaymentStatusPaidOnSite;
-import pl.michal_sobiech.engineering_thesis.payment.payment_status.PaymentStatusPaidOnline;
-import pl.michal_sobiech.engineering_thesis.utils.DateUtils;
+import pl.michal_sobiech.shared.appointment.AppointmentService;
+import pl.michal_sobiech.shared.appointment.ScheduledAppointmentService;
+import pl.michal_sobiech.shared.appointment.custom.CustomAppointmentQueryService;
+import pl.michal_sobiech.shared.appointment.custom.CustomAppointmentService;
 import pl.michal_sobiech.shared.enterprise_member.EnterpriseMember;
+import pl.michal_sobiech.shared.payment.PaymentSubjectType;
+import pl.michal_sobiech.shared.payment.payment_status.PaymentStatusNotPaid;
+import pl.michal_sobiech.shared.payment.payment_status.PaymentStatusPaidOnSite;
+import pl.michal_sobiech.shared.payment.payment_status.PaymentStatusPaidOnline;
+import pl.michal_sobiech.shared.utils.DateUtils;
 
 @RestController
 @RequiredArgsConstructor

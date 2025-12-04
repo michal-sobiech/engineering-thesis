@@ -4,6 +4,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
+import pl.michal_sobiech.shared.appointment.AppointmentService;
 
 @Component
 @RequiredArgsConstructor
@@ -12,6 +13,7 @@ public class PayoutWorker {
     private static final int DELAY_MIN = 10;
 
     private final PayoutService payoutService;
+    private final AppointmentService appointmentService;
 
     @Scheduled(fixedDelay = DELAY_MIN * 60 * 1000)
     public void findAndProcessFinishedAppointments() {
