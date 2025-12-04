@@ -26,7 +26,6 @@ import pl.michal_sobiech.shared.payment.MerchantReferenceUtils;
 import pl.michal_sobiech.shared.payment.PaymentServiceProvider;
 import pl.michal_sobiech.shared.payment.PaymentSubjectType;
 
-@Service
 @RequiredArgsConstructor
 public class AdyenSessionService {
 

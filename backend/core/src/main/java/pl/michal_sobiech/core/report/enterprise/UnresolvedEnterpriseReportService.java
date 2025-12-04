@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.report.ReportRepository;
 
-@Service
+
 @RequiredArgsConstructor
 public class UnresolvedEnterpriseReportService {
 

@@ -14,7 +14,7 @@ import pl.michal_sobiech.shared.appointment.custom.CustomAppointmentService;
 import pl.michal_sobiech.shared.utils.DateUtils;
 import pl.michal_sobiech.shared.utils.LocalDateTimeWindow;
 
-@Service
+
 @RequiredArgsConstructor
 public class CustomEnterpriseServiceAvailabilityService {
 

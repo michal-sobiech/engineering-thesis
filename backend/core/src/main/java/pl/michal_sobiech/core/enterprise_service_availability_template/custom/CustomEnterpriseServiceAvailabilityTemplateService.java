@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.EnterpriseServiceSlotTemplateService;
 import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.custom_appointments.CustomAppointmentsEnterpriseServiceSlotTemplate;
 
-@Service
+
 @RequiredArgsConstructor
 public class CustomEnterpriseServiceAvailabilityTemplateService {
 

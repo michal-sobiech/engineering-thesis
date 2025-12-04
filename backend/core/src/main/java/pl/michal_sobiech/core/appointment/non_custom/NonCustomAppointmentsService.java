@@ -14,7 +14,6 @@ import pl.michal_sobiech.shared.currency_iso.CurrencyIso;
 import pl.michal_sobiech.shared.appointment.AppointmentEntity;
 import pl.michal_sobiech.shared.appointment.AppointmentRepository;
 
-@Service
 @RequiredArgsConstructor
 public class NonCustomAppointmentsService {
 

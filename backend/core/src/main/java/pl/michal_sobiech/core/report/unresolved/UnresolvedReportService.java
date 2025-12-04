@@ -12,7 +12,7 @@ import pl.michal_sobiech.engineering_thesis.report.ReportFactory;
 import pl.michal_sobiech.engineering_thesis.report.ReportRepository;
 import pl.michal_sobiech.engineering_thesis.report.UnresolvedReport;
 
-@Service
+
 @RequiredArgsConstructor
 public class UnresolvedReportService {
 

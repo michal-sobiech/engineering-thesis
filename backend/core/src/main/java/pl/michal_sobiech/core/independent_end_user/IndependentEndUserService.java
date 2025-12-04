@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.shared.user.User;
 import pl.michal_sobiech.shared.user.UserRepository;
 
-@Service
+
 @RequiredArgsConstructor
 public class IndependentEndUserService {
 

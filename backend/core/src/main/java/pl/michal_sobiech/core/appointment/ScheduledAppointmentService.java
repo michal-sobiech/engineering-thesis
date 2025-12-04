@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.shared.appointment.custom.CustomAppointmentQueryService;
 import pl.michal_sobiech.shared.appointment.non_custom.NonCustomAppointmentQueryService;
 
-@Service
+
 @RequiredArgsConstructor
 public class ScheduledAppointmentService {
 

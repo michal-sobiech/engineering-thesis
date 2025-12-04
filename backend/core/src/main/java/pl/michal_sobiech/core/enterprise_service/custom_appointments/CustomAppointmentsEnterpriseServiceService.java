@@ -13,7 +13,7 @@ import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseService
 import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.custom_appointments.CreateCustomAppointmentsEnterpriseServiceTimeWindowTemplateCommand;
 import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.custom_appointments.CustomAppointmentsEnterpriseServiceTimeWindowTemplateService;
 
-@Service
+
 @RequiredArgsConstructor
 public class CustomAppointmentsEnterpriseServiceService {
 

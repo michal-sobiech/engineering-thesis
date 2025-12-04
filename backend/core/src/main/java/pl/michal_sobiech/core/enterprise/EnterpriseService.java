@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.enterprise.controller.CreateEnterpriseCommand;
 import pl.michal_sobiech.engineering_thesis.utils.MultipartFileUtils;
 
-@Service
+
 @RequiredArgsConstructor
 public class EnterpriseService {
 

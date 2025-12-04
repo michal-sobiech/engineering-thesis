@@ -17,7 +17,7 @@ import pl.michal_sobiech.shared.appointment.non_custom.NonCustomAppointmentsServ
 import pl.michal_sobiech.shared.utils.DateUtils;
 import pl.michal_sobiech.shared.utils.LocalDateTimeWindow;
 
-@Service
+
 @RequiredArgsConstructor
 public class NonCustomEnterpriseServiceAvailabilityService {
 

@@ -15,7 +15,7 @@ import pl.michal_sobiech.engineering_thesis.available_enterprise_service_time_wi
 import pl.michal_sobiech.engineering_thesis.available_enterprise_service_time_windows_search.custom.AvailableCustomEnterpriseServiceFreeTimeWindowSearchService;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceCathegory;
 
-@Service
+
 @RequiredArgsConstructor
 public class AvailableCustomEnterpriseServiceSearchService {
 

@@ -12,7 +12,7 @@ import pl.michal_sobiech.engineering_thesis.available_enterprise_service_search.
 import pl.michal_sobiech.engineering_thesis.available_enterprise_service_search.non_custom.AvailableNonCustomEnterpriseServiceSearchService;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceCathegory;
 
-@Service
+
 @RequiredArgsConstructor
 public class AvailableEnterpriseServiceSearchService {
 

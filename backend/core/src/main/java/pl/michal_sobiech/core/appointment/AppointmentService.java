@@ -16,7 +16,7 @@ import pl.michal_sobiech.shared.enterprise_member.EnterpriseMember;
 import pl.michal_sobiech.shared.enterprise_member.EnterpriseMemberService;
 import pl.michal_sobiech.shared.payment.PaymentServiceProvider;
 
-@Service
+
 @RequiredArgsConstructor
 public class AppointmentService {
 

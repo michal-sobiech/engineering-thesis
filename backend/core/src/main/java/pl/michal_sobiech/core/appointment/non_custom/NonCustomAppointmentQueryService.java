@@ -12,7 +12,6 @@ import pl.michal_sobiech.shared.appointment.AppointmentRepository;
 import pl.michal_sobiech.shared.appointment.UncancelledScheduledAppointment;
 import pl.michal_sobiech.shared.appointment.query.AppointmentQueryTimeRange;
 
-@Service
 @RequiredArgsConstructor
 public class NonCustomAppointmentQueryService {
 

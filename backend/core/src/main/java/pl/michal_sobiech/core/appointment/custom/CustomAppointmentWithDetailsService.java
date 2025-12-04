@@ -12,7 +12,6 @@ import pl.michal_sobiech.engineering_thesis.payment.payment_status.PaymentStatus
 import pl.michal_sobiech.engineering_thesis.payment.payment_status.PaymentStatusNotPaid;
 import pl.michal_sobiech.shared.appointment.ScheduledAppointmentWithDetails;
 
-@Service
 @RequiredArgsConstructor
 public class CustomAppointmentWithDetailsService {
 

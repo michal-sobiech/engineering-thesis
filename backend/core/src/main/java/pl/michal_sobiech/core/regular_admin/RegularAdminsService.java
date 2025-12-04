@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.shared.user.UserGroup;
 import pl.michal_sobiech.shared.user.UserService;
 
-@Service
+
 @RequiredArgsConstructor
 public class RegularAdminsService {
 

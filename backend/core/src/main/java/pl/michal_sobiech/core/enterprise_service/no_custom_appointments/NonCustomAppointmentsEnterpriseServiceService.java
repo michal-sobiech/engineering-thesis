@@ -13,7 +13,7 @@ import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseService
 import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.non_custom_appointments.CreateNonCustomAppointmentsEnterpriseServiceSlotTemplateCommand;
 import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.non_custom_appointments.NonCustomAppointmentsEnterpriseServiceSlotTemplateService;
 
-@Service
+
 @RequiredArgsConstructor
 public class NonCustomAppointmentsEnterpriseServiceService {
 

@@ -18,7 +18,6 @@ import pl.michal_sobiech.shared.appointment.AppointmentEntity;
 import pl.michal_sobiech.shared.appointment.AppointmentRepository;
 import pl.michal_sobiech.shared.appointment.UncancelledScheduledAppointment;
 
-@Service
 @RequiredArgsConstructor
 public class CustomAppointmentService {
 

@@ -14,7 +14,7 @@ import pl.michal_sobiech.shared.user.User;
 import pl.michal_sobiech.shared.user.UserEntity;
 import pl.michal_sobiech.shared.user.UserGroup;
 
-@Service
+
 @RequiredArgsConstructor
 public class UserService {
 

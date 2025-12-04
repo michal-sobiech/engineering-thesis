@@ -12,7 +12,7 @@ import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.Ent
 import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.EnterpriseServiceSlotTemplateRepository;
 import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.EnterpriseServiceSlotTemplateService;
 
-@Service
+
 @RequiredArgsConstructor
 public class NonCustomAppointmentsEnterpriseServiceSlotTemplateService {
 

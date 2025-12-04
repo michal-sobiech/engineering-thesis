@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceCathegory;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceRepository;
 
-@Service
+
 @RequiredArgsConstructor
 public class EnterpriseServiceSearchService {
 

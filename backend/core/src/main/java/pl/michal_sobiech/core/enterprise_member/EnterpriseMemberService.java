@@ -11,7 +11,7 @@ import pl.michal_sobiech.shared.employee.EmployeeService;
 import pl.michal_sobiech.shared.entrepreneur.Entrepreneur;
 import pl.michal_sobiech.shared.entrepreneur.EntrepreneurService;
 
-@Service
+
 @RequiredArgsConstructor
 public class EnterpriseMemberService {
 

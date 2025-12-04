@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.customer.Customer;
 import pl.michal_sobiech.engineering_thesis.customer.CustomerService;
 
-@Service
+
 @RequiredArgsConstructor
 public class AppointmentWithDetailsService {
 

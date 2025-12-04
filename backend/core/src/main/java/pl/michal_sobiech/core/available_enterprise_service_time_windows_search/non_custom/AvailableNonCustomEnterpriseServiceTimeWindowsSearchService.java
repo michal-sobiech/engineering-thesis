@@ -16,7 +16,7 @@ import pl.michal_sobiech.engineering_thesis.enterprise_service_availability.NonC
 import pl.michal_sobiech.shared.utils.DateUtils;
 import pl.michal_sobiech.shared.utils.LocalDateTimeWindow;
 
-@Service
+
 @RequiredArgsConstructor
 public class AvailableNonCustomEnterpriseServiceTimeWindowsSearchService {
 
