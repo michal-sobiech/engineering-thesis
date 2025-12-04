@@ -1,18 +1,13 @@
-package pl.michal_sobiech.engineering_thesis.adyen;
+package pl.michal_sobiech.core.adyen;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
+public interface AdyenProperties {
 
-@ConfigurationProperties(prefix = "adyen")
-public record AdyenProperties(
+    public String merchantAccount();
 
-        String merchantAccount,
+    public String apiKey();
 
-        String apiKey,
+    public String hmacKey();
 
-        String hmacKey,
-
-        String environment
-
-) {
+    public String environment();
 
 }
