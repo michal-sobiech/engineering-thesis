@@ -9,11 +9,6 @@
 		<version>3.4.0</version>
 		<relativePath/>
 	</parent>
-	<!-- <parent>
-		<groupId>pl.michal_sobiech</groupId>
-		<artifactId>engineering_thesis</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-	</parent> -->
 
 	<groupId>pl.michal_sobiech</groupId>
 	<artifactId>payout_worker</artifactId>
@@ -24,7 +19,7 @@
     <dependencies>
 		<dependency>
 			<groupId>pl.michal_sobiech</groupId>
-			<artifactId>shared</artifactId>
+			<artifactId>core</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 

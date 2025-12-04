@@ -17,7 +17,7 @@
 	<description>Michal Sobiech&apos;s engineering thesis</description>
 
     <modules>
-        <module>shared</module>
+        <module>core</module>
         <module>main_service</module>
         <module>payout_worker</module>
     </modules>
