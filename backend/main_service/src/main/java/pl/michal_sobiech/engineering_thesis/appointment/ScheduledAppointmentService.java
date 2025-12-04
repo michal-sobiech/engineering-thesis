@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.appointment.custom.CustomAppointmentQueryService;
 import pl.michal_sobiech.engineering_thesis.appointment.non_custom.NonCustomAppointmentQueryService;
-import pl.michal_sobiech.engineering_thesis.payment.PaymentService;
 
 @Service
 @RequiredArgsConstructor
@@ -17,7 +16,6 @@ public class ScheduledAppointmentService {
     private final AppointmentRepository appointmentRepository;
     private final CustomAppointmentQueryService customAppointmentQueryService;
     private final NonCustomAppointmentQueryService nonCustomAppointmentQueryService;
-    private final PaymentService paymentService;
 
     public List<UncancelledScheduledAppointment> getCustomerUncancelledFutureScheduledAppointments(
             long customerUserId) {

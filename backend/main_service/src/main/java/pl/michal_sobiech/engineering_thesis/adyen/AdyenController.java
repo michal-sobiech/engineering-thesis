@@ -17,7 +17,7 @@ public class AdyenController implements AdyenApi {
     @Override
     public ResponseEntity<SendAdyenSessionResultResponse> sendAdyenSessionResult(
             SendAdyenSessionResultRequest request) {
-        boolean isSessionSuccessful = adyenSessionService.fetchIsSessionSuccessful(
+        boolean isSessionSuccessful = adyenSessionService.handleSessionResult(
                 request.getSessionId(),
                 request.getSessionResultToken());
 

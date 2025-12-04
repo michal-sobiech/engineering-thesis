@@ -9,11 +9,6 @@
 		<version>3.4.0</version>
 		<relativePath/>
 	</parent>
-	<!-- <parent>
-		<groupId>pl.michal_sobiech</groupId>
-		<artifactId>engineering_thesis</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-	</parent> -->
 
 	<groupId>pl.michal_sobiech</groupId>
 	<artifactId>main_service</artifactId>

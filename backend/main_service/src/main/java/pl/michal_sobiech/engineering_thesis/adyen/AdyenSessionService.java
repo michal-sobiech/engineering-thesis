@@ -23,7 +23,6 @@ import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.appointment.AppointmentService;
 import pl.michal_sobiech.engineering_thesis.currency_iso.CurrencyIso;
 import pl.michal_sobiech.engineering_thesis.payment.MerchantReferenceUtils;
-import pl.michal_sobiech.engineering_thesis.payment.PaymentService;
 import pl.michal_sobiech.engineering_thesis.payment.PaymentServiceProvider;
 import pl.michal_sobiech.engineering_thesis.payment.PaymentSubjectType;
 
@@ -34,7 +33,6 @@ public class AdyenSessionService {
     private final AdyenProperties adyenProperties;
     private final PaymentsApi adyenPaymentsApi;
     private final AppointmentService appointmentService;
-    private final PaymentService paymentService;
 
     public CreateCheckoutSessionResponse createSession(
             PaymentSubjectType paymentSubjectType,
@@ -64,6 +62,21 @@ public class AdyenSessionService {
         }
     }
 
+    public boolean handleSessionResult(String sessionId, String sessionResultToken) {
+        // Returns whether session was successful
+
+        SessionResultResponse sessionResult = getSessionResult(sessionId, sessionResultToken);
+        boolean isSessionSuccessful = isSessionSuccessful(sessionResult);
+        if (!isSessionSuccessful) {
+            return false;
+        }
+
+        Payment successfulPayment = getSuccessfulPayment(sessionResult.getPayments()).orElseThrow();
+        String merchantReference = sessionResult.getReference();
+        handleSuccessfulSessionResult(merchantReference, successfulPayment);
+        return true;
+    }
+
     private Pair<Long, String> getPriceAndCurrencyOfPaymentSubject(
             PaymentSubjectType paymentSubjectType,
             long paymentSubjectId) {
@@ -78,20 +91,19 @@ public class AdyenSessionService {
         };
     }
 
-    public void handleSessionResult(String sessionId, String sessionResultToken) {
-        SessionResultResponse sessionResult = getSessionResult(sessionId, sessionResultToken);
-        boolean isSessionSuccessful = isSessionSuccessful(sessionResult);
-        if (!isSessionSuccessful) {
-            return;
+    private void handleSuccessfulSessionResult(String merchantReference, Payment successfulPayment) {
+        var paymentSubjectAndId = MerchantReferenceUtils.extractPaymentSubjectTypeAndId(merchantReference);
+        PaymentSubjectType paymentSubjectType = paymentSubjectAndId.getFirst();
+        long paymentSubjectId = paymentSubjectAndId.getSecond();
+
+        switch (paymentSubjectType) {
+            case APPOINTMENT -> {
+                appointmentService.markAppointmentAsPaidOnline(
+                        paymentSubjectId,
+                        PaymentServiceProvider.ADYEN,
+                        successfulPayment.getPspReference());
+            }
         }
-
-        Payment successfulPayment = getSuccessfulPayment(sessionResult.getPayments()).orElseThrow();
-        String merchantReference = sessionResult.getReference();
-        handleSuccessfulSessionResult(merchantReference, successfulPayment);
-    }
-
-    private void handleSuccessfulSessionResult(String merchantReference, Payment payment) {
-        // TODO
     }
 
     public boolean fetchIsSessionSuccessful(String sessionId, String sessionResultToken) {
