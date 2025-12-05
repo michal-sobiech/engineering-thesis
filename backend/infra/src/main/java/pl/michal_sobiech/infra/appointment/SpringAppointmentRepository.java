@@ -218,9 +218,9 @@ public interface SpringAppointmentRepository extends JpaRepository<AppointmentEn
     @Query("""
             SELECT a
             FROM AppointmentEntity a
-            AND a.isPaid = TRUE
+            WHERE a.isPaid = TRUE
             AND a.pspReference IS NOT NULL
-            WHERE a.endTime < CURRENT_TIMESTAMP
+            AND a.endTime < CURRENT_TIMESTAMP
             AND a.wasPayoutProcessed = FALSE
             """)
     public List<AppointmentEntity> findPastScheduledAppointmentsWaitingForPayoutProcessing();

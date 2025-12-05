@@ -3,8 +3,8 @@ package pl.michal_sobiech.core.appointment;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
-import org.hibernate.annotations.JdbcType;
-import org.hibernate.dialect.type.PostgreSQLEnumJdbcType;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
@@ -46,7 +46,7 @@ public class AppointmentEntity {
     private BigDecimal price;
 
     @Enumerated(EnumType.STRING)
-    @JdbcType(PostgreSQLEnumJdbcType.class)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     @Column(name = "currency", columnDefinition = "currency_iso")
     private CurrencyIso currency;
 
@@ -86,7 +86,7 @@ public class AppointmentEntity {
 
     @Nullable
     @Enumerated(EnumType.STRING)
-    @JdbcType(PostgreSQLEnumJdbcType.class)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     @Column(name = "payment_service_provider", columnDefinition = "psp_type", nullable = true)
     private PaymentServiceProvider paymentServiceProvider;
 

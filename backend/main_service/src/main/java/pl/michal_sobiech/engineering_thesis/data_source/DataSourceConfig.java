@@ -27,6 +27,15 @@ public class DataSourceConfig {
             @Value("${spring.datasource.replica.password}") String REPLICA_DATASOURCE_PASSWORD,
             @Value("${spring.datasource.replica.driver-class-name}") String REPLICA_DATASOURCE_DRIVER) {
 
+        System.out.println("|||||||||||||||||||||||||||||||||||||||||||||||||||||||");
+        System.out.println(PRIMARY_DATASOURCE_URL);
+        System.out.println(PRIMARY_DATASOURCE_USERNAME);
+        System.out.println(PRIMARY_DATASOURCE_PASSWORD);
+        System.out.println(PRIMARY_DATASOURCE_DRIVER);
+        System.out.println(REPLICA_DATASOURCE_URL);
+        System.out.println(REPLICA_DATASOURCE_USERNAME);
+        System.out.println(REPLICA_DATASOURCE_PASSWORD);
+
         final RoutingDataSource routingDataSource = new RoutingDataSource();
 
         final DataSource primaryDataSource = makeDataSource(
@@ -41,6 +50,14 @@ public class DataSourceConfig {
                 REPLICA_DATASOURCE_USERNAME,
                 REPLICA_DATASOURCE_PASSWORD,
                 REPLICA_DATASOURCE_DRIVER);
+
+        System.out.println("=====================================================================");
+        try {
+            System.out.println(primaryDataSource.getConnection().getMetaData().getURL());
+            System.out.println(replicaDataSource.getConnection().getMetaData().getURL());
+        } catch (Exception exception) {
+            System.out.println("Errrorrrrr");
+        }
 
         final Map<Object, Object> targetDataSources = Map.of(
                 Route.PRIMARY, primaryDataSource,

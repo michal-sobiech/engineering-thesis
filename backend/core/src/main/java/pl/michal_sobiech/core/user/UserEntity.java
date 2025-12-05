@@ -1,7 +1,7 @@
 package pl.michal_sobiech.core.user;
 
-import org.hibernate.annotations.JdbcType;
-import org.hibernate.dialect.type.PostgreSQLEnumJdbcType;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
@@ -31,7 +31,7 @@ public class UserEntity {
     private Long userId;
 
     @Enumerated(EnumType.STRING)
-    @JdbcType(PostgreSQLEnumJdbcType.class)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     @Column(name = "user_group", columnDefinition = "user_group")
     private UserGroup userGroup;
 

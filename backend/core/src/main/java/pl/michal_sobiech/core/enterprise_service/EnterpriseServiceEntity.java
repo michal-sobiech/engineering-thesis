@@ -3,8 +3,8 @@ package pl.michal_sobiech.core.enterprise_service;
 import java.math.BigDecimal;
 import java.time.ZoneId;
 
-import org.hibernate.annotations.JdbcType;
-import org.hibernate.dialect.type.PostgreSQLEnumJdbcType;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
@@ -54,13 +54,13 @@ public class EnterpriseServiceEntity {
     private Double maxDistanceKm;
 
     @Enumerated(EnumType.STRING)
-    @JdbcType(PostgreSQLEnumJdbcType.class)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     private EnterpriseServiceCathegory cathegory;
 
     private BigDecimal price;
 
     @Enumerated(EnumType.STRING)
-    @JdbcType(PostgreSQLEnumJdbcType.class)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     @Column(name = "currency", columnDefinition = "currency_iso")
     private CurrencyIso currency;
 

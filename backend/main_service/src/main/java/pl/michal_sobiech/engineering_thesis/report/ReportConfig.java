@@ -3,6 +3,8 @@ package pl.michal_sobiech.engineering_thesis.report;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import pl.michal_sobiech.core.enterprise.EnterpriseService;
+import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceService;
 import pl.michal_sobiech.core.report.ReportFactory;
 import pl.michal_sobiech.core.report.ReportRepository;
 import pl.michal_sobiech.core.report.ReportService;
@@ -16,6 +18,7 @@ import pl.michal_sobiech.core.report.review.ReviewReportFactory;
 import pl.michal_sobiech.core.report.review.ReviewReportService;
 import pl.michal_sobiech.core.report.review.UnresolvedReviewReportService;
 import pl.michal_sobiech.core.report.unresolved.UnresolvedReportService;
+import pl.michal_sobiech.core.review.ReviewService;
 
 @Configuration
 public class ReportConfig {
@@ -72,6 +75,30 @@ public class ReportConfig {
             ReportRepository reportRepository,
             ReportFactory reportFactory) {
         return new UnresolvedReportService(reportRepository, reportFactory);
+    }
+
+    @Bean
+    public ReportFactory reportFactory(
+            EnterpriseReportFactory enterpriseReportFactory,
+            EnterpriseServiceReportFactory enterpriseServiceReportFactory,
+            ReviewReportFactory reviewReportFactory) {
+        return new ReportFactory(enterpriseReportFactory, enterpriseServiceReportFactory, reviewReportFactory);
+    }
+
+    @Bean
+    public EnterpriseReportFactory enterpriseReportFactory(EnterpriseService enterpriseService) {
+        return new EnterpriseReportFactory(enterpriseService);
+    }
+
+    @Bean
+    public EnterpriseServiceReportFactory enterpriseServiceReportFactory(
+            EnterpriseServiceService enterpriseServiceService) {
+        return new EnterpriseServiceReportFactory(enterpriseServiceService);
+    }
+
+    @Bean
+    public ReviewReportFactory reviewReportFactory(ReviewService reviewService) {
+        return new ReviewReportFactory(reviewService);
     }
 
 }
