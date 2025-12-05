@@ -1,6 +1,6 @@
 package pl.michal_sobiech.core.report;
 
-import pl.michal_sobiech.shared.user.UserGroup;
+import pl.michal_sobiech.core.user.UserGroup;
 
 public interface Report {
 

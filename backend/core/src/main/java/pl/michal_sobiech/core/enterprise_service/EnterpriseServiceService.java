@@ -5,13 +5,11 @@ import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.stereotype.Component;
-
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.enterprise_service.custom_appointments.CustomAppointmentsEnterpriseServiceService;
-import pl.michal_sobiech.engineering_thesis.enterprise_service.no_custom_appointments.NonCustomAppointmentsEnterpriseServiceService;
-import pl.michal_sobiech.engineering_thesis.time_slot.TimeSlot;
-import pl.michal_sobiech.engineering_thesis.time_slot.TimeSlotWithOccupancy;
+import pl.michal_sobiech.core.enterprise_service.custom_appointments.CustomAppointmentsEnterpriseServiceService;
+import pl.michal_sobiech.core.enterprise_service.no_custom_appointments.NonCustomAppointmentsEnterpriseServiceService;
+import pl.michal_sobiech.core.time_slot.TimeSlot;
+import pl.michal_sobiech.core.time_slot.TimeSlotWithOccupancy;
 
 @RequiredArgsConstructor
 public class EnterpriseServiceService {

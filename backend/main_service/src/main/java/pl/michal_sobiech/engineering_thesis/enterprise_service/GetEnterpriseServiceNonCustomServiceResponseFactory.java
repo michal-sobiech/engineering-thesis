@@ -1,6 +1,8 @@
-package pl.michal_sobiech.core.enterprise_service.no_custom_appointments;
+package pl.michal_sobiech.engineering_thesis.enterprise_service;
 
 import org.SwaggerCodeGenExample.model.GetEnterpriseServiceNonCustomServiceResponse;
+
+import pl.michal_sobiech.core.enterprise_service.no_custom_appointments.NonCustomEnterpriseService;
 
 public class GetEnterpriseServiceNonCustomServiceResponseFactory {
 

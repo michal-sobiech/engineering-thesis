@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.core.user.User;
-import pl.michal_sobiech.shared.user.UserRepository;
+import pl.michal_sobiech.core.user.UserRepository;
 
 @RequiredArgsConstructor
 public class IndependentEndUserService {

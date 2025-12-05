@@ -1,13 +1,13 @@
 package pl.michal_sobiech.core.report.unresolved;
 
-import pl.michal_sobiech.engineering_thesis.report.Report;
-import pl.michal_sobiech.engineering_thesis.report.UnresolvedReport;
-import pl.michal_sobiech.engineering_thesis.report.enterprise.EnterpriseReport;
-import pl.michal_sobiech.engineering_thesis.report.enterprise.UnresolvedEnterpriseReport;
-import pl.michal_sobiech.engineering_thesis.report.enterprise_service.EnterpriseServiceReport;
-import pl.michal_sobiech.engineering_thesis.report.enterprise_service.UnresolvedEnterpriseServiceReport;
-import pl.michal_sobiech.engineering_thesis.report.review.ReviewReport;
-import pl.michal_sobiech.engineering_thesis.report.review.UnresolvedReviewReport;
+import pl.michal_sobiech.core.report.Report;
+import pl.michal_sobiech.core.report.UnresolvedReport;
+import pl.michal_sobiech.core.report.enterprise.EnterpriseReport;
+import pl.michal_sobiech.core.report.enterprise.UnresolvedEnterpriseReport;
+import pl.michal_sobiech.core.report.enterprise_service.EnterpriseServiceReport;
+import pl.michal_sobiech.core.report.enterprise_service.UnresolvedEnterpriseServiceReport;
+import pl.michal_sobiech.core.report.review.ReviewReport;
+import pl.michal_sobiech.core.report.review.UnresolvedReviewReport;
 
 public class UnresolvedReportFactory {
 

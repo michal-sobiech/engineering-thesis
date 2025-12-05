@@ -3,8 +3,6 @@ package pl.michal_sobiech.core.enterprise_service_slot_template;
 import java.time.DayOfWeek;
 import java.util.List;
 
-import org.springframework.stereotype.Service;
-
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

@@ -4,12 +4,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.enterprise.controller.CreateEnterpriseCommand;
-import pl.michal_sobiech.engineering_thesis.utils.MultipartFileUtils;
+import pl.michal_sobiech.core.model.File;
 
 @RequiredArgsConstructor
 public class EnterpriseService {
@@ -23,24 +20,30 @@ public class EnterpriseService {
     @Transactional
     public Enterprise createEnterprise(
             long ownerUserId,
-            CreateEnterpriseCommand enterpriseCommand) {
+            String name,
+            String description,
+            String address,
+            double longitude,
+            double latitude,
+            Optional<File> logoFile,
+            Optional<File> backgroundPhotoFile) {
 
         var builder = EnterpriseEntity.builder()
                 .ownerUserId(ownerUserId)
-                .name(enterpriseCommand.name())
-                .description(enterpriseCommand.description())
-                .address(enterpriseCommand.location().getAddress())
-                .longitude(enterpriseCommand.location().getLongitude())
-                .latitude(enterpriseCommand.location().getLatitude());
+                .name(name)
+                .description(description)
+                .address(address)
+                .longitude(longitude)
+                .latitude(latitude);
 
-        enterpriseCommand.logoFile().ifPresent(file -> {
-            builder.logoFileName(file.getName());
-            builder.logoFileBytes(MultipartFileUtils.getBytes(file));
+        logoFile.ifPresent(file -> {
+            builder.logoFileName(file.name());
+            builder.logoFileBytes(file.bytes());
         });
 
-        enterpriseCommand.backgroundPhotoFile().ifPresent(file -> {
-            builder.backgroundPhotoFileName(file.getName());
-            builder.backgroundPhotoFileBytes(MultipartFileUtils.getBytes(file));
+        backgroundPhotoFile.ifPresent(file -> {
+            builder.backgroundPhotoFileName(file.name());
+            builder.backgroundPhotoFileBytes(file.bytes());
         });
 
         EnterpriseEntity enterprise = builder.build();
@@ -53,22 +56,24 @@ public class EnterpriseService {
         return enterpriseRepository.findById(enterpriseId).map(Enterprise::fromEntity);
     }
 
-    @Transactional
-    public void patchEnterprise(PatchEnterpriseRequestDto request) {
+    // @Transactional
+    // public void patchEnterprise(PatchEnterpriseRequestDto request) {
 
-        // TODO
+    // // TODO
 
-        EnterpriseEntity enterprise = enterpriseRepository.findById(request.enterpriseId()).orElseThrow();
+    // // EnterpriseEntity enterprise =
+    // // enterpriseRepository.findById(request.enterpriseId()).orElseThrow();
 
-        request.name().ifPresent(name -> enterprise.setName(name));
-        request.description().ifPresent(description -> enterprise.setDescription(description));
+    // // request.name().ifPresent(name -> enterprise.setName(name));
+    // // request.description().ifPresent(description ->
+    // // enterprise.setDescription(description));
 
-        request.location().ifPresent(location -> {
-            enterprise.setAddress(location.getAddress());
-            enterprise.setLongitude(location.getLongitude());
-            enterprise.setLatitude(location.getLatitude());
-        });
-    }
+    // // request.location().ifPresent(location -> {
+    // // enterprise.setAddress(location.getAddress());
+    // // enterprise.setLongitude(location.getLongitude());
+    // // enterprise.setLatitude(location.getLatitude());
+    // // });
+    // }
 
     public List<Enterprise> searchEnterprisesWithSubstringInName(String substring) {
         return enterpriseRepository.findByNameContaining(substring)

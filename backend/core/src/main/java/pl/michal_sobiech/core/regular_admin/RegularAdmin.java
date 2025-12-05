@@ -2,6 +2,7 @@ package pl.michal_sobiech.core.regular_admin;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import pl.michal_sobiech.core.user.User;
 import pl.michal_sobiech.core.user.UserGroup;
 
 @Getter

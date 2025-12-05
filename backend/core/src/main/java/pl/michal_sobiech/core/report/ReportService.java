@@ -1,7 +1,5 @@
 package pl.michal_sobiech.core.report;
 
-import org.springframework.stereotype.Service;
-
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

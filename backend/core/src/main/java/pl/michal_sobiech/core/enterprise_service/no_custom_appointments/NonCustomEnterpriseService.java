@@ -3,12 +3,12 @@ package pl.michal_sobiech.core.enterprise_service.no_custom_appointments;
 import java.math.BigDecimal;
 import java.time.ZoneId;
 
-import org.SwaggerCodeGenExample.model.Location;
-
-import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceCathegory;
-import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceDomain;
-import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceEntity;
-import pl.michal_sobiech.shared.currency_iso.CurrencyIso;
+import pl.michal_sobiech.core.currency_iso.CurrencyIso;
+import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceCathegory;
+import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceDomain;
+import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceEntity;
+import pl.michal_sobiech.core.location.Location;
+import pl.michal_sobiech.core.location.Position;
 
 public record NonCustomEnterpriseService(
 
@@ -36,8 +36,9 @@ public record NonCustomEnterpriseService(
     public static NonCustomEnterpriseService fromEntity(EnterpriseServiceEntity entity) {
         Location location = new Location(
                 entity.getAddress(),
-                entity.getLongitude(),
-                entity.getLatitude());
+                new Position(
+                        entity.getLongitude(),
+                        entity.getLatitude()));
 
         return new NonCustomEnterpriseService(
                 entity.getEnterpriseServiceId(),

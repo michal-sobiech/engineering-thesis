@@ -1,4 +1,4 @@
-package pl.michal_sobiech.core.auth;
+package pl.michal_sobiech.engineering_thesis.auth;
 
 import java.util.Optional;
 
@@ -15,7 +15,7 @@ import pl.michal_sobiech.core.head_admin.HeadAdmin;
 import pl.michal_sobiech.core.independent_end_user.IndependentEndUser;
 import pl.michal_sobiech.core.user.User;
 import pl.michal_sobiech.core.user.UserService;
-import pl.michal_sobiech.core.utils.AuthUtils;
+import pl.michal_sobiech.engineering_thesis.utils.AuthUtils;
 
 @RequiredArgsConstructor
 public class AuthService {

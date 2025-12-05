@@ -2,15 +2,13 @@ package pl.michal_sobiech.core.entrepreneur;
 
 import java.util.Optional;
 
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.shared.user.User;
-import pl.michal_sobiech.shared.user.UserEntity;
-import pl.michal_sobiech.shared.user.UserGroup;
-import pl.michal_sobiech.shared.user.UserRepository;
-import pl.michal_sobiech.shared.user.UserService;
+import pl.michal_sobiech.core.user.User;
+import pl.michal_sobiech.core.user.UserEntity;
+import pl.michal_sobiech.core.user.UserGroup;
+import pl.michal_sobiech.core.user.UserRepository;
+import pl.michal_sobiech.core.user.UserService;
 
 @RequiredArgsConstructor
 public class EntrepreneurService {

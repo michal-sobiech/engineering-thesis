@@ -2,10 +2,8 @@ package pl.michal_sobiech.core.report.enterprise_service;
 
 import java.util.Optional;
 
-import org.springframework.stereotype.Service;
-
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.report.ReportRepository;
+import pl.michal_sobiech.core.report.ReportRepository;
 
 @RequiredArgsConstructor
 public class EnterpriseServiceReportService {

@@ -1,8 +1,7 @@
 package pl.michal_sobiech.core.report;
 
-import org.springframework.lang.Nullable;
-
-import pl.michal_sobiech.shared.user.UserGroup;
+import jakarta.annotation.Nullable;
+import pl.michal_sobiech.core.user.UserGroup;
 
 public interface GetUnresolvedReportsRow {
 

@@ -2,9 +2,9 @@ package pl.michal_sobiech.core.enterprise;
 
 import java.util.Optional;
 
-import org.SwaggerCodeGenExample.model.Location;
-
-import pl.michal_sobiech.engineering_thesis.File;
+import pl.michal_sobiech.core.location.Location;
+import pl.michal_sobiech.core.location.Position;
+import pl.michal_sobiech.core.model.File;
 
 public record Enterprise(
 
@@ -35,8 +35,9 @@ public record Enterprise(
         if (isLocationComplete) {
             location = Optional.of(new Location(
                     entity.getAddress(),
-                    entity.getLongitude(),
-                    entity.getLatitude()));
+                    new Position(
+                            entity.getLongitude(),
+                            entity.getLatitude())));
         } else if (isLocationEmpty) {
             location = Optional.empty();
         } else {

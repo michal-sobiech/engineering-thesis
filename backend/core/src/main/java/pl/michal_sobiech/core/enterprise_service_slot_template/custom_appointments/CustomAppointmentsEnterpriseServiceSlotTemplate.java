@@ -3,7 +3,7 @@ package pl.michal_sobiech.core.enterprise_service_slot_template.custom_appointme
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 
-import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.EnterpriseServiceSlotTemplateEntity;
+import pl.michal_sobiech.core.enterprise_service_slot_template.EnterpriseServiceSlotTemplateEntity;
 
 public record CustomAppointmentsEnterpriseServiceSlotTemplate(
 

@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceCathegory;
-import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceRepository;
+import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceRepository;
 
 @RequiredArgsConstructor
 public class EnterpriseServiceSearchService {

@@ -1,6 +1,8 @@
-package pl.michal_sobiech.engineering_thesis.review;
+package pl.michal_sobiech.infra.review;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import pl.michal_sobiech.core.review.ReviewEntity;
 
 public interface ReviewRepository extends JpaRepository<ReviewEntity, Long> {
 

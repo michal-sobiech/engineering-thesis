@@ -4,9 +4,9 @@ import java.math.BigDecimal;
 import java.time.ZoneId;
 
 import org.hibernate.annotations.JdbcType;
-import org.hibernate.dialect.PostgreSQLEnumJdbcType;
-import org.springframework.lang.Nullable;
+import org.hibernate.dialect.type.PostgreSQLEnumJdbcType;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -19,7 +19,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import pl.michal_sobiech.shared.currency_iso.CurrencyIso;
+import pl.michal_sobiech.core.currency_iso.CurrencyIso;
 
 @Entity
 @Table(name = "enterprise_service")

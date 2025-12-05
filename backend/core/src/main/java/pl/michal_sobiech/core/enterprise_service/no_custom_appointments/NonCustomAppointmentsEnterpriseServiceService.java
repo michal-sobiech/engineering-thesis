@@ -7,9 +7,9 @@ import java.util.stream.Collectors;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceEntity;
+import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceRepository;
 import pl.michal_sobiech.core.enterprise_service_slot_template.non_custom_appointments.CreateNonCustomAppointmentsEnterpriseServiceSlotTemplateCommand;
 import pl.michal_sobiech.core.enterprise_service_slot_template.non_custom_appointments.NonCustomAppointmentsEnterpriseServiceSlotTemplateService;
-import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceRepository;
 
 @RequiredArgsConstructor
 public class NonCustomAppointmentsEnterpriseServiceService {
@@ -30,9 +30,9 @@ public class NonCustomAppointmentsEnterpriseServiceService {
                 .cathegory(command.cathegory())
                 .price(command.price().orElse(null))
                 .currency(command.currency())
-                .address(command.location().getAddress())
-                .longitude(command.location().getLongitude())
-                .latitude(command.location().getLatitude())
+                .address(command.location().address())
+                .longitude(command.location().position().longitude())
+                .latitude(command.location().position().latitude())
                 .build();
         return enterpriseServiceRepository.save(service);
     }

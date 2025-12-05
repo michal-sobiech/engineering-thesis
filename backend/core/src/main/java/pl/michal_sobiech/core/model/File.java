@@ -1,4 +1,4 @@
-package pl.michal_sobiech.engineering_thesis;
+package pl.michal_sobiech.core.model;
 
 public record File(
 

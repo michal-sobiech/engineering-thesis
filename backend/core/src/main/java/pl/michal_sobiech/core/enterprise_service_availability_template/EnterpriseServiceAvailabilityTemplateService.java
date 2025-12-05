@@ -7,13 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.stereotype.Service;
-
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.EnterpriseServiceSlotTemplateService;
-import pl.michal_sobiech.engineering_thesis.utils.LocalTimeWindow;
-import pl.michal_sobiech.shared.utils.DateUtils;
-import pl.michal_sobiech.shared.utils.LocalDateTimeWindow;
+import pl.michal_sobiech.core.enterprise_service_slot_template.EnterpriseServiceSlotTemplateService;
+import pl.michal_sobiech.core.utils.DateUtils;
+import pl.michal_sobiech.core.utils.LocalDateTimeWindow;
+import pl.michal_sobiech.core.utils.LocalTimeWindow;
 
 @RequiredArgsConstructor
 public class EnterpriseServiceAvailabilityTemplateService {

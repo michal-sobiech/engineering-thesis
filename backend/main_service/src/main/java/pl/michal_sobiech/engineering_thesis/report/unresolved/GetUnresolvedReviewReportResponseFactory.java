@@ -1,9 +1,9 @@
-package pl.michal_sobiech.core.report.unresolved;
+package pl.michal_sobiech.engineering_thesis.report.unresolved;
 
 import org.SwaggerCodeGenExample.model.GetUnresolvedReviewReportResponse;
 import org.SwaggerCodeGenExample.model.GetUnresolvedReviewReportResponse.ReportSubjectTypeEnum;
 
-import pl.michal_sobiech.engineering_thesis.report.review.UnresolvedReviewReport;
+import pl.michal_sobiech.core.report.review.UnresolvedReviewReport;
 
 public class GetUnresolvedReviewReportResponseFactory {
 

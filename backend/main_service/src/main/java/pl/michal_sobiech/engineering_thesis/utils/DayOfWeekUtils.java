@@ -1,4 +1,4 @@
-package pl.michal_sobiech.core.utils;
+package pl.michal_sobiech.engineering_thesis.utils;
 
 public class DayOfWeekUtils {
     public static java.time.DayOfWeek swaggerToStdDayOfWeek(

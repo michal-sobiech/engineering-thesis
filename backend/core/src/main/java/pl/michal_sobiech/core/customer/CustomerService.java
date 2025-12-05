@@ -2,26 +2,23 @@ package pl.michal_sobiech.core.customer;
 
 import java.util.Optional;
 
-import org.SwaggerCodeGenExample.model.CreateIndependentEndUserRequest;
-import org.springframework.stereotype.Service;
-
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.shared.user.User;
-import pl.michal_sobiech.shared.user.UserGroup;
-import pl.michal_sobiech.shared.user.UserService;
+import pl.michal_sobiech.core.user.User;
+import pl.michal_sobiech.core.user.UserGroup;
+import pl.michal_sobiech.core.user.UserService;
 
 @RequiredArgsConstructor
 public class CustomerService {
 
     private final UserService userService;
 
-    public Customer save(CreateIndependentEndUserRequest request) {
+    public Customer save(String email, String firstName, String lastName, String passwordRaw) {
         User user = userService.save(
                 UserGroup.CUSTOMER,
-                request.getEmail(),
-                request.getFirstName(),
-                request.getLastName(),
-                request.getPassword(),
+                email,
+                firstName,
+                lastName,
+                passwordRaw,
                 Optional.empty(),
                 Optional.empty());
         return Customer.fromUser(user);

@@ -1,11 +1,11 @@
-package pl.michal_sobiech.core.report.unresolved;
+package pl.michal_sobiech.engineering_thesis.report.unresolved;
 
 import org.SwaggerCodeGenExample.model.GetUnresolvedReports200ResponseInner;
 
-import pl.michal_sobiech.engineering_thesis.report.UnresolvedReport;
-import pl.michal_sobiech.engineering_thesis.report.enterprise.UnresolvedEnterpriseReport;
-import pl.michal_sobiech.engineering_thesis.report.enterprise_service.UnresolvedEnterpriseServiceReport;
-import pl.michal_sobiech.engineering_thesis.report.review.UnresolvedReviewReport;
+import pl.michal_sobiech.core.report.UnresolvedReport;
+import pl.michal_sobiech.core.report.enterprise.UnresolvedEnterpriseReport;
+import pl.michal_sobiech.core.report.enterprise_service.UnresolvedEnterpriseServiceReport;
+import pl.michal_sobiech.core.report.review.UnresolvedReviewReport;
 
 public class GetUnresolvedReports200ResponseInnerFactory {
 

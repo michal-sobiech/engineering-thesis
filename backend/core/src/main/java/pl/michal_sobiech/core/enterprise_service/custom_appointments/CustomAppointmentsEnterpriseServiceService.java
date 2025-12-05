@@ -4,14 +4,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceEntity;
-import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceRepository;
-import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.custom_appointments.CreateCustomAppointmentsEnterpriseServiceTimeWindowTemplateCommand;
-import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.custom_appointments.CustomAppointmentsEnterpriseServiceTimeWindowTemplateService;
+import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceEntity;
+import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceRepository;
+import pl.michal_sobiech.core.enterprise_service_slot_template.custom_appointments.CreateCustomAppointmentsEnterpriseServiceTimeWindowTemplateCommand;
+import pl.michal_sobiech.core.enterprise_service_slot_template.custom_appointments.CustomAppointmentsEnterpriseServiceTimeWindowTemplateService;
 
 @RequiredArgsConstructor
 public class CustomAppointmentsEnterpriseServiceService {
@@ -32,9 +30,9 @@ public class CustomAppointmentsEnterpriseServiceService {
                 .cathegory(command.cathegory())
                 .price(command.price().orElse(null))
                 .currency(command.currency())
-                .address(command.location().getAddress())
-                .longitude(command.location().getLongitude())
-                .latitude(command.location().getLatitude())
+                .address(command.location().address())
+                .longitude(command.location().position().longitude())
+                .latitude(command.location().position().latitude())
                 .build();
         service = enterpriseServiceRepository.save(service);
         return CustomEnterpriseService.fromEntity(service);

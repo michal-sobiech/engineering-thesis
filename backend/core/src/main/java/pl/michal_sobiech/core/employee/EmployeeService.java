@@ -5,9 +5,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
+import pl.michal_sobiech.core.user.User;
 import pl.michal_sobiech.core.user.UserGroup;
+import pl.michal_sobiech.core.user.UserRepository;
 import pl.michal_sobiech.core.user.UserService;
-import pl.michal_sobiech.shared.user.UserRepository;
 
 @RequiredArgsConstructor
 public class EmployeeService {

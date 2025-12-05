@@ -7,8 +7,8 @@ import java.util.stream.Collectors;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.core.report.ReportFactory;
+import pl.michal_sobiech.core.report.ReportRepository;
 import pl.michal_sobiech.core.report.UnresolvedReport;
-import pl.michal_sobiech.engineering_thesis.report.ReportRepository;
 
 @RequiredArgsConstructor
 public class UnresolvedReportService {

@@ -13,10 +13,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import pl.michal_sobiech.engineering_thesis.utils.LocalDateTimeWindow;
-import pl.michal_sobiech.engineering_thesis.utils.OffsetDateTimeWindow;
-import pl.michal_sobiech.engineering_thesis.utils.ZonedDate;
-
 public class DateUtils {
 
     public static ZonedDateTime createZonedDateTime(ZonedDate date, LocalTime time) {

@@ -1,9 +1,9 @@
-package pl.michal_sobiech.core.report.unresolved;
+package pl.michal_sobiech.engineering_thesis.report.unresolved;
 
 import org.SwaggerCodeGenExample.model.GetUnresolvedEnterpriseReportResponse;
 import org.SwaggerCodeGenExample.model.GetUnresolvedEnterpriseReportResponse.ReportSubjectTypeEnum;
 
-import pl.michal_sobiech.engineering_thesis.report.enterprise.UnresolvedEnterpriseReport;
+import pl.michal_sobiech.core.report.enterprise.UnresolvedEnterpriseReport;
 
 public class GetUnresolvedEnterpriseReportResponseFactory {
 
