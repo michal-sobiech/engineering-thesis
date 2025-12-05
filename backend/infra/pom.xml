@@ -173,12 +173,6 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<version>3.4.0</version>		
-			</plugin>
-
-			<plugin>
 			    <groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.13.0</version>
@@ -195,35 +189,6 @@
 				</configuration>
 			</plugin>
 
-			<plugin>
-				<groupId>org.openapitools</groupId>
-				<artifactId>openapi-generator-maven-plugin</artifactId>
-				<version>7.15.0</version>
-				<executions>
-                    <execution>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <configuration>
-                            <inputSpec>
-                                ${project.basedir}/../../openapi.yaml
-                            </inputSpec>
-							<output>
-								${project.build.directory}/generated/openapi
-							</output>
-                            <generatorName>spring</generatorName>
-                            <apiPackage>org.SwaggerCodeGenExample.api</apiPackage>
-                            <modelPackage>org.SwaggerCodeGenExample.model</modelPackage>
-                            <configOptions>
-							    <sourceFolder>src/main</sourceFolder>
-                                <interfaceOnly>true</interfaceOnly>
-								<useJakartaEe>true</useJakartaEe>
-								<skipDefaultInterface>true</skipDefaultInterface>
-                            </configOptions>
-                        </configuration>
-                    </execution>
-                </executions>
-			</plugin>
 		</plugins>
 	</build>
 
