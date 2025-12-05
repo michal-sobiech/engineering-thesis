@@ -110,8 +110,14 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
             boolean isCancelled,
             Boolean futureVsPast,
             Boolean acceptedVsRejected) {
-        return findCustomAppointmentsWithDetails(customerUserId, enterpriseServiceId, enterpriseId, isCancelled,
+        return springAppointmentRepository.findCustomAppointmentsWithDetails(customerUserId, enterpriseServiceId,
+                enterpriseId, isCancelled,
                 futureVsPast, acceptedVsRejected);
+    }
+
+    @Override
+    public List<AppointmentEntity> findPastScheduledAppointmentsWaitingForPayoutProcessing() {
+        return springAppointmentRepository.findPastScheduledAppointmentsWaitingForPayoutProcessing();
     }
 
 }

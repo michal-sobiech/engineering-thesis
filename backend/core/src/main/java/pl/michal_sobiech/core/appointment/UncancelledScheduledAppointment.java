@@ -68,4 +68,13 @@ public record UncancelledScheduledAppointment(
         return Optional.of(domain);
     }
 
+    public static UncancelledScheduledAppointment fromEntityOrThrow(AppointmentEntity entity) {
+        return fromEntity(entity)
+                .orElseThrow(() -> {
+                    String className = UncancelledScheduledAppointment.class.getCanonicalName();
+                    String message = "Entity does not match type: %s".formatted(className);
+                    return new IllegalArgumentException(message);
+                });
+    }
+
 }

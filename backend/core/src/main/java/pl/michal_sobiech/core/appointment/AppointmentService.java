@@ -62,6 +62,20 @@ public class AppointmentService {
         record.setPaid(true);
         record.setPaymentServiceProvider(paymentServiceProvider);
         record.setPspReference(pspReference);
+        record.setWasPayoutProcessed(false);
+        appointmentRepository.save(record);
+    }
+
+    public List<UncancelledScheduledAppointment> getPastScheduledAppointmentsWaitingForPayoutProcessing() {
+        return appointmentRepository.findPastScheduledAppointmentsWaitingForPayoutProcessing()
+                .stream()
+                .map(UncancelledScheduledAppointment::fromEntityOrThrow)
+                .collect(Collectors.toList());
+    }
+
+    public void setAppointmentPayoutProcessed(long appointmentId) {
+        AppointmentEntity record = appointmentRepository.findById(appointmentId).orElseThrow();
+        record.setWasPayoutProcessed(true);
         appointmentRepository.save(record);
     }
 

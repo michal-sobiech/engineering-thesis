@@ -1,16 +1,11 @@
 package pl.michal_sobiech.payout_worker.user;
 
-import java.util.Optional;
-
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import pl.michal_sobiech.core.entrepreneur.Entrepreneur;
+import pl.michal_sobiech.core.entrepreneur.EntrepreneurService;
 import pl.michal_sobiech.payout_worker.payout.PayoutService;
-import pl.michal_sobiech.shared.entrepreneur.Entrepreneur;
-import pl.michal_sobiech.shared.entrepreneur.EntrepreneurService;
-import pl.michal_sobiech.shared.user.User;
-import pl.michal_sobiech.shared.user.UserGroup;
-import pl.michal_sobiech.shared.user.UserService;
 
 @Service
 @RequiredArgsConstructor

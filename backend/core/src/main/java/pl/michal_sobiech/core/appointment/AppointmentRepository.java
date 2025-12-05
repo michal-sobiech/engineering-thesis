@@ -62,4 +62,6 @@ public interface AppointmentRepository {
             boolean isCancelled,
             Boolean futureVsPast,
             Boolean acceptedVsRejected);
+
+    public List<AppointmentEntity> findPastScheduledAppointmentsWaitingForPayoutProcessing();
 }

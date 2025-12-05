@@ -214,4 +214,14 @@ public interface SpringAppointmentRepository extends JpaRepository<AppointmentEn
             @Param("isCancelled") boolean isCancelled,
             @Param("futureVsPast") Boolean futureVsPast,
             @Param("isAccepted") Boolean acceptedVsRejected);
+
+    @Query("""
+            SELECT a
+            FROM AppointmentEntity a
+            AND a.isPaid = TRUE
+            AND a.pspReference IS NOT NULL
+            WHERE a.endTime < CURRENT_TIMESTAMP
+            AND a.wasPayoutProcessed = FALSE
+            """)
+    public List<AppointmentEntity> findPastScheduledAppointmentsWaitingForPayoutProcessing();
 }
