@@ -1,8 +1,8 @@
-package pl.michal_sobiech.shared.payment.payment_status;
+package pl.michal_sobiech.core.payment.payment_status;
 
 import java.util.Optional;
 
-import pl.michal_sobiech.shared.payment.PaymentServiceProvider;
+import pl.michal_sobiech.core.payment.PaymentServiceProvider;
 
 public interface PaymentStatus {
 

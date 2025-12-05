@@ -1,4 +1,4 @@
-package pl.michal_sobiech.engineering_thesis.report;
+package pl.michal_sobiech.core.report;
 
 import org.springframework.stereotype.Component;
 
@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.report.enterprise.EnterpriseReportFactory;
 import pl.michal_sobiech.engineering_thesis.report.enterprise_service.EnterpriseServiceReportFactory;
 import pl.michal_sobiech.engineering_thesis.report.review.ReviewReportFactory;
-
 
 @RequiredArgsConstructor
 public class ReportFactory {

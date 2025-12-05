@@ -1,8 +1,8 @@
-package pl.michal_sobiech.engineering_thesis.admin;
+package pl.michal_sobiech.core.admin;
 
 import java.util.List;
 
-import pl.michal_sobiech.shared.user.UserGroup;
+import pl.michal_sobiech.core.user.UserGroup;
 
 public class AdminUtils {
 

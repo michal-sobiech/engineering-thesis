@@ -1,4 +1,4 @@
-package pl.michal_sobiech.engineering_thesis.review;
+package pl.michal_sobiech.core.review;
 
 public record Review(
 

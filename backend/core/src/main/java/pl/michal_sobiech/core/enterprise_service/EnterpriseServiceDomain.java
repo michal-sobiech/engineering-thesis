@@ -1,11 +1,10 @@
-package pl.michal_sobiech.engineering_thesis.enterprise_service;
+package pl.michal_sobiech.core.enterprise_service;
 
 import java.math.BigDecimal;
 import java.time.ZoneId;
 
-import org.SwaggerCodeGenExample.model.Location;
-
-import pl.michal_sobiech.shared.currency_iso.CurrencyIso;
+import pl.michal_sobiech.core.currency_iso.CurrencyIso;
+import pl.michal_sobiech.core.location.Location;
 
 public interface EnterpriseServiceDomain {
 

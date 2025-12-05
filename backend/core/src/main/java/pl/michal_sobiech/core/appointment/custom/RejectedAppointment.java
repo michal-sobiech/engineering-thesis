@@ -1,13 +1,13 @@
-package pl.michal_sobiech.shared.appointment.custom;
+package pl.michal_sobiech.core.appointment.custom;
 
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Optional;
 
-import org.SwaggerCodeGenExample.model.Location;
-
-import pl.michal_sobiech.engineering_thesis.currency_iso.CurrencyIso;
-import pl.michal_sobiech.shared.appointment.AppointmentEntity;
+import pl.michal_sobiech.core.appointment.AppointmentEntity;
+import pl.michal_sobiech.core.currency_iso.CurrencyIso;
+import pl.michal_sobiech.core.location.Location;
+import pl.michal_sobiech.core.location.Position;
 
 public record RejectedAppointment(
 
@@ -47,8 +47,9 @@ public record RejectedAppointment(
 
         Location location = new Location(
                 entity.getAddress(),
-                entity.getLongitude(),
-                entity.getLatitude());
+                new Position(
+                        entity.getLongitude(),
+                        entity.getLatitude()));
 
         var domain = new RejectedAppointment(
                 entity.getAppointmentId(),

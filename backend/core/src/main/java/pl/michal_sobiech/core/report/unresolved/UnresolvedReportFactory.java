@@ -1,4 +1,4 @@
-package pl.michal_sobiech.engineering_thesis.report.unresolved;
+package pl.michal_sobiech.core.report.unresolved;
 
 import pl.michal_sobiech.engineering_thesis.report.Report;
 import pl.michal_sobiech.engineering_thesis.report.UnresolvedReport;

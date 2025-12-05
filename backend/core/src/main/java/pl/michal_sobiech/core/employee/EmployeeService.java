@@ -1,17 +1,13 @@
-package pl.michal_sobiech.shared.employee;
+package pl.michal_sobiech.core.employee;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.springframework.stereotype.Service;
-
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.shared.user.User;
-import pl.michal_sobiech.shared.user.UserGroup;
+import pl.michal_sobiech.core.user.UserGroup;
+import pl.michal_sobiech.core.user.UserService;
 import pl.michal_sobiech.shared.user.UserRepository;
-import pl.michal_sobiech.shared.user.UserService;
-
 
 @RequiredArgsConstructor
 public class EmployeeService {

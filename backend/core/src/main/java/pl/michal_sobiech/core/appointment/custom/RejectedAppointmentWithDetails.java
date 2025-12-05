@@ -1,37 +1,36 @@
-package pl.michal_sobiech.shared.appointment.custom;
+package pl.michal_sobiech.core.appointment.custom;
 
 import java.math.BigDecimal;
 import java.time.Instant;
 
-import org.SwaggerCodeGenExample.model.Location;
-
-import pl.michal_sobiech.engineering_thesis.currency_iso.CurrencyIso;
+import pl.michal_sobiech.core.currency_iso.CurrencyIso;
+import pl.michal_sobiech.core.location.Location;
 
 public record RejectedAppointmentWithDetails(
 
-                long appointmentId,
+        long appointmentId,
 
-                long enterpriseServiceId,
+        long enterpriseServiceId,
 
-                long customerUserId,
+        long customerUserId,
 
-                String getCustomerUsername,
+        String getCustomerUsername,
 
-                String getCustomerFirstName,
+        String getCustomerFirstName,
 
-                String getCustomerLastName,
+        String getCustomerLastName,
 
-                BigDecimal price,
+        BigDecimal price,
 
-                CurrencyIso currency,
+        CurrencyIso currency,
 
-                Instant startInstant,
+        Instant startInstant,
 
-                Instant endInstant,
+        Instant endInstant,
 
-                Location location,
+        Location location,
 
-                String rejectionMessage
+        String rejectionMessage
 
 ) implements CustomAppointmentWithDetails {
 }

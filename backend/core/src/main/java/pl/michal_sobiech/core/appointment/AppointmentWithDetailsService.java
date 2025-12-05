@@ -1,14 +1,11 @@
-package pl.michal_sobiech.shared.appointment;
+package pl.michal_sobiech.core.appointment;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.stereotype.Service;
-
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.customer.Customer;
-import pl.michal_sobiech.engineering_thesis.customer.CustomerService;
-
+import pl.michal_sobiech.core.customer.Customer;
+import pl.michal_sobiech.core.customer.CustomerService;
 
 @RequiredArgsConstructor
 public class AppointmentWithDetailsService {

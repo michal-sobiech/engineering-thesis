@@ -1,8 +1,8 @@
-package pl.michal_sobiech.engineering_thesis.independent_end_user;
+package pl.michal_sobiech.core.independent_end_user;
 
 import java.util.List;
 
-import pl.michal_sobiech.shared.user.UserGroup;
+import pl.michal_sobiech.core.user.UserGroup;
 
 public class IndependentEndUserUtils {
 

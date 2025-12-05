@@ -1,4 +1,4 @@
-package pl.michal_sobiech.shared.currency_iso;
+package pl.michal_sobiech.core.currency_iso;
 
 public enum CurrencyIso {
     PLN,

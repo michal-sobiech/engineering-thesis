@@ -1,4 +1,4 @@
-package pl.michal_sobiech.engineering_thesis.available_enterprise_service_search.custom;
+package pl.michal_sobiech.core.available_enterprise_service_search.custom;
 
 import java.time.Instant;
 import java.util.HashMap;
@@ -7,14 +7,11 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.springframework.stereotype.Service;
-
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.available_enterprise_service_search.AvailableEnterpriseServiceSearchResultRow;
-import pl.michal_sobiech.engineering_thesis.available_enterprise_service_time_windows_search.custom.AvailableCustomEnterpriseServiceFreeTimeWindowSearchRow;
-import pl.michal_sobiech.engineering_thesis.available_enterprise_service_time_windows_search.custom.AvailableCustomEnterpriseServiceFreeTimeWindowSearchService;
-import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceCathegory;
-
+import pl.michal_sobiech.core.available_enterprise_service_search.AvailableEnterpriseServiceSearchResultRow;
+import pl.michal_sobiech.core.available_enterprise_service_time_windows_search.custom.AvailableCustomEnterpriseServiceFreeTimeWindowSearchRow;
+import pl.michal_sobiech.core.available_enterprise_service_time_windows_search.custom.AvailableCustomEnterpriseServiceFreeTimeWindowSearchService;
+import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceCathegory;
 
 @RequiredArgsConstructor
 public class AvailableCustomEnterpriseServiceSearchService {

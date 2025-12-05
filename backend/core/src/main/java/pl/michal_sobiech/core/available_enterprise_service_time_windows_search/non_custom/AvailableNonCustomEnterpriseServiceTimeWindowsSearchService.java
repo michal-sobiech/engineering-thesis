@@ -1,4 +1,4 @@
-package pl.michal_sobiech.engineering_thesis.available_enterprise_service_time_windows_search.non_custom;
+package pl.michal_sobiech.core.available_enterprise_service_time_windows_search.non_custom;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -16,71 +16,70 @@ import pl.michal_sobiech.engineering_thesis.enterprise_service_availability.NonC
 import pl.michal_sobiech.shared.utils.DateUtils;
 import pl.michal_sobiech.shared.utils.LocalDateTimeWindow;
 
-
 @RequiredArgsConstructor
 public class AvailableNonCustomEnterpriseServiceTimeWindowsSearchService {
 
-        private final EnterpriseServiceSearchService enterpriseServiceSearchService;
-        private final NonCustomEnterpriseServiceAvailabilityService nonCustomEnterpriseServiceAvailabilityService;
+    private final EnterpriseServiceSearchService enterpriseServiceSearchService;
+    private final NonCustomEnterpriseServiceAvailabilityService nonCustomEnterpriseServiceAvailabilityService;
 
-        public List<AvailableEnterpriseServiceTimeWindowsSearchResultRow> searchAvailableTimeWindows(
-                        Optional<String> serviceName,
-                        Optional<String> enterpriseName,
-                        Instant startInstant,
-                        Instant endInstant,
-                        EnterpriseServiceCathegory cathegory,
-                        double preferredLongitude,
-                        double preferredLatitude,
-                        double maxDistanceChosenByCustomerKm) {
-                // 1. Find services with matching name, enterprise name, cathegory and location
-                // 2. Load availability for them
+    public List<AvailableEnterpriseServiceTimeWindowsSearchResultRow> searchAvailableTimeWindows(
+            Optional<String> serviceName,
+            Optional<String> enterpriseName,
+            Instant startInstant,
+            Instant endInstant,
+            EnterpriseServiceCathegory cathegory,
+            double preferredLongitude,
+            double preferredLatitude,
+            double maxDistanceChosenByCustomerKm) {
+        // 1. Find services with matching name, enterprise name, cathegory and location
+        // 2. Load availability for them
 
-                // 1.
-                List<EnterpriseServiceSearchResultRow> services = enterpriseServiceSearchService.search(
-                                serviceName,
-                                enterpriseName,
-                                cathegory,
-                                preferredLongitude,
-                                preferredLatitude,
-                                maxDistanceChosenByCustomerKm,
-                                false);
+        // 1.
+        List<EnterpriseServiceSearchResultRow> services = enterpriseServiceSearchService.search(
+                serviceName,
+                enterpriseName,
+                cathegory,
+                preferredLongitude,
+                preferredLatitude,
+                maxDistanceChosenByCustomerKm,
+                false);
 
-                // 2.
-                List<AvailableEnterpriseServiceTimeWindowsSearchResultRow> availableSlots = services
-                                .stream()
-                                .map(service -> getGlobalSlotsForService(service, startInstant, endInstant))
-                                .flatMap(List::stream)
-                                .collect(Collectors.toList());
+        // 2.
+        List<AvailableEnterpriseServiceTimeWindowsSearchResultRow> availableSlots = services
+                .stream()
+                .map(service -> getGlobalSlotsForService(service, startInstant, endInstant))
+                .flatMap(List::stream)
+                .collect(Collectors.toList());
 
-                // TODO where is subtracting?
+        // TODO where is subtracting?
 
-                return availableSlots;
-        }
+        return availableSlots;
+    }
 
-        private List<AvailableEnterpriseServiceTimeWindowsSearchResultRow> getGlobalSlotsForService(
-                        EnterpriseServiceSearchResultRow service, Instant start, Instant end) {
-                LocalDateTime startLocal = DateUtils.createLocalDateTime(start, service.getTimezone());
-                LocalDateTime endLocal = DateUtils.createLocalDateTime(end, service.getTimezone());
+    private List<AvailableEnterpriseServiceTimeWindowsSearchResultRow> getGlobalSlotsForService(
+            EnterpriseServiceSearchResultRow service, Instant start, Instant end) {
+        LocalDateTime startLocal = DateUtils.createLocalDateTime(start, service.getTimezone());
+        LocalDateTime endLocal = DateUtils.createLocalDateTime(end, service.getTimezone());
 
-                List<LocalDateTimeWindow> windows = nonCustomEnterpriseServiceAvailabilityService
-                                .getAvailableSlotsInDatetimeRangeForService(
-                                                service.getEnterpriseServiceId(),
-                                                startLocal,
-                                                endLocal);
+        List<LocalDateTimeWindow> windows = nonCustomEnterpriseServiceAvailabilityService
+                .getAvailableSlotsInDatetimeRangeForService(
+                        service.getEnterpriseServiceId(),
+                        startLocal,
+                        endLocal);
 
-                List<AvailableEnterpriseServiceTimeWindowsSearchResultRow> windowsGlobal = windows.stream()
-                                .map(window -> new AvailableEnterpriseServiceTimeWindowsSearchResultRow(
-                                                service.getEnterpriseServiceId(),
-                                                service.getServiceName(),
-                                                service.getEnterpriseName(),
-                                                service.getAddress(),
-                                                service.getPrice(),
-                                                service.getTimezone(),
-                                                DateUtils.createInstant(window.start(),
-                                                                service.getTimezone()),
-                                                DateUtils.createInstant(window.end(),
-                                                                service.getTimezone())))
-                                .collect(Collectors.toList());
-                return windowsGlobal;
-        }
+        List<AvailableEnterpriseServiceTimeWindowsSearchResultRow> windowsGlobal = windows.stream()
+                .map(window -> new AvailableEnterpriseServiceTimeWindowsSearchResultRow(
+                        service.getEnterpriseServiceId(),
+                        service.getServiceName(),
+                        service.getEnterpriseName(),
+                        service.getAddress(),
+                        service.getPrice(),
+                        service.getTimezone(),
+                        DateUtils.createInstant(window.start(),
+                                service.getTimezone()),
+                        DateUtils.createInstant(window.end(),
+                                service.getTimezone())))
+                .collect(Collectors.toList());
+        return windowsGlobal;
+    }
 }

@@ -1,19 +1,12 @@
-package pl.michal_sobiech.shared.user;
+package pl.michal_sobiech.core.user;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.shared.exceptions.ConflictException;
-import pl.michal_sobiech.shared.user.User;
-import pl.michal_sobiech.shared.user.UserEntity;
-import pl.michal_sobiech.shared.user.UserGroup;
-
+import pl.michal_sobiech.core.exceptions.ConflictException;
+import pl.michal_sobiech.core.password_encoder.PasswordEncoder;
 
 @RequiredArgsConstructor
 public class UserService {
@@ -56,7 +49,7 @@ public class UserService {
                     iban.orElse(null));
             user = userRepository.save(user);
             return User.fromEntity(user);
-        } catch (DataIntegrityViolationException exception) {
+        } catch (Exception exception) {
             throw new ConflictException(exception);
         }
     }

@@ -1,4 +1,4 @@
-package pl.michal_sobiech.engineering_thesis.enterprise_service;
+package pl.michal_sobiech.core.enterprise_service;
 
 import java.util.Map;
 

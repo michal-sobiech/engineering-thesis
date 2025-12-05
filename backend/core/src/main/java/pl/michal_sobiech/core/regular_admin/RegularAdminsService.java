@@ -1,15 +1,12 @@
-package pl.michal_sobiech.engineering_thesis.regular_admin;
+package pl.michal_sobiech.core.regular_admin;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.springframework.stereotype.Service;
-
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.shared.user.UserGroup;
-import pl.michal_sobiech.shared.user.UserService;
-
+import pl.michal_sobiech.core.user.UserGroup;
+import pl.michal_sobiech.core.user.UserService;
 
 @RequiredArgsConstructor
 public class RegularAdminsService {

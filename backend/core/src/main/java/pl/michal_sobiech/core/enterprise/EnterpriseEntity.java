@@ -1,4 +1,4 @@
-package pl.michal_sobiech.engineering_thesis.enterprise;
+package pl.michal_sobiech.core.enterprise;
 
 import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;

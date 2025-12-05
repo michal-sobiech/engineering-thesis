@@ -1,24 +1,21 @@
-package pl.michal_sobiech.engineering_thesis.auth;
+package pl.michal_sobiech.core.auth;
 
 import java.util.Optional;
 
-import org.springframework.stereotype.Service;
-
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.admin.Admin;
-import pl.michal_sobiech.engineering_thesis.customer.Customer;
-import pl.michal_sobiech.engineering_thesis.employee.Employee;
-import pl.michal_sobiech.engineering_thesis.exceptions.exceptions.ForbiddenException;
-import pl.michal_sobiech.engineering_thesis.exceptions.exceptions.UnauthorizedException;
-import pl.michal_sobiech.engineering_thesis.head_admin.HeadAdmin;
-import pl.michal_sobiech.engineering_thesis.independent_end_user.IndependentEndUser;
-import pl.michal_sobiech.engineering_thesis.utils.AuthUtils;
-import pl.michal_sobiech.shared.enterprise_member.EnterpriseMember;
-import pl.michal_sobiech.shared.enterprise_member.EnterpriseMemberFactory;
-import pl.michal_sobiech.shared.entrepreneur.Entrepreneur;
-import pl.michal_sobiech.shared.user.User;
-import pl.michal_sobiech.shared.user.UserService;
-
+import pl.michal_sobiech.core.admin.Admin;
+import pl.michal_sobiech.core.customer.Customer;
+import pl.michal_sobiech.core.employee.Employee;
+import pl.michal_sobiech.core.enterprise_member.EnterpriseMember;
+import pl.michal_sobiech.core.enterprise_member.EnterpriseMemberFactory;
+import pl.michal_sobiech.core.entrepreneur.Entrepreneur;
+import pl.michal_sobiech.core.exceptions.ForbiddenException;
+import pl.michal_sobiech.core.exceptions.UnauthorizedException;
+import pl.michal_sobiech.core.head_admin.HeadAdmin;
+import pl.michal_sobiech.core.independent_end_user.IndependentEndUser;
+import pl.michal_sobiech.core.user.User;
+import pl.michal_sobiech.core.user.UserService;
+import pl.michal_sobiech.core.utils.AuthUtils;
 
 @RequiredArgsConstructor
 public class AuthService {

@@ -1,8 +1,8 @@
-package pl.michal_sobiech.shared.appointment.query;
+package pl.michal_sobiech.core.appointment.query;
 
 import java.util.Optional;
 
 public record NonCustomAppointmentQuery(
-                Optional<Boolean> isCancelled,
-                Optional<AppointmentQueryTimeRange> timeRange) {
+        Optional<Boolean> isCancelled,
+        Optional<AppointmentQueryTimeRange> timeRange) {
 }

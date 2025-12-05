@@ -1,4 +1,4 @@
-package pl.michal_sobiech.engineering_thesis.available_enterprise_service_search.non_custom;
+package pl.michal_sobiech.core.available_enterprise_service_search.non_custom;
 
 import java.time.Instant;
 import java.util.HashMap;
@@ -14,7 +14,6 @@ import pl.michal_sobiech.engineering_thesis.available_enterprise_service_search.
 import pl.michal_sobiech.engineering_thesis.available_enterprise_service_time_windows_search.non_custom.AvailableEnterpriseServiceTimeWindowsSearchResultRow;
 import pl.michal_sobiech.engineering_thesis.available_enterprise_service_time_windows_search.non_custom.AvailableNonCustomEnterpriseServiceTimeWindowsSearchService;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceCathegory;
-
 
 @RequiredArgsConstructor
 public class AvailableNonCustomEnterpriseServiceSearchService {

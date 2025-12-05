@@ -1,10 +1,10 @@
-package pl.michal_sobiech.shared.appointment;
+package pl.michal_sobiech.core.appointment;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
 import org.hibernate.annotations.JdbcType;
-import org.hibernate.dialect.PostgreSQLEnumJdbcType;
+import org.hibernate.dialect.type.PostgreSQLEnumJdbcType;
 
 import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
@@ -20,8 +20,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import pl.michal_sobiech.shared.currency_iso.CurrencyIso;
-import pl.michal_sobiech.shared.payment.PaymentServiceProvider;
+import pl.michal_sobiech.core.currency_iso.CurrencyIso;
+import pl.michal_sobiech.core.payment.PaymentServiceProvider;
 
 @Entity
 @Table(name = "appointment")

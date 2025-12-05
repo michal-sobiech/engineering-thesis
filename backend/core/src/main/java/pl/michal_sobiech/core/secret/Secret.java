@@ -1,4 +1,4 @@
-package pl.michal_sobiech.engineering_thesis.secret;
+package pl.michal_sobiech.core.secret;
 
 import lombok.RequiredArgsConstructor;
 

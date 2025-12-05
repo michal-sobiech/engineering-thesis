@@ -1,4 +1,4 @@
-package pl.michal_sobiech.engineering_thesis.scope_username_password_authentication;
+package pl.michal_sobiech.core.scope_username_password_authentication;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

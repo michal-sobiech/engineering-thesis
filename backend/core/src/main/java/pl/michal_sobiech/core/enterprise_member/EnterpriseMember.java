@@ -1,4 +1,4 @@
-package pl.michal_sobiech.shared.enterprise_member;
+package pl.michal_sobiech.core.enterprise_member;
 
 public interface EnterpriseMember {
 

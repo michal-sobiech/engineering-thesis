@@ -1,4 +1,4 @@
-package pl.michal_sobiech.engineering_thesis.enterprise_service;
+package pl.michal_sobiech.core.enterprise_service;
 
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
@@ -12,7 +12,6 @@ import pl.michal_sobiech.engineering_thesis.enterprise_service.custom_appointmen
 import pl.michal_sobiech.engineering_thesis.enterprise_service.no_custom_appointments.NonCustomAppointmentsEnterpriseServiceService;
 import pl.michal_sobiech.engineering_thesis.time_slot.TimeSlot;
 import pl.michal_sobiech.engineering_thesis.time_slot.TimeSlotWithOccupancy;
-
 
 @RequiredArgsConstructor
 public class EnterpriseServiceService {

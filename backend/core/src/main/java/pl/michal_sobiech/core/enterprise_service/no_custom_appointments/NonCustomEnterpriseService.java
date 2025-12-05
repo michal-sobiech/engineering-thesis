@@ -1,4 +1,4 @@
-package pl.michal_sobiech.engineering_thesis.enterprise_service.no_custom_appointments;
+package pl.michal_sobiech.core.enterprise_service.no_custom_appointments;
 
 import java.math.BigDecimal;
 import java.time.ZoneId;
@@ -12,44 +12,44 @@ import pl.michal_sobiech.shared.currency_iso.CurrencyIso;
 
 public record NonCustomEnterpriseService(
 
-                long enterpriseServiceId,
+        long enterpriseServiceId,
 
-                long enterpriseId,
+        long enterpriseId,
 
-                String name,
-                String description,
+        String name,
+        String description,
 
-                Location location,
+        Location location,
 
-                ZoneId timezone,
+        ZoneId timezone,
 
-                EnterpriseServiceCathegory cathegory,
+        EnterpriseServiceCathegory cathegory,
 
-                BigDecimal price,
+        BigDecimal price,
 
-                CurrencyIso currency,
+        CurrencyIso currency,
 
-                boolean suspendedByAdmin
+        boolean suspendedByAdmin
 
 ) implements EnterpriseServiceDomain {
 
-        public static NonCustomEnterpriseService fromEntity(EnterpriseServiceEntity entity) {
-                Location location = new Location(
-                                entity.getAddress(),
-                                entity.getLongitude(),
-                                entity.getLatitude());
+    public static NonCustomEnterpriseService fromEntity(EnterpriseServiceEntity entity) {
+        Location location = new Location(
+                entity.getAddress(),
+                entity.getLongitude(),
+                entity.getLatitude());
 
-                return new NonCustomEnterpriseService(
-                                entity.getEnterpriseServiceId(),
-                                entity.getEnterpriseId(),
-                                entity.getName(),
-                                entity.getDescription(),
-                                location,
-                                entity.getTimeZone(),
-                                entity.getCathegory(),
-                                entity.getPrice(),
-                                entity.getCurrency(),
-                                entity.isSuspendedByAdmin());
-        }
+        return new NonCustomEnterpriseService(
+                entity.getEnterpriseServiceId(),
+                entity.getEnterpriseId(),
+                entity.getName(),
+                entity.getDescription(),
+                location,
+                entity.getTimeZone(),
+                entity.getCathegory(),
+                entity.getPrice(),
+                entity.getCurrency(),
+                entity.isSuspendedByAdmin());
+    }
 
 }

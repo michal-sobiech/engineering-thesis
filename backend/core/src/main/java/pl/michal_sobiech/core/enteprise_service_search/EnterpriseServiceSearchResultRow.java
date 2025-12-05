@@ -1,4 +1,4 @@
-package pl.michal_sobiech.engineering_thesis.enteprise_service_search;
+package pl.michal_sobiech.core.enteprise_service_search;
 
 import java.math.BigDecimal;
 import java.time.ZoneId;

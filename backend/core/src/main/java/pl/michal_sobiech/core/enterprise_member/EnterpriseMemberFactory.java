@@ -1,8 +1,8 @@
-package pl.michal_sobiech.shared.enterprise_member;
+package pl.michal_sobiech.core.enterprise_member;
 
-import pl.michal_sobiech.shared.employee.Employee;
-import pl.michal_sobiech.shared.entrepreneur.Entrepreneur;
-import pl.michal_sobiech.shared.user.User;
+import pl.michal_sobiech.core.employee.Employee;
+import pl.michal_sobiech.core.entrepreneur.Entrepreneur;
+import pl.michal_sobiech.core.user.User;
 
 public class EnterpriseMemberFactory {
 

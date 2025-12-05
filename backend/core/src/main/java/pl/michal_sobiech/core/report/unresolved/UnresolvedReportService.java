@@ -1,17 +1,14 @@
-package pl.michal_sobiech.engineering_thesis.report.unresolved;
+package pl.michal_sobiech.core.report.unresolved;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.springframework.stereotype.Service;
-
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.report.ReportFactory;
+import pl.michal_sobiech.core.report.ReportFactory;
+import pl.michal_sobiech.core.report.UnresolvedReport;
 import pl.michal_sobiech.engineering_thesis.report.ReportRepository;
-import pl.michal_sobiech.engineering_thesis.report.UnresolvedReport;
-
 
 @RequiredArgsConstructor
 public class UnresolvedReportService {

@@ -1,4 +1,4 @@
-package pl.michal_sobiech.engineering_thesis.report.review;
+package pl.michal_sobiech.core.report.review;
 
 import pl.michal_sobiech.engineering_thesis.report.UnresolvedReport;
 import pl.michal_sobiech.shared.user.UserGroup;

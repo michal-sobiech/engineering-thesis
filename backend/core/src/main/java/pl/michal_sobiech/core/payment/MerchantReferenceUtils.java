@@ -1,10 +1,10 @@
-package pl.michal_sobiech.shared.payment;
+package pl.michal_sobiech.core.payment;
 
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.springframework.data.util.Pair;
+import org.apache.commons.lang3.tuple.Pair;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;

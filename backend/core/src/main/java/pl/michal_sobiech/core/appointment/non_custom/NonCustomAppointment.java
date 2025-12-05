@@ -1,9 +1,9 @@
-package pl.michal_sobiech.shared.appointment.non_custom;
+package pl.michal_sobiech.core.appointment.non_custom;
 
 import java.math.BigDecimal;
 import java.time.Instant;
 
-import pl.michal_sobiech.shared.appointment.AppointmentEntity;
+import pl.michal_sobiech.core.appointment.AppointmentEntity;
 
 public record NonCustomAppointment(
 

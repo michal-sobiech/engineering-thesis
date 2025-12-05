@@ -1,15 +1,15 @@
-package pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.custom_appointments;
+package pl.michal_sobiech.core.enterprise_service_slot_template.custom_appointments;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 
 public record CreateCustomAppointmentsEnterpriseServiceTimeWindowTemplateCommand(
 
-                DayOfWeek dayOfWeek,
+        DayOfWeek dayOfWeek,
 
-                LocalTime startTime,
+        LocalTime startTime,
 
-                LocalTime endTime
+        LocalTime endTime
 
 ) {
 

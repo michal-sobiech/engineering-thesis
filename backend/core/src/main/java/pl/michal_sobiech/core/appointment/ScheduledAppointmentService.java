@@ -1,14 +1,11 @@
-package pl.michal_sobiech.shared.appointment;
+package pl.michal_sobiech.core.appointment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.stereotype.Service;
-
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.shared.appointment.custom.CustomAppointmentQueryService;
-import pl.michal_sobiech.shared.appointment.non_custom.NonCustomAppointmentQueryService;
-
+import pl.michal_sobiech.core.appointment.custom.CustomAppointmentQueryService;
+import pl.michal_sobiech.core.appointment.non_custom.NonCustomAppointmentQueryService;
 
 @RequiredArgsConstructor
 public class ScheduledAppointmentService {

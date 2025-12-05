@@ -1,10 +1,10 @@
-package pl.michal_sobiech.shared.appointment;
+package pl.michal_sobiech.core.appointment;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 
-import pl.michal_sobiech.engineering_thesis.currency_iso.CurrencyIso;
+import pl.michal_sobiech.core.currency_iso.CurrencyIso;
 
 public interface GetEnterpriseServiceFutureScheduledAppointmentsResponseRow {
 

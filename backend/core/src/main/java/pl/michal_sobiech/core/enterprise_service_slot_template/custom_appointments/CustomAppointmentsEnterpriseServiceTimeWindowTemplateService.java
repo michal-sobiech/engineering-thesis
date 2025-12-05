@@ -1,4 +1,4 @@
-package pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.custom_appointments;
+package pl.michal_sobiech.core.enterprise_service_slot_template.custom_appointments;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -17,81 +17,80 @@ import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.Ent
 import pl.michal_sobiech.shared.utils.DateUtils;
 import pl.michal_sobiech.shared.utils.LocalDateTimeWindow;
 
-
 @RequiredArgsConstructor
 public class CustomAppointmentsEnterpriseServiceTimeWindowTemplateService {
 
-        private final EnterpriseServiceSlotTemplateService enterpriseServiceSlotTemplateService;
-        private final EnterpriseServiceSlotTemplateRepository enterpriseServiceSlotTemplateRepository;
+    private final EnterpriseServiceSlotTemplateService enterpriseServiceSlotTemplateService;
+    private final EnterpriseServiceSlotTemplateRepository enterpriseServiceSlotTemplateRepository;
 
-        @Transactional
-        public List<CustomAppointmentsEnterpriseServiceSlotTemplate> saveMany(long enterpriseServiceId,
-                        List<CreateCustomAppointmentsEnterpriseServiceTimeWindowTemplateCommand> commands) {
-                return commands.stream().map(command -> save(enterpriseServiceId, command))
-                                .collect(Collectors.toList());
+    @Transactional
+    public List<CustomAppointmentsEnterpriseServiceSlotTemplate> saveMany(long enterpriseServiceId,
+            List<CreateCustomAppointmentsEnterpriseServiceTimeWindowTemplateCommand> commands) {
+        return commands.stream().map(command -> save(enterpriseServiceId, command))
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public CustomAppointmentsEnterpriseServiceSlotTemplate save(long enterpriseServiceId,
+            CreateCustomAppointmentsEnterpriseServiceTimeWindowTemplateCommand command) {
+        EnterpriseServiceSlotTemplateEntity slot = EnterpriseServiceSlotTemplateEntity.builder()
+                .enterpriseServiceId(enterpriseServiceId)
+                .dayOfWeek(command.dayOfWeek())
+                .startTime(command.startTime())
+                .endTime(command.endTime())
+                .build();
+        slot = enterpriseServiceSlotTemplateRepository.save(slot);
+        return CustomAppointmentsEnterpriseServiceSlotTemplate.from(slot);
+    }
+
+    public List<LocalDateTimeWindow> getAvailabilityTemplateForLocalDatetimeRange(
+            long enterpriseServiceId,
+            LocalDateTime from,
+            LocalDateTime to) {
+        List<LocalDateTimeWindow> fullDaysTemplate = getAvailabilityTemplateForDateRange(
+                enterpriseServiceId,
+                from.toLocalDate(),
+                to.toLocalDate());
+        return DateUtils.filterWindowsFullyContainedInRange(fullDaysTemplate, from, to);
+    }
+
+    public List<LocalDateTimeWindow> getAvailabilityTemplateForDateRange(
+            long enterpriseServiceId,
+            LocalDate from,
+            LocalDate to) {
+        List<LocalDateTimeWindow> out = new ArrayList<>();
+
+        for (LocalDate date : DateUtils.getAllDatesBetweenIncludingBorders(from, to)) {
+            DayOfWeek dayOfWeek = date.getDayOfWeek();
+
+            List<CustomAppointmentsEnterpriseServiceSlotTemplate> windowsForDayOfWeek = getAvailabilityTemplateForDayOfWeek(
+                    enterpriseServiceId,
+                    dayOfWeek);
+            List<LocalDateTimeWindow> mappedWindowsForDayOfWeek = windowsForDayOfWeek.stream()
+                    .map(window -> new LocalDateTimeWindow(
+                            LocalDateTime.of(date, window.startTime()),
+                            LocalDateTime.of(date, window.endTime())))
+                    .collect(Collectors.toList());
+
+            out.addAll(mappedWindowsForDayOfWeek);
         }
+        return out;
+    }
 
-        @Transactional
-        public CustomAppointmentsEnterpriseServiceSlotTemplate save(long enterpriseServiceId,
-                        CreateCustomAppointmentsEnterpriseServiceTimeWindowTemplateCommand command) {
-                EnterpriseServiceSlotTemplateEntity slot = EnterpriseServiceSlotTemplateEntity.builder()
-                                .enterpriseServiceId(enterpriseServiceId)
-                                .dayOfWeek(command.dayOfWeek())
-                                .startTime(command.startTime())
-                                .endTime(command.endTime())
-                                .build();
-                slot = enterpriseServiceSlotTemplateRepository.save(slot);
-                return CustomAppointmentsEnterpriseServiceSlotTemplate.from(slot);
-        }
+    public List<LocalDateTimeWindow> getAvailabilityTemplateOnDate(
+            long enterpriseServiceId,
+            LocalDate date) {
+        return getAvailabilityTemplateForDateRange(enterpriseServiceId, date, date);
+    }
 
-        public List<LocalDateTimeWindow> getAvailabilityTemplateForLocalDatetimeRange(
-                        long enterpriseServiceId,
-                        LocalDateTime from,
-                        LocalDateTime to) {
-                List<LocalDateTimeWindow> fullDaysTemplate = getAvailabilityTemplateForDateRange(
-                                enterpriseServiceId,
-                                from.toLocalDate(),
-                                to.toLocalDate());
-                return DateUtils.filterWindowsFullyContainedInRange(fullDaysTemplate, from, to);
-        }
-
-        public List<LocalDateTimeWindow> getAvailabilityTemplateForDateRange(
-                        long enterpriseServiceId,
-                        LocalDate from,
-                        LocalDate to) {
-                List<LocalDateTimeWindow> out = new ArrayList<>();
-
-                for (LocalDate date : DateUtils.getAllDatesBetweenIncludingBorders(from, to)) {
-                        DayOfWeek dayOfWeek = date.getDayOfWeek();
-
-                        List<CustomAppointmentsEnterpriseServiceSlotTemplate> windowsForDayOfWeek = getAvailabilityTemplateForDayOfWeek(
-                                        enterpriseServiceId,
-                                        dayOfWeek);
-                        List<LocalDateTimeWindow> mappedWindowsForDayOfWeek = windowsForDayOfWeek.stream()
-                                        .map(window -> new LocalDateTimeWindow(
-                                                        LocalDateTime.of(date, window.startTime()),
-                                                        LocalDateTime.of(date, window.endTime())))
-                                        .collect(Collectors.toList());
-
-                        out.addAll(mappedWindowsForDayOfWeek);
-                }
-                return out;
-        }
-
-        public List<LocalDateTimeWindow> getAvailabilityTemplateOnDate(
-                        long enterpriseServiceId,
-                        LocalDate date) {
-                return getAvailabilityTemplateForDateRange(enterpriseServiceId, date, date);
-        }
-
-        public List<CustomAppointmentsEnterpriseServiceSlotTemplate> getAvailabilityTemplateForDayOfWeek(
-                        long enterpiseServiceId,
-                        DayOfWeek dayOfWeek) {
-                List<EnterpriseServiceSlotTemplateEntity> slots = enterpriseServiceSlotTemplateService
-                                .getAvailabilityTemplateForDayOfWeek(enterpiseServiceId, dayOfWeek);
-                return slots.stream()
-                                .map(CustomAppointmentsEnterpriseServiceSlotTemplate::from)
-                                .collect(Collectors.toList());
-        }
+    public List<CustomAppointmentsEnterpriseServiceSlotTemplate> getAvailabilityTemplateForDayOfWeek(
+            long enterpiseServiceId,
+            DayOfWeek dayOfWeek) {
+        List<EnterpriseServiceSlotTemplateEntity> slots = enterpriseServiceSlotTemplateService
+                .getAvailabilityTemplateForDayOfWeek(enterpiseServiceId, dayOfWeek);
+        return slots.stream()
+                .map(CustomAppointmentsEnterpriseServiceSlotTemplate::from)
+                .collect(Collectors.toList());
+    }
 
 }

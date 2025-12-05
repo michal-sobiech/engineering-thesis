@@ -6,6 +6,8 @@ import java.util.Collection;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 
+import pl.michal_sobiech.core.user.NoCredentials;
+
 public class UserIdAuthentication extends AbstractAuthenticationToken {
 
     private final long userId;

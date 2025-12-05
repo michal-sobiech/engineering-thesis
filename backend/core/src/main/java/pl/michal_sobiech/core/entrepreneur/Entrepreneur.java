@@ -1,12 +1,12 @@
-package pl.michal_sobiech.shared.entrepreneur;
+package pl.michal_sobiech.core.entrepreneur;
 
 import java.util.Optional;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.shared.enterprise_member.EnterpriseMember;
-import pl.michal_sobiech.shared.user.User;
-import pl.michal_sobiech.shared.user.UserGroup;
+import pl.michal_sobiech.core.enterprise_member.EnterpriseMember;
+import pl.michal_sobiech.core.user.User;
+import pl.michal_sobiech.core.user.UserGroup;
 
 @Getter
 @RequiredArgsConstructor

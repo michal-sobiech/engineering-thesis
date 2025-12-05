@@ -1,11 +1,10 @@
-package pl.michal_sobiech.shared.appointment.custom;
+package pl.michal_sobiech.core.appointment.custom;
 
 import java.math.BigDecimal;
 import java.time.Instant;
 
-import org.SwaggerCodeGenExample.model.Location;
-
-import pl.michal_sobiech.engineering_thesis.currency_iso.CurrencyIso;
+import pl.michal_sobiech.core.currency_iso.CurrencyIso;
+import pl.michal_sobiech.core.location.Location;
 
 public interface CustomAppointment {
 

@@ -1,38 +1,37 @@
-package pl.michal_sobiech.shared.appointment;
+package pl.michal_sobiech.core.appointment;
 
 import java.math.BigDecimal;
 import java.time.Instant;
 
-import org.SwaggerCodeGenExample.model.Location;
-
-import pl.michal_sobiech.shared.currency_iso.CurrencyIso;
-import pl.michal_sobiech.shared.payment.payment_status.PaymentStatus;
+import pl.michal_sobiech.core.currency_iso.CurrencyIso;
+import pl.michal_sobiech.core.location.Location;
+import pl.michal_sobiech.core.payment.payment_status.PaymentStatus;
 
 public record ScheduledAppointmentWithDetails(
 
-                long appointmentId,
+        long appointmentId,
 
-                long enterpriseServiceId,
+        long enterpriseServiceId,
 
-                long customerUserId,
+        long customerUserId,
 
-                String customerUsername,
+        String customerUsername,
 
-                String customerFirstName,
+        String customerFirstName,
 
-                String customerLastName,
+        String customerLastName,
 
-                BigDecimal price,
+        BigDecimal price,
 
-                CurrencyIso currency,
+        CurrencyIso currency,
 
-                Instant startInstant,
+        Instant startInstant,
 
-                Instant endInstant,
+        Instant endInstant,
 
-                Location location,
+        Location location,
 
-                PaymentStatus paymentStatus
+        PaymentStatus paymentStatus
 
 ) {
 }

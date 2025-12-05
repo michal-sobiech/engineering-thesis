@@ -1,4 +1,4 @@
-package pl.michal_sobiech.shared.user;
+package pl.michal_sobiech.core.user;
 
 import java.util.Optional;
 

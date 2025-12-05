@@ -1,9 +1,9 @@
-package pl.michal_sobiech.engineering_thesis.customer;
+package pl.michal_sobiech.core.customer;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.shared.user.User;
-import pl.michal_sobiech.shared.user.UserGroup;
+import pl.michal_sobiech.core.user.User;
+import pl.michal_sobiech.core.user.UserGroup;
 
 @Getter
 @RequiredArgsConstructor

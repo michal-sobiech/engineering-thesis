@@ -1,4 +1,4 @@
-package pl.michal_sobiech.engineering_thesis.customer;
+package pl.michal_sobiech.core.customer;
 
 import java.util.Optional;
 
@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.shared.user.User;
 import pl.michal_sobiech.shared.user.UserGroup;
 import pl.michal_sobiech.shared.user.UserService;
-
 
 @RequiredArgsConstructor
 public class CustomerService {

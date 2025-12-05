@@ -1,14 +1,14 @@
-package pl.michal_sobiech.shared.payment.payment_status;
+package pl.michal_sobiech.core.payment.payment_status;
 
-import pl.michal_sobiech.shared.payment.PaymentServiceProvider;
+import pl.michal_sobiech.core.payment.PaymentServiceProvider;
 
 public record PaymentStatusPaidOnline(
 
-                PaymentServiceProvider paymentServiceProvider,
+        PaymentServiceProvider paymentServiceProvider,
 
-                String pspReference,
+        String pspReference,
 
-                boolean wasPayoutProcessed
+        boolean wasPayoutProcessed
 
 ) implements PaymentStatus {
 

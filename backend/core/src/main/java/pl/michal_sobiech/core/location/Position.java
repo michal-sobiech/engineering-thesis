@@ -1,4 +1,4 @@
-package pl.michal_sobiech.engineering_thesis.location;
+package pl.michal_sobiech.core.location;
 
 public record Position(
 

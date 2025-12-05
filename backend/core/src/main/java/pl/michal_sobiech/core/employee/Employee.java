@@ -1,10 +1,10 @@
-package pl.michal_sobiech.shared.employee;
+package pl.michal_sobiech.core.employee;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.shared.enterprise_member.EnterpriseMember;
-import pl.michal_sobiech.shared.user.User;
-import pl.michal_sobiech.shared.user.UserGroup;
+import pl.michal_sobiech.core.enterprise_member.EnterpriseMember;
+import pl.michal_sobiech.core.user.User;
+import pl.michal_sobiech.core.user.UserGroup;
 
 @Getter
 @RequiredArgsConstructor

@@ -1,4 +1,4 @@
-package pl.michal_sobiech.engineering_thesis.report.enterprise_service;
+package pl.michal_sobiech.core.report.enterprise_service;
 
 import org.springframework.stereotype.Component;
 
@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceDomain;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceService;
 import pl.michal_sobiech.engineering_thesis.report.GetUnresolvedReportsRow;
-
 
 @RequiredArgsConstructor
 public class EnterpriseServiceReportFactory {

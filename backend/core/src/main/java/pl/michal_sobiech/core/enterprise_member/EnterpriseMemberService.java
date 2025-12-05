@@ -1,16 +1,13 @@
-package pl.michal_sobiech.shared.enterprise_member;
+package pl.michal_sobiech.core.enterprise_member;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.stereotype.Service;
-
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.shared.employee.Employee;
-import pl.michal_sobiech.shared.employee.EmployeeService;
-import pl.michal_sobiech.shared.entrepreneur.Entrepreneur;
-import pl.michal_sobiech.shared.entrepreneur.EntrepreneurService;
-
+import pl.michal_sobiech.core.employee.Employee;
+import pl.michal_sobiech.core.employee.EmployeeService;
+import pl.michal_sobiech.core.entrepreneur.Entrepreneur;
+import pl.michal_sobiech.core.entrepreneur.EntrepreneurService;
 
 @RequiredArgsConstructor
 public class EnterpriseMemberService {

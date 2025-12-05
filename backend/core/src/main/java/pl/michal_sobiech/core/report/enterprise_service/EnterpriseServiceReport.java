@@ -1,4 +1,4 @@
-package pl.michal_sobiech.engineering_thesis.report.enterprise_service;
+package pl.michal_sobiech.core.report.enterprise_service;
 
 import pl.michal_sobiech.engineering_thesis.report.Report;
 import pl.michal_sobiech.shared.user.UserGroup;

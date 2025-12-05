@@ -1,9 +1,7 @@
-package pl.michal_sobiech.shared.appointment.non_custom;
-
-import org.springframework.stereotype.Service;
+package pl.michal_sobiech.core.appointment.non_custom;
 
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.shared.appointment.AppointmentRepository;
+import pl.michal_sobiech.core.appointment.AppointmentRepository;
 
 @RequiredArgsConstructor
 public class NonCustomAppointmentWithDetailsService {

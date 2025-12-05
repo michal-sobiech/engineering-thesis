@@ -1,12 +1,9 @@
-package pl.michal_sobiech.engineering_thesis.report.review;
+package pl.michal_sobiech.core.report.review;
 
 import java.util.Optional;
 
-import org.springframework.stereotype.Service;
-
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.report.ReportRepository;
-
 
 @RequiredArgsConstructor
 public class ReviewReportService {

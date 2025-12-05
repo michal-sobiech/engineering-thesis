@@ -1,4 +1,4 @@
-package pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template;
+package pl.michal_sobiech.core.enterprise_service_slot_template;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;

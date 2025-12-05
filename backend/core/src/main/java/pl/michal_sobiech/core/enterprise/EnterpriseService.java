@@ -1,4 +1,4 @@
-package pl.michal_sobiech.engineering_thesis.enterprise;
+package pl.michal_sobiech.core.enterprise;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.enterprise.controller.CreateEnterpriseCommand;
 import pl.michal_sobiech.engineering_thesis.utils.MultipartFileUtils;
-
 
 @RequiredArgsConstructor
 public class EnterpriseService {

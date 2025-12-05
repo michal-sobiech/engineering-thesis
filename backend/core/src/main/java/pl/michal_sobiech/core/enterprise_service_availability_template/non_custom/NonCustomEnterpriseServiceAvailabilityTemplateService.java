@@ -1,15 +1,12 @@
-package pl.michal_sobiech.engineering_thesis.enterprise_service_availability_template.non_custom;
+package pl.michal_sobiech.core.enterprise_service_availability_template.non_custom;
 
 import java.time.DayOfWeek;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.stereotype.Service;
-
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.EnterpriseServiceSlotTemplateService;
-import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.non_custom_appointments.NonCustomAppointmentsEnterpriseServiceSlotTemplate;
-
+import pl.michal_sobiech.core.enterprise_service_slot_template.EnterpriseServiceSlotTemplateService;
+import pl.michal_sobiech.core.enterprise_service_slot_template.non_custom_appointments.NonCustomAppointmentsEnterpriseServiceSlotTemplate;
 
 @RequiredArgsConstructor
 public class NonCustomEnterpriseServiceAvailabilityTemplateService {

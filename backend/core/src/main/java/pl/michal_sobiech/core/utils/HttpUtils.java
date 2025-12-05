@@ -1,4 +1,4 @@
-package pl.michal_sobiech.engineering_thesis.utils;
+package pl.michal_sobiech.core.utils;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,4 +1,4 @@
-package pl.michal_sobiech.shared.entrepreneur;
+package pl.michal_sobiech.core.entrepreneur;
 
 import java.util.Optional;
 
@@ -11,7 +11,6 @@ import pl.michal_sobiech.shared.user.UserEntity;
 import pl.michal_sobiech.shared.user.UserGroup;
 import pl.michal_sobiech.shared.user.UserRepository;
 import pl.michal_sobiech.shared.user.UserService;
-
 
 @RequiredArgsConstructor
 public class EntrepreneurService {

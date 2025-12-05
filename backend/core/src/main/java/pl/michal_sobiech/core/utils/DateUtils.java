@@ -1,4 +1,4 @@
-package pl.michal_sobiech.shared.utils;
+package pl.michal_sobiech.core.utils;
 
 import java.time.Instant;
 import java.time.LocalDate;

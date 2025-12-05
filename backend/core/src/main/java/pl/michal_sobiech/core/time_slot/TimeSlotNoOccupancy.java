@@ -1,4 +1,4 @@
-package pl.michal_sobiech.engineering_thesis.time_slot;
+package pl.michal_sobiech.core.time_slot;
 
 import java.time.OffsetDateTime;
 

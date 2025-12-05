@@ -1,8 +1,8 @@
-package pl.michal_sobiech.shared.appointment.custom;
+package pl.michal_sobiech.core.appointment.custom;
 
 import java.util.Optional;
 
-import pl.michal_sobiech.shared.appointment.AppointmentEntity;
+import pl.michal_sobiech.core.appointment.AppointmentEntity;
 
 public class CustomAppointmentFactory {
 

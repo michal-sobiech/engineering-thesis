@@ -1,4 +1,4 @@
-package pl.michal_sobiech.engineering_thesis.available_enterprise_service_search;
+package pl.michal_sobiech.core.available_enterprise_service_search;
 
 import java.math.BigDecimal;
 

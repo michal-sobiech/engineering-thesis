@@ -1,13 +1,10 @@
-package pl.michal_sobiech.engineering_thesis.independent_end_user;
+package pl.michal_sobiech.core.independent_end_user;
 
 import java.util.Optional;
 
-import org.springframework.stereotype.Service;
-
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.shared.user.User;
+import pl.michal_sobiech.core.user.User;
 import pl.michal_sobiech.shared.user.UserRepository;
-
 
 @RequiredArgsConstructor
 public class IndependentEndUserService {

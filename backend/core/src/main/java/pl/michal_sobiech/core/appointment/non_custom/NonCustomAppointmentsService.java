@@ -1,4 +1,4 @@
-package pl.michal_sobiech.shared.appointment.non_custom;
+package pl.michal_sobiech.core.appointment.non_custom;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -7,12 +7,13 @@ import java.time.ZoneOffset;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.stereotype.Service;
-
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.shared.currency_iso.CurrencyIso;
-import pl.michal_sobiech.shared.appointment.AppointmentEntity;
-import pl.michal_sobiech.shared.appointment.AppointmentRepository;
+import pl.michal_sobiech.core.appointment.AppointmentEntity;
+import pl.michal_sobiech.core.appointment.AppointmentRepository;
+import pl.michal_sobiech.core.currency_iso.CurrencyIso;
+import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceDomain;
+import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceService;
+import pl.michal_sobiech.core.utils.DateUtils;
 
 @RequiredArgsConstructor
 public class NonCustomAppointmentsService {

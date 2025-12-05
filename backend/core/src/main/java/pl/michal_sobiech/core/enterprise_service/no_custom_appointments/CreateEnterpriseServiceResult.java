@@ -1,5 +1,5 @@
 
-package pl.michal_sobiech.engineering_thesis.enterprise_service.no_custom_appointments;
+package pl.michal_sobiech.core.enterprise_service.no_custom_appointments;
 
 import java.util.List;
 
@@ -8,9 +8,9 @@ import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.Ent
 
 public record CreateEnterpriseServiceResult(
 
-                EnterpriseServiceEntity service,
+        EnterpriseServiceEntity service,
 
-                List<EnterpriseServiceSlotTemplateEntity> slots
+        List<EnterpriseServiceSlotTemplateEntity> slots
 
 ) {
 }

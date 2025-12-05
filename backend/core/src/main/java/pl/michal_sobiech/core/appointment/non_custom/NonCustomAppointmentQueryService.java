@@ -1,16 +1,14 @@
-package pl.michal_sobiech.shared.appointment.non_custom;
+package pl.michal_sobiech.core.appointment.non_custom;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.springframework.stereotype.Service;
-
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.shared.appointment.AppointmentEntity;
-import pl.michal_sobiech.shared.appointment.AppointmentRepository;
-import pl.michal_sobiech.shared.appointment.UncancelledScheduledAppointment;
-import pl.michal_sobiech.shared.appointment.query.AppointmentQueryTimeRange;
+import pl.michal_sobiech.core.appointment.AppointmentEntity;
+import pl.michal_sobiech.core.appointment.AppointmentRepository;
+import pl.michal_sobiech.core.appointment.UncancelledScheduledAppointment;
+import pl.michal_sobiech.core.appointment.query.AppointmentQueryTimeRange;
 
 @RequiredArgsConstructor
 public class NonCustomAppointmentQueryService {

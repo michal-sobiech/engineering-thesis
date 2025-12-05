@@ -1,4 +1,4 @@
-package pl.michal_sobiech.engineering_thesis.enterprise_service.no_custom_appointments;
+package pl.michal_sobiech.core.enterprise_service.no_custom_appointments;
 
 import java.math.BigDecimal;
 import java.time.ZoneId;
@@ -11,19 +11,19 @@ import pl.michal_sobiech.shared.currency_iso.CurrencyIso;
 
 public record CreateNoCustomAppointmentsEnterpriseServiceCommand(
 
-                String name,
+        String name,
 
-                String description,
+        String description,
 
-                Location location,
+        Location location,
 
-                ZoneId timeZone,
+        ZoneId timeZone,
 
-                EnterpriseServiceCathegory cathegory,
+        EnterpriseServiceCathegory cathegory,
 
-                Optional<BigDecimal> price,
+        Optional<BigDecimal> price,
 
-                CurrencyIso currency
+        CurrencyIso currency
 
 ) {
 }

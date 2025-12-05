@@ -1,4 +1,4 @@
-package pl.michal_sobiech.engineering_thesis.utils;
+package pl.michal_sobiech.core.utils;
 
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;

@@ -1,12 +1,9 @@
-package pl.michal_sobiech.engineering_thesis.report.review;
-
-import org.springframework.stereotype.Component;
+package pl.michal_sobiech.core.report.review;
 
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.report.GetUnresolvedReportsRow;
-import pl.michal_sobiech.engineering_thesis.review.Review;
-import pl.michal_sobiech.engineering_thesis.review.ReviewService;
-
+import pl.michal_sobiech.core.report.GetUnresolvedReportsRow;
+import pl.michal_sobiech.core.review.Review;
+import pl.michal_sobiech.core.review.ReviewService;
 
 @RequiredArgsConstructor
 public class ReviewReportFactory {

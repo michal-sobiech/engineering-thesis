@@ -1,4 +1,4 @@
-package pl.michal_sobiech.shared.payment;
+package pl.michal_sobiech.core.payment;
 
 public enum PaymentSubjectType {
     APPOINTMENT;

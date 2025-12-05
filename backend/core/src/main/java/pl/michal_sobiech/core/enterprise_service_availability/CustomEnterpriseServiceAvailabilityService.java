@@ -1,4 +1,4 @@
-package pl.michal_sobiech.engineering_thesis.enterprise_service_availability;
+package pl.michal_sobiech.core.enterprise_service_availability;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -13,7 +13,6 @@ import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.cus
 import pl.michal_sobiech.shared.appointment.custom.CustomAppointmentService;
 import pl.michal_sobiech.shared.utils.DateUtils;
 import pl.michal_sobiech.shared.utils.LocalDateTimeWindow;
-
 
 @RequiredArgsConstructor
 public class CustomEnterpriseServiceAvailabilityService {

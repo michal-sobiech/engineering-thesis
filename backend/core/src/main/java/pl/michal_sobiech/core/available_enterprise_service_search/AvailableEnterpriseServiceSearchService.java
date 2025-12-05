@@ -1,4 +1,4 @@
-package pl.michal_sobiech.engineering_thesis.available_enterprise_service_search;
+package pl.michal_sobiech.core.available_enterprise_service_search;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.engineering_thesis.available_enterprise_service_search.custom.AvailableCustomEnterpriseServiceSearchService;
 import pl.michal_sobiech.engineering_thesis.available_enterprise_service_search.non_custom.AvailableNonCustomEnterpriseServiceSearchService;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceCathegory;
-
 
 @RequiredArgsConstructor
 public class AvailableEnterpriseServiceSearchService {

@@ -1,4 +1,4 @@
-package pl.michal_sobiech.shared.exceptions;
+package pl.michal_sobiech.core.exceptions;
 
 public class UnauthorizedException extends RuntimeException {
 

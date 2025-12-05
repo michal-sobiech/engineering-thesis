@@ -1,21 +1,19 @@
-package pl.michal_sobiech.shared.appointment;
+package pl.michal_sobiech.core.appointment;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.data.util.Pair;
-import org.springframework.stereotype.Service;
+import org.apache.commons.lang3.tuple.Pair;
 
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.shared.appointment.custom.CustomAppointmentQueryService;
-import pl.michal_sobiech.shared.appointment.non_custom.NonCustomAppointmentQueryService;
-import pl.michal_sobiech.shared.currency_iso.CurrencyIso;
-import pl.michal_sobiech.shared.enterprise_member.EnterpriseMember;
-import pl.michal_sobiech.shared.enterprise_member.EnterpriseMemberService;
-import pl.michal_sobiech.shared.payment.PaymentServiceProvider;
-
+import pl.michal_sobiech.core.appointment.custom.CustomAppointmentQueryService;
+import pl.michal_sobiech.core.appointment.non_custom.NonCustomAppointmentQueryService;
+import pl.michal_sobiech.core.currency_iso.CurrencyIso;
+import pl.michal_sobiech.core.enterprise_member.EnterpriseMember;
+import pl.michal_sobiech.core.enterprise_member.EnterpriseMemberService;
+import pl.michal_sobiech.core.payment.PaymentServiceProvider;
 
 @RequiredArgsConstructor
 public class AppointmentService {

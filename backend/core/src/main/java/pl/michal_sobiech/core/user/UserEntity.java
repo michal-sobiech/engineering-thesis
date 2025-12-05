@@ -1,9 +1,9 @@
-package pl.michal_sobiech.shared.user;
+package pl.michal_sobiech.core.user;
 
 import org.hibernate.annotations.JdbcType;
-import org.hibernate.dialect.PostgreSQLEnumJdbcType;
-import org.springframework.lang.Nullable;
+import org.hibernate.dialect.type.PostgreSQLEnumJdbcType;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
