@@ -2,6 +2,8 @@ package pl.michal_sobiech.engineering_thesis.auth;
 
 import java.util.Optional;
 
+import org.springframework.stereotype.Service;
+
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.core.admin.Admin;
 import pl.michal_sobiech.core.customer.Customer;
@@ -17,6 +19,7 @@ import pl.michal_sobiech.core.user.User;
 import pl.michal_sobiech.core.user.UserService;
 import pl.michal_sobiech.engineering_thesis.utils.AuthUtils;
 
+@Service
 @RequiredArgsConstructor
 public class AuthService {
 

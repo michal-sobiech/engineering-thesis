@@ -9,6 +9,8 @@ import com.adyen.service.checkout.PaymentsApi;
 
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.core.adyen.AdyenProperties;
+import pl.michal_sobiech.core.adyen.AdyenSessionService;
+import pl.michal_sobiech.core.appointment.AppointmentService;
 
 @Configuration
 @RequiredArgsConstructor
@@ -24,6 +26,12 @@ public class AdyenConfig {
     @Bean
     public PaymentsApi adyenPaymentsApi(Client adyenClient) {
         return new PaymentsApi(adyenClient);
+    }
+
+    @Bean
+    public AdyenSessionService adyenSessionService(AdyenProperties adyenProperties, PaymentsApi adyenPaymentsApi,
+            AppointmentService appointmentService) {
+        return new AdyenSessionService(adyenProperties, adyenPaymentsApi, appointmentService);
     }
 
 }

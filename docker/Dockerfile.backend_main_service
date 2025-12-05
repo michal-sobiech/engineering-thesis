@@ -3,11 +3,13 @@ RUN apk add --no-cache maven curl ca-certificates openssl
 WORKDIR /app/backend
 
 COPY backend/pom.xml pom.xml
-COPY backend/shared/pom.xml shared/pom.xml
+COPY backend/core/pom.xml core/pom.xml
+COPY backend/infra/pom.xml infra/pom.xml
 COPY backend/payout_worker/pom.xml payout_worker/pom.xml
 COPY backend/main_service/pom.xml main_service/pom.xml
 
-RUN mkdir -p shared/src/main/java
+RUN mkdir -p core/src/main/java
+RUN mkdir -p infra/src/main/java
 RUN mkdir -p payout_worker/src/main/java
 RUN mkdir -p main_service/src/main/java
 

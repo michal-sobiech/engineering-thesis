@@ -9,30 +9,27 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-
 @Aspect
 @Component
 @Order(0)
 public class RouteInterceptor {
 
     private static final Logger logger = LoggerFactory.getLogger(RouteInterceptor.class);
-    
+
     @Around("@annotation(transactional)")
     public Object chooseRoute(ProceedingJoinPoint joinPoint, Transactional transactional) throws Throwable {
         try {
-			if (transactional.readOnly()) {
-				RoutingDataSource.setRoute(Route.REPLICA);
+            if (transactional.readOnly()) {
+                RoutingDataSource.setRoute(Route.REPLICA);
                 logger.info("Transaction routed to the replica DB!");
-			}
-            else {
+            } else {
                 RoutingDataSource.setRoute(Route.PRIMARY);
                 logger.info("Transaction routed to the primary DB!");
             }
-			return joinPoint.proceed();
-		} 
-        finally {
-			RoutingDataSource.clear();
-		}
+            return joinPoint.proceed();
+        } finally {
+            RoutingDataSource.clear();
+        }
     }
 
 }

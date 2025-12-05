@@ -18,7 +18,7 @@ import pl.michal_sobiech.core.payment.PaymentServiceProvider;
 @RequiredArgsConstructor
 public class AppointmentService {
 
-    private EnterpriseMemberService enterpriseMemberService;
+    private final EnterpriseMemberService enterpriseMemberService;
     private final NonCustomAppointmentQueryService nonCustomAppointmentQueryService;
     private final CustomAppointmentQueryService customAppointmentQueryService;
     private final AppointmentRepository appointmentRepository;

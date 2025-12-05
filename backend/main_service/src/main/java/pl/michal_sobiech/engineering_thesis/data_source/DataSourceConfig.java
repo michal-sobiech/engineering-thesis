@@ -15,62 +15,57 @@ import com.zaxxer.hikari.HikariDataSource;
 @Configuration
 public class DataSourceConfig {
 
-	@Bean
-	@Primary
-	public DataSource dataSource(
-        @Value("${spring.datasource.primary.url}") String PRIMARY_DATASOURCE_URL,
-        @Value("${spring.datasource.primary.username}") String PRIMARY_DATASOURCE_USERNAME,
-        @Value("${spring.datasource.primary.password}") String PRIMARY_DATASOURCE_PASSWORD,
-        @Value("${spring.datasource.primary.driver-class-name}") String PRIMARY_DATASOURCE_DRIVER,
-        @Value("${spring.datasource.replica.url}") String REPLICA_DATASOURCE_URL,
-        @Value("${spring.datasource.replica.username}") String REPLICA_DATASOURCE_USERNAME,
-        @Value("${spring.datasource.replica.password}") String REPLICA_DATASOURCE_PASSWORD,
-        @Value("${spring.datasource.replica.driver-class-name}") String REPLICA_DATASOURCE_DRIVER
-    ) {
+    @Bean
+    @Primary
+    public DataSource dataSource(
+            @Value("${spring.datasource.primary.url}") String PRIMARY_DATASOURCE_URL,
+            @Value("${spring.datasource.primary.username}") String PRIMARY_DATASOURCE_USERNAME,
+            @Value("${spring.datasource.primary.password}") String PRIMARY_DATASOURCE_PASSWORD,
+            @Value("${spring.datasource.primary.driver-class-name}") String PRIMARY_DATASOURCE_DRIVER,
+            @Value("${spring.datasource.replica.url}") String REPLICA_DATASOURCE_URL,
+            @Value("${spring.datasource.replica.username}") String REPLICA_DATASOURCE_USERNAME,
+            @Value("${spring.datasource.replica.password}") String REPLICA_DATASOURCE_PASSWORD,
+            @Value("${spring.datasource.replica.driver-class-name}") String REPLICA_DATASOURCE_DRIVER) {
 
-		final RoutingDataSource routingDataSource = new RoutingDataSource();
+        final RoutingDataSource routingDataSource = new RoutingDataSource();
 
-		final DataSource primaryDataSource = makeDataSource(
-            "PrimaryHikariPool",
-            PRIMARY_DATASOURCE_URL,
-            PRIMARY_DATASOURCE_USERNAME,
-            PRIMARY_DATASOURCE_PASSWORD,
-            PRIMARY_DATASOURCE_DRIVER
-        );
-		final DataSource replicaDataSource = makeDataSource(
-            "ReplicaHikariPool",
-            REPLICA_DATASOURCE_URL,
-            REPLICA_DATASOURCE_USERNAME,
-            REPLICA_DATASOURCE_PASSWORD,
-            REPLICA_DATASOURCE_DRIVER
-        );
+        final DataSource primaryDataSource = makeDataSource(
+                "PrimaryHikariPool",
+                PRIMARY_DATASOURCE_URL,
+                PRIMARY_DATASOURCE_USERNAME,
+                PRIMARY_DATASOURCE_PASSWORD,
+                PRIMARY_DATASOURCE_DRIVER);
+        final DataSource replicaDataSource = makeDataSource(
+                "ReplicaHikariPool",
+                REPLICA_DATASOURCE_URL,
+                REPLICA_DATASOURCE_USERNAME,
+                REPLICA_DATASOURCE_PASSWORD,
+                REPLICA_DATASOURCE_DRIVER);
 
-		final Map<Object, Object> targetDataSources = Map.of(
-            Route.PRIMARY, primaryDataSource,
-            Route.REPLICA, replicaDataSource
-        );
+        final Map<Object, Object> targetDataSources = Map.of(
+                Route.PRIMARY, primaryDataSource,
+                Route.REPLICA, replicaDataSource);
 
-		routingDataSource.setTargetDataSources(targetDataSources);
-		routingDataSource.setDefaultTargetDataSource(primaryDataSource);
+        routingDataSource.setTargetDataSources(targetDataSources);
+        routingDataSource.setDefaultTargetDataSource(primaryDataSource);
 
-		return routingDataSource;
-	}
+        return routingDataSource;
+    }
 
-	private DataSource makeDataSource(
-        String poolName,
-        String url,
-        String username,
-        String password,
-        String driver
-    ) {
-		final HikariConfig config = new HikariConfig();
+    private DataSource makeDataSource(
+            String poolName,
+            String url,
+            String username,
+            String password,
+            String driver) {
+        final HikariConfig config = new HikariConfig();
 
-		config.setPoolName(poolName);
-		config.setJdbcUrl(url);
-		config.setUsername(username);
-		config.setPassword(password);
-		config.setDriverClassName(driver);
+        config.setPoolName(poolName);
+        config.setJdbcUrl(url);
+        config.setUsername(username);
+        config.setPassword(password);
+        config.setDriverClassName(driver);
 
-		return new HikariDataSource(config);
-	}
+        return new HikariDataSource(config);
+    }
 }
