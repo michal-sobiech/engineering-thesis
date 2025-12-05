@@ -1,4 +1,4 @@
-package pl.michal_sobiech.engineering_thesis.enterprise_service;
+package pl.michal_sobiech.infra.enterprise_service;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,7 +11,7 @@ import pl.michal_sobiech.core.enteprise_service_search.EnterpriseServiceSearchRe
 import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceCathegory;
 import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceEntity;
 
-public interface EnterpriseServiceRepository extends JpaRepository<EnterpriseServiceEntity, Long> {
+public interface SpringEnterpriseServiceRepository extends JpaRepository<EnterpriseServiceEntity, Long> {
 
     public List<EnterpriseServiceEntity> findByEnterpriseId(long enterpriseId);
 

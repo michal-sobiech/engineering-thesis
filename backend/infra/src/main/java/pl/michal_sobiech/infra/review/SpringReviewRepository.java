@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import pl.michal_sobiech.core.review.ReviewEntity;
 
-public interface ReviewRepository extends JpaRepository<ReviewEntity, Long> {
+public interface SpringReviewRepository extends JpaRepository<ReviewEntity, Long> {
 
 }

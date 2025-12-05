@@ -1,4 +1,4 @@
-package pl.michal_sobiech.shared.user;
+package pl.michal_sobiech.infra.user;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 import pl.michal_sobiech.core.user.UserEntity;
 import pl.michal_sobiech.core.user.UserGroup;
 
-public interface UserRepository extends JpaRepository<UserEntity, Long> {
+public interface SpringUserRepository extends JpaRepository<UserEntity, Long> {
 
     public Optional<UserEntity> findByEnterpriseIdAndUsername(long enterpriseId, String username);
 

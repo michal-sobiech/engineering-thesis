@@ -1,4 +1,4 @@
-package pl.michal_sobiech.shared.appointment;
+package pl.michal_sobiech.infra.appointment;
 
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 import pl.michal_sobiech.core.appointment.AppointmentEntity;
 import pl.michal_sobiech.core.appointment.GetEnterpriseServiceFutureScheduledAppointmentsResponseRow;
 
-public interface AppointmentRepository extends JpaRepository<AppointmentEntity, Long> {
+public interface SpringAppointmentRepository extends JpaRepository<AppointmentEntity, Long> {
 
     @Query("""
             SELECT appointment
