@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.Optional;
 
-import org.springframework.lang.Nullable;
+import jakarta.annotation.Nullable;
 
 public record SearchEnterpriseServicesCommand(
         Optional<String> serviceName,

@@ -7,15 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.stereotype.Service;
-
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceService;
-import pl.michal_sobiech.engineering_thesis.enterprise_service_availability_template.EnterpriseServiceAvailabilityTemplateService;
-import pl.michal_sobiech.shared.appointment.non_custom.NonCustomAppointment;
-import pl.michal_sobiech.shared.appointment.non_custom.NonCustomAppointmentsService;
-import pl.michal_sobiech.shared.utils.DateUtils;
-import pl.michal_sobiech.shared.utils.LocalDateTimeWindow;
+import pl.michal_sobiech.core.appointment.non_custom.NonCustomAppointment;
+import pl.michal_sobiech.core.appointment.non_custom.NonCustomAppointmentsService;
+import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceService;
+import pl.michal_sobiech.core.enterprise_service_availability_template.EnterpriseServiceAvailabilityTemplateService;
+import pl.michal_sobiech.core.utils.DateUtils;
+import pl.michal_sobiech.core.utils.LocalDateTimeWindow;
 
 @RequiredArgsConstructor
 public class NonCustomEnterpriseServiceAvailabilityService {

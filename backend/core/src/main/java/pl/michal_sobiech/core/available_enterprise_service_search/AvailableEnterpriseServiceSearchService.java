@@ -5,12 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.stereotype.Service;
-
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.available_enterprise_service_search.custom.AvailableCustomEnterpriseServiceSearchService;
-import pl.michal_sobiech.engineering_thesis.available_enterprise_service_search.non_custom.AvailableNonCustomEnterpriseServiceSearchService;
-import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceCathegory;
+import pl.michal_sobiech.core.available_enterprise_service_search.custom.AvailableCustomEnterpriseServiceSearchService;
+import pl.michal_sobiech.core.available_enterprise_service_search.non_custom.AvailableNonCustomEnterpriseServiceSearchService;
+import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceCathegory;
 
 @RequiredArgsConstructor
 public class AvailableEnterpriseServiceSearchService {

@@ -3,10 +3,8 @@ package pl.michal_sobiech.core.enteprise_service_search;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.stereotype.Service;
-
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceCathegory;
+import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceCathegory;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceRepository;
 
 @RequiredArgsConstructor

@@ -5,14 +5,12 @@ import java.time.ZoneId;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.stereotype.Service;
-
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceService;
-import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.custom_appointments.CustomAppointmentsEnterpriseServiceTimeWindowTemplateService;
-import pl.michal_sobiech.shared.appointment.custom.CustomAppointmentService;
-import pl.michal_sobiech.shared.utils.DateUtils;
-import pl.michal_sobiech.shared.utils.LocalDateTimeWindow;
+import pl.michal_sobiech.core.appointment.custom.CustomAppointmentService;
+import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceService;
+import pl.michal_sobiech.core.enterprise_service_slot_template.custom_appointments.CustomAppointmentsEnterpriseServiceTimeWindowTemplateService;
+import pl.michal_sobiech.core.utils.DateUtils;
+import pl.michal_sobiech.core.utils.LocalDateTimeWindow;
 
 @RequiredArgsConstructor
 public class CustomEnterpriseServiceAvailabilityService {

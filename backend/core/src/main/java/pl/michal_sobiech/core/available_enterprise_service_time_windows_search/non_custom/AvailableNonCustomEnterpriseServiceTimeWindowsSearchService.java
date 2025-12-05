@@ -6,15 +6,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.springframework.stereotype.Service;
-
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.enteprise_service_search.EnterpriseServiceSearchResultRow;
-import pl.michal_sobiech.engineering_thesis.enteprise_service_search.EnterpriseServiceSearchService;
-import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceCathegory;
-import pl.michal_sobiech.engineering_thesis.enterprise_service_availability.NonCustomEnterpriseServiceAvailabilityService;
-import pl.michal_sobiech.shared.utils.DateUtils;
-import pl.michal_sobiech.shared.utils.LocalDateTimeWindow;
+import pl.michal_sobiech.core.enteprise_service_search.EnterpriseServiceSearchResultRow;
+import pl.michal_sobiech.core.enteprise_service_search.EnterpriseServiceSearchService;
+import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceCathegory;
+import pl.michal_sobiech.core.enterprise_service_availability.NonCustomEnterpriseServiceAvailabilityService;
+import pl.michal_sobiech.core.utils.DateUtils;
+import pl.michal_sobiech.core.utils.LocalDateTimeWindow;
 
 @RequiredArgsConstructor
 public class AvailableNonCustomEnterpriseServiceTimeWindowsSearchService {
