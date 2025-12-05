@@ -11,8 +11,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.independent_end_user.IndependentEndUser;
-import pl.michal_sobiech.engineering_thesis.independent_end_user.IndependentEndUserService;
+import pl.michal_sobiech.core.independent_end_user.IndependentEndUser;
+import pl.michal_sobiech.core.independent_end_user.IndependentEndUserService;
 import pl.michal_sobiech.engineering_thesis.user.UserIdAuthentication;
 
 @Service

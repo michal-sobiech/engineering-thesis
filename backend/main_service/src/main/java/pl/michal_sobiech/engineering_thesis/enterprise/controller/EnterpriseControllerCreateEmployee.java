@@ -7,15 +7,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
+import pl.michal_sobiech.core.employee.Employee;
+import pl.michal_sobiech.core.employee.EmployeeService;
+import pl.michal_sobiech.core.enterprise.Enterprise;
+import pl.michal_sobiech.core.enterprise.EnterpriseService;
+import pl.michal_sobiech.core.entrepreneur.Entrepreneur;
+import pl.michal_sobiech.core.entrepreneur.EntrepreneurService;
 import pl.michal_sobiech.engineering_thesis.auth.AuthService;
-import pl.michal_sobiech.engineering_thesis.employee.Employee;
-import pl.michal_sobiech.engineering_thesis.employee.EmployeeService;
-import pl.michal_sobiech.engineering_thesis.enterprise.Enterprise;
-import pl.michal_sobiech.engineering_thesis.enterprise.EnterpriseService;
 import pl.michal_sobiech.engineering_thesis.jwt.JwtCreationService;
 import pl.michal_sobiech.engineering_thesis.utils.HttpUtils;
-import pl.michal_sobiech.shared.entrepreneur.Entrepreneur;
-import pl.michal_sobiech.shared.entrepreneur.EntrepreneurService;
 
 @Component
 @RequiredArgsConstructor

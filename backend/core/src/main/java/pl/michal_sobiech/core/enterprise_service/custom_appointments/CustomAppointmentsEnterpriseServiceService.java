@@ -31,8 +31,8 @@ public class CustomAppointmentsEnterpriseServiceService {
                 .price(command.price().orElse(null))
                 .currency(command.currency())
                 .address(command.location().address())
-                .longitude(command.location().position().longitude())
-                .latitude(command.location().position().latitude())
+                .longitude(command.location().longitude())
+                .latitude(command.location().latitude())
                 .build();
         service = enterpriseServiceRepository.save(service);
         return CustomEnterpriseService.fromEntity(service);

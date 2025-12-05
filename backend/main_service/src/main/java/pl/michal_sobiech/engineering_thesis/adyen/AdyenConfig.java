@@ -8,6 +8,7 @@ import com.adyen.enums.Environment;
 import com.adyen.service.checkout.PaymentsApi;
 
 import lombok.RequiredArgsConstructor;
+import pl.michal_sobiech.core.adyen.AdyenProperties;
 
 @Configuration
 @RequiredArgsConstructor

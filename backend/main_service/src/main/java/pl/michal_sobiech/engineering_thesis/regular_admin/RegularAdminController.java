@@ -12,8 +12,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import pl.michal_sobiech.core.regular_admin.RegularAdmin;
+import pl.michal_sobiech.core.regular_admin.RegularAdminsService;
+import pl.michal_sobiech.core.user.UserService;
 import pl.michal_sobiech.engineering_thesis.auth.AuthService;
-import pl.michal_sobiech.shared.user.UserService;
 
 @RestController
 @RequiredArgsConstructor

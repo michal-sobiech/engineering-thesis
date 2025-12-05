@@ -19,24 +19,24 @@ import org.springframework.web.bind.annotation.RestController;
 import com.adyen.model.checkout.CreateCheckoutSessionResponse;
 
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.adyen.AdyenSessionService;
+import pl.michal_sobiech.core.adyen.AdyenSessionService;
+import pl.michal_sobiech.core.appointment.AppointmentService;
+import pl.michal_sobiech.core.appointment.ScheduledAppointmentService;
+import pl.michal_sobiech.core.appointment.custom.CustomAppointmentQueryService;
+import pl.michal_sobiech.core.appointment.custom.CustomAppointmentService;
+import pl.michal_sobiech.core.customer.Customer;
+import pl.michal_sobiech.core.enterprise.Enterprise;
+import pl.michal_sobiech.core.enterprise.EnterpriseService;
+import pl.michal_sobiech.core.enterprise_member.EnterpriseMember;
+import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceDomain;
+import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceService;
+import pl.michal_sobiech.core.exceptions.UnauthorizedException;
+import pl.michal_sobiech.core.payment.PaymentSubjectType;
+import pl.michal_sobiech.core.payment.payment_status.PaymentStatusNotPaid;
+import pl.michal_sobiech.core.payment.payment_status.PaymentStatusPaidOnSite;
+import pl.michal_sobiech.core.payment.payment_status.PaymentStatusPaidOnline;
+import pl.michal_sobiech.core.utils.DateUtils;
 import pl.michal_sobiech.engineering_thesis.auth.AuthService;
-import pl.michal_sobiech.engineering_thesis.customer.Customer;
-import pl.michal_sobiech.engineering_thesis.enterprise.Enterprise;
-import pl.michal_sobiech.engineering_thesis.enterprise.EnterpriseService;
-import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceDomain;
-import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceService;
-import pl.michal_sobiech.engineering_thesis.exceptions.exceptions.UnauthorizedException;
-import pl.michal_sobiech.shared.appointment.AppointmentService;
-import pl.michal_sobiech.shared.appointment.ScheduledAppointmentService;
-import pl.michal_sobiech.shared.appointment.custom.CustomAppointmentQueryService;
-import pl.michal_sobiech.shared.appointment.custom.CustomAppointmentService;
-import pl.michal_sobiech.shared.enterprise_member.EnterpriseMember;
-import pl.michal_sobiech.shared.payment.PaymentSubjectType;
-import pl.michal_sobiech.shared.payment.payment_status.PaymentStatusNotPaid;
-import pl.michal_sobiech.shared.payment.payment_status.PaymentStatusPaidOnSite;
-import pl.michal_sobiech.shared.payment.payment_status.PaymentStatusPaidOnline;
-import pl.michal_sobiech.shared.utils.DateUtils;
 
 @RestController
 @RequiredArgsConstructor
@@ -80,7 +80,7 @@ public class AppointmentController implements AppointmentsApi {
                             service.enterpriseServiceId(),
                             service.name(),
                             enterprise.name(),
-                            appointment.location().getAddress(),
+                            appointment.location().address(),
                             startDatetimeServiceLocal,
                             endDatetimeServiceLocal,
                             timezone.toString(),
@@ -118,7 +118,7 @@ public class AppointmentController implements AppointmentsApi {
                             appointment.appointmentId(),
                             service.name(),
                             enterprise.name(),
-                            appointment.location().getAddress(),
+                            appointment.location().address(),
                             startDatetimeServiceLocal,
                             endDatetimeServiceLocal,
                             timezone.toString(),
@@ -164,7 +164,7 @@ public class AppointmentController implements AppointmentsApi {
                             service.enterpriseServiceId(),
                             service.name(),
                             enterprise.name(),
-                            service.location().getAddress(),
+                            service.location().address(),
                             startDatetimeServiceLocal,
                             endDatetimeServiceLocal,
                             timezone.toString(),
@@ -210,7 +210,7 @@ public class AppointmentController implements AppointmentsApi {
                             service.enterpriseServiceId(),
                             service.name(),
                             enterprise.name(),
-                            service.location().getAddress(),
+                            service.location().address(),
                             startDatetimeServiceLocal,
                             endDatetimeServiceLocal,
                             timezone.toString(),

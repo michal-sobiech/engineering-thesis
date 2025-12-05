@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import pl.michal_sobiech.engineering_thesis.exceptions.exceptions.ConflictException;
-import pl.michal_sobiech.engineering_thesis.exceptions.exceptions.ForbiddenException;
-import pl.michal_sobiech.engineering_thesis.exceptions.exceptions.UnauthorizedException;
+import pl.michal_sobiech.core.exceptions.ConflictException;
+import pl.michal_sobiech.core.exceptions.ForbiddenException;
+import pl.michal_sobiech.core.exceptions.UnauthorizedException;
 
 @ControllerAdvice
 public class ControllerExceptionHandler {

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 
-import pl.michal_sobiech.engineering_thesis.user.NoCredentials;
+import pl.michal_sobiech.core.user.NoCredentials;
 
 public class JwtAuthentication extends AbstractAuthenticationToken {
 

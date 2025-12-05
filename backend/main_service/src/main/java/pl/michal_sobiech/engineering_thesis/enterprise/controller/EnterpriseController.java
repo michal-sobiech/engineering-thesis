@@ -19,7 +19,6 @@ import org.SwaggerCodeGenExample.model.GetEnterpriseResponse;
 import org.SwaggerCodeGenExample.model.GetEnterpriseService200Response;
 import org.SwaggerCodeGenExample.model.GetEnterpriseServiceCustomServiceResponse;
 import org.SwaggerCodeGenExample.model.GetEnterpriseServiceNonCustomServiceResponse;
-import org.SwaggerCodeGenExample.model.Location;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -29,25 +28,27 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
-import pl.michal_sobiech.engineering_thesis.File;
+import pl.michal_sobiech.core.currency_iso.CurrencyIso;
+import pl.michal_sobiech.core.employee.EmployeeService;
+import pl.michal_sobiech.core.enterprise.Enterprise;
+import pl.michal_sobiech.core.enterprise.EnterpriseService;
+import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceCathegory;
+import pl.michal_sobiech.core.enterprise_service.custom_appointments.CreateCustomAppointmentsEnterpriseServiceCommand;
+import pl.michal_sobiech.core.enterprise_service.custom_appointments.CustomAppointmentsEnterpriseServiceService;
+import pl.michal_sobiech.core.enterprise_service.no_custom_appointments.CreateNoCustomAppointmentsEnterpriseServiceCommand;
+import pl.michal_sobiech.core.enterprise_service.no_custom_appointments.NonCustomAppointmentsEnterpriseServiceService;
+import pl.michal_sobiech.core.enterprise_service_slot_template.custom_appointments.CreateCustomAppointmentsEnterpriseServiceTimeWindowTemplateCommand;
+import pl.michal_sobiech.core.enterprise_service_slot_template.non_custom_appointments.CreateNonCustomAppointmentsEnterpriseServiceSlotTemplateCommand;
+import pl.michal_sobiech.core.entrepreneur.Entrepreneur;
+import pl.michal_sobiech.core.location.Location;
+import pl.michal_sobiech.core.model.File;
+import pl.michal_sobiech.engineering_thesis.api.LocationMapper;
 import pl.michal_sobiech.engineering_thesis.auth.AuthService;
-import pl.michal_sobiech.engineering_thesis.employee.EmployeeService;
-import pl.michal_sobiech.engineering_thesis.enterprise.Enterprise;
-import pl.michal_sobiech.engineering_thesis.enterprise.EnterpriseService;
-import pl.michal_sobiech.engineering_thesis.enterprise.PatchEnterpriseRequestDto;
-import pl.michal_sobiech.engineering_thesis.enterprise_service.EnterpriseServiceCathegory;
-import pl.michal_sobiech.engineering_thesis.enterprise_service.custom_appointments.CreateCustomAppointmentsEnterpriseServiceCommand;
-import pl.michal_sobiech.engineering_thesis.enterprise_service.custom_appointments.CustomAppointmentsEnterpriseServiceService;
-import pl.michal_sobiech.engineering_thesis.enterprise_service.custom_appointments.GetEnterpriseServiceCustomServiceResponseFactory;
-import pl.michal_sobiech.engineering_thesis.enterprise_service.no_custom_appointments.CreateNoCustomAppointmentsEnterpriseServiceCommand;
-import pl.michal_sobiech.engineering_thesis.enterprise_service.no_custom_appointments.GetEnterpriseServiceNonCustomServiceResponseFactory;
-import pl.michal_sobiech.engineering_thesis.enterprise_service.no_custom_appointments.NonCustomAppointmentsEnterpriseServiceService;
-import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.custom_appointments.CreateCustomAppointmentsEnterpriseServiceTimeWindowTemplateCommand;
-import pl.michal_sobiech.engineering_thesis.enterprise_service_slot_template.non_custom_appointments.CreateNonCustomAppointmentsEnterpriseServiceSlotTemplateCommand;
+// import pl.michal_sobiech.engineering_thesis.enterprise.PatchEnterpriseRequestDto;
+import pl.michal_sobiech.engineering_thesis.enterprise_service.GetEnterpriseServiceCustomServiceResponseFactory;
+import pl.michal_sobiech.engineering_thesis.enterprise_service.GetEnterpriseServiceNonCustomServiceResponseFactory;
 import pl.michal_sobiech.engineering_thesis.utils.DayOfWeekUtils;
 import pl.michal_sobiech.engineering_thesis.utils.HttpUtils;
-import pl.michal_sobiech.shared.currency_iso.CurrencyIso;
-import pl.michal_sobiech.shared.entrepreneur.Entrepreneur;
 
 @RestController
 @RequiredArgsConstructor
@@ -70,10 +71,12 @@ public class EnterpriseController implements EnterprisesApi {
             Double latitude,
             MultipartFile logoFile,
             MultipartFile backgroundPhotoFile) {
+        Location domainLocation = new Location(address, longitude, latitude);
+
         var command = new CreateEnterpriseCommand(
                 name,
                 description,
-                new Location(address, longitude, latitude),
+                domainLocation,
                 Optional.ofNullable(logoFile),
                 Optional.ofNullable(backgroundPhotoFile));
 
@@ -103,7 +106,10 @@ public class EnterpriseController implements EnterprisesApi {
         var responseBody = new GetEnterpriseResponse(
                 enterprise.name(),
                 enterprise.description());
-        responseBody = responseBody.location(enterprise.location().orElse(null));
+
+        org.SwaggerCodeGenExample.model.Location swaggerLocation = enterprise.location().map(LocationMapper::fromDomain)
+                .orElse(null);
+        responseBody = responseBody.location(swaggerLocation);
 
         return ResponseEntity.ok(responseBody);
     }
@@ -141,7 +147,7 @@ public class EnterpriseController implements EnterprisesApi {
             Long enterpriseId,
             String name,
             String description,
-            Location location,
+            org.SwaggerCodeGenExample.model.Location location,
             String timeZone,
             Boolean takesCustomAppointments,
             MultipartFile logoFile,
@@ -155,14 +161,15 @@ public class EnterpriseController implements EnterprisesApi {
             return HttpUtils.createForbiddenResponse();
         }
 
-        PatchEnterpriseRequestDto requestDto = new PatchEnterpriseRequestDto(
-                enterpriseId,
-                Optional.ofNullable(name),
-                Optional.ofNullable(description),
-                Optional.ofNullable(location),
-                Optional.ofNullable(logoFile),
-                Optional.ofNullable(backgroundPhotoFile));
-        enterpriseService.patchEnterprise(requestDto);
+        // TODO
+        // PatchEnterpriseRequestDto requestDto = new PatchEnterpriseRequestDto(
+        // enterpriseId,
+        // Optional.ofNullable(name),
+        // Optional.ofNullable(description),
+        // Optional.ofNullable(location),
+        // Optional.ofNullable(logoFile),
+        // Optional.ofNullable(backgroundPhotoFile));
+        // enterpriseService.patchEnterprise(requestDto);
 
         return ResponseEntity.ok().build();
     }
@@ -184,10 +191,12 @@ public class EnterpriseController implements EnterprisesApi {
                 })
                 .collect(Collectors.toList());
 
+        Location domainLocation = LocationMapper.fromSwagger(request.getLocation());
+
         var command = new CreateCustomAppointmentsEnterpriseServiceCommand(
                 request.getName(),
                 request.getDescription(),
-                request.getLocation(),
+                domainLocation,
                 ZoneId.of(request.getTimeZone()),
                 request.getMaxDistanceKm(),
                 EnterpriseServiceCathegory.valueOf(request.getCathegory()),
@@ -217,10 +226,12 @@ public class EnterpriseController implements EnterprisesApi {
                 })
                 .collect(Collectors.toList());
 
+        Location domainLocation = LocationMapper.fromSwagger(request.getLocation());
+
         var command = new CreateNoCustomAppointmentsEnterpriseServiceCommand(
                 request.getName(),
                 request.getDescription(),
-                request.getLocation(),
+                domainLocation,
                 ZoneId.of(request.getTimeZone()),
                 EnterpriseServiceCathegory.valueOf(request.getCathegory()),
                 Optional.ofNullable(request.getPrice()),

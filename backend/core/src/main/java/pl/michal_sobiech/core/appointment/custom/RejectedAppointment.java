@@ -7,7 +7,6 @@ import java.util.Optional;
 import pl.michal_sobiech.core.appointment.AppointmentEntity;
 import pl.michal_sobiech.core.currency_iso.CurrencyIso;
 import pl.michal_sobiech.core.location.Location;
-import pl.michal_sobiech.core.location.Position;
 
 public record RejectedAppointment(
 
@@ -47,9 +46,8 @@ public record RejectedAppointment(
 
         Location location = new Location(
                 entity.getAddress(),
-                new Position(
-                        entity.getLongitude(),
-                        entity.getLatitude()));
+                entity.getLongitude(),
+                entity.getLatitude());
 
         var domain = new RejectedAppointment(
                 entity.getAppointmentId(),

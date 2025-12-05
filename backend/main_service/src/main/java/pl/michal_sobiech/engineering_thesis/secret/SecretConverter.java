@@ -4,6 +4,8 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesBindin
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
+import pl.michal_sobiech.core.secret.Secret;
+
 @Component
 @ConfigurationPropertiesBinding
 public class SecretConverter implements Converter<String, Secret<String>> {

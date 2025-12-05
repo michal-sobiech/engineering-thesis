@@ -10,10 +10,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import pl.michal_sobiech.core.report.ReportService;
+import pl.michal_sobiech.core.report.ReportSubjectType;
+import pl.michal_sobiech.core.report.unresolved.UnresolvedReportService;
+import pl.michal_sobiech.core.user.User;
 import pl.michal_sobiech.engineering_thesis.auth.AuthService;
 import pl.michal_sobiech.engineering_thesis.report.unresolved.GetUnresolvedReports200ResponseInnerFactory;
-import pl.michal_sobiech.engineering_thesis.report.unresolved.UnresolvedReportService;
-import pl.michal_sobiech.shared.user.User;
 
 @RestController
 @RequiredArgsConstructor

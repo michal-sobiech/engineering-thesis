@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import pl.michal_sobiech.core.independent_end_user.IndependentEndUser;
+import pl.michal_sobiech.core.independent_end_user.IndependentEndUserService;
 
 @RestController
 @RequiredArgsConstructor

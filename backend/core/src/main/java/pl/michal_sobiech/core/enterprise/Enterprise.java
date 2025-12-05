@@ -3,7 +3,6 @@ package pl.michal_sobiech.core.enterprise;
 import java.util.Optional;
 
 import pl.michal_sobiech.core.location.Location;
-import pl.michal_sobiech.core.location.Position;
 import pl.michal_sobiech.core.model.File;
 
 public record Enterprise(
@@ -35,9 +34,8 @@ public record Enterprise(
         if (isLocationComplete) {
             location = Optional.of(new Location(
                     entity.getAddress(),
-                    new Position(
-                            entity.getLongitude(),
-                            entity.getLatitude())));
+                    entity.getLongitude(),
+                    entity.getLatitude()));
         } else if (isLocationEmpty) {
             location = Optional.empty();
         } else {

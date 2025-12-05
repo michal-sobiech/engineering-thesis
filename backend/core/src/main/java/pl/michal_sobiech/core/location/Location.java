@@ -1,11 +1,26 @@
 package pl.michal_sobiech.core.location;
 
-public record Location(
+public class Location {
 
-        String address,
+    private final String address;
 
-        Position position
+    private final Position position;
 
-) {
+    public Location(String address, double longitude, double latitude) {
+        this.address = address;
+        this.position = new Position(longitude, latitude);
+    }
+
+    public String address() {
+        return address;
+    }
+
+    public double longitude() {
+        return position.longitude();
+    }
+
+    public double latitude() {
+        return position.latitude();
+    }
 
 }

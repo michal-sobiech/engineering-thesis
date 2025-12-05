@@ -2,8 +2,9 @@ package pl.michal_sobiech.engineering_thesis.enterprise.controller;
 
 import java.util.Optional;
 
-import org.SwaggerCodeGenExample.model.Location;
 import org.springframework.web.multipart.MultipartFile;
+
+import pl.michal_sobiech.core.location.Location;
 
 public record CreateEnterpriseCommand(
 

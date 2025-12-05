@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import pl.michal_sobiech.core.customer.Customer;
+import pl.michal_sobiech.core.customer.CustomerService;
 import pl.michal_sobiech.engineering_thesis.auth.AuthService;
 
 @RestController
@@ -17,8 +19,8 @@ public class CustomerController implements CustomersApi {
     private final AuthService authService;
 
     public ResponseEntity<Void> createCustomer(
-            CreateIndependentEndUserRequest createIndependentEndUserRequest) {
-        customerService.save(createIndependentEndUserRequest);
+            CreateIndependentEndUserRequest request) {
+        customerService.save(request.getEmail(), request.getFirstName(), request.getLastName(), request.getPassword());
         return ResponseEntity.ok().build();
     }
 

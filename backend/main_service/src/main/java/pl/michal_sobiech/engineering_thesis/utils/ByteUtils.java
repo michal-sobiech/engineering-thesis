@@ -1,6 +1,7 @@
 package pl.michal_sobiech.engineering_thesis.utils;
 
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 
 public class ByteUtils {
     public static Resource createResource(byte[] bytes) {

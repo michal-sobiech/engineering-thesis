@@ -8,7 +8,6 @@ import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceCathegory;
 import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceDomain;
 import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceEntity;
 import pl.michal_sobiech.core.location.Location;
-import pl.michal_sobiech.core.location.Position;
 
 public record CustomEnterpriseService(
 
@@ -42,9 +41,8 @@ public record CustomEnterpriseService(
 
         Location location = new Location(
                 entity.getAddress(),
-                new Position(
-                        entity.getLongitude(),
-                        entity.getLatitude()));
+                entity.getLongitude(),
+                entity.getLatitude());
 
         return new CustomEnterpriseService(
                 entity.getEnterpriseServiceId(),
