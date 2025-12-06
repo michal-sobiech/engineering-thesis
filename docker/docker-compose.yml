@@ -112,7 +112,7 @@ services:
       - *backend_shared_config
       - *backend_main_service_shared_config
 
-  backend_payout_worker_2:
+  backend_payout_worker:
     ports:
       - 8081:80
     <<:
