@@ -196,12 +196,14 @@ CREATE TABLE public.appointment (
     CONSTRAINT chk_appointment_payment CHECK (
         (is_paid = FALSE AND payment_service_provider IS NULL AND psp_reference IS NULL)
         OR
-        (is_paid = FALSE AND payment_service_provider IS NULL AND psp_reference IS NULL) -- paid on site
+        (is_paid = TRUE AND payment_service_provider IS NULL AND psp_reference IS NULL) -- paid on site
         OR 
-        (is_paid = FALSE AND payment_service_provider IS NOT NULL AND psp_reference IS NOT NULL) -- paid online
+        (is_paid = TRUE AND payment_service_provider IS NOT NULL AND psp_reference IS NOT NULL) -- paid online
     ),
     CONSTRAINT chk_appointment_was_payout_processed CHECK (
-        (NOT (is_paid = TRUE AND psp_reference IS NOT NULL)) OR was_payout_processed IS NOT NULL
+        (was_payout_processed IS NULL)
+        OR 
+        (was_payout_processed IS NOT NULL AND is_paid = TRUE AND psp_reference IS NOT NULL)
     )
 );
 

@@ -17,6 +17,7 @@ public class Entrepreneur implements EnterpriseMember {
     private final String firstName;
     private final String lastName;
     private final String passwordHash;
+    private final String iban;
 
     public static boolean matchesUser(User user) {
         return user.getUserGroup() == UserGroup.ENTREPRENEUR;
@@ -29,7 +30,8 @@ public class Entrepreneur implements EnterpriseMember {
                     user.getUsername(),
                     user.getFirstName(),
                     user.getLastName(),
-                    user.getPasswordHash()));
+                    user.getPasswordHash(),
+                    user.getIban().get()));
         } else {
             return Optional.empty();
         }

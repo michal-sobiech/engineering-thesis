@@ -1,5 +1,8 @@
 package pl.michal_sobiech.payout_worker.payout;
 
+import java.util.concurrent.TimeUnit;
+
+import org.javamoney.moneta.Money;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -13,19 +16,23 @@ import pl.michal_sobiech.payout_worker.user.UserPayoutService;
 @RequiredArgsConstructor
 public class PayoutWorker {
 
-    private static final int DELAY_MIN = 10;
+    private static final int DELAY_MIN = 1;
 
     private final EntrepreneurService entrepreneurService;
     private final UserPayoutService userPayoutService;
     private final AppointmentService appointmentService;
 
-    @Scheduled(fixedDelay = DELAY_MIN * 60 * 1000)
+    // @Scheduled(fixedDelay = DELAY_MIN, timeUnit = TimeUnit.SECONDS)
+    @Scheduled(fixedDelay = 5, timeUnit = TimeUnit.SECONDS)
     public void findAndProcessFinishedAppointments() {
+        System.out.println("SCHEDULED TASK!!");
         appointmentService.getPastScheduledAppointmentsWaitingForPayoutProcessing()
                 .forEach(appointment -> {
                     long appointmentId = appointment.appointmentId();
                     Entrepreneur entrepreneur = entrepreneurService.getEnterpriseOwner(appointmentId);
-                    userPayoutService.payUser(entrepreneur.getUserId());
+
+                    Money price = Money.of(appointment.price(), appointment.currency().toString());
+                    userPayoutService.payUser(entrepreneur.getUserId(), price);
                     appointmentService.setAppointmentPayoutProcessed(appointmentId);
                 });
     }

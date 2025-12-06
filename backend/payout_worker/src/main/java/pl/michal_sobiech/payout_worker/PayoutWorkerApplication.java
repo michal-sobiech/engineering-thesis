@@ -8,6 +8,7 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
 @EnableCaching
@@ -15,6 +16,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @ComponentScan(basePackages = "pl.michal_sobiech")
 @EnableJpaRepositories(basePackages = "pl.michal_sobiech.infra")
 @EntityScan(basePackages = "pl.michal_sobiech.core")
+@EnableScheduling
 public class PayoutWorkerApplication {
 
     public static void main(String[] args) {

@@ -1,5 +1,6 @@
 package pl.michal_sobiech.payout_worker.user;
 
+import org.javamoney.moneta.Money;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -14,7 +15,7 @@ public class UserPayoutService {
     private final EntrepreneurService entrepreneurService;
     private final PayoutService payoutService;
 
-    public void payUser(long userId) {
+    public void payUser(long userId, Money amount) {
         // Only entrepreneurs are eligible for payout
 
         Entrepreneur entrepreneur = entrepreneurService.getByUserId(userId)
@@ -23,12 +24,13 @@ public class UserPayoutService {
                     throw new IllegalArgumentException(message);
                 });
 
-        payEntrepreneur(entrepreneur);
+        payEntrepreneur(entrepreneur, amount);
     }
 
-    private void payEntrepreneur(Entrepreneur entrepreneur) {
-        // String
-        // TODO
+    private void payEntrepreneur(Entrepreneur entrepreneur, Money amount) {
+        String entrepreneurIban = entrepreneur.getIban();
+
+        payoutService.payOutFunds(entrepreneurIban, amount);
     }
 
 }
