@@ -69,10 +69,14 @@ const Item = (data: CustomerLandingPageScheduledAppointment) => {
             <Flex direction="row" gap="5px">
                 <StandardButton
                     backgroundColor="primary.darkRed"
-                    onClick={onCancelClick}>
+                    onClick={onCancelClick}
+                    flex="1">
                     Cancel
                 </StandardButton>
-                <PayForAppointmentButton isAppointmentPaid={data.isPaid} appointmentId={data.appointmentId} />
+                <PayForAppointmentButton
+                    isAppointmentPaid={data.isPaid}
+                    appointmentId={data.appointmentId}
+                    flex="1" />
             </Flex>
         </StandardFlex>
     </StandardPanel>;

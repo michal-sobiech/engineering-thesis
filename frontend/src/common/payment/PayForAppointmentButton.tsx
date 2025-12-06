@@ -1,3 +1,4 @@
+import { ButtonProps } from "@chakra-ui/react";
 import { FC } from "react";
 import { useAppointmentsApi } from "../../api/appointments-api";
 import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../utils/error";
@@ -5,18 +6,18 @@ import { errorErrResultAsyncFromPromise } from "../../utils/result";
 import { toastError } from "../../utils/toast";
 import { StandardButton } from "../StandardButton";
 
-export interface PayForAppointmentButtonProps {
+export type PayForAppointmentButtonProps = ButtonProps & {
     isAppointmentPaid: boolean;
     appointmentId: number;
 }
 
-export const PayForAppointmentButton: FC<PayForAppointmentButtonProps> = ({ isAppointmentPaid, appointmentId }) => {
+export const PayForAppointmentButton: FC<PayForAppointmentButtonProps> = ({ isAppointmentPaid, appointmentId, ...props }) => {
     return isAppointmentPaid
-        ? <PayForAppointmentButtonAppointmentPaid />
-        : <PayForAppointmentButtonAppointmentNotPaid appointmentId={appointmentId} />;
+        ? <PayForAppointmentButtonAppointmentPaid {...props} />
+        : <PayForAppointmentButtonAppointmentNotPaid appointmentId={appointmentId} {...props} />;
 };
 
-const PayForAppointmentButtonAppointmentNotPaid = ({ appointmentId }: { appointmentId: number }) => {
+const PayForAppointmentButtonAppointmentNotPaid: FC<ButtonProps & { appointmentId: number }> = ({ appointmentId, ...props }) => {
     const appointmentsApi = useAppointmentsApi();
 
     const onClick = async () => {
@@ -32,13 +33,13 @@ const PayForAppointmentButtonAppointmentNotPaid = ({ appointmentId }: { appointm
         window.location.href = result.value.redirectUrl;
     }
 
-    return <StandardButton onClick={onClick}>
+    return <StandardButton {...props} onClick={onClick}>
         Pay
     </StandardButton>;
 };
 
-const PayForAppointmentButtonAppointmentPaid = () => {
-    return <StandardButton disabled>
+const PayForAppointmentButtonAppointmentPaid: FC<ButtonProps> = (props) => {
+    return <StandardButton {...props} disabled>
         Already paid
     </StandardButton>
 };
