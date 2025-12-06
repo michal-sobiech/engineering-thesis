@@ -51,6 +51,7 @@ export const CustomerLandingPage = () => {
                 timezone: item.timezone,
                 price: item.price,
                 currencyIso: item.currencyIso,
+                isPaid: item.isPaid,
             }));
             setFutureScheduledAppointments(mapped);
         }
@@ -77,6 +78,7 @@ export const CustomerLandingPage = () => {
                 timezone: item.timezone,
                 price: item.price,
                 currencyIso: item.currencyIso,
+                isPaid: item.isPaid,
             }));
             setPastScheduledAppointments(mapped);
         }

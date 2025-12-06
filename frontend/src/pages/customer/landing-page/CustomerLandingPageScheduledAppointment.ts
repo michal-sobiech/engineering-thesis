@@ -11,4 +11,5 @@ export interface CustomerLandingPageScheduledAppointment {
     timezone: string;
     price: number | null;
     currencyIso: string;
+    isPaid: boolean;
 }

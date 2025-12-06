@@ -1,6 +1,7 @@
-import { Heading, Text } from "@chakra-ui/react";
+import { Flex, Heading, Text } from "@chakra-ui/react";
 import { DateTimeFormatter } from "@js-joda/core";
 import { useAppointmentsApi } from "../../../api/appointments-api";
+import { PayForAppointmentButton } from "../../../common/payment/PayForAppointmentButton";
 import { ScrollableList } from "../../../common/ScrollableList";
 import { StandardButton } from "../../../common/StandardButton";
 import { StandardConcaveBox } from "../../../common/StandardConcaveBox";
@@ -65,11 +66,14 @@ const Item = (data: CustomerLandingPageScheduledAppointment) => {
             <Text>
                 {data.price} {data.currencyIso}
             </Text>
-            <StandardButton
-                backgroundColor="primary.darkRed"
-                onClick={onCancelClick}>
-                Cancel
-            </StandardButton>
+            <Flex direction="row" gap="5px">
+                <StandardButton
+                    backgroundColor="primary.darkRed"
+                    onClick={onCancelClick}>
+                    Cancel
+                </StandardButton>
+                <PayForAppointmentButton isAppointmentPaid={data.isPaid} appointmentId={data.appointmentId} />
+            </Flex>
         </StandardFlex>
     </StandardPanel>;
 }

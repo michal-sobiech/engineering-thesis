@@ -7,7 +7,6 @@ import { useNavigateWithToastDismiss } from "../../hooks/useNavigateWithToastDis
 import { logInCustomer } from "../../services/customer-auth";
 import { logInEntrepreneur } from "../../services/entrepreneur-auth";
 import { IndependentEndUserLogInOutcome } from "../../services/independent-end-user-auth";
-import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../utils/error";
 import { toastError } from "../../utils/toast";
 import { StandardButton } from "../StandardButton";
 import { setJwtTokenInLocalStorage } from "../local-storage";
@@ -29,24 +28,29 @@ export const IndependentEndUserLogInButton = () => {
         }
 
         if (result.isErr()) {
-            toastError(DEFAULT_ERROR_MESSAGE_FOR_USER);
+            toastError(result.error.message);
             setAuth({ isAuthenticated: false });
             return;
         }
 
-        if (result.value.status === "SUCCESS") {
-            setAuth({
-                isAuthenticated: true,
-                jwtToken: result.value.jwt,
-                userGroup,
-            });
-            setJwtTokenInLocalStorage(result.value.jwt);
-            navigate(landingPageUrl);
-            return;
-        } else {
-            toastError(DEFAULT_ERROR_MESSAGE_FOR_USER);
-            setAuth({ isAuthenticated: false });
-            return;
+        switch (result.value.status) {
+            case "SUCCESS":
+                setAuth({
+                    isAuthenticated: true,
+                    jwtToken: result.value.jwt,
+                    userGroup,
+                });
+                setJwtTokenInLocalStorage(result.value.jwt);
+                navigate(landingPageUrl);
+                return;
+            case "BAD_CREDENTIALS":
+                toastError("Bad credentials.");
+                setAuth({ isAuthenticated: false });
+                return;
+            case "WRONG_USER_GROUP":
+                toastError("Wrong user group.");
+                setAuth({ isAuthenticated: false });
+                return;
         }
 
     }
