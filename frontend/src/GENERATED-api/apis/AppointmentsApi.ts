@@ -65,7 +65,7 @@ export interface CancelAppointmentRequest {
 
 export interface CreateAdyenSessionOperationRequest {
     appointmentId: number;
-    createAdyenSessionRequest?: CreateAdyenSessionRequest;
+    createAdyenSessionRequest: CreateAdyenSessionRequest;
 }
 
 export interface CreateCustomAppointmentOperationRequest {
@@ -182,6 +182,13 @@ export class AppointmentsApi extends runtime.BaseAPI {
             );
         }
 
+        if (requestParameters['createAdyenSessionRequest'] == null) {
+            throw new runtime.RequiredError(
+                'createAdyenSessionRequest',
+                'Required parameter "createAdyenSessionRequest" was null or undefined when calling createAdyenSession().'
+            );
+        }
+
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -213,7 +220,7 @@ export class AppointmentsApi extends runtime.BaseAPI {
 
     /**
      */
-    async createAdyenSession(appointmentId: number, createAdyenSessionRequest?: CreateAdyenSessionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CreateAdyenSessionResponse> {
+    async createAdyenSession(appointmentId: number, createAdyenSessionRequest: CreateAdyenSessionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CreateAdyenSessionResponse> {
         const response = await this.createAdyenSessionRaw({ appointmentId: appointmentId, createAdyenSessionRequest: createAdyenSessionRequest }, initOverrides);
         return await response.value();
     }
