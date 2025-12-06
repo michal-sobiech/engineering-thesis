@@ -67,17 +67,9 @@ public class AppointmentEntity {
     @Column(name = "rejection_message", nullable = true)
     private String rejectionMessage;
 
-    @Nullable
-    @Column(nullable = true)
     private String address;
-
-    @Nullable
-    @Column(nullable = true)
-    private Double longitude;
-
-    @Nullable
-    @Column(nullable = true)
-    private Double latitude;
+    private double longitude;
+    private double latitude;
 
     private boolean cancelled;
 

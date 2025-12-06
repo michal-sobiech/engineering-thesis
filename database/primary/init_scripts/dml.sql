@@ -138,7 +138,10 @@ INSERT INTO public.appointment (
     currency,
     start_time,
     end_time,
-    is_custom
+    is_custom,
+    address,
+    latitude,
+    longitude
 ) VALUES (
     1,
     4,
@@ -146,7 +149,10 @@ INSERT INTO public.appointment (
     'PLN',
     '2026-12-01 12:00:00+00',
     '2026-12-01 12:30:00+00',
-    FALSE
+    FALSE,
+    '15/19, Nowowiejska, Koszyki, Śródmieście Południowe, Midtown, Warsaw, Masovian Voivodeship, 00-665, Poland',
+    52.2189917,
+    21.011346
 );
 
 INSERT INTO public.appointment (
@@ -156,7 +162,10 @@ INSERT INTO public.appointment (
     currency,
     start_time,
     end_time,
-    is_custom
+    is_custom,
+    address,
+    latitude,
+    longitude
 ) VALUES (
     1,
     4,
@@ -164,7 +173,10 @@ INSERT INTO public.appointment (
     'PLN',
     '2024-12-01 12:00:00+00',
     '2024-12-01 12:30:00+00',
-    FALSE
+    FALSE,
+    '15/19, Nowowiejska, Koszyki, Śródmieście Południowe, Midtown, Warsaw, Masovian Voivodeship, 00-665, Poland',
+    52.2189917,
+    21.011346
 );
 
 INSERT INTO public.appointment (

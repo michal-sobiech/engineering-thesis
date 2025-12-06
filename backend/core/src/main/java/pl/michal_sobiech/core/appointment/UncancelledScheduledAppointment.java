@@ -43,9 +43,9 @@ public record UncancelledScheduledAppointment(
 
         PaymentStatus paymentStatus = PaymentStatus.of(
                 entity.isPaid(),
-                Optional.of(entity.getPaymentServiceProvider()),
-                Optional.of(entity.getPspReference()),
-                Optional.of(entity.getWasPayoutProcessed()));
+                Optional.ofNullable(entity.getPaymentServiceProvider()),
+                Optional.ofNullable(entity.getPspReference()),
+                Optional.ofNullable(entity.getWasPayoutProcessed()));
 
         Location location = new Location(
                 entity.getAddress(),

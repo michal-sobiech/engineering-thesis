@@ -164,9 +164,9 @@ CREATE TABLE public.appointment (
 	is_custom boolean NOT NULL,
 	is_accepted boolean,
 	rejection_message text,
-	address text,
-	latitude double PRECISION, 
-	longitude double PRECISION,
+	address text NOT NULL,
+	latitude double PRECISION NOT NULL, 
+	longitude double PRECISION NOT NULL,
 
     cancelled boolean NOT NULL DEFAULT FALSE,
 
@@ -187,11 +187,6 @@ CREATE TABLE public.appointment (
 		(is_custom = TRUE AND is_accepted = FALSE AND rejection_message IS NOT NULL)
 		OR
 		(is_custom = TRUE AND is_accepted = TRUE AND rejection_message IS NULL)
-	),
-	CONSTRAINT chk_appointment_location CHECK (
-		(is_custom = FALSE AND address IS NULL AND latitude IS NULL AND longitude IS NULL)
-		OR 
-		(is_custom = TRUE AND address IS NOT NULL AND latitude IS NOT NULL and longitude IS NOT NULL)
 	),
     CONSTRAINT chk_appointment_payment CHECK (
         (is_paid = FALSE AND payment_service_provider IS NULL AND psp_reference IS NULL)
