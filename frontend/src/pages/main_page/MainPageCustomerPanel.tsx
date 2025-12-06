@@ -21,8 +21,8 @@ export const MainPageCustomerPanel = () => {
                 segmentWeight="bold"
                 fontSize="xxl"
             />
-            <StandardButton onClick={onClick} disabled>
-                Log inaaaaaa
+            <StandardButton onClick={onClick}>
+                Log in
             </StandardButton>
         </Flex>
     </FullSpaceCenter>;
