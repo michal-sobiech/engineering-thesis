@@ -18,6 +18,7 @@ import { CreateEnterprisePage } from "../pages/entrepreneur/create_enterprise/Cr
 import { EntrepreneurLandingPage } from "../pages/entrepreneur/landing_page/EntrepreneurLandingPage";
 import { EntrepreneurLogInPage } from "../pages/entrepreneur/log-in/EntrepreneurLogInPage";
 import { MainPage } from "../pages/main_page/MainPage";
+import { PostAppointmentPaymentPage } from "../pages/payment/PostAppointmentPaymentPage";
 import { ServiceCreationPage } from "../pages/service/ServiceCreationPage";
 import { CreateServiceReviewPage } from "../pages/service/create-service-review/CreateServiceReviewPage";
 import { ManageServicePage } from "../pages/service/manage/ManageServicePage";
@@ -131,6 +132,10 @@ export const router = createBrowserRouter([
             {
                 path: routeTemplates.editRegularAdminPage,
                 element: <EditRegularAdminPage />
+            },
+            {
+                path: routeTemplates.postAppointmentPaymentPage,
+                element: <PostAppointmentPaymentPage />
             }
         ]
     }

@@ -26,4 +26,5 @@ export const routes = {
     regularAdminListPage: routeTemplates.regularAdminListPage,
     editRegularAdminPage: (userId: number) => generatePath(routeTemplates.editRegularAdminPage, { userId }),
     createRegularAdminPage: routeTemplates.createRegularAdminPage,
+    postAppointmentPaymentPage: routeTemplates.postAppointmentPaymentPage,
 } satisfies Record<keyof typeof routeTemplates, string | ((...args: any[]) => string)>;
