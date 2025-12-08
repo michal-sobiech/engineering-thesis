@@ -3,6 +3,7 @@ package pl.michal_sobiech.core.appointment;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.tuple.Pair;
@@ -22,6 +23,10 @@ public class AppointmentService {
     private final NonCustomAppointmentQueryService nonCustomAppointmentQueryService;
     private final CustomAppointmentQueryService customAppointmentQueryService;
     private final AppointmentRepository appointmentRepository;
+
+    public Optional<AppointmentEntity> getById(long appointmentId) {
+        return appointmentRepository.findById(appointmentId);
+    }
 
     public boolean canUserManageAppointment(long userId, long appointmentId) {
         // Appointment with given id must be an appointment of a service of an
@@ -63,19 +68,6 @@ public class AppointmentService {
         record.setPaymentServiceProvider(paymentServiceProvider);
         record.setPspReference(pspReference);
         record.setWasPayoutProcessed(false);
-        appointmentRepository.save(record);
-    }
-
-    public List<UncancelledScheduledAppointment> getPastScheduledAppointmentsWaitingForPayoutProcessing() {
-        return appointmentRepository.findPastScheduledAppointmentsWaitingForPayoutProcessing()
-                .stream()
-                .map(UncancelledScheduledAppointment::fromEntityOrThrow)
-                .collect(Collectors.toList());
-    }
-
-    public void setAppointmentPayoutProcessed(long appointmentId) {
-        AppointmentEntity record = appointmentRepository.findById(appointmentId).orElseThrow();
-        record.setWasPayoutProcessed(true);
         appointmentRepository.save(record);
     }
 

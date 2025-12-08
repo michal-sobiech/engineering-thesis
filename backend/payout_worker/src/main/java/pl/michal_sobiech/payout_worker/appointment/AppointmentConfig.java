@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Configuration;
 import pl.michal_sobiech.core.appointment.AppointmentRepository;
 import pl.michal_sobiech.core.appointment.AppointmentService;
 import pl.michal_sobiech.core.appointment.AppointmentWithDetailsService;
-import pl.michal_sobiech.core.appointment.ScheduledAppointmentService;
 import pl.michal_sobiech.core.appointment.custom.CustomAppointmentQueryService;
 import pl.michal_sobiech.core.appointment.custom.CustomAppointmentService;
 import pl.michal_sobiech.core.appointment.custom.CustomAppointmentWithDetailsService;
@@ -16,7 +15,6 @@ import pl.michal_sobiech.core.appointment.non_custom.NonCustomAppointmentsServic
 import pl.michal_sobiech.core.customer.CustomerService;
 import pl.michal_sobiech.core.enterprise_member.EnterpriseMemberService;
 import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceService;
-import pl.michal_sobiech.core.payment.RefundService;
 
 @Configuration
 public class AppointmentConfig {
@@ -36,16 +34,6 @@ public class AppointmentConfig {
             AppointmentService appointmentService,
             CustomerService customerService) {
         return new AppointmentWithDetailsService(appointmentService, customerService);
-    }
-
-    @Bean
-    public ScheduledAppointmentService scheduledAppointmentService(
-            AppointmentRepository appointmentRepository,
-            CustomAppointmentQueryService customAppointmentQueryService,
-            NonCustomAppointmentQueryService nonCustomAppointmentQueryService,
-            RefundService refundService) {
-        return new ScheduledAppointmentService(appointmentRepository, customAppointmentQueryService,
-                nonCustomAppointmentQueryService, refundService);
     }
 
     @Bean

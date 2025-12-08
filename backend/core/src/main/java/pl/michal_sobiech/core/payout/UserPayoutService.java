@@ -1,14 +1,11 @@
-package pl.michal_sobiech.payout_worker.user;
+package pl.michal_sobiech.core.payout;
 
 import org.javamoney.moneta.Money;
-import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.core.entrepreneur.Entrepreneur;
 import pl.michal_sobiech.core.entrepreneur.EntrepreneurService;
-import pl.michal_sobiech.payout_worker.payout.PayoutService;
 
-@Service
 @RequiredArgsConstructor
 public class UserPayoutService {
 

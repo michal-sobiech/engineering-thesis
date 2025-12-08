@@ -1,9 +1,7 @@
-package pl.michal_sobiech.payout_worker.payout;
+package pl.michal_sobiech.core.payout;
 
 import org.javamoney.moneta.Money;
-import org.springframework.stereotype.Service;
 
-@Service
 public class PayoutService {
 
     public void payOutFunds(String destinationIban, Money money) {
