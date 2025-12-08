@@ -47,6 +47,7 @@ import pl.michal_sobiech.engineering_thesis.auth.AuthService;
 // import pl.michal_sobiech.engineering_thesis.enterprise.PatchEnterpriseRequestDto;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.GetEnterpriseServiceCustomServiceResponseFactory;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.GetEnterpriseServiceNonCustomServiceResponseFactory;
+import pl.michal_sobiech.engineering_thesis.file.FileMapper;
 import pl.michal_sobiech.engineering_thesis.utils.DayOfWeekUtils;
 import pl.michal_sobiech.engineering_thesis.utils.HttpUtils;
 
@@ -147,9 +148,7 @@ public class EnterpriseController implements EnterprisesApi {
             Long enterpriseId,
             String name,
             String description,
-            org.SwaggerCodeGenExample.model.Location location,
-            String timeZone,
-            Boolean takesCustomAppointments,
+            org.SwaggerCodeGenExample.model.Location swaggerLocation,
             MultipartFile logoFile,
             MultipartFile backgroundPhotoFile) {
 
@@ -161,15 +160,15 @@ public class EnterpriseController implements EnterprisesApi {
             return HttpUtils.createForbiddenResponse();
         }
 
-        // TODO
-        // PatchEnterpriseRequestDto requestDto = new PatchEnterpriseRequestDto(
-        // enterpriseId,
-        // Optional.ofNullable(name),
-        // Optional.ofNullable(description),
-        // Optional.ofNullable(location),
-        // Optional.ofNullable(logoFile),
-        // Optional.ofNullable(backgroundPhotoFile));
-        // enterpriseService.patchEnterprise(requestDto);
+        Location location = LocationMapper.fromSwagger(swaggerLocation);
+
+        enterpriseService.patchEnterprise(
+                enterpriseId.longValue(),
+                Optional.ofNullable(name),
+                Optional.ofNullable(description),
+                Optional.ofNullable(location),
+                Optional.ofNullable(logoFile).map(FileMapper::fromMultipartFile),
+                Optional.ofNullable(backgroundPhotoFile).map(FileMapper::fromMultipartFile));
 
         return ResponseEntity.ok().build();
     }

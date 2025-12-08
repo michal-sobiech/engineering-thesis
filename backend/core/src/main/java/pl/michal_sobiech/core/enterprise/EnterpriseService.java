@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import pl.michal_sobiech.core.location.Location;
 import pl.michal_sobiech.core.model.File;
 
 @RequiredArgsConstructor
@@ -56,24 +57,25 @@ public class EnterpriseService {
         return enterpriseRepository.findById(enterpriseId).map(Enterprise::fromEntity);
     }
 
-    // @Transactional
-    // public void patchEnterprise(PatchEnterpriseRequestDto request) {
+    @Transactional
+    public void patchEnterprise(
+            long enterpriseId,
+            Optional<String> name,
+            Optional<String> description,
+            Optional<Location> location,
+            Optional<File> logo,
+            Optional<File> backgroundPhoto) {
+        EnterpriseEntity enterprise = enterpriseRepository.findById(enterpriseId).orElseThrow();
 
-    // // TODO
+        name.ifPresent(value -> enterprise.setName(value));
+        description.ifPresent(value -> enterprise.setDescription(value));
 
-    // // EnterpriseEntity enterprise =
-    // // enterpriseRepository.findById(request.enterpriseId()).orElseThrow();
-
-    // // request.name().ifPresent(name -> enterprise.setName(name));
-    // // request.description().ifPresent(description ->
-    // // enterprise.setDescription(description));
-
-    // // request.location().ifPresent(location -> {
-    // // enterprise.setAddress(location.getAddress());
-    // // enterprise.setLongitude(location.getLongitude());
-    // // enterprise.setLatitude(location.getLatitude());
-    // // });
-    // }
+        location.ifPresent(value -> {
+            enterprise.setAddress(value.address());
+            enterprise.setLongitude(value.longitude());
+            enterprise.setLatitude(value.latitude());
+        });
+    }
 
     public List<Enterprise> searchEnterprisesWithSubstringInName(String substring) {
         return enterpriseRepository.findByNameContaining(substring)

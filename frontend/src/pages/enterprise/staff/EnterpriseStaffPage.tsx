@@ -14,6 +14,7 @@ import { StandardTextField } from "../../../common/StandardTextField";
 import { StandardVerticalSeparator } from "../../../common/StandardVerticalSeparator";
 import { GetEnterpriseService200Response, Location } from "../../../GENERATED-api";
 import { routes } from "../../../router/routes";
+import { toastError } from "../../../utils/toast";
 import { fetchServices } from "../../service/service-utils";
 import { fetchEnterpriseData } from "../utils";
 
@@ -35,15 +36,16 @@ export const EnterpriseStaffPage = () => {
     }
 
     const onSaveClick = () => {
-        // enterprisesApi.patchEnterprise(
-        //     enterpriseId,
-        //     name ?? undefined,
-        //     description ?? undefined,
-        //     location ?? undefined,
-        //     logoFile ?? undefined,
-        //     backgroundPhotoFile ?? undefined
-        // );
-        // TODO
+        enterprisesApi.patchEnterprise(
+            enterpriseId,
+            name ?? undefined,
+            description ?? undefined,
+            location ?? undefined,
+            logoFile ?? undefined,
+            backgroundPhotoFile ?? undefined
+        ).catch(() => {
+            toastError("Couldn't edit enterprise. Try again later");
+        });
         navigate(routes.enterprisePublic(enterpriseId));
     }
 
@@ -75,7 +77,7 @@ export const EnterpriseStaffPage = () => {
         loadServicesData();
     }, [])
 
-    return <Box height="100vh" overflowY="auto" alignContent="center">
+    return <Box height="100%" overflowY="auto" alignContent="center">
         <Center>
             <StandardPanel width="50%" height="80%">
                 <StandardFlex>

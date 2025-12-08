@@ -379,7 +379,6 @@ components:
 
     PatchEnterpriseRequest:
       type: object
-      required: [name, description, location, timeZone, takesCustomAppointments]
       properties:
         name:
           type: string
@@ -389,10 +388,6 @@ components:
           example: The new best barbershop in town.
         location:
           $ref: "#/components/schemas/Location"
-        timeZone:
-          type: string
-        takesCustomAppointments:
-          type: boolean
         logoFile:
           type: string
           format: binary
