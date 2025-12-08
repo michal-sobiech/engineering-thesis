@@ -1,16 +1,16 @@
 import { Box, Center, Flex, Spacer, Text } from "@chakra-ui/react"
 import { LocalDate, LocalTime } from "@js-joda/core"
 import { useState } from "react"
-import { ReportServiceButton } from "../../../../common/report/ReportServiceButton.tsx"
+import { useServiceIdFromLoader } from "../../../../common/loader/service-id-loader"
+import { ReportServiceButton } from "../../../../common/report/ReportServiceButton"
 import { StandardPanel } from "../../../../common/StandardPanel"
-import { useIntParam } from "../../../../hooks/useIntParam"
 import { NoCustomAppointmentsServicePublicPageCalendar } from "./NoCustomAppointmentsServicePublicPageCalendar"
 import { NoCustomAppointmentsServicePublicPageContext, NoCustomAppointmentsServicePublicPageContextValue } from "./NoCustomAppointmentsServicePublicPageContextValue"
 import { NoCustomAppointmentsServicePublicPageSlotList } from "./NoCustomAppointmentsServicePublicPageSlotList"
 import { NonCustomAppointmentsServicePublicPageAppointmentMaker } from "./NonCustomAppointmentsServicePageAppointmentMaker"
 
 export const NoCustomAppointmentsServicePublicPage = () => {
-    const serviceId = useIntParam("serviceId");
+    const serviceId = useServiceIdFromLoader();
 
     const [selectedDate, setSelectedDate] = useState<LocalDate | null>(null);
     const [freeSlotsOnSelectedDate, setFreeSlotsOnSelectedDate] = useState<[LocalTime, LocalTime][] | null>(null);

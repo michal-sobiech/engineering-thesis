@@ -8,14 +8,14 @@ import { LocalDate, LocalTime } from "@js-joda/core";
 import { ResultAsync } from "neverthrow";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { useServicesApi } from "../../../../api/services-api";
-import { useIntParam } from "../../../../hooks/useIntParam";
+import { useServiceIdFromLoader } from "../../../../common/loader/service-id-loader";
 import { createUtcDateFromLocalDate, extractLocalDateFromDate } from "../../../../utils/date";
 import { errorErrResultAsyncFromPromise } from "../../../../utils/result";
 import { toastError } from "../../../../utils/toast";
 
 export const NoCustomAppointmentsServicePublicPageCalendar = () => {
     const servicesApi = useServicesApi();
-    const serviceId = useIntParam("serviceId");
+    const serviceId = useServiceIdFromLoader();
 
     const { selectedDate, setSelectedDate, setFreeSlotsOnSelectedDate: setFreeAppointmentsOnSelectedDate } = useContextOrThrow(NoCustomAppointmentsServicePublicPageContext);
 

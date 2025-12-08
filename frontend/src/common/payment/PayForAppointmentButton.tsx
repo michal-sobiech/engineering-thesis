@@ -23,8 +23,7 @@ const PayForAppointmentButtonAppointmentNotPaid: FC<ButtonProps & { appointmentI
     const appointmentsApi = useAppointmentsApi();
 
     const onClick = async () => {
-        const returnUrl = joinURL(window.location.origin, routes.customerLandingPage);
-        console.log(returnUrl.toString());
+        const returnUrl = joinURL(window.location.origin, routes.postAppointmentPaymentPage);
         const promise = appointmentsApi.createAdyenSession(appointmentId, { returnUrl: returnUrl.toString() });
         const resultAsync = errorErrResultAsyncFromPromise(promise);
         const result = await resultAsync;
@@ -33,6 +32,8 @@ const PayForAppointmentButtonAppointmentNotPaid: FC<ButtonProps & { appointmentI
             toastError(DEFAULT_ERROR_MESSAGE_FOR_USER);
             return;
         }
+
+        console.log(returnUrl.toString());
 
         window.location.href = result.value.redirectUrl;
     }

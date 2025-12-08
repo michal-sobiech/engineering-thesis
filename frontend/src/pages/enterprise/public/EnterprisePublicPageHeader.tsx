@@ -1,7 +1,7 @@
 import { AspectRatio, Center, Flex, Image, Text } from "@chakra-ui/react";
 import { FC } from "react";
+import { useEnterpriseIdFromLoader } from "../../../common/loader/enterprise-id-loader";
 import { ReportEnterpriseButton } from "../../../common/report/ReportEnterpriseButton";
-import { useIntParam } from "../../../hooks/useIntParam";
 
 export interface EnterprisePublicPageHeaderProps {
     enterpriseName: string,
@@ -9,7 +9,7 @@ export interface EnterprisePublicPageHeaderProps {
 }
 
 export const EnterprisePublicPageHeader: FC<EnterprisePublicPageHeaderProps> = ({ enterpriseName, imageUrl }) => {
-    const enterpriseId = useIntParam("enterpriseId");
+    const enterpriseId = useEnterpriseIdFromLoader();
 
     return <Flex direction="row">
         <AspectRatio ratio={1} width="100px">

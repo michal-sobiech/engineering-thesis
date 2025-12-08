@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useServicesApi } from "../../../api/services-api";
-import { useIntParam } from "../../../hooks/useIntParam";
+import { useServiceIdFromLoader } from "../../../common/loader/service-id-loader";
 import { useNavigateWithToastDismiss } from "../../../hooks/useNavigateWithToastDismiss";
 import { routes } from "../../../router/routes";
 import { errorErrResultAsyncFromPromise } from "../../../utils/result";
@@ -10,7 +10,7 @@ import { ManageNonCustomServicePage } from "./non-custom/ManageNonCustomServiceP
 export const ManageServicePage = () => {
     const navigate = useNavigateWithToastDismiss();
     const servicesApi = useServicesApi();
-    const serviceId = useIntParam("serviceId");
+    const serviceId = useServiceIdFromLoader();
 
     const [isServiceCustom, setIsServiceCustom] = useState<boolean | null>(null)
 

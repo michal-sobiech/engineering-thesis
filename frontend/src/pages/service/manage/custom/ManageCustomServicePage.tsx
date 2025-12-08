@@ -2,8 +2,8 @@ import { Box, Center, Flex } from "@chakra-ui/react";
 import { LocalDateTime } from "@js-joda/core";
 import { useEffect, useState } from "react";
 import { useServicesApi } from "../../../../api/services-api";
+import { useServiceIdFromLoader } from "../../../../common/loader/service-id-loader";
 import { StandardPanel } from "../../../../common/StandardPanel";
-import { useIntParam } from "../../../../hooks/useIntParam";
 import { useNavigateWithToastDismiss } from "../../../../hooks/useNavigateWithToastDismiss";
 import { routes } from "../../../../router/routes";
 import { errorErrResultAsyncFromPromise } from "../../../../utils/result";
@@ -15,7 +15,7 @@ import { ManageCustomServicePagePendingAppointmentsList } from "./ManageCustomSe
 
 export const ManageCustomServicePage = () => {
     const navigate = useNavigateWithToastDismiss();
-    const serviceId = useIntParam("serviceId");
+    const serviceId = useServiceIdFromLoader();
     const servicesApi = useServicesApi();
 
     const [futureScheduledAppointments, setFutureScheduledAppointments] = useState<ManageCustomServicePageFutureScheduledAppointment[]>([]);

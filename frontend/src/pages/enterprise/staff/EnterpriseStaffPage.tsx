@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useEnterprisesApi } from "../../../api/enterprises-api";
 import { LinkScrollableList } from "../../../common/LinkScrollableList";
+import { useEnterpriseIdFromLoader } from "../../../common/loader/enterprise-id-loader";
 import { StandardBox } from "../../../common/StandardBox";
 import { StandardButton } from "../../../common/StandardButton";
 import { StandardFileInput } from "../../../common/StandardFileInput";
@@ -12,7 +13,6 @@ import { StandardPanel } from "../../../common/StandardPanel";
 import { StandardTextField } from "../../../common/StandardTextField";
 import { StandardVerticalSeparator } from "../../../common/StandardVerticalSeparator";
 import { GetEnterpriseService200Response, Location } from "../../../GENERATED-api";
-import { useIntParam } from "../../../hooks/useIntParam";
 import { routes } from "../../../router/routes";
 import { fetchServices } from "../../service/service-utils";
 import { fetchEnterpriseData } from "../utils";
@@ -20,7 +20,7 @@ import { fetchEnterpriseData } from "../utils";
 export const EnterpriseStaffPage = () => {
     const enterprisesApi = useEnterprisesApi();
     const navigate = useNavigate();
-    const enterpriseId = useIntParam("enterpriseId");
+    const enterpriseId = useEnterpriseIdFromLoader();
 
     const [name, setName] = useState<string | null>(null);
     const [description, setDescription] = useState<string | null>(null);

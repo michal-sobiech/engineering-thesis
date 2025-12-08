@@ -1,10 +1,10 @@
 import { LocalDateTime } from "@js-joda/core";
 import { useNavigate } from "react-router";
 import { useAppointmentsApi } from "../../../../api/appointments-api";
+import { useServiceIdFromLoader } from "../../../../common/loader/service-id-loader";
 import { StandardButton } from "../../../../common/StandardButton";
 import { ResponseError } from "../../../../GENERATED-api";
 import { useContextOrThrow } from "../../../../hooks/useContextOrThrow";
-import { useIntParam } from "../../../../hooks/useIntParam";
 import { routes } from "../../../../router/routes";
 import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../../../utils/error";
 import { toastError, toastSuccess } from "../../../../utils/toast";
@@ -21,7 +21,7 @@ export const CustomAppointmentsServicePublicPageAppointmentMakerButton = () => {
         position,
     } = useContextOrThrow(CustomAppointmentsServicePublicPageContext);
 
-    const serviceId = useIntParam("serviceId");
+    const serviceId = useServiceIdFromLoader();
 
     const navigate = useNavigate();
 

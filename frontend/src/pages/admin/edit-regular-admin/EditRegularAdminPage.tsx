@@ -2,19 +2,20 @@ import { Center, Flex, Heading } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useRegularAdminsApi } from "../../../api/regular-admins-api";
+import { useUserIdFromLoader } from "../../../common/loader/user-id-loader";
 import { StandardButton } from "../../../common/StandardButton";
 import { StandardFlex } from "../../../common/StandardFlex";
 import { StandardLabeledContainer } from "../../../common/StandardLabeledContainer";
 import { StandardPanel } from "../../../common/StandardPanel";
 import { StandardTextField } from "../../../common/StandardTextField";
 import { PatchRegularAdminRequest, ResponseError } from "../../../GENERATED-api";
-import { useIntParam } from "../../../hooks/useIntParam";
 import { routes } from "../../../router/routes";
 import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../../utils/error";
 import { toastError, toastSuccess } from "../../../utils/toast";
 
 export const EditRegularAdminPage = () => {
-    const adminUserId = useIntParam("userId");
+    const adminUserId = useUserIdFromLoader();
+
     const regularAdminsApi = useRegularAdminsApi();
     const navigate = useNavigate();
 

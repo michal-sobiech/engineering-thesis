@@ -1,8 +1,8 @@
 import { FC, PropsWithChildren, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useEnterprisesApi } from "../../../../api/enterprises-api";
+import { useEnterpriseIdFromLoader } from "../../../../common/loader/enterprise-id-loader";
 import { Location } from "../../../../GENERATED-api";
-import { useIntParam } from "../../../../hooks/useIntParam";
 import { routes } from "../../../../router/routes";
 import { errorErrResultAsyncFromPromise } from "../../../../utils/result";
 import { EnterpriseContext } from "./EnterpriseContext";
@@ -12,7 +12,7 @@ export const EnterpriseContextProvider: FC<PropsWithChildren> = ({ children }) =
     const enterprisesApi = useEnterprisesApi();
     const navigate = useNavigate();
 
-    const enterpriseId = useIntParam("enterpriseId");
+    const enterpriseId = useEnterpriseIdFromLoader();
 
     const [enterpriseName, setEnterpriseName] = useState<string>("");
     const [enterpriseDescription, setEnterpriseDescription] = useState<string>("");

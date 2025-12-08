@@ -2,13 +2,13 @@ import { Box, Center, Flex, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useEnterprisesApi } from "../../../api/enterprises-api";
+import { useEnterpriseIdFromLoader } from "../../../common/loader/enterprise-id-loader";
 import { ScrollableList } from "../../../common/ScrollableList";
 import { StandardBox } from "../../../common/StandardBox";
 import { StandardHorizontalSeparator } from "../../../common/StandardHorizontalSeparator";
 import { StandardLabeledContainer } from "../../../common/StandardLabeledContainer";
 import { StandardPanel } from "../../../common/StandardPanel";
 import { Location } from "../../../GENERATED-api";
-import { useIntParam } from "../../../hooks/useIntParam";
 import { routes } from "../../../router/routes";
 import { fetchEnterpriseData } from "../utils";
 import { EnterprisePublicPageHeader } from "./EnterprisePublicPageHeader";
@@ -17,7 +17,7 @@ import { EnterprisePublicPageServicesList } from "./EnterprisePublicPageServices
 export const EnterprisePublicPage = () => {
     const enteprisesApi = useEnterprisesApi();
     const navigate = useNavigate();
-    const enterpriseId = useIntParam("enterpriseId");
+    const enterpriseId = useEnterpriseIdFromLoader();
 
     const [name, setName] = useState<string | null>(null);
     const [description, setDescription] = useState<string | null>(null);

@@ -1,12 +1,12 @@
 import { Box, Center, Text } from "@chakra-ui/react";
 import { toast } from "react-toastify";
 import { useEnterpriseEmployeesApi } from "../../../../api/enterprise-employees-api";
+import { useEnterpriseIdFromLoader } from "../../../../common/loader/enterprise-id-loader";
 import { StandardButton } from "../../../../common/StandardButton";
 import { StandardFlex } from "../../../../common/StandardFlex";
 import { StandardPanel } from "../../../../common/StandardPanel";
 import { StandardTextField } from "../../../../common/StandardTextField";
 import { useContextOrThrow } from "../../../../hooks/useContextOrThrow";
-import { useIntParam } from "../../../../hooks/useIntParam";
 import { validatePassword } from "../../../../services/validate-password";
 import { errorErrResultAsyncFromPromise } from "../../../../utils/result";
 import { toastError } from "../../../../utils/toast";
@@ -14,7 +14,8 @@ import { employeeCreationWizardContext } from "../wizard/EmployeeCreationWizardC
 
 export const EmployeeCreationEnterPasswordPage = () => {
     const enterpriseEmployeesApi = useEnterpriseEmployeesApi();
-    const enterpriseId = useIntParam("enterpriseId");
+    const enterpriseId = useEnterpriseIdFromLoader();
+
     const { incrementStep, username, firstName, lastName, password, setPassword } = useContextOrThrow(employeeCreationWizardContext);
 
     const onNextButtonClick = async () => {

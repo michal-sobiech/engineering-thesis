@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.net.URL;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.tuple.Pair;
@@ -44,6 +45,9 @@ public class AdyenSessionService {
 
         String merchantReference = MerchantReferenceUtils.createMerchantReference(paymentSubjectType, paymentSubjectId);
 
+        System.out.println("ABBCC");
+        System.out.println(returnUrl);
+
         CreateCheckoutSessionRequest request = new CreateCheckoutSessionRequest()
                 .reference(merchantReference)
                 .mode(CreateCheckoutSessionRequest.ModeEnum.HOSTED)
@@ -54,7 +58,7 @@ public class AdyenSessionService {
         try {
             return adyenPaymentsApi.sessions(
                     request,
-                    new RequestOptions().idempotencyKey("UUID"));
+                    new RequestOptions().idempotencyKey(UUID.randomUUID().toString()));
         } catch (Exception exception) {
             throw new RuntimeException(exception);
         }

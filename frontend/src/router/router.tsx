@@ -1,4 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
+import { enterpriseIdLoader } from "../common/loader/enterprise-id-loader";
+import { serviceIdLoader } from "../common/loader/service-id-loader";
+import { userIdLoader } from "../common/loader/user-id-loader";
 import { CreateRegularAdminPage } from "../pages/admin/create-regular-admin/CreateAdminPage";
 import { EditRegularAdminPage } from "../pages/admin/edit-regular-admin/EditRegularAdminPage";
 import { AdminLogInPage } from "../pages/admin/log-in/AdminLogInPage";
@@ -19,6 +22,7 @@ import { EntrepreneurLandingPage } from "../pages/entrepreneur/landing_page/Entr
 import { EntrepreneurLogInPage } from "../pages/entrepreneur/log-in/EntrepreneurLogInPage";
 import { MainPage } from "../pages/main_page/MainPage";
 import { PostAppointmentPaymentPage } from "../pages/payment/PostAppointmentPaymentPage";
+import { postPaymentPageLoader } from "../pages/payment/PostPaymentPage";
 import { ServiceCreationPage } from "../pages/service/ServiceCreationPage";
 import { CreateServiceReviewPage } from "../pages/service/create-service-review/CreateServiceReviewPage";
 import { ManageServicePage } from "../pages/service/manage/ManageServicePage";
@@ -63,6 +67,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: routeTemplates.createEnterpriseEmployee,
+                loader: enterpriseIdLoader,
                 element: <EmployeeCreationWizard />
             },
             {
@@ -71,14 +76,17 @@ export const router = createBrowserRouter([
             },
             {
                 path: routeTemplates.enterprisePublic,
+                loader: enterpriseIdLoader,
                 element: <EnterprisePublicPage />
             },
             {
                 path: routeTemplates.enterpriseStaff,
+                loader: enterpriseIdLoader,
                 element: <EnterpriseStaffPage />
             },
             {
                 path: routeTemplates.enterpriseCreateService,
+                loader: enterpriseIdLoader,
                 element: <ServiceCreationPage />
             },
             {
@@ -87,6 +95,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: routeTemplates.servicePublicPage,
+                loader: serviceIdLoader,
                 element: <ServicePublicPage />
             },
             {
@@ -107,6 +116,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: routeTemplates.createServiceReview,
+                loader: serviceIdLoader,
                 element: <CreateServiceReviewPage />
             },
             {
@@ -119,6 +129,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: routeTemplates.manageServicePage,
+                loader: serviceIdLoader,
                 element: <ManageServicePage />
             },
             {
@@ -131,10 +142,12 @@ export const router = createBrowserRouter([
             },
             {
                 path: routeTemplates.editRegularAdminPage,
+                loader: userIdLoader,
                 element: <EditRegularAdminPage />
             },
             {
                 path: routeTemplates.postAppointmentPaymentPage,
+                loader: postPaymentPageLoader,
                 element: <PostAppointmentPaymentPage />
             }
         ]

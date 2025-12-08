@@ -12,7 +12,7 @@ import { StandardLabeledContainer } from "../../common/StandardLabeledContainer"
 import { StandardPanel } from "../../common/StandardPanel";
 import { StandardTextField } from "../../common/StandardTextField";
 import { StandardTimeZonePicker } from "../../common/StandardTimeZonePicker";
-import { useIntParam } from "../../hooks/useIntParam";
+import { useEnterpriseIdFromLoader } from "../../common/loader/enterprise-id-loader";
 import { routes } from "../../router/routes";
 import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../utils/error";
 import { combine, errorErrResultAsyncFromPromise } from "../../utils/result";
@@ -30,7 +30,7 @@ export const ServiceCreationPage = () => {
     const enterprisesApi = useEnterprisesApi();
     const servicesApi = useServicesApi();
     const navigate = useNavigate();
-    const enterpriseId = useIntParam("enterpriseId");
+    const enterpriseId = useEnterpriseIdFromLoader();
 
     const [enterpriseName, setEnterpriseName] = useState<string>("");
     const [serviceName, setServiceName] = useState<string>("");

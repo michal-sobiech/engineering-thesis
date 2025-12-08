@@ -2,12 +2,12 @@ import { Box, Center, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useServicesApi } from "../../../api/services-api";
 import { FiveStarPicker } from "../../../common/FiveStarPicker";
+import { useServiceIdFromLoader } from "../../../common/loader/service-id-loader";
 import { StandardButton } from "../../../common/StandardButton";
 import { StandardFlex } from "../../../common/StandardFlex";
 import { StandardPanel } from "../../../common/StandardPanel";
 import { StandardTextArea } from "../../../common/StandardTextArea";
 import { GetEnterpriseService200Response } from "../../../GENERATED-api";
-import { useIntParam } from "../../../hooks/useIntParam";
 import { useNavigateWithToastDismiss } from "../../../hooks/useNavigateWithToastDismiss";
 import { routes } from "../../../router/routes";
 import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../../utils/error";
@@ -16,7 +16,7 @@ import { toastError } from "../../../utils/toast";
 
 export const CreateServiceReviewPage = () => {
     const servicesApi = useServicesApi();
-    const serviceId = useIntParam("serviceId");
+    const serviceId = useServiceIdFromLoader();
     const navigate = useNavigateWithToastDismiss();
 
     const [serviceData, setServiceData] = useState<GetEnterpriseService200Response | null>(null);

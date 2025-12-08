@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useServicesApi } from "../../../api/services-api";
-import { useIntParam } from "../../../hooks/useIntParam";
+import { useServiceIdFromLoader } from "../../../common/loader/service-id-loader";
 import { routes } from "../../../router/routes";
 import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../../utils/error";
 import { errorErrResultAsyncFromPromise } from "../../../utils/result";
@@ -12,7 +12,7 @@ import { NoCustomAppointmentsServicePublicPage } from "./no_custom_appointments/
 export const ServicePublicPage = () => {
     const servicesApi = useServicesApi();
     const navigate = useNavigate();
-    const serviceId = useIntParam("serviceId");
+    const serviceId = useServiceIdFromLoader();
 
     const [areCustomAppointmentsEnabled, setAreCustomAppointmentsEnabled] = useState<boolean | null>(null);
 
