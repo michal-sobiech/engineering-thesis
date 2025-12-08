@@ -1,11 +1,15 @@
 package pl.michal_sobiech.core.appointment;
 
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.javamoney.moneta.Money;
 
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.core.appointment.custom.CustomAppointmentQueryService;
 import pl.michal_sobiech.core.appointment.non_custom.NonCustomAppointmentQueryService;
+import pl.michal_sobiech.core.payment.RefundService;
 
 @RequiredArgsConstructor
 public class ScheduledAppointmentService {
@@ -13,6 +17,7 @@ public class ScheduledAppointmentService {
     private final AppointmentRepository appointmentRepository;
     private final CustomAppointmentQueryService customAppointmentQueryService;
     private final NonCustomAppointmentQueryService nonCustomAppointmentQueryService;
+    private final RefundService refundService;
 
     public List<UncancelledScheduledAppointment> getCustomerUncancelledFutureScheduledAppointments(
             long customerUserId) {
@@ -43,7 +48,7 @@ public class ScheduledAppointmentService {
         return all;
     }
 
-    public void cancelAppointment(long appointmentId) {
+    public void markAppointmentAsCancelled(long appointmentId) {
         AppointmentEntity appointment = appointmentRepository.findById(appointmentId).orElseThrow();
         appointment.setCancelled(true);
         appointmentRepository.save(appointment);
@@ -53,6 +58,23 @@ public class ScheduledAppointmentService {
         AppointmentEntity appointment = appointmentRepository.findById(appointmentId).orElseThrow();
         appointment.setPaid(true);
         appointmentRepository.save(appointment);
+    }
+
+    private boolean isAppointmentOver(AppointmentEntity appointment) {
+        return appointment.getEndTime().isBefore(OffsetDateTime.now());
+    }
+
+    public void cancelAppointment(long appointmentId) {
+        AppointmentEntity appointment = appointmentRepository.findById(appointmentId).orElseThrow();
+        boolean isAppointmentOver = isAppointmentOver(appointment);
+        if (!isAppointmentOver) {
+            String pspReference = appointment.getPspReference();
+            Money amount = Money.of(
+                    appointment.getPrice(),
+                    appointment.getCurrency().toString());
+            refundService.processRefund(appointment.getPaymentServiceProvider(), pspReference, amount);
+        }
+        markAppointmentAsCancelled(appointmentId);
     }
 
 }

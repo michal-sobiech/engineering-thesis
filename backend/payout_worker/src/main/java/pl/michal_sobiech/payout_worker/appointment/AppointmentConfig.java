@@ -16,6 +16,7 @@ import pl.michal_sobiech.core.appointment.non_custom.NonCustomAppointmentsServic
 import pl.michal_sobiech.core.customer.CustomerService;
 import pl.michal_sobiech.core.enterprise_member.EnterpriseMemberService;
 import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceService;
+import pl.michal_sobiech.core.payment.RefundService;
 
 @Configuration
 public class AppointmentConfig {
@@ -41,9 +42,10 @@ public class AppointmentConfig {
     public ScheduledAppointmentService scheduledAppointmentService(
             AppointmentRepository appointmentRepository,
             CustomAppointmentQueryService customAppointmentQueryService,
-            NonCustomAppointmentQueryService nonCustomAppointmentQueryService) {
+            NonCustomAppointmentQueryService nonCustomAppointmentQueryService,
+            RefundService refundService) {
         return new ScheduledAppointmentService(appointmentRepository, customAppointmentQueryService,
-                nonCustomAppointmentQueryService);
+                nonCustomAppointmentQueryService, refundService);
     }
 
     @Bean

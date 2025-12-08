@@ -5,10 +5,12 @@ import org.springframework.context.annotation.Configuration;
 
 import com.adyen.Client;
 import com.adyen.enums.Environment;
+import com.adyen.service.checkout.ModificationsApi;
 import com.adyen.service.checkout.PaymentsApi;
 
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.core.adyen.AdyenProperties;
+import pl.michal_sobiech.core.adyen.AdyenRefundService;
 import pl.michal_sobiech.core.adyen.AdyenSessionService;
 import pl.michal_sobiech.core.appointment.AppointmentService;
 
@@ -37,6 +39,16 @@ public class AdyenConfig {
     public AdyenSessionService adyenSessionService(AdyenProperties adyenProperties, PaymentsApi adyenPaymentsApi,
             AppointmentService appointmentService) {
         return new AdyenSessionService(adyenProperties, adyenPaymentsApi, appointmentService);
+    }
+
+    @Bean
+    public ModificationsApi adyenModificationsApi(Client adyenClient) {
+        return new ModificationsApi(adyenClient);
+    }
+
+    @Bean
+    public AdyenRefundService adyenRefundService(ModificationsApi modificationsApi, AdyenProperties adyenProperties) {
+        return new AdyenRefundService(modificationsApi, adyenProperties);
     }
 
 }

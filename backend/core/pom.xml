@@ -59,6 +59,13 @@
 			<artifactId>gt-main</artifactId>
 			<version>33.0</version>
 		</dependency>
+
+        <dependency>
+            <groupId>org.javamoney</groupId>
+            <artifactId>moneta</artifactId>
+            <version>1.4.4</version>
+            <type>pom</type>
+        </dependency>
     </dependencies>
 
 	<build>
