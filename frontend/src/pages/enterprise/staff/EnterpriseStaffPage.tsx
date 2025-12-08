@@ -29,6 +29,8 @@ export const EnterpriseStaffPage = () => {
     const [logoFile, setLogoFile] = useState<File | null>(null);
     const [backgroundPhotoFile, setBackgroundPhotoFile] = useState<File | null>(null);
 
+    console.log(logoFile?.name);
+
     const [services, setServices] = useState<GetEnterpriseService200Response[]>([]);
 
     const onDicardClick = () => {
@@ -50,19 +52,16 @@ export const EnterpriseStaffPage = () => {
     }
 
     useEffect(() => {
-        async function loadEnterpriseData(): Promise<void> {
-            const data = await fetchEnterpriseData(enterpriseId, enterprisesApi);
-            if (data.isErr()) {
+        fetchEnterpriseData(enterpriseId, enterprisesApi)
+            .then(response => {
+                setName(response.name);
+                setDescription(response.description);
+                setLocation(response.location);
+                setLogoFile(response.logo);
+                setBackgroundPhotoFile(response.backgroundPhoto);
+            }).catch(() => {
                 navigate(routes.mainPage);
-                return;
-            }
-            setName(data.value.name);
-            setDescription(data.value.description);
-            setLocation(data.value.location);
-            setLogoFile(data.value.logo);
-            setBackgroundPhotoFile(data.value.backgroundPhoto);
-        }
-        loadEnterpriseData();
+            });
     }, []);
 
     useEffect(() => {

@@ -15,7 +15,7 @@ import { EnterprisePublicPageHeader } from "./EnterprisePublicPageHeader";
 import { EnterprisePublicPageServicesList } from "./EnterprisePublicPageServicesList";
 
 export const EnterprisePublicPage = () => {
-    const enteprisesApi = useEnterprisesApi();
+    const enterprisesApi = useEnterprisesApi();
     const navigate = useNavigate();
     const enterpriseId = useEnterpriseIdFromLoader();
 
@@ -26,18 +26,16 @@ export const EnterprisePublicPage = () => {
     const [backgroundPhotoFile, setBackgroundPhotoFile] = useState<File | null>(null);
 
     useEffect(() => {
-        async function loadData(): Promise<void> {
-            const data = await fetchEnterpriseData(enterpriseId, enteprisesApi);
-            if (data.isErr()) {
-                throw navigate(routes.mainPage);
-            }
-            setName(data.value.name);
-            setDescription(data.value.description);
-            setLocation(data.value.location);
-            setLogoFile(data.value.logo);
-            setBackgroundPhotoFile(data.value.backgroundPhoto);
-        }
-        loadData();
+        fetchEnterpriseData(enterpriseId, enterprisesApi)
+            .then(response => {
+                setName(response.name);
+                setDescription(response.description);
+                setLocation(response.location);
+                setLogoFile(response.logo);
+                setBackgroundPhotoFile(response.backgroundPhoto);
+            }).catch(() => {
+                navigate(routes.mainPage);
+            });
     }, []);
 
     const logoObjectUrl = logoFile ? URL.createObjectURL(logoFile) : undefined;

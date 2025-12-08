@@ -11,7 +11,7 @@ public class FileMapper {
     public static File fromMultipartFile(MultipartFile file) {
         try {
             return new File(
-                    file.getName(),
+                    file.getOriginalFilename(),
                     file.getBytes());
         } catch (IOException exception) {
             throw new RuntimeException(exception);

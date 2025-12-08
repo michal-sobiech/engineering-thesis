@@ -75,6 +75,18 @@ public class EnterpriseService {
             enterprise.setLongitude(value.longitude());
             enterprise.setLatitude(value.latitude());
         });
+
+        logo.ifPresent(value -> {
+            enterprise.setLogoFileName(value.name());
+            enterprise.setLogoFileBytes(value.bytes());
+        });
+
+        backgroundPhoto.ifPresent(value -> {
+            enterprise.setBackgroundPhotoFileName(value.name());
+            enterprise.setBackgroundPhotoFileBytes(value.bytes());
+        });
+
+        enterpriseRepository.save(enterprise);
     }
 
     public List<Enterprise> searchEnterprisesWithSubstringInName(String substring) {

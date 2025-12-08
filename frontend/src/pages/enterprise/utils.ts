@@ -1,38 +1,65 @@
-import { err, ok, Result, ResultAsync } from "neverthrow";
-import { EnterprisesApi } from "../../GENERATED-api";
-import { errorErrResultAsyncFromPromise, promiseResultToErrorAsyncResult } from "../../utils/result";
+import { EnterprisesApi, ResponseError } from "../../GENERATED-api";
+import { extractContentDispositionHeaderValue } from "../../utils/http";
 import { EnterpriseData } from "./EnterpriseData";
 
-export function fetchEnterpriseData(enterpriseId: number, enterprisesApi: EnterprisesApi): ResultAsync<EnterpriseData, Error> {
-    async function createPromise(): Promise<Result<EnterpriseData, Error>> {
-        const enterprisePromise = enterprisesApi.getEnterprise(enterpriseId);
-        const enterpriseResult = await errorErrResultAsyncFromPromise(enterprisePromise);
-        if (enterpriseResult.isErr()) {
-            return err(enterpriseResult.error);
+export async function fetchEnterpriseData(enterpriseId: number, enterprisesApi: EnterprisesApi): Promise<EnterpriseData> {
+    const basicData = await enterprisesApi.getEnterprise(enterpriseId);
+
+    const logo = await fetchEnterpriseLogo(enterpriseId, enterprisesApi);
+    const backgroundPhoto = await fetchEnterpriseBackgroundPhoto(enterpriseId, enterprisesApi);
+
+    return {
+        name: basicData.name,
+        description: basicData.description,
+        location: basicData.location ?? null,
+        logo,
+        backgroundPhoto
+    };
+
+}
+
+export async function fetchEnterpriseLogo(enterpriseId: number, enterprisesApi: EnterprisesApi): Promise<File | null> {
+    try {
+        const res = await enterprisesApi.getEnterpriseLogoPhotoRaw({ enterpriseId });
+
+        const contentDispositionHeader = res.raw.headers.get("Content-Disposition");
+        if (contentDispositionHeader === null) {
+            return null;
+        }
+        const filename = extractContentDispositionHeaderValue(contentDispositionHeader);
+        if (filename === null) {
+            return null;
         }
 
-        // const logoPhotoId = enterpriseResult.value.logoPhotoId ?? null;
-        // const backgroundPhotoId = enterpriseResult.value.backgroundPhotoId ?? null;
-
-        // let logoFile = await retrievePhoto(logoPhotoId);
-        // if (logoFile.isErr()) {
-        //     throw logoFile.error;
-        // }
-
-        // let backgroundPhotoFile = await retrievePhoto(backgroundPhotoId);
-        // if (backgroundPhotoFile.isErr()) {
-        //     throw backgroundPhotoFile.error;
-        // }
-
-        return ok<EnterpriseData>({
-            name: enterpriseResult.value.name,
-            description: enterpriseResult.value.description,
-            location: enterpriseResult.value.location ?? null,
-            logo: null, //logoFile.value,
-            backgroundPhoto: null, // backgroundPhotoFile.value,
-        });
+        const body = await res.value();
+        return new File([body], filename, { type: body.type });
+    } catch (error: unknown) {
+        if (error instanceof ResponseError && error.response.status === 204) {
+            return null;
+        }
+        throw error;
     }
+}
 
-    return promiseResultToErrorAsyncResult(createPromise());
+export async function fetchEnterpriseBackgroundPhoto(enterpriseId: number, enterprisesApi: EnterprisesApi): Promise<File | null> {
+    try {
+        const res = await enterprisesApi.getEnterpriseBackgroundPhotoRaw({ enterpriseId });
 
+        const contentDispositionHeader = res.raw.headers.get("Content-Disposition");
+        if (contentDispositionHeader === null) {
+            return null;
+        }
+        const filename = extractContentDispositionHeaderValue(contentDispositionHeader);
+        if (filename === null) {
+            return null;
+        }
+
+        const body = await res.value();
+        return new File([body], filename, { type: body.type });
+    } catch (error: unknown) {
+        if (error instanceof ResponseError && error.response.status === 204) {
+            return null;
+        }
+        throw error;
+    }
 }

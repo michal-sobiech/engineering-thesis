@@ -44,7 +44,6 @@ import pl.michal_sobiech.core.location.Location;
 import pl.michal_sobiech.core.model.File;
 import pl.michal_sobiech.engineering_thesis.api.LocationMapper;
 import pl.michal_sobiech.engineering_thesis.auth.AuthService;
-// import pl.michal_sobiech.engineering_thesis.enterprise.PatchEnterpriseRequestDto;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.GetEnterpriseServiceCustomServiceResponseFactory;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.GetEnterpriseServiceNonCustomServiceResponseFactory;
 import pl.michal_sobiech.engineering_thesis.file.FileMapper;
@@ -253,6 +252,7 @@ public class EnterpriseController implements EnterprisesApi {
             Resource body = new ByteArrayResource(logo.bytes(), logo.name());
             return ResponseEntity.ok()
                     .header(HttpHeaders.CONTENT_DISPOSITION, contentDispositionHeader)
+                    .header(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, "Content-Disposition")
                     .contentType(MediaType.IMAGE_PNG)
                     .body(body);
         } else {
@@ -272,6 +272,7 @@ public class EnterpriseController implements EnterprisesApi {
             Resource body = new ByteArrayResource(backgroundPhoto.bytes(), backgroundPhoto.name());
             return ResponseEntity.ok()
                     .header(HttpHeaders.CONTENT_DISPOSITION, contentDispositionHeader)
+                    .header(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, "Content-Disposition")
                     .contentType(MediaType.IMAGE_PNG)
                     .body(body);
         } else {
