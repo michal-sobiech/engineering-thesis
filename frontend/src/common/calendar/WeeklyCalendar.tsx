@@ -6,10 +6,10 @@ export const WeeklyCalendar: FC<CalendarProps> = (props) => {
     const { localizer, ...nonRequiredProps } = props;
 
     const finalRequiredProps: CalendarProps = {
-        localizer: props.localizer ?? localizer
+        localizer: props.localizer ?? localizer,
     };
 
-    const finalOptionalProps: CalendarProps = {
+    const finalOptionalProps: Omit<CalendarProps, "localizer"> = {
         views: ["week"],
         defaultView: "week",
         selectable: true,
@@ -17,13 +17,13 @@ export const WeeklyCalendar: FC<CalendarProps> = (props) => {
         components: {
             header: ({ label }) => <span>{label.split(" ")[1]}</span>
         },
-        ...props
+        ...nonRequiredProps,
     };
 
     const finalProps: CalendarProps = {
         ...finalRequiredProps,
-        ...finalOptionalProps
+        ...finalOptionalProps,
     };
 
     return <Calendar {...finalProps} />;
-}
+};
