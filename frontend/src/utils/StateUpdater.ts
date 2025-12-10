@@ -1,0 +1,1 @@
+export type StateUpdater<T> = (updater: (prev: T) => T) => void;

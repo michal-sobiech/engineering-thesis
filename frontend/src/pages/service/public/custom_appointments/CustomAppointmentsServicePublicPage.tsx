@@ -1,17 +1,24 @@
 import { Box, Center, Flex, Spacer, Text } from "@chakra-ui/react"
 import { LocalDate, LocalTime } from "@js-joda/core"
 import { useState } from "react"
+import { SlotInfo } from "react-big-calendar"
+import { useServicesApi } from "../../../../api/services-api"
+import { NonEditableCustomMonthlyCalendar } from "../../../../common/calendar/weekly/non-editable/NonEditableCustomMonthlyCalendar"
 import { useServiceIdFromLoader } from "../../../../common/loader/service-id-loader"
 import { ReportServiceButton } from "../../../../common/report/ReportServiceButton"
 import { StandardPanel } from "../../../../common/StandardPanel"
 import { TimeIntervalsDisplay } from "../../../../common/TimeIntervalsDisplay"
+import { fetchFreeTimeWindowsForCustomAppointmentsOnLocalDate } from "../../../../services/appointments"
+import { extractLocalDateFromDate } from "../../../../utils/date"
+import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../../../utils/error"
 import { Position } from "../../../../utils/Position"
+import { toastError } from "../../../../utils/toast"
 import { CustomAppointmentsServicePublicPageAppointmentMaker } from "./CustomAppointmentsServicePublicPageAppointmentMaker"
-import { CustomAppointmentsServicePublicPageCalendar } from "./CustomAppointmentsServicePublicPageCalendar"
 import { CustomAppointmentsServicePublicPageContext, CustomAppointmentsServicePublicPageContextValue } from "./CustomAppointmentsServicePublicPageContextValue"
 
 export const CustomAppointmentsServicePublicPage = () => {
     const serviceId = useServiceIdFromLoader();
+    const servicesApi = useServicesApi();
 
     const [selectedDate, setSelectedDate] = useState<LocalDate | null>(null);
     const [freeTimeWindowsOnSelectedDate, setFreeTimeWindowsOnSelectedDate] = useState<[LocalTime, LocalTime][] | null>(null);
@@ -35,6 +42,19 @@ export const CustomAppointmentsServicePublicPage = () => {
         setPosition,
     };
 
+    const onSelectSlot = (slot: SlotInfo) => {
+        const slotDate = slot.start;
+        const slotLocalDate = extractLocalDateFromDate(slotDate);
+        setSelectedDate(slotLocalDate);
+
+        try {
+            fetchFreeTimeWindowsForCustomAppointmentsOnLocalDate(serviceId, slotLocalDate, servicesApi)
+                .then(setFreeTimeWindowsOnSelectedDate);
+        } catch (error: unknown) {
+            toastError(DEFAULT_ERROR_MESSAGE_FOR_USER);
+        }
+    };
+
     return <CustomAppointmentsServicePublicPageContext.Provider value={contextValue}>
         <Center height="100%">
             <StandardPanel width="80%" height="100%" padding="20px" overflowY="scroll">
@@ -49,7 +69,10 @@ export const CustomAppointmentsServicePublicPage = () => {
                     <Text flexShrink={0}>Enterprise</Text>
 
                     <Box flexShrink={0} height="100%">
-                        <CustomAppointmentsServicePublicPageCalendar />
+                        <NonEditableCustomMonthlyCalendar
+                            selectedDate={selectedDate}
+                            setSelectedDate={setSelectedDate}
+                            onSelectSlot={onSelectSlot} />
                     </Box>
 
                     {freeTimeWindowsOnSelectedDate !== null ?

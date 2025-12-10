@@ -22,7 +22,7 @@ import { toastError } from "../../utils/toast";
 import { ServiceCathegory } from "./ServiceCathegory";
 import { ServiceCathegoryPicker } from "./ServiceCathegoryPicker";
 import { ServiceCreationCalendar } from "./ServiceCreationCalendar";
-import { CustomOrNotAppointmentsEvents } from "./calendar/CustomAppointmentsEvents";
+import { Events } from "./calendar/Events";
 
 export const ServiceCreationPage = () => {
     const MAX_DISANCE_KM = 50;
@@ -38,7 +38,7 @@ export const ServiceCreationPage = () => {
     const [address, setAddress] = useState<string | null>(null);
     const [position, setPosition] = useState<{ latitude: number; longitude: number } | null>(null);
     const [timeZone, setTimeZone] = useState<string | null>(null);
-    const [eventsData, setEventsData] = useState<CustomOrNotAppointmentsEvents>({ areCustomAppointmentsEnabled: false, events: [] });
+    const [eventsData, setEventsData] = useState<Events>({ areCustomAppointmentsEnabled: false, events: [] });
     const [appointmentDurationMinutes, setAppointmentDurationMinutes] = useState<number | null>(30);
     const [price, setPrice] = useState<number | null>(null);
     const [cathegory, setCathegory] = useState<ServiceCathegory | null>(null);

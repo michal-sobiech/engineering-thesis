@@ -3,19 +3,19 @@ import { FC, JSX } from "react";
 import { BooleanToggle } from "../../common/BooleanToggle";
 import { EventWithId } from "../../common/calendar/EventWithId";
 import { EventWithIdAndCapacity } from "../../common/calendar/EventWithIdAndCapacity";
-import { WeeklyCalendar } from "../../common/calendar/WeeklyCalendar";
+import { WeeklyCalendar } from "../../common/calendar/weekly/WeeklyCalendar";
 import { StandardFloatInput } from "../../common/StandardFloatInput";
 import { StandardLabeledContainer } from "../../common/StandardLabeledContainer";
 import { doesDateTimeWindowsGroupHaveOverlap } from "../../utils/date";
 import { UseStateSetter } from "../../utils/use-state";
-import { CustomOrNotAppointmentsEvents } from "./calendar/CustomAppointmentsEvents";
+import { Events } from "./calendar/Events";
 import { WeeklyCalendarCustomAppoinmentsDisabled } from "./calendar/WeeklyCalendarCustomAppointmentsDisabled";
 
 export interface ServiceCreationCalendarProps {
     appointmentDurationMinutes: number | null
     setAppointmentDurationMinutes: UseStateSetter<number | null>,
-    eventsData: CustomOrNotAppointmentsEvents;
-    setEventsData: UseStateSetter<CustomOrNotAppointmentsEvents>,
+    eventsData: Events;
+    setEventsData: UseStateSetter<Events>;
 }
 
 export const ServiceCreationCalendar: FC<ServiceCreationCalendarProps> = ({ appointmentDurationMinutes, setAppointmentDurationMinutes, eventsData, setEventsData }) => {

@@ -2,6 +2,7 @@ import { Text } from "@chakra-ui/react";
 import { LocalTime } from "@js-joda/core";
 import { JSX } from "react";
 import { ScrollableList } from "../../../../common/ScrollableList";
+import { StandardConcaveBox } from "../../../../common/StandardConcaveBox";
 import { useContextOrThrow } from "../../../../hooks/useContextOrThrow";
 import { sameElements } from "../../../../utils/array";
 import { extractHHmmTimeFromLocalTime } from "../../../../utils/date";
@@ -28,14 +29,20 @@ export const NoCustomAppointmentsServicePublicPageSlotList = () => {
 
     if (freeSlotsOnSelectedDate === null) {
         return null;
-    } else if (freeSlotsOnSelectedDate.length === 0) {
-        return <Text>
-            No free slots!
-        </Text>
-    } else {
-        const items = freeSlotsOnSelectedDate.map(createItem);
-        return <ScrollableList>
+    }
+
+    if (freeSlotsOnSelectedDate.length === 0) {
+        return <StandardConcaveBox>
+            <Text>
+                No free slots!
+            </Text>
+        </StandardConcaveBox>;
+    }
+
+    const items = freeSlotsOnSelectedDate.map(createItem);
+    return <StandardConcaveBox>
+        <ScrollableList>
             {items}
         </ScrollableList>
-    }
+    </StandardConcaveBox>;
 }

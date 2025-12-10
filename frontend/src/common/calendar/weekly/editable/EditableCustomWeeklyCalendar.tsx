@@ -1,9 +1,9 @@
 import { FC } from "react";
 import { SlotInfo } from "react-big-calendar";
-import { doesDateTimeWindowOverlapWithGroup } from "../../../utils/date";
-import { StateUpdater } from "../../../utils/StateUpdater";
-import { EventWithId } from "../EventWithId";
-import { WeeklyCalendar } from "./WeeklyCalendar";
+import { doesDateTimeWindowOverlapWithGroup } from "../../../../utils/date";
+import { StateUpdater } from "../../../../utils/StateUpdater";
+import { EventWithId } from "../../EventWithId";
+import { WeeklyCalendar } from "../WeeklyCalendar";
 
 export interface EditableCustomWeeklyCalendarProps {
     events: EventWithId[];

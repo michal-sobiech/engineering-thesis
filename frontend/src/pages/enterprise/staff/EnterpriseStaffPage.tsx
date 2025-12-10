@@ -92,11 +92,6 @@ export const EnterpriseStaffPage = () => {
                     <StandardLabeledContainer label="Description">
                         <StandardTextField text={description ?? ""} setText={setDescription} placeholder="Description" />
                     </StandardLabeledContainer>
-                    {
-                        // TODO location
-                    /* <StandardLabeledContainer label="Location">
-                        <StandardTextField text={location ?? ""} setText={setLocation} placeholder="Location" />
-                    </StandardLabeledContainer> */}
                     <StandardLabeledContainer label="*Logo">
                         <StandardFileInput
                             text={logoFile?.name ?? ""}
@@ -132,7 +127,7 @@ export const EnterpriseStaffPage = () => {
                     <StandardBox>
                         <LinkScrollableList items={services.map(service => ({
                             label: service.name,
-                            url: routes.enterpriseCreateService(enterpriseId),
+                            url: routes.manageServicePage(enterpriseId),
                         }))} />
                     </StandardBox>
 

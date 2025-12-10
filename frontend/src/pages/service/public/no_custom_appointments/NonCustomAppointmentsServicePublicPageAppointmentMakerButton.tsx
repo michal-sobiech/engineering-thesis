@@ -42,8 +42,6 @@ export const NonCustomAppointmentsServicePublicPageAppointmentMakerButton = () =
             },
         };
 
-        // TODO fix other fetch code relying on statuses
-
         try {
             const promise = appointmentsApi.createNonCustomAppointmentRaw(requestParameters);
             await promise;

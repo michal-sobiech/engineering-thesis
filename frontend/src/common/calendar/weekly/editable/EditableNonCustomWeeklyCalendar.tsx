@@ -1,11 +1,11 @@
 import { FC, useState } from "react";
 import { SlotInfo } from "react-big-calendar";
-import { doesDateTimeWindowOverlapWithGroup, splitPeriod } from "../../../utils/date";
-import { Position } from "../../../utils/Position";
-import { StateUpdater } from "../../../utils/StateUpdater";
-import { EventWithIdAndCapacity } from "../EventWithIdAndCapacity";
+import { doesDateTimeWindowOverlapWithGroup, splitPeriod } from "../../../../utils/date";
+import { Position } from "../../../../utils/Position";
+import { StateUpdater } from "../../../../utils/StateUpdater";
+import { EventWithIdAndCapacity } from "../../EventWithIdAndCapacity";
+import { WeeklyCalendar } from "../WeeklyCalendar";
 import { EditableNonCustomWeeklyCalendarPopup } from "./EditableNonCustomWeeklyCalendarPopup";
-import { WeeklyCalendar } from "./WeeklyCalendar";
 
 export interface EditableNonCustomWeeklyCalendarProps {
     appointmentDurationMinutes: number | null

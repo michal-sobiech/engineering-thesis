@@ -11,7 +11,7 @@ import { StandardLabeledContainer } from "../../../common/StandardLabeledContain
 import { StandardPanel } from "../../../common/StandardPanel"
 import { StandardTextField } from "../../../common/StandardTextField"
 import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../../utils/error"
-import { Position } from "../../../utils/Position"
+import { GeoPosition } from "../../../utils/GeoPosition"
 import { errorErrResultAsyncFromPromise } from "../../../utils/result"
 import { toastError } from "../../../utils/toast"
 import { ServiceCathegory } from "../ServiceCathegory"
@@ -134,10 +134,10 @@ export const ServiceSearchPage = () => {
         }
     }
 
-    const position: Position | null = positionX !== null && positionY !== null
+    const position: GeoPosition | null = positionX !== null && positionY !== null
         ? { x: positionX, y: positionY }
         : null;
-    const setPosition = (value: Position | null) => {
+    const setPosition = (value: GeoPosition | null) => {
         if (value !== null) {
             setPositionX(value.x);
             setPositionY(value.y);

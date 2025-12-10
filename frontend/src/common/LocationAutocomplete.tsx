@@ -2,14 +2,14 @@ import { Box, Flex, Input } from "@chakra-ui/react";
 import { OpenStreetMapProvider } from "leaflet-geosearch";
 import { FC, JSX, useEffect, useState } from "react";
 import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../utils/error";
-import { Position } from "../utils/Position";
+import { GeoPosition } from "../utils/GeoPosition";
 import { toastError } from "../utils/toast";
 import { UseStateSetter } from "../utils/use-state";
 import { StandardPanel } from "./StandardPanel";
 
 export interface LocationAutocompleteProps {
-    position: Position | null;
-    setPosition: (value: Position | null) => void;
+    position: GeoPosition | null;
+    setPosition: (value: GeoPosition | null) => void;
     address: string;
     setAddress: UseStateSetter<string>;
 }

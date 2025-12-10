@@ -1,13 +1,13 @@
 import { Input } from "@chakra-ui/react";
 import { FC } from "react";
 import { NumericFormat } from "react-number-format";
-import { StandardButton } from "../../../common/StandardButton";
-import { StandardFlex } from "../../../common/StandardFlex";
-import { StandardLabeledContainer } from "../../../common/StandardLabeledContainer";
-import { StandardPanel } from "../../../common/StandardPanel";
-import { Position } from "../../../utils/Position";
+import { Position } from "../../../../utils/Position";
+import { StandardButton } from "../../../StandardButton";
+import { StandardFlex } from "../../../StandardFlex";
+import { StandardLabeledContainer } from "../../../StandardLabeledContainer";
+import { StandardPanel } from "../../../StandardPanel";
 
-export interface WeeklyCalendarCustomAppoinmentsDisabledPopupProps {
+export interface EditableNonCustomWeeklyCalendarPopupProps {
     close: () => void;
     remove: () => void;
     position: Position;
@@ -15,7 +15,7 @@ export interface WeeklyCalendarCustomAppoinmentsDisabledPopupProps {
     setCapacity: (newCapacity: number) => void;
 }
 
-export const WeeklyCalendarCustomAppoinmentsDisabledPopup: FC<WeeklyCalendarCustomAppoinmentsDisabledPopupProps> = ({ close, remove, position, capacity, setCapacity }) => {
+export const EditableNonCustomWeeklyCalendarPopup: FC<EditableNonCustomWeeklyCalendarPopupProps> = ({ close, remove, position, capacity, setCapacity }) => {
     return <StandardPanel
         position="fixed"
         left={position.x}
@@ -34,7 +34,10 @@ export const WeeklyCalendarCustomAppoinmentsDisabledPopup: FC<WeeklyCalendarCust
                 />
             </StandardLabeledContainer>
             <StandardButton
-                onClick={() => remove()}
+                onClick={() => {
+                    remove();
+                    close();
+                }}
                 delayMs={0}
                 width="100%"
                 backgroundColor="primary.darkRed">

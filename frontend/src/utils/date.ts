@@ -132,3 +132,10 @@ export function dateWindowToInstantWindow(window: [Date, Date]): [Instant, Insta
         Instant.ofEpochMilli(window[1].getTime()),
     ];
 }
+
+export function doesDateTimeWindowOverlapWithGroup(window: [Date, Date], group: [Date, Date][]): boolean {
+    return doesInstantTimeWindowOverlapWithGroup(
+        dateWindowToInstantWindow(window),
+        group.map(dateWindowToInstantWindow),
+    );
+}
