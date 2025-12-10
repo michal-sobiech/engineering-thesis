@@ -135,12 +135,12 @@ export const ServiceSearchPage = () => {
     }
 
     const position: GeoPosition | null = positionX !== null && positionY !== null
-        ? { x: positionX, y: positionY }
+        ? { longitude: positionX, latitude: positionY }
         : null;
     const setPosition = (value: GeoPosition | null) => {
         if (value !== null) {
-            setPositionX(value.x);
-            setPositionY(value.y);
+            setPositionX(value.longitude);
+            setPositionY(value.latitude);
         }
     }
 

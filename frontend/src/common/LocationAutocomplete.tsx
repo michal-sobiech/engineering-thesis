@@ -54,7 +54,7 @@ export const LocationAutocomplete: FC<LocationAutocompleteProps> = ({ position, 
             key={suggestion.raw.place_id}
             onClick={() => {
                 setAddress(suggestion.label);
-                setPosition({ x: suggestion.x, y: suggestion.y });
+                setPosition({ longitude: suggestion.x, latitude: suggestion.y });
                 setSearchResults([]);
             }}
             cursor="pointer"

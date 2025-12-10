@@ -1,18 +1,16 @@
-import { Box, Center, Flex, Spacer, Text } from "@chakra-ui/react"
+import { Center, Flex, Text } from "@chakra-ui/react"
 import { useState } from "react"
+import { EventWithId } from "../../../../common/calendar/EventWithId"
+import { EditableCustomWeeklyCalendar } from "../../../../common/calendar/weekly/editable/EditableCustomWeeklyCalendar"
 import { useServiceIdFromLoader } from "../../../../common/loader/service-id-loader"
 import { MapLocationPicker } from "../../../../common/MapLocationPicker"
-import { ReportServiceButton } from "../../../../common/report/ReportServiceButton"
 import { StandardLabeledContainer } from "../../../../common/StandardLabeledContainer"
 import { StandardPanel } from "../../../../common/StandardPanel"
 import { StandardTextField } from "../../../../common/StandardTextField"
 import { StandardTimeZonePicker } from "../../../../common/StandardTimeZonePicker"
-import { TimeIntervalsDisplay } from "../../../../common/TimeIntervalsDisplay"
 import { GeoPosition } from "../../../../utils/GeoPosition"
-import { CustomEvents } from "../../calendar/Events"
 import { ServiceCathegory } from "../../ServiceCathegory"
 import { StaffCustomServicePageContext, StaffCustomServicePageContextValue } from "./StaffCustomServicePageContext"
-import { EventWithId } from "../../../../common/calendar/EventWithId"
 
 export const StaffCustomServicePage = () => {
     const serviceId = useServiceIdFromLoader();
@@ -23,7 +21,7 @@ export const StaffCustomServicePage = () => {
     const [address, setAddress] = useState<string | null>(null);
     const [position, setPosition] = useState<GeoPosition | null>(null);
     const [timezone, setTimezone] = useState<string | null>(null);
-    const [eventsData, setEventsData] = useState<EventWithId[]>([]);
+    const [events, setEvents] = useState<EventWithId[]>([]);
     const [appointmentDurationMinutes, setAppointmentDurationMinutes] = useState<number | null>(30);
     const [price, setPrice] = useState<number | null>(null);
     const [cathegory, setCathegory] = useState<ServiceCathegory | null>(null);
@@ -35,7 +33,7 @@ export const StaffCustomServicePage = () => {
         address, setAddress,
         position, setPosition,
         timezone, setTimezone,
-        eventsData, setEventsData,
+        events, setEvents,
         appointmentDurationMinutes, setAppointmentDurationMinutes,
         price, setPrice,
         cathegory, setCathegory,
@@ -71,8 +69,10 @@ export const StaffCustomServicePage = () => {
                         <StandardTimeZonePicker value={timezone} setValue={setTimezone} />
                     </StandardLabeledContainer>
 
-                    <
-
+                    <EditableCustomWeeklyCalendar
+                        events={events}
+                        setEvents={setEvents}
+                    />
                 </Flex>
             </StandardPanel>
         </Center >

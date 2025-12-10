@@ -59,8 +59,8 @@ export const CustomAppointmentsServicePublicPageAppointmentMakerButton = () => {
                 endDatetimeShopLocal: endServiceLocal.toString(),
                 location: {
                     address: address,
-                    longitude: position.x,
-                    latitude: position.y,
+                    longitude: position.longitude,
+                    latitude: position.latitude,
                 }
             }
         };

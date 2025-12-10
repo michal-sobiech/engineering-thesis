@@ -38,7 +38,11 @@ export const ServiceCreationPage = () => {
     const [address, setAddress] = useState<string | null>(null);
     const [position, setPosition] = useState<{ latitude: number; longitude: number } | null>(null);
     const [timeZone, setTimeZone] = useState<string | null>(null);
-    const [eventsData, setEventsData] = useState<Events>({ areCustomAppointmentsEnabled: false, events: [] });
+    const [eventsData, setEventsData] = useState<Events>({
+        areCustomAppointmentsEnabled: false,
+        events: [],
+        appointmentDurationMinutes: null,
+    });
     const [appointmentDurationMinutes, setAppointmentDurationMinutes] = useState<number | null>(30);
     const [price, setPrice] = useState<number | null>(null);
     const [cathegory, setCathegory] = useState<ServiceCathegory | null>(null);

@@ -11,7 +11,7 @@ import { TimeIntervalsDisplay } from "../../../../common/TimeIntervalsDisplay"
 import { fetchFreeTimeWindowsForCustomAppointmentsOnLocalDate } from "../../../../services/appointments"
 import { extractLocalDateFromDate } from "../../../../utils/date"
 import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../../../utils/error"
-import { Position } from "../../../../utils/Position"
+import { GeoPosition } from "../../../../utils/GeoPosition"
 import { toastError } from "../../../../utils/toast"
 import { CustomAppointmentsServicePublicPageAppointmentMaker } from "./CustomAppointmentsServicePublicPageAppointmentMaker"
 import { CustomAppointmentsServicePublicPageContext, CustomAppointmentsServicePublicPageContextValue } from "./CustomAppointmentsServicePublicPageContextValue"
@@ -25,7 +25,7 @@ export const CustomAppointmentsServicePublicPage = () => {
     const [selectedTimeWindowStart, setSelectedTimeWindowStart] = useState<LocalTime | null>(null);
     const [selectedTimeWindowEnd, setSelectedTimeWindowEnd] = useState<LocalTime | null>(null);
     const [address, setAddress] = useState<string>("");
-    const [position, setPosition] = useState<Position | null>(null);
+    const [position, setPosition] = useState<GeoPosition | null>(null);
 
     const contextValue: CustomAppointmentsServicePublicPageContextValue = {
         selectedDate,
