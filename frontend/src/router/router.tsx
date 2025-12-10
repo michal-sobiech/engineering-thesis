@@ -23,8 +23,8 @@ import { EntrepreneurLogInPage } from "../pages/entrepreneur/log-in/Entrepreneur
 import { MainPage } from "../pages/main_page/MainPage";
 import { PostAppointmentPaymentPage } from "../pages/payment/PostAppointmentPaymentPage";
 import { postPaymentPageLoader } from "../pages/payment/PostPaymentPage";
-import { ServiceCreationPage } from "../pages/service/ServiceCreationPage";
 import { CreateServiceReviewPage } from "../pages/service/create-service-review/CreateServiceReviewPage";
+import { ServiceCreationPage } from "../pages/service/create/ServiceCreationPage";
 import { ManageServicePage } from "../pages/service/manage/ManageServicePage";
 import { ServicePublicPage } from "../pages/service/public/ServicePublicPage";
 import { ServiceSearchPage } from "../pages/service/search/ServiceSearchPage";

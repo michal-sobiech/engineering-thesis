@@ -1,14 +1,14 @@
 import { Box } from "@chakra-ui/react";
 import { FC } from "react";
-import { BooleanToggle } from "../../common/BooleanToggle";
-import { EventWithId } from "../../common/calendar/EventWithId";
-import { EventWithIdAndCapacity } from "../../common/calendar/EventWithIdAndCapacity";
-import { EditableCustomWeeklyCalendar } from "../../common/calendar/weekly/editable/EditableCustomWeeklyCalendar";
-import { EditableNonCustomWeeklyCalendar } from "../../common/calendar/weekly/editable/EditableNonCustomWeeklyCalendar";
-import { StandardFloatInput } from "../../common/StandardFloatInput";
-import { StandardLabeledContainer } from "../../common/StandardLabeledContainer";
-import { StateUpdater } from "../../utils/StateUpdater";
-import { Events, EventsCustom, EventsNonCustom } from "./calendar/Events";
+import { BooleanToggle } from "../../../common/BooleanToggle";
+import { EventWithId } from "../../../common/calendar/EventWithId";
+import { EventWithIdAndCapacity } from "../../../common/calendar/EventWithIdAndCapacity";
+import { EditableCustomWeeklyCalendar } from "../../../common/calendar/weekly/editable/EditableCustomWeeklyCalendar";
+import { EditableNonCustomWeeklyCalendar } from "../../../common/calendar/weekly/editable/EditableNonCustomWeeklyCalendar";
+import { StandardFloatInput } from "../../../common/StandardFloatInput";
+import { StandardLabeledContainer } from "../../../common/StandardLabeledContainer";
+import { StateUpdater } from "../../../utils/StateUpdater";
+import { Events, EventsCustom, EventsNonCustom } from "../calendar/Events";
 
 export interface ServiceCreationCalendarProps {
     eventsData: Events;
