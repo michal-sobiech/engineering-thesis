@@ -1,122 +1,34 @@
 import { Box } from "@chakra-ui/react";
-import { FC, JSX } from "react";
+import { FC } from "react";
 import { BooleanToggle } from "../../common/BooleanToggle";
 import { EventWithId } from "../../common/calendar/EventWithId";
 import { EventWithIdAndCapacity } from "../../common/calendar/EventWithIdAndCapacity";
-import { WeeklyCalendar } from "../../common/calendar/weekly/WeeklyCalendar";
+import { EditableCustomWeeklyCalendar } from "../../common/calendar/weekly/editable/EditableCustomWeeklyCalendar";
+import { EditableNonCustomWeeklyCalendar } from "../../common/calendar/weekly/editable/EditableNonCustomWeeklyCalendar";
 import { StandardFloatInput } from "../../common/StandardFloatInput";
 import { StandardLabeledContainer } from "../../common/StandardLabeledContainer";
-import { doesDateTimeWindowsGroupHaveOverlap } from "../../utils/date";
-import { UseStateSetter } from "../../utils/use-state";
-import { Events } from "./calendar/Events";
-import { WeeklyCalendarCustomAppoinmentsDisabled } from "./calendar/WeeklyCalendarCustomAppointmentsDisabled";
+import { StateUpdater } from "../../utils/StateUpdater";
+import { Events, EventsCustom, EventsNonCustom } from "./calendar/Events";
 
 export interface ServiceCreationCalendarProps {
-    appointmentDurationMinutes: number | null
-    setAppointmentDurationMinutes: UseStateSetter<number | null>,
     eventsData: Events;
-    setEventsData: UseStateSetter<Events>;
+    setEventsData: StateUpdater<Events>;
 }
 
-export const ServiceCreationCalendar: FC<ServiceCreationCalendarProps> = ({ appointmentDurationMinutes, setAppointmentDurationMinutes, eventsData, setEventsData }) => {
-    let calendarComponent: JSX.Element;
-    if (eventsData.areCustomAppointmentsEnabled) {
-        const setEventsWrapper = (valueOrUpdater: (EventWithId[] | ((prevEvents: EventWithId[]) => EventWithId[]))) => {
-            if (typeof valueOrUpdater === "function") {
-                const updater = valueOrUpdater as (prevEvents: EventWithId[]) => EventWithId[];
-
-                setEventsData(prevEventsData => {
-                    const newEvents = updater(prevEventsData.events);
-
-                    const newEventsWindows: [Date, Date][] = newEvents.map(event => [event.start, event.end]);
-                    if (doesDateTimeWindowsGroupHaveOverlap(newEventsWindows)) {
-                        return {
-                            areCustomAppointmentsEnabled: true,
-                            events: prevEventsData.events,
-                        };
-                    }
-
-                    return {
-                        areCustomAppointmentsEnabled: true,
-                        events: newEvents,
-                    };
-                });
-            } else {
-                const events = valueOrUpdater as EventWithId[];
-                const windows: [Date, Date][] = events.map(event => [event.start, event.end]);
-                if (doesDateTimeWindowsGroupHaveOverlap(windows)) {
-                    return;
-                }
-
-                setEventsData({
-                    areCustomAppointmentsEnabled: true,
-                    events,
-                });
-            }
-        }
-
-        calendarComponent = (
-            <Box maxHeight="50%" overflowY="scroll">
-                <WeeklyCalendar
-                    events={eventsData.events}
-                    setEvents={setEventsWrapper}
-                />
-            </Box>
-        );
-    } else {
-
-        const setEventsWrapper = (valueOrUpdater: (EventWithIdAndCapacity[] | ((prevEvents: EventWithIdAndCapacity[]) => EventWithIdAndCapacity[]))) => {
-            if (typeof valueOrUpdater === "function") {
-                const updater = valueOrUpdater as (prevEvents: EventWithIdAndCapacity[]) => EventWithIdAndCapacity[];
-                setEventsData(prevEventsData => {
-                    const newEvents = updater(prevEventsData.events as EventWithIdAndCapacity[]);
-
-                    // TODO REFACTOR!!!!!
-
-                    const newEventsWindows: [Date, Date][] = newEvents.map(event => [event.start, event.end]);
-                    if (doesDateTimeWindowsGroupHaveOverlap(newEventsWindows)) {
-                        return {
-                            areCustomAppointmentsEnabled: false,
-                            events: prevEventsData.events as EventWithIdAndCapacity[]
-                        };
-                    }
-
-                    return {
-                        areCustomAppointmentsEnabled: false,
-                        events: newEvents,
-                    };
-                });
-            } else {
-                const events = valueOrUpdater as EventWithIdAndCapacity[];
-                const windows: [Date, Date][] = events.map(event => [event.start, event.end]);
-                if (doesDateTimeWindowsGroupHaveOverlap(windows)) {
-                    return;
-                }
-
-                setEventsData({
-                    areCustomAppointmentsEnabled: false,
-                    events
-                });
-            }
-        }
-
-        calendarComponent = <>
-            <StandardLabeledContainer label="Choose appointment length (in minutes)">
-                <StandardFloatInput value={appointmentDurationMinutes} setValue={setAppointmentDurationMinutes} min={0} precision={0} step={5} />
-            </StandardLabeledContainer>
-
-            <Box maxHeight="50%" overflowY="scroll">
-                <WeeklyCalendarCustomAppoinmentsDisabled
-                    events={eventsData.events}
-                    setEvents={setEventsWrapper}
-                    eventDuration={{ minutes: appointmentDurationMinutes ?? undefined }}
-                />
-            </Box>
-        </>;
-    }
-
+export const ServiceCreationCalendar: FC<ServiceCreationCalendarProps> = ({ eventsData, setEventsData }) => {
     const setAreCustomAppointmentsEnabledWrapper = (enabled: boolean) => {
-        setEventsData({ areCustomAppointmentsEnabled: enabled, events: [] });
+        if (enabled) {
+            setEventsData(_ => ({
+                areCustomAppointmentsEnabled: true,
+                events: [],
+            }));
+        } else {
+            setEventsData(_ => ({
+                areCustomAppointmentsEnabled: false,
+                events: [],
+                appointmentDurationMinutes: null
+            }));
+        }
     }
 
     return <>
@@ -128,7 +40,72 @@ export const ServiceCreationCalendar: FC<ServiceCreationCalendarProps> = ({ appo
                 setIsOption1Chosen={enabled => setAreCustomAppointmentsEnabledWrapper(!enabled)}
             />
         </StandardLabeledContainer>
-        {calendarComponent}
+        <Calendar eventsData={eventsData} setEventsData={setEventsData} />
     </>;
 
 }
+
+const Calendar = ({ eventsData, setEventsData }: { eventsData: Events, setEventsData: StateUpdater<Events> }) => {
+    if (eventsData.areCustomAppointmentsEnabled) {
+        const setEvents: StateUpdater<EventWithId[]> = (updater) => {
+            setEventsData(prevEventsDataUncast => {
+                const prevEventsData = prevEventsDataUncast as EventsCustom;
+
+                const newEventsData = { ...prevEventsData };
+                const newEvents = updater(prevEventsData.events);
+                newEventsData.events = newEvents;
+
+                return newEventsData;
+            });
+        }
+
+        return <Box maxHeight="100%" overflowY="scroll">
+            <EditableCustomWeeklyCalendar
+                events={eventsData.events}
+                setEvents={setEvents}
+            />
+        </Box>;
+    }
+
+    const setEvents: StateUpdater<EventWithIdAndCapacity[]> = (updateFn) => {
+        setEventsData(prevEventsDataUncasted => {
+            const prevEventsData = prevEventsDataUncasted as EventsNonCustom;
+
+            const newEventsData = { ...prevEventsData };
+            const newEvents = updateFn(prevEventsData.events);
+            newEventsData.events = newEvents;
+
+            return newEventsData;
+        });
+    }
+
+
+    const setAppointmentDurationMinutes = (value: number) => {
+        setEventsData(prevEventsDataUncast => {
+            const prevEventsData = prevEventsDataUncast as EventsNonCustom;
+
+            const newEventsData = { ...prevEventsData };
+            newEventsData.appointmentDurationMinutes = value;
+            return newEventsData;
+        });
+    }
+
+    return <>
+        <StandardLabeledContainer label="Choose appointment length (in minutes)">
+            <StandardFloatInput
+                value={eventsData.appointmentDurationMinutes}
+                setValue={setAppointmentDurationMinutes}
+                min={0}
+                precision={0}
+                step={5} />
+        </StandardLabeledContainer>
+
+        <Box maxHeight="50%" overflowY="scroll">
+            <EditableNonCustomWeeklyCalendar
+                events={eventsData.events}
+                setEvents={setEvents}
+                appointmentDurationMinutes={eventsData.appointmentDurationMinutes ?? null}
+            />
+        </Box>
+    </>;
+};

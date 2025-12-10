@@ -5,18 +5,11 @@ export type Events = EventsNonCustom | EventsCustom;
 
 export interface EventsNonCustom {
     areCustomAppointmentsEnabled: false;
+    appointmentDurationMinutes: number | null;
     events: EventWithIdAndCapacity[];
 }
 
 export interface EventsCustom {
     areCustomAppointmentsEnabled: true;
-    events: EventWithId[];
-}
-
-export interface NonCustomEvents {
-    events: EventWithIdAndCapacity[];
-}
-
-export interface CustomEvents {
     events: EventWithId[];
 }

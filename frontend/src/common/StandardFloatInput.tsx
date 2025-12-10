@@ -1,11 +1,10 @@
 import { Input } from "@chakra-ui/react";
 import { FC } from "react";
 import { NumericFormat } from "react-number-format";
-import { VoidCallback } from "./VoidCallback";
 
 export interface StandardFloatInputProps {
     value: number | null;
-    setValue: VoidCallback<number | null>;
+    setValue: (value: number) => void;
     precision?: number;
     step?: number;
     min?: number;
