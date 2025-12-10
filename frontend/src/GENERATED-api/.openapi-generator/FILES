@@ -67,6 +67,8 @@ models/LogInEnterpriseEmployeeRequest.ts
 models/LogInEnterpriseEmployeeResponse.ts
 models/LogInIndependentEndUserRequest.ts
 models/LogInIndependentEndUserResponse.ts
+models/PatchCustomEnterpriseServiceRequest.ts
+models/PatchNonCustomEnterpriseServiceRequest.ts
 models/PatchRegularAdminRequest.ts
 models/RejectPendingAppointmentRequest.ts
 models/SendAdyenSessionResultRequest.ts

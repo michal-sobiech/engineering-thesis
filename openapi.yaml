@@ -1028,6 +1028,63 @@ components:
         isTransactionSuccessful:
           type: boolean
 
+    PatchNonCustomEnterpriseServiceRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "Basic Haircut"
+        description:
+          type: string
+          example: "Male or female haircut"
+        location:
+          $ref: "#/components/schemas/Location"
+        timeZone:
+          $ref: "#/components/schemas/IanaTimeZone"
+        cathegory:
+          type: string
+        price:
+          type: number
+          example: 29.99
+        currency:
+          type: string
+          example: "PLN"
+          description: currency ISO code
+        slots:
+          type: array
+          items:
+            $ref: "#/components/schemas/Slot"
+
+    PatchCustomEnterpriseServiceRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "Basic Haircut"
+        description:
+          type: string
+          example: "Male or female haircut"
+        location:
+          $ref: "#/components/schemas/Location"
+        timeZone:
+          $ref: "#/components/schemas/IanaTimeZone"
+        maxDistanceKm:
+          type: number
+          format: double
+        cathegory:
+          type: string
+        price:
+          type: number
+          example: 29.99
+        currency:
+          type: string
+          example: "PLN"
+          description: currency ISO code
+        timeWindows:
+          type: array
+          items:
+            $ref: "#/components/schemas/TimeWindow"
+
   responses:
     OK:
       description: &OK_DESCRIPTION >
@@ -2499,6 +2556,69 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/GetEnterpriseServicePendingAppointmentResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /services/non-custom/{serviceId}:
+    patch:
+      tags: [EnterpriseServices]
+      operationId: patchNonCustomEnterpriseService
+      security:
+        - JwtBearerAuth: []
+      parameters:
+        - name: serviceId
+          in: path
+          required: true
+          description: Enterprise id
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PatchNonCustomEnterpriseServiceRequest"
+      responses:
+        "200":
+          $ref: "#/components/responses/OK"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /services/custom/{serviceId}:
+    patch:
+      tags: [EnterpriseServices]
+      operationId: patchCustomEnterpriseService
+      security:
+        - JwtBearerAuth: []
+      parameters:
+        - name: serviceId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PatchCustomEnterpriseServiceRequest"
+      responses:
+        "200":
+          $ref: "#/components/responses/OK"
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":

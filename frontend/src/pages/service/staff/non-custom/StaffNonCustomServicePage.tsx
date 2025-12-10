@@ -1,9 +1,9 @@
 import { Box, Center, Flex, Text } from "@chakra-ui/react"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useNavigate } from "react-router"
 import { useServicesApi } from "../../../../api/services-api"
-import { EventWithId } from "../../../../common/calendar/EventWithId"
-import { EditableCustomWeeklyCalendar } from "../../../../common/calendar/weekly/editable/EditableCustomWeeklyCalendar"
+import { EventWithIdAndCapacity } from "../../../../common/calendar/EventWithIdAndCapacity"
+import { EditableNonCustomWeeklyCalendar } from "../../../../common/calendar/weekly/editable/EditableNonCustomWeeklyCalendar"
 import { useServiceIdFromLoader } from "../../../../common/loader/service-id-loader"
 import { MapLocationPicker } from "../../../../common/MapLocationPicker"
 import { StandardButton } from "../../../../common/StandardButton"
@@ -15,15 +15,14 @@ import { StandardTimeZonePicker } from "../../../../common/StandardTimeZonePicke
 import { StandardVerticalSeparator } from "../../../../common/StandardVerticalSeparator"
 import { Location, TimeWindow } from "../../../../GENERATED-api"
 import { routes } from "../../../../router/routes"
-import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../../../utils/error"
 import { GeoPosition } from "../../../../utils/GeoPosition"
 import { eventWithIdToTimeWindow } from "../../../../utils/time-window"
 import { toastError } from "../../../../utils/toast"
 import { ServiceCathegory } from "../../ServiceCathegory"
 import { ServiceCathegoryPicker } from "../../ServiceCathegoryPicker"
-import { StaffCustomServicePageContext, StaffCustomServicePageContextValue } from "./StaffCustomServicePageContext"
+import { StaffNonCustomServicePageContext, StaffNonCustomServicePageContextValue } from "./StaffNonCustomServicePageContext"
 
-export const StaffCustomServicePage = () => {
+export const StaffNonCustomServicePage = () => {
     const serviceId = useServiceIdFromLoader();
     const navigate = useNavigate();
     const servicesApi = useServicesApi();
@@ -34,11 +33,12 @@ export const StaffCustomServicePage = () => {
     const [address, setAddress] = useState<string | null>(null);
     const [position, setPosition] = useState<GeoPosition | null>(null);
     const [timezone, setTimezone] = useState<string | null>(null);
-    const [events, setEvents] = useState<EventWithId[]>([]);
+    const [events, setEvents] = useState<EventWithIdAndCapacity[]>([]);
+    const [appointmentDurationMinutes, setAppointmentDurationMinutes] = useState<number | null>(30);
     const [price, setPrice] = useState<number | null>(null);
     const [cathegory, setCathegory] = useState<ServiceCathegory | null>(null);
 
-    const contextValue: StaffCustomServicePageContextValue = {
+    const contextValue: StaffNonCustomServicePageContextValue = {
         enterpriseName, setEnterpriseName,
         serviceName, setServiceName,
         serviceDescription, setServiceDescription,
@@ -46,20 +46,10 @@ export const StaffCustomServicePage = () => {
         position, setPosition,
         timezone, setTimezone,
         events, setEvents,
+        appointmentDurationMinutes, setAppointmentDurationMinutes,
         price, setPrice,
         cathegory, setCathegory,
     };
-
-    useEffect(() => {
-        servicesApi.getEnterpriseService(serviceId)
-            .then(response => {
-                setEnterpriseName(response.name)
-            })
-            .catch(() => {
-                toastError(DEFAULT_ERROR_MESSAGE_FOR_USER);
-                navigate(routes.mainPage);
-            })
-    }, []);
 
     const onDicardClick = () => {
         navigate(routes.mainPage);
@@ -98,7 +88,7 @@ export const StaffCustomServicePage = () => {
         navigate(routes.servicePublicPage(serviceId));
     }
 
-    return <StaffCustomServicePageContext.Provider value={contextValue}>
+    return <StaffNonCustomServicePageContext.Provider value={contextValue}>
         <Center height="100%">
             <StandardPanel width="80%" height="100%" padding="20px" overflowY="scroll">
                 <Flex direction="column" height="100%" minHeight={0}>
@@ -128,9 +118,19 @@ export const StaffCustomServicePage = () => {
                         <StandardTimeZonePicker value={timezone} setValue={setTimezone} />
                     </StandardLabeledContainer>
 
-                    <EditableCustomWeeklyCalendar
+                    <StandardLabeledContainer label="Appointment duration (minutes)">
+                        <StandardFloatInput
+                            value={appointmentDurationMinutes}
+                            setValue={setAppointmentDurationMinutes}
+                            min={0}
+                            precision={0}
+                            step={5} />
+                    </StandardLabeledContainer>
+
+                    <EditableNonCustomWeeklyCalendar
                         events={events}
                         setEvents={setEvents}
+                        appointmentDurationMinutes={appointmentDurationMinutes}
                     />
 
                     <StandardLabeledContainer label="Price (PLN)">
@@ -170,6 +170,6 @@ export const StaffCustomServicePage = () => {
                 </Flex>
             </StandardPanel>
         </Center >
-    </StaffCustomServicePageContext.Provider>
+    </StaffNonCustomServicePageContext.Provider>
 
 }

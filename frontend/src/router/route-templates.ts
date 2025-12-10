@@ -25,4 +25,5 @@ export const routeTemplates = {
     editRegularAdminPage: "/edit-regular-admin/:userId",
     createRegularAdminPage: "/create-regular-admin",
     postAppointmentPaymentPage: "/post-appointment-payment",
+    staffServicePage: "/services/:serviceId/staff",
 };

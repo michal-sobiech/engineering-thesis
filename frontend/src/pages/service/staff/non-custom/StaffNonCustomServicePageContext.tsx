@@ -1,11 +1,11 @@
 import { createContext } from "react";
-import { EventWithId } from "../../../../common/calendar/EventWithId";
+import { EventWithIdAndCapacity } from "../../../../common/calendar/EventWithIdAndCapacity";
 import { GeoPosition } from "../../../../utils/GeoPosition";
 import { StateUpdater } from "../../../../utils/StateUpdater";
 import { UseStateSetter } from "../../../../utils/use-state";
 import { ServiceCathegory } from "../../ServiceCathegory";
 
-export interface StaffCustomServicePageContextValue {
+export interface StaffNonCustomServicePageContextValue {
     enterpriseName: string;
     setEnterpriseName: UseStateSetter<string>;
     serviceName: string;
@@ -18,12 +18,14 @@ export interface StaffCustomServicePageContextValue {
     setPosition: UseStateSetter<GeoPosition | null>;
     timezone: string | null;
     setTimezone: UseStateSetter<string | null>;
-    events: EventWithId[];
-    setEvents: StateUpdater<EventWithId[]>;
+    events: EventWithIdAndCapacity[];
+    setEvents: StateUpdater<EventWithIdAndCapacity[]>;
+    appointmentDurationMinutes: number | null;
+    setAppointmentDurationMinutes: UseStateSetter<number | null>;
     price: number | null;
     setPrice: UseStateSetter<number | null>;
     cathegory: ServiceCathegory | null;
     setCathegory: UseStateSetter<ServiceCathegory | null>;
 }
 
-export const StaffCustomServicePageContext = createContext<StaffCustomServicePageContextValue | null>(null);
+export const StaffNonCustomServicePageContext = createContext<StaffNonCustomServicePageContextValue | null>(null);

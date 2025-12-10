@@ -28,6 +28,8 @@ import type {
   InlineObject1,
   InlineObject2,
   InlineObject4,
+  PatchCustomEnterpriseServiceRequest,
+  PatchNonCustomEnterpriseServiceRequest,
   ServiceSearchResponseItem,
 } from '../models/index';
 import {
@@ -57,6 +59,10 @@ import {
     InlineObject2ToJSON,
     InlineObject4FromJSON,
     InlineObject4ToJSON,
+    PatchCustomEnterpriseServiceRequestFromJSON,
+    PatchCustomEnterpriseServiceRequestToJSON,
+    PatchNonCustomEnterpriseServiceRequestFromJSON,
+    PatchNonCustomEnterpriseServiceRequestToJSON,
     ServiceSearchResponseItemFromJSON,
     ServiceSearchResponseItemToJSON,
 } from '../models/index';
@@ -104,6 +110,16 @@ export interface GetServiceCustomAppointmentsStatusRequest {
 
 export interface GetUncancelledScheduledAppointmentRequest {
     appointmentId: number;
+}
+
+export interface PatchCustomEnterpriseServiceOperationRequest {
+    serviceId: number;
+    patchCustomEnterpriseServiceRequest: PatchCustomEnterpriseServiceRequest;
+}
+
+export interface PatchNonCustomEnterpriseServiceOperationRequest {
+    serviceId: number;
+    patchNonCustomEnterpriseServiceRequest: PatchNonCustomEnterpriseServiceRequest;
 }
 
 export interface SearchServicesRequest {
@@ -567,6 +583,110 @@ export class EnterpriseServicesApi extends runtime.BaseAPI {
     async getUncancelledScheduledAppointment(appointmentId: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetEnterpriseServicePendingAppointmentResponse>> {
         const response = await this.getUncancelledScheduledAppointmentRaw({ appointmentId: appointmentId }, initOverrides);
         return await response.value();
+    }
+
+    /**
+     */
+    async patchCustomEnterpriseServiceRaw(requestParameters: PatchCustomEnterpriseServiceOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['serviceId'] == null) {
+            throw new runtime.RequiredError(
+                'serviceId',
+                'Required parameter "serviceId" was null or undefined when calling patchCustomEnterpriseService().'
+            );
+        }
+
+        if (requestParameters['patchCustomEnterpriseServiceRequest'] == null) {
+            throw new runtime.RequiredError(
+                'patchCustomEnterpriseServiceRequest',
+                'Required parameter "patchCustomEnterpriseServiceRequest" was null or undefined when calling patchCustomEnterpriseService().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("JwtBearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/services/custom/{serviceId}`;
+        urlPath = urlPath.replace(`{${"serviceId"}}`, encodeURIComponent(String(requestParameters['serviceId'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'PATCH',
+            headers: headerParameters,
+            query: queryParameters,
+            body: PatchCustomEnterpriseServiceRequestToJSON(requestParameters['patchCustomEnterpriseServiceRequest']),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async patchCustomEnterpriseService(serviceId: number, patchCustomEnterpriseServiceRequest: PatchCustomEnterpriseServiceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.patchCustomEnterpriseServiceRaw({ serviceId: serviceId, patchCustomEnterpriseServiceRequest: patchCustomEnterpriseServiceRequest }, initOverrides);
+    }
+
+    /**
+     */
+    async patchNonCustomEnterpriseServiceRaw(requestParameters: PatchNonCustomEnterpriseServiceOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['serviceId'] == null) {
+            throw new runtime.RequiredError(
+                'serviceId',
+                'Required parameter "serviceId" was null or undefined when calling patchNonCustomEnterpriseService().'
+            );
+        }
+
+        if (requestParameters['patchNonCustomEnterpriseServiceRequest'] == null) {
+            throw new runtime.RequiredError(
+                'patchNonCustomEnterpriseServiceRequest',
+                'Required parameter "patchNonCustomEnterpriseServiceRequest" was null or undefined when calling patchNonCustomEnterpriseService().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("JwtBearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/services/non-custom/{serviceId}`;
+        urlPath = urlPath.replace(`{${"serviceId"}}`, encodeURIComponent(String(requestParameters['serviceId'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'PATCH',
+            headers: headerParameters,
+            query: queryParameters,
+            body: PatchNonCustomEnterpriseServiceRequestToJSON(requestParameters['patchNonCustomEnterpriseServiceRequest']),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async patchNonCustomEnterpriseService(serviceId: number, patchNonCustomEnterpriseServiceRequest: PatchNonCustomEnterpriseServiceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.patchNonCustomEnterpriseServiceRaw({ serviceId: serviceId, patchNonCustomEnterpriseServiceRequest: patchNonCustomEnterpriseServiceRequest }, initOverrides);
     }
 
     /**

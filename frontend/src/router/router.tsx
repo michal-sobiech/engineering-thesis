@@ -28,6 +28,7 @@ import { ServiceCreationPage } from "../pages/service/create/ServiceCreationPage
 import { ManageServicePage } from "../pages/service/manage/ManageServicePage";
 import { ServicePublicPage } from "../pages/service/public/ServicePublicPage";
 import { ServiceSearchPage } from "../pages/service/search/ServiceSearchPage";
+import { StaffServicePage } from "../pages/service/staff/StaffServicePage";
 import { PageLayout } from "./PageLayout";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { routeTemplates } from "./route-templates";
@@ -149,6 +150,11 @@ export const router = createBrowserRouter([
                 path: routeTemplates.postAppointmentPaymentPage,
                 loader: postPaymentPageLoader,
                 element: <PostAppointmentPaymentPage />
+            },
+            {
+                path: routeTemplates.staffServicePage,
+                loader: serviceIdLoader,
+                element: <StaffServicePage />
             }
         ]
     }

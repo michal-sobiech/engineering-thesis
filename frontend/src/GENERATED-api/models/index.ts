@@ -54,6 +54,8 @@ export * from './LogInEnterpriseEmployeeRequest';
 export * from './LogInEnterpriseEmployeeResponse';
 export * from './LogInIndependentEndUserRequest';
 export * from './LogInIndependentEndUserResponse';
+export * from './PatchCustomEnterpriseServiceRequest';
+export * from './PatchNonCustomEnterpriseServiceRequest';
 export * from './PatchRegularAdminRequest';
 export * from './RejectPendingAppointmentRequest';
 export * from './SendAdyenSessionResultRequest';
