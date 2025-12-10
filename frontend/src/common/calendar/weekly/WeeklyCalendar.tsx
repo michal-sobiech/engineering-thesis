@@ -1,4 +1,4 @@
-import { Calendar, CalendarProps } from "react-big-calendar";
+import { Calendar, CalendarProps, Event } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { localizer as defaultLocalizer } from "../../localizer";
 
