@@ -1,10 +1,12 @@
 package pl.michal_sobiech.engineering_thesis.api;
 
+import java.math.BigDecimal;
 import java.time.LocalTime;
 
 import org.SwaggerCodeGenExample.model.Slot;
 
 import pl.michal_sobiech.core.enterprise_service_slot_template.non_custom_appointments.CreateSlotTemplateCommand;
+import pl.michal_sobiech.core.enterprise_service_slot_template.non_custom_appointments.NonCustomSlotTemplate;
 import pl.michal_sobiech.engineering_thesis.utils.DayOfWeekUtils;
 
 public class SlotMapper {
@@ -17,6 +19,14 @@ public class SlotMapper {
                 startTime,
                 endTime,
                 slot.getMaxOccupancy().shortValue());
+    }
+
+    public static Slot fromNonCustomSlotTemplate(NonCustomSlotTemplate nonCustomSlotTemplate) {
+        return new Slot(
+                DayOfWeekUtils.stdDayOfWeekToSwagger(nonCustomSlotTemplate.dayOfWeek()),
+                nonCustomSlotTemplate.startTime().toString(),
+                nonCustomSlotTemplate.endTime().toString(),
+                BigDecimal.valueOf(nonCustomSlotTemplate.maxOccupancy()));
     }
 
 }

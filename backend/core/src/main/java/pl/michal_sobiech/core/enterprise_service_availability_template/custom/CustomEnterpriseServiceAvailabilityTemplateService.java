@@ -6,19 +6,19 @@ import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.core.enterprise_service_slot_template.EnterpriseServiceSlotTemplateService;
-import pl.michal_sobiech.core.enterprise_service_slot_template.custom_appointments.CustomAppointmentsEnterpriseServiceSlotTemplate;
+import pl.michal_sobiech.core.enterprise_service_slot_template.custom_appointments.CustomSlotTemplate;
 
 @RequiredArgsConstructor
 public class CustomEnterpriseServiceAvailabilityTemplateService {
 
     private final EnterpriseServiceSlotTemplateService enterpriseServiceSlotTemplateService;
 
-    public List<CustomAppointmentsEnterpriseServiceSlotTemplate> getAvailabilityTemplateForDayOfWeek(
+    public List<CustomSlotTemplate> getAvailabilityTemplateForDayOfWeek(
             long enterpiseServiceId,
             DayOfWeek dayOfWeek) {
         return enterpriseServiceSlotTemplateService.getAvailabilityTemplateForDayOfWeek(enterpiseServiceId, dayOfWeek)
                 .stream()
-                .map(CustomAppointmentsEnterpriseServiceSlotTemplate::from)
+                .map(CustomSlotTemplate::from)
                 .collect(Collectors.toList());
     }
 

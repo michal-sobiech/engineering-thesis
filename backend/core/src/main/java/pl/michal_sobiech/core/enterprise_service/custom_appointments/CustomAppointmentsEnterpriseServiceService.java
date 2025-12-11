@@ -13,14 +13,14 @@ import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceCathegory;
 import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceEntity;
 import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceRepository;
 import pl.michal_sobiech.core.enterprise_service_slot_template.custom_appointments.CreateTimeWindowTemplateCommand;
-import pl.michal_sobiech.core.enterprise_service_slot_template.custom_appointments.CustomAppointmentsEnterpriseServiceTimeWindowTemplateService;
+import pl.michal_sobiech.core.enterprise_service_slot_template.custom_appointments.CustomTimeWindowTemplateService;
 import pl.michal_sobiech.core.location.Location;
 
 @RequiredArgsConstructor
 public class CustomAppointmentsEnterpriseServiceService {
 
     private final EnterpriseServiceRepository enterpriseServiceRepository;
-    private final CustomAppointmentsEnterpriseServiceTimeWindowTemplateService timeWindowTemplateService;
+    private final CustomTimeWindowTemplateService timeWindowTemplateService;
 
     @Transactional
     public CustomEnterpriseService save(long enterpriseId,

@@ -29,3 +29,7 @@ export const serviceCathegoryLabels = {
     [ServiceCathegory.PLUMBER]: "Plumber",
     [ServiceCathegory.ELECTRICICAN]: "Electrician",
 } as const satisfies Record<ServiceCathegory, string>;
+
+export function isServiceCathegory(value: string): value is ServiceCathegory {
+    return Object.values(ServiceCathegory).includes(value as ServiceCathegory);
+}

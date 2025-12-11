@@ -16,8 +16,8 @@ import pl.michal_sobiech.core.enterprise_service_availability_template.Enterpris
 import pl.michal_sobiech.core.enterprise_service_availability_template.non_custom.NonCustomEnterpriseServiceAvailabilityTemplateService;
 import pl.michal_sobiech.core.enterprise_service_slot_template.EnterpriseServiceSlotTemplateRepository;
 import pl.michal_sobiech.core.enterprise_service_slot_template.EnterpriseServiceSlotTemplateService;
-import pl.michal_sobiech.core.enterprise_service_slot_template.custom_appointments.CustomAppointmentsEnterpriseServiceTimeWindowTemplateService;
-import pl.michal_sobiech.core.enterprise_service_slot_template.non_custom_appointments.NonCustomAppointmentsEnterpriseServiceSlotTemplateService;
+import pl.michal_sobiech.core.enterprise_service_slot_template.custom_appointments.CustomTimeWindowTemplateService;
+import pl.michal_sobiech.core.enterprise_service_slot_template.non_custom_appointments.NonCustomSlotTemplateService;
 
 @Configuration
 public class EnterpriseServiceConfig {
@@ -40,7 +40,7 @@ public class EnterpriseServiceConfig {
     @Bean
     public CustomAppointmentsEnterpriseServiceService customAppointmentsEnterpriseServiceService(
             EnterpriseServiceRepository enterpriseServiceRepository,
-            CustomAppointmentsEnterpriseServiceTimeWindowTemplateService customAppointmentsEnterpriseServiceTimeWindowTemplateService) {
+            CustomTimeWindowTemplateService customAppointmentsEnterpriseServiceTimeWindowTemplateService) {
         return new CustomAppointmentsEnterpriseServiceService(enterpriseServiceRepository,
                 customAppointmentsEnterpriseServiceTimeWindowTemplateService);
     }
@@ -48,7 +48,7 @@ public class EnterpriseServiceConfig {
     @Bean
     public NonCustomAppointmentsEnterpriseServiceService nonCustomAppointmentsEnterpriseServiceService(
             EnterpriseServiceRepository enterpriseServiceRepository,
-            NonCustomAppointmentsEnterpriseServiceSlotTemplateService nonCustomAppointmentsEnterpriseServiceSlotTemplateService) {
+            NonCustomSlotTemplateService nonCustomAppointmentsEnterpriseServiceSlotTemplateService) {
         return new NonCustomAppointmentsEnterpriseServiceService(enterpriseServiceRepository,
                 nonCustomAppointmentsEnterpriseServiceSlotTemplateService);
     }
@@ -71,7 +71,7 @@ public class EnterpriseServiceConfig {
     @Bean
     public CustomEnterpriseServiceAvailabilityService customEnterpriseServiceAvailabilityService(
             EnterpriseServiceService enterpriseServiceService,
-            CustomAppointmentsEnterpriseServiceTimeWindowTemplateService customAppointmentsEnterpriseServiceTimeWindowTemplateService,
+            CustomTimeWindowTemplateService customAppointmentsEnterpriseServiceTimeWindowTemplateService,
             CustomAppointmentService customAppointmentService) {
         return new CustomEnterpriseServiceAvailabilityService(enterpriseServiceService,
                 customAppointmentsEnterpriseServiceTimeWindowTemplateService,
@@ -91,18 +91,18 @@ public class EnterpriseServiceConfig {
     }
 
     @Bean
-    public CustomAppointmentsEnterpriseServiceTimeWindowTemplateService customAppointmentsEnterpriseServiceTimeWindowTemplateService(
+    public CustomTimeWindowTemplateService customAppointmentsEnterpriseServiceTimeWindowTemplateService(
             EnterpriseServiceSlotTemplateService enterpriseServiceSlotTemplateService,
             EnterpriseServiceSlotTemplateRepository enterpriseServiceSlotTemplateRepository) {
-        return new CustomAppointmentsEnterpriseServiceTimeWindowTemplateService(
+        return new CustomTimeWindowTemplateService(
                 enterpriseServiceSlotTemplateService,
                 enterpriseServiceSlotTemplateRepository);
     }
 
     @Bean
-    public NonCustomAppointmentsEnterpriseServiceSlotTemplateService nonCustomAppointmentsEnterpriseServiceSlotTemplateService(
+    public NonCustomSlotTemplateService nonCustomAppointmentsEnterpriseServiceSlotTemplateService(
             EnterpriseServiceSlotTemplateRepository enterpriseServiceSlotTemplateRepository) {
-        return new NonCustomAppointmentsEnterpriseServiceSlotTemplateService(enterpriseServiceSlotTemplateRepository);
+        return new NonCustomSlotTemplateService(enterpriseServiceSlotTemplateRepository);
     }
 
 }

@@ -49,7 +49,11 @@ import pl.michal_sobiech.core.enterprise_service.no_custom_appointments.NonCusto
 import pl.michal_sobiech.core.enterprise_service_availability.CustomEnterpriseServiceAvailabilityService;
 import pl.michal_sobiech.core.enterprise_service_availability.NonCustomEnterpriseServiceAvailabilityService;
 import pl.michal_sobiech.core.enterprise_service_slot_template.custom_appointments.CreateTimeWindowTemplateCommand;
+import pl.michal_sobiech.core.enterprise_service_slot_template.custom_appointments.CustomSlotTemplate;
+import pl.michal_sobiech.core.enterprise_service_slot_template.custom_appointments.CustomTimeWindowTemplateService;
 import pl.michal_sobiech.core.enterprise_service_slot_template.non_custom_appointments.CreateSlotTemplateCommand;
+import pl.michal_sobiech.core.enterprise_service_slot_template.non_custom_appointments.NonCustomSlotTemplate;
+import pl.michal_sobiech.core.enterprise_service_slot_template.non_custom_appointments.NonCustomSlotTemplateService;
 import pl.michal_sobiech.core.location.Location;
 import pl.michal_sobiech.core.payment.payment_status.PaymentStatusNotPaid;
 import pl.michal_sobiech.core.payment.payment_status.PaymentStatusPaidOnSite;
@@ -81,6 +85,9 @@ public class EnterpriseServiceController implements ServicesApi {
     private final AppointmentWithDetailsService appointmentWithDetailsService;
     private final CustomAppointmentWithDetailsService customAppointmentWithDetailsService;
     private final EnterpriseService enterpriseService;
+
+    private CustomTimeWindowTemplateService customTimeWindowTemplateService;
+    private NonCustomSlotTemplateService nonCustomSlotTemplateService;
 
     @Override
     public ResponseEntity<List<GetServiceFreeNonCustomAppointmentsResponseItem>> getFreeNonCustomAppointments(
@@ -240,13 +247,17 @@ public class EnterpriseServiceController implements ServicesApi {
                     .getByEnterpriseServiceId(enterpriseServiceId)
                     .orElseThrow();
             Enterprise enterprise = enterpriseService.getById(service.enterpriseId()).orElseThrow();
-            body = GetEnterpriseServiceCustomServiceResponseFactory.fromDomain(service, enterprise);
+            List<CustomSlotTemplate> timeWindows = customTimeWindowTemplateService
+                    .getAllInWeekByEnterpriseServiceId(service.enterpriseServiceId());
+            body = GetEnterpriseServiceCustomServiceResponseFactory.fromDomain(service, enterprise, timeWindows);
         } else {
             var service = nonCustomAppointmentsEnterpriseServiceService
                     .getByEnterpriseServiceId(enterpriseServiceId)
                     .orElseThrow();
             Enterprise enterprise = enterpriseService.getById(service.enterpriseId()).orElseThrow();
-            body = GetEnterpriseServiceNonCustomServiceResponseFactory.fromDomain(service, enterprise);
+            List<NonCustomSlotTemplate> slots = nonCustomSlotTemplateService
+                    .getAllInWeekByEnterpriseServiceId(service.enterpriseServiceId());
+            body = GetEnterpriseServiceNonCustomServiceResponseFactory.fromDomain(service, enterprise, slots);
         }
         return ResponseEntity.ok(body);
     }
@@ -353,7 +364,10 @@ public class EnterpriseServiceController implements ServicesApi {
                 .orElseThrow();
         Enterprise enterprise = enterpriseService.getById(service.enterpriseId()).orElseThrow();
 
-        var body = GetEnterpriseServiceCustomServiceResponseFactory.fromDomain(service, enterprise);
+        List<CustomSlotTemplate> timeWindows = customTimeWindowTemplateService
+                .getAllInWeekByEnterpriseServiceId(serviceId);
+
+        var body = GetEnterpriseServiceCustomServiceResponseFactory.fromDomain(service, enterprise, timeWindows);
         return ResponseEntity.ok(body);
     }
 
@@ -364,7 +378,9 @@ public class EnterpriseServiceController implements ServicesApi {
                 .orElseThrow();
         Enterprise enterprise = enterpriseService.getById(service.enterpriseId()).orElseThrow();
 
-        var body = GetEnterpriseServiceNonCustomServiceResponseFactory.fromDomain(service, enterprise);
+        List<NonCustomSlotTemplate> slots = nonCustomSlotTemplateService.getAllInWeekByEnterpriseServiceId(serviceId);
+
+        var body = GetEnterpriseServiceNonCustomServiceResponseFactory.fromDomain(service, enterprise, slots);
         return ResponseEntity.ok(body);
     }
 
@@ -373,7 +389,7 @@ public class EnterpriseServiceController implements ServicesApi {
             @Valid PatchCustomEnterpriseServiceRequest request) {
         List<CreateTimeWindowTemplateCommand> createTimeWindowTemplateCommands = request.getTimeWindows()
                 .stream()
-                .map(TimeWindowMapper::fromSwaggerTimeWindow)
+                .map(TimeWindowMapper::createCommandFromSwaggerTimeWindow)
                 .collect(Collectors.toList());
 
         customAppointmentsEnterpriseServiceService.patchIncludingSlotTemplates(

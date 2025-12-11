@@ -1,11 +1,11 @@
-package pl.michal_sobiech.core.enterprise_service_slot_template.custom_appointments;
+package pl.michal_sobiech.core.enterprise_service_slot_template.non_custom_appointments;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 
 import pl.michal_sobiech.core.enterprise_service_slot_template.EnterpriseServiceSlotTemplateEntity;
 
-public record CustomAppointmentsEnterpriseServiceSlotTemplate(
+public record NonCustomSlotTemplate(
 
         long enterpriseServiceSlotId,
 
@@ -15,21 +15,24 @@ public record CustomAppointmentsEnterpriseServiceSlotTemplate(
 
         LocalTime startTime,
 
-        LocalTime endTime
+        LocalTime endTime,
+
+        Short maxOccupancy
 
 ) {
 
-    public static CustomAppointmentsEnterpriseServiceSlotTemplate from(EnterpriseServiceSlotTemplateEntity entity) {
-        if (entity.getMaxOccupancy() != null) {
+    public static NonCustomSlotTemplate from(EnterpriseServiceSlotTemplateEntity entity) {
+        if (entity.getMaxOccupancy() == null) {
             throw new IllegalArgumentException();
         }
 
-        return new CustomAppointmentsEnterpriseServiceSlotTemplate(
+        return new NonCustomSlotTemplate(
                 entity.getEnterpriseServiceSlotTemplateId(),
                 entity.getEnterpriseServiceId(),
                 entity.getDayOfWeek(),
                 entity.getStartTime(),
-                entity.getEndTime());
+                entity.getEndTime(),
+                entity.getMaxOccupancy());
     }
 
 }

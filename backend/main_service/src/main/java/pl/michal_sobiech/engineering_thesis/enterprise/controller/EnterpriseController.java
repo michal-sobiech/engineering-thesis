@@ -37,7 +37,11 @@ import pl.michal_sobiech.core.enterprise_service.custom_appointments.CustomAppoi
 import pl.michal_sobiech.core.enterprise_service.no_custom_appointments.CreateNoCustomAppointmentsEnterpriseServiceCommand;
 import pl.michal_sobiech.core.enterprise_service.no_custom_appointments.NonCustomAppointmentsEnterpriseServiceService;
 import pl.michal_sobiech.core.enterprise_service_slot_template.custom_appointments.CreateTimeWindowTemplateCommand;
+import pl.michal_sobiech.core.enterprise_service_slot_template.custom_appointments.CustomSlotTemplate;
+import pl.michal_sobiech.core.enterprise_service_slot_template.custom_appointments.CustomTimeWindowTemplateService;
 import pl.michal_sobiech.core.enterprise_service_slot_template.non_custom_appointments.CreateSlotTemplateCommand;
+import pl.michal_sobiech.core.enterprise_service_slot_template.non_custom_appointments.NonCustomSlotTemplate;
+import pl.michal_sobiech.core.enterprise_service_slot_template.non_custom_appointments.NonCustomSlotTemplateService;
 import pl.michal_sobiech.core.entrepreneur.Entrepreneur;
 import pl.michal_sobiech.core.location.Location;
 import pl.michal_sobiech.core.model.File;
@@ -62,6 +66,9 @@ public class EnterpriseController implements EnterprisesApi {
 
     private final EnterpriseControllerCreateEnterprise enterpriseControllerCreateEnterprise;
     private final EnterpriseControllerCreateEmployee enterpriseControllerCreateEmployee;
+
+    private final CustomTimeWindowTemplateService customTimeWindowTemplateService;
+    private final NonCustomSlotTemplateService nonCustomSlotTemplateService;
 
     public ResponseEntity<CreateEnterpriseResponse> createEnterprise(
             String name,
@@ -127,13 +134,22 @@ public class EnterpriseController implements EnterprisesApi {
         List<GetEnterpriseServiceNonCustomServiceResponse> nonCustomServices = nonCustomAppointmentsEnterpriseServiceService
                 .getByEnterpriseId(enterpriseId)
                 .stream()
-                .map(service -> GetEnterpriseServiceNonCustomServiceResponseFactory.fromDomain(service, enterprise))
+                .map(service -> {
+                    List<NonCustomSlotTemplate> slots = nonCustomSlotTemplateService
+                            .getAllInWeekByEnterpriseServiceId(service.enterpriseServiceId());
+                    return GetEnterpriseServiceNonCustomServiceResponseFactory.fromDomain(service, enterprise, slots);
+                })
                 .collect(Collectors.toList());
 
         List<GetEnterpriseServiceCustomServiceResponse> customServices = customAppointmentsEnterpriseServiceService
                 .getByEnterpriseId(enterpriseId)
                 .stream()
-                .map(service -> GetEnterpriseServiceCustomServiceResponseFactory.fromDomain(service, enterprise))
+                .map(service -> {
+                    List<CustomSlotTemplate> timeWindows = customTimeWindowTemplateService
+                            .getAllInWeekByEnterpriseServiceId(service.enterpriseServiceId());
+                    return GetEnterpriseServiceCustomServiceResponseFactory.fromDomain(service, enterprise,
+                            timeWindows);
+                })
                 .collect(Collectors.toList());
 
         List<GetEnterpriseService200Response> body = new ArrayList<>();
@@ -181,7 +197,7 @@ public class EnterpriseController implements EnterprisesApi {
         List<CreateTimeWindowTemplateCommand> createTimeWindowCommands = request
                 .getTimeWindows()
                 .stream()
-                .map(TimeWindowMapper::fromSwaggerTimeWindow)
+                .map(TimeWindowMapper::createCommandFromSwaggerTimeWindow)
                 .collect(Collectors.toList());
 
         Location domainLocation = LocationMapper.fromSwagger(request.getLocation());

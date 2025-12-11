@@ -13,14 +13,14 @@ import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceCathegory;
 import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceEntity;
 import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceRepository;
 import pl.michal_sobiech.core.enterprise_service_slot_template.non_custom_appointments.CreateSlotTemplateCommand;
-import pl.michal_sobiech.core.enterprise_service_slot_template.non_custom_appointments.NonCustomAppointmentsEnterpriseServiceSlotTemplateService;
+import pl.michal_sobiech.core.enterprise_service_slot_template.non_custom_appointments.NonCustomSlotTemplateService;
 import pl.michal_sobiech.core.location.Location;
 
 @RequiredArgsConstructor
 public class NonCustomAppointmentsEnterpriseServiceService {
 
     private final EnterpriseServiceRepository enterpriseServiceRepository;
-    private final NonCustomAppointmentsEnterpriseServiceSlotTemplateService nonCustomAppointmentsEnterpriseServiceSlotTemplateService;
+    private final NonCustomSlotTemplateService nonCustomAppointmentsEnterpriseServiceSlotTemplateService;
 
     @Transactional
     public EnterpriseServiceEntity save(long enterpriseId,

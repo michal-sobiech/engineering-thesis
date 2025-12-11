@@ -302,6 +302,7 @@ components:
           cathegory,
           price,
           currencyIso,
+          timeWindows,
         ]
       properties:
         takesCustomAppointments:
@@ -336,6 +337,10 @@ components:
           type: number
         currencyIso:
           type: string
+        timeWindows:
+          type: array
+          items:
+            $ref: "#/components/schemas/TimeWindow"
 
     GetEnterpriseServiceNonCustomServiceResponse:
       type: object
@@ -352,6 +357,7 @@ components:
           cathegory,
           price,
           currencyIso,
+          slots,
         ]
       properties:
         takesCustomAppointments:
@@ -383,6 +389,10 @@ components:
           type: number
         currencyIso:
           type: string
+        slots:
+          type: array
+          items:
+            $ref: "#/components/schemas/Slot"
 
     GetEnterpriseServicesResponse:
       type: array

@@ -13,6 +13,13 @@
  */
 
 import { mapValues } from '../runtime';
+import type { Slot } from './Slot';
+import {
+    SlotFromJSON,
+    SlotFromJSONTyped,
+    SlotToJSON,
+    SlotToJSONTyped,
+} from './Slot';
 import type { Location } from './Location';
 import {
     LocationFromJSON,
@@ -32,7 +39,7 @@ export interface GetEnterpriseServiceNonCustomServiceResponse {
      * @type {boolean}
      * @memberof GetEnterpriseServiceNonCustomServiceResponse
      */
-    takesCustomAppointments: boolean;
+    readonly takesCustomAppointments: boolean;
     /**
      * 
      * @type {number}
@@ -93,6 +100,12 @@ export interface GetEnterpriseServiceNonCustomServiceResponse {
      * @memberof GetEnterpriseServiceNonCustomServiceResponse
      */
     currencyIso: string;
+    /**
+     * 
+     * @type {Array<Slot>}
+     * @memberof GetEnterpriseServiceNonCustomServiceResponse
+     */
+    slots: Array<Slot>;
 }
 
 /**
@@ -110,6 +123,7 @@ export function instanceOfGetEnterpriseServiceNonCustomServiceResponse(value: ob
     if (!('cathegory' in value) || value['cathegory'] === undefined) return false;
     if (!('price' in value) || value['price'] === undefined) return false;
     if (!('currencyIso' in value) || value['currencyIso'] === undefined) return false;
+    if (!('slots' in value) || value['slots'] === undefined) return false;
     return true;
 }
 
@@ -134,6 +148,7 @@ export function GetEnterpriseServiceNonCustomServiceResponseFromJSONTyped(json: 
         'cathegory': json['cathegory'],
         'price': json['price'],
         'currencyIso': json['currencyIso'],
+        'slots': ((json['slots'] as Array<any>).map(SlotFromJSON)),
     };
 }
 
@@ -141,14 +156,13 @@ export function GetEnterpriseServiceNonCustomServiceResponseToJSON(json: any): G
     return GetEnterpriseServiceNonCustomServiceResponseToJSONTyped(json, false);
 }
 
-export function GetEnterpriseServiceNonCustomServiceResponseToJSONTyped(value?: GetEnterpriseServiceNonCustomServiceResponse | null, ignoreDiscriminator: boolean = false): any {
+export function GetEnterpriseServiceNonCustomServiceResponseToJSONTyped(value?: Omit<GetEnterpriseServiceNonCustomServiceResponse, 'takesCustomAppointments'> | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
 
     return {
         
-        'takesCustomAppointments': value['takesCustomAppointments'],
         'enterpriseId': value['enterpriseId'],
         'enterpriseName': value['enterpriseName'],
         'serviceId': value['serviceId'],
@@ -159,6 +173,7 @@ export function GetEnterpriseServiceNonCustomServiceResponseToJSONTyped(value?: 
         'cathegory': value['cathegory'],
         'price': value['price'],
         'currencyIso': value['currencyIso'],
+        'slots': ((value['slots'] as Array<any>).map(SlotToJSON)),
     };
 }
 

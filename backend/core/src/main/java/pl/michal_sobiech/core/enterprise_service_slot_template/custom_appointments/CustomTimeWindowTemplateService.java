@@ -4,6 +4,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,20 +17,20 @@ import pl.michal_sobiech.core.utils.DateUtils;
 import pl.michal_sobiech.core.utils.LocalDateTimeWindow;
 
 @RequiredArgsConstructor
-public class CustomAppointmentsEnterpriseServiceTimeWindowTemplateService {
+public class CustomTimeWindowTemplateService {
 
     private final EnterpriseServiceSlotTemplateService enterpriseServiceSlotTemplateService;
     private final EnterpriseServiceSlotTemplateRepository enterpriseServiceSlotTemplateRepository;
 
     @Transactional
-    public List<CustomAppointmentsEnterpriseServiceSlotTemplate> saveMany(long enterpriseServiceId,
+    public List<CustomSlotTemplate> saveMany(long enterpriseServiceId,
             List<CreateTimeWindowTemplateCommand> commands) {
         return commands.stream().map(command -> save(enterpriseServiceId, command))
                 .collect(Collectors.toList());
     }
 
     @Transactional
-    public CustomAppointmentsEnterpriseServiceSlotTemplate save(long enterpriseServiceId,
+    public CustomSlotTemplate save(long enterpriseServiceId,
             CreateTimeWindowTemplateCommand command) {
         EnterpriseServiceSlotTemplateEntity slot = EnterpriseServiceSlotTemplateEntity.builder()
                 .enterpriseServiceId(enterpriseServiceId)
@@ -38,7 +39,7 @@ public class CustomAppointmentsEnterpriseServiceTimeWindowTemplateService {
                 .endTime(command.endTime())
                 .build();
         slot = enterpriseServiceSlotTemplateRepository.save(slot);
-        return CustomAppointmentsEnterpriseServiceSlotTemplate.from(slot);
+        return CustomSlotTemplate.from(slot);
     }
 
     public List<LocalDateTimeWindow> getAvailabilityTemplateForLocalDatetimeRange(
@@ -61,7 +62,7 @@ public class CustomAppointmentsEnterpriseServiceTimeWindowTemplateService {
         for (LocalDate date : DateUtils.getAllDatesBetweenIncludingBorders(from, to)) {
             DayOfWeek dayOfWeek = date.getDayOfWeek();
 
-            List<CustomAppointmentsEnterpriseServiceSlotTemplate> windowsForDayOfWeek = getAvailabilityTemplateForDayOfWeek(
+            List<CustomSlotTemplate> windowsForDayOfWeek = getAvailabilityTemplateForDayOfWeek(
                     enterpriseServiceId,
                     dayOfWeek);
             List<LocalDateTimeWindow> mappedWindowsForDayOfWeek = windowsForDayOfWeek.stream()
@@ -81,13 +82,21 @@ public class CustomAppointmentsEnterpriseServiceTimeWindowTemplateService {
         return getAvailabilityTemplateForDateRange(enterpriseServiceId, date, date);
     }
 
-    public List<CustomAppointmentsEnterpriseServiceSlotTemplate> getAvailabilityTemplateForDayOfWeek(
+    public List<CustomSlotTemplate> getAvailabilityTemplateForDayOfWeek(
             long enterpiseServiceId,
             DayOfWeek dayOfWeek) {
         List<EnterpriseServiceSlotTemplateEntity> slots = enterpriseServiceSlotTemplateService
                 .getAvailabilityTemplateForDayOfWeek(enterpiseServiceId, dayOfWeek);
         return slots.stream()
-                .map(CustomAppointmentsEnterpriseServiceSlotTemplate::from)
+                .map(CustomSlotTemplate::from)
+                .collect(Collectors.toList());
+    }
+
+    public List<CustomSlotTemplate> getAllInWeekByEnterpriseServiceId(
+            long enterpiseServiceId) {
+        return Arrays.stream(DayOfWeek.values())
+                .map(day -> getAvailabilityTemplateForDayOfWeek(enterpiseServiceId, day))
+                .flatMap(List::stream)
                 .collect(Collectors.toList());
     }
 

@@ -1,5 +1,7 @@
 package pl.michal_sobiech.engineering_thesis.utils;
 
+import java.time.DayOfWeek;
+
 public class DayOfWeekUtils {
     public static java.time.DayOfWeek swaggerToStdDayOfWeek(
             org.SwaggerCodeGenExample.model.DayOfWeek swaggerDayOfWeek) {
@@ -18,6 +20,27 @@ public class DayOfWeekUtils {
                 return java.time.DayOfWeek.SATURDAY;
             case org.SwaggerCodeGenExample.model.DayOfWeek.SUNDAY:
                 return java.time.DayOfWeek.SUNDAY;
+            default:
+                throw new IllegalArgumentException();
+        }
+    }
+
+    public static org.SwaggerCodeGenExample.model.DayOfWeek stdDayOfWeekToSwagger(DayOfWeek stdDayOfWeek) {
+        switch (stdDayOfWeek) {
+            case java.time.DayOfWeek.MONDAY:
+                return org.SwaggerCodeGenExample.model.DayOfWeek.MONDAY;
+            case java.time.DayOfWeek.TUESDAY:
+                return org.SwaggerCodeGenExample.model.DayOfWeek.TUESDAY;
+            case java.time.DayOfWeek.WEDNESDAY:
+                return org.SwaggerCodeGenExample.model.DayOfWeek.WEDNESDAY;
+            case java.time.DayOfWeek.THURSDAY:
+                return org.SwaggerCodeGenExample.model.DayOfWeek.THURSDAY;
+            case java.time.DayOfWeek.FRIDAY:
+                return org.SwaggerCodeGenExample.model.DayOfWeek.FRIDAY;
+            case java.time.DayOfWeek.SATURDAY:
+                return org.SwaggerCodeGenExample.model.DayOfWeek.SATURDAY;
+            case java.time.DayOfWeek.SUNDAY:
+                return org.SwaggerCodeGenExample.model.DayOfWeek.SUNDAY;
             default:
                 throw new IllegalArgumentException();
         }

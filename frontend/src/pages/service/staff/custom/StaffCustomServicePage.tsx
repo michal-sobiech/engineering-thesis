@@ -19,7 +19,7 @@ import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../../../utils/error"
 import { GeoPosition } from "../../../../utils/GeoPosition"
 import { eventWithIdToTimeWindow } from "../../../../utils/time-window"
 import { toastError } from "../../../../utils/toast"
-import { ServiceCathegory } from "../../ServiceCathegory"
+import { isServiceCathegory, ServiceCathegory } from "../../ServiceCathegory"
 import { ServiceCathegoryPicker } from "../../ServiceCathegoryPicker"
 import { StaffCustomServicePageContext, StaffCustomServicePageContextValue } from "./StaffCustomServicePageContext"
 
@@ -51,14 +51,30 @@ export const StaffCustomServicePage = () => {
     };
 
     useEffect(() => {
-        servicesApi.getEnterpriseService(serviceId)
+        servicesApi.getCustomEnterpriseService(serviceId)
             .then(response => {
-                setEnterpriseName(response.name)
+                setEnterpriseName(response.enterpriseName);
+                setServiceName(response.name);
+                setServiceDescription(response.description);
+                setAddress(response.location.address);
+                setPosition({
+                    longitude: response.location.longitude,
+                    latitude: response.location.latitude,
+                });
+                setEvents(response.time)
+                setTimezone(response.timezone);
+                setPrice(response.price);
+
+                if (isServiceCathegory(response.cathegory)) {
+                    setCathegory(response.cathegory);
+                } else {
+                    throw new Error("Value is not a ServiceCathegory");
+                }
             })
             .catch(() => {
                 toastError(DEFAULT_ERROR_MESSAGE_FOR_USER);
                 navigate(routes.mainPage);
-            })
+            });
     }, []);
 
     const onDicardClick = () => {

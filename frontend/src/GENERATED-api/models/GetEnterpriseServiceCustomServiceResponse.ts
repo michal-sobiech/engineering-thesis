@@ -13,6 +13,13 @@
  */
 
 import { mapValues } from '../runtime';
+import type { TimeWindow } from './TimeWindow';
+import {
+    TimeWindowFromJSON,
+    TimeWindowFromJSONTyped,
+    TimeWindowToJSON,
+    TimeWindowToJSONTyped,
+} from './TimeWindow';
 import type { Location } from './Location';
 import {
     LocationFromJSON,
@@ -99,6 +106,12 @@ export interface GetEnterpriseServiceCustomServiceResponse {
      * @memberof GetEnterpriseServiceCustomServiceResponse
      */
     currencyIso: string;
+    /**
+     * 
+     * @type {Array<TimeWindow>}
+     * @memberof GetEnterpriseServiceCustomServiceResponse
+     */
+    timeWindows: Array<TimeWindow>;
 }
 
 /**
@@ -117,6 +130,7 @@ export function instanceOfGetEnterpriseServiceCustomServiceResponse(value: objec
     if (!('cathegory' in value) || value['cathegory'] === undefined) return false;
     if (!('price' in value) || value['price'] === undefined) return false;
     if (!('currencyIso' in value) || value['currencyIso'] === undefined) return false;
+    if (!('timeWindows' in value) || value['timeWindows'] === undefined) return false;
     return true;
 }
 
@@ -142,6 +156,7 @@ export function GetEnterpriseServiceCustomServiceResponseFromJSONTyped(json: any
         'cathegory': json['cathegory'],
         'price': json['price'],
         'currencyIso': json['currencyIso'],
+        'timeWindows': ((json['timeWindows'] as Array<any>).map(TimeWindowFromJSON)),
     };
 }
 
@@ -167,6 +182,7 @@ export function GetEnterpriseServiceCustomServiceResponseToJSONTyped(value?: Omi
         'cathegory': value['cathegory'],
         'price': value['price'],
         'currencyIso': value['currencyIso'],
+        'timeWindows': ((value['timeWindows'] as Array<any>).map(TimeWindowToJSON)),
     };
 }
 

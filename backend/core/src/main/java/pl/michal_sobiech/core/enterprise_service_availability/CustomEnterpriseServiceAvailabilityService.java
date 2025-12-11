@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.core.appointment.custom.CustomAppointmentService;
 import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceService;
-import pl.michal_sobiech.core.enterprise_service_slot_template.custom_appointments.CustomAppointmentsEnterpriseServiceTimeWindowTemplateService;
+import pl.michal_sobiech.core.enterprise_service_slot_template.custom_appointments.CustomTimeWindowTemplateService;
 import pl.michal_sobiech.core.utils.DateUtils;
 import pl.michal_sobiech.core.utils.LocalDateTimeWindow;
 
@@ -16,7 +16,7 @@ import pl.michal_sobiech.core.utils.LocalDateTimeWindow;
 public class CustomEnterpriseServiceAvailabilityService {
 
     private final EnterpriseServiceService enterpriseServiceService;
-    private final CustomAppointmentsEnterpriseServiceTimeWindowTemplateService customAppointmentsEnterpriseServiceTimeWindowTemplateService;
+    private final CustomTimeWindowTemplateService customAppointmentsEnterpriseServiceTimeWindowTemplateService;
     private final CustomAppointmentService customAppointmentService;
 
     // public boolean isEnterpriseServiceAvailableInServiceLocalDatetimeRange(

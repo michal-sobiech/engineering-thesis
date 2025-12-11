@@ -1,6 +1,7 @@
 package pl.michal_sobiech.core.enterprise_service_slot_template.non_custom_appointments;
 
 import java.time.DayOfWeek;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,19 +11,19 @@ import pl.michal_sobiech.core.enterprise_service_slot_template.EnterpriseService
 import pl.michal_sobiech.core.enterprise_service_slot_template.EnterpriseServiceSlotTemplateRepository;
 
 @RequiredArgsConstructor
-public class NonCustomAppointmentsEnterpriseServiceSlotTemplateService {
+public class NonCustomSlotTemplateService {
 
     private final EnterpriseServiceSlotTemplateRepository enterpriseServiceSlotTemplateRepository;
 
     @Transactional
-    public List<NonCustomAppointmentsEnterpriseServiceSlotTemplate> saveMany(long enterpriseServiceId,
+    public List<NonCustomSlotTemplate> saveMany(long enterpriseServiceId,
             List<CreateSlotTemplateCommand> commands) {
         return commands.stream().map(command -> save(enterpriseServiceId, command))
                 .collect(Collectors.toList());
     }
 
     @Transactional
-    public NonCustomAppointmentsEnterpriseServiceSlotTemplate save(long enterpriseServiceId,
+    public NonCustomSlotTemplate save(long enterpriseServiceId,
             CreateSlotTemplateCommand command) {
         EnterpriseServiceSlotTemplateEntity slot = EnterpriseServiceSlotTemplateEntity.builder()
                 .enterpriseServiceId(enterpriseServiceId)
@@ -32,16 +33,24 @@ public class NonCustomAppointmentsEnterpriseServiceSlotTemplateService {
                 .maxOccupancy(command.maxOccupancy())
                 .build();
         slot = enterpriseServiceSlotTemplateRepository.save(slot);
-        return NonCustomAppointmentsEnterpriseServiceSlotTemplate.from(slot);
+        return NonCustomSlotTemplate.from(slot);
     }
 
-    public List<NonCustomAppointmentsEnterpriseServiceSlotTemplate> getAllByEnterpriseServiceIdAndDayOfWeek(
+    public List<NonCustomSlotTemplate> getAllByEnterpriseServiceIdAndDayOfWeek(
             long enterpiseServiceId,
             DayOfWeek dayOfWeek) {
         List<EnterpriseServiceSlotTemplateEntity> records = enterpriseServiceSlotTemplateRepository
                 .findAllByEnterpriseServiceIdAndDayOfWeek(enterpiseServiceId,
                         dayOfWeek);
-        return records.stream().map(record -> NonCustomAppointmentsEnterpriseServiceSlotTemplate.from(record))
+        return records.stream().map(record -> NonCustomSlotTemplate.from(record))
+                .collect(Collectors.toList());
+    }
+
+    public List<NonCustomSlotTemplate> getAllInWeekByEnterpriseServiceId(
+            long enterpiseServiceId) {
+        return Arrays.stream(DayOfWeek.values())
+                .map(day -> getAllByEnterpriseServiceIdAndDayOfWeek(enterpiseServiceId, day))
+                .flatMap(List::stream)
                 .collect(Collectors.toList());
     }
 
