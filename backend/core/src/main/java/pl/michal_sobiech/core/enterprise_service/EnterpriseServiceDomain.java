@@ -8,8 +8,6 @@ import pl.michal_sobiech.core.location.Location;
 
 public interface EnterpriseServiceDomain {
 
-    // TODO with "get" or without?
-
     public long enterpriseServiceId();
 
     public long enterpriseId();

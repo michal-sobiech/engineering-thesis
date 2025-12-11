@@ -103,4 +103,8 @@ public class EnterpriseService {
                 .collect(Collectors.toList());
     }
 
+    public Optional<Enterprise> getById(long enterpriseId) {
+        return enterpriseRepository.findById(enterpriseId).map(Enterprise::fromEntity);
+    }
+
 }

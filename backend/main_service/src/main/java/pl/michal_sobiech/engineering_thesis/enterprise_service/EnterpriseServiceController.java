@@ -14,16 +14,21 @@ import org.SwaggerCodeGenExample.model.CreateCustomAppointmentRequest;
 import org.SwaggerCodeGenExample.model.CreateEnterpriseServiceReviewRequest;
 import org.SwaggerCodeGenExample.model.CreateNonCustomAppointmentRequest;
 import org.SwaggerCodeGenExample.model.GetEnterpriseService200Response;
+import org.SwaggerCodeGenExample.model.GetEnterpriseServiceCustomServiceResponse;
+import org.SwaggerCodeGenExample.model.GetEnterpriseServiceNonCustomServiceResponse;
 import org.SwaggerCodeGenExample.model.GetEnterpriseServicePendingAppointmentResponse;
 import org.SwaggerCodeGenExample.model.GetEnterpriseServiceUncancelledFutureScheduledAppointmentResponse;
 import org.SwaggerCodeGenExample.model.GetServiceCustomAppointmentsStatus200Response;
 import org.SwaggerCodeGenExample.model.GetServiceFreeCustomAppointmentsResponseItem;
 import org.SwaggerCodeGenExample.model.GetServiceFreeNonCustomAppointmentsResponseItem;
+import org.SwaggerCodeGenExample.model.PatchCustomEnterpriseServiceRequest;
+import org.SwaggerCodeGenExample.model.PatchNonCustomEnterpriseServiceRequest;
 import org.SwaggerCodeGenExample.model.ServiceSearchResponseItem;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.micrometer.common.lang.Nullable;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.core.appointment.AppointmentWithDetailsService;
 import pl.michal_sobiech.core.appointment.custom.CustomAppointmentService;
@@ -32,9 +37,12 @@ import pl.michal_sobiech.core.appointment.non_custom.NonCustomAppointmentsServic
 import pl.michal_sobiech.core.available_enterprise_service_search.AvailableEnterpriseServiceSearchResultRow;
 import pl.michal_sobiech.core.available_enterprise_service_search.AvailableEnterpriseServiceSearchService;
 import pl.michal_sobiech.core.customer.Customer;
+import pl.michal_sobiech.core.enterprise.Enterprise;
+import pl.michal_sobiech.core.enterprise.EnterpriseService;
 import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceCathegory;
 import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceService;
 import pl.michal_sobiech.core.enterprise_service.custom_appointments.CustomAppointmentsEnterpriseServiceService;
+import pl.michal_sobiech.core.enterprise_service.custom_appointments.CustomEnterpriseService;
 import pl.michal_sobiech.core.enterprise_service.no_custom_appointments.NonCustomAppointmentsEnterpriseServiceService;
 import pl.michal_sobiech.core.enterprise_service_availability.CustomEnterpriseServiceAvailabilityService;
 import pl.michal_sobiech.core.enterprise_service_availability.NonCustomEnterpriseServiceAvailabilityService;
@@ -45,6 +53,7 @@ import pl.michal_sobiech.core.payment.payment_status.PaymentStatusPaidOnline;
 import pl.michal_sobiech.core.review.ReviewService;
 import pl.michal_sobiech.core.utils.DateUtils;
 import pl.michal_sobiech.core.utils.LocalDateTimeWindow;
+import pl.michal_sobiech.engineering_thesis.api.LocationMapper;
 import pl.michal_sobiech.engineering_thesis.auth.AuthService;
 import pl.michal_sobiech.engineering_thesis.utils.HttpUtils;
 
@@ -65,6 +74,7 @@ public class EnterpriseServiceController implements ServicesApi {
     private final AvailableEnterpriseServiceSearchService availableEnterpriseServiceSearchService;
     private final AppointmentWithDetailsService appointmentWithDetailsService;
     private final CustomAppointmentWithDetailsService customAppointmentWithDetailsService;
+    private final EnterpriseService enterpriseService;
 
     @Override
     public ResponseEntity<List<GetServiceFreeNonCustomAppointmentsResponseItem>> getFreeNonCustomAppointments(
@@ -327,6 +337,51 @@ public class EnterpriseServiceController implements ServicesApi {
                 })
                 .collect(Collectors.toList());
         return ResponseEntity.ok(body);
+    }
+
+    @Override
+    public ResponseEntity<GetEnterpriseServiceCustomServiceResponse> getCustomEnterpriseService(Long serviceId) {
+        CustomEnterpriseService service = customAppointmentsEnterpriseServiceService.getByEnterpriseServiceId(serviceId)
+                .orElseThrow();
+        Enterprise enterprise = enterpriseService.getById(service.enterpriseId()).orElseThrow();
+
+        org.SwaggerCodeGenExample.model.Location swaggerLocation = LocationMapper.fromDomain(service.location());
+
+        var body = new GetEnterpriseServiceCustomServiceResponse(
+                true,
+                enterprise.enterpriseId(),
+                enterprise.name(),
+                serviceId,
+                service.name(),
+                service.description(),
+                swaggerLocation,
+                service.timezone().toString(),
+                service.maxDistanceKm(),
+                service.cathegory().toString(),
+                service.price(),
+                service.currency().toString());
+
+        return ResponseEntity.ok(body);
+    }
+
+    @Override
+    public ResponseEntity<GetEnterpriseServiceNonCustomServiceResponse> getNonCustomEnterpriseService(Long serviceId) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getNonCustomEnterpriseService'");
+    }
+
+    @Override
+    public ResponseEntity<Void> patchCustomEnterpriseService(Long serviceId,
+            @Valid PatchCustomEnterpriseServiceRequest patchCustomEnterpriseServiceRequest) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'patchCustomEnterpriseService'");
+    }
+
+    @Override
+    public ResponseEntity<Void> patchNonCustomEnterpriseService(Long serviceId,
+            @Valid PatchNonCustomEnterpriseServiceRequest patchNonCustomEnterpriseServiceRequest) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'patchNonCustomEnterpriseService'");
     }
 
 }
