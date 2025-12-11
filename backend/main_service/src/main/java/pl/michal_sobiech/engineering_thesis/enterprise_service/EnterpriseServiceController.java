@@ -36,6 +36,7 @@ import pl.michal_sobiech.core.appointment.custom.CustomAppointmentWithDetailsSer
 import pl.michal_sobiech.core.appointment.non_custom.NonCustomAppointmentsService;
 import pl.michal_sobiech.core.available_enterprise_service_search.AvailableEnterpriseServiceSearchResultRow;
 import pl.michal_sobiech.core.available_enterprise_service_search.AvailableEnterpriseServiceSearchService;
+import pl.michal_sobiech.core.currency_iso.CurrencyIso;
 import pl.michal_sobiech.core.customer.Customer;
 import pl.michal_sobiech.core.enterprise.Enterprise;
 import pl.michal_sobiech.core.enterprise.EnterpriseService;
@@ -54,6 +55,7 @@ import pl.michal_sobiech.core.payment.payment_status.PaymentStatusPaidOnline;
 import pl.michal_sobiech.core.review.ReviewService;
 import pl.michal_sobiech.core.utils.DateUtils;
 import pl.michal_sobiech.core.utils.LocalDateTimeWindow;
+import pl.michal_sobiech.engineering_thesis.api.LocationMapper;
 import pl.michal_sobiech.engineering_thesis.auth.AuthService;
 import pl.michal_sobiech.engineering_thesis.utils.HttpUtils;
 
@@ -364,8 +366,18 @@ public class EnterpriseServiceController implements ServicesApi {
 
     @Override
     public ResponseEntity<Void> patchCustomEnterpriseService(Long serviceId,
-            @Valid PatchCustomEnterpriseServiceRequest patchCustomEnterpriseServiceRequest) {
-
+            @Valid PatchCustomEnterpriseServiceRequest request) {
+        customAppointmentsEnterpriseServiceService.patch(
+                serviceId.longValue(),
+                Optional.ofNullable(request.getName()),
+                Optional.ofNullable(request.getDescription()),
+                Optional.ofNullable(request.getLocation()).map(LocationMapper::fromSwagger),
+                Optional.ofNullable(request.getTimeZone()).map(ZoneId::of),
+                Optional.ofNullable(request.getMaxDistanceKm()),
+                Optional.ofNullable(request.getCathegory()).map(EnterpriseServiceCathegory::valueOf),
+                Optional.ofNullable(request.getPrice()),
+                Optional.ofNullable(request.getCurrency()).map(CurrencyIso::valueOf));
+        return ResponseEntity.ok().build();
     }
 
     @Override

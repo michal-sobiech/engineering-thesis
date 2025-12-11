@@ -1,15 +1,20 @@
 package pl.michal_sobiech.core.enterprise_service.no_custom_appointments;
 
+import java.math.BigDecimal;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import pl.michal_sobiech.core.currency_iso.CurrencyIso;
+import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceCathegory;
 import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceEntity;
 import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceRepository;
 import pl.michal_sobiech.core.enterprise_service_slot_template.non_custom_appointments.CreateNonCustomAppointmentsEnterpriseServiceSlotTemplateCommand;
 import pl.michal_sobiech.core.enterprise_service_slot_template.non_custom_appointments.NonCustomAppointmentsEnterpriseServiceSlotTemplateService;
+import pl.michal_sobiech.core.location.Location;
 
 @RequiredArgsConstructor
 public class NonCustomAppointmentsEnterpriseServiceService {
@@ -57,5 +62,48 @@ public class NonCustomAppointmentsEnterpriseServiceService {
         return enterpriseServiceRepository
                 .findById(enterpriseServiceId)
                 .map(NonCustomEnterpriseService::fromEntity);
+    }
+
+    @Transactional
+    public void patch(
+            long enterpriseServiceId,
+            Optional<String> name,
+            Optional<String> description,
+            Optional<Location> location,
+            Optional<ZoneId> timezone,
+            Optional<EnterpriseServiceCathegory> cathegory,
+            Optional<BigDecimal> price,
+            Optional<CurrencyIso> currency) {
+        EnterpriseServiceEntity record = enterpriseServiceRepository.findById(enterpriseServiceId).orElseThrow();
+
+        name.ifPresent(record::setName);
+        description.ifPresent(record::setDescription);
+        location.ifPresent(value -> {
+            record.setAddress(value.address());
+            record.setLongitude(value.longitude());
+            record.setLatitude(value.latitude());
+        });
+        timezone.ifPresent(record::setTimeZone);
+        cathegory.ifPresent(record::setCathegory);
+        price.ifPresent(record::setPrice);
+        currency.ifPresent(record::setCurrency);
+
+        enterpriseServiceRepository.save(record);
+    }
+
+    @Transactional
+    public void patchWithSlotTemplates(
+            long enterpriseServiceId,
+            Optional<String> name,
+            Optional<String> description,
+            Optional<Location> location,
+            Optional<ZoneId> timezone,
+            Optional<EnterpriseServiceCathegory> cathegory,
+            Optional<BigDecimal> price,
+            Optional<CurrencyIso> currency,
+            List<CreateNonCustomAppointmentsEnterpriseServiceSlotTemplateCommand> slots) {
+        patch(enterpriseServiceId, name, description, location, timezone, cathegory, price, currency);
+        nonCustomAppointmentsEnterpriseServiceSlotTemplateService
+                .overwriteEnterpriseServiceSlotTemplates(enterpriseServiceId, slots);
     }
 }

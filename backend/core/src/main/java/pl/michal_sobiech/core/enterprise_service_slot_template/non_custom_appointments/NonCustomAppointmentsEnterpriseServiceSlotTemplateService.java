@@ -8,13 +8,11 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.core.enterprise_service_slot_template.EnterpriseServiceSlotTemplateEntity;
 import pl.michal_sobiech.core.enterprise_service_slot_template.EnterpriseServiceSlotTemplateRepository;
-import pl.michal_sobiech.core.enterprise_service_slot_template.EnterpriseServiceSlotTemplateService;
 
 @RequiredArgsConstructor
 public class NonCustomAppointmentsEnterpriseServiceSlotTemplateService {
 
     private final EnterpriseServiceSlotTemplateRepository enterpriseServiceSlotTemplateRepository;
-    private final EnterpriseServiceSlotTemplateService enterpriseServiceSlotTemplateService;
 
     @Transactional
     public List<NonCustomAppointmentsEnterpriseServiceSlotTemplate> saveMany(long enterpriseServiceId,
@@ -45,6 +43,19 @@ public class NonCustomAppointmentsEnterpriseServiceSlotTemplateService {
                         dayOfWeek);
         return records.stream().map(record -> NonCustomAppointmentsEnterpriseServiceSlotTemplate.from(record))
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void overwriteEnterpriseServiceSlotTemplates(
+            long enterpriseServiceId,
+            List<CreateNonCustomAppointmentsEnterpriseServiceSlotTemplateCommand> commands) {
+        deleteEnterpriseServiceSlotTemplates(enterpriseServiceId);
+        saveMany(enterpriseServiceId, commands);
+    }
+
+    @Transactional
+    public void deleteEnterpriseServiceSlotTemplates(long enterpiseServiceId) {
+        enterpriseServiceSlotTemplateRepository.deleteAllByEnterpriseServiceId(enterpiseServiceId);
     }
 
 }

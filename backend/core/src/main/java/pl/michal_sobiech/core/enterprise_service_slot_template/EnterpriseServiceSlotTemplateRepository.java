@@ -13,4 +13,6 @@ public interface EnterpriseServiceSlotTemplateRepository {
             long enterpriseServiceId,
             DayOfWeek dayOfWeek);
 
+    public void deleteAllByEnterpriseServiceId(long enterpriseServiceId);
+
 }
