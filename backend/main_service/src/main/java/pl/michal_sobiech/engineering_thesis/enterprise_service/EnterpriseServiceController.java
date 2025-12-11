@@ -48,6 +48,8 @@ import pl.michal_sobiech.core.enterprise_service.no_custom_appointments.NonCusto
 import pl.michal_sobiech.core.enterprise_service.no_custom_appointments.NonCustomEnterpriseService;
 import pl.michal_sobiech.core.enterprise_service_availability.CustomEnterpriseServiceAvailabilityService;
 import pl.michal_sobiech.core.enterprise_service_availability.NonCustomEnterpriseServiceAvailabilityService;
+import pl.michal_sobiech.core.enterprise_service_slot_template.custom_appointments.CreateTimeWindowTemplateCommand;
+import pl.michal_sobiech.core.enterprise_service_slot_template.non_custom_appointments.CreateSlotTemplateCommand;
 import pl.michal_sobiech.core.location.Location;
 import pl.michal_sobiech.core.payment.payment_status.PaymentStatusNotPaid;
 import pl.michal_sobiech.core.payment.payment_status.PaymentStatusPaidOnSite;
@@ -56,6 +58,8 @@ import pl.michal_sobiech.core.review.ReviewService;
 import pl.michal_sobiech.core.utils.DateUtils;
 import pl.michal_sobiech.core.utils.LocalDateTimeWindow;
 import pl.michal_sobiech.engineering_thesis.api.LocationMapper;
+import pl.michal_sobiech.engineering_thesis.api.SlotMapper;
+import pl.michal_sobiech.engineering_thesis.api.TimeWindowMapper;
 import pl.michal_sobiech.engineering_thesis.auth.AuthService;
 import pl.michal_sobiech.engineering_thesis.utils.HttpUtils;
 
@@ -367,7 +371,12 @@ public class EnterpriseServiceController implements ServicesApi {
     @Override
     public ResponseEntity<Void> patchCustomEnterpriseService(Long serviceId,
             @Valid PatchCustomEnterpriseServiceRequest request) {
-        customAppointmentsEnterpriseServiceService.patch(
+        List<CreateTimeWindowTemplateCommand> createTimeWindowTemplateCommands = request.getTimeWindows()
+                .stream()
+                .map(TimeWindowMapper::fromSwaggerTimeWindow)
+                .collect(Collectors.toList());
+
+        customAppointmentsEnterpriseServiceService.patchIncludingSlotTemplates(
                 serviceId.longValue(),
                 Optional.ofNullable(request.getName()),
                 Optional.ofNullable(request.getDescription()),
@@ -376,15 +385,32 @@ public class EnterpriseServiceController implements ServicesApi {
                 Optional.ofNullable(request.getMaxDistanceKm()),
                 Optional.ofNullable(request.getCathegory()).map(EnterpriseServiceCathegory::valueOf),
                 Optional.ofNullable(request.getPrice()),
-                Optional.ofNullable(request.getCurrency()).map(CurrencyIso::valueOf));
+                Optional.ofNullable(request.getCurrency()).map(CurrencyIso::valueOf),
+                createTimeWindowTemplateCommands);
+
         return ResponseEntity.ok().build();
     }
 
     @Override
     public ResponseEntity<Void> patchNonCustomEnterpriseService(Long serviceId,
-            @Valid PatchNonCustomEnterpriseServiceRequest patchNonCustomEnterpriseServiceRequest) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'patchNonCustomEnterpriseService'");
+            @Valid PatchNonCustomEnterpriseServiceRequest request) {
+        List<CreateSlotTemplateCommand> createSlotTemplateCommands = request.getSlots()
+                .stream()
+                .map(SlotMapper::fromSwaggerSlot)
+                .collect(Collectors.toList());
+
+        nonCustomAppointmentsEnterpriseServiceService.patchIncludingSlotTemplates(
+                serviceId.longValue(),
+                Optional.ofNullable(request.getName()),
+                Optional.ofNullable(request.getDescription()),
+                Optional.ofNullable(request.getLocation()).map(LocationMapper::fromSwagger),
+                Optional.ofNullable(request.getTimeZone()).map(ZoneId::of),
+                Optional.ofNullable(request.getCathegory()).map(EnterpriseServiceCathegory::valueOf),
+                Optional.ofNullable(request.getPrice()),
+                Optional.ofNullable(request.getCurrency()).map(CurrencyIso::valueOf),
+                createSlotTemplateCommands);
+
+        return ResponseEntity.ok().build();
     }
 
 }

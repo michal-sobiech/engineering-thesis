@@ -3,7 +3,7 @@ package pl.michal_sobiech.core.enterprise_service_slot_template.custom_appointme
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 
-public record CreateCustomAppointmentsEnterpriseServiceTimeWindowTemplateCommand(
+public record CreateTimeWindowTemplateCommand(
 
         DayOfWeek dayOfWeek,
 

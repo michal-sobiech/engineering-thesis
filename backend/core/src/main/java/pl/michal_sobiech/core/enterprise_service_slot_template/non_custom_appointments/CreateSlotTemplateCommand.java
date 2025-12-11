@@ -3,7 +3,7 @@ package pl.michal_sobiech.core.enterprise_service_slot_template.non_custom_appoi
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 
-public record CreateNonCustomAppointmentsEnterpriseServiceSlotTemplateCommand(
+public record CreateSlotTemplateCommand(
 
         DayOfWeek dayOfWeek,
 

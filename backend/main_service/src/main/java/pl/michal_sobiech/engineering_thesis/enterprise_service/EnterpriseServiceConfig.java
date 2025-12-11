@@ -101,10 +101,8 @@ public class EnterpriseServiceConfig {
 
     @Bean
     public NonCustomAppointmentsEnterpriseServiceSlotTemplateService nonCustomAppointmentsEnterpriseServiceSlotTemplateService(
-            EnterpriseServiceSlotTemplateRepository enterpriseServiceSlotTemplateRepository,
-            EnterpriseServiceSlotTemplateService enterpriseServiceSlotTemplateService) {
-        return new NonCustomAppointmentsEnterpriseServiceSlotTemplateService(enterpriseServiceSlotTemplateRepository,
-                enterpriseServiceSlotTemplateService);
+            EnterpriseServiceSlotTemplateRepository enterpriseServiceSlotTemplateRepository) {
+        return new NonCustomAppointmentsEnterpriseServiceSlotTemplateService(enterpriseServiceSlotTemplateRepository);
     }
 
 }

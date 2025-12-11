@@ -16,4 +16,6 @@ public interface SpringEnterpriseServiceSlotTemplateRepository
             long enterpriseServiceId,
             DayOfWeek dayOfWeek);
 
+    public void deleteAllByEnterpriseServiceId(long enterpriseServiceId);
+
 }

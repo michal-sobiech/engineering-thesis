@@ -33,4 +33,9 @@ public class EnterpriseServiceSlotTemplateRepositoryImpl implements EnterpriseSe
                 .findAllByEnterpriseServiceIdAndDayOfWeek(enterpriseServiceId, dayOfWeek);
     }
 
+    @Override
+    public void deleteAllByEnterpriseServiceId(long enterpriseServiceId) {
+        springEnterpriseServiceSlotTemplateRepository.deleteAllByEnterpriseServiceId(enterpriseServiceId);
+    }
+
 }

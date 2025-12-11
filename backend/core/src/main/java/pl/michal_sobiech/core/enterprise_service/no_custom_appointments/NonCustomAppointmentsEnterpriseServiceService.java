@@ -12,7 +12,7 @@ import pl.michal_sobiech.core.currency_iso.CurrencyIso;
 import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceCathegory;
 import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceEntity;
 import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceRepository;
-import pl.michal_sobiech.core.enterprise_service_slot_template.non_custom_appointments.CreateNonCustomAppointmentsEnterpriseServiceSlotTemplateCommand;
+import pl.michal_sobiech.core.enterprise_service_slot_template.non_custom_appointments.CreateSlotTemplateCommand;
 import pl.michal_sobiech.core.enterprise_service_slot_template.non_custom_appointments.NonCustomAppointmentsEnterpriseServiceSlotTemplateService;
 import pl.michal_sobiech.core.location.Location;
 
@@ -45,7 +45,7 @@ public class NonCustomAppointmentsEnterpriseServiceService {
     @Transactional
     public void saveWithSlotTemplates(long enterpriseId,
             CreateNoCustomAppointmentsEnterpriseServiceCommand command,
-            List<CreateNonCustomAppointmentsEnterpriseServiceSlotTemplateCommand> slots) {
+            List<CreateSlotTemplateCommand> slots) {
         EnterpriseServiceEntity service = save(enterpriseId, command);
 
         final long enterpriseServiceId = service.getEnterpriseServiceId();
@@ -92,7 +92,7 @@ public class NonCustomAppointmentsEnterpriseServiceService {
     }
 
     @Transactional
-    public void patchWithSlotTemplates(
+    public void patchIncludingSlotTemplates(
             long enterpriseServiceId,
             Optional<String> name,
             Optional<String> description,
@@ -101,7 +101,7 @@ public class NonCustomAppointmentsEnterpriseServiceService {
             Optional<EnterpriseServiceCathegory> cathegory,
             Optional<BigDecimal> price,
             Optional<CurrencyIso> currency,
-            List<CreateNonCustomAppointmentsEnterpriseServiceSlotTemplateCommand> slots) {
+            List<CreateSlotTemplateCommand> slots) {
         patch(enterpriseServiceId, name, description, location, timezone, cathegory, price, currency);
         nonCustomAppointmentsEnterpriseServiceSlotTemplateService
                 .overwriteEnterpriseServiceSlotTemplates(enterpriseServiceId, slots);

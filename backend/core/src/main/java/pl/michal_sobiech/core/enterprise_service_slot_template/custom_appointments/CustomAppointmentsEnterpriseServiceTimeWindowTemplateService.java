@@ -23,14 +23,14 @@ public class CustomAppointmentsEnterpriseServiceTimeWindowTemplateService {
 
     @Transactional
     public List<CustomAppointmentsEnterpriseServiceSlotTemplate> saveMany(long enterpriseServiceId,
-            List<CreateCustomAppointmentsEnterpriseServiceTimeWindowTemplateCommand> commands) {
+            List<CreateTimeWindowTemplateCommand> commands) {
         return commands.stream().map(command -> save(enterpriseServiceId, command))
                 .collect(Collectors.toList());
     }
 
     @Transactional
     public CustomAppointmentsEnterpriseServiceSlotTemplate save(long enterpriseServiceId,
-            CreateCustomAppointmentsEnterpriseServiceTimeWindowTemplateCommand command) {
+            CreateTimeWindowTemplateCommand command) {
         EnterpriseServiceSlotTemplateEntity slot = EnterpriseServiceSlotTemplateEntity.builder()
                 .enterpriseServiceId(enterpriseServiceId)
                 .dayOfWeek(command.dayOfWeek())
@@ -89,6 +89,19 @@ public class CustomAppointmentsEnterpriseServiceTimeWindowTemplateService {
         return slots.stream()
                 .map(CustomAppointmentsEnterpriseServiceSlotTemplate::from)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void overwriteEnterpriseServiceTimeWindowTemplates(
+            long enterpriseServiceId,
+            List<CreateTimeWindowTemplateCommand> commands) {
+        deleteEnterpriseServiceTimeWindowTemplates(enterpriseServiceId);
+        saveMany(enterpriseServiceId, commands);
+    }
+
+    @Transactional
+    public void deleteEnterpriseServiceTimeWindowTemplates(long enterpiseServiceId) {
+        enterpriseServiceSlotTemplateRepository.deleteAllByEnterpriseServiceId(enterpiseServiceId);
     }
 
 }

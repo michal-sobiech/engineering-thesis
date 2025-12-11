@@ -1,6 +1,5 @@
 package pl.michal_sobiech.engineering_thesis.enterprise.controller;
 
-import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,17 +36,18 @@ import pl.michal_sobiech.core.enterprise_service.custom_appointments.CreateCusto
 import pl.michal_sobiech.core.enterprise_service.custom_appointments.CustomAppointmentsEnterpriseServiceService;
 import pl.michal_sobiech.core.enterprise_service.no_custom_appointments.CreateNoCustomAppointmentsEnterpriseServiceCommand;
 import pl.michal_sobiech.core.enterprise_service.no_custom_appointments.NonCustomAppointmentsEnterpriseServiceService;
-import pl.michal_sobiech.core.enterprise_service_slot_template.custom_appointments.CreateCustomAppointmentsEnterpriseServiceTimeWindowTemplateCommand;
-import pl.michal_sobiech.core.enterprise_service_slot_template.non_custom_appointments.CreateNonCustomAppointmentsEnterpriseServiceSlotTemplateCommand;
+import pl.michal_sobiech.core.enterprise_service_slot_template.custom_appointments.CreateTimeWindowTemplateCommand;
+import pl.michal_sobiech.core.enterprise_service_slot_template.non_custom_appointments.CreateSlotTemplateCommand;
 import pl.michal_sobiech.core.entrepreneur.Entrepreneur;
 import pl.michal_sobiech.core.location.Location;
 import pl.michal_sobiech.core.model.File;
 import pl.michal_sobiech.engineering_thesis.api.LocationMapper;
+import pl.michal_sobiech.engineering_thesis.api.SlotMapper;
+import pl.michal_sobiech.engineering_thesis.api.TimeWindowMapper;
 import pl.michal_sobiech.engineering_thesis.auth.AuthService;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.GetEnterpriseServiceCustomServiceResponseFactory;
 import pl.michal_sobiech.engineering_thesis.enterprise_service.GetEnterpriseServiceNonCustomServiceResponseFactory;
 import pl.michal_sobiech.engineering_thesis.file.FileMapper;
-import pl.michal_sobiech.engineering_thesis.utils.DayOfWeekUtils;
 import pl.michal_sobiech.engineering_thesis.utils.HttpUtils;
 
 @RestController
@@ -122,16 +122,18 @@ public class EnterpriseController implements EnterprisesApi {
     @Override
     public ResponseEntity<List<GetEnterpriseService200Response>> getEnterpriseServices(Long enterpriseId) {
 
+        Enterprise enterprise = enterpriseService.getById(enterpriseId).orElseThrow();
+
         List<GetEnterpriseServiceNonCustomServiceResponse> nonCustomServices = nonCustomAppointmentsEnterpriseServiceService
                 .getByEnterpriseId(enterpriseId)
                 .stream()
-                .map(GetEnterpriseServiceNonCustomServiceResponseFactory::fromDomain)
+                .map(service -> GetEnterpriseServiceNonCustomServiceResponseFactory.fromDomain(service, enterprise))
                 .collect(Collectors.toList());
 
         List<GetEnterpriseServiceCustomServiceResponse> customServices = customAppointmentsEnterpriseServiceService
                 .getByEnterpriseId(enterpriseId)
                 .stream()
-                .map(GetEnterpriseServiceCustomServiceResponseFactory::fromDomain)
+                .map(service -> GetEnterpriseServiceCustomServiceResponseFactory.fromDomain(service, enterprise))
                 .collect(Collectors.toList());
 
         List<GetEnterpriseService200Response> body = new ArrayList<>();
@@ -176,17 +178,10 @@ public class EnterpriseController implements EnterprisesApi {
     public ResponseEntity<Void> createCustomAppointmentsEnterpriseService(
             Long enterpriseId,
             CreateCustomAppointmentsEnterpriseServiceRequest request) {
-        List<CreateCustomAppointmentsEnterpriseServiceTimeWindowTemplateCommand> createTimeWindowCommands = request
+        List<CreateTimeWindowTemplateCommand> createTimeWindowCommands = request
                 .getTimeWindows()
                 .stream()
-                .map(slot -> {
-                    LocalTime startTime = LocalTime.parse(slot.getStartTime());
-                    LocalTime endTime = LocalTime.parse(slot.getEndTime());
-                    return new CreateCustomAppointmentsEnterpriseServiceTimeWindowTemplateCommand(
-                            DayOfWeekUtils.swaggerToStdDayOfWeek(slot.getDayOfWeek()),
-                            startTime,
-                            endTime);
-                })
+                .map(TimeWindowMapper::fromSwaggerTimeWindow)
                 .collect(Collectors.toList());
 
         Location domainLocation = LocationMapper.fromSwagger(request.getLocation());
@@ -198,7 +193,7 @@ public class EnterpriseController implements EnterprisesApi {
                 ZoneId.of(request.getTimeZone()),
                 request.getMaxDistanceKm(),
                 EnterpriseServiceCathegory.valueOf(request.getCathegory()),
-                Optional.ofNullable(request.getPrice()),
+                request.getPrice(),
                 CurrencyIso.valueOf(request.getCurrency()));
 
         customAppointmentsEnterpriseServiceService.saveWithTimeWindows(enterpriseId, command,
@@ -210,18 +205,10 @@ public class EnterpriseController implements EnterprisesApi {
     public ResponseEntity<Void> createNoCustomAppointmentsEnterpriseService(
             Long enterpriseId,
             CreateNoCustomAppointmentsEnterpriseServiceRequest request) {
-        List<CreateNonCustomAppointmentsEnterpriseServiceSlotTemplateCommand> createSlotCommands = request
+        List<CreateSlotTemplateCommand> createSlotCommands = request
                 .getSlots()
                 .stream()
-                .map(slot -> {
-                    LocalTime startTime = LocalTime.parse(slot.getStartTime());
-                    LocalTime endTime = LocalTime.parse(slot.getEndTime());
-                    return new CreateNonCustomAppointmentsEnterpriseServiceSlotTemplateCommand(
-                            DayOfWeekUtils.swaggerToStdDayOfWeek(slot.getDayOfWeek()),
-                            startTime,
-                            endTime,
-                            slot.getMaxOccupancy().shortValue());
-                })
+                .map(SlotMapper::fromSwaggerSlot)
                 .collect(Collectors.toList());
 
         Location domainLocation = LocationMapper.fromSwagger(request.getLocation());

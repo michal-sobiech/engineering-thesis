@@ -12,7 +12,7 @@ import pl.michal_sobiech.core.currency_iso.CurrencyIso;
 import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceCathegory;
 import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceEntity;
 import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceRepository;
-import pl.michal_sobiech.core.enterprise_service_slot_template.custom_appointments.CreateCustomAppointmentsEnterpriseServiceTimeWindowTemplateCommand;
+import pl.michal_sobiech.core.enterprise_service_slot_template.custom_appointments.CreateTimeWindowTemplateCommand;
 import pl.michal_sobiech.core.enterprise_service_slot_template.custom_appointments.CustomAppointmentsEnterpriseServiceTimeWindowTemplateService;
 import pl.michal_sobiech.core.location.Location;
 
@@ -20,7 +20,7 @@ import pl.michal_sobiech.core.location.Location;
 public class CustomAppointmentsEnterpriseServiceService {
 
     private final EnterpriseServiceRepository enterpriseServiceRepository;
-    private final CustomAppointmentsEnterpriseServiceTimeWindowTemplateService customAppointmentsEnterpriseServiceTimeWindowTemplateService;
+    private final CustomAppointmentsEnterpriseServiceTimeWindowTemplateService timeWindowTemplateService;
 
     @Transactional
     public CustomEnterpriseService save(long enterpriseId,
@@ -47,11 +47,11 @@ public class CustomAppointmentsEnterpriseServiceService {
     public void saveWithTimeWindows(
             long enterpriseId,
             CreateCustomAppointmentsEnterpriseServiceCommand command,
-            List<CreateCustomAppointmentsEnterpriseServiceTimeWindowTemplateCommand> timeWindows) {
+            List<CreateTimeWindowTemplateCommand> timeWindows) {
         CustomEnterpriseService enterpriseService = save(enterpriseId, command);
 
         final long enterpriseServiceId = enterpriseService.enterpriseServiceId();
-        customAppointmentsEnterpriseServiceTimeWindowTemplateService.saveMany(
+        timeWindowTemplateService.saveMany(
                 enterpriseServiceId,
                 timeWindows);
     }
@@ -94,6 +94,23 @@ public class CustomAppointmentsEnterpriseServiceService {
         currency.ifPresent(record::setCurrency);
 
         enterpriseServiceRepository.save(record);
+    }
+
+    @Transactional
+    public void patchIncludingSlotTemplates(
+            long enterpriseServiceId,
+            Optional<String> name,
+            Optional<String> description,
+            Optional<Location> location,
+            Optional<ZoneId> timezone,
+            Optional<Double> maxDistanceKm,
+            Optional<EnterpriseServiceCathegory> cathegory,
+            Optional<BigDecimal> price,
+            Optional<CurrencyIso> currency,
+            List<CreateTimeWindowTemplateCommand> createTimeWindowCommands) {
+        patch(enterpriseServiceId, name, description, location, timezone, maxDistanceKm, cathegory, price, currency);
+        timeWindowTemplateService.overwriteEnterpriseServiceTimeWindowTemplates(enterpriseServiceId,
+                createTimeWindowCommands);
     }
 
 }

@@ -16,14 +16,14 @@ public class NonCustomAppointmentsEnterpriseServiceSlotTemplateService {
 
     @Transactional
     public List<NonCustomAppointmentsEnterpriseServiceSlotTemplate> saveMany(long enterpriseServiceId,
-            List<CreateNonCustomAppointmentsEnterpriseServiceSlotTemplateCommand> commands) {
+            List<CreateSlotTemplateCommand> commands) {
         return commands.stream().map(command -> save(enterpriseServiceId, command))
                 .collect(Collectors.toList());
     }
 
     @Transactional
     public NonCustomAppointmentsEnterpriseServiceSlotTemplate save(long enterpriseServiceId,
-            CreateNonCustomAppointmentsEnterpriseServiceSlotTemplateCommand command) {
+            CreateSlotTemplateCommand command) {
         EnterpriseServiceSlotTemplateEntity slot = EnterpriseServiceSlotTemplateEntity.builder()
                 .enterpriseServiceId(enterpriseServiceId)
                 .dayOfWeek(command.dayOfWeek())
@@ -48,7 +48,7 @@ public class NonCustomAppointmentsEnterpriseServiceSlotTemplateService {
     @Transactional
     public void overwriteEnterpriseServiceSlotTemplates(
             long enterpriseServiceId,
-            List<CreateNonCustomAppointmentsEnterpriseServiceSlotTemplateCommand> commands) {
+            List<CreateSlotTemplateCommand> commands) {
         deleteEnterpriseServiceSlotTemplates(enterpriseServiceId);
         saveMany(enterpriseServiceId, commands);
     }
