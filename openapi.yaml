@@ -356,7 +356,7 @@ components:
       properties:
         takesCustomAppointments:
           type: boolean
-          default: true
+          default: false
           readOnly: true
         enterpriseId:
           type: integer

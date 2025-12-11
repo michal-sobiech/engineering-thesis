@@ -32,7 +32,7 @@ export interface GetEnterpriseServiceNonCustomServiceResponse {
      * @type {boolean}
      * @memberof GetEnterpriseServiceNonCustomServiceResponse
      */
-    readonly takesCustomAppointments: boolean;
+    takesCustomAppointments: boolean;
     /**
      * 
      * @type {number}
@@ -141,13 +141,14 @@ export function GetEnterpriseServiceNonCustomServiceResponseToJSON(json: any): G
     return GetEnterpriseServiceNonCustomServiceResponseToJSONTyped(json, false);
 }
 
-export function GetEnterpriseServiceNonCustomServiceResponseToJSONTyped(value?: Omit<GetEnterpriseServiceNonCustomServiceResponse, 'takesCustomAppointments'> | null, ignoreDiscriminator: boolean = false): any {
+export function GetEnterpriseServiceNonCustomServiceResponseToJSONTyped(value?: GetEnterpriseServiceNonCustomServiceResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
 
     return {
         
+        'takesCustomAppointments': value['takesCustomAppointments'],
         'enterpriseId': value['enterpriseId'],
         'enterpriseName': value['enterpriseName'],
         'serviceId': value['serviceId'],

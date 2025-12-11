@@ -44,6 +44,7 @@ import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceService;
 import pl.michal_sobiech.core.enterprise_service.custom_appointments.CustomAppointmentsEnterpriseServiceService;
 import pl.michal_sobiech.core.enterprise_service.custom_appointments.CustomEnterpriseService;
 import pl.michal_sobiech.core.enterprise_service.no_custom_appointments.NonCustomAppointmentsEnterpriseServiceService;
+import pl.michal_sobiech.core.enterprise_service.no_custom_appointments.NonCustomEnterpriseService;
 import pl.michal_sobiech.core.enterprise_service_availability.CustomEnterpriseServiceAvailabilityService;
 import pl.michal_sobiech.core.enterprise_service_availability.NonCustomEnterpriseServiceAvailabilityService;
 import pl.michal_sobiech.core.location.Location;
@@ -53,7 +54,6 @@ import pl.michal_sobiech.core.payment.payment_status.PaymentStatusPaidOnline;
 import pl.michal_sobiech.core.review.ReviewService;
 import pl.michal_sobiech.core.utils.DateUtils;
 import pl.michal_sobiech.core.utils.LocalDateTimeWindow;
-import pl.michal_sobiech.engineering_thesis.api.LocationMapper;
 import pl.michal_sobiech.engineering_thesis.auth.AuthService;
 import pl.michal_sobiech.engineering_thesis.utils.HttpUtils;
 
@@ -230,15 +230,17 @@ public class EnterpriseServiceController implements ServicesApi {
 
         GetEnterpriseService200Response body;
         if (isCustom) {
-            var enterprise = customAppointmentsEnterpriseServiceService
+            var service = customAppointmentsEnterpriseServiceService
                     .getByEnterpriseServiceId(enterpriseServiceId)
                     .orElseThrow();
-            body = GetEnterpriseServiceCustomServiceResponseFactory.fromDomain(enterprise);
+            Enterprise enterprise = enterpriseService.getById(service.enterpriseId()).orElseThrow();
+            body = GetEnterpriseServiceCustomServiceResponseFactory.fromDomain(service, enterprise);
         } else {
-            var enterprise = nonCustomAppointmentsEnterpriseServiceService
+            var service = nonCustomAppointmentsEnterpriseServiceService
                     .getByEnterpriseServiceId(enterpriseServiceId)
                     .orElseThrow();
-            body = GetEnterpriseServiceNonCustomServiceResponseFactory.fromDomain(enterprise);
+            Enterprise enterprise = enterpriseService.getById(service.enterpriseId()).orElseThrow();
+            body = GetEnterpriseServiceNonCustomServiceResponseFactory.fromDomain(service, enterprise);
         }
         return ResponseEntity.ok(body);
     }
@@ -345,36 +347,25 @@ public class EnterpriseServiceController implements ServicesApi {
                 .orElseThrow();
         Enterprise enterprise = enterpriseService.getById(service.enterpriseId()).orElseThrow();
 
-        org.SwaggerCodeGenExample.model.Location swaggerLocation = LocationMapper.fromDomain(service.location());
-
-        var body = new GetEnterpriseServiceCustomServiceResponse(
-                true,
-                enterprise.enterpriseId(),
-                enterprise.name(),
-                serviceId,
-                service.name(),
-                service.description(),
-                swaggerLocation,
-                service.timezone().toString(),
-                service.maxDistanceKm(),
-                service.cathegory().toString(),
-                service.price(),
-                service.currency().toString());
-
+        var body = GetEnterpriseServiceCustomServiceResponseFactory.fromDomain(service, enterprise);
         return ResponseEntity.ok(body);
     }
 
     @Override
     public ResponseEntity<GetEnterpriseServiceNonCustomServiceResponse> getNonCustomEnterpriseService(Long serviceId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getNonCustomEnterpriseService'");
+        NonCustomEnterpriseService service = nonCustomAppointmentsEnterpriseServiceService
+                .getByEnterpriseServiceId(serviceId)
+                .orElseThrow();
+        Enterprise enterprise = enterpriseService.getById(service.enterpriseId()).orElseThrow();
+
+        var body = GetEnterpriseServiceNonCustomServiceResponseFactory.fromDomain(service, enterprise);
+        return ResponseEntity.ok(body);
     }
 
     @Override
     public ResponseEntity<Void> patchCustomEnterpriseService(Long serviceId,
             @Valid PatchCustomEnterpriseServiceRequest patchCustomEnterpriseServiceRequest) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'patchCustomEnterpriseService'");
+
     }
 
     @Override
