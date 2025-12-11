@@ -291,6 +291,8 @@ components:
       required:
         [
           takesCustomAppointments,
+          enterpriseId,
+          enterpriseName,
           serviceId,
           name,
           description,
@@ -306,6 +308,11 @@ components:
           type: boolean
           default: true
           readOnly: true
+        enterpriseId:
+          type: integer
+          format: int64
+        enterpriseName:
+          type: string
         serviceId:
           type: integer
           format: int64
@@ -335,6 +342,8 @@ components:
       required:
         [
           takesCustomAppointments,
+          enterpriseId,
+          enterpriseName,
           serviceId,
           name,
           description,
@@ -349,6 +358,11 @@ components:
           type: boolean
           default: true
           readOnly: true
+        enterpriseId:
+          type: integer
+          format: int64
+        enterpriseName:
+          type: string
         serviceId:
           type: integer
           format: int64
@@ -2566,6 +2580,32 @@ paths:
           $ref: "#/components/responses/InternalServerError"
 
   /services/non-custom/{serviceId}:
+    get:
+      tags: [EnterpriseServices]
+      operationId: getNonCustomEnterpriseService
+      parameters:
+        - name: serviceId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: *OK_DESCRIPTION
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetEnterpriseServiceNonCustomServiceResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
     patch:
       tags: [EnterpriseServices]
       operationId: patchNonCustomEnterpriseService
@@ -2598,6 +2638,32 @@ paths:
           $ref: "#/components/responses/InternalServerError"
 
   /services/custom/{serviceId}:
+    get:
+      tags: [EnterpriseServices]
+      operationId: getCustomEnterpriseService
+      parameters:
+        - name: serviceId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: *OK_DESCRIPTION
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetEnterpriseServiceCustomServiceResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
     patch:
       tags: [EnterpriseServices]
       operationId: patchCustomEnterpriseService

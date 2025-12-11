@@ -38,6 +38,18 @@ export interface GetEnterpriseServiceNonCustomServiceResponse {
      * @type {number}
      * @memberof GetEnterpriseServiceNonCustomServiceResponse
      */
+    enterpriseId: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetEnterpriseServiceNonCustomServiceResponse
+     */
+    enterpriseName: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetEnterpriseServiceNonCustomServiceResponse
+     */
     serviceId: number;
     /**
      * 
@@ -88,6 +100,8 @@ export interface GetEnterpriseServiceNonCustomServiceResponse {
  */
 export function instanceOfGetEnterpriseServiceNonCustomServiceResponse(value: object): value is GetEnterpriseServiceNonCustomServiceResponse {
     if (!('takesCustomAppointments' in value) || value['takesCustomAppointments'] === undefined) return false;
+    if (!('enterpriseId' in value) || value['enterpriseId'] === undefined) return false;
+    if (!('enterpriseName' in value) || value['enterpriseName'] === undefined) return false;
     if (!('serviceId' in value) || value['serviceId'] === undefined) return false;
     if (!('name' in value) || value['name'] === undefined) return false;
     if (!('description' in value) || value['description'] === undefined) return false;
@@ -110,6 +124,8 @@ export function GetEnterpriseServiceNonCustomServiceResponseFromJSONTyped(json: 
     return {
         
         'takesCustomAppointments': json['takesCustomAppointments'],
+        'enterpriseId': json['enterpriseId'],
+        'enterpriseName': json['enterpriseName'],
         'serviceId': json['serviceId'],
         'name': json['name'],
         'description': json['description'],
@@ -132,6 +148,8 @@ export function GetEnterpriseServiceNonCustomServiceResponseToJSONTyped(value?: 
 
     return {
         
+        'enterpriseId': value['enterpriseId'],
+        'enterpriseName': value['enterpriseName'],
         'serviceId': value['serviceId'],
         'name': value['name'],
         'description': value['description'],

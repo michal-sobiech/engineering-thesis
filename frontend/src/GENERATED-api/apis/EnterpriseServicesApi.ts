@@ -19,6 +19,8 @@ import type {
   CreateEnterpriseServiceReviewRequest,
   CreateNoCustomAppointmentsEnterpriseServiceRequest,
   GetEnterpriseService200Response,
+  GetEnterpriseServiceCustomServiceResponse,
+  GetEnterpriseServiceNonCustomServiceResponse,
   GetEnterpriseServicePendingAppointmentResponse,
   GetEnterpriseServiceUncancelledFutureScheduledAppointmentResponse,
   GetServiceCustomAppointmentsStatus200Response,
@@ -41,6 +43,10 @@ import {
     CreateNoCustomAppointmentsEnterpriseServiceRequestToJSON,
     GetEnterpriseService200ResponseFromJSON,
     GetEnterpriseService200ResponseToJSON,
+    GetEnterpriseServiceCustomServiceResponseFromJSON,
+    GetEnterpriseServiceCustomServiceResponseToJSON,
+    GetEnterpriseServiceNonCustomServiceResponseFromJSON,
+    GetEnterpriseServiceNonCustomServiceResponseToJSON,
     GetEnterpriseServicePendingAppointmentResponseFromJSON,
     GetEnterpriseServicePendingAppointmentResponseToJSON,
     GetEnterpriseServiceUncancelledFutureScheduledAppointmentResponseFromJSON,
@@ -82,6 +88,10 @@ export interface CreateNoCustomAppointmentsEnterpriseServiceOperationRequest {
     createNoCustomAppointmentsEnterpriseServiceRequest: CreateNoCustomAppointmentsEnterpriseServiceRequest;
 }
 
+export interface GetCustomEnterpriseServiceRequest {
+    serviceId: number;
+}
+
 export interface GetEnterpriseServiceRequest {
     serviceId: number;
 }
@@ -102,6 +112,10 @@ export interface GetFreeNonCustomAppointmentsRequest {
 export interface GetFreeTimeWindowsForCustomAppointmentsRequest {
     serviceId: number;
     dateInServiceTimezone: Date;
+}
+
+export interface GetNonCustomEnterpriseServiceRequest {
+    serviceId: number;
 }
 
 export interface GetServiceCustomAppointmentsStatusRequest {
@@ -292,6 +306,41 @@ export class EnterpriseServicesApi extends runtime.BaseAPI {
      */
     async createNoCustomAppointmentsEnterpriseService(enterpriseId: number, createNoCustomAppointmentsEnterpriseServiceRequest: CreateNoCustomAppointmentsEnterpriseServiceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.createNoCustomAppointmentsEnterpriseServiceRaw({ enterpriseId: enterpriseId, createNoCustomAppointmentsEnterpriseServiceRequest: createNoCustomAppointmentsEnterpriseServiceRequest }, initOverrides);
+    }
+
+    /**
+     */
+    async getCustomEnterpriseServiceRaw(requestParameters: GetCustomEnterpriseServiceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetEnterpriseServiceCustomServiceResponse>> {
+        if (requestParameters['serviceId'] == null) {
+            throw new runtime.RequiredError(
+                'serviceId',
+                'Required parameter "serviceId" was null or undefined when calling getCustomEnterpriseService().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+
+        let urlPath = `/services/custom/{serviceId}`;
+        urlPath = urlPath.replace(`{${"serviceId"}}`, encodeURIComponent(String(requestParameters['serviceId'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => GetEnterpriseServiceCustomServiceResponseFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async getCustomEnterpriseService(serviceId: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetEnterpriseServiceCustomServiceResponse> {
+        const response = await this.getCustomEnterpriseServiceRaw({ serviceId: serviceId }, initOverrides);
+        return await response.value();
     }
 
     /**
@@ -504,6 +553,41 @@ export class EnterpriseServicesApi extends runtime.BaseAPI {
      */
     async getFreeTimeWindowsForCustomAppointments(serviceId: number, dateInServiceTimezone: Date, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetServiceFreeCustomAppointmentsResponseItem>> {
         const response = await this.getFreeTimeWindowsForCustomAppointmentsRaw({ serviceId: serviceId, dateInServiceTimezone: dateInServiceTimezone }, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async getNonCustomEnterpriseServiceRaw(requestParameters: GetNonCustomEnterpriseServiceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetEnterpriseServiceNonCustomServiceResponse>> {
+        if (requestParameters['serviceId'] == null) {
+            throw new runtime.RequiredError(
+                'serviceId',
+                'Required parameter "serviceId" was null or undefined when calling getNonCustomEnterpriseService().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+
+        let urlPath = `/services/non-custom/{serviceId}`;
+        urlPath = urlPath.replace(`{${"serviceId"}}`, encodeURIComponent(String(requestParameters['serviceId'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => GetEnterpriseServiceNonCustomServiceResponseFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async getNonCustomEnterpriseService(serviceId: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetEnterpriseServiceNonCustomServiceResponse> {
+        const response = await this.getNonCustomEnterpriseServiceRaw({ serviceId: serviceId }, initOverrides);
         return await response.value();
     }
 
