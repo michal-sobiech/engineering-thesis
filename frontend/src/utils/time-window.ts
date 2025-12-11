@@ -1,25 +1,29 @@
-import { err, ok, Result } from "neverthrow";
-import { EventWithId } from "../common/calendar/EventWithId";
-import { TimeWindow } from "../GENERATED-api";
-import { extractHHmmTimeFromDate } from "./date";
-import { usDayOfWeekToDayOfWeek } from "./day-of-week";
+import { LocalTime } from "@js-joda/core";
+import { createEventWithId, EventWithId } from "../common/calendar/EventWithId";
+import { TimeWindow } from "../common/TimeWindow";
+import { createDateWithSetTime, extractHHmmTimeFromDate, getExampleDateWithDayOfWeek } from "./date";
+import { usDayOfWeekToJoda } from "./day-of-week";
 
-export function eventWithIdToTimeWindow(event: EventWithId): Result<TimeWindow, Error> {
+export function eventWithIdToTimeWindow(event: EventWithId): TimeWindow {
     if (event.start.getDay() !== event.end.getDay()) {
-        return err(new Error("Event should start and end on the same day"));
+        throw new Error("Event should start and end on the same day");
     }
 
-    const dayOfWeek = usDayOfWeekToDayOfWeek(event.start.getDay());
-    if (dayOfWeek.isErr()) {
-        return err(dayOfWeek.error);
-    }
+    const dayOfWeek = usDayOfWeekToJoda(event.start.getDay());
 
     const startHour = extractHHmmTimeFromDate(event.start);
     const endHour = extractHHmmTimeFromDate(event.end);
 
-    return ok({
-        dayOfWeek: dayOfWeek.value,
-        startTime: startHour,
-        endTime: endHour,
-    });
+    return {
+        dayOfWeek,
+        startTime: LocalTime.parse(startHour),
+        endTime: LocalTime.parse(endHour),
+    };
+}
+
+export function timeWindowToEventWithId(timeWindow: TimeWindow): EventWithId {
+    const date = getExampleDateWithDayOfWeek(timeWindow.dayOfWeek);
+    const start = createDateWithSetTime(date, timeWindow.startTime);
+    const end = createDateWithSetTime(date, timeWindow.endTime);
+    return createEventWithId(start, end);
 }

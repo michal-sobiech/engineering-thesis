@@ -4,6 +4,8 @@ import { useNavigate } from "react-router";
 import { Location } from "../../../GENERATED-api";
 import { useEnterprisesApi } from "../../../api/enterprises-api";
 import { useServicesApi } from "../../../api/services-api";
+import { domainSlotToSwagger } from "../../../api/slot-mapper";
+import { domainTimeWindowToSwagger } from "../../../api/time-window-mapper";
 import { MapLocationPicker } from "../../../common/MapLocationPicker";
 import { StandardButton } from "../../../common/StandardButton";
 import { StandardFlex } from "../../../common/StandardFlex";
@@ -15,7 +17,7 @@ import { StandardTimeZonePicker } from "../../../common/StandardTimeZonePicker";
 import { useEnterpriseIdFromLoader } from "../../../common/loader/enterprise-id-loader";
 import { routes } from "../../../router/routes";
 import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../../utils/error";
-import { combine, errorErrResultAsyncFromPromise } from "../../../utils/result";
+import { errorErrResultAsyncFromPromise } from "../../../utils/result";
 import { eventWithIdAndCapacityToSlot } from "../../../utils/slot";
 import { eventWithIdToTimeWindow } from "../../../utils/time-window";
 import { toastError } from "../../../utils/toast";
@@ -98,12 +100,9 @@ export const ServiceCreationPage = () => {
 
         let promise;
         if (eventsData.areCustomAppointmentsEnabled) {
-            const timeWindowsResult = eventsData.events.map(event => eventWithIdToTimeWindow(event));
-            const timeWindows = combine(timeWindowsResult);
-            if (timeWindows.isErr()) {
-                toastError(DEFAULT_ERROR_MESSAGE_FOR_USER);
-                return;
-            }
+            const swaggerTimeWindows = eventsData.events
+                .map(eventWithIdToTimeWindow)
+                .map(domainTimeWindowToSwagger);
 
             promise = servicesApi.createCustomAppointmentsEnterpriseService(enterpriseId, {
                 name: serviceName,
@@ -113,16 +112,13 @@ export const ServiceCreationPage = () => {
                 maxDistanceKm: MAX_DISANCE_KM,
                 cathegory,
                 price: price,
-                timeWindows: timeWindows.value,
+                timeWindows: swaggerTimeWindows,
                 currency: "PLN",
             });
         } else {
-            const slotsResult = eventsData.events.map(event => eventWithIdAndCapacityToSlot(event));
-            const slots = combine(slotsResult);
-            if (slots.isErr()) {
-                toastError(DEFAULT_ERROR_MESSAGE_FOR_USER);
-                return;
-            }
+            const swaggerSlots = eventsData.events
+                .map(eventWithIdAndCapacityToSlot)
+                .map(domainSlotToSwagger);
 
             promise = servicesApi.createNoCustomAppointmentsEnterpriseService(enterpriseId, {
                 name: serviceName,
@@ -131,7 +127,7 @@ export const ServiceCreationPage = () => {
                 timeZone,
                 cathegory,
                 price: price,
-                slots: slots.value,
+                slots: swaggerSlots,
                 currency: "PLN",
             });
         }

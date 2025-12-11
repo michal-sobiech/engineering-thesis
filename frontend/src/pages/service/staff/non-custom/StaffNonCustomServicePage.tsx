@@ -2,6 +2,7 @@ import { Box, Center, Flex, Text } from "@chakra-ui/react"
 import { useState } from "react"
 import { useNavigate } from "react-router"
 import { useServicesApi } from "../../../../api/services-api"
+import { domainSlotToSwagger } from "../../../../api/slot-mapper"
 import { EventWithIdAndCapacity } from "../../../../common/calendar/EventWithIdAndCapacity"
 import { EditableNonCustomWeeklyCalendar } from "../../../../common/calendar/weekly/editable/EditableNonCustomWeeklyCalendar"
 import { useServiceIdFromLoader } from "../../../../common/loader/service-id-loader"
@@ -13,10 +14,10 @@ import { StandardPanel } from "../../../../common/StandardPanel"
 import { StandardTextField } from "../../../../common/StandardTextField"
 import { StandardTimeZonePicker } from "../../../../common/StandardTimeZonePicker"
 import { StandardVerticalSeparator } from "../../../../common/StandardVerticalSeparator"
-import { Location, TimeWindow } from "../../../../GENERATED-api"
+import { Location, Slot as SwaggerSlot } from "../../../../GENERATED-api"
 import { routes } from "../../../../router/routes"
 import { GeoPosition } from "../../../../utils/GeoPosition"
-import { eventWithIdToTimeWindow } from "../../../../utils/time-window"
+import { eventWithIdAndCapacityToSlot } from "../../../../utils/slot"
 import { toastError } from "../../../../utils/toast"
 import { ServiceCathegory } from "../../ServiceCathegory"
 import { ServiceCathegoryPicker } from "../../ServiceCathegoryPicker"
@@ -65,23 +66,18 @@ export const StaffNonCustomServicePage = () => {
             };
         }
 
-        const timeWindows: TimeWindow[] = events
-            .map(eventWithIdToTimeWindow)
-            .map(window => {
-                if (window.isErr()) {
-                    throw new Error("Couldn't create TimeWindow");
-                }
-                return window.value;
-            });
+        const slots: SwaggerSlot[] = events
+            .map(eventWithIdAndCapacityToSlot)
+            .map(domainSlotToSwagger);
 
-        servicesApi.patchCustomEnterpriseService(serviceId, {
+        servicesApi.patchNonCustomEnterpriseService(serviceId, {
             name: serviceName,
             description: serviceDescription,
             location,
             timeZone: timezone ?? undefined,
             cathegory: cathegory ?? undefined,
             price: price ?? undefined,
-            timeWindows
+            slots,
         }).catch(() => {
             toastError("Couldn't edit service. Try again later");
         });

@@ -1,5 +1,6 @@
-import { DateTimeFormatter, Instant, LocalDate, LocalDateTime, LocalTime, ZonedDateTime, ZoneId, ZoneOffset } from "@js-joda/core";
+import { DateTimeFormatter, DayOfWeek, Instant, LocalDate, LocalDateTime, LocalTime, ZonedDateTime, ZoneId, ZoneOffset } from "@js-joda/core";
 import { add, Duration } from "date-fns";
+import { jodaDayOfWeekToUs } from "./day-of-week";
 
 export function splitPeriod(start: Date, end: Date, segmentDuration: Duration): [Date, Date][] {
     const out: [Date, Date][] = [];
@@ -138,4 +139,23 @@ export function doesDateTimeWindowOverlapWithGroup(window: [Date, Date], group: 
         dateWindowToInstantWindow(window),
         group.map(dateWindowToInstantWindow),
     );
+}
+
+export function getExampleDateWithDayOfWeek(dayOfWeek: DayOfWeek): Date {
+    const exampleSundayDate: Date = new Date("2025-11-30");
+    const dayOffset = jodaDayOfWeekToUs(dayOfWeek);
+    return moveJsDateByDays(exampleSundayDate, dayOffset);
+}
+
+export function moveJsDateByDays(date: Date, numDays: number) {
+    const newDate = new Date(date);
+    newDate.setDate(date.getDate() + numDays);
+    return newDate;
+}
+
+export function createDateWithSetTime(date: Date, time: LocalTime): Date {
+    const newDate = new Date(date);
+    const milliseconds = Math.floor(time.nano() / 1_000_000);
+    newDate.setHours(time.hour(), time.minute(), time.second(), milliseconds);
+    return newDate;
 }

@@ -5,3 +5,13 @@ export interface EventWithId extends Event {
     end: Date;
     resource: { instanceId: string };
 }
+
+export function createEventWithId(start: Date, end: Date): EventWithId {
+    return {
+        start,
+        end,
+        resource: {
+            instanceId: crypto.randomUUID(),
+        }
+    };
+}

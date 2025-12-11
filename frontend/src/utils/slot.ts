@@ -1,26 +1,23 @@
-import { err, ok, Result } from "neverthrow";
+import { LocalTime } from "@js-joda/core";
 import { EventWithIdAndCapacity } from "../common/calendar/EventWithIdAndCapacity";
-import { Slot } from "../GENERATED-api";
+import { Slot } from "../common/Slot";
 import { extractHHmmTimeFromDate } from "./date";
-import { usDayOfWeekToDayOfWeek } from "./day-of-week";
+import { usDayOfWeekToJoda } from "./day-of-week";
 
-export function eventWithIdAndCapacityToSlot(event: EventWithIdAndCapacity): Result<Slot, Error> {
+export function eventWithIdAndCapacityToSlot(event: EventWithIdAndCapacity): Slot {
     if (event.start.getDay() !== event.end.getDay()) {
-        return err(new Error("Event should start and end on the same day"));
+        throw new Error("Event should start and end on the same day");
     }
 
-    const dayOfWeek = usDayOfWeekToDayOfWeek(event.start.getDay());
-    if (dayOfWeek.isErr()) {
-        return err(dayOfWeek.error);
-    }
+    const dayOfWeek = usDayOfWeekToJoda(event.start.getDay());
 
     const startHour = extractHHmmTimeFromDate(event.start);
     const endHour = extractHHmmTimeFromDate(event.end);
 
-    return ok({
-        dayOfWeek: dayOfWeek.value,
-        startTime: startHour,
-        endTime: endHour,
+    return {
+        dayOfWeek,
+        startTime: LocalTime.parse(startHour),
+        endTime: LocalTime.parse(endHour),
         maxOccupancy: event.resource.capacity,
-    });
+    };
 }

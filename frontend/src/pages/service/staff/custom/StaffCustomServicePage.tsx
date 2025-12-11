@@ -2,6 +2,7 @@ import { Box, Center, Flex, Text } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router"
 import { useServicesApi } from "../../../../api/services-api"
+import { domainTimeWindowToSwagger, swaggerTimeWindowToDomain } from "../../../../api/time-window-mapper"
 import { EventWithId } from "../../../../common/calendar/EventWithId"
 import { EditableCustomWeeklyCalendar } from "../../../../common/calendar/weekly/editable/EditableCustomWeeklyCalendar"
 import { useServiceIdFromLoader } from "../../../../common/loader/service-id-loader"
@@ -13,11 +14,11 @@ import { StandardPanel } from "../../../../common/StandardPanel"
 import { StandardTextField } from "../../../../common/StandardTextField"
 import { StandardTimeZonePicker } from "../../../../common/StandardTimeZonePicker"
 import { StandardVerticalSeparator } from "../../../../common/StandardVerticalSeparator"
-import { Location, TimeWindow } from "../../../../GENERATED-api"
+import { Location, TimeWindow as SwaggerTimeWindow } from "../../../../GENERATED-api"
 import { routes } from "../../../../router/routes"
 import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../../../utils/error"
 import { GeoPosition } from "../../../../utils/GeoPosition"
-import { eventWithIdToTimeWindow } from "../../../../utils/time-window"
+import { eventWithIdToTimeWindow, timeWindowToEventWithId } from "../../../../utils/time-window"
 import { toastError } from "../../../../utils/toast"
 import { isServiceCathegory, ServiceCathegory } from "../../ServiceCathegory"
 import { ServiceCathegoryPicker } from "../../ServiceCathegoryPicker"
@@ -61,7 +62,12 @@ export const StaffCustomServicePage = () => {
                     longitude: response.location.longitude,
                     latitude: response.location.latitude,
                 });
-                setEvents(response.time)
+
+                const events: EventWithId[] = response.timeWindows
+                    .map(swaggerTimeWindowToDomain)
+                    .map(timeWindowToEventWithId);
+                setEvents(events);
+
                 setTimezone(response.timezone);
                 setPrice(response.price);
 
@@ -91,14 +97,9 @@ export const StaffCustomServicePage = () => {
             };
         }
 
-        const timeWindows: TimeWindow[] = events
+        const swaggerTimeWindows: SwaggerTimeWindow[] = events
             .map(eventWithIdToTimeWindow)
-            .map(window => {
-                if (window.isErr()) {
-                    throw new Error("Couldn't create TimeWindow");
-                }
-                return window.value;
-            });
+            .map(domainTimeWindowToSwagger);
 
         servicesApi.patchCustomEnterpriseService(serviceId, {
             name: serviceName,
@@ -107,7 +108,7 @@ export const StaffCustomServicePage = () => {
             timeZone: timezone ?? undefined,
             cathegory: cathegory ?? undefined,
             price: price ?? undefined,
-            timeWindows
+            timeWindows: swaggerTimeWindows,
         }).catch(() => {
             toastError("Couldn't edit service. Try again later");
         });
