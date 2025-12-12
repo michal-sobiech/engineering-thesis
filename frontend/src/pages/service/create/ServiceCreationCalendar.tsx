@@ -1,10 +1,10 @@
 import { Box } from "@chakra-ui/react";
 import { FC } from "react";
 import { BooleanToggle } from "../../../common/BooleanToggle";
-import { EventWithId } from "../../../common/calendar/EventWithId";
-import { EventWithIdAndCapacity } from "../../../common/calendar/EventWithIdAndCapacity";
-import { EditableCustomWeeklyCalendar } from "../../../common/calendar/weekly/editable/EditableCustomWeeklyCalendar";
-import { EditableNonCustomWeeklyCalendar } from "../../../common/calendar/weekly/editable/EditableNonCustomWeeklyCalendar";
+import { EventWithId } from "../../../common/calendar/Event";
+import { EventWithIdAndCapacity } from "../../../common/calendar/EventWithCapacity";
+import { EditableCustomWeeklyCalendar } from "../../../common/calendar/weekly/editable/EditableCustomWeeklySchedule";
+import { EditableNonCustomWeeklyCalendar } from "../../../common/calendar/weekly/editable/EditableNonCustomWeeklySchedule";
 import { StandardFloatInput } from "../../../common/StandardFloatInput";
 import { StandardLabeledContainer } from "../../../common/StandardLabeledContainer";
 import { StateUpdater } from "../../../utils/StateUpdater";

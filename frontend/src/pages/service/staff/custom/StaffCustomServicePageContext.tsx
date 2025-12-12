@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { EventWithId } from "../../../../common/calendar/EventWithId";
+import { EventWithId } from "../../../../common/calendar/Event";
 import { GeoPosition } from "../../../../utils/GeoPosition";
 import { StateUpdater } from "../../../../utils/StateUpdater";
 import { UseStateSetter } from "../../../../utils/use-state";

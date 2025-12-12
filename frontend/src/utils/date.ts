@@ -1,24 +1,8 @@
-import { DateTimeFormatter, DayOfWeek, Instant, LocalDate, LocalDateTime, LocalTime, ZonedDateTime, ZoneId, ZoneOffset } from "@js-joda/core";
-import { add, Duration } from "date-fns";
+import { DateTimeFormatter, DayOfWeek, Duration, Instant, LocalDate, LocalDateTime, LocalTime, ZonedDateTime, ZoneId, ZoneOffset } from "@js-joda/core";
 import { jodaDayOfWeekToUs } from "./day-of-week";
 import { WeeklyTimeWindow } from "./WeeklyTimeWindow";
 
-export function splitPeriod(start: Date, end: Date, segmentDuration: Duration): [Date, Date][] {
-    const out: [Date, Date][] = [];
-
-    let currentSegmentStart = start;
-    while (currentSegmentStart < end) {
-        const currentSegmentEnd = add(currentSegmentStart, segmentDuration);
-        if (currentSegmentEnd > end) {
-            break;
-        }
-        const segment: [Date, Date] = [currentSegmentStart, currentSegmentEnd];
-        out.push(segment);
-        currentSegmentStart = currentSegmentEnd;
-    }
-
-    return out;
-}
+export const EXAMPLE_SUNDAY_DATE = new Date("2025-11-30");
 
 export function durationToMs(duration: Duration) {
     return add(new Date(0), duration).getTime();
@@ -143,9 +127,8 @@ export function doesDateTimeWindowOverlapWithGroup(window: [Date, Date], group: 
 }
 
 export function getExampleDateWithDayOfWeek(dayOfWeek: DayOfWeek): Date {
-    const exampleSundayDate: Date = new Date("2025-11-30");
     const dayOffset = jodaDayOfWeekToUs(dayOfWeek);
-    return moveJsDateByDays(exampleSundayDate, dayOffset);
+    return moveJsDateByDays(EXAMPLE_SUNDAY_DATE, dayOffset);
 }
 
 export function moveJsDateByDays(date: Date, numDays: number) {
@@ -197,4 +180,21 @@ export function doesWeeklyTimeWindowOverlapWithWeeklySchedule(
     const scheduleOnDayOfWeekLocalTimeWindows: [LocalTime, LocalTime][] =
         scheduleOnDayOfWeek.map(window => [window.start, window.end]);
     return doesLocalTimeWindowOverlapWithGroup(localTimeWindow, scheduleOnDayOfWeekLocalTimeWindows);
+}
+
+export function splitLocalTimePeriod(start: LocalTime, end: LocalTime, segmentDuration: Duration): [LocalTime, LocalTime][] {
+    const out: [LocalTime, LocalTime][] = [];
+
+    let currentSegmentStart = start;
+    while (currentSegmentStart < end) {
+        const currentSegmentEnd = currentSegmentStart.plus(segmentDuration);
+        if (currentSegmentEnd > end) {
+            break;
+        }
+        const segment: [LocalTime, LocalTime] = [currentSegmentStart, currentSegmentEnd];
+        out.push(segment);
+        currentSegmentStart = currentSegmentEnd;
+    }
+
+    return out;
 }

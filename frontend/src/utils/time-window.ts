@@ -1,5 +1,5 @@
 import { LocalTime } from "@js-joda/core";
-import { createEventWithId, EventWithId } from "../common/calendar/EventWithId";
+import { createEventWithId, EventWithId } from "../common/calendar/Event";
 import { TimeWindow } from "../common/TimeWindow";
 import { createDateWithSetTime, extractHHmmTimeFromDate, getExampleDateWithDayOfWeek } from "./date";
 import { usDayOfWeekToJoda } from "./day-of-week";

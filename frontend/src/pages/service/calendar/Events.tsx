@@ -1,5 +1,5 @@
-import { EventWithId } from "../../../common/calendar/EventWithId";
-import { EventWithIdAndCapacity } from "../../../common/calendar/EventWithIdAndCapacity";
+import { EventWithId } from "../../../common/calendar/Event";
+import { EventWithIdAndCapacity } from "../../../common/calendar/EventWithCapacity";
 
 export type Events = EventsNonCustom | EventsCustom;
 
