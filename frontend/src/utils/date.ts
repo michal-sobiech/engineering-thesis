@@ -1,6 +1,7 @@
 import { DateTimeFormatter, DayOfWeek, Instant, LocalDate, LocalDateTime, LocalTime, ZonedDateTime, ZoneId, ZoneOffset } from "@js-joda/core";
 import { add, Duration } from "date-fns";
 import { jodaDayOfWeekToUs } from "./day-of-week";
+import { WeeklyTimeWindow } from "./WeeklyTimeWindow";
 
 export function splitPeriod(start: Date, end: Date, segmentDuration: Duration): [Date, Date][] {
     const out: [Date, Date][] = [];
@@ -158,4 +159,42 @@ export function createDateWithSetTime(date: Date, time: LocalTime): Date {
     const milliseconds = Math.floor(time.nano() / 1_000_000);
     newDate.setHours(time.hour(), time.minute(), time.second(), milliseconds);
     return newDate;
+}
+
+export function extractJodaDayOfWeekFromJsDate(jsDate: Date): DayOfWeek {
+    const usDayOfWeek: number = jsDate.getDay();
+    const isoDayOfWeek: number = usDayOfWeekToIso(usDayOfWeek);
+    return DayOfWeek.of(isoDayOfWeek);
+}
+
+export function usDayOfWeekToIso(usDayOfWeek: number): number {
+    return usDayOfWeek === 0
+        ? 7
+        : usDayOfWeek;
+}
+
+export function doLocalTimeWindowsOverlap(
+    window1: [LocalTime, LocalTime], window2: [LocalTime, LocalTime]
+): boolean {
+    const [start1, end1] = window1;
+    const [start2, end2] = window2;
+    return end2.isAfter(start1) && start2.isBefore(end1);
+}
+
+export function doesLocalTimeWindowOverlapWithGroup(
+    window: [LocalTime, LocalTime], group: [LocalTime, LocalTime][]
+) {
+    return group.some(windowFromGroup => doLocalTimeWindowsOverlap(windowFromGroup, window));
+}
+
+export function doesWeeklyTimeWindowOverlapWithWeeklySchedule(
+    window: WeeklyTimeWindow, schedule: WeeklyTimeWindow[]
+): boolean {
+    const dayOfWeek = window.dayOfWeek;
+    const scheduleOnDayOfWeek = schedule.filter(window => window.dayOfWeek === dayOfWeek);
+
+    const localTimeWindow: [LocalTime, LocalTime] = [window.start, window.end];
+    const scheduleOnDayOfWeekLocalTimeWindows: [LocalTime, LocalTime][] =
+        scheduleOnDayOfWeek.map(window => [window.start, window.end]);
+    return doesLocalTimeWindowOverlapWithGroup(localTimeWindow, scheduleOnDayOfWeekLocalTimeWindows);
 }

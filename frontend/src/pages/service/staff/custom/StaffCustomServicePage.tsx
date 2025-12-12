@@ -1,4 +1,4 @@
-import { Box, Center, Flex, Text } from "@chakra-ui/react"
+import { Box, Center, Flex } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router"
 import { useServicesApi } from "../../../../api/services-api"
@@ -66,6 +66,7 @@ export const StaffCustomServicePage = () => {
                 const events: EventWithId[] = response.timeWindows
                     .map(swaggerTimeWindowToDomain)
                     .map(timeWindowToEventWithId);
+                console.log(events);
                 setEvents(events);
 
                 setTimezone(response.timezone);
@@ -121,7 +122,10 @@ export const StaffCustomServicePage = () => {
                 <Flex direction="column" height="100%" minHeight={0}>
 
                     <StandardLabeledContainer label="Enterprise name">
-                        <Text>{enterpriseName}</Text>
+                        <StandardTextField
+                            text={enterpriseName}
+                            setText={() => { }}
+                            disabled={true} />
                     </StandardLabeledContainer>
 
                     <StandardLabeledContainer label="Service name">

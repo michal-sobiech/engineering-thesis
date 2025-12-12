@@ -86,8 +86,8 @@ public class EnterpriseServiceController implements ServicesApi {
     private final CustomAppointmentWithDetailsService customAppointmentWithDetailsService;
     private final EnterpriseService enterpriseService;
 
-    private CustomTimeWindowTemplateService customTimeWindowTemplateService;
-    private NonCustomSlotTemplateService nonCustomSlotTemplateService;
+    private final CustomTimeWindowTemplateService customTimeWindowTemplateService;
+    private final NonCustomSlotTemplateService nonCustomSlotTemplateService;
 
     @Override
     public ResponseEntity<List<GetServiceFreeNonCustomAppointmentsResponseItem>> getFreeNonCustomAppointments(

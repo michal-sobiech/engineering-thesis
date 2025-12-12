@@ -1,39 +1,47 @@
+import { DayOfWeek, LocalTime } from "@js-joda/core";
 import { FC } from "react";
 import { SlotInfo } from "react-big-calendar";
-import { doesDateTimeWindowOverlapWithGroup } from "../../../../utils/date";
+import { doesWeeklyTimeWindowOverlapWithWeeklySchedule, extractJodaDayOfWeekFromJsDate, extractLocalTimeFromDate } from "../../../../utils/date";
 import { StateUpdater } from "../../../../utils/StateUpdater";
+import { WeeklyTimeWindow } from "../../../../utils/WeeklyTimeWindow";
 import { EventWithId } from "../../EventWithId";
 import { WeeklyCalendar } from "../WeeklyCalendar";
 
 export interface EditableCustomWeeklyCalendarProps {
-    events: EventWithId[];
-    setEvents: StateUpdater<EventWithId[]>;
+    events: WeeklyTimeWindow[];
+    setEvents: StateUpdater<WeeklyTimeWindow[]>;
 }
 
 export const EditableCustomWeeklyCalendar: FC<EditableCustomWeeklyCalendarProps> = ({ events, setEvents }) => {
     const onSelectSlot = (slotInfo: SlotInfo) => {
-        if (doesSlotOverlapWithEvents(slotInfo, events)) {
+
+        const slotWeeklyTimeWindow: WeeklyTimeWindow = {
+            dayOfWeek: extractJodaDayOfWeekFromJsDate(slotInfo.start),
+            start: extractLocalTimeFromDate(slotInfo.start),
+            end: extractLocalTimeFromDate(slotInfo.end),
+        };
+
+        if (doesWeeklyTimeWindowOverlapWithWeeklySchedule(slotWeeklyTimeWindow, events)) {
             return;
         }
 
-        const newEvent: EventWithId = {
-            start: slotInfo.start,
-            end: slotInfo.end,
-            resource: {
-                instanceId: crypto.randomUUID(),
-            }
-        };
-
-        setEvents(prevEvents => [...prevEvents, newEvent]);
+        setEvents(prevEvents => [...prevEvents, slotWeeklyTimeWindow]);
     };
 
     const onSelectEvent = (event: EventWithId) => {
-        deleteEvent(event.resource.instanceId);
+        const dayOfWeek = extractJodaDayOfWeekFromJsDate(event.start);
+        const start = extractLocalTimeFromDate(event.start);
+        const end = extractLocalTimeFromDate(event.end);
+        deleteEvent(dayOfWeek, start, end);
     }
 
-    function deleteEvent(eventInstanceId: string) {
+    function deleteEvent(dayOfWeek: DayOfWeek, start: LocalTime, end: LocalTime) {
         setEvents(previousEvents => previousEvents.filter(event => {
-            return event.resource.instanceId != eventInstanceId;
+            return (
+                event.dayOfWeek === dayOfWeek
+                && event.start === start
+                && event.end === end
+            );
         }));
     }
 
@@ -41,10 +49,4 @@ export const EditableCustomWeeklyCalendar: FC<EditableCustomWeeklyCalendarProps>
         onSelectSlot={onSelectSlot}
         onSelectEvent={onSelectEvent}
     />;
-}
-
-function doesSlotOverlapWithEvents(slotInfo: SlotInfo, events: EventWithId[]): boolean {
-    const slotWindow: [Date, Date] = [slotInfo.start, slotInfo.end];
-    const eventWindows: [Date, Date][] = events.map(event => [event.start, event.end]);
-    return doesDateTimeWindowOverlapWithGroup(slotWindow, eventWindows);
 }
