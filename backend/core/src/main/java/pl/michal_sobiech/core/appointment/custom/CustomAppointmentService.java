@@ -22,7 +22,6 @@ public class CustomAppointmentService {
     private final EnterpriseServiceService enterpriseServiceService;
     private final AppointmentRepository appointmentRepository;
 
-    // TODO add uncancelled to method name?
     public List<UncancelledScheduledAppointment> getConfirmedAppointmentsInDatetimeRange(
             long serviceId,
             Instant from,

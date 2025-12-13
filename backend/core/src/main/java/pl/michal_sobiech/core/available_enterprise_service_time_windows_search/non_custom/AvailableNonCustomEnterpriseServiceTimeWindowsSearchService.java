@@ -12,7 +12,7 @@ import pl.michal_sobiech.core.enteprise_service_search.EnterpriseServiceSearchSe
 import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceCathegory;
 import pl.michal_sobiech.core.enterprise_service_availability.NonCustomEnterpriseServiceAvailabilityService;
 import pl.michal_sobiech.core.utils.DateUtils;
-import pl.michal_sobiech.core.utils.LocalDateTimeWindow;
+import pl.michal_sobiech.core.utils.local_datetime_window.LocalDatetimeWindow;
 
 @RequiredArgsConstructor
 public class AvailableNonCustomEnterpriseServiceTimeWindowsSearchService {
@@ -59,7 +59,7 @@ public class AvailableNonCustomEnterpriseServiceTimeWindowsSearchService {
         LocalDateTime startLocal = DateUtils.createLocalDateTime(start, service.getTimezone());
         LocalDateTime endLocal = DateUtils.createLocalDateTime(end, service.getTimezone());
 
-        List<LocalDateTimeWindow> windows = nonCustomEnterpriseServiceAvailabilityService
+        List<LocalDatetimeWindow> windows = nonCustomEnterpriseServiceAvailabilityService
                 .getAvailableSlotsInDatetimeRangeForService(
                         service.getEnterpriseServiceId(),
                         startLocal,

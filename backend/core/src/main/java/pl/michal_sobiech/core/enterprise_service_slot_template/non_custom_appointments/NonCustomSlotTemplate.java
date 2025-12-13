@@ -4,6 +4,7 @@ import java.time.DayOfWeek;
 import java.time.LocalTime;
 
 import pl.michal_sobiech.core.enterprise_service_slot_template.EnterpriseServiceSlotTemplateEntity;
+import pl.michal_sobiech.core.utils.local_time_window.LocalTimeWindow;
 
 public record NonCustomSlotTemplate(
 
@@ -13,17 +14,17 @@ public record NonCustomSlotTemplate(
 
         DayOfWeek dayOfWeek,
 
-        LocalTime startTime,
+        LocalTime start,
 
-        LocalTime endTime,
+        LocalTime end,
 
-        Short maxOccupancy
+        short maxOccupancy
 
-) {
+) implements LocalTimeWindow {
 
     public static NonCustomSlotTemplate from(EnterpriseServiceSlotTemplateEntity entity) {
         if (entity.getMaxOccupancy() == null) {
-            throw new IllegalArgumentException();
+            throw new IllegalStateException();
         }
 
         return new NonCustomSlotTemplate(

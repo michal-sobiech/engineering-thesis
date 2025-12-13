@@ -1,4 +1,4 @@
-package pl.michal_sobiech.core.enterprise_service_availability_template;
+package pl.michal_sobiech.core.enterprise_service_default_availability;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -10,48 +10,49 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.core.enterprise_service_slot_template.EnterpriseServiceSlotTemplateService;
 import pl.michal_sobiech.core.utils.DateUtils;
-import pl.michal_sobiech.core.utils.LocalDateTimeWindow;
-import pl.michal_sobiech.core.utils.LocalTimeWindow;
+import pl.michal_sobiech.core.utils.local_datetime_window.LocalDatetimeWindow;
+import pl.michal_sobiech.core.utils.local_datetime_window.LocalDatetimeWindowUtils;
+import pl.michal_sobiech.core.utils.local_time_window.LocalTimeWindow;
 
 @RequiredArgsConstructor
 public class EnterpriseServiceAvailabilityTemplateService {
 
     private final EnterpriseServiceSlotTemplateService enterpriseServiceSlotTemplateService;
 
-    public List<LocalDateTimeWindow> getAvailabilityTemplateForDatetimeRange(
+    public List<LocalDatetimeWindow> getAvailabilityTemplateForDatetimeRange(
             long enterpriseServiceId,
             LocalDateTime from,
             LocalDateTime to) {
-        List<LocalDateTimeWindow> fullDaysTemplate = getAvailabilityTemplateForDateRange(
+        List<LocalDatetimeWindow> fullDaysTemplate = getAvailabilityTemplateForDateRange(
                 enterpriseServiceId,
                 from.toLocalDate(),
                 to.toLocalDate());
-        return DateUtils.filterWindowsFullyContainedInRange(fullDaysTemplate, from, to);
+        return LocalDatetimeWindowUtils.filterWindowsFullyContainedInRange(fullDaysTemplate, from, to);
     }
 
-    public List<LocalDateTimeWindow> getAvailabilityTemplateForDate(
+    public List<LocalDatetimeWindow> getAvailabilityTemplateForDate(
             long enterpriseServiceId,
             LocalDate date) {
         DayOfWeek dayOfWeek = date.getDayOfWeek();
         return getAvailabilityTemplateForDayOfWeek(enterpriseServiceId, dayOfWeek)
                 .stream()
-                .map(window -> new LocalDateTimeWindow(
+                .map(window -> new LocalDatetimeWindow(
                         date.atTime(window.start()),
                         date.atTime(window.end())))
                 .collect(Collectors.toList());
     }
 
-    public List<LocalDateTimeWindow> getAvailabilityTemplateForDateRange(
+    public List<LocalDatetimeWindow> getAvailabilityTemplateForDateRange(
             long enterpriseServiceId,
             LocalDate from,
             LocalDate to) {
-        List<LocalDateTimeWindow> out = new ArrayList<>();
+        List<LocalDatetimeWindow> out = new ArrayList<>();
 
         for (LocalDate date : DateUtils.getAllDatesBetweenIncludingBorders(from, to)) {
             DayOfWeek dayOfWeek = date.getDayOfWeek();
             System.out.println(dayOfWeek);
 
-            List<LocalDateTimeWindow> windowsForDate = getAvailabilityTemplateForDate(enterpriseServiceId,
+            List<LocalDatetimeWindow> windowsForDate = getAvailabilityTemplateForDate(enterpriseServiceId,
                     date);
 
             out.addAll(windowsForDate);

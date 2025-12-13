@@ -14,7 +14,7 @@ import pl.michal_sobiech.core.enterprise_service_slot_template.EnterpriseService
 import pl.michal_sobiech.core.enterprise_service_slot_template.EnterpriseServiceSlotTemplateRepository;
 import pl.michal_sobiech.core.enterprise_service_slot_template.EnterpriseServiceSlotTemplateService;
 import pl.michal_sobiech.core.utils.DateUtils;
-import pl.michal_sobiech.core.utils.LocalDateTimeWindow;
+import pl.michal_sobiech.core.utils.local_datetime_window.LocalDatetimeWindow;
 
 @RequiredArgsConstructor
 public class CustomTimeWindowTemplateService {
@@ -42,22 +42,22 @@ public class CustomTimeWindowTemplateService {
         return CustomSlotTemplate.from(slot);
     }
 
-    public List<LocalDateTimeWindow> getAvailabilityTemplateForLocalDatetimeRange(
+    public List<LocalDatetimeWindow> getAvailabilityTemplateForLocalDatetimeRange(
             long enterpriseServiceId,
             LocalDateTime from,
             LocalDateTime to) {
-        List<LocalDateTimeWindow> fullDaysTemplate = getAvailabilityTemplateForDateRange(
+        List<LocalDatetimeWindow> fullDaysTemplate = getAvailabilityTemplateForDateRange(
                 enterpriseServiceId,
                 from.toLocalDate(),
                 to.toLocalDate());
         return DateUtils.filterWindowsFullyContainedInRange(fullDaysTemplate, from, to);
     }
 
-    public List<LocalDateTimeWindow> getAvailabilityTemplateForDateRange(
+    public List<LocalDatetimeWindow> getAvailabilityTemplateForDateRange(
             long enterpriseServiceId,
             LocalDate from,
             LocalDate to) {
-        List<LocalDateTimeWindow> out = new ArrayList<>();
+        List<LocalDatetimeWindow> out = new ArrayList<>();
 
         for (LocalDate date : DateUtils.getAllDatesBetweenIncludingBorders(from, to)) {
             DayOfWeek dayOfWeek = date.getDayOfWeek();
@@ -65,8 +65,8 @@ public class CustomTimeWindowTemplateService {
             List<CustomSlotTemplate> windowsForDayOfWeek = getAvailabilityTemplateForDayOfWeek(
                     enterpriseServiceId,
                     dayOfWeek);
-            List<LocalDateTimeWindow> mappedWindowsForDayOfWeek = windowsForDayOfWeek.stream()
-                    .map(window -> new LocalDateTimeWindow(
+            List<LocalDatetimeWindow> mappedWindowsForDayOfWeek = windowsForDayOfWeek.stream()
+                    .map(window -> new LocalDatetimeWindow(
                             LocalDateTime.of(date, window.startTime()),
                             LocalDateTime.of(date, window.endTime())))
                     .collect(Collectors.toList());
@@ -76,7 +76,7 @@ public class CustomTimeWindowTemplateService {
         return out;
     }
 
-    public List<LocalDateTimeWindow> getAvailabilityTemplateOnDate(
+    public List<LocalDatetimeWindow> getAvailabilityTemplateOnDate(
             long enterpriseServiceId,
             LocalDate date) {
         return getAvailabilityTemplateForDateRange(enterpriseServiceId, date, date);

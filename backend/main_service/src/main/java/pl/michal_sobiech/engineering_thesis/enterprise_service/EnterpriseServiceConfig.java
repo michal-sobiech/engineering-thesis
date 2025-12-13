@@ -12,8 +12,8 @@ import pl.michal_sobiech.core.enterprise_service.custom_appointments.CustomAppoi
 import pl.michal_sobiech.core.enterprise_service.no_custom_appointments.NonCustomAppointmentsEnterpriseServiceService;
 import pl.michal_sobiech.core.enterprise_service_availability.CustomEnterpriseServiceAvailabilityService;
 import pl.michal_sobiech.core.enterprise_service_availability.NonCustomEnterpriseServiceAvailabilityService;
-import pl.michal_sobiech.core.enterprise_service_availability_template.EnterpriseServiceAvailabilityTemplateService;
-import pl.michal_sobiech.core.enterprise_service_availability_template.non_custom.NonCustomEnterpriseServiceAvailabilityTemplateService;
+import pl.michal_sobiech.core.enterprise_service_default_availability.EnterpriseServiceAvailabilityTemplateService;
+import pl.michal_sobiech.core.enterprise_service_default_availability.non_custom.NonCustomEnterpriseServiceDefaultAvailabilityService;
 import pl.michal_sobiech.core.enterprise_service_slot_template.EnterpriseServiceSlotTemplateRepository;
 import pl.michal_sobiech.core.enterprise_service_slot_template.EnterpriseServiceSlotTemplateService;
 import pl.michal_sobiech.core.enterprise_service_slot_template.custom_appointments.CustomTimeWindowTemplateService;
@@ -79,9 +79,9 @@ public class EnterpriseServiceConfig {
     }
 
     @Bean
-    public NonCustomEnterpriseServiceAvailabilityTemplateService nonCustomEnterpriseServiceAvailabilityTemplateService(
+    public NonCustomEnterpriseServiceDefaultAvailabilityService nonCustomEnterpriseServiceAvailabilityTemplateService(
             EnterpriseServiceSlotTemplateService enterpriseServiceSlotTemplateService) {
-        return new NonCustomEnterpriseServiceAvailabilityTemplateService(enterpriseServiceSlotTemplateService);
+        return new NonCustomEnterpriseServiceDefaultAvailabilityService(enterpriseServiceSlotTemplateService);
     }
 
     @Bean

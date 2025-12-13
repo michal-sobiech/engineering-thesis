@@ -10,7 +10,7 @@ import pl.michal_sobiech.core.appointment.custom.CustomAppointmentService;
 import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceService;
 import pl.michal_sobiech.core.enterprise_service_slot_template.custom_appointments.CustomTimeWindowTemplateService;
 import pl.michal_sobiech.core.utils.DateUtils;
-import pl.michal_sobiech.core.utils.LocalDateTimeWindow;
+import pl.michal_sobiech.core.utils.local_datetime_window.LocalDatetimeWindow;
 
 @RequiredArgsConstructor
 public class CustomEnterpriseServiceAvailabilityService {
@@ -26,7 +26,7 @@ public class CustomEnterpriseServiceAvailabilityService {
     // List<
     // }
 
-    public List<LocalDateTimeWindow> findFreeTimeWindowsInLocalDatetimeRangeForService(
+    public List<LocalDatetimeWindow> findFreeTimeWindowsInLocalDatetimeRangeForService(
             long enterpriseServiceId,
             LocalDateTime from,
             LocalDateTime to) {
@@ -37,20 +37,20 @@ public class CustomEnterpriseServiceAvailabilityService {
         ZoneId timezone = enterpriseServiceService.getTimeZoneByServiceId(enterpriseServiceId);
 
         // 1.
-        List<LocalDateTimeWindow> defaultAvailability = customAppointmentsEnterpriseServiceTimeWindowTemplateService
+        List<LocalDatetimeWindow> defaultAvailability = customAppointmentsEnterpriseServiceTimeWindowTemplateService
                 .getAvailabilityTemplateForLocalDatetimeRange(
                         enterpriseServiceId,
                         from,
                         to);
 
         // 2.
-        List<LocalDateTimeWindow> confirmedAppointmentWindows = customAppointmentService
+        List<LocalDatetimeWindow> confirmedAppointmentWindows = customAppointmentService
                 .getConfirmedAppointmentsInDatetimeRange(
                         enterpriseServiceId,
                         from.atZone(timezone).toInstant(),
                         to.atZone(timezone).toInstant())
                 .stream()
-                .map(a -> new LocalDateTimeWindow(
+                .map(a -> new LocalDatetimeWindow(
                         DateUtils.createLocalDateTime(a.startInstant(), timezone),
                         DateUtils.createLocalDateTime(a.endInstant(), timezone)))
                 .collect(Collectors.toList());

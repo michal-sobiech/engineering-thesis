@@ -46,7 +46,6 @@ public interface AppointmentRepository {
             boolean isCancelled,
             Boolean futureVsPast);
 
-    // TODO maybe Optionals?
     public List<AppointmentEntity> findCustomAppointments(
             Long customerUserId,
             Long enterpriseServiceId,

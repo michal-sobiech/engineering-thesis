@@ -60,7 +60,7 @@ import pl.michal_sobiech.core.payment.payment_status.PaymentStatusPaidOnSite;
 import pl.michal_sobiech.core.payment.payment_status.PaymentStatusPaidOnline;
 import pl.michal_sobiech.core.review.ReviewService;
 import pl.michal_sobiech.core.utils.DateUtils;
-import pl.michal_sobiech.core.utils.LocalDateTimeWindow;
+import pl.michal_sobiech.core.utils.local_datetime_window.LocalDatetimeWindow;
 import pl.michal_sobiech.engineering_thesis.api.LocationMapper;
 import pl.michal_sobiech.engineering_thesis.api.SlotMapper;
 import pl.michal_sobiech.engineering_thesis.api.TimeWindowMapper;
@@ -98,7 +98,7 @@ public class EnterpriseServiceController implements ServicesApi {
         OffsetDateTime start = DateUtils.createOffsetDateTime(dateInServiceTimezone, timezone);
         OffsetDateTime end = start.plusDays(1);
 
-        List<LocalDateTimeWindow> freeSlots = nonCustomEnterpriseServiceAvailabilityService
+        List<LocalDatetimeWindow> freeSlots = nonCustomEnterpriseServiceAvailabilityService
                 .findFreeTimeWindowsInDatetimeRange(enterpriseServiceId, start, end);
 
         List<GetServiceFreeNonCustomAppointmentsResponseItem> body = freeSlots.stream().map(slot -> {
@@ -118,7 +118,7 @@ public class EnterpriseServiceController implements ServicesApi {
         LocalDateTime startLocal = dateInServiceTimezone.atStartOfDay();
         LocalDateTime endLocal = startLocal.plusDays(1);
 
-        List<LocalDateTimeWindow> freeWindows = customEnterpriseServiceAvailabilityService
+        List<LocalDatetimeWindow> freeWindows = customEnterpriseServiceAvailabilityService
                 .findFreeTimeWindowsInLocalDatetimeRangeForService(enterpriseServiceId, startLocal,
                         endLocal);
 
