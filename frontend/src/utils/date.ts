@@ -33,8 +33,10 @@ export function createNowWithTime(time: LocalTime): Date {
     return new Date(zoneDate.toInstant().toEpochMilli());
 }
 
-export function extractLocalTimeFromDate(date: Date): LocalTime {
-    return LocalTime.from(Instant.ofEpochMilli(date.getTime()));
+export function extractSystemLocalTimeFromDate(date: Date): LocalTime {
+    const instant = Instant.ofEpochMilli(date.getTime());
+    const zonedDatetime = ZonedDateTime.ofInstant(instant, ZoneId.systemDefault());
+    return zonedDatetime.toLocalTime();
 }
 
 export function createDateInterpretedAsUTC(date: Date): Date {

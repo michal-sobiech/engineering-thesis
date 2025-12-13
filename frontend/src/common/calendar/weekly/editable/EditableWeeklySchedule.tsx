@@ -2,7 +2,7 @@ import { DayOfWeek, LocalTime } from "@js-joda/core";
 import { FC } from "react";
 import { SlotInfo } from "react-big-calendar";
 import { WeeklyTimeWindow } from "../../../../utils/WeeklyTimeWindow";
-import { calcDateWithDayOfWeekAndUsDateBase, createDateWithSetTime, createJsDateMovedByDays, doesWeeklyTimeWindowOverlapWithWeeklySchedule, EXAMPLE_SUNDAY_DATE, extractJodaDayOfWeekFromJsDate, extractLocalTimeFromDate } from "../../../../utils/date";
+import { calcDateWithDayOfWeekAndUsDateBase, createDateWithSetTime, createJsDateMovedByDays, doesWeeklyTimeWindowOverlapWithWeeklySchedule, EXAMPLE_SUNDAY_DATE, extractJodaDayOfWeekFromJsDate, extractSystemLocalTimeFromDate, } from "../../../../utils/date";
 import { Event } from "../../Event";
 import { WeeklyCalendar } from "../WeeklyCalendar";
 
@@ -22,8 +22,8 @@ export const EditableWeeklySchedule: FC<EditableWeeklyScheduleProps> = ({
     const onSelectSlot = (slotInfo: SlotInfo) => {
         const slot: WeeklyTimeWindow = {
             dayOfWeek: extractJodaDayOfWeekFromJsDate(slotInfo.start),
-            start: extractLocalTimeFromDate(slotInfo.start),
-            end: extractLocalTimeFromDate(slotInfo.end),
+            start: extractSystemLocalTimeFromDate(slotInfo.start),
+            end: extractSystemLocalTimeFromDate(slotInfo.end),
         };
 
         if (doesWeeklyTimeWindowOverlapWithWeeklySchedule(slot, timeWindows)) {
@@ -35,8 +35,8 @@ export const EditableWeeklySchedule: FC<EditableWeeklyScheduleProps> = ({
 
     const onSelectEvent = (event: Event) => {
         const dayOfWeek = extractJodaDayOfWeekFromJsDate(event.start);
-        const start = extractLocalTimeFromDate(event.start);
-        const end = extractLocalTimeFromDate(event.end);
+        const start = extractSystemLocalTimeFromDate(event.start);
+        const end = extractSystemLocalTimeFromDate(event.end);
         externalOnSelectEvent(dayOfWeek, start, end);
     }
 
