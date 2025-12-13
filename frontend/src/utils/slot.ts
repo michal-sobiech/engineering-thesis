@@ -1,10 +1,10 @@
 import { LocalTime } from "@js-joda/core";
-import { EventWithIdAndCapacity } from "../common/calendar/EventWithCapacity";
-import { Slot } from "../common/Slot";
+import { EventWithIdAndCapacity } from "../common/calendar/EventWithIdAndCapacity";
 import { extractHHmmTimeFromDate } from "./date";
 import { usDayOfWeekToJoda } from "./day-of-week";
 
-export function eventWithIdAndCapacityToSlot(event: EventWithIdAndCapacity): Slot {
+// TODO return type
+export function eventWithIdAndCapacityToSlot(event: EventWithIdAndCapacity) {
     if (event.start.getDay() !== event.end.getDay()) {
         throw new Error("Event should start and end on the same day");
     }

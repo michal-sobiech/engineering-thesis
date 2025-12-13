@@ -105,7 +105,7 @@ export interface GetEnterpriseServiceNonCustomServiceResponse {
      * @type {Array<Slot>}
      * @memberof GetEnterpriseServiceNonCustomServiceResponse
      */
-    slots: Array<Slot>;
+    slotTemplates: Array<Slot>;
 }
 
 /**
@@ -123,7 +123,7 @@ export function instanceOfGetEnterpriseServiceNonCustomServiceResponse(value: ob
     if (!('cathegory' in value) || value['cathegory'] === undefined) return false;
     if (!('price' in value) || value['price'] === undefined) return false;
     if (!('currencyIso' in value) || value['currencyIso'] === undefined) return false;
-    if (!('slots' in value) || value['slots'] === undefined) return false;
+    if (!('slotTemplates' in value) || value['slotTemplates'] === undefined) return false;
     return true;
 }
 
@@ -148,7 +148,7 @@ export function GetEnterpriseServiceNonCustomServiceResponseFromJSONTyped(json: 
         'cathegory': json['cathegory'],
         'price': json['price'],
         'currencyIso': json['currencyIso'],
-        'slots': ((json['slots'] as Array<any>).map(SlotFromJSON)),
+        'slotTemplates': ((json['slotTemplates'] as Array<any>).map(SlotFromJSON)),
     };
 }
 
@@ -173,7 +173,7 @@ export function GetEnterpriseServiceNonCustomServiceResponseToJSONTyped(value?: 
         'cathegory': value['cathegory'],
         'price': value['price'],
         'currencyIso': value['currencyIso'],
-        'slots': ((value['slots'] as Array<any>).map(SlotToJSON)),
+        'slotTemplates': ((value['slotTemplates'] as Array<any>).map(SlotToJSON)),
     };
 }
 

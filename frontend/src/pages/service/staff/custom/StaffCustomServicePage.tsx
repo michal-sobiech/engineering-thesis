@@ -2,9 +2,8 @@ import { Box, Center, Flex } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router"
 import { useServicesApi } from "../../../../api/services-api"
-import { domainTimeWindowToSwagger, swaggerTimeWindowToDomain } from "../../../../api/time-window-mapper"
-import { EventWithId } from "../../../../common/calendar/Event"
-import { EditableCustomWeeklyCalendar } from "../../../../common/calendar/weekly/editable/EditableCustomWeeklySchedule"
+import { swaggerTimeWindowToWeeklyTimeWindow, weeklyTimeWindowToSwagger } from "../../../../api/time-window-mapper"
+import { EditableCustomWeeklySchedule } from "../../../../common/calendar/weekly/editable/EditableCustomWeeklySchedule"
 import { useServiceIdFromLoader } from "../../../../common/loader/service-id-loader"
 import { MapLocationPicker } from "../../../../common/MapLocationPicker"
 import { StandardButton } from "../../../../common/StandardButton"
@@ -18,8 +17,8 @@ import { Location, TimeWindow as SwaggerTimeWindow } from "../../../../GENERATED
 import { routes } from "../../../../router/routes"
 import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../../../utils/error"
 import { GeoPosition } from "../../../../utils/GeoPosition"
-import { eventWithIdToTimeWindow, timeWindowToEventWithId } from "../../../../utils/time-window"
 import { toastError } from "../../../../utils/toast"
+import { WeeklyTimeWindow } from "../../../../utils/WeeklyTimeWindow"
 import { isServiceCathegory, ServiceCathegory } from "../../ServiceCathegory"
 import { ServiceCathegoryPicker } from "../../ServiceCathegoryPicker"
 import { StaffCustomServicePageContext, StaffCustomServicePageContextValue } from "./StaffCustomServicePageContext"
@@ -35,7 +34,7 @@ export const StaffCustomServicePage = () => {
     const [address, setAddress] = useState<string | null>(null);
     const [position, setPosition] = useState<GeoPosition | null>(null);
     const [timezone, setTimezone] = useState<string | null>(null);
-    const [events, setEvents] = useState<EventWithId[]>([]);
+    const [windows, setWindows] = useState<WeeklyTimeWindow[]>([]);
     const [price, setPrice] = useState<number | null>(null);
     const [cathegory, setCathegory] = useState<ServiceCathegory | null>(null);
 
@@ -46,7 +45,7 @@ export const StaffCustomServicePage = () => {
         address, setAddress,
         position, setPosition,
         timezone, setTimezone,
-        events, setEvents,
+        windows, setWindows,
         price, setPrice,
         cathegory, setCathegory,
     };
@@ -63,11 +62,10 @@ export const StaffCustomServicePage = () => {
                     latitude: response.location.latitude,
                 });
 
-                const events: EventWithId[] = response.timeWindows
-                    .map(swaggerTimeWindowToDomain)
-                    .map(timeWindowToEventWithId);
-                console.log(events);
-                setEvents(events);
+                const windows: WeeklyTimeWindow[] = response.timeWindowTemplates
+                    .map(swaggerTimeWindowToWeeklyTimeWindow);
+
+                setWindows(windows);
 
                 setTimezone(response.timezone);
                 setPrice(response.price);
@@ -98,9 +96,8 @@ export const StaffCustomServicePage = () => {
             };
         }
 
-        const swaggerTimeWindows: SwaggerTimeWindow[] = events
-            .map(eventWithIdToTimeWindow)
-            .map(domainTimeWindowToSwagger);
+        const swaggerTimeWindows: SwaggerTimeWindow[] = windows
+            .map(weeklyTimeWindowToSwagger);
 
         servicesApi.patchCustomEnterpriseService(serviceId, {
             name: serviceName,
@@ -149,9 +146,9 @@ export const StaffCustomServicePage = () => {
                         <StandardTimeZonePicker value={timezone} setValue={setTimezone} />
                     </StandardLabeledContainer>
 
-                    <EditableCustomWeeklyCalendar
-                        events={events}
-                        setEvents={setEvents}
+                    <EditableCustomWeeklySchedule
+                        windows={windows}
+                        setWindows={setWindows}
                     />
 
                     <StandardLabeledContainer label="Price (PLN)">

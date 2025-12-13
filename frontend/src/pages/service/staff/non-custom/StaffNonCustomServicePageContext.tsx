@@ -1,8 +1,8 @@
 import { createContext } from "react";
-import { EventWithIdAndCapacity } from "../../../../common/calendar/EventWithCapacity";
 import { GeoPosition } from "../../../../utils/GeoPosition";
 import { StateUpdater } from "../../../../utils/StateUpdater";
 import { UseStateSetter } from "../../../../utils/use-state";
+import { WeeklyTimeWindowWithCapacity } from "../../../../utils/WeeklyTimeWindowWithCapacity";
 import { ServiceCathegory } from "../../ServiceCathegory";
 
 export interface StaffNonCustomServicePageContextValue {
@@ -18,8 +18,8 @@ export interface StaffNonCustomServicePageContextValue {
     setPosition: UseStateSetter<GeoPosition | null>;
     timezone: string | null;
     setTimezone: UseStateSetter<string | null>;
-    events: EventWithIdAndCapacity[];
-    setEvents: StateUpdater<EventWithIdAndCapacity[]>;
+    events: WeeklyTimeWindowWithCapacity[];
+    setEvents: StateUpdater<WeeklyTimeWindowWithCapacity[]>;
     appointmentDurationMinutes: number | null;
     setAppointmentDurationMinutes: UseStateSetter<number | null>;
     price: number | null;

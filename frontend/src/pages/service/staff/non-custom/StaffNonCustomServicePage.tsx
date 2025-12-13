@@ -2,9 +2,8 @@ import { Box, Center, Flex, Text } from "@chakra-ui/react"
 import { useState } from "react"
 import { useNavigate } from "react-router"
 import { useServicesApi } from "../../../../api/services-api"
-import { domainSlotToSwagger } from "../../../../api/slot-mapper"
-import { EventWithIdAndCapacity } from "../../../../common/calendar/EventWithCapacity"
-import { EditableNonCustomWeeklyCalendar } from "../../../../common/calendar/weekly/editable/EditableNonCustomWeeklySchedule"
+import { weeklyTimeWindowWithCapacityToSwaggerSlot } from "../../../../api/slot-mapper"
+import { EditableNonCustomWeeklySchedule } from "../../../../common/calendar/weekly/editable/EditableNonCustomWeeklySchedule"
 import { useServiceIdFromLoader } from "../../../../common/loader/service-id-loader"
 import { MapLocationPicker } from "../../../../common/MapLocationPicker"
 import { StandardButton } from "../../../../common/StandardButton"
@@ -17,8 +16,8 @@ import { StandardVerticalSeparator } from "../../../../common/StandardVerticalSe
 import { Location, Slot as SwaggerSlot } from "../../../../GENERATED-api"
 import { routes } from "../../../../router/routes"
 import { GeoPosition } from "../../../../utils/GeoPosition"
-import { eventWithIdAndCapacityToSlot } from "../../../../utils/slot"
 import { toastError } from "../../../../utils/toast"
+import { WeeklyTimeWindowWithCapacity } from "../../../../utils/WeeklyTimeWindowWithCapacity"
 import { ServiceCathegory } from "../../ServiceCathegory"
 import { ServiceCathegoryPicker } from "../../ServiceCathegoryPicker"
 import { StaffNonCustomServicePageContext, StaffNonCustomServicePageContextValue } from "./StaffNonCustomServicePageContext"
@@ -34,7 +33,7 @@ export const StaffNonCustomServicePage = () => {
     const [address, setAddress] = useState<string | null>(null);
     const [position, setPosition] = useState<GeoPosition | null>(null);
     const [timezone, setTimezone] = useState<string | null>(null);
-    const [events, setEvents] = useState<EventWithIdAndCapacity[]>([]);
+    const [events, setEvents] = useState<WeeklyTimeWindowWithCapacity[]>([]);
     const [appointmentDurationMinutes, setAppointmentDurationMinutes] = useState<number | null>(30);
     const [price, setPrice] = useState<number | null>(null);
     const [cathegory, setCathegory] = useState<ServiceCathegory | null>(null);
@@ -67,8 +66,7 @@ export const StaffNonCustomServicePage = () => {
         }
 
         const slots: SwaggerSlot[] = events
-            .map(eventWithIdAndCapacityToSlot)
-            .map(domainSlotToSwagger);
+            .map(weeklyTimeWindowWithCapacityToSwaggerSlot);
 
         servicesApi.patchNonCustomEnterpriseService(serviceId, {
             name: serviceName,
@@ -123,9 +121,9 @@ export const StaffNonCustomServicePage = () => {
                             step={5} />
                     </StandardLabeledContainer>
 
-                    <EditableNonCustomWeeklyCalendar
-                        events={events}
-                        setEvents={setEvents}
+                    <EditableNonCustomWeeklySchedule
+                        windows={events}
+                        setWindows={setEvents}
                         appointmentDurationMinutes={appointmentDurationMinutes}
                     />
 

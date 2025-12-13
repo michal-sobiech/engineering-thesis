@@ -4,8 +4,8 @@ import { useNavigate } from "react-router";
 import { Location } from "../../../GENERATED-api";
 import { useEnterprisesApi } from "../../../api/enterprises-api";
 import { useServicesApi } from "../../../api/services-api";
-import { domainSlotToSwagger } from "../../../api/slot-mapper";
-import { domainTimeWindowToSwagger } from "../../../api/time-window-mapper";
+import { weeklyTimeWindowWithCapacityToSwaggerSlot } from "../../../api/slot-mapper";
+import { weeklyTimeWindowToSwagger } from "../../../api/time-window-mapper";
 import { MapLocationPicker } from "../../../common/MapLocationPicker";
 import { StandardButton } from "../../../common/StandardButton";
 import { StandardFlex } from "../../../common/StandardFlex";
@@ -18,12 +18,10 @@ import { useEnterpriseIdFromLoader } from "../../../common/loader/enterprise-id-
 import { routes } from "../../../router/routes";
 import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../../utils/error";
 import { errorErrResultAsyncFromPromise } from "../../../utils/result";
-import { eventWithIdAndCapacityToSlot } from "../../../utils/slot";
-import { eventWithIdToTimeWindow } from "../../../utils/time-window";
 import { toastError } from "../../../utils/toast";
 import { ServiceCathegory } from "../ServiceCathegory";
 import { ServiceCathegoryPicker } from "../ServiceCathegoryPicker";
-import { Events } from "../calendar/Events";
+import { WeeklyTimeWindows } from "../calendar/WeeklyTimeWindows";
 import { ServiceCreationCalendar } from "./ServiceCreationCalendar";
 
 export const ServiceCreationPage = () => {
@@ -40,9 +38,9 @@ export const ServiceCreationPage = () => {
     const [address, setAddress] = useState<string | null>(null);
     const [position, setPosition] = useState<{ latitude: number; longitude: number } | null>(null);
     const [timeZone, setTimeZone] = useState<string | null>(null);
-    const [eventsData, setEventsData] = useState<Events>({
-        areCustomAppointmentsEnabled: false,
-        events: [],
+    const [windowsData, setWindowsData] = useState<WeeklyTimeWindows>({
+        custom: false,
+        windows: [],
         appointmentDurationMinutes: null,
     });
     const [appointmentDurationMinutes, setAppointmentDurationMinutes] = useState<number | null>(30);
@@ -99,10 +97,9 @@ export const ServiceCreationPage = () => {
         };
 
         let promise;
-        if (eventsData.areCustomAppointmentsEnabled) {
-            const swaggerTimeWindows = eventsData.events
-                .map(eventWithIdToTimeWindow)
-                .map(domainTimeWindowToSwagger);
+        if (windowsData.custom) {
+            const swaggerTimeWindows = windowsData.windows
+                .map(weeklyTimeWindowToSwagger);
 
             promise = servicesApi.createCustomAppointmentsEnterpriseService(enterpriseId, {
                 name: serviceName,
@@ -116,9 +113,8 @@ export const ServiceCreationPage = () => {
                 currency: "PLN",
             });
         } else {
-            const swaggerSlots = eventsData.events
-                .map(eventWithIdAndCapacityToSlot)
-                .map(domainSlotToSwagger);
+            const swaggerSlots = windowsData.windows
+                .map(weeklyTimeWindowWithCapacityToSwaggerSlot);
 
             promise = servicesApi.createNoCustomAppointmentsEnterpriseService(enterpriseId, {
                 name: serviceName,
@@ -164,18 +160,12 @@ export const ServiceCreationPage = () => {
                         {...{
                             appointmentDurationMinutes,
                             setAppointmentDurationMinutes,
-                            eventsData: eventsData,
-                            setEventsData: setEventsData,
+                            windowsData,
+                            setWindowsData,
                         }}
                     />
 
                     <StandardLabeledContainer label="Location">
-                        {/* <StandardConditionalTextField
-                            option1Text="Chosen by you"
-                            option2Text="Chosen by customer"
-                            text={serviceLocation ?? ""}
-                            setText={setServiceLocation}
-                        /> */}
                         <MapLocationPicker address={address} setAddress={setAddress} position={position} setPosition={setPosition} />
                     </StandardLabeledContainer>
 

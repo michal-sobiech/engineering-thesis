@@ -10,11 +10,11 @@ import { EditableWeeklySchedule } from "./EditableWeeklySchedule";
 
 export interface EditableNonCustomWeeklyScheduleProps {
     appointmentDurationMinutes: number | null
-    events: WeeklyTimeWindowWithCapacity[];
-    setEvents: StateUpdater<WeeklyTimeWindowWithCapacity[]>;
+    windows: WeeklyTimeWindowWithCapacity[];
+    setWindows: StateUpdater<WeeklyTimeWindowWithCapacity[]>;
 }
 
-export const EditableNonCustomWeeklySchedule: FC<EditableNonCustomWeeklyScheduleProps> = ({ appointmentDurationMinutes, events, setEvents }) => {
+export const EditableNonCustomWeeklySchedule: FC<EditableNonCustomWeeklyScheduleProps> = ({ appointmentDurationMinutes, windows, setWindows }) => {
     const [lastClickPos, setLastClickPos] = useState<Position | null>(null);
     const [selectedEvent, setSelectedEvent] = useState<WeeklyTimeWindowWithCapacity | null>(null);
 
@@ -40,7 +40,7 @@ export const EditableNonCustomWeeklySchedule: FC<EditableNonCustomWeeklySchedule
             capacity: 1,
         }));
 
-        setEvents(prevEvents => [...prevEvents, ...windowsWithCapacity]);
+        setWindows(prev => [...prev, ...windowsWithCapacity]);
     };
 
     const onSelectEvent = (dayOfWeek: DayOfWeek, start: LocalTime, end: LocalTime) => {
@@ -48,11 +48,11 @@ export const EditableNonCustomWeeklySchedule: FC<EditableNonCustomWeeklySchedule
     }
 
     function deleteEvent(dayOfWeek: DayOfWeek, start: LocalTime, end: LocalTime) {
-        setEvents(previousEvents => previousEvents.filter(event => {
+        setWindows(prev => prev.filter(window => {
             return (
-                event.dayOfWeek === dayOfWeek
-                && event.start === start
-                && event.end === end
+                window.dayOfWeek === dayOfWeek
+                && window.start === start
+                && window.end === end
             );
         }));
     }
@@ -81,7 +81,7 @@ export const EditableNonCustomWeeklySchedule: FC<EditableNonCustomWeeklySchedule
 
     return <>
         <EditableWeeklySchedule
-            timeWindows={events}
+            timeWindows={windows}
             onSelectSlot={onSelectSlot}
             onSelectEvent={onSelectEvent}
         />

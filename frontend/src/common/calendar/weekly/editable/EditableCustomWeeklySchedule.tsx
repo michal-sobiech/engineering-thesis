@@ -5,13 +5,13 @@ import { WeeklyTimeWindow } from "../../../../utils/WeeklyTimeWindow";
 import { EditableWeeklySchedule } from "./EditableWeeklySchedule";
 
 export interface EditableCustomWeeklyScheduleProps {
-    events: WeeklyTimeWindow[];
-    setEvents: StateUpdater<WeeklyTimeWindow[]>;
+    windows: WeeklyTimeWindow[];
+    setWindows: StateUpdater<WeeklyTimeWindow[]>;
 }
 
-export const EditableCustomWeeklySchedule: FC<EditableCustomWeeklyScheduleProps> = ({ events, setEvents }) => {
+export const EditableCustomWeeklySchedule: FC<EditableCustomWeeklyScheduleProps> = ({ windows, setWindows }) => {
     const onSelectSlot = (slot: WeeklyTimeWindow) => {
-        setEvents(prevEvents => [...prevEvents, slot]);
+        setWindows(prev => [...prev, slot]);
     };
 
     const onSelectEvent = (dayOfWeek: DayOfWeek, start: LocalTime, end: LocalTime) => {
@@ -19,17 +19,17 @@ export const EditableCustomWeeklySchedule: FC<EditableCustomWeeklyScheduleProps>
     }
 
     function deleteEvent(dayOfWeek: DayOfWeek, start: LocalTime, end: LocalTime) {
-        setEvents(previousEvents => previousEvents.filter(event => {
+        setWindows(prev => prev.filter(window => {
             return (
-                event.dayOfWeek === dayOfWeek
-                && event.start === start
-                && event.end === end
+                window.dayOfWeek === dayOfWeek
+                && window.start === start
+                && window.end === end
             );
         }));
     }
 
     return <EditableWeeklySchedule
-        timeWindows={events}
+        timeWindows={windows}
         onSelectSlot={onSelectSlot}
         onSelectEvent={onSelectEvent}
     />;

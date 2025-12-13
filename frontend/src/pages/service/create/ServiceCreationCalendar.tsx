@@ -1,31 +1,31 @@
 import { Box } from "@chakra-ui/react";
 import { FC } from "react";
 import { BooleanToggle } from "../../../common/BooleanToggle";
-import { EventWithId } from "../../../common/calendar/Event";
-import { EventWithIdAndCapacity } from "../../../common/calendar/EventWithCapacity";
-import { EditableCustomWeeklyCalendar } from "../../../common/calendar/weekly/editable/EditableCustomWeeklySchedule";
-import { EditableNonCustomWeeklyCalendar } from "../../../common/calendar/weekly/editable/EditableNonCustomWeeklySchedule";
+import { EditableCustomWeeklySchedule } from "../../../common/calendar/weekly/editable/EditableCustomWeeklySchedule";
+import { EditableNonCustomWeeklySchedule } from "../../../common/calendar/weekly/editable/EditableNonCustomWeeklySchedule";
 import { StandardFloatInput } from "../../../common/StandardFloatInput";
 import { StandardLabeledContainer } from "../../../common/StandardLabeledContainer";
 import { StateUpdater } from "../../../utils/StateUpdater";
-import { Events, EventsCustom, EventsNonCustom } from "../calendar/Events";
+import { WeeklyTimeWindow } from "../../../utils/WeeklyTimeWindow";
+import { WeeklyTimeWindowWithCapacity } from "../../../utils/WeeklyTimeWindowWithCapacity";
+import { WeeklyTimeWindows, WeeklyTimeWindowsCustom, WeeklyTimeWindowsNonCustom } from "../calendar/WeeklyTimeWindows";
 
 export interface ServiceCreationCalendarProps {
-    eventsData: Events;
-    setEventsData: StateUpdater<Events>;
+    windowsData: WeeklyTimeWindows;
+    setWindowsData: StateUpdater<WeeklyTimeWindows>;
 }
 
-export const ServiceCreationCalendar: FC<ServiceCreationCalendarProps> = ({ eventsData, setEventsData }) => {
-    const setAreCustomAppointmentsEnabledWrapper = (enabled: boolean) => {
+export const ServiceCreationCalendar: FC<ServiceCreationCalendarProps> = ({ windowsData, setWindowsData }) => {
+    const setCustomWrapper = (enabled: boolean) => {
         if (enabled) {
-            setEventsData(_ => ({
-                areCustomAppointmentsEnabled: true,
-                events: [],
+            setWindowsData(_ => ({
+                custom: true,
+                windows: [],
             }));
         } else {
-            setEventsData(_ => ({
-                areCustomAppointmentsEnabled: false,
-                events: [],
+            setWindowsData(_ => ({
+                custom: false,
+                windows: [],
                 appointmentDurationMinutes: null
             }));
         }
@@ -36,64 +36,68 @@ export const ServiceCreationCalendar: FC<ServiceCreationCalendarProps> = ({ even
             <BooleanToggle
                 option1Text="No"
                 option2Text="Yes"
-                isOption1Chosen={!eventsData.areCustomAppointmentsEnabled}
-                setIsOption1Chosen={enabled => setAreCustomAppointmentsEnabledWrapper(!enabled)}
+                isOption1Chosen={!windowsData.custom}
+                setIsOption1Chosen={enabled => setCustomWrapper(!enabled)}
             />
         </StandardLabeledContainer>
-        <Calendar eventsData={eventsData} setEventsData={setEventsData} />
+        <Calendar windowsData={windowsData} setWindowsData={setWindowsData} />
     </>;
 
 }
 
-const Calendar = ({ eventsData, setEventsData }: { eventsData: Events, setEventsData: StateUpdater<Events> }) => {
-    if (eventsData.areCustomAppointmentsEnabled) {
-        const setEvents: StateUpdater<EventWithId[]> = (updater) => {
-            setEventsData(prevEventsDataUncast => {
-                const prevEventsData = prevEventsDataUncast as EventsCustom;
+interface CalendarProps {
+    windowsData: WeeklyTimeWindows,
+    setWindowsData: StateUpdater<WeeklyTimeWindows>,
+}
 
-                const newEventsData = { ...prevEventsData };
-                const newEvents = updater(prevEventsData.events);
-                newEventsData.events = newEvents;
+const Calendar: FC<CalendarProps> = ({ windowsData, setWindowsData }) => {
+    if (windowsData.custom) {
+        const setWindows: StateUpdater<WeeklyTimeWindow[]> = (updater) => {
+            setWindowsData(prevUncast => {
+                const prev = prevUncast as WeeklyTimeWindowsCustom;
 
-                return newEventsData;
+                const updated = { ...prev };
+                const newWindows = updater(prev.windows);
+                updated.windows = newWindows;
+
+                return updated;
             });
         }
 
         return <Box maxHeight="100%" overflowY="scroll">
-            <EditableCustomWeeklyCalendar
-                events={eventsData.events}
-                setEvents={setEvents}
+            <EditableCustomWeeklySchedule
+                windows={windowsData.windows}
+                setWindows={setWindows}
             />
         </Box>;
     }
 
-    const setEvents: StateUpdater<EventWithIdAndCapacity[]> = (updateFn) => {
-        setEventsData(prevEventsDataUncasted => {
-            const prevEventsData = prevEventsDataUncasted as EventsNonCustom;
+    const setEvents: StateUpdater<WeeklyTimeWindowWithCapacity[]> = (updateFn) => {
+        setWindowsData(prevUncast => {
+            const prev = prevUncast as WeeklyTimeWindowsNonCustom;
 
-            const newEventsData = { ...prevEventsData };
-            const newEvents = updateFn(prevEventsData.events);
-            newEventsData.events = newEvents;
+            const updated = { ...prev };
+            const updatedWindows = updateFn(prev.windows);
+            updated.windows = updatedWindows
 
-            return newEventsData;
+            return updated;
         });
     }
 
-
     const setAppointmentDurationMinutes = (value: number) => {
-        setEventsData(prevEventsDataUncast => {
-            const prevEventsData = prevEventsDataUncast as EventsNonCustom;
+        setWindowsData(prevUncast => {
+            const prev = prevUncast as WeeklyTimeWindowsNonCustom;
 
-            const newEventsData = { ...prevEventsData };
-            newEventsData.appointmentDurationMinutes = value;
-            return newEventsData;
+            const updated = { ...prev };
+            updated.appointmentDurationMinutes = value;
+            return updated;
         });
     }
 
     return <>
         <StandardLabeledContainer label="Choose appointment length (in minutes)">
             <StandardFloatInput
-                value={eventsData.appointmentDurationMinutes}
+                value={windowsData.appointmentDurationMinutes}
                 setValue={setAppointmentDurationMinutes}
                 min={0}
                 precision={0}
@@ -101,10 +105,10 @@ const Calendar = ({ eventsData, setEventsData }: { eventsData: Events, setEvents
         </StandardLabeledContainer>
 
         <Box maxHeight="50%" overflowY="scroll">
-            <EditableNonCustomWeeklyCalendar
-                events={eventsData.events}
-                setEvents={setEvents}
-                appointmentDurationMinutes={eventsData.appointmentDurationMinutes ?? null}
+            <EditableNonCustomWeeklySchedule
+                windows={windowsData.windows}
+                setWindows={setEvents}
+                appointmentDurationMinutes={windowsData.appointmentDurationMinutes ?? null}
             />
         </Box>
     </>;

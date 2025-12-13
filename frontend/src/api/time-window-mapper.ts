@@ -1,20 +1,20 @@
 import { LocalTime } from "@js-joda/core";
-import { TimeWindow } from "../common/TimeWindow";
 import { TimeWindow as SwaggerTimeWindow } from "../GENERATED-api";
+import { WeeklyTimeWindow } from "../utils/WeeklyTimeWindow";
 import { jodaDayOfWeekToSwagger, swaggerDayOfWeekToJoda } from "./day-of-week-mapper";
 
-export function swaggerTimeWindowToDomain(swaggerTimeWindow: SwaggerTimeWindow): TimeWindow {
+export function swaggerTimeWindowToWeeklyTimeWindow(swaggerTimeWindow: SwaggerTimeWindow): WeeklyTimeWindow {
     return {
         dayOfWeek: swaggerDayOfWeekToJoda(swaggerTimeWindow.dayOfWeek),
-        startTime: LocalTime.parse(swaggerTimeWindow.startTime),
-        endTime: LocalTime.parse(swaggerTimeWindow.endTime),
+        start: LocalTime.parse(swaggerTimeWindow.startTime),
+        end: LocalTime.parse(swaggerTimeWindow.endTime),
     };
 }
 
-export function domainTimeWindowToSwagger(domainTimeWindow: TimeWindow): SwaggerTimeWindow {
+export function weeklyTimeWindowToSwagger(domainTimeWindow: WeeklyTimeWindow): SwaggerTimeWindow {
     return {
         dayOfWeek: jodaDayOfWeekToSwagger(domainTimeWindow.dayOfWeek),
-        startTime: domainTimeWindow.startTime.toString(),
-        endTime: domainTimeWindow.endTime.toString()
+        startTime: domainTimeWindow.start.toString(),
+        endTime: domainTimeWindow.end.toString()
     };
 }

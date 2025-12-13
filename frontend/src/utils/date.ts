@@ -1,10 +1,12 @@
 import { DateTimeFormatter, DayOfWeek, Duration, Instant, LocalDate, LocalDateTime, LocalTime, ZonedDateTime, ZoneId, ZoneOffset } from "@js-joda/core";
+import { add, Duration as DateFnsDuration } from "date-fns";
 import { jodaDayOfWeekToUs } from "./day-of-week";
 import { WeeklyTimeWindow } from "./WeeklyTimeWindow";
 
 export const EXAMPLE_SUNDAY_DATE = new Date("2025-11-30");
+assertJsDateIsSunday(EXAMPLE_SUNDAY_DATE);
 
-export function durationToMs(duration: Duration) {
+export function durationToMs(duration: DateFnsDuration) {
     return add(new Date(0), duration).getTime();
 }
 
@@ -126,12 +128,29 @@ export function doesDateTimeWindowOverlapWithGroup(window: [Date, Date], group: 
     );
 }
 
-export function getExampleDateWithDayOfWeek(dayOfWeek: DayOfWeek): Date {
-    const dayOffset = jodaDayOfWeekToUs(dayOfWeek);
-    return moveJsDateByDays(EXAMPLE_SUNDAY_DATE, dayOffset);
+export function startOfUsWeekFromJsDate(date: Date): Date {
+    const usDayOfWeek = date.getDay();
+    return createJsDateMovedByDays(date, -usDayOfWeek);
 }
 
-export function moveJsDateByDays(date: Date, numDays: number) {
+export function isJsDateSunday(date: Date): boolean {
+    return date.getDay() === 0;
+}
+
+export function assertJsDateIsSunday(date: Date): void {
+    if (!isJsDateSunday(date)) {
+        throw new Error("Date is not a Sunday, so not start of a US week");
+    }
+}
+
+export function calcDateWithDayOfWeekAndUsDateBase(dayOfWeek: DayOfWeek, usDateBase: Date = EXAMPLE_SUNDAY_DATE): Date {
+    assertJsDateIsSunday(usDateBase);
+
+    const dayOffset = jodaDayOfWeekToUs(dayOfWeek);
+    return createJsDateMovedByDays(usDateBase, dayOffset);
+}
+
+export function createJsDateMovedByDays(date: Date, numDays: number): Date {
     const newDate = new Date(date);
     newDate.setDate(date.getDate() + numDays);
     return newDate;

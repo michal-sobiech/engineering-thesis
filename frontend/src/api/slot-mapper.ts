@@ -1,22 +1,22 @@
 import { LocalTime } from "@js-joda/core";
-import { Slot } from "../common/Slot";
 import { Slot as SwaggerSlot } from "../GENERATED-api";
+import { WeeklyTimeWindowWithCapacity } from "../utils/WeeklyTimeWindowWithCapacity";
 import { jodaDayOfWeekToSwagger, swaggerDayOfWeekToJoda } from "./day-of-week-mapper";
 
-export function swaggerSlotToDomain(swaggerSlot: SwaggerSlot): Slot {
+export function swaggerSlotToWeeklyTimeWindowWithCapacity(swaggerSlot: SwaggerSlot): WeeklyTimeWindowWithCapacity {
     return {
         dayOfWeek: swaggerDayOfWeekToJoda(swaggerSlot.dayOfWeek),
-        startTime: LocalTime.parse(swaggerSlot.startTime),
-        endTime: LocalTime.parse(swaggerSlot.endTime),
-        maxOccupancy: swaggerSlot.maxOccupancy,
+        start: LocalTime.parse(swaggerSlot.startTime),
+        end: LocalTime.parse(swaggerSlot.endTime),
+        capacity: swaggerSlot.maxOccupancy,
     };
 }
 
-export function domainSlotToSwagger(domainSlot: Slot): SwaggerSlot {
+export function weeklyTimeWindowWithCapacityToSwaggerSlot(domainSlot: WeeklyTimeWindowWithCapacity): SwaggerSlot {
     return {
         dayOfWeek: jodaDayOfWeekToSwagger(domainSlot.dayOfWeek),
-        startTime: domainSlot.startTime.toString(),
-        endTime: domainSlot.endTime.toString(),
-        maxOccupancy: domainSlot.maxOccupancy,
+        startTime: domainSlot.start.toString(),
+        endTime: domainSlot.end.toString(),
+        maxOccupancy: domainSlot.capacity,
     };
 }

@@ -1,8 +1,8 @@
 import { createContext } from "react";
-import { EventWithId } from "../../../../common/calendar/Event";
 import { GeoPosition } from "../../../../utils/GeoPosition";
 import { StateUpdater } from "../../../../utils/StateUpdater";
 import { UseStateSetter } from "../../../../utils/use-state";
+import { WeeklyTimeWindow } from "../../../../utils/WeeklyTimeWindow";
 import { ServiceCathegory } from "../../ServiceCathegory";
 
 export interface StaffCustomServicePageContextValue {
@@ -18,8 +18,8 @@ export interface StaffCustomServicePageContextValue {
     setPosition: UseStateSetter<GeoPosition | null>;
     timezone: string | null;
     setTimezone: UseStateSetter<string | null>;
-    events: EventWithId[];
-    setEvents: StateUpdater<EventWithId[]>;
+    windows: WeeklyTimeWindow[];
+    setWindows: StateUpdater<WeeklyTimeWindow[]>;
     price: number | null;
     setPrice: UseStateSetter<number | null>;
     cathegory: ServiceCathegory | null;

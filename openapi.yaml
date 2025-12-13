@@ -302,7 +302,7 @@ components:
           cathegory,
           price,
           currencyIso,
-          timeWindows,
+          timeWindowTemplates,
         ]
       properties:
         takesCustomAppointments:
@@ -337,7 +337,7 @@ components:
           type: number
         currencyIso:
           type: string
-        timeWindows:
+        timeWindowTemplates:
           type: array
           items:
             $ref: "#/components/schemas/TimeWindow"
@@ -357,7 +357,7 @@ components:
           cathegory,
           price,
           currencyIso,
-          slots,
+          slotTemplates,
         ]
       properties:
         takesCustomAppointments:
@@ -389,7 +389,7 @@ components:
           type: number
         currencyIso:
           type: string
-        slots:
+        slotTemplates:
           type: array
           items:
             $ref: "#/components/schemas/Slot"
