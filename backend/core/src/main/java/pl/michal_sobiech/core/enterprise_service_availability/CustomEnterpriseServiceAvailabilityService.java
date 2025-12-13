@@ -11,6 +11,8 @@ import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceService;
 import pl.michal_sobiech.core.enterprise_service_slot_template.custom_appointments.CustomTimeWindowTemplateService;
 import pl.michal_sobiech.core.utils.DateUtils;
 import pl.michal_sobiech.core.utils.local_datetime_window.LocalDatetimeWindow;
+import pl.michal_sobiech.core.utils.local_datetime_window.LocalDatetimeWindowUtils;
+import pl.michal_sobiech.core.utils.local_datetime_window.SimpleLocalDatetimeWindow;
 
 @RequiredArgsConstructor
 public class CustomEnterpriseServiceAvailabilityService {
@@ -18,13 +20,6 @@ public class CustomEnterpriseServiceAvailabilityService {
     private final EnterpriseServiceService enterpriseServiceService;
     private final CustomTimeWindowTemplateService customAppointmentsEnterpriseServiceTimeWindowTemplateService;
     private final CustomAppointmentService customAppointmentService;
-
-    // public boolean isEnterpriseServiceAvailableInServiceLocalDatetimeRange(
-    // long enterpriseServiceId,
-    // LocalDateTime fromInServiceTimezone,
-    // LocalDateTime toInServiceTimezone) {
-    // List<
-    // }
 
     public List<LocalDatetimeWindow> findFreeTimeWindowsInLocalDatetimeRangeForService(
             long enterpriseServiceId,
@@ -50,13 +45,13 @@ public class CustomEnterpriseServiceAvailabilityService {
                         from.atZone(timezone).toInstant(),
                         to.atZone(timezone).toInstant())
                 .stream()
-                .map(a -> new LocalDatetimeWindow(
+                .map(a -> new SimpleLocalDatetimeWindow(
                         DateUtils.createLocalDateTime(a.startInstant(), timezone),
                         DateUtils.createLocalDateTime(a.endInstant(), timezone)))
                 .collect(Collectors.toList());
 
         // 3.
-        return DateUtils.subtractTimeWindowLists(defaultAvailability, confirmedAppointmentWindows);
+        return LocalDatetimeWindowUtils.subtractTimeWindowLists(defaultAvailability, confirmedAppointmentWindows);
     }
 
 }
