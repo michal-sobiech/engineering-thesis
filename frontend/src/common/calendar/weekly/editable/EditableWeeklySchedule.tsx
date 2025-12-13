@@ -27,7 +27,6 @@ export const EditableWeeklySchedule: FC<EditableWeeklyScheduleProps> = ({
         };
 
         if (doesWeeklyTimeWindowOverlapWithWeeklySchedule(slot, timeWindows)) {
-            console.log("COLLIDE");
             return;
         }
 
@@ -50,8 +49,6 @@ export const EditableWeeklySchedule: FC<EditableWeeklyScheduleProps> = ({
     });
 
     const internal_start_of_iso_week = createJsDateMovedByDays(INTERNAL_START_OF_ISO_WEEK, 1);
-
-    console.log(eventsForCalendar)
 
     return <WeeklyCalendar<Event>
         date={internal_start_of_iso_week}

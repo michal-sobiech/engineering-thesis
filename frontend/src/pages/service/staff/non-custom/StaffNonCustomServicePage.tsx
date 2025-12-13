@@ -28,6 +28,7 @@ export const StaffNonCustomServicePage = () => {
     const navigate = useNavigate();
     const servicesApi = useServicesApi();
 
+    const [enterpriseId, setEnterpriseId] = useState<number | null>(null);
     const [enterpriseName, setEnterpriseName] = useState<string>("");
     const [serviceName, setServiceName] = useState<string>("");
     const [serviceDescription, setServiceDescription] = useState<string>("");
@@ -55,6 +56,7 @@ export const StaffNonCustomServicePage = () => {
     useEffect(() => {
         servicesApi.getNonCustomEnterpriseService(serviceId)
             .then(response => {
+                setEnterpriseId(response.enterpriseId);
                 setEnterpriseName(response.enterpriseName);
                 setServiceName(response.name);
                 setServiceDescription(response.description);
@@ -84,7 +86,11 @@ export const StaffNonCustomServicePage = () => {
     }, []);
 
     const onDicardClick = () => {
-        navigate(routes.mainPage);
+        if (enterpriseId !== null) {
+            navigate(routes.enterpriseStaff(enterpriseId));
+        } else {
+            navigate(routes.mainPage);
+        }
     }
 
     const onSaveClick = () => {
@@ -111,7 +117,11 @@ export const StaffNonCustomServicePage = () => {
         }).catch(() => {
             toastError("Couldn't edit service. Try again later");
         });
-        navigate(routes.servicePublicPage(serviceId));
+        if (enterpriseId !== null) {
+            navigate(routes.enterpriseStaff(enterpriseId));
+        } else {
+            navigate(routes.mainPage);
+        }
     }
 
     return <StaffNonCustomServicePageContext.Provider value={contextValue}>

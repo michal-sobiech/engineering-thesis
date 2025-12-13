@@ -14,6 +14,7 @@ import { StandardTextField } from "../../../common/StandardTextField";
 import { StandardVerticalSeparator } from "../../../common/StandardVerticalSeparator";
 import { GetEnterpriseService200Response, Location } from "../../../GENERATED-api";
 import { routes } from "../../../router/routes";
+import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../../utils/error";
 import { toastError } from "../../../utils/toast";
 import { fetchServices } from "../../service/service-utils";
 import { fetchEnterpriseData } from "../utils";
@@ -46,7 +47,7 @@ export const EnterpriseStaffPage = () => {
         ).catch(() => {
             toastError("Couldn't edit enterprise. Try again later");
         });
-        navigate(routes.enterprisePublic(enterpriseId));
+        navigate(routes.enterpriseStaff(enterpriseId));
     }
 
     useEffect(() => {
@@ -58,6 +59,7 @@ export const EnterpriseStaffPage = () => {
                 setLogoFile(response.logo);
                 setBackgroundPhotoFile(response.backgroundPhoto);
             }).catch(() => {
+                toastError(DEFAULT_ERROR_MESSAGE_FOR_USER);
                 navigate(routes.mainPage);
             });
     }, []);
@@ -125,7 +127,7 @@ export const EnterpriseStaffPage = () => {
                     <StandardBox>
                         <LinkScrollableList items={services.map(service => ({
                             label: service.name,
-                            url: routes.manageServicePage(enterpriseId),
+                            url: routes.staffServicePage(service.serviceId),
                         }))} />
                     </StandardBox>
 
