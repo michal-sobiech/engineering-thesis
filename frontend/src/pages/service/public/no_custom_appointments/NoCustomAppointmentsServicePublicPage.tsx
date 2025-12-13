@@ -1,12 +1,14 @@
 import { Box, Center, Flex, Spacer, Text } from "@chakra-ui/react"
 import { LocalDate, LocalTime } from "@js-joda/core"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { SlotInfo } from "react-big-calendar"
+import { useNavigate } from "react-router"
 import { useServicesApi } from "../../../../api/services-api"
 import { NonEditableCustomMonthlyCalendar } from "../../../../common/calendar/weekly/non-editable/NonEditableCustomMonthlyCalendar"
 import { useServiceIdFromLoader } from "../../../../common/loader/service-id-loader"
 import { ReportServiceButton } from "../../../../common/report/ReportServiceButton"
 import { StandardPanel } from "../../../../common/StandardPanel"
+import { routes } from "../../../../router/routes"
 import { fetchFreeAppointmentsOnDateInServiceTimezone } from "../../../../services/appointments"
 import { extractLocalDateFromDate } from "../../../../utils/date"
 import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../../../utils/error"
@@ -18,7 +20,10 @@ import { NonCustomAppointmentsServicePublicPageAppointmentMaker } from "./NonCus
 export const NoCustomAppointmentsServicePublicPage = () => {
     const serviceId = useServiceIdFromLoader();
     const servicesApi = useServicesApi();
+    const navigate = useNavigate();
 
+    const [enterpriseName, setEnterpriseName] = useState<string>("");
+    const [serviceName, setServiceName] = useState<string>("");
     const [selectedDate, setSelectedDate] = useState<LocalDate | null>(null);
     const [freeSlotsOnSelectedDate, setFreeSlotsOnSelectedDate] = useState<[LocalTime, LocalTime][] | null>(null);
     const [selectedSlot, setSelectedSlot] = useState<[LocalTime, LocalTime] | null>(null);
@@ -32,6 +37,17 @@ export const NoCustomAppointmentsServicePublicPage = () => {
         selectedSlot,
         setSelectedSlot,
     };
+
+    useEffect(() => {
+        servicesApi.getNonCustomEnterpriseService(serviceId)
+            .then(response => {
+                setEnterpriseName(response.enterpriseName);
+                setServiceName(response.name);
+            }).catch(() => {
+                toastError(DEFAULT_ERROR_MESSAGE_FOR_USER);
+                navigate(routes.mainPage);
+            })
+    }, []);
 
     const onSelectSlot = (slot: SlotInfo) => {
         const slotDate = slot.start;

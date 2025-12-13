@@ -1,13 +1,15 @@
 import { Box, Center, Flex, Spacer, Text } from "@chakra-ui/react"
 import { LocalDate, LocalTime } from "@js-joda/core"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { SlotInfo } from "react-big-calendar"
+import { useNavigate } from "react-router"
 import { useServicesApi } from "../../../../api/services-api"
 import { NonEditableCustomMonthlyCalendar } from "../../../../common/calendar/weekly/non-editable/NonEditableCustomMonthlyCalendar"
 import { useServiceIdFromLoader } from "../../../../common/loader/service-id-loader"
 import { ReportServiceButton } from "../../../../common/report/ReportServiceButton"
 import { StandardPanel } from "../../../../common/StandardPanel"
 import { TimeIntervalsDisplay } from "../../../../common/TimeIntervalsDisplay"
+import { routes } from "../../../../router/routes"
 import { fetchFreeTimeWindowsForCustomAppointmentsOnLocalDate } from "../../../../services/appointments"
 import { extractLocalDateFromDate } from "../../../../utils/date"
 import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../../../utils/error"
@@ -19,13 +21,27 @@ import { CustomAppointmentsServicePublicPageContext, CustomAppointmentsServicePu
 export const CustomAppointmentsServicePublicPage = () => {
     const serviceId = useServiceIdFromLoader();
     const servicesApi = useServicesApi();
+    const navigate = useNavigate();
 
+    const [enterpriseName, setEnterpriseName] = useState<string>("");
+    const [serviceName, setServiceName] = useState<string>("");
     const [selectedDate, setSelectedDate] = useState<LocalDate | null>(null);
     const [freeTimeWindowsOnSelectedDate, setFreeTimeWindowsOnSelectedDate] = useState<[LocalTime, LocalTime][] | null>(null);
     const [selectedTimeWindowStart, setSelectedTimeWindowStart] = useState<LocalTime | null>(null);
     const [selectedTimeWindowEnd, setSelectedTimeWindowEnd] = useState<LocalTime | null>(null);
     const [address, setAddress] = useState<string>("");
     const [position, setPosition] = useState<GeoPosition | null>(null);
+
+    useEffect(() => {
+        servicesApi.getCustomEnterpriseService(serviceId)
+            .then(response => {
+                setEnterpriseName(response.enterpriseName);
+                setServiceName(response.name);
+            }).catch(() => {
+                toastError(DEFAULT_ERROR_MESSAGE_FOR_USER);
+                navigate(routes.mainPage);
+            })
+    }, []);
 
     const contextValue: CustomAppointmentsServicePublicPageContextValue = {
         selectedDate,
@@ -58,15 +74,15 @@ export const CustomAppointmentsServicePublicPage = () => {
     return <CustomAppointmentsServicePublicPageContext.Provider value={contextValue}>
         <Center height="100%">
             <StandardPanel width="80%" height="100%" padding="20px" overflowY="scroll">
-                <Flex direction="column" height="100%" minHeight={0}>
+                <Flex direction="column" height="100%" minHeight={0} gap="10px">
 
                     <Flex flexShrink={0} direction="row">
-                        <Text fontSize="3xl">Service</Text>
+                        <Text fontSize="3xl">{serviceName}</Text>
                         <Spacer />
                         <ReportServiceButton serviceId={serviceId} />
                     </Flex>
 
-                    <Text flexShrink={0}>Enterprise</Text>
+                    <Text flexShrink={0}>{enterpriseName}</Text>
 
                     <Box flexShrink={0} height="100%">
                         <NonEditableCustomMonthlyCalendar

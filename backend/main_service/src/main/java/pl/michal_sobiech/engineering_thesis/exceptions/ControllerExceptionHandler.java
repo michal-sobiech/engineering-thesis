@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import pl.michal_sobiech.core.exceptions.ConflictException;
 import pl.michal_sobiech.core.exceptions.ForbiddenException;
+import pl.michal_sobiech.core.exceptions.NotFoundException;
 import pl.michal_sobiech.core.exceptions.UnauthorizedException;
 
 @ControllerAdvice
@@ -37,6 +38,11 @@ public class ControllerExceptionHandler {
     @ExceptionHandler(BadCredentialsException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public void handleBadCredentialsException() {
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public void handleNotFoundException() {
     }
 
 }

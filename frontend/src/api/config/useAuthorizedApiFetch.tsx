@@ -2,7 +2,6 @@ import { useRef } from "react";
 import { useNavigate } from "react-router";
 import { useLogOut } from "../../auth/useLogOut";
 import { routes } from "../../router/routes";
-import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../utils/error";
 import { UnauthorizedError } from "../../utils/error/UnauthorizedError";
 import { toastError } from "../../utils/toast";
 import { authorizedApiFetch } from "./authorized-api-fetch";
@@ -26,16 +25,10 @@ export function useAuthorizedApiFetch(): typeof fetch {
                     });
                 }
                 logOut();
-            } else {
-                if (!isDefaultErrorPopupShown.current) {
-                    isDefaultErrorPopupShown.current = true;
-
-                    toastError(DEFAULT_ERROR_MESSAGE_FOR_USER, {
-                        onClose: () => { isDefaultErrorPopupShown.current = false; }
-                    });
-                }
+                navigate(routes.mainPage);
+                return new Promise(() => { });
             }
-            throw navigate(routes.mainPage);
+            throw error;
         }
     };
 }

@@ -25,7 +25,7 @@ export const EnterprisePublicPageServicesList = ({ enterpriseId }: { enterpriseI
     return <StandardBox>
         <LinkScrollableList items={services.map(service => ({
             label: service.name,
-            url: routes.enterpriseCreateService(enterpriseId),
+            url: routes.servicePublicPage(service.serviceId),
         }))} />
     </StandardBox>;
 

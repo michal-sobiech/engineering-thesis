@@ -3,7 +3,6 @@ import { useNavigate } from "react-router";
 import { useAppointmentsApi } from "../../../../api/appointments-api";
 import { useServiceIdFromLoader } from "../../../../common/loader/service-id-loader";
 import { StandardButton } from "../../../../common/StandardButton";
-import { ResponseError } from "../../../../GENERATED-api";
 import { useContextOrThrow } from "../../../../hooks/useContextOrThrow";
 import { routes } from "../../../../router/routes";
 import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../../../utils/error";
@@ -22,7 +21,6 @@ export const CustomAppointmentsServicePublicPageAppointmentMakerButton = () => {
     } = useContextOrThrow(CustomAppointmentsServicePublicPageContext);
 
     const serviceId = useServiceIdFromLoader();
-
     const navigate = useNavigate();
 
     const onClick = async () => {
@@ -66,20 +64,13 @@ export const CustomAppointmentsServicePublicPageAppointmentMakerButton = () => {
         };
 
         try {
+            // TODO check whether is in time frame
             const promise = appointmentsApi.createCustomAppointmentRaw(requestParameters);
             await promise;
             toastSuccess("Submitted appointment proposal!")
             navigate(routes.customerLandingPage);
         } catch (error: unknown) {
-            if (error instanceof ResponseError) {
-                if (error.response.status === 401) {
-                    toastError("Log in as customer first!");
-                } else {
-                    toastError(DEFAULT_ERROR_MESSAGE_FOR_USER);
-                }
-            } else {
-                toastError(DEFAULT_ERROR_MESSAGE_FOR_USER);
-            }
+            toastError(DEFAULT_ERROR_MESSAGE_FOR_USER);
         }
 
     }

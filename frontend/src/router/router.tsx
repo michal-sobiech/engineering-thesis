@@ -155,7 +155,7 @@ export const router = createBrowserRouter([
                 path: routeTemplates.staffServicePage,
                 loader: serviceIdLoader,
                 element: <StaffServicePage />
-            }
+            },
         ]
     }
 ])

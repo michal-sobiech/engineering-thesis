@@ -7,6 +7,7 @@ import pl.michal_sobiech.core.currency_iso.CurrencyIso;
 import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceCathegory;
 import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceDomain;
 import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceEntity;
+import pl.michal_sobiech.core.exceptions.NotFoundException;
 import pl.michal_sobiech.core.location.Location;
 
 public record CustomEnterpriseService(
@@ -36,7 +37,7 @@ public record CustomEnterpriseService(
 
     public static CustomEnterpriseService fromEntity(EnterpriseServiceEntity entity) {
         if (entity.isTakesCustomAppointments() == false) {
-            throw new IllegalArgumentException();
+            throw new NotFoundException();
         }
 
         Location location = new Location(
