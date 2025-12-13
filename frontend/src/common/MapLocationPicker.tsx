@@ -2,7 +2,7 @@ import L from "leaflet";
 import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
 import "leaflet-geosearch/dist/geosearch.css";
 import 'leaflet/dist/leaflet.css';
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useRef } from 'react';
 import { MapContainer, TileLayer, useMap } from 'react-leaflet';
 
 import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
@@ -17,6 +17,7 @@ L.Icon.Default.mergeOptions({
 });
 
 const defaultPosition: [number, number] = [52.2324863, 21.0473956];
+const DEFAULT_ZOOM = 12;
 
 export interface MapLocationPickerProps {
     address: string | null;
@@ -25,13 +26,14 @@ export interface MapLocationPickerProps {
     setPosition: UseStateSetter<{ latitude: number; longitude: number } | null>;
 }
 
-export const MapLocationPicker: FC<MapLocationPickerProps> = ({ address, setAddress, position, setPosition }) => {
+export const MapLocationPicker: FC<MapLocationPickerProps> = ({ address, setAddress, setPosition }) => {
     return <MapContainer
         style={{ minHeight: 300, width: "100%", zIndex: 0 }}
         zoom={3}
         center={defaultPosition}
     >
         <MapSearchField
+            address={address}
             onSelect={(address, [latitude, longitude]) => {
                 setAddress(address);
                 setPosition({ latitude, longitude });
@@ -42,11 +44,13 @@ export const MapLocationPicker: FC<MapLocationPickerProps> = ({ address, setAddr
 };
 
 export interface MapSearchFieldProps {
+    address: string | null;
     onSelect?: (address: string, position: [number, number]) => void;
 }
 
-export const MapSearchField: FC<MapSearchFieldProps> = ({ onSelect }) => {
+export const MapSearchField: FC<MapSearchFieldProps> = ({ address, onSelect }) => {
     const map = useMap();
+    const loadedInitialAddressRef = useRef<boolean>(false);
 
     const provider = new OpenStreetMapProvider();
 
@@ -55,6 +59,26 @@ export const MapSearchField: FC<MapSearchFieldProps> = ({ onSelect }) => {
         provider,
         showMarker: true,
     });
+
+    useEffect(() => {
+        if (address === null || loadedInitialAddressRef.current === true) {
+            return
+        }
+        loadedInitialAddressRef.current = true;
+
+        provider.search({ query: address })
+            .then(results => {
+                const firstRow = results.at(0);
+                console.log(firstRow);
+                if (firstRow === undefined) {
+                    return;
+                }
+
+                const { label, x, y } = firstRow;
+                map.setView([y, x], DEFAULT_ZOOM);
+                onSelect?.(label, [y, x]);
+            });
+    }, [address]);
 
     // @ts-ignore
     useEffect(() => {

@@ -18,8 +18,8 @@ export interface StaffNonCustomServicePageContextValue {
     setPosition: UseStateSetter<GeoPosition | null>;
     timezone: string | null;
     setTimezone: UseStateSetter<string | null>;
-    events: WeeklyTimeWindowWithCapacity[];
-    setEvents: StateUpdater<WeeklyTimeWindowWithCapacity[]>;
+    windows: WeeklyTimeWindowWithCapacity[];
+    setWindows: StateUpdater<WeeklyTimeWindowWithCapacity[]>;
     appointmentDurationMinutes: number | null;
     setAppointmentDurationMinutes: UseStateSetter<number | null>;
     price: number | null;

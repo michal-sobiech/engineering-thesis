@@ -1,8 +1,8 @@
-import { Box, Center, Flex, Text } from "@chakra-ui/react"
-import { useState } from "react"
+import { Box, Center, Flex } from "@chakra-ui/react"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router"
 import { useServicesApi } from "../../../../api/services-api"
-import { weeklyTimeWindowWithCapacityToSwaggerSlot } from "../../../../api/slot-mapper"
+import { swaggerSlotToWeeklyTimeWindowWithCapacity, weeklyTimeWindowWithCapacityToSwaggerSlot } from "../../../../api/slot-mapper"
 import { EditableNonCustomWeeklySchedule } from "../../../../common/calendar/weekly/editable/EditableNonCustomWeeklySchedule"
 import { useServiceIdFromLoader } from "../../../../common/loader/service-id-loader"
 import { MapLocationPicker } from "../../../../common/MapLocationPicker"
@@ -15,10 +15,11 @@ import { StandardTimeZonePicker } from "../../../../common/StandardTimeZonePicke
 import { StandardVerticalSeparator } from "../../../../common/StandardVerticalSeparator"
 import { Location, Slot as SwaggerSlot } from "../../../../GENERATED-api"
 import { routes } from "../../../../router/routes"
+import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../../../utils/error"
 import { GeoPosition } from "../../../../utils/GeoPosition"
 import { toastError } from "../../../../utils/toast"
 import { WeeklyTimeWindowWithCapacity } from "../../../../utils/WeeklyTimeWindowWithCapacity"
-import { ServiceCathegory } from "../../ServiceCathegory"
+import { isServiceCathegory, ServiceCathegory } from "../../ServiceCathegory"
 import { ServiceCathegoryPicker } from "../../ServiceCathegoryPicker"
 import { StaffNonCustomServicePageContext, StaffNonCustomServicePageContextValue } from "./StaffNonCustomServicePageContext"
 
@@ -33,7 +34,7 @@ export const StaffNonCustomServicePage = () => {
     const [address, setAddress] = useState<string | null>(null);
     const [position, setPosition] = useState<GeoPosition | null>(null);
     const [timezone, setTimezone] = useState<string | null>(null);
-    const [events, setEvents] = useState<WeeklyTimeWindowWithCapacity[]>([]);
+    const [windows, setWindows] = useState<WeeklyTimeWindowWithCapacity[]>([]);
     const [appointmentDurationMinutes, setAppointmentDurationMinutes] = useState<number | null>(30);
     const [price, setPrice] = useState<number | null>(null);
     const [cathegory, setCathegory] = useState<ServiceCathegory | null>(null);
@@ -45,11 +46,42 @@ export const StaffNonCustomServicePage = () => {
         address, setAddress,
         position, setPosition,
         timezone, setTimezone,
-        events, setEvents,
+        windows, setWindows,
         appointmentDurationMinutes, setAppointmentDurationMinutes,
         price, setPrice,
         cathegory, setCathegory,
     };
+
+    useEffect(() => {
+        servicesApi.getNonCustomEnterpriseService(serviceId)
+            .then(response => {
+                setEnterpriseName(response.enterpriseName);
+                setServiceName(response.name);
+                setServiceDescription(response.description);
+                setAddress(response.location.address);
+                setPosition({
+                    longitude: response.location.longitude,
+                    latitude: response.location.latitude,
+                });
+
+                const windows: WeeklyTimeWindowWithCapacity[] = response.slotTemplates
+                    .map(swaggerSlotToWeeklyTimeWindowWithCapacity);
+                setWindows(windows);
+
+                setTimezone(response.timezone);
+                setPrice(response.price);
+
+                if (isServiceCathegory(response.cathegory)) {
+                    setCathegory(response.cathegory);
+                } else {
+                    throw new Error("Value is not a ServiceCathegory");
+                }
+            })
+            .catch(() => {
+                toastError(DEFAULT_ERROR_MESSAGE_FOR_USER);
+                navigate(routes.mainPage);
+            });
+    }, []);
 
     const onDicardClick = () => {
         navigate(routes.mainPage);
@@ -65,7 +97,7 @@ export const StaffNonCustomServicePage = () => {
             };
         }
 
-        const slots: SwaggerSlot[] = events
+        const slots: SwaggerSlot[] = windows
             .map(weeklyTimeWindowWithCapacityToSwaggerSlot);
 
         servicesApi.patchNonCustomEnterpriseService(serviceId, {
@@ -85,10 +117,10 @@ export const StaffNonCustomServicePage = () => {
     return <StaffNonCustomServicePageContext.Provider value={contextValue}>
         <Center height="100%">
             <StandardPanel width="80%" height="100%" padding="20px" overflowY="scroll">
-                <Flex direction="column" height="100%" minHeight={0}>
+                <Flex direction="column" height="100%" minHeight={0} gap="10px">
 
                     <StandardLabeledContainer label="Enterprise name">
-                        <Text>{enterpriseName}</Text>
+                        <StandardTextField text={enterpriseName} setText={() => { }} disabled />
                     </StandardLabeledContainer>
 
                     <StandardLabeledContainer label="Service name">
@@ -100,6 +132,7 @@ export const StaffNonCustomServicePage = () => {
                     </StandardLabeledContainer>
 
                     <StandardLabeledContainer label="Location">
+                        <StandardTextField text={address ?? ""} setText={() => { }} disabled />
                         <MapLocationPicker
                             address={address}
                             setAddress={setAddress}
@@ -121,11 +154,13 @@ export const StaffNonCustomServicePage = () => {
                             step={5} />
                     </StandardLabeledContainer>
 
-                    <EditableNonCustomWeeklySchedule
-                        windows={events}
-                        setWindows={setEvents}
-                        appointmentDurationMinutes={appointmentDurationMinutes}
-                    />
+                    <StandardLabeledContainer label="Schedule">
+                        <EditableNonCustomWeeklySchedule
+                            windows={windows}
+                            setWindows={setWindows}
+                            appointmentDurationMinutes={appointmentDurationMinutes}
+                        />
+                    </StandardLabeledContainer>
 
                     <StandardLabeledContainer label="Price (PLN)">
                         <StandardFloatInput

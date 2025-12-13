@@ -17,8 +17,11 @@ const itemsData = possibleTimeZones.map(timeZone => ({
 
 
 export const StandardTimeZonePicker: FC<StandardTimeZonePicker> = ({ value, setValue }) => {
+    const selectedOption = itemsData.find(item => item.value === value) ?? null;
+
     return <Select
         options={itemsData}
+        value={selectedOption}
         placeholder={"Choose a time zone"}
         onChange={(option) => {
             setValue(option?.value ?? null);

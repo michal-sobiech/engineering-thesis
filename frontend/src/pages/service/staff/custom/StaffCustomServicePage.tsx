@@ -116,7 +116,7 @@ export const StaffCustomServicePage = () => {
     return <StaffCustomServicePageContext.Provider value={contextValue}>
         <Center height="100%">
             <StandardPanel width="80%" height="100%" padding="20px" overflowY="scroll">
-                <Flex direction="column" height="100%" minHeight={0}>
+                <Flex direction="column" height="100%" minHeight={0} gap={"10px"}>
 
                     <StandardLabeledContainer label="Enterprise name">
                         <StandardTextField
@@ -146,10 +146,12 @@ export const StaffCustomServicePage = () => {
                         <StandardTimeZonePicker value={timezone} setValue={setTimezone} />
                     </StandardLabeledContainer>
 
-                    <EditableCustomWeeklySchedule
-                        windows={windows}
-                        setWindows={setWindows}
-                    />
+                    <StandardLabeledContainer label="Schedule">
+                        <EditableCustomWeeklySchedule
+                            windows={windows}
+                            setWindows={setWindows}
+                        />
+                    </StandardLabeledContainer>
 
                     <StandardLabeledContainer label="Price (PLN)">
                         <StandardFloatInput

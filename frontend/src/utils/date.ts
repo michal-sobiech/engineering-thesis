@@ -207,9 +207,9 @@ export function splitLocalTimePeriod(start: LocalTime, end: LocalTime, segmentDu
     const out: [LocalTime, LocalTime][] = [];
 
     let currentSegmentStart = start;
-    while (currentSegmentStart < end) {
+    while (currentSegmentStart.isBefore(end)) {
         const currentSegmentEnd = currentSegmentStart.plus(segmentDuration);
-        if (currentSegmentEnd > end) {
+        if (currentSegmentEnd.isAfter(end)) {
             break;
         }
         const segment: [LocalTime, LocalTime] = [currentSegmentStart, currentSegmentEnd];
