@@ -33,8 +33,6 @@ const PayForAppointmentButtonAppointmentNotPaid: FC<ButtonProps & { appointmentI
             return;
         }
 
-        console.log(returnUrl.toString());
-
         window.location.href = result.value.redirectUrl;
     }
 

@@ -16,7 +16,6 @@ export function useLoadJwtFromLocalStorage() {
             return;
         }
 
-        console.log("jwt: ", jwt);
         const userGroupPromise = userApi.getMyUserGroup({ headers: { Authorization: `Bearer ${jwt}` } });
         const userGroupResult = await errorErrResultAsyncFromPromise(userGroupPromise);
         if (userGroupResult.isErr()) {
@@ -32,7 +31,6 @@ export function useLoadJwtFromLocalStorage() {
             return;
         }
 
-        console.log("set authenticated auth")
         setAuth({
             isAuthenticated: true,
             userGroup,

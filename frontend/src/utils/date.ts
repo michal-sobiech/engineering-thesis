@@ -6,6 +6,8 @@ import { WeeklyTimeWindow } from "./WeeklyTimeWindow";
 export const EXAMPLE_SUNDAY_DATE = new Date("2025-11-30");
 assertJsDateIsSunday(EXAMPLE_SUNDAY_DATE);
 
+export const EXAMPLE_MONDAY_DATE = createJsDateMovedByDays(EXAMPLE_SUNDAY_DATE, 1);
+
 export function durationToMs(duration: DateFnsDuration) {
     return add(new Date(0), duration).getTime();
 }
@@ -13,8 +15,6 @@ export function durationToMs(duration: DateFnsDuration) {
 export function extractHHmmTimeFromDate(date: Date): string {
     const hours = date.getHours();
     const minutes = date.getMinutes();
-
-    console.log(date, hours);
 
     const hoursPadded = hours.toString().padStart(2, "0");
     const minutesPadded = minutes.toString().padStart(2, "0");
@@ -141,15 +141,25 @@ export function isJsDateSunday(date: Date): boolean {
 
 export function assertJsDateIsSunday(date: Date): void {
     if (!isJsDateSunday(date)) {
-        throw new Error("Date is not a Sunday, so not start of a US week");
+        throw new Error("Date is not a sunday");
     }
 }
 
-export function calcDateWithDayOfWeekAndUsDateBase(dayOfWeek: DayOfWeek, usDateBase: Date = EXAMPLE_SUNDAY_DATE): Date {
-    assertJsDateIsSunday(usDateBase);
+export function isJsDateMonday(date: Date): boolean {
+    return date.getDay() === 1;
+}
 
-    const dayOffset = jodaDayOfWeekToUs(dayOfWeek);
-    return createJsDateMovedByDays(usDateBase, dayOffset);
+export function assertJsDateIsMonday(date: Date): void {
+    if (!isJsDateMonday(date)) {
+        throw new Error("Date is not a monday");
+    }
+}
+
+export function calcDateWithDayOfWeekAndIsoDateBase(dayOfWeek: DayOfWeek, isoDateBase: Date = EXAMPLE_MONDAY_DATE): Date {
+    assertJsDateIsMonday(isoDateBase);
+
+    const dayOffset = usDayOfWeekToIso(jodaDayOfWeekToUs(dayOfWeek)) - 1;
+    return createJsDateMovedByDays(isoDateBase, dayOffset);
 }
 
 export function createJsDateMovedByDays(date: Date, numDays: number): Date {
@@ -195,7 +205,7 @@ export function doesWeeklyTimeWindowOverlapWithWeeklySchedule(
     window: WeeklyTimeWindow, schedule: WeeklyTimeWindow[]
 ): boolean {
     const dayOfWeek = window.dayOfWeek;
-    const scheduleOnDayOfWeek = schedule.filter(window => window.dayOfWeek === dayOfWeek);
+    const scheduleOnDayOfWeek = schedule.filter(window => window.dayOfWeek.equals(dayOfWeek));
 
     const localTimeWindow: [LocalTime, LocalTime] = [window.start, window.end];
     const scheduleOnDayOfWeekLocalTimeWindows: [LocalTime, LocalTime][] =

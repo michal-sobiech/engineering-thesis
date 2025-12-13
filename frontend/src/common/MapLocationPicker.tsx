@@ -69,7 +69,6 @@ export const MapSearchField: FC<MapSearchFieldProps> = ({ address, onSelect }) =
         provider.search({ query: address })
             .then(results => {
                 const firstRow = results.at(0);
-                console.log(firstRow);
                 if (firstRow === undefined) {
                     return;
                 }

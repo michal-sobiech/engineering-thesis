@@ -9,7 +9,6 @@ export const MainPageEntrepreneurPanel = () => {
     const navigate = useNavigate();
 
     const onClick = () => {
-        console.log("routeee")
         navigate(routes.enterpriseStaffSignUpOrLogIn);
     }
 

@@ -20,10 +20,10 @@ export const EditableCustomWeeklySchedule: FC<EditableCustomWeeklyScheduleProps>
 
     function deleteEvent(dayOfWeek: DayOfWeek, start: LocalTime, end: LocalTime) {
         setWindows(prev => prev.filter(window => {
-            return (
-                window.dayOfWeek === dayOfWeek
-                && window.start === start
-                && window.end === end
+            return !(
+                window.dayOfWeek.equals(dayOfWeek)
+                && window.start.equals(start)
+                && window.end.equals(end)
             );
         }));
     }

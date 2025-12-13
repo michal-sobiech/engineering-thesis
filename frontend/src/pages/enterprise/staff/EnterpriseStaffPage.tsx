@@ -29,8 +29,6 @@ export const EnterpriseStaffPage = () => {
     const [logoFile, setLogoFile] = useState<File | null>(null);
     const [backgroundPhotoFile, setBackgroundPhotoFile] = useState<File | null>(null);
 
-    console.log(logoFile?.name);
-
     const [services, setServices] = useState<GetEnterpriseService200Response[]>([]);
 
     const onDicardClick = () => {

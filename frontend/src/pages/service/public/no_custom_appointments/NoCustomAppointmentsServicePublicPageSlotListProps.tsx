@@ -18,7 +18,6 @@ export const ServicePublicPageNoCustomAppointmentsSlotList: FC<NoCustomAppointme
         //     LocalTime.parse(start),
         //     LocalTime.from(end)
         // ]);
-        console.log("ffffffffff")
     }
 
     const startTimeString = extractHHmmTimeFromDate(start);

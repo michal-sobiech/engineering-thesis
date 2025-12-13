@@ -28,8 +28,6 @@ export const postPaymentPageLoader = ({ request }: { request: Request }) => {
         throw redirect(routes.mainPage);
     }
 
-    console.log(sessionId, sessionResult);
-
     return { sessionId, sessionResultToken: sessionResult };
 };
 
@@ -39,8 +37,6 @@ export const PostPaymentPage: FC<PostPaymentPageProps> = ({ redirectUrl }) => {
 
     const { sessionId, sessionResultToken } = usePostPaymentPageLoaderData();
 
-    console.log(sessionId, sessionResultToken);
-
     useEffect(() => {
         async function sendResult() {
             adyenApi.sendAdyenSessionResult({
@@ -48,7 +44,6 @@ export const PostPaymentPage: FC<PostPaymentPageProps> = ({ redirectUrl }) => {
                 sessionResultToken
             }).then(() => {
                 navigate(redirectUrl);
-                // console.log("123", redirectUrl);
             }).catch();
         }
         sendResult();

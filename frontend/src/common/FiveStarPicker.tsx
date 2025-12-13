@@ -16,7 +16,6 @@ export const FiveStarPicker: FC<FiveStarPickerProps> = ({ numStarsOutOf5, setNum
 
         const onClick = () => {
             setNumStarsOutOf5(rating);
-            console.log(rating)
         }
 
         return <IconButton

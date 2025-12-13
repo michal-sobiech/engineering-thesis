@@ -16,7 +16,6 @@ export const StandardButton: React.FC<StandardButtonProps> = ({ delayMs, childre
     const decoratedOnClick = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         setOnCooldown(true);
         await sleep(finalDelayMs);
-        console.log(onClick);
         onClick?.(event);
         setOnCooldown(false);
     }

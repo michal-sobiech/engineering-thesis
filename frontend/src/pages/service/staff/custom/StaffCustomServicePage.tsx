@@ -134,6 +134,7 @@ export const StaffCustomServicePage = () => {
                     </StandardLabeledContainer>
 
                     <StandardLabeledContainer label="Location">
+                        <StandardTextField text={address ?? ""} setText={() => { }} disabled />
                         <MapLocationPicker
                             address={address}
                             setAddress={setAddress}
