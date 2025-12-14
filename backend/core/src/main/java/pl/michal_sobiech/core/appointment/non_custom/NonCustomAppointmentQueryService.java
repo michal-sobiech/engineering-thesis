@@ -66,4 +66,18 @@ public class NonCustomAppointmentQueryService {
                 .collect(Collectors.toList());
     }
 
+    public List<UncancelledScheduledAppointment> getServiceUncancelledFutureScheduledAppointments(
+            long serviceId) {
+        return getAppointments(
+                Optional.empty(),
+                Optional.of(serviceId),
+                Optional.empty(),
+                Optional.of(false),
+                Optional.of(AppointmentQueryTimeRange.FUTURE))
+                .stream()
+                .map(UncancelledScheduledAppointment::fromEntity)
+                .map(Optional::orElseThrow)
+                .collect(Collectors.toList());
+    }
+
 }

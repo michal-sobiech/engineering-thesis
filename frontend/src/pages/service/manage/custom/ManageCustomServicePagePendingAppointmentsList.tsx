@@ -17,18 +17,16 @@ import { ManageCustomServicePageContext } from "./ManageCustomServicePageContext
 import { ManageCustomServicePageFutureScheduledAppointment } from "./ManageCustomServicePageFutureScheduledAppointment";
 
 export const ManageCustomServicePagePendingAppointmentsList = () => {
-    const appointmentsApi = useAppointmentsApi();
-
-    const { futureScheduledAppointments } = useContextOrThrow(ManageCustomServicePageContext);
+    const { pendingAppointments } = useContextOrThrow(ManageCustomServicePageContext);
 
     return <StandardLabeledContainer
         label="Pending appointments"
         height="100%">
         <StandardConcaveBox maxHeight="100%" minHeight={5}>
             <ScrollableList height="100%">
-                {futureScheduledAppointments === null
+                {pendingAppointments === null
                     ? null
-                    : futureScheduledAppointments.map(appointment => <Item data={appointment} />)}
+                    : pendingAppointments.map(appointment => <Item data={appointment} />)}
             </ScrollableList>
         </StandardConcaveBox>
     </StandardLabeledContainer>

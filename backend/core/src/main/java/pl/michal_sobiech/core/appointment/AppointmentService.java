@@ -39,13 +39,13 @@ public class AppointmentService {
         return enterpriseMemberUserIds.contains(userId);
     }
 
-    public List<UncancelledScheduledAppointment> getEnterpriseServiceUncancelledFutureScheduledAppointments(
-            long customerUserId) {
+    public List<UncancelledScheduledAppointment> getServiceUncancelledFutureScheduledAppointments(
+            long serviceId) {
         List<UncancelledScheduledAppointment> nonCustom = nonCustomAppointmentQueryService
-                .getCustomerUncancelledFutureScheduledAppointments(customerUserId);
+                .getServiceUncancelledFutureScheduledAppointments(serviceId);
 
         List<UncancelledScheduledAppointment> custom = customAppointmentQueryService
-                .getCustomerUncancelledFutureScheduledAppointments(customerUserId);
+                .getServiceUncancelledFutureScheduledAppointments(serviceId);
 
         List<UncancelledScheduledAppointment> all = new ArrayList<>();
         all.addAll(nonCustom);

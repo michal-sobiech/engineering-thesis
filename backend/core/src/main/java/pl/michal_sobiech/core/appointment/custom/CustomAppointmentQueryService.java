@@ -120,4 +120,20 @@ public class CustomAppointmentQueryService {
                 .map(Optional::orElseThrow)
                 .collect(Collectors.toList());
     }
+
+    public List<UncancelledScheduledAppointment> getServiceUncancelledFutureScheduledAppointments(
+            long serviceId) {
+        return getAppointments(
+                Optional.empty(),
+                Optional.of(serviceId),
+                Optional.empty(),
+                Optional.of(false),
+                Optional.of(AppointmentQueryTimeRange.FUTURE),
+                CustomAppointmentStatus.ACCEPTED)
+                .stream()
+                .map(UncancelledScheduledAppointment::fromEntity)
+                .map(Optional::orElseThrow)
+                .collect(Collectors.toList());
+    }
+
 }

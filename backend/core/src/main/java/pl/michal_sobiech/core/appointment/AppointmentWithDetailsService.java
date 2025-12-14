@@ -15,7 +15,7 @@ public class AppointmentWithDetailsService {
 
     public List<ScheduledAppointmentWithDetails> getEnterpriseServiceUncancelledFutureScheduledAppointmentsWithDetails(
             long enterpriseServiceId) {
-        return appointmentService.getEnterpriseServiceUncancelledFutureScheduledAppointments(enterpriseServiceId)
+        return appointmentService.getServiceUncancelledFutureScheduledAppointments(enterpriseServiceId)
                 .stream()
                 .map(appointment -> {
                     Customer customer = customerService.getByUserId(appointment.customerUserId()).orElseThrow();

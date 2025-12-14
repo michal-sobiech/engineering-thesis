@@ -67,7 +67,7 @@ public class ScheduledAppointmentService {
     public void cancelAppointment(long appointmentId) {
         AppointmentEntity appointment = appointmentRepository.findById(appointmentId).orElseThrow();
         boolean isAppointmentOver = isAppointmentOver(appointment);
-        if (!isAppointmentOver) {
+        if (!isAppointmentOver && appointment.isPaid()) {
             String pspReference = appointment.getPspReference();
             Money amount = Money.of(
                     appointment.getPrice(),
