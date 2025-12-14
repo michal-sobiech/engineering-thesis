@@ -11,6 +11,7 @@ export const routeTemplates = {
     entrepreneurLandingPage: "/entrepreneur-landing-page",
     createEnterprise: "/create-enterprise",
     enterprisePublic: "/enterprises/:enterpriseId/public",
+    manageEnterprise: "/enterprises/:enterpriseId/manage",
     enterpriseStaff: "/enterprises/:enterpriseId/staff",
     createEnterpriseEmployee: "/enterprises/:enterpriseId/create-employee",
     logInEnterpriseEmployee: "/employee/log-in",

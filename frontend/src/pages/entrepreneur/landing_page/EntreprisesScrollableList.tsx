@@ -58,8 +58,7 @@ const ListItem = ({ data }: { data: GetEntrepreneurEnterprisesResponseItem }) =>
             <Text>
                 {data.enterpriseName}
             </Text>
-            {/* TODO */}
-            <StandardButton onClick={() => navigate(routes.mainPage)}>
+            <StandardButton onClick={() => navigate(routes.manageEnterprise(data.enterpriseId))}>
                 Manage
             </StandardButton>
             <StandardButton onClick={() => navigate(staffPageUrl)}>

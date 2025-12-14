@@ -13,6 +13,7 @@ export const routes = {
     entrepreneurLandingPage: routeTemplates.entrepreneurLandingPage,
     createEnterprise: routeTemplates.createEnterprise,
     enterprisePublic: (enterpriseId: number) => generatePath(routeTemplates.enterprisePublic, { enterpriseId }),
+    manageEnterprise: (enterpriseId: number) => generatePath(routeTemplates.manageEnterprise, { enterpriseId }),
     enterpriseStaff: (enterpriseId: number) => generatePath(routeTemplates.enterpriseStaff, { enterpriseId }),
     createEnterpriseEmployee: (enterpriseId: number) => generatePath(routeTemplates.createEnterpriseEmployee, { enterpriseId }),
     logInEnterpriseEmployee: routeTemplates.logInEnterpriseEmployee,
