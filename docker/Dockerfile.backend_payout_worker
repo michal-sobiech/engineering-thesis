@@ -13,7 +13,6 @@ RUN mkdir -p infra/src/main/java
 RUN mkdir -p payout_worker/src/main/java
 RUN mkdir -p main_service/src/main/java
 
-COPY openapi.yaml ..
 RUN [ "mvn", "dependency:go-offline", "-B" ]
 COPY backend .
 RUN mvn package -pl payout_worker -am -DskipTests
