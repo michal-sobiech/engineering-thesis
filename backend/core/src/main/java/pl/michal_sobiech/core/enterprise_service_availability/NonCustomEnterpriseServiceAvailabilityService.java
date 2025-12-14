@@ -1,8 +1,6 @@
 package pl.michal_sobiech.core.enterprise_service_availability;
 
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
-import java.time.ZoneId;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -10,79 +8,42 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.core.appointment.non_custom.NonCustomAppointment;
 import pl.michal_sobiech.core.appointment.non_custom.NonCustomAppointmentsService;
-import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceService;
-import pl.michal_sobiech.core.enterprise_service_default_availability.EnterpriseServiceAvailabilityTemplateService;
-import pl.michal_sobiech.core.utils.DateUtils;
-import pl.michal_sobiech.core.utils.local_datetime_window.LocalDatetimeWindow;
+import pl.michal_sobiech.core.enterprise_service_default_availability.non_custom.NonCustomEnterpriseServiceDefaultAvailabilityService;
+import pl.michal_sobiech.core.utils.instant_window.InstantWindow;
+import pl.michal_sobiech.core.utils.instant_window.InstantWindowWithCapacity;
+import pl.michal_sobiech.core.utils.instant_window.InstantWindowWithCapacityUtils;
+import pl.michal_sobiech.core.utils.instant_window.SimpleInstantWindow;
 
 @RequiredArgsConstructor
 public class NonCustomEnterpriseServiceAvailabilityService {
 
     private final NonCustomAppointmentsService nonCustomAppointmentsService;
-    private final EnterpriseServiceService enterpriseServiceService;
-    private final EnterpriseServiceAvailabilityTemplateService enterpriseServiceAvailabilityTemplateService;
+    private final NonCustomEnterpriseServiceDefaultAvailabilityService defaultAvailabilityService;
 
-    public List<LocalDatetimeWindow> getAvailableSlotsInDatetimeRangeForService(
+    public List<InstantWindow> calcServiceAvailability(
             long enterpriseServiceId,
-            LocalDateTime from,
-            LocalDateTime to) {
+            Instant from,
+            Instant to) {
         // 1. Get availability template
         // 2. Get appointments in datetime range
         // 3. Subtract
 
-        // TODO add capacity
         // 1.
-        List<LocalDatetimeWindow> availabilityTemplate = enterpriseServiceAvailabilityTemplateService
-                .getAvailabilityTemplateForDatetimeRange(enterpriseServiceId, from, to);
+        List<InstantWindowWithCapacity> defaultAvailability = defaultAvailabilityService
+                .getDefaultServiceAvailabilityInInstantRange(enterpriseServiceId, from, to);
 
         // 2.
-        ZoneId timezone = enterpriseServiceService.getTimeZoneByServiceId(enterpriseServiceId);
-
-        OffsetDateTime fromOffset = DateUtils.createOffsetDateTime(from, timezone);
-        OffsetDateTime toOffset = DateUtils.createOffsetDateTime(to, timezone);
-
         List<NonCustomAppointment> appointments = nonCustomAppointmentsService
-                .getAllByServiceIdAndDatetimeRange(enterpriseServiceId, fromOffset, toOffset);
-
-        List<LocalDatetimeWindow> appointmentWindows = appointments.stream()
-                .map(a -> new LocalDatetimeWindow(
-                        DateUtils.createLocalDateTime(a.startInstant(), timezone),
-                        DateUtils.createLocalDateTime(a.endInstant(), timezone)))
+                .getAllByServiceIdAndInstantRange(enterpriseServiceId, from, to);
+        List<InstantWindow> appointmentWindows = appointments.stream()
+                .map(appointment -> new SimpleInstantWindow(appointment.startInstant(), appointment.endInstant()))
                 .collect(Collectors.toList());
 
         // 3.
-        return DateUtils.subtractTimeWindowLists(availabilityTemplate, appointmentWindows);
-    }
+        List<InstantWindowWithCapacity> availability = InstantWindowWithCapacityUtils
+                .subtractTimeWindowsWithoutCapacity(defaultAvailability, appointmentWindows);
 
-    public List<LocalDatetimeWindow> findFreeTimeWindowsInDatetimeRange(
-            long serviceId,
-            OffsetDateTime from,
-            OffsetDateTime to) {
-        ZoneId timeZone = enterpriseServiceService.getTimeZoneByServiceId(serviceId);
-
-        LocalDateTime fromInServiceTimezone = DateUtils.createLocalDateTime(from, timeZone);
-        LocalDateTime toInServiceTimezone = DateUtils.createLocalDateTime(to, timeZone);
-
-        List<LocalDatetimeWindow> defaultAvailability = enterpriseServiceAvailabilityTemplateService
-                .getAvailabilityTemplateForDatetimeRange(serviceId, fromInServiceTimezone,
-                        toInServiceTimezone);
-
-        List<NonCustomAppointment> appointments = nonCustomAppointmentsService
-                .getAllByServiceIdAndDatetimeRange(
-                        serviceId,
-                        from, to);
-
-        // List<LocalDateTimeWindow> appointmentWindows = appointments.stream().map(a ->
-        // {
-        // return new LocalDateTimeWindow(
-        // DateUtils.createLocalDateTime(a.startTime(), timeZone),
-        // DateUtils.createLocalDateTime(a.endTime(), timeZone));
-        // }).collect(Collectors.toList());
-        List<LocalDatetimeWindow> appointmentWindows = new ArrayList<>(List.of(
-                defaultAvailability.get(1)));
-
-        return DateUtils.subtractTimeWindowLists(defaultAvailability,
-                appointmentWindows);
+        return new ArrayList<>(availability);
     }
 
 }

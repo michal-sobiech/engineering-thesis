@@ -1,57 +1,43 @@
 package pl.michal_sobiech.core.enterprise_service_availability;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
 import pl.michal_sobiech.core.appointment.custom.CustomAppointmentService;
-import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceService;
-import pl.michal_sobiech.core.enterprise_service_slot_template.custom_appointments.CustomTimeWindowTemplateService;
-import pl.michal_sobiech.core.utils.DateUtils;
-import pl.michal_sobiech.core.utils.local_datetime_window.LocalDatetimeWindow;
-import pl.michal_sobiech.core.utils.local_datetime_window.LocalDatetimeWindowUtils;
-import pl.michal_sobiech.core.utils.local_datetime_window.SimpleLocalDatetimeWindow;
+import pl.michal_sobiech.core.enterprise_service_default_availability.custom.CustomEnterpriseServiceDefaultAvailabilityService;
+import pl.michal_sobiech.core.utils.instant_window.InstantWindow;
+import pl.michal_sobiech.core.utils.instant_window.InstantWindowUtils;
+import pl.michal_sobiech.core.utils.instant_window.SimpleInstantWindow;
 
 @RequiredArgsConstructor
 public class CustomEnterpriseServiceAvailabilityService {
 
-    private final EnterpriseServiceService enterpriseServiceService;
-    private final CustomTimeWindowTemplateService customAppointmentsEnterpriseServiceTimeWindowTemplateService;
     private final CustomAppointmentService customAppointmentService;
+    private final CustomEnterpriseServiceDefaultAvailabilityService defaultAvailabilityService;
 
-    public List<LocalDatetimeWindow> findFreeTimeWindowsInLocalDatetimeRangeForService(
+    public List<InstantWindow> calcServiceAvailability(
             long enterpriseServiceId,
-            LocalDateTime from,
-            LocalDateTime to) {
+            Instant from,
+            Instant to) {
         // 1. Get availability template
         // 2. Get appointments in datetime range
         // 3. Subtract
 
-        ZoneId timezone = enterpriseServiceService.getTimeZoneByServiceId(enterpriseServiceId);
-
         // 1.
-        List<LocalDatetimeWindow> defaultAvailability = customAppointmentsEnterpriseServiceTimeWindowTemplateService
-                .getAvailabilityTemplateForLocalDatetimeRange(
-                        enterpriseServiceId,
-                        from,
-                        to);
+        List<InstantWindow> defaultAvailability = defaultAvailabilityService
+                .getDefaultServiceAvailabilityInInstantRange(enterpriseServiceId, from, to);
 
         // 2.
-        List<LocalDatetimeWindow> confirmedAppointmentWindows = customAppointmentService
-                .getConfirmedAppointmentsInDatetimeRange(
-                        enterpriseServiceId,
-                        from.atZone(timezone).toInstant(),
-                        to.atZone(timezone).toInstant())
+        List<InstantWindow> confirmedAppointmentWindows = customAppointmentService
+                .getConfirmedAppointmentsInDatetimeRange(enterpriseServiceId, from, to)
                 .stream()
-                .map(a -> new SimpleLocalDatetimeWindow(
-                        DateUtils.createLocalDateTime(a.startInstant(), timezone),
-                        DateUtils.createLocalDateTime(a.endInstant(), timezone)))
+                .map(appointment -> new SimpleInstantWindow(appointment.startInstant(), appointment.endInstant()))
                 .collect(Collectors.toList());
 
         // 3.
-        return LocalDatetimeWindowUtils.subtractTimeWindowLists(defaultAvailability, confirmedAppointmentWindows);
+        return InstantWindowUtils.subtractTimeWindowLists(defaultAvailability, confirmedAppointmentWindows);
     }
 
 }

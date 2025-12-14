@@ -3,6 +3,7 @@ package pl.michal_sobiech.core.appointment.non_custom;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,7 +15,6 @@ import pl.michal_sobiech.core.currency_iso.CurrencyIso;
 import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceDomain;
 import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceService;
 import pl.michal_sobiech.core.location.Location;
-import pl.michal_sobiech.core.utils.DateUtils;
 
 @RequiredArgsConstructor
 public class NonCustomAppointmentsService {
@@ -22,16 +22,13 @@ public class NonCustomAppointmentsService {
     private final EnterpriseServiceService enterpriseServiceService;
     private final AppointmentRepository appointmentRepository;
 
-    public List<NonCustomAppointment> getAllByServiceIdAndDatetimeRange(long serviceId, OffsetDateTime from,
-            OffsetDateTime to) {
-        List<AppointmentEntity> records = appointmentRepository.findAllInRange(serviceId, from, to);
-        return records.stream().map(record -> NonCustomAppointment.fromEntity(record)).collect(Collectors.toList());
-    }
+    public List<NonCustomAppointment> getAllByServiceIdAndInstantRange(long serviceId, Instant from, Instant to) {
+        ZoneId timezone = enterpriseServiceService.getTimeZoneByServiceId(serviceId);
+        OffsetDateTime fromOffset = OffsetDateTime.ofInstant(from, timezone);
+        OffsetDateTime toOffset = OffsetDateTime.ofInstant(to, timezone);
 
-    public List<NonCustomAppointment> getAllByServiceIdAndDate(long serviceId, OffsetDateTime date) {
-        OffsetDateTime from = DateUtils.createOffsetDateTimeWithResetTime(date);
-        OffsetDateTime to = from.plusDays(1);
-        return getAllByServiceIdAndDatetimeRange(serviceId, from, to);
+        List<AppointmentEntity> records = appointmentRepository.findAllInRange(serviceId, fromOffset, toOffset);
+        return records.stream().map(record -> NonCustomAppointment.fromEntity(record)).collect(Collectors.toList());
     }
 
     public void createNonCustomAppointment(

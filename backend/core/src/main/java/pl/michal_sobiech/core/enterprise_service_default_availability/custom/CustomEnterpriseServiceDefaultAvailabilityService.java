@@ -1,17 +1,22 @@
 package pl.michal_sobiech.core.enterprise_service_default_availability.custom;
 
 import java.time.DayOfWeek;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
+import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceService;
 import pl.michal_sobiech.core.enterprise_service_slot_template.EnterpriseServiceSlotTemplateService;
 import pl.michal_sobiech.core.enterprise_service_slot_template.custom_appointments.CustomSlotTemplate;
 import pl.michal_sobiech.core.mapper.TimeWindowMapper;
 import pl.michal_sobiech.core.utils.DateUtils;
+import pl.michal_sobiech.core.utils.instant_window.InstantWindow;
+import pl.michal_sobiech.core.utils.instant_window.SimpleInstantWindow;
 import pl.michal_sobiech.core.utils.local_datetime_window.LocalDatetimeWindow;
 import pl.michal_sobiech.core.utils.local_datetime_window.LocalDatetimeWindowUtils;
 
@@ -19,8 +24,28 @@ import pl.michal_sobiech.core.utils.local_datetime_window.LocalDatetimeWindowUti
 public class CustomEnterpriseServiceDefaultAvailabilityService {
 
     private final EnterpriseServiceSlotTemplateService enterpriseServiceSlotTemplateService;
+    private final EnterpriseServiceService enterpriseServiceService;
 
-    public List<LocalDatetimeWindow> getDefaultAvailabilityForDatetimeRange(
+    public List<InstantWindow> getDefaultServiceAvailabilityInInstantRange(
+            long enterpiseServiceId,
+            Instant from,
+            Instant to) {
+        ZoneId serviceTimezone = enterpriseServiceService.getTimeZoneByServiceId(enterpiseServiceId);
+
+        LocalDateTime fromLocal = LocalDateTime.ofInstant(from, serviceTimezone);
+        LocalDateTime toLocal = LocalDateTime.ofInstant(to, serviceTimezone);
+
+        return getDefaultAvailabilityForDatetimeRange(enterpiseServiceId, fromLocal, toLocal)
+                .stream()
+                .map(localWindow -> {
+                    Instant startInstant = localWindow.start().atZone(serviceTimezone).toInstant();
+                    Instant endInstant = localWindow.end().atZone(serviceTimezone).toInstant();
+                    return new SimpleInstantWindow(startInstant, endInstant);
+                })
+                .collect(Collectors.toList());
+    }
+
+    private List<LocalDatetimeWindow> getDefaultAvailabilityForDatetimeRange(
             long enterpriseServiceId,
             LocalDateTime from,
             LocalDateTime to) {
@@ -31,7 +56,7 @@ public class CustomEnterpriseServiceDefaultAvailabilityService {
         return LocalDatetimeWindowUtils.filterWindowsFullyContainedInRange(fullDaysTemplate, from, to);
     }
 
-    public List<LocalDatetimeWindow> getDefaultAvailabilityForDateRange(
+    private List<LocalDatetimeWindow> getDefaultAvailabilityForDateRange(
             long enterpriseServiceId,
             LocalDate from,
             LocalDate to) {
@@ -48,7 +73,7 @@ public class CustomEnterpriseServiceDefaultAvailabilityService {
         return out;
     }
 
-    public List<LocalDatetimeWindow> getDefaultAvailabilityForDate(
+    private List<LocalDatetimeWindow> getDefaultAvailabilityForDate(
             long enterpriseServiceId,
             LocalDate date) {
         DayOfWeek dayOfWeek = date.getDayOfWeek();

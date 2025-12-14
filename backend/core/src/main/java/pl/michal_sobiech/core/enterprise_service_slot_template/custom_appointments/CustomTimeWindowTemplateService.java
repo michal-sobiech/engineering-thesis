@@ -15,6 +15,8 @@ import pl.michal_sobiech.core.enterprise_service_slot_template.EnterpriseService
 import pl.michal_sobiech.core.enterprise_service_slot_template.EnterpriseServiceSlotTemplateService;
 import pl.michal_sobiech.core.utils.DateUtils;
 import pl.michal_sobiech.core.utils.local_datetime_window.LocalDatetimeWindow;
+import pl.michal_sobiech.core.utils.local_datetime_window.LocalDatetimeWindowUtils;
+import pl.michal_sobiech.core.utils.local_datetime_window.SimpleLocalDatetimeWindow;
 
 @RequiredArgsConstructor
 public class CustomTimeWindowTemplateService {
@@ -50,7 +52,7 @@ public class CustomTimeWindowTemplateService {
                 enterpriseServiceId,
                 from.toLocalDate(),
                 to.toLocalDate());
-        return DateUtils.filterWindowsFullyContainedInRange(fullDaysTemplate, from, to);
+        return LocalDatetimeWindowUtils.filterWindowsFullyContainedInRange(fullDaysTemplate, from, to);
     }
 
     public List<LocalDatetimeWindow> getAvailabilityTemplateForDateRange(
@@ -66,9 +68,9 @@ public class CustomTimeWindowTemplateService {
                     enterpriseServiceId,
                     dayOfWeek);
             List<LocalDatetimeWindow> mappedWindowsForDayOfWeek = windowsForDayOfWeek.stream()
-                    .map(window -> new LocalDatetimeWindow(
-                            LocalDateTime.of(date, window.startTime()),
-                            LocalDateTime.of(date, window.endTime())))
+                    .map(window -> new SimpleLocalDatetimeWindow(
+                            LocalDateTime.of(date, window.start()),
+                            LocalDateTime.of(date, window.end())))
                     .collect(Collectors.toList());
 
             out.addAll(mappedWindowsForDayOfWeek);

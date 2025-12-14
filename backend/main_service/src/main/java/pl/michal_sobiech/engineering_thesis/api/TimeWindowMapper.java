@@ -23,8 +23,8 @@ public class TimeWindowMapper {
     public static TimeWindow fromCustomSlotTemplate(CustomSlotTemplate customSlotTemplate) {
         return new TimeWindow(
                 DayOfWeekUtils.stdDayOfWeekToSwagger(customSlotTemplate.dayOfWeek()),
-                customSlotTemplate.startTime().toString(),
-                customSlotTemplate.endTime().toString());
+                customSlotTemplate.start().toString(),
+                customSlotTemplate.end().toString());
     }
 
 }

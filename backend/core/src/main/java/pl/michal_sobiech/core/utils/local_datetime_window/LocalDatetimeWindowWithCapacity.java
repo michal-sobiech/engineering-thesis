@@ -12,4 +12,10 @@ public record LocalDatetimeWindowWithCapacity(
 
 ) implements LocalDatetimeWindow {
 
+    public LocalDatetimeWindowWithCapacity {
+        if (capacity <= 0) {
+            throw new IllegalStateException("Capacity must be > 0");
+        }
+    }
+
 }

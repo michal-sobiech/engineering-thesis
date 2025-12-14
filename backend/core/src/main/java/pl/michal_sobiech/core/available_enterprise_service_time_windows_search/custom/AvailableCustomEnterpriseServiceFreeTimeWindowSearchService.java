@@ -1,7 +1,6 @@
 package pl.michal_sobiech.core.available_enterprise_service_time_windows_search.custom;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -11,8 +10,7 @@ import pl.michal_sobiech.core.enteprise_service_search.EnterpriseServiceSearchRe
 import pl.michal_sobiech.core.enteprise_service_search.EnterpriseServiceSearchService;
 import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceCathegory;
 import pl.michal_sobiech.core.enterprise_service_availability.CustomEnterpriseServiceAvailabilityService;
-import pl.michal_sobiech.core.utils.DateUtils;
-import pl.michal_sobiech.core.utils.local_datetime_window.LocalDatetimeWindow;
+import pl.michal_sobiech.core.utils.instant_window.InstantWindow;
 
 @RequiredArgsConstructor
 public class AvailableCustomEnterpriseServiceFreeTimeWindowSearchService {
@@ -51,14 +49,9 @@ public class AvailableCustomEnterpriseServiceFreeTimeWindowSearchService {
             EnterpriseServiceSearchResultRow service,
             Instant start,
             Instant end) {
-        LocalDateTime startLocal = DateUtils.createLocalDateTime(start, service.getTimezone());
-        LocalDateTime endLocal = DateUtils.createLocalDateTime(end, service.getTimezone());
+        List<InstantWindow> windows = customEnterpriseServiceAvailabilityService
+                .calcServiceAvailability(service.getEnterpriseServiceId(), start, end);
 
-        List<LocalDatetimeWindow> windows = customEnterpriseServiceAvailabilityService
-                .findFreeTimeWindowsInLocalDatetimeRangeForService(
-                        service.getEnterpriseServiceId(),
-                        startLocal,
-                        endLocal);
         List<AvailableCustomEnterpriseServiceFreeTimeWindowSearchRow> windowsGlobal = windows.stream()
                 .map(window -> new AvailableCustomEnterpriseServiceFreeTimeWindowSearchRow(
                         service.getEnterpriseServiceId(),
@@ -67,10 +60,8 @@ public class AvailableCustomEnterpriseServiceFreeTimeWindowSearchService {
                         service.getAddress(),
                         service.getPrice(),
                         service.getTimezone(),
-                        DateUtils.createInstant(window.start(),
-                                service.getTimezone()),
-                        DateUtils.createInstant(window.end(),
-                                service.getTimezone())))
+                        start,
+                        end))
                 .collect(Collectors.toList());
         return windowsGlobal;
     }

@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -60,7 +61,7 @@ import pl.michal_sobiech.core.payment.payment_status.PaymentStatusPaidOnSite;
 import pl.michal_sobiech.core.payment.payment_status.PaymentStatusPaidOnline;
 import pl.michal_sobiech.core.review.ReviewService;
 import pl.michal_sobiech.core.utils.DateUtils;
-import pl.michal_sobiech.core.utils.local_datetime_window.LocalDatetimeWindow;
+import pl.michal_sobiech.core.utils.instant_window.InstantWindow;
 import pl.michal_sobiech.engineering_thesis.api.LocationMapper;
 import pl.michal_sobiech.engineering_thesis.api.SlotMapper;
 import pl.michal_sobiech.engineering_thesis.api.TimeWindowMapper;
@@ -95,19 +96,25 @@ public class EnterpriseServiceController implements ServicesApi {
             LocalDate dateInServiceTimezone) {
         ZoneId timezone = enterpriseServiceService.getTimeZoneByServiceId(enterpriseServiceId);
 
-        OffsetDateTime start = DateUtils.createOffsetDateTime(dateInServiceTimezone, timezone);
-        OffsetDateTime end = start.plusDays(1);
+        ZonedDateTime startZoned = dateInServiceTimezone.atStartOfDay(timezone);
+        ZonedDateTime endZoned = startZoned.plusDays(1);
 
-        List<LocalDatetimeWindow> freeSlots = nonCustomEnterpriseServiceAvailabilityService
-                .findFreeTimeWindowsInDatetimeRange(enterpriseServiceId, start, end);
+        Instant start = startZoned.toInstant();
+        Instant end = endZoned.toInstant();
+
+        List<InstantWindow> freeSlots = nonCustomEnterpriseServiceAvailabilityService
+                .calcServiceAvailability(enterpriseServiceId, start, end);
 
         List<GetServiceFreeNonCustomAppointmentsResponseItem> body = freeSlots.stream().map(slot -> {
-            return new GetServiceFreeNonCustomAppointmentsResponseItem(
-                    DateUtils.extractHHmmTimeFromLocalDateTime(slot.start()),
-                    DateUtils.extractHHmmTimeFromLocalDateTime(slot.end()));
+            LocalDateTime slotStartLocal = LocalDateTime.ofInstant(slot.start(), timezone);
+            LocalDateTime slotEndLocal = LocalDateTime.ofInstant(slot.end(), timezone);
+
+            String startTime = DateUtils.extractHHmmTimeFromLocalDateTime(slotStartLocal);
+            String endTime = DateUtils.extractHHmmTimeFromLocalDateTime(slotEndLocal);
+
+            return new GetServiceFreeNonCustomAppointmentsResponseItem(startTime, endTime);
         }).collect(Collectors.toList());
 
-        System.out.println(body);
         return ResponseEntity.ok(body);
     }
 
@@ -115,19 +122,28 @@ public class EnterpriseServiceController implements ServicesApi {
     public ResponseEntity<List<GetServiceFreeCustomAppointmentsResponseItem>> getFreeTimeWindowsForCustomAppointments(
             Long enterpriseServiceId,
             LocalDate dateInServiceTimezone) {
-        LocalDateTime startLocal = dateInServiceTimezone.atStartOfDay();
-        LocalDateTime endLocal = startLocal.plusDays(1);
+        ZoneId timezone = enterpriseServiceService.getTimeZoneByServiceId(enterpriseServiceId);
 
-        List<LocalDatetimeWindow> freeWindows = customEnterpriseServiceAvailabilityService
-                .findFreeTimeWindowsInLocalDatetimeRangeForService(enterpriseServiceId, startLocal,
-                        endLocal);
+        ZonedDateTime startZoned = dateInServiceTimezone.atStartOfDay(timezone);
+        ZonedDateTime endZoned = startZoned.plusDays(1);
+
+        Instant start = startZoned.toInstant();
+        Instant end = endZoned.toInstant();
+
+        List<InstantWindow> freeWindows = customEnterpriseServiceAvailabilityService
+                .calcServiceAvailability(enterpriseServiceId, start, end);
 
         List<GetServiceFreeCustomAppointmentsResponseItem> body = freeWindows
                 .stream()
-                .map(window -> new GetServiceFreeCustomAppointmentsResponseItem(
-                        DateUtils.extractHHmmTimeFromLocalDateTime(window.start()),
-                        DateUtils.extractHHmmTimeFromLocalDateTime(window.end())))
-                .collect(Collectors.toList());
+                .map(slot -> {
+                    LocalDateTime slotStartLocal = LocalDateTime.ofInstant(slot.start(), timezone);
+                    LocalDateTime slotEndLocal = LocalDateTime.ofInstant(slot.end(), timezone);
+
+                    String startTime = DateUtils.extractHHmmTimeFromLocalDateTime(slotStartLocal);
+                    String endTime = DateUtils.extractHHmmTimeFromLocalDateTime(slotEndLocal);
+
+                    return new GetServiceFreeCustomAppointmentsResponseItem(startTime, endTime);
+                }).collect(Collectors.toList());
 
         return ResponseEntity.ok(body);
 

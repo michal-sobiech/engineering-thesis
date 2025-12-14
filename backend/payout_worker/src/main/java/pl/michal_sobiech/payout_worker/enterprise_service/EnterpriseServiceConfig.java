@@ -4,15 +4,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import pl.michal_sobiech.core.appointment.custom.CustomAppointmentService;
-import pl.michal_sobiech.core.appointment.non_custom.NonCustomAppointmentsService;
 import pl.michal_sobiech.core.enteprise_service_search.EnterpriseServiceSearchService;
 import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceRepository;
 import pl.michal_sobiech.core.enterprise_service.EnterpriseServiceService;
 import pl.michal_sobiech.core.enterprise_service.custom_appointments.CustomAppointmentsEnterpriseServiceService;
 import pl.michal_sobiech.core.enterprise_service.no_custom_appointments.NonCustomAppointmentsEnterpriseServiceService;
 import pl.michal_sobiech.core.enterprise_service_availability.CustomEnterpriseServiceAvailabilityService;
-import pl.michal_sobiech.core.enterprise_service_availability.NonCustomEnterpriseServiceAvailabilityService;
-import pl.michal_sobiech.core.enterprise_service_default_availability.EnterpriseServiceAvailabilityTemplateService;
+import pl.michal_sobiech.core.enterprise_service_default_availability.custom.CustomEnterpriseServiceDefaultAvailabilityService;
 import pl.michal_sobiech.core.enterprise_service_default_availability.non_custom.NonCustomEnterpriseServiceDefaultAvailabilityService;
 import pl.michal_sobiech.core.enterprise_service_slot_template.EnterpriseServiceSlotTemplateRepository;
 import pl.michal_sobiech.core.enterprise_service_slot_template.EnterpriseServiceSlotTemplateService;
@@ -54,34 +52,36 @@ public class EnterpriseServiceConfig {
     }
 
     @Bean
-    public NonCustomEnterpriseServiceAvailabilityService nonCustomEnterpriseServiceAvailabilityService(
-            NonCustomAppointmentsService nonCustomAppointmentsService,
-            EnterpriseServiceService enterpriseServiceService,
-            EnterpriseServiceAvailabilityTemplateService enterpriseServiceAvailabilityTemplateService) {
-        return new NonCustomEnterpriseServiceAvailabilityService(nonCustomAppointmentsService, enterpriseServiceService,
-                enterpriseServiceAvailabilityTemplateService);
+    public CustomEnterpriseServiceDefaultAvailabilityService customEnterpriseServiceDefaultAvailabilityService(
+            EnterpriseServiceSlotTemplateService enterpriseServiceSlotTemplateService,
+            EnterpriseServiceService enterpriseServiceService) {
+        return new CustomEnterpriseServiceDefaultAvailabilityService(enterpriseServiceSlotTemplateService,
+                enterpriseServiceService);
     }
 
     @Bean
-    public EnterpriseServiceAvailabilityTemplateService enterpriseServiceAvailabilityTemplateService(
-            EnterpriseServiceSlotTemplateService enterpriseServiceSlotTemplateService) {
-        return new EnterpriseServiceAvailabilityTemplateService(enterpriseServiceSlotTemplateService);
+    public NonCustomEnterpriseServiceDefaultAvailabilityService nonCustomEnterpriseServiceDefaultAvailabilityService(
+            EnterpriseServiceSlotTemplateService enterpriseServiceSlotTemplateService,
+            EnterpriseServiceService enterpriseServiceService) {
+        return new NonCustomEnterpriseServiceDefaultAvailabilityService(enterpriseServiceSlotTemplateService,
+                enterpriseServiceService);
     }
 
     @Bean
     public CustomEnterpriseServiceAvailabilityService customEnterpriseServiceAvailabilityService(
-            EnterpriseServiceService enterpriseServiceService,
-            CustomTimeWindowTemplateService customAppointmentsEnterpriseServiceTimeWindowTemplateService,
-            CustomAppointmentService customAppointmentService) {
-        return new CustomEnterpriseServiceAvailabilityService(enterpriseServiceService,
-                customAppointmentsEnterpriseServiceTimeWindowTemplateService,
-                customAppointmentService);
+            CustomAppointmentService customAppointmentService,
+            CustomEnterpriseServiceDefaultAvailabilityService defaultAvailabilityService) {
+        return new CustomEnterpriseServiceAvailabilityService(
+                customAppointmentService,
+                defaultAvailabilityService);
     }
 
     @Bean
     public NonCustomEnterpriseServiceDefaultAvailabilityService nonCustomEnterpriseServiceAvailabilityTemplateService(
-            EnterpriseServiceSlotTemplateService enterpriseServiceSlotTemplateService) {
-        return new NonCustomEnterpriseServiceDefaultAvailabilityService(enterpriseServiceSlotTemplateService);
+            EnterpriseServiceSlotTemplateService enterpriseServiceSlotTemplateService,
+            EnterpriseServiceService enterpriseServiceService) {
+        return new NonCustomEnterpriseServiceDefaultAvailabilityService(enterpriseServiceSlotTemplateService,
+                enterpriseServiceService);
     }
 
     @Bean

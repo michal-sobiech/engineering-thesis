@@ -24,8 +24,8 @@ public class SlotMapper {
     public static Slot fromNonCustomSlotTemplate(NonCustomSlotTemplate nonCustomSlotTemplate) {
         return new Slot(
                 DayOfWeekUtils.stdDayOfWeekToSwagger(nonCustomSlotTemplate.dayOfWeek()),
-                nonCustomSlotTemplate.startTime().toString(),
-                nonCustomSlotTemplate.endTime().toString(),
+                nonCustomSlotTemplate.start().toString(),
+                nonCustomSlotTemplate.end().toString(),
                 BigDecimal.valueOf(nonCustomSlotTemplate.maxOccupancy()));
     }
 
