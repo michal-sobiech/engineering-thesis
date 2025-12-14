@@ -30,8 +30,8 @@ public class AuthService {
         if (optionalUserId.isEmpty()) {
             throw new UnauthorizedException();
         }
-        long userId = optionalUserId.get();
 
+        long userId = optionalUserId.get();
         return userService.findById(userId).orElseThrow();
     }
 
@@ -39,7 +39,7 @@ public class AuthService {
         User user = requireAuthorizedUser();
         try {
             return IndependentEndUser.fromUser(user);
-        } catch (Exception exception) {
+        } catch (IllegalArgumentException exception) {
             throw new ForbiddenException(exception);
         }
     }
@@ -48,7 +48,7 @@ public class AuthService {
         User user = requireAuthorizedUser();
         try {
             return Entrepreneur.fromUserOrThrow(user);
-        } catch (Exception exception) {
+        } catch (IllegalArgumentException exception) {
             throw new ForbiddenException(exception);
         }
     }
@@ -57,7 +57,7 @@ public class AuthService {
         User user = requireAuthorizedUser();
         try {
             return Employee.fromUser(user);
-        } catch (Exception exception) {
+        } catch (IllegalArgumentException exception) {
             throw new ForbiddenException();
         }
     }
@@ -66,24 +66,36 @@ public class AuthService {
         User user = requireAuthorizedUser();
         try {
             return EnterpriseMemberFactory.fromUser(user);
-        } catch (Exception exception) {
+        } catch (IllegalArgumentException exception) {
             throw new ForbiddenException();
         }
     }
 
     public Customer requireCustomer() {
         User user = requireAuthorizedUser();
-        return Customer.fromUser(user);
+        try {
+            return Customer.fromUser(user);
+        } catch (IllegalArgumentException exception) {
+            throw new ForbiddenException();
+        }
     }
 
     public Admin requireAdmin() {
         User user = requireAuthorizedUser();
-        return Admin.fromUser(user);
+        try {
+            return Admin.fromUser(user);
+        } catch (IllegalArgumentException exception) {
+            throw new ForbiddenException();
+        }
     }
 
     public HeadAdmin requireHeadAdmin() {
         User user = requireAuthorizedUser();
-        return HeadAdmin.fromUser(user);
+        try {
+            return HeadAdmin.fromUser(user);
+        } catch (IllegalArgumentException exception) {
+            throw new ForbiddenException();
+        }
     }
 
 }

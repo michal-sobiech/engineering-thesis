@@ -17,7 +17,7 @@ public class Customer {
 
     public static Customer fromUser(User user) {
         if (user.getUserGroup() != UserGroup.CUSTOMER) {
-            throw new IllegalStateException("User is not a customer");
+            throw new IllegalArgumentException("User is not a customer");
         }
 
         return new Customer(
