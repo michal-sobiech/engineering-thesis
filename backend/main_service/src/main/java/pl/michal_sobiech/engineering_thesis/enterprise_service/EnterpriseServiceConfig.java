@@ -78,6 +78,14 @@ public class EnterpriseServiceConfig {
     }
 
     @Bean
+    public CustomEnterpriseServiceDefaultAvailabilityService customEnterpriseServiceDefaultAvailabilityService(
+            EnterpriseServiceSlotTemplateService enterpriseServiceSlotTemplateService,
+            EnterpriseServiceService enterpriseServiceService) {
+        return new CustomEnterpriseServiceDefaultAvailabilityService(
+                enterpriseServiceSlotTemplateService, enterpriseServiceService);
+    }
+
+    @Bean
     public EnterpriseServiceSlotTemplateService enterpriseServiceSlotTemplateService(
             EnterpriseServiceSlotTemplateRepository enterpriseServiceSlotTemplateRepository) {
         return new EnterpriseServiceSlotTemplateService(enterpriseServiceSlotTemplateRepository);
