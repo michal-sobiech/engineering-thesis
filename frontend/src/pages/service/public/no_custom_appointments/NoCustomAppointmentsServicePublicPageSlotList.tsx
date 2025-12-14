@@ -31,18 +31,19 @@ export const NoCustomAppointmentsServicePublicPageSlotList = () => {
         return null;
     }
 
+    let content;
     if (freeSlotsOnSelectedDate.length === 0) {
-        return <StandardConcaveBox>
-            <Text>
-                No free slots!
-            </Text>
-        </StandardConcaveBox>;
+        content = <Text>
+            No free slots!
+        </Text>;
+    } else {
+        const items = freeSlotsOnSelectedDate.map(createItem);
+        content = <ScrollableList>
+            {items}
+        </ScrollableList>;
     }
 
-    const items = freeSlotsOnSelectedDate.map(createItem);
-    return <StandardConcaveBox>
-        <ScrollableList>
-            {items}
-        </ScrollableList>
+    return <StandardConcaveBox padding="3%">
+        {content}
     </StandardConcaveBox>;
 }
