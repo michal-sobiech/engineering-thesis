@@ -32,25 +32,28 @@ export interface CreateCustomAppointmentRequest {
      * @type {string}
      * @memberof CreateCustomAppointmentRequest
      */
-    startDatetimeEnterpriseServiceLocal?: string;
+    startDatetimeEnterpriseServiceLocal: string;
     /**
      * 
      * @type {string}
      * @memberof CreateCustomAppointmentRequest
      */
-    endDatetimeEnterpriseServiceLocal?: string;
+    endDatetimeEnterpriseServiceLocal: string;
     /**
      * 
      * @type {Location}
      * @memberof CreateCustomAppointmentRequest
      */
-    location?: Location;
+    location: Location;
 }
 
 /**
  * Check if a given object implements the CreateCustomAppointmentRequest interface.
  */
 export function instanceOfCreateCustomAppointmentRequest(value: object): value is CreateCustomAppointmentRequest {
+    if (!('startDatetimeEnterpriseServiceLocal' in value) || value['startDatetimeEnterpriseServiceLocal'] === undefined) return false;
+    if (!('endDatetimeEnterpriseServiceLocal' in value) || value['endDatetimeEnterpriseServiceLocal'] === undefined) return false;
+    if (!('location' in value) || value['location'] === undefined) return false;
     return true;
 }
 
@@ -64,9 +67,9 @@ export function CreateCustomAppointmentRequestFromJSONTyped(json: any, ignoreDis
     }
     return {
         
-        'startDatetimeEnterpriseServiceLocal': json['startDatetimeEnterpriseServiceLocal'] == null ? undefined : json['startDatetimeEnterpriseServiceLocal'],
-        'endDatetimeEnterpriseServiceLocal': json['endDatetimeEnterpriseServiceLocal'] == null ? undefined : json['endDatetimeEnterpriseServiceLocal'],
-        'location': json['location'] == null ? undefined : LocationFromJSON(json['location']),
+        'startDatetimeEnterpriseServiceLocal': json['startDatetimeEnterpriseServiceLocal'],
+        'endDatetimeEnterpriseServiceLocal': json['endDatetimeEnterpriseServiceLocal'],
+        'location': LocationFromJSON(json['location']),
     };
 }
 

@@ -229,3 +229,13 @@ export function splitLocalTimePeriod(start: LocalTime, end: LocalTime, segmentDu
 
     return out;
 }
+
+export function doesLocalTimeWindowFullyContainAnother(window: [LocalTime, LocalTime], another: [LocalTime, LocalTime]): boolean {
+    const [windowStart, windowEnd] = window;
+    const [anotherStart, anotherEnd] = another;
+    return !anotherStart.isBefore(windowStart) && !anotherEnd.isAfter(windowEnd);
+}
+
+export function doesLocalTimeWindowGroupFullyContainWindow(group: [LocalTime, LocalTime][], window: [LocalTime, LocalTime]): boolean {
+    return group.some(groupWindow => doesLocalTimeWindowFullyContainAnother(groupWindow, window));
+}

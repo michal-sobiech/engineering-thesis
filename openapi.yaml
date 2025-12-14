@@ -600,6 +600,12 @@ components:
           $ref: "#/components/schemas/LocalDatetime"
 
     CreateCustomAppointmentRequest:
+      required:
+        [
+          startDatetimeEnterpriseServiceLocal,
+          endDatetimeEnterpriseServiceLocal,
+          location,
+        ]
       properties:
         startDatetimeEnterpriseServiceLocal:
           $ref: "#/components/schemas/LocalDatetime"

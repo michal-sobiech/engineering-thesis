@@ -1,10 +1,12 @@
-import { LocalDateTime } from "@js-joda/core";
+import { LocalDateTime, LocalTime } from "@js-joda/core";
 import { useNavigate } from "react-router";
 import { useAppointmentsApi } from "../../../../api/appointments-api";
 import { useServiceIdFromLoader } from "../../../../common/loader/service-id-loader";
 import { StandardButton } from "../../../../common/StandardButton";
+import { CreateCustomAppointmentOperationRequest } from "../../../../GENERATED-api";
 import { useContextOrThrow } from "../../../../hooks/useContextOrThrow";
 import { routes } from "../../../../router/routes";
+import { doesLocalTimeWindowGroupFullyContainWindow } from "../../../../utils/date";
 import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../../../utils/error";
 import { toastError, toastSuccess } from "../../../../utils/toast";
 import { CustomAppointmentsServicePublicPageContext } from "./CustomAppointmentsServicePublicPageContextValue";
@@ -14,6 +16,8 @@ export const CustomAppointmentsServicePublicPageAppointmentMakerButton = () => {
 
     const {
         selectedDate,
+        freeTimeWindowsOnSelectedDate,
+        setFreeTimeWindowsOnSelectedDate,
         selectedTimeWindowStart,
         selectedTimeWindowEnd,
         address,
@@ -50,11 +54,11 @@ export const CustomAppointmentsServicePublicPageAppointmentMakerButton = () => {
         }
 
 
-        const requestParameters = {
+        const requestParameters: CreateCustomAppointmentOperationRequest = {
             serviceId,
             createCustomAppointmentRequest: {
-                startDatetimeShopLocal: startServiceLocal.toString(),
-                endDatetimeShopLocal: endServiceLocal.toString(),
+                startDatetimeEnterpriseServiceLocal: startServiceLocal.toString(),
+                endDatetimeEnterpriseServiceLocal: endServiceLocal.toString(),
                 location: {
                     address: address,
                     longitude: position.longitude,
@@ -64,7 +68,16 @@ export const CustomAppointmentsServicePublicPageAppointmentMakerButton = () => {
         };
 
         try {
-            // TODO check whether is in time frame
+            const proposedWindow: [LocalTime, LocalTime] = [
+                selectedTimeWindowStart, selectedTimeWindowEnd
+            ];
+
+            console.log(proposedWindow, freeTimeWindowsOnSelectedDate)
+            if (!doesLocalTimeWindowGroupFullyContainWindow(freeTimeWindowsOnSelectedDate ?? [], proposedWindow)) {
+                toastError("Choose a time window that fits the schedule");
+                return;
+            }
+
             const promise = appointmentsApi.createCustomAppointmentRaw(requestParameters);
             await promise;
             toastSuccess("Submitted appointment proposal!")

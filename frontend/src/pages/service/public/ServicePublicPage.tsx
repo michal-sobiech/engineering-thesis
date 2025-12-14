@@ -30,7 +30,9 @@ export const ServicePublicPage = () => {
         loadData();
     }, []);
 
-    if (areCustomAppointmentsEnabled) {
+    if (areCustomAppointmentsEnabled === null) {
+        return null;
+    } else if (areCustomAppointmentsEnabled) {
         return <CustomAppointmentsServicePublicPage />;
     }
     else {
