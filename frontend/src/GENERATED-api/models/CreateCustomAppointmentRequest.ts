@@ -32,13 +32,13 @@ export interface CreateCustomAppointmentRequest {
      * @type {string}
      * @memberof CreateCustomAppointmentRequest
      */
-    startDatetimeShopLocal?: string;
+    startDatetimeEnterpriseServiceLocal?: string;
     /**
      * 
      * @type {string}
      * @memberof CreateCustomAppointmentRequest
      */
-    endDatetimeShopLocal?: string;
+    endDatetimeEnterpriseServiceLocal?: string;
     /**
      * 
      * @type {Location}
@@ -64,8 +64,8 @@ export function CreateCustomAppointmentRequestFromJSONTyped(json: any, ignoreDis
     }
     return {
         
-        'startDatetimeShopLocal': json['startDatetimeShopLocal'] == null ? undefined : json['startDatetimeShopLocal'],
-        'endDatetimeShopLocal': json['endDatetimeShopLocal'] == null ? undefined : json['endDatetimeShopLocal'],
+        'startDatetimeEnterpriseServiceLocal': json['startDatetimeEnterpriseServiceLocal'] == null ? undefined : json['startDatetimeEnterpriseServiceLocal'],
+        'endDatetimeEnterpriseServiceLocal': json['endDatetimeEnterpriseServiceLocal'] == null ? undefined : json['endDatetimeEnterpriseServiceLocal'],
         'location': json['location'] == null ? undefined : LocationFromJSON(json['location']),
     };
 }
@@ -81,8 +81,8 @@ export function CreateCustomAppointmentRequestToJSONTyped(value?: CreateCustomAp
 
     return {
         
-        'startDatetimeShopLocal': value['startDatetimeShopLocal'],
-        'endDatetimeShopLocal': value['endDatetimeShopLocal'],
+        'startDatetimeEnterpriseServiceLocal': value['startDatetimeEnterpriseServiceLocal'],
+        'endDatetimeEnterpriseServiceLocal': value['endDatetimeEnterpriseServiceLocal'],
         'location': LocationToJSON(value['location']),
     };
 }

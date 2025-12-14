@@ -591,18 +591,19 @@ components:
 
     CreateNonCustomAppointmentRequest:
       type: object
-      required: [startDatetimeShopLocal, endDatetimeShopLocal]
+      required:
+        [startDatetimeEnterpriseServiceLocal, endDatetimeEnterpriseServiceLocal]
       properties:
-        startDatetimeShopLocal:
+        startDatetimeEnterpriseServiceLocal:
           $ref: "#/components/schemas/LocalDatetime"
-        endDatetimeShopLocal:
+        endDatetimeEnterpriseServiceLocal:
           $ref: "#/components/schemas/LocalDatetime"
 
     CreateCustomAppointmentRequest:
       properties:
-        startDatetimeShopLocal:
+        startDatetimeEnterpriseServiceLocal:
           $ref: "#/components/schemas/LocalDatetime"
-        endDatetimeShopLocal:
+        endDatetimeEnterpriseServiceLocal:
           $ref: "#/components/schemas/LocalDatetime"
         location:
           $ref: "#/components/schemas/Location"

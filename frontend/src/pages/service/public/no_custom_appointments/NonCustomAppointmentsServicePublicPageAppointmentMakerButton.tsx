@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 import { useAppointmentsApi } from "../../../../api/appointments-api";
 import { useServiceIdFromLoader } from "../../../../common/loader/service-id-loader";
 import { StandardButton } from "../../../../common/StandardButton";
-import { ResponseError } from "../../../../GENERATED-api";
+import { CreateNonCustomAppointmentOperationRequest, ResponseError } from "../../../../GENERATED-api";
 import { useContextOrThrow } from "../../../../hooks/useContextOrThrow";
 import { routes } from "../../../../router/routes";
 import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../../../utils/error";
@@ -34,17 +34,16 @@ export const NonCustomAppointmentsServicePublicPageAppointmentMakerButton = () =
         const startServiceLocal = LocalDateTime.of(selectedDate, selectedSlot[0]);
         const endServiceLocal = LocalDateTime.of(selectedDate, selectedSlot[1]);
 
-        const requestParameters = {
+        const requestParameters: CreateNonCustomAppointmentOperationRequest = {
             serviceId,
             createNonCustomAppointmentRequest: {
-                startDatetimeShopLocal: startServiceLocal.toString(),
-                endDatetimeShopLocal: endServiceLocal.toString(),
+                startDatetimeEnterpriseServiceLocal: startServiceLocal.toString(),
+                endDatetimeEnterpriseServiceLocal: endServiceLocal.toString(),
             },
         };
 
         try {
-            const promise = appointmentsApi.createNonCustomAppointmentRaw(requestParameters);
-            await promise;
+            await appointmentsApi.createNonCustomAppointmentRaw(requestParameters);
             toastSuccess("Booked an appointment!")
             navigate(routes.customerLandingPage);
         } catch (error: unknown) {

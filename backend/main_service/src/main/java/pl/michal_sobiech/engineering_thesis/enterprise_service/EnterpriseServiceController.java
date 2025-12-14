@@ -211,10 +211,10 @@ public class EnterpriseServiceController implements ServicesApi {
 
         ZoneId timezone = enterpriseServiceService.getTimeZoneByServiceId(enterpriseServiceId);
 
-        LocalDateTime startParsed = LocalDateTime.parse(request.getStartDatetimeShopLocal());
+        LocalDateTime startParsed = LocalDateTime.parse(request.getStartDatetimeEnterpriseServiceLocal());
         Instant startInstant = startParsed.atZone(timezone).toInstant();
 
-        LocalDateTime endParsed = LocalDateTime.parse(request.getEndDatetimeShopLocal());
+        LocalDateTime endParsed = LocalDateTime.parse(request.getEndDatetimeEnterpriseServiceLocal());
         Instant endInstant = endParsed.atZone(timezone).toInstant();
 
         Location location = new Location(
@@ -239,10 +239,10 @@ public class EnterpriseServiceController implements ServicesApi {
 
         ZoneId timezone = enterpriseServiceService.getTimeZoneByServiceId(enterpriseServiceId);
 
-        LocalDateTime startParsed = LocalDateTime.parse(request.getStartDatetimeShopLocal());
+        LocalDateTime startParsed = LocalDateTime.parse(request.getStartDatetimeEnterpriseServiceLocal());
         Instant startInstant = startParsed.atZone(timezone).toInstant();
 
-        LocalDateTime endParsed = LocalDateTime.parse(request.getEndDatetimeShopLocal());
+        LocalDateTime endParsed = LocalDateTime.parse(request.getEndDatetimeEnterpriseServiceLocal());
         Instant endInstant = endParsed.atZone(timezone).toInstant();
 
         nonCustomAppointmentsService.createNonCustomAppointment(

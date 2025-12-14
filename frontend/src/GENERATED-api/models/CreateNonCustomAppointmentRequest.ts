@@ -24,21 +24,21 @@ export interface CreateNonCustomAppointmentRequest {
      * @type {string}
      * @memberof CreateNonCustomAppointmentRequest
      */
-    startDatetimeShopLocal: string;
+    startDatetimeEnterpriseServiceLocal: string;
     /**
      * 
      * @type {string}
      * @memberof CreateNonCustomAppointmentRequest
      */
-    endDatetimeShopLocal: string;
+    endDatetimeEnterpriseServiceLocal: string;
 }
 
 /**
  * Check if a given object implements the CreateNonCustomAppointmentRequest interface.
  */
 export function instanceOfCreateNonCustomAppointmentRequest(value: object): value is CreateNonCustomAppointmentRequest {
-    if (!('startDatetimeShopLocal' in value) || value['startDatetimeShopLocal'] === undefined) return false;
-    if (!('endDatetimeShopLocal' in value) || value['endDatetimeShopLocal'] === undefined) return false;
+    if (!('startDatetimeEnterpriseServiceLocal' in value) || value['startDatetimeEnterpriseServiceLocal'] === undefined) return false;
+    if (!('endDatetimeEnterpriseServiceLocal' in value) || value['endDatetimeEnterpriseServiceLocal'] === undefined) return false;
     return true;
 }
 
@@ -52,8 +52,8 @@ export function CreateNonCustomAppointmentRequestFromJSONTyped(json: any, ignore
     }
     return {
         
-        'startDatetimeShopLocal': json['startDatetimeShopLocal'],
-        'endDatetimeShopLocal': json['endDatetimeShopLocal'],
+        'startDatetimeEnterpriseServiceLocal': json['startDatetimeEnterpriseServiceLocal'],
+        'endDatetimeEnterpriseServiceLocal': json['endDatetimeEnterpriseServiceLocal'],
     };
 }
 
@@ -68,8 +68,8 @@ export function CreateNonCustomAppointmentRequestToJSONTyped(value?: CreateNonCu
 
     return {
         
-        'startDatetimeShopLocal': value['startDatetimeShopLocal'],
-        'endDatetimeShopLocal': value['endDatetimeShopLocal'],
+        'startDatetimeEnterpriseServiceLocal': value['startDatetimeEnterpriseServiceLocal'],
+        'endDatetimeEnterpriseServiceLocal': value['endDatetimeEnterpriseServiceLocal'],
     };
 }
 
