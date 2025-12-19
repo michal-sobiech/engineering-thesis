@@ -25,9 +25,9 @@ export function useAuthorizedApiFetch(): typeof fetch {
                         onClose: () => { isUnauthenticatedPopupShown.current = false; }
                     });
                 }
+                logOut();
                 navigate(routes.mainPage);
                 return new Promise(() => { });
-
             }
             if (error instanceof UnauthorizedError) {
                 if (!isUnauthorizedPopupShown.current) {
@@ -37,6 +37,7 @@ export function useAuthorizedApiFetch(): typeof fetch {
                         onClose: () => { isUnauthorizedPopupShown.current = false; }
                     });
                 }
+                logOut();
                 navigate(routes.mainPage);
                 return new Promise(() => { });
             }

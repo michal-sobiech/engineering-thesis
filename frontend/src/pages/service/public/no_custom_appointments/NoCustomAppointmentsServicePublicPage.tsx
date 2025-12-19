@@ -5,6 +5,7 @@ import { SlotInfo } from "react-big-calendar"
 import { useNavigate } from "react-router"
 import { useServicesApi } from "../../../../api/services-api"
 import { NonEditableCustomMonthlyCalendar } from "../../../../common/calendar/weekly/non-editable/NonEditableCustomMonthlyCalendar"
+import { LinkText } from "../../../../common/LinkText"
 import { useServiceIdFromLoader } from "../../../../common/loader/service-id-loader"
 import { ReportServiceButton } from "../../../../common/report/ReportServiceButton"
 import { StandardPanel } from "../../../../common/StandardPanel"
@@ -23,6 +24,7 @@ export const NoCustomAppointmentsServicePublicPage = () => {
     const navigate = useNavigate();
 
     const [enterpriseName, setEnterpriseName] = useState<string>("");
+    const [enterpriseId, setEnterpriseId] = useState<number | null>(null);
     const [serviceName, setServiceName] = useState<string>("");
     const [selectedDate, setSelectedDate] = useState<LocalDate | null>(null);
     const [freeSlotsOnSelectedDate, setFreeSlotsOnSelectedDate] = useState<[LocalTime, LocalTime][] | null>(null);
@@ -43,6 +45,7 @@ export const NoCustomAppointmentsServicePublicPage = () => {
         servicesApi.getNonCustomEnterpriseService(serviceId)
             .then(response => {
                 setEnterpriseName(response.enterpriseName);
+                setEnterpriseId(response.enterpriseId);
                 setServiceName(response.name);
             }).catch(() => {
                 toastError(DEFAULT_ERROR_MESSAGE_FOR_USER);
@@ -63,6 +66,16 @@ export const NoCustomAppointmentsServicePublicPage = () => {
         }
     };
 
+    let enterpriseLabel;
+    console.log(enterpriseId);
+    if (enterpriseId === null) {
+        enterpriseLabel = <Text>{enterpriseName}</Text>;
+    } else {
+        enterpriseLabel = <LinkText url={routes.enterprisePublic(enterpriseId)}>
+            {enterpriseName}
+        </LinkText>;
+    }
+
     return <NoCustomAppointmentsServicePublicPageContext.Provider value={contextValue}>
         <Center height="100%">
             <StandardPanel width="80%" height="100%" padding="2%" >
@@ -72,7 +85,9 @@ export const NoCustomAppointmentsServicePublicPage = () => {
                         <Spacer />
                         <ReportServiceButton serviceId={serviceId} />
                     </Flex>
-                    <Text>{enterpriseName}</Text>
+
+                    {enterpriseLabel}
+
                     <Box height="100%">
                         <NonEditableCustomMonthlyCalendar
                             selectedDate={selectedDate}
