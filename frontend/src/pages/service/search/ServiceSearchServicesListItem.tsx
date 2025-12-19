@@ -4,7 +4,7 @@ import { useNavigateWithToastDismiss } from "../../../hooks/useNavigateWithToast
 import { routes } from "../../../router/routes";
 import { ServiceSearchServiceData } from "./ServiceSearchServiceData";
 
-export const ServicesSearchServicesListItem: FC<ServiceSearchServiceData> = ({ serviceId, serviceName, enterpriseName, address }) => {
+export const ServicesSearchServicesListItem: FC<ServiceSearchServiceData> = ({ serviceId, serviceName, enterpriseName, address, price }) => {
     const navigate = useNavigateWithToastDismiss();
 
     const onClick = () => {
@@ -20,6 +20,9 @@ export const ServicesSearchServicesListItem: FC<ServiceSearchServiceData> = ({ s
                 </Text>
                 <Text>
                     {enterpriseName}
+                </Text>
+                <Text>
+                    {price} PLN
                 </Text>
                 <Text>
                     {"\u{1F4CD}"} {address}

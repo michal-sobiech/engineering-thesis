@@ -47,7 +47,7 @@ export const EnterpriseStaffPage = () => {
         ).catch(() => {
             toastError("Couldn't edit enterprise. Try again later");
         });
-        navigate(routes.enterpriseStaff(enterpriseId));
+        navigate(routes.entrepreneurLandingPage);
     }
 
     useEffect(() => {
