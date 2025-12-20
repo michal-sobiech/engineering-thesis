@@ -1,4 +1,4 @@
-import { Text } from "@chakra-ui/react";
+import { FlexProps, Text } from "@chakra-ui/react";
 import { FC, ReactNode, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useServicesApi } from "../../../api/services-api";
@@ -8,11 +8,11 @@ import { StandardBox } from "../../../common/StandardBox";
 import { StandardFlex } from "../../../common/StandardFlex";
 import { routes } from "../../../router/routes";
 
-export interface ServicePublicPageReviewList {
+export type ServicePublicPageReviewList = FlexProps & {
     serviceId: number;
 }
 
-export const ServicePublicPageReviewList: FC<ServicePublicPageReviewList> = ({ serviceId }) => {
+export const ServicePublicPageReviewList: FC<ServicePublicPageReviewList> = ({ serviceId, ...props }) => {
     const servicesApi = useServicesApi();
     const navigate = useNavigate();
 
@@ -35,9 +35,13 @@ export const ServicePublicPageReviewList: FC<ServicePublicPageReviewList> = ({ s
 
     const items: ReactNode[] = reviewsData.map(review => <Item {...review} />);
 
-    return <ScrollableList>
-        {items}
-    </ScrollableList>;
+    if (items.length > 0) {
+        return <ScrollableList {...props}>
+            {items}
+        </ScrollableList>;
+    } else {
+        return <Text>No reviews yet!</Text>;
+    }
 }
 
 interface Item {

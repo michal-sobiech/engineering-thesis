@@ -8,8 +8,10 @@ import { NonEditableCustomMonthlyCalendar } from "../../../../common/calendar/we
 import { LinkText } from "../../../../common/LinkText"
 import { useServiceIdFromLoader } from "../../../../common/loader/service-id-loader"
 import { ReportServiceButton } from "../../../../common/report/ReportServiceButton"
+import { StandardConcaveBox } from "../../../../common/StandardConcaveBox"
+import { StandardHorizontalSeparator } from "../../../../common/StandardHorizontalSeparator"
+import { StandardLabeledContainer } from "../../../../common/StandardLabeledContainer"
 import { StandardPanel } from "../../../../common/StandardPanel"
-import { StandardVerticalSeparator } from "../../../../common/StandardVerticalSeparator"
 import { routes } from "../../../../router/routes"
 import { fetchFreeAppointmentsOnDateInServiceTimezone } from "../../../../services/appointments"
 import { extractLocalDateFromDate } from "../../../../utils/date"
@@ -28,6 +30,7 @@ export const NoCustomAppointmentsServicePublicPage = () => {
     const [enterpriseName, setEnterpriseName] = useState<string>("");
     const [enterpriseId, setEnterpriseId] = useState<number | null>(null);
     const [serviceName, setServiceName] = useState<string>("");
+    const [description, setDescription] = useState<string>("");
     const [selectedDate, setSelectedDate] = useState<LocalDate | null>(null);
     const [freeSlotsOnSelectedDate, setFreeSlotsOnSelectedDate] = useState<[LocalTime, LocalTime][] | null>(null);
     const [selectedSlot, setSelectedSlot] = useState<[LocalTime, LocalTime] | null>(null);
@@ -49,6 +52,7 @@ export const NoCustomAppointmentsServicePublicPage = () => {
                 setEnterpriseName(response.enterpriseName);
                 setEnterpriseId(response.enterpriseId);
                 setServiceName(response.name);
+                setDescription(response.description);
             }).catch(() => {
                 toastError(DEFAULT_ERROR_MESSAGE_FOR_USER);
                 navigate(routes.mainPage);
@@ -81,7 +85,7 @@ export const NoCustomAppointmentsServicePublicPage = () => {
     return <NoCustomAppointmentsServicePublicPageContext.Provider value={contextValue}>
         <Center height="100%">
             <StandardPanel width="80%" height="100%" padding="2%" >
-                <Flex height="100%" direction="column" gap="10px">
+                <Flex height="1000px" direction="column" gap="10px">
                     <Flex direction="row">
                         <Text fontSize="3xl">{serviceName}</Text>
                         <Spacer />
@@ -90,11 +94,17 @@ export const NoCustomAppointmentsServicePublicPage = () => {
 
                     {enterpriseLabel}
 
-                    <StandardVerticalSeparator />
+                    <Text>{description}</Text>
 
-                    <ServicePublicPageReviewList serviceId={serviceId} />
+                    <StandardHorizontalSeparator />
 
-                    <StandardVerticalSeparator />
+                    <StandardLabeledContainer flexGrow={1} maxHeight="30%" label="Reviews">
+                        <StandardConcaveBox height="100%" padding="5px">
+                            <ServicePublicPageReviewList height="100%" serviceId={serviceId} />
+                        </StandardConcaveBox>
+                    </StandardLabeledContainer>
+
+                    <StandardHorizontalSeparator />
 
                     <Box height="100%">
                         <NonEditableCustomMonthlyCalendar
@@ -113,5 +123,5 @@ export const NoCustomAppointmentsServicePublicPage = () => {
                 </Flex>
             </StandardPanel>
         </Center >
-    </NoCustomAppointmentsServicePublicPageContext.Provider>
+    </NoCustomAppointmentsServicePublicPageContext.Provider >
 }

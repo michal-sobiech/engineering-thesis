@@ -8,8 +8,10 @@ import { NonEditableCustomMonthlyCalendar } from "../../../../common/calendar/we
 import { LinkText } from "../../../../common/LinkText"
 import { useServiceIdFromLoader } from "../../../../common/loader/service-id-loader"
 import { ReportServiceButton } from "../../../../common/report/ReportServiceButton"
+import { StandardConcaveBox } from "../../../../common/StandardConcaveBox"
+import { StandardHorizontalSeparator } from "../../../../common/StandardHorizontalSeparator"
+import { StandardLabeledContainer } from "../../../../common/StandardLabeledContainer"
 import { StandardPanel } from "../../../../common/StandardPanel"
-import { StandardVerticalSeparator } from "../../../../common/StandardVerticalSeparator"
 import { TimeIntervalsDisplay } from "../../../../common/TimeIntervalsDisplay"
 import { routes } from "../../../../router/routes"
 import { fetchFreeTimeWindowsForCustomAppointmentsOnLocalDate } from "../../../../services/appointments"
@@ -29,6 +31,7 @@ export const CustomAppointmentsServicePublicPage = () => {
     const [enterpriseName, setEnterpriseName] = useState<string>("");
     const [enterpriseId, setEnterpriseId] = useState<number | null>(null);
     const [serviceName, setServiceName] = useState<string>("");
+    const [description, setDescription] = useState<string>("");
     const [selectedDate, setSelectedDate] = useState<LocalDate | null>(null);
     const [freeTimeWindowsOnSelectedDate, setFreeTimeWindowsOnSelectedDate] = useState<[LocalTime, LocalTime][] | null>(null);
     const [selectedTimeWindowStart, setSelectedTimeWindowStart] = useState<LocalTime | null>(null);
@@ -42,6 +45,7 @@ export const CustomAppointmentsServicePublicPage = () => {
                 setEnterpriseName(response.enterpriseName);
                 setEnterpriseId(response.enterpriseId);
                 setServiceName(response.name);
+                setDescription(response.description);
             }).catch(() => {
                 toastError(DEFAULT_ERROR_MESSAGE_FOR_USER);
                 navigate(routes.mainPage);
@@ -97,15 +101,19 @@ export const CustomAppointmentsServicePublicPage = () => {
                         <ReportServiceButton serviceId={serviceId} />
                     </Flex>
 
-                    <Box flexShrink={0}>
-                        {enterpriseLabel}
-                    </Box>
+                    {enterpriseLabel}
 
-                    <StandardVerticalSeparator />
+                    <Text>{description}</Text>
 
-                    <ServicePublicPageReviewList serviceId={serviceId} />
+                    <StandardHorizontalSeparator />
 
-                    <StandardVerticalSeparator />
+                    <StandardLabeledContainer flexGrow={1} maxHeight="30%" label="Reviews">
+                        <StandardConcaveBox height="100%" padding="5px">
+                            <ServicePublicPageReviewList height="100%" serviceId={serviceId} />
+                        </StandardConcaveBox>
+                    </StandardLabeledContainer>
+
+                    <StandardHorizontalSeparator />
 
                     <Box flexShrink={0} height="100%">
                         <NonEditableCustomMonthlyCalendar

@@ -13,7 +13,7 @@ public interface SpringReviewRepository extends JpaRepository<ReviewEntity, Long
     @Query("""
             SELECT r
             FROM ReviewEntity r
-            WHERE r.subjectEnterpriseServiceId = subjectEnterpriseServiceId
+            WHERE r.subjectEnterpriseServiceId = :subjectEnterpriseServiceId
             """)
     public List<ReviewEntity> findAllBySubjectEnterpriseServiceId(
             @Value("subjectEnterpriseServiceId") long subjectEnterpriseServiceId);
