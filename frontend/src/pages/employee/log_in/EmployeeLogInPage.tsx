@@ -50,7 +50,7 @@ export const EmployeeLogInPage = () => {
             userGroup: "EMPLOYEE"
         })
         setJwtTokenInLocalStorage(result.value.jwt);
-        navigate(routes.enterprisePublic(enterpriseId));
+        navigate(routes.employeeLandingPage);
     }
 
     return <Center height="100%">

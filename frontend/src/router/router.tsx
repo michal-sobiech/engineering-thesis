@@ -12,6 +12,7 @@ import { CustomerSignUpOrLogIn } from "../pages/customer/CustomerSignUpOrLogInPa
 import { CustomerSignUpWizard } from "../pages/customer/CustomerSignUpWizard";
 import { CustomerLandingPage } from "../pages/customer/landing-page/CustomerLandingPage";
 import { EmployeeCreationWizard } from "../pages/employee/creation/wizard/EmployeeCreationWizard";
+import { EmployeeLandingPage } from "../pages/employee/landing_page/EmployeeLandingPage";
 import { EmployeeLogInPage } from "../pages/employee/log_in/EmployeeLogInPage";
 import { ManageEnterprisePage } from "../pages/enterprise/manage/ManageEnterprisePage";
 import { EnterprisePublicPage } from "../pages/enterprise/public/EnterprisePublicPage";
@@ -161,6 +162,10 @@ export const router = createBrowserRouter([
                 path: routeTemplates.staffServicePage,
                 loader: serviceIdLoader,
                 element: <StaffServicePage />
+            },
+            {
+                path: routeTemplates.employeeLandingPage,
+                element: <EmployeeLandingPage />
             },
         ]
     }

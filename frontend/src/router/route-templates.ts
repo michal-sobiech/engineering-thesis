@@ -27,4 +27,5 @@ export const routeTemplates = {
     createRegularAdminPage: "/create-regular-admin",
     postAppointmentPaymentPage: "/post-appointment-payment",
     staffServicePage: "/services/:serviceId/staff",
+    employeeLandingPage: "/employee/landing-page",
 };

@@ -29,4 +29,5 @@ export const routes = {
     createRegularAdminPage: routeTemplates.createRegularAdminPage,
     postAppointmentPaymentPage: routeTemplates.postAppointmentPaymentPage,
     staffServicePage: (serviceId: number) => generatePath(routeTemplates.staffServicePage, { serviceId }),
+    employeeLandingPage: routeTemplates.employeeLandingPage,
 } satisfies Record<keyof typeof routeTemplates, string | ((...args: any[]) => string)>;
