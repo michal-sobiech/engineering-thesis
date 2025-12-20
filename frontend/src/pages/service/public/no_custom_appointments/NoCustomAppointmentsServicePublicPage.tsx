@@ -85,7 +85,7 @@ export const NoCustomAppointmentsServicePublicPage = () => {
     return <NoCustomAppointmentsServicePublicPageContext.Provider value={contextValue}>
         <Center height="100%">
             <StandardPanel width="80%" height="100%" padding="2%" >
-                <Flex height="1000px" direction="column" gap="10px">
+                <Flex height="100%" direction="column" gap="10px">
                     <Flex direction="row">
                         <Text fontSize="3xl">{serviceName}</Text>
                         <Spacer />
