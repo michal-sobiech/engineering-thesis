@@ -753,6 +753,15 @@ components:
         text:
           type: string
 
+    GetEnterpriseServiceReviewResponse:
+      type: object
+      required: [numStarsOutOf5, text]
+      properties:
+        numStarsOutOf5:
+          type: number
+        text:
+          type: string
+
     CreateReportRequest:
       type: object
       required: [enterpriseId, enterpriseServiceId, reviewId]
@@ -1195,6 +1204,18 @@ components:
               message:
                 type: string
                 example: No content
+    NotFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - message
+            properties:
+              message:
+                type: string
+                example: Not found
 
 paths:
   /health-check:
@@ -2134,6 +2155,32 @@ paths:
           $ref: "#/components/responses/InternalServerError"
 
   /services/{serviceId}/reviews:
+    get:
+      tags: [EnterpriseServices]
+      operationId: getEnterpriseServiceReviews
+      parameters:
+        - name: serviceId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: *OK_DESCRIPTION
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/GetEnterpriseServiceReviewResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
     post:
       tags: [EnterpriseServices]
       operationId: createEnterpriseServiceReview

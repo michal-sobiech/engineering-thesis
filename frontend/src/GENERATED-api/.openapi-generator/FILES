@@ -42,6 +42,7 @@ models/GetEnterpriseService200Response.ts
 models/GetEnterpriseServiceCustomServiceResponse.ts
 models/GetEnterpriseServiceNonCustomServiceResponse.ts
 models/GetEnterpriseServicePendingAppointmentResponse.ts
+models/GetEnterpriseServiceReviewResponse.ts
 models/GetEnterpriseServiceUncancelledFutureScheduledAppointmentResponse.ts
 models/GetEntrepreneurEnterprisesResponseItem.ts
 models/GetMyUserGroup200Response.ts
@@ -60,6 +61,7 @@ models/InlineObject2.ts
 models/InlineObject3.ts
 models/InlineObject4.ts
 models/InlineObject5.ts
+models/InlineObject6.ts
 models/Location.ts
 models/LogInAdminRequest.ts
 models/LogInAdminResponse.ts

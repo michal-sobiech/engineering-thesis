@@ -1,6 +1,8 @@
 package pl.michal_sobiech.core.review;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,6 +28,13 @@ public class ReviewService {
 
     public Optional<Review> getById(long reviewId) {
         return reviewRepository.findById(reviewId).map(Review::fromEntity);
+    }
+
+    public List<Review> getAllBySubjectEnterpriseServiceId(long enterpriseServiceId) {
+        return reviewRepository.findAllBySubjectEnterpriseServiceId(enterpriseServiceId)
+                .stream()
+                .map(Review::fromEntity)
+                .collect(Collectors.toList());
     }
 
 }

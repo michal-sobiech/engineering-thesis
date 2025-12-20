@@ -9,6 +9,7 @@ import { LinkText } from "../../../../common/LinkText"
 import { useServiceIdFromLoader } from "../../../../common/loader/service-id-loader"
 import { ReportServiceButton } from "../../../../common/report/ReportServiceButton"
 import { StandardPanel } from "../../../../common/StandardPanel"
+import { StandardVerticalSeparator } from "../../../../common/StandardVerticalSeparator"
 import { TimeIntervalsDisplay } from "../../../../common/TimeIntervalsDisplay"
 import { routes } from "../../../../router/routes"
 import { fetchFreeTimeWindowsForCustomAppointmentsOnLocalDate } from "../../../../services/appointments"
@@ -16,6 +17,7 @@ import { extractLocalDateFromDate } from "../../../../utils/date"
 import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../../../utils/error"
 import { GeoPosition } from "../../../../utils/GeoPosition"
 import { toastError } from "../../../../utils/toast"
+import { ServicePublicPageReviewList } from "../ServicePublicPageReviewList"
 import { CustomAppointmentsServicePublicPageAppointmentMaker } from "./CustomAppointmentsServicePublicPageAppointmentMaker"
 import { CustomAppointmentsServicePublicPageContext, CustomAppointmentsServicePublicPageContextValue } from "./CustomAppointmentsServicePublicPageContextValue"
 
@@ -98,6 +100,12 @@ export const CustomAppointmentsServicePublicPage = () => {
                     <Box flexShrink={0}>
                         {enterpriseLabel}
                     </Box>
+
+                    <StandardVerticalSeparator />
+
+                    <ServicePublicPageReviewList serviceId={serviceId} />
+
+                    <StandardVerticalSeparator />
 
                     <Box flexShrink={0} height="100%">
                         <NonEditableCustomMonthlyCalendar

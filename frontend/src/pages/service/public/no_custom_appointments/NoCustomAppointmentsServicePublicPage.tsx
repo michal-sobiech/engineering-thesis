@@ -9,11 +9,13 @@ import { LinkText } from "../../../../common/LinkText"
 import { useServiceIdFromLoader } from "../../../../common/loader/service-id-loader"
 import { ReportServiceButton } from "../../../../common/report/ReportServiceButton"
 import { StandardPanel } from "../../../../common/StandardPanel"
+import { StandardVerticalSeparator } from "../../../../common/StandardVerticalSeparator"
 import { routes } from "../../../../router/routes"
 import { fetchFreeAppointmentsOnDateInServiceTimezone } from "../../../../services/appointments"
 import { extractLocalDateFromDate } from "../../../../utils/date"
 import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../../../utils/error"
 import { toastError } from "../../../../utils/toast"
+import { ServicePublicPageReviewList } from "../ServicePublicPageReviewList"
 import { NoCustomAppointmentsServicePublicPageContext, NoCustomAppointmentsServicePublicPageContextValue } from "./NoCustomAppointmentsServicePublicPageContextValue"
 import { NoCustomAppointmentsServicePublicPageSlotList } from "./NoCustomAppointmentsServicePublicPageSlotList"
 import { NonCustomAppointmentsServicePublicPageAppointmentMaker } from "./NonCustomAppointmentsServicePageAppointmentMaker"
@@ -87,6 +89,12 @@ export const NoCustomAppointmentsServicePublicPage = () => {
                     </Flex>
 
                     {enterpriseLabel}
+
+                    <StandardVerticalSeparator />
+
+                    <ServicePublicPageReviewList serviceId={serviceId} />
+
+                    <StandardVerticalSeparator />
 
                     <Box height="100%">
                         <NonEditableCustomMonthlyCalendar

@@ -3,8 +3,6 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useEnterprisesApi } from "../../../api/enterprises-api";
 import { useEnterpriseIdFromLoader } from "../../../common/loader/enterprise-id-loader";
-import { ScrollableList } from "../../../common/ScrollableList";
-import { StandardBox } from "../../../common/StandardBox";
 import { StandardHorizontalSeparator } from "../../../common/StandardHorizontalSeparator";
 import { StandardLabeledContainer } from "../../../common/StandardLabeledContainer";
 import { StandardPanel } from "../../../common/StandardPanel";
@@ -62,15 +60,6 @@ export const EnterprisePublicPage = () => {
                         <StandardLabeledContainer label="Services">
                             <EnterprisePublicPageServicesList enterpriseId={enterpriseId} />
                         </StandardLabeledContainer>
-                        <StandardHorizontalSeparator />
-                        <Flex direction="column" gap="5px">
-                            <Text>Reviews</Text>
-                            <StandardBox>
-                                <ScrollableList>
-
-                                </ScrollableList>
-                            </StandardBox>
-                        </Flex>
                     </Flex>
                 </StandardPanel>
             </Center>

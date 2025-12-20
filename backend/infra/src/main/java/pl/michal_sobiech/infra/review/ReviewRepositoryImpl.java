@@ -1,5 +1,6 @@
 package pl.michal_sobiech.infra.review;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Component;
@@ -22,6 +23,11 @@ public class ReviewRepositoryImpl implements ReviewRepository {
     @Override
     public Optional<ReviewEntity> findById(long reviewId) {
         return springReviewRepository.findById(reviewId);
+    }
+
+    @Override
+    public List<ReviewEntity> findAllBySubjectEnterpriseServiceId(long subjectEnterpriseServiceId) {
+        return springReviewRepository.findAllBySubjectEnterpriseServiceId(subjectEnterpriseServiceId);
     }
 
 }

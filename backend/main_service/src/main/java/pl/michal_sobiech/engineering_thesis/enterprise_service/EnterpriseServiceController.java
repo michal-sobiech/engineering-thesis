@@ -1,5 +1,6 @@
 package pl.michal_sobiech.engineering_thesis.enterprise_service;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -18,6 +19,7 @@ import org.SwaggerCodeGenExample.model.GetEnterpriseService200Response;
 import org.SwaggerCodeGenExample.model.GetEnterpriseServiceCustomServiceResponse;
 import org.SwaggerCodeGenExample.model.GetEnterpriseServiceNonCustomServiceResponse;
 import org.SwaggerCodeGenExample.model.GetEnterpriseServicePendingAppointmentResponse;
+import org.SwaggerCodeGenExample.model.GetEnterpriseServiceReviewResponse;
 import org.SwaggerCodeGenExample.model.GetEnterpriseServiceUncancelledFutureScheduledAppointmentResponse;
 import org.SwaggerCodeGenExample.model.GetServiceCustomAppointmentsStatus200Response;
 import org.SwaggerCodeGenExample.model.GetServiceFreeCustomAppointmentsResponseItem;
@@ -443,6 +445,18 @@ public class EnterpriseServiceController implements ServicesApi {
                 createSlotTemplateCommands);
 
         return ResponseEntity.ok().build();
+    }
+
+    @Override
+    public ResponseEntity<List<GetEnterpriseServiceReviewResponse>> getEnterpriseServiceReviews(Long serviceId) {
+        var body = reviewService.getAllBySubjectEnterpriseServiceId(serviceId)
+                .stream()
+                .map(review -> new GetEnterpriseServiceReviewResponse(
+                        BigDecimal.valueOf(review.startOutOf5()),
+                        review.content()))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(body);
     }
 
 }

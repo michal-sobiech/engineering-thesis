@@ -22,6 +22,7 @@ import type {
   GetEnterpriseServiceCustomServiceResponse,
   GetEnterpriseServiceNonCustomServiceResponse,
   GetEnterpriseServicePendingAppointmentResponse,
+  GetEnterpriseServiceReviewResponse,
   GetEnterpriseServiceUncancelledFutureScheduledAppointmentResponse,
   GetServiceCustomAppointmentsStatus200Response,
   GetServiceFreeCustomAppointmentsResponseItem,
@@ -30,6 +31,7 @@ import type {
   InlineObject1,
   InlineObject2,
   InlineObject4,
+  InlineObject6,
   PatchCustomEnterpriseServiceRequest,
   PatchNonCustomEnterpriseServiceRequest,
   ServiceSearchResponseItem,
@@ -49,6 +51,8 @@ import {
     GetEnterpriseServiceNonCustomServiceResponseToJSON,
     GetEnterpriseServicePendingAppointmentResponseFromJSON,
     GetEnterpriseServicePendingAppointmentResponseToJSON,
+    GetEnterpriseServiceReviewResponseFromJSON,
+    GetEnterpriseServiceReviewResponseToJSON,
     GetEnterpriseServiceUncancelledFutureScheduledAppointmentResponseFromJSON,
     GetEnterpriseServiceUncancelledFutureScheduledAppointmentResponseToJSON,
     GetServiceCustomAppointmentsStatus200ResponseFromJSON,
@@ -65,6 +69,8 @@ import {
     InlineObject2ToJSON,
     InlineObject4FromJSON,
     InlineObject4ToJSON,
+    InlineObject6FromJSON,
+    InlineObject6ToJSON,
     PatchCustomEnterpriseServiceRequestFromJSON,
     PatchCustomEnterpriseServiceRequestToJSON,
     PatchNonCustomEnterpriseServiceRequestFromJSON,
@@ -97,6 +103,10 @@ export interface GetEnterpriseServiceRequest {
 }
 
 export interface GetEnterpriseServicePendingAppointmentsRequest {
+    serviceId: number;
+}
+
+export interface GetEnterpriseServiceReviewsRequest {
     serviceId: number;
 }
 
@@ -418,6 +428,41 @@ export class EnterpriseServicesApi extends runtime.BaseAPI {
      */
     async getEnterpriseServicePendingAppointments(serviceId: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetEnterpriseServicePendingAppointmentResponse>> {
         const response = await this.getEnterpriseServicePendingAppointmentsRaw({ serviceId: serviceId }, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async getEnterpriseServiceReviewsRaw(requestParameters: GetEnterpriseServiceReviewsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<GetEnterpriseServiceReviewResponse>>> {
+        if (requestParameters['serviceId'] == null) {
+            throw new runtime.RequiredError(
+                'serviceId',
+                'Required parameter "serviceId" was null or undefined when calling getEnterpriseServiceReviews().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+
+        let urlPath = `/services/{serviceId}/reviews`;
+        urlPath = urlPath.replace(`{${"serviceId"}}`, encodeURIComponent(String(requestParameters['serviceId'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(GetEnterpriseServiceReviewResponseFromJSON));
+    }
+
+    /**
+     */
+    async getEnterpriseServiceReviews(serviceId: number, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetEnterpriseServiceReviewResponse>> {
+        const response = await this.getEnterpriseServiceReviewsRaw({ serviceId: serviceId }, initOverrides);
         return await response.value();
     }
 
