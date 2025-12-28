@@ -44,9 +44,10 @@ export const AdminReportsPageUnresolvedReviewReportsListItem: FC<AdminReportsPag
             <Text>
                 Review ID: {props.reviewId}
             </Text>
-            <Text>
-                Text: {props.reviewText}
-            </Text>
+
+            <StandardLabeledContainer label="Review content">
+                <StandardTextArea disabled text={props.reviewText} setText={() => { }} />
+            </StandardLabeledContainer>
 
             <StandardLabeledContainer label="Reason for report">
                 <StandardTextArea disabled text={props.content} setText={() => { }} />

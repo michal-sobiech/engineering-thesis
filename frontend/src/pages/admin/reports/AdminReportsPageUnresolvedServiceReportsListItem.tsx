@@ -1,11 +1,13 @@
 import { Heading, Text } from "@chakra-ui/react";
 import { FC } from "react";
 import { useReportsApi } from "../../../api/reports-api";
+import { LinkText } from "../../../common/LinkText";
 import { StandardFlex } from "../../../common/StandardFlex";
 import { StandardLabeledContainer } from "../../../common/StandardLabeledContainer";
 import { StandardPanel } from "../../../common/StandardPanel";
 import { StandardTextArea } from "../../../common/StandardTextArea";
 import { useContextOrThrow } from "../../../hooks/useContextOrThrow";
+import { routes } from "../../../router/routes";
 import { AdminReportsPageContext } from "./AdminReportsPageContext";
 import { AdminReportsPageUnresolvedServiceReport } from "./AdminReportsPageUnresolvedReport";
 
@@ -44,9 +46,9 @@ export const AdminReportsPageUnresolvedServiceReportsListItem: FC<AdminReportsPa
             <Text>
                 Service ID: {props.serviceId}
             </Text>
-            <Text>
+            <LinkText url={routes.servicePublicPage(props.serviceId)}>
                 Name: {props.serviceName}
-            </Text>
+            </LinkText>
 
             <StandardLabeledContainer label="Reason for report">
                 <StandardTextArea disabled text={props.content} setText={() => { }} />

@@ -9,8 +9,8 @@ export const AdminReportsPageUnresolvedEnterpriseReportsList = () => {
     const { unresolvedEnterpriseReports } = useContextOrThrow(AdminReportsPageContext);
 
     return <StandardLabeledContainer label="Enterprise reports">
-        <StandardConcaveBox>
-            <ScrollableList>
+        <StandardConcaveBox height="100%">
+            <ScrollableList height="100%">
                 {unresolvedEnterpriseReports.map(data => <AdminReportsPageUnresolvedEnterpriseReportsListItem {...data} />)}
             </ScrollableList>
         </StandardConcaveBox>

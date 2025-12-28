@@ -8,9 +8,9 @@ import { AdminReportsPageUnresolvedReviewReportsListItem } from "./AdminReportsP
 export const AdminReportsPageUnresolvedReviewReportsList = () => {
     const { unresolvedReviewReports } = useContextOrThrow(AdminReportsPageContext);
 
-    return <StandardLabeledContainer label="Review reports">
-        <StandardConcaveBox>
-            <ScrollableList>
+    return <StandardLabeledContainer label="Review reports" height="100%">
+        <StandardConcaveBox height="100%">
+            <ScrollableList height="100%">
                 {unresolvedReviewReports.map(data => <AdminReportsPageUnresolvedReviewReportsListItem {...data} />)}
             </ScrollableList>
         </StandardConcaveBox>
