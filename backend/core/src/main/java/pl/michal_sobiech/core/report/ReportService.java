@@ -10,9 +10,11 @@ public class ReportService {
     public void createReport(
             long creatorUserId,
             ReportSubjectType reportSubjectType,
-            long reportSubjectId) {
+            long reportSubjectId,
+            String content) {
         var builder = ReportEntity.builder()
-                .creatorUserId(creatorUserId);
+                .creatorUserId(creatorUserId)
+                .content(content);
 
         switch (reportSubjectType) {
             case ENTERPRISE -> {
@@ -29,19 +31,5 @@ public class ReportService {
         ReportEntity report = builder.build();
         reportRepository.save(report);
     }
-
-    // public ReportSubjectType getReportSubjectType(long reportId) {
-    // Report report = getById(reportId).orElseThrow();
-    // return switch (report) {
-    // case EnterpriseReport _ -> ReportSubjectType.ENTERPRISE;
-    // case EnterpriseServiceReport _ -> ReportSubjectType.ENTERPRISE_SERVICE;
-    // case ReviewReport _ -> ReportSubjectType.REVIEW;
-    // default -> throw new UnsupportedOperationException();
-    // };
-    // }
-
-    // public Optional<? extends Report> getById(long reportId) {
-    // return reportRepository.findById(reportId).map(ReportFactory::fromEntity);
-    // }
 
 }

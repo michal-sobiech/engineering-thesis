@@ -7,6 +7,8 @@ public record ReviewReport(
 
         long reportId,
 
+        String content,
+
         long creatorUserId,
         UserGroup creatorUserGroup,
         String creatorUsername,

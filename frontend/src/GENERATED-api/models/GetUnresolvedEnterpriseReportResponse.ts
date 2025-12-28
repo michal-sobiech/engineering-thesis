@@ -27,16 +27,16 @@ export interface GetUnresolvedEnterpriseReportResponse {
     reportId: number;
     /**
      * 
-     * @type {string}
-     * @memberof GetUnresolvedEnterpriseReportResponse
-     */
-    reportSubjectType: GetUnresolvedEnterpriseReportResponseReportSubjectTypeEnum;
-    /**
-     * 
      * @type {number}
      * @memberof GetUnresolvedEnterpriseReportResponse
      */
     enterpriseId: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetUnresolvedEnterpriseReportResponse
+     */
+    content: string;
     /**
      * 
      * @type {string}
@@ -63,23 +63,13 @@ export interface GetUnresolvedEnterpriseReportResponse {
     reportingUserUsername: string;
 }
 
-
-/**
- * @export
- */
-export const GetUnresolvedEnterpriseReportResponseReportSubjectTypeEnum = {
-    Enterprise: 'ENTERPRISE'
-} as const;
-export type GetUnresolvedEnterpriseReportResponseReportSubjectTypeEnum = typeof GetUnresolvedEnterpriseReportResponseReportSubjectTypeEnum[keyof typeof GetUnresolvedEnterpriseReportResponseReportSubjectTypeEnum];
-
-
 /**
  * Check if a given object implements the GetUnresolvedEnterpriseReportResponse interface.
  */
 export function instanceOfGetUnresolvedEnterpriseReportResponse(value: object): value is GetUnresolvedEnterpriseReportResponse {
     if (!('reportId' in value) || value['reportId'] === undefined) return false;
-    if (!('reportSubjectType' in value) || value['reportSubjectType'] === undefined) return false;
     if (!('enterpriseId' in value) || value['enterpriseId'] === undefined) return false;
+    if (!('content' in value) || value['content'] === undefined) return false;
     if (!('enterpriseName' in value) || value['enterpriseName'] === undefined) return false;
     if (!('reportingUserType' in value) || value['reportingUserType'] === undefined) return false;
     if (!('reportingUserId' in value) || value['reportingUserId'] === undefined) return false;
@@ -98,8 +88,8 @@ export function GetUnresolvedEnterpriseReportResponseFromJSONTyped(json: any, ig
     return {
         
         'reportId': json['reportId'],
-        'reportSubjectType': json['reportSubjectType'],
         'enterpriseId': json['enterpriseId'],
+        'content': json['content'],
         'enterpriseName': json['enterpriseName'],
         'reportingUserType': json['reportingUserType'],
         'reportingUserId': json['reportingUserId'],
@@ -119,8 +109,8 @@ export function GetUnresolvedEnterpriseReportResponseToJSONTyped(value?: GetUnre
     return {
         
         'reportId': value['reportId'],
-        'reportSubjectType': value['reportSubjectType'],
         'enterpriseId': value['enterpriseId'],
+        'content': value['content'],
         'enterpriseName': value['enterpriseName'],
         'reportingUserType': value['reportingUserType'],
         'reportingUserId': value['reportingUserId'],

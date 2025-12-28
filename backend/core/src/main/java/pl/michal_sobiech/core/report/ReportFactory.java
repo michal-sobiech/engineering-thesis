@@ -14,20 +14,20 @@ public class ReportFactory {
 
     public Report fromRecord(GetUnresolvedReportsRow record) {
         if (record.getEnterpriseId() != null
-                || record.getEnterpriseServiceId() == null
-                || record.getReviewId() == null) {
+                && record.getEnterpriseServiceId() == null
+                && record.getReviewId() == null) {
             return enterpriseReportFactory.fromRecord(record);
         }
 
         if (record.getEnterpriseId() == null
-                || record.getEnterpriseServiceId() != null
-                || record.getReviewId() == null) {
+                && record.getEnterpriseServiceId() != null
+                && record.getReviewId() == null) {
             return enterpriseServiceReportFactory.fromRecord(record);
         }
 
         if (record.getEnterpriseId() == null
-                || record.getEnterpriseServiceId() == null
-                || record.getReviewId() != null) {
+                && record.getEnterpriseServiceId() == null
+                && record.getReviewId() != null) {
             return reviewReportFactory.fromRecord(record);
         }
 

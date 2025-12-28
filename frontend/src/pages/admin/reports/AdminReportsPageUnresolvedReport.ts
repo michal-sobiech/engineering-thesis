@@ -5,6 +5,7 @@ export type AdminReportsPageUnresolvedEnterpriseReport = AdminReportsPageUnresol
     subjectType: "ENTERPRISE",
     enterpriseId: number;
     enterpriseName: string;
+
 };
 
 export type AdminReportsPageUnresolvedServiceReport = AdminReportsPageUnresolvedReportBase & {
@@ -23,6 +24,8 @@ export type AdminReportsPageUnresolvedReport = AdminReportsPageUnresolvedEnterpr
 
 interface AdminReportsPageUnresolvedReportBase {
     reportId: number;
+
+    content: string;
 
     reportingUserType: string,
     reportingUserId: number,

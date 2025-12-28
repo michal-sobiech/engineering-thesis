@@ -55,7 +55,7 @@ export const AdminReportsPage = () => {
     return <AdminReportsPageContext.Provider value={contextValue}>
         <Center height="100%">
             <StandardPanel height="100%" width="80%">
-                <Flex height="100%" direction="row">
+                <Flex height="100%" direction="row" gap="10px">
                     {unresolvedEnterpriseReports.length !== 0
                         ? <AdminReportsPageUnresolvedEnterpriseReportsList />
                         : null}
@@ -72,39 +72,45 @@ export const AdminReportsPage = () => {
 }
 
 function createReportDomain(reportDto: GetUnresolvedReports200ResponseInner): AdminReportsPageUnresolvedReport {
-    if (reportDto.reportSubjectType === "ENTERPRISE") {
+    if ("enterpriseId" in reportDto) {
         return {
             reportId: reportDto.reportId,
+
+            content: reportDto.content,
 
             reportingUserType: reportDto.reportingUserType,
             reportingUserId: reportDto.reportingUserId,
             reportingUserUsername: reportDto.reportingUserUsername,
 
-            subjectType: reportDto.reportSubjectType,
+            subjectType: "ENTERPRISE",
             enterpriseId: reportDto.enterpriseId,
             enterpriseName: reportDto.enterpriseName,
         } satisfies AdminReportsPageUnresolvedEnterpriseReport;
-    } else if (reportDto.reportSubjectType === "SERVICE") {
+    } else if ("enterpriseServiceId" in reportDto) {
         return {
             reportId: reportDto.reportId,
+
+            content: reportDto.content,
 
             reportingUserType: reportDto.reportingUserType,
             reportingUserId: reportDto.reportingUserId,
             reportingUserUsername: reportDto.reportingUserUsername,
 
-            subjectType: reportDto.reportSubjectType,
+            subjectType: "SERVICE",
             serviceId: reportDto.enterpriseServiceId,
             serviceName: reportDto.enterpriseServiceName,
         } satisfies AdminReportsPageUnresolvedServiceReport;
-    } else if (reportDto.reportSubjectType === "REVIEW") {
+    } else if ("reviewId" in reportDto) {
         return {
             reportId: reportDto.reportId,
+
+            content: reportDto.content,
 
             reportingUserType: reportDto.reportingUserType,
             reportingUserId: reportDto.reportingUserId,
             reportingUserUsername: reportDto.reportingUserUsername,
 
-            subjectType: reportDto.reportSubjectType,
+            subjectType: "REVIEW",
             reviewId: reportDto.reviewId,
             reviewText: reportDto.reviewText,
         } satisfies AdminReportsPageUnresolvedReviewReport;

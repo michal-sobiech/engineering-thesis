@@ -34,7 +34,8 @@ public class ReportController implements ReportsApi {
         reportService.createReport(
                 authorizedUser.getUserId(),
                 reportSubject,
-                request.getReportSubjectId().longValue());
+                request.getReportSubjectId().longValue(),
+                request.getText());
 
         return ResponseEntity.ok().build();
     }

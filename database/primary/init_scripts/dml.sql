@@ -328,10 +328,12 @@ INSERT INTO public.review (
 INSERT INTO public.report (
     creator_user_id,
     enterprise_id,
+    content,
     is_resolved
 )
 VALUES (
     4,
     1,
+    'This enterprise has an inappropriate background photo',
     FALSE
 );

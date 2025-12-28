@@ -43,4 +43,6 @@ public class ReportEntity {
     @Column(name = "is_resolved")
     private boolean isResolved;
 
+    private String content;
+
 }

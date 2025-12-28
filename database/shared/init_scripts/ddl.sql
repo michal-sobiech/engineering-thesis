@@ -210,6 +210,8 @@ CREATE TABLE public.report (
 	enterprise_service_id bigint,
 	review_id bigint,
 
+    content text NOT NULL,
+
 	is_resolved boolean NOT NULL,
 
 	CONSTRAINT pk_report PRIMARY KEY (report_id),

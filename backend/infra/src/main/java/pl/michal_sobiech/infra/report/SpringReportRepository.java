@@ -15,6 +15,7 @@ public interface SpringReportRepository extends JpaRepository<ReportEntity, Long
     @Query("""
             SELECT
             r.reportId AS reportId,
+            r.content AS content,
             u.userGroup AS creatorUserGroup,
             r.creatorUserId AS creatorUserId,
             u.username AS creatorUsername,
@@ -31,6 +32,7 @@ public interface SpringReportRepository extends JpaRepository<ReportEntity, Long
     @Query("""
             SELECT
             r.reportId AS reportId,
+            r.content AS content,
             u.userGroup AS creatorUserGroup,
             r.creatorUserId AS creatorUserId,
             u.username AS creatorUsername,

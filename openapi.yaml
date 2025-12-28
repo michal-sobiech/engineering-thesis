@@ -781,6 +781,7 @@ components:
           reportId,
           reportSubjectType,
           enterpriseId,
+          content,
           enterpriseName,
           reportingUserType,
           reportingUserId,
@@ -790,12 +791,11 @@ components:
         reportId:
           type: integer
           format: int64
-        reportSubjectType:
-          type: string
-          const: "ENTERPRISE"
         enterpriseId:
           type: integer
           format: int64
+        content:
+          type: string
         enterpriseName:
           type: string
         reportingUserType:
@@ -811,8 +811,8 @@ components:
       required:
         [
           reportId,
-          reportSubjectType,
           enterpriseServiceId,
+          content,
           enterpriseServiceName,
           reportingUserType,
           reportingUserId,
@@ -822,12 +822,11 @@ components:
         reportId:
           type: integer
           format: int64
-        reportSubjectType:
-          type: string
-          const: "SERVICE"
         enterpriseServiceId:
           type: integer
           format: int64
+        content:
+          type: string
         enterpriseServiceName:
           type: string
         reportingUserType:
@@ -845,6 +844,7 @@ components:
           reportId,
           reportSubjectType,
           reviewId,
+          content,
           reviewText,
           reportingUserType,
           reportingUserId,
@@ -854,12 +854,11 @@ components:
         reportId:
           type: integer
           format: int64
-        reportSubjectType:
-          type: string
-          const: "REVIEW"
         reviewId:
           type: integer
           format: int64
+        content:
+          type: string
         reviewText:
           type: string
         reportingUserType:

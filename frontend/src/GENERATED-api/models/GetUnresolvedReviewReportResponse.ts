@@ -27,16 +27,16 @@ export interface GetUnresolvedReviewReportResponse {
     reportId: number;
     /**
      * 
-     * @type {string}
-     * @memberof GetUnresolvedReviewReportResponse
-     */
-    reportSubjectType: GetUnresolvedReviewReportResponseReportSubjectTypeEnum;
-    /**
-     * 
      * @type {number}
      * @memberof GetUnresolvedReviewReportResponse
      */
     reviewId: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetUnresolvedReviewReportResponse
+     */
+    content: string;
     /**
      * 
      * @type {string}
@@ -63,23 +63,13 @@ export interface GetUnresolvedReviewReportResponse {
     reportingUserUsername: string;
 }
 
-
-/**
- * @export
- */
-export const GetUnresolvedReviewReportResponseReportSubjectTypeEnum = {
-    Review: 'REVIEW'
-} as const;
-export type GetUnresolvedReviewReportResponseReportSubjectTypeEnum = typeof GetUnresolvedReviewReportResponseReportSubjectTypeEnum[keyof typeof GetUnresolvedReviewReportResponseReportSubjectTypeEnum];
-
-
 /**
  * Check if a given object implements the GetUnresolvedReviewReportResponse interface.
  */
 export function instanceOfGetUnresolvedReviewReportResponse(value: object): value is GetUnresolvedReviewReportResponse {
     if (!('reportId' in value) || value['reportId'] === undefined) return false;
-    if (!('reportSubjectType' in value) || value['reportSubjectType'] === undefined) return false;
     if (!('reviewId' in value) || value['reviewId'] === undefined) return false;
+    if (!('content' in value) || value['content'] === undefined) return false;
     if (!('reviewText' in value) || value['reviewText'] === undefined) return false;
     if (!('reportingUserType' in value) || value['reportingUserType'] === undefined) return false;
     if (!('reportingUserId' in value) || value['reportingUserId'] === undefined) return false;
@@ -98,8 +88,8 @@ export function GetUnresolvedReviewReportResponseFromJSONTyped(json: any, ignore
     return {
         
         'reportId': json['reportId'],
-        'reportSubjectType': json['reportSubjectType'],
         'reviewId': json['reviewId'],
+        'content': json['content'],
         'reviewText': json['reviewText'],
         'reportingUserType': json['reportingUserType'],
         'reportingUserId': json['reportingUserId'],
@@ -119,8 +109,8 @@ export function GetUnresolvedReviewReportResponseToJSONTyped(value?: GetUnresolv
     return {
         
         'reportId': value['reportId'],
-        'reportSubjectType': value['reportSubjectType'],
         'reviewId': value['reviewId'],
+        'content': value['content'],
         'reviewText': value['reviewText'],
         'reportingUserType': value['reportingUserType'],
         'reportingUserId': value['reportingUserId'],

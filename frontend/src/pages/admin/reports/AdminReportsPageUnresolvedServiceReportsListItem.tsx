@@ -1,12 +1,11 @@
 import { Heading, Text } from "@chakra-ui/react";
 import { FC } from "react";
 import { useReportsApi } from "../../../api/reports-api";
-import { StandardButton } from "../../../common/StandardButton";
 import { StandardFlex } from "../../../common/StandardFlex";
+import { StandardLabeledContainer } from "../../../common/StandardLabeledContainer";
 import { StandardPanel } from "../../../common/StandardPanel";
+import { StandardTextArea } from "../../../common/StandardTextArea";
 import { useContextOrThrow } from "../../../hooks/useContextOrThrow";
-import { errorErrResultAsyncFromPromise } from "../../../utils/result";
-import { toastError } from "../../../utils/toast";
 import { AdminReportsPageContext } from "./AdminReportsPageContext";
 import { AdminReportsPageUnresolvedServiceReport } from "./AdminReportsPageUnresolvedReport";
 
@@ -19,16 +18,6 @@ export const AdminReportsPageUnresolvedServiceReportsListItem: FC<AdminReportsPa
         setUnresolvedServiceReports((reports: AdminReportsPageUnresolvedServiceReport[]) => {
             return reports.filter(report => report.reportId != reportId)
         });
-    }
-
-    const onClick = async () => {
-        const promise = reportsApi.resolveReport(props.reportId);
-        const result = await errorErrResultAsyncFromPromise(promise);
-        if (result.isErr()) {
-            toastError("Couldn't resolve report. Try again later");
-            return;
-        }
-        removeUnresolvedReportFromList(props.reportId);
     }
 
     return <StandardPanel>
@@ -59,9 +48,9 @@ export const AdminReportsPageUnresolvedServiceReportsListItem: FC<AdminReportsPa
                 Name: {props.serviceName}
             </Text>
 
-            <StandardButton backgroundColor="primary.darkRed" onClick={onClick}>
-                Suspend
-            </StandardButton>
+            <StandardLabeledContainer label="Reason for report">
+                <StandardTextArea disabled text={props.content} setText={() => { }} />
+            </StandardLabeledContainer>
         </StandardFlex>
     </StandardPanel>;
 }

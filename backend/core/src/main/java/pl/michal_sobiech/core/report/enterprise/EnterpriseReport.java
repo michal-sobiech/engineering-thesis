@@ -7,6 +7,8 @@ public record EnterpriseReport(
 
         long reportId,
 
+        String content,
+
         long creatorUserId,
         UserGroup creatorUserGroup,
         String creatorUsername,

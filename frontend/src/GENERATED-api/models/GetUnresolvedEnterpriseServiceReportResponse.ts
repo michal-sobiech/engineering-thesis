@@ -27,16 +27,16 @@ export interface GetUnresolvedEnterpriseServiceReportResponse {
     reportId: number;
     /**
      * 
-     * @type {string}
-     * @memberof GetUnresolvedEnterpriseServiceReportResponse
-     */
-    reportSubjectType: GetUnresolvedEnterpriseServiceReportResponseReportSubjectTypeEnum;
-    /**
-     * 
      * @type {number}
      * @memberof GetUnresolvedEnterpriseServiceReportResponse
      */
     enterpriseServiceId: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetUnresolvedEnterpriseServiceReportResponse
+     */
+    content: string;
     /**
      * 
      * @type {string}
@@ -63,23 +63,13 @@ export interface GetUnresolvedEnterpriseServiceReportResponse {
     reportingUserUsername: string;
 }
 
-
-/**
- * @export
- */
-export const GetUnresolvedEnterpriseServiceReportResponseReportSubjectTypeEnum = {
-    Service: 'SERVICE'
-} as const;
-export type GetUnresolvedEnterpriseServiceReportResponseReportSubjectTypeEnum = typeof GetUnresolvedEnterpriseServiceReportResponseReportSubjectTypeEnum[keyof typeof GetUnresolvedEnterpriseServiceReportResponseReportSubjectTypeEnum];
-
-
 /**
  * Check if a given object implements the GetUnresolvedEnterpriseServiceReportResponse interface.
  */
 export function instanceOfGetUnresolvedEnterpriseServiceReportResponse(value: object): value is GetUnresolvedEnterpriseServiceReportResponse {
     if (!('reportId' in value) || value['reportId'] === undefined) return false;
-    if (!('reportSubjectType' in value) || value['reportSubjectType'] === undefined) return false;
     if (!('enterpriseServiceId' in value) || value['enterpriseServiceId'] === undefined) return false;
+    if (!('content' in value) || value['content'] === undefined) return false;
     if (!('enterpriseServiceName' in value) || value['enterpriseServiceName'] === undefined) return false;
     if (!('reportingUserType' in value) || value['reportingUserType'] === undefined) return false;
     if (!('reportingUserId' in value) || value['reportingUserId'] === undefined) return false;
@@ -98,8 +88,8 @@ export function GetUnresolvedEnterpriseServiceReportResponseFromJSONTyped(json: 
     return {
         
         'reportId': json['reportId'],
-        'reportSubjectType': json['reportSubjectType'],
         'enterpriseServiceId': json['enterpriseServiceId'],
+        'content': json['content'],
         'enterpriseServiceName': json['enterpriseServiceName'],
         'reportingUserType': json['reportingUserType'],
         'reportingUserId': json['reportingUserId'],
@@ -119,8 +109,8 @@ export function GetUnresolvedEnterpriseServiceReportResponseToJSONTyped(value?: 
     return {
         
         'reportId': value['reportId'],
-        'reportSubjectType': value['reportSubjectType'],
         'enterpriseServiceId': value['enterpriseServiceId'],
+        'content': value['content'],
         'enterpriseServiceName': value['enterpriseServiceName'],
         'reportingUserType': value['reportingUserType'],
         'reportingUserId': value['reportingUserId'],

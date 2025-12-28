@@ -1,7 +1,6 @@
 package pl.michal_sobiech.engineering_thesis.report.unresolved;
 
 import org.SwaggerCodeGenExample.model.GetUnresolvedEnterpriseReportResponse;
-import org.SwaggerCodeGenExample.model.GetUnresolvedEnterpriseReportResponse.ReportSubjectTypeEnum;
 
 import pl.michal_sobiech.core.report.enterprise.UnresolvedEnterpriseReport;
 
@@ -11,8 +10,8 @@ public class GetUnresolvedEnterpriseReportResponseFactory {
             UnresolvedEnterpriseReport report) {
         return new GetUnresolvedEnterpriseReportResponse(
                 report.reportId(),
-                ReportSubjectTypeEnum.ENTERPRISE,
                 report.enterpriseId(),
+                report.content(),
                 report.enterpriseName(),
                 report.creatorUserGroup().toString(),
                 report.creatorUserId(),

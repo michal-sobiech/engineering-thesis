@@ -7,6 +7,8 @@ public interface GetUnresolvedReportsRow {
 
     public long getReportId();
 
+    public String getContent();
+
     public UserGroup getCreatorUserGroup();
 
     public long getCreatorUserId();

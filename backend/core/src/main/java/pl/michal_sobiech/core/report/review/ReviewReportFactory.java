@@ -21,6 +21,7 @@ public class ReviewReportFactory {
 
         return new ReviewReport(
                 record.getReportId(),
+                record.getContent(),
                 record.getCreatorUserId(),
                 record.getCreatorUserGroup(),
                 record.getCreatorUsername(),

@@ -22,6 +22,7 @@ public class EnterpriseServiceReportFactory {
 
         return new EnterpriseServiceReport(
                 record.getReportId(),
+                record.getContent(),
                 record.getCreatorUserId(),
                 record.getCreatorUserGroup(),
                 record.getCreatorUsername(),

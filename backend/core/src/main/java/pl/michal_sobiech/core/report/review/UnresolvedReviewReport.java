@@ -7,6 +7,8 @@ public record UnresolvedReviewReport(
 
         long reportId,
 
+        String content,
+
         long creatorUserId,
         UserGroup creatorUserGroup,
         String creatorUsername,
@@ -23,6 +25,7 @@ public record UnresolvedReviewReport(
 
         return new UnresolvedReviewReport(
                 report.reportId(),
+                report.content(),
                 report.creatorUserId(),
                 report.creatorUserGroup(),
                 report.creatorUsername(),

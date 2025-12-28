@@ -6,6 +6,8 @@ import pl.michal_sobiech.core.user.UserGroup;
 public record EnterpriseServiceReport(
         long reportId,
 
+        String content,
+
         long creatorUserId,
         UserGroup creatorUserGroup,
         String creatorUsername,
