@@ -1,10 +1,11 @@
 import { Flex } from "@chakra-ui/react";
 import { FC, useState } from "react";
+import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../../utils/error";
 import { Position } from "../../../utils/Position";
 import { toastError, toastSuccess } from "../../../utils/toast";
-import { StandardBox } from "../../StandardBox";
 import { StandardButton } from "../../StandardButton";
 import { StandardFlex } from "../../StandardFlex";
+import { StandardPanel } from "../../StandardPanel";
 import { StandardTextArea } from "../../StandardTextArea";
 
 export interface ReportPopupProps {
@@ -20,16 +21,21 @@ export const ReportPopup: FC<ReportPopupProps> = ({ submitReport, position, clos
         close();
     }
 
-    const onSubmitClick = () => {
+    const onSubmitClick = async () => {
         if (text === "") {
             toastError("Enter report description");
             return;
         }
-        submitReport(text);
-        toastSuccess("Report submitted!");
+        try {
+            await submitReport(text);
+            toastSuccess("Report submitted!");
+        } catch (error: unknown) {
+            toastError(DEFAULT_ERROR_MESSAGE_FOR_USER);
+        }
+        close();
     };
 
-    return <StandardBox
+    return <StandardPanel
         position="fixed"
         left={position.x}
         top={position.y}
@@ -38,18 +44,19 @@ export const ReportPopup: FC<ReportPopupProps> = ({ submitReport, position, clos
             <StandardTextArea text={text} setText={setText} />
             <Flex direction="row" gap="5px">
                 <StandardButton
+                    flex={1}
                     onClick={onDiscardClick}
                     delayMs={0}
-                    width="100%"
                     backgroundColor="primary.darkRed">
-                    Discard
+                    Cancel
                 </StandardButton>
                 <StandardButton
+                    flex={1}
                     backgroundColor="primary.lightGreen"
                     onClick={onSubmitClick}>
                     Submit
                 </StandardButton>
             </Flex>
         </StandardFlex>
-    </StandardBox >;
+    </StandardPanel >;
 }

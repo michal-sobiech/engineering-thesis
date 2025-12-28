@@ -24,6 +24,12 @@ export interface GetEnterpriseServiceReviewResponse {
      * @type {number}
      * @memberof GetEnterpriseServiceReviewResponse
      */
+    reviewId: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetEnterpriseServiceReviewResponse
+     */
     numStarsOutOf5: number;
     /**
      * 
@@ -37,6 +43,7 @@ export interface GetEnterpriseServiceReviewResponse {
  * Check if a given object implements the GetEnterpriseServiceReviewResponse interface.
  */
 export function instanceOfGetEnterpriseServiceReviewResponse(value: object): value is GetEnterpriseServiceReviewResponse {
+    if (!('reviewId' in value) || value['reviewId'] === undefined) return false;
     if (!('numStarsOutOf5' in value) || value['numStarsOutOf5'] === undefined) return false;
     if (!('text' in value) || value['text'] === undefined) return false;
     return true;
@@ -52,6 +59,7 @@ export function GetEnterpriseServiceReviewResponseFromJSONTyped(json: any, ignor
     }
     return {
         
+        'reviewId': json['reviewId'],
         'numStarsOutOf5': json['numStarsOutOf5'],
         'text': json['text'],
     };
@@ -68,6 +76,7 @@ export function GetEnterpriseServiceReviewResponseToJSONTyped(value?: GetEnterpr
 
     return {
         
+        'reviewId': value['reviewId'],
         'numStarsOutOf5': value['numStarsOutOf5'],
         'text': value['text'],
     };

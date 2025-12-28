@@ -755,8 +755,11 @@ components:
 
     GetEnterpriseServiceReviewResponse:
       type: object
-      required: [numStarsOutOf5, text]
+      required: [reviewId, numStarsOutOf5, text]
       properties:
+        reviewId:
+          type: integer
+          format: int64
         numStarsOutOf5:
           type: number
         text:

@@ -9,8 +9,8 @@ export interface ReportReviewButtonProps {
 export const ReportReviewButton: FC<ReportReviewButtonProps> = ({ reviewId }) => {
     const reportsApi = useReportsApi();
 
-    const sumbitReport = async (text: string) => {
-        reportsApi.createReport({
+    const sumbitReport = (text: string) => {
+        return reportsApi.createReport({
             reportSubjectType: "REVIEW",
             reportSubjectId: reviewId,
             text,

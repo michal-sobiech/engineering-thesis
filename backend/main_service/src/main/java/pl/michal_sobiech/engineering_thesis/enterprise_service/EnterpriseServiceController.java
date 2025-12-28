@@ -452,6 +452,7 @@ public class EnterpriseServiceController implements ServicesApi {
         var body = reviewService.getAllBySubjectEnterpriseServiceId(serviceId)
                 .stream()
                 .map(review -> new GetEnterpriseServiceReviewResponse(
+                        review.reviewId(),
                         BigDecimal.valueOf(review.startOutOf5()),
                         review.content()))
                 .collect(Collectors.toList());
