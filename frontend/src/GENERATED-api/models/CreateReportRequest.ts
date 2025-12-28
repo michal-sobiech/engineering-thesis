@@ -24,19 +24,28 @@ export interface CreateReportRequest {
      * @type {string}
      * @memberof CreateReportRequest
      */
-    reportSubjectType?: string;
+    reportSubjectType: string;
     /**
      * 
      * @type {number}
      * @memberof CreateReportRequest
      */
-    reportSubjectId?: number;
+    reportSubjectId: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateReportRequest
+     */
+    text: string;
 }
 
 /**
  * Check if a given object implements the CreateReportRequest interface.
  */
 export function instanceOfCreateReportRequest(value: object): value is CreateReportRequest {
+    if (!('reportSubjectType' in value) || value['reportSubjectType'] === undefined) return false;
+    if (!('reportSubjectId' in value) || value['reportSubjectId'] === undefined) return false;
+    if (!('text' in value) || value['text'] === undefined) return false;
     return true;
 }
 
@@ -50,8 +59,9 @@ export function CreateReportRequestFromJSONTyped(json: any, ignoreDiscriminator:
     }
     return {
         
-        'reportSubjectType': json['reportSubjectType'] == null ? undefined : json['reportSubjectType'],
-        'reportSubjectId': json['reportSubjectId'] == null ? undefined : json['reportSubjectId'],
+        'reportSubjectType': json['reportSubjectType'],
+        'reportSubjectId': json['reportSubjectId'],
+        'text': json['text'],
     };
 }
 
@@ -68,6 +78,7 @@ export function CreateReportRequestToJSONTyped(value?: CreateReportRequest | nul
         
         'reportSubjectType': value['reportSubjectType'],
         'reportSubjectId': value['reportSubjectId'],
+        'text': value['text'],
     };
 }
 

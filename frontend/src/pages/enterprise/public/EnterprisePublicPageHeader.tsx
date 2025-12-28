@@ -1,7 +1,7 @@
 import { AspectRatio, Center, Flex, Image, Text } from "@chakra-ui/react";
 import { FC } from "react";
 import { useEnterpriseIdFromLoader } from "../../../common/loader/enterprise-id-loader";
-import { ReportEnterpriseButton } from "../../../common/report/ReportEnterpriseButton";
+import { ReportEnterpriseButton } from "../../../common/report/enterprise/ReportEnterpriseButton";
 
 export interface EnterprisePublicPageHeaderProps {
     enterpriseName: string,

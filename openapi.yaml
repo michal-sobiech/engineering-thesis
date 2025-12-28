@@ -764,13 +764,15 @@ components:
 
     CreateReportRequest:
       type: object
-      required: [enterpriseId, enterpriseServiceId, reviewId]
+      required: [reportSubjectType, reportSubjectId, text]
       properties:
         reportSubjectType:
           type: string
         reportSubjectId:
           type: number
           format: int64
+        text:
+          type: string
 
     GetUnresolvedEnterpriseReportResponse:
       type: object

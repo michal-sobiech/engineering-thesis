@@ -3,7 +3,7 @@ import { useReportsApi } from "../../api/reports-api";
 import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../utils/error";
 import { errorErrResultAsyncFromPromise } from "../../utils/result";
 import { toastError, toastSuccess } from "../../utils/toast";
-import { ReportButton } from "./ReportButton";
+import { ReportButton } from "./template/ReportButton";
 
 export interface ReportServiceButtonProps {
     serviceId: number,
