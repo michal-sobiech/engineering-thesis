@@ -2,17 +2,17 @@ import { FC } from "react";
 import { useReportsApi } from "../../../api/reports-api";
 import { ReportButton } from "../template/ReportButton";
 
-export interface ReportEnterpriseServiceButtonProps {
-    enterpriseServiceId: number,
+export interface ReportServiceButtonProps {
+    serviceId: number,
 }
 
-export const ReportEnterpriseServiceButton: FC<ReportEnterpriseServiceButtonProps> = ({ enterpriseServiceId }) => {
+export const ReportServiceButton: FC<ReportServiceButtonProps> = ({ serviceId }) => {
     const reportsApi = useReportsApi();
 
     const submitReport = (text: string) => {
         return reportsApi.createReport({
             reportSubjectType: "ENTERPRISE_SERVICE",
-            reportSubjectId: enterpriseServiceId,
+            reportSubjectId: serviceId,
             text,
         });
     };
