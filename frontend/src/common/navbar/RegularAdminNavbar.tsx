@@ -5,17 +5,12 @@ import { NavbarTemplateWithLogOut } from "./template/with_logout/NavbarTemplateW
 export const RegularAdminNavbar = () => {
     const buttonsProps: NavbarButtonProps[] = [
         {
-            text: "Home",
-            link: routes.mainPage,
+            text: "Reports",
+            link: routes.adminReportsPage,
         },
         {
             text: "Service search",
             link: routes.serviceSearch,
-        },
-        {
-            text: "Reports",
-            // TODO
-            link: routes.mainPage
         },
     ];
     return <NavbarTemplateWithLogOut routeButtonProps={buttonsProps} />;

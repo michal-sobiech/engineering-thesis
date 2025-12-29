@@ -5,7 +5,7 @@ import { CustomerNavbar } from "./CustomerNavbar";
 import { EmployeeNavbar } from "./EmployeeNavbar";
 import { EntrepreneurNavbar } from "./EntrepreneurNavbar";
 import { GuestNavbar } from "./GuestNavbar";
-import { HeadAdminNavbar } from "./HeadAdminNavbar copy";
+import { HeadAdminNavbar } from "./HeadAdminNavbar";
 import { RegularAdminNavbar } from "./RegularAdminNavbar";
 
 export const Navbar = () => {
