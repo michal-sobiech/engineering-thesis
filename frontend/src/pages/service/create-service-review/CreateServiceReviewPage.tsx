@@ -53,7 +53,7 @@ export const CreateServiceReviewPage = () => {
             numStarsOutOf5,
             text: reviewText,
         });
-        navigate(routes.mainPage);
+        navigate(routes.servicePublicPage(serviceId));
     }
 
     if (serviceData === null) {
