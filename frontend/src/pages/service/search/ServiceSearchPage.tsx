@@ -103,12 +103,17 @@ export const ServiceSearchPage = () => {
         }
 
         if (startDate < new Date()) {
-            toastError("Choose a future time range");
+            toastError("Chosen start time is in the past");
             return;
         }
 
         if (endDate === null) {
             toastError("Choose second time boundary");
+            return;
+        }
+
+        if (endDate <= startDate) {
+            toastError("Chosen end time must be after chosen start time");
             return;
         }
 
