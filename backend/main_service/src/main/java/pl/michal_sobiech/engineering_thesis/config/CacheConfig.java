@@ -38,9 +38,6 @@ public class CacheConfig {
     @Bean
     public CacheManager cacheManager(
             RedisConnectionFactory connectionFactory) {
-        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAa");
-        System.out.println(host);
-        System.out.println(port);
         RedisCacheWriter writer = RedisCacheWriter.nonLockingRedisCacheWriter(connectionFactory);
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig().entryTtl(timeToLiveMs);
         return RedisCacheManager.builder(writer).cacheDefaults(config).build();

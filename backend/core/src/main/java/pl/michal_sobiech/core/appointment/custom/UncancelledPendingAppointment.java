@@ -22,7 +22,6 @@ public record UncancelledPendingAppointment(
 ) implements CustomAppointment {
 
     private static boolean matchesEntity(AppointmentEntity entity) {
-        System.out.println(entity);
         return (entity.isCustom()
                 && entity.getIsAccepted() == null
                 && entity.getRejectionMessage() == null

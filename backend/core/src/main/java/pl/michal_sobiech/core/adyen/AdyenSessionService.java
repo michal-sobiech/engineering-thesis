@@ -45,9 +45,6 @@ public class AdyenSessionService {
 
         String merchantReference = MerchantReferenceUtils.createMerchantReference(paymentSubjectType, paymentSubjectId);
 
-        System.out.println("ABBCC");
-        System.out.println(returnUrl);
-
         CreateCheckoutSessionRequest request = new CreateCheckoutSessionRequest()
                 .reference(merchantReference)
                 .mode(CreateCheckoutSessionRequest.ModeEnum.HOSTED)

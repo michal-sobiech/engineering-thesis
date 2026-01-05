@@ -18,7 +18,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 public class EngineeringThesisApplication {
 
     public static void main(String[] args) {
-        System.out.println("MAIN SERVICE");
         SpringApplication.run(EngineeringThesisApplication.class, args);
     }
 

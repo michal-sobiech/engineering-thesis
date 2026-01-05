@@ -20,7 +20,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class PayoutWorkerApplication {
 
     public static void main(String[] args) {
-        System.out.println("PAYOUT WORKER");
         SpringApplication.run(PayoutWorkerApplication.class, args);
     }
 

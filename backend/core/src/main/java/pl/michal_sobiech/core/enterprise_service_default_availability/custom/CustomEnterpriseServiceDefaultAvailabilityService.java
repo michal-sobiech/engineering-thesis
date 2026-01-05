@@ -64,7 +64,6 @@ public class CustomEnterpriseServiceDefaultAvailabilityService {
 
         for (LocalDate date : DateUtils.getAllDatesBetweenIncludingBorders(from, to)) {
             DayOfWeek dayOfWeek = date.getDayOfWeek();
-            System.out.println(dayOfWeek);
 
             List<LocalDatetimeWindow> windowsForDate = getDefaultAvailabilityForDate(enterpriseServiceId, date);
 

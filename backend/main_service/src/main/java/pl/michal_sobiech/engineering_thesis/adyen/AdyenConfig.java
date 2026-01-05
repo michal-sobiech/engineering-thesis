@@ -23,10 +23,6 @@ public class AdyenConfig {
     @Bean
     public Client adyenClient() {
         Client client = new Client(adyenProperties.apiKey(), Environment.TEST);
-        System.out.println("|||||||||||||||||||||||||||||||||||||||");
-        System.out.println(adyenProperties.apiKey());
-        System.out.println(adyenProperties.merchantAccount());
-        // System.out.println(client.getConfig().getApiKey());
         return client;
     }
 

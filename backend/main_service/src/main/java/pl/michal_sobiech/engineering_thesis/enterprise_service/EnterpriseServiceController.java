@@ -284,10 +284,7 @@ public class EnterpriseServiceController implements ServicesApi {
     public ResponseEntity<Void> createEnterpriseServiceReview(
             Long serviceId,
             CreateEnterpriseServiceReviewRequest request) {
-        System.out.println("JJJJJJJJJJJJJJJJJ");
         Customer customer = authService.requireCustomer();
-
-        System.out.println("IS A CUSTOMR");
 
         short numStarsOutOf5 = request.getNumStarsOutOf5().shortValue();
         if (numStarsOutOf5 < 1 || numStarsOutOf5 > 5) {
