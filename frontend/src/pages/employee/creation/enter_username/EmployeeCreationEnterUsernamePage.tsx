@@ -31,8 +31,8 @@ export const EmployeeCreationEnterUsernamePage = () => {
             .andThen(enterpriseId => assertDefined(enterpriseId))
             .andThen(enterpriseId => checkUsernameAvailable(enterpriseId, username, enterpriseEmployeesApi));
         if (result.isOk()) {
-            const usernameExists = result.value;
-            if (usernameExists) {
+            const usernameAvailable = result.value;
+            if (!usernameAvailable) {
                 toastError("Chosen username is not available");
             } else {
                 toast.dismiss();

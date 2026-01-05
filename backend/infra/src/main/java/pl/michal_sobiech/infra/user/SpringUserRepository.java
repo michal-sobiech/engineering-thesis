@@ -38,6 +38,13 @@ public interface SpringUserRepository extends JpaRepository<UserEntity, Long> {
             JOIN AppointmentEntity a ON a.enterpriseServiceId = s.enterpriseServiceId
             WHERE a.appointmentId = :appointmentId
             """)
-    public List<UserEntity> getEnterpriseEmployees(@Param("appointmentId") long appointmentId);
+    public List<UserEntity> getEnterpriseEmployeesByAppointmentId(@Param("appointmentId") long appointmentId);
+
+    @Query("""
+            SELECT DISTINCT u
+            FROM UserEntity u
+            WHERE u.enterpriseId = :enterpriseId
+            """)
+    public List<UserEntity> getEnterpriseEmployeesByEnterpriseId(@Param("enterpriseId") long enterpriseId);
 
 }

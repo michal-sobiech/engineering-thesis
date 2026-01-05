@@ -19,6 +19,8 @@ public interface UserRepository {
 
     public Optional<UserEntity> getEnterpriseOwner(long appointmentId);
 
-    public List<UserEntity> getEnterpriseEmployees(long appointmentId);
+    public List<UserEntity> getEnterpriseEmployeesByAppointmentId(long appointmentId);
+
+    public List<UserEntity> getEnterpriseEmployeesByEnterpriseId(long entepriseId);
 
 }

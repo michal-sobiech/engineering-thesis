@@ -123,7 +123,12 @@ public class EnterpriseController implements EnterprisesApi {
 
     @Override
     public ResponseEntity<List<GetEnterpriseEmployeesResponseItem>> getEnterpriseEmployees(Long enterpriseId) {
-        return HttpUtils.createInternalServerErrorResponse();
+        var body = employeeService.getEnterpriseEmployeesByEntepriseId(enterpriseId)
+                .stream()
+                .map(employee -> new GetEnterpriseEmployeesResponseItem(employee.getUsername(), employee.getFirstName(),
+                        employee.getLastName()))
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(body);
     }
 
     @Override

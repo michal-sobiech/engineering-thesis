@@ -52,8 +52,13 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public List<UserEntity> getEnterpriseEmployees(long appointmentId) {
-        return springUserRepository.getEnterpriseEmployees(appointmentId);
+    public List<UserEntity> getEnterpriseEmployeesByAppointmentId(long appointmentId) {
+        return springUserRepository.getEnterpriseEmployeesByAppointmentId(appointmentId);
+    }
+
+    @Override
+    public List<UserEntity> getEnterpriseEmployeesByEnterpriseId(long enterpriseId) {
+        return springUserRepository.getEnterpriseEmployeesByEnterpriseId(enterpriseId);
     }
 
 }

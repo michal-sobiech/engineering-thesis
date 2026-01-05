@@ -1,6 +1,7 @@
 import { Box, Center, Flex, Heading, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { useEnterpriseEmployeesApi } from "../../../api/enterprise-employees-api";
 import { useEnterprisesApi } from "../../../api/enterprises-api";
 import { LinkScrollableList } from "../../../common/LinkScrollableList";
 import { useEnterpriseIdFromLoader } from "../../../common/loader/enterprise-id-loader";
@@ -12,8 +13,10 @@ import { StandardLabeledContainer } from "../../../common/StandardLabeledContain
 import { StandardPanel } from "../../../common/StandardPanel";
 import { StandardTextField } from "../../../common/StandardTextField";
 import { StandardVerticalSeparator } from "../../../common/StandardVerticalSeparator";
+import { TextScrollableList } from "../../../common/TextScrollableList";
 import { GetEnterpriseService200Response, Location } from "../../../GENERATED-api";
 import { routes } from "../../../router/routes";
+import { Employee, fetchEnterpriseEmployees } from "../../../services/get-employees";
 import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../../utils/error";
 import { toastError } from "../../../utils/toast";
 import { fetchServices } from "../../service/service-utils";
@@ -21,6 +24,7 @@ import { fetchEnterpriseData } from "../utils";
 
 export const EnterpriseStaffPage = () => {
     const enterprisesApi = useEnterprisesApi();
+    const employeesApi = useEnterpriseEmployeesApi();
     const navigate = useNavigate();
     const enterpriseId = useEnterpriseIdFromLoader();
 
@@ -31,6 +35,8 @@ export const EnterpriseStaffPage = () => {
     const [backgroundPhotoFile, setBackgroundPhotoFile] = useState<File | null>(null);
 
     const [services, setServices] = useState<GetEnterpriseService200Response[]>([]);
+
+    const [employees, setEmployees] = useState<Employee[]>([]);
 
     const onDicardClick = () => {
         navigate(routes.enterprisePublic(enterpriseId));
@@ -75,6 +81,18 @@ export const EnterpriseStaffPage = () => {
         }
         loadServicesData();
     }, [])
+
+    useEffect(() => {
+        fetchEnterpriseEmployees(employeesApi, enterpriseId)
+            .then(response => {
+                setEmployees(response);
+            })
+            .catch(() => {
+                toastError(DEFAULT_ERROR_MESSAGE_FOR_USER);
+                navigate(routes.mainPage);
+                return;
+            });
+    }, []);
 
     return <Box height="100%" overflowY="auto" alignContent="center">
         <Center>
@@ -129,6 +147,18 @@ export const EnterpriseStaffPage = () => {
                             label: service.name,
                             url: routes.staffServicePage(service.serviceId),
                         }))} />
+                    </StandardBox>
+
+                    <StandardVerticalSeparator />
+
+                    <Heading size="xl" marginBottom={0}>
+                        Employees
+                    </Heading>
+                    <StandardButton onClick={() => navigate(routes.createEnterpriseEmployee(enterpriseId))}>
+                        Create an employee
+                    </StandardButton>
+                    <StandardBox>
+                        <TextScrollableList items={employees.map(e => e.username)} />
                     </StandardBox>
 
                 </StandardFlex>

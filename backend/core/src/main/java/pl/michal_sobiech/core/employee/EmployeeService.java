@@ -45,7 +45,15 @@ public class EmployeeService {
     }
 
     public List<Employee> getEnterpriseEmployees(long appointmentId) {
-        return userRepository.getEnterpriseEmployees(appointmentId)
+        return userRepository.getEnterpriseEmployeesByAppointmentId(appointmentId)
+                .stream()
+                .map(User::fromEntity)
+                .map(Employee::fromUser)
+                .collect(Collectors.toList());
+    }
+
+    public List<Employee> getEnterpriseEmployeesByEntepriseId(long enterpriseId) {
+        return userRepository.getEnterpriseEmployeesByEnterpriseId(enterpriseId)
                 .stream()
                 .map(User::fromEntity)
                 .map(Employee::fromUser)
