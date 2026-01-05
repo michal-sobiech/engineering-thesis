@@ -11,8 +11,6 @@ public class DayOfWeekConverter implements AttributeConverter<DayOfWeek, Short> 
 
     @Override
     public Short convertToDatabaseColumn(DayOfWeek attribute) {
-        System.out
-                .println("GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG");
         return attribute == null
                 ? null
                 : DayOfWeekUtils.getNumberOfDayOfWeek(attribute);
