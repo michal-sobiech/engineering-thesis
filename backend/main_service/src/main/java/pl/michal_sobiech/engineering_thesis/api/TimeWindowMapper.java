@@ -6,7 +6,7 @@ import org.SwaggerCodeGenExample.model.TimeWindow;
 
 import pl.michal_sobiech.core.enterprise_service_slot_template.custom_appointments.CreateTimeWindowTemplateCommand;
 import pl.michal_sobiech.core.enterprise_service_slot_template.custom_appointments.CustomSlotTemplate;
-import pl.michal_sobiech.engineering_thesis.utils.DayOfWeekUtils;
+import pl.michal_sobiech.core.utils.DayOfWeekUtils;
 
 public class TimeWindowMapper {
 

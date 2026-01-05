@@ -39,19 +39,19 @@ export const EnterprisePublicPage = () => {
     const logoObjectUrl = logoFile ? URL.createObjectURL(logoFile) : undefined;
     const backgroundPhotoObjectUrl = backgroundPhotoFile ? URL.createObjectURL(backgroundPhotoFile) : undefined;
 
-    return <Center>
+    return <Center height="100%">
         <Box
             width="100%"
             height="100%"
-            backgroundImage={`url(${logoObjectUrl})`}
+            backgroundImage={`url(${backgroundPhotoObjectUrl})`}
             backgroundRepeat="no-repeat"
             backgroundPosition="center"
             backgroundSize="cover"
         >
             <Center width="100%" height="100%">
-                <StandardPanel width="80%" height="90vh" padding="20px" backgroundColor="primary.basicWhite" >
-                    <Flex direction="column" align="stretch" gap="10px">
-                        <EnterprisePublicPageHeader enterpriseName={name ?? ""} imageUrl={backgroundPhotoObjectUrl} />
+                <StandardPanel height="100%" width="80%" padding="20px" backgroundColor="primary.basicWhite" >
+                    <Flex height="100%" direction="column" gap="10px">
+                        <EnterprisePublicPageHeader enterpriseName={name ?? ""} imageUrl={logoObjectUrl} />
                         <StandardHorizontalSeparator />
                         <Text> {description ?? ""} </Text>
                         <StandardHorizontalSeparator />

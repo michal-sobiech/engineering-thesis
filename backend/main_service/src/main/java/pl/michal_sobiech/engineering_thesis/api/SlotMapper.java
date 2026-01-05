@@ -7,7 +7,7 @@ import org.SwaggerCodeGenExample.model.Slot;
 
 import pl.michal_sobiech.core.enterprise_service_slot_template.non_custom_appointments.CreateSlotTemplateCommand;
 import pl.michal_sobiech.core.enterprise_service_slot_template.non_custom_appointments.NonCustomSlotTemplate;
-import pl.michal_sobiech.engineering_thesis.utils.DayOfWeekUtils;
+import pl.michal_sobiech.core.utils.DayOfWeekUtils;
 
 public class SlotMapper {
 

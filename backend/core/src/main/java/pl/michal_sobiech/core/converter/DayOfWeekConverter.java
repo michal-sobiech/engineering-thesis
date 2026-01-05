@@ -1,19 +1,18 @@
-package pl.michal_sobiech.engineering_thesis.converter;
+package pl.michal_sobiech.core.converter;
 
 import java.time.DayOfWeek;
 
-import org.springframework.stereotype.Component;
-
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
-import pl.michal_sobiech.engineering_thesis.utils.DayOfWeekUtils;
+import pl.michal_sobiech.core.utils.DayOfWeekUtils;
 
-@Component
-@Converter(autoApply = true)
+@Converter
 public class DayOfWeekConverter implements AttributeConverter<DayOfWeek, Short> {
 
     @Override
     public Short convertToDatabaseColumn(DayOfWeek attribute) {
+        System.out
+                .println("GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG");
         return attribute == null
                 ? null
                 : DayOfWeekUtils.getNumberOfDayOfWeek(attribute);
