@@ -7,7 +7,6 @@ import org.SwaggerCodeGenExample.model.Slot;
 
 import pl.michal_sobiech.core.enterprise_service_slot_template.non_custom_appointments.CreateSlotTemplateCommand;
 import pl.michal_sobiech.core.enterprise_service_slot_template.non_custom_appointments.NonCustomSlotTemplate;
-import pl.michal_sobiech.core.utils.DayOfWeekUtils;
 
 public class SlotMapper {
 
@@ -15,7 +14,7 @@ public class SlotMapper {
         LocalTime startTime = LocalTime.parse(slot.getStartTime());
         LocalTime endTime = LocalTime.parse(slot.getEndTime());
         return new CreateSlotTemplateCommand(
-                DayOfWeekUtils.swaggerToStdDayOfWeek(slot.getDayOfWeek()),
+                DayOfWeekMapper.swaggerToStdDayOfWeek(slot.getDayOfWeek()),
                 startTime,
                 endTime,
                 slot.getMaxOccupancy().shortValue());
@@ -23,7 +22,7 @@ public class SlotMapper {
 
     public static Slot fromNonCustomSlotTemplate(NonCustomSlotTemplate nonCustomSlotTemplate) {
         return new Slot(
-                DayOfWeekUtils.stdDayOfWeekToSwagger(nonCustomSlotTemplate.dayOfWeek()),
+                DayOfWeekMapper.stdDayOfWeekToSwagger(nonCustomSlotTemplate.dayOfWeek()),
                 nonCustomSlotTemplate.start().toString(),
                 nonCustomSlotTemplate.end().toString(),
                 BigDecimal.valueOf(nonCustomSlotTemplate.maxOccupancy()));

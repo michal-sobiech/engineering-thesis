@@ -8,6 +8,7 @@ import org.hibernate.type.SqlTypes;
 
 import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -19,6 +20,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pl.michal_sobiech.core.converter.ZoneIdConverter;
 import pl.michal_sobiech.core.currency_iso.CurrencyIso;
 
 @Entity
@@ -44,6 +46,7 @@ public class EnterpriseServiceEntity {
     private double latitude;
     private double longitude;
 
+    @Convert(converter = ZoneIdConverter.class)
     @Column(name = "time_zone")
     private ZoneId timeZone;
 

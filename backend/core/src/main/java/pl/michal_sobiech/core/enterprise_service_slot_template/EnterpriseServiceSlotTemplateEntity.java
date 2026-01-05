@@ -5,6 +5,7 @@ import java.time.LocalTime;
 
 import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,6 +15,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pl.michal_sobiech.core.converter.DayOfWeekConverter;
 
 @Entity
 @Table(name = "enterprise_service_slot_template")
@@ -31,6 +33,7 @@ public class EnterpriseServiceSlotTemplateEntity {
     @Column(name = "enterprise_service_id")
     private long enterpriseServiceId;
 
+    @Convert(converter = DayOfWeekConverter.class)
     @Column(name = "day_of_week")
     private DayOfWeek dayOfWeek;
 
