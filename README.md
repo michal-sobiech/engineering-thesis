@@ -2,7 +2,7 @@
 1. In main directory: create a copy of the `.env.template` file and name it `.env`
 2. Some fields will be missing, e.g. the adyen merchant account. You will need to provide those on your own or ask me (author, Michał Sobiech) for them.
 2. Change direcotry to "docker" folder
-3. Run `sudo docker compose --env-file=../.env up --no-deps database_primary database_replica database_cache backend_main_service_1 nginx backend_payout_worker frontend`
+3. Run `sudo docker compose --env-file=../.env up --no-deps database_primary database_replica database_cache backend_main_service_1 backend_main_service_2 nginx backend_payout_worker frontend`
 4. App will be available on `http://localhost:3000`. To log in as admin use url `http://localhost:3000/admins/log-in`
 5. There are some default user accounts available. Every one has the same password: `aaaaaaaaa` (8 times letter a)
    - Head admin:
