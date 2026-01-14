@@ -114,7 +114,7 @@ services:
 
   backend_payout_worker:
     ports:
-      - 8081:80
+      - 8082:80
     <<:
       - *backend_shared_config
       - *backend_payout_worker_shared_config
