@@ -22,7 +22,7 @@ export const MainPageEntrepreneurPanel = () => {
                 fontSize="xxl"
             />
             <StandardButton onClick={onClick}>
-                Log in
+                Log in / sign up
             </StandardButton>
         </Flex>
     </FullSpaceCenter>;
