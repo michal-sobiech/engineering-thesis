@@ -8,6 +8,7 @@ import { isEmailValidAndAvailable } from "../email";
 import EmailField from "../EmailField";
 import { StandardButton } from "../StandardButton";
 import { StandardFlex } from "../StandardFlex";
+import { StandardPanel } from "../StandardPanel";
 import { VoidCallback } from "../VoidCallback";
 
 export interface SignUpEnterEmailPageProps {
@@ -38,15 +39,17 @@ export const SignUpEnterEmailPage: FC<SignUpEnterEmailPageProps> = ({ submit, em
 
     return <Center height="100%">
         <Box width="40%">
-            <StandardFlex>
-                <Text textAlign="center">
-                    Enter your email address
-                </Text>
-                <EmailField text={email} setText={setEmail} />
-                <StandardButton onClick={onNextButtonClick}>
-                    Next
-                </StandardButton>
-            </StandardFlex>
+            <StandardPanel>
+                <StandardFlex>
+                    <Text textAlign="center">
+                        Enter your email address
+                    </Text>
+                    <EmailField text={email} setText={setEmail} />
+                    <StandardButton onClick={onNextButtonClick}>
+                        Next
+                    </StandardButton>
+                </StandardFlex>
+            </StandardPanel>
         </Box>
     </Center>;
 }

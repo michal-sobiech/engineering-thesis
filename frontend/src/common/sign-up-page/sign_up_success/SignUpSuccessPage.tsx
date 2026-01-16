@@ -17,14 +17,16 @@ export const SignUpSuccessPage: FC<SignUpSuccessPage> = ({ logInPageUrl }) => {
         navigate(logInPageUrl);
     }
 
-    return <StandardPanel width="30%">
-        <StandardFlex>
-            <Center>
-                <SignUpSuccessMessage />
-            </Center>
-            <StandardButton onClick={onClick}>
-                Log in
-            </StandardButton>;
-        </StandardFlex>
-    </StandardPanel>;
+    return <Center height="100%">
+        <StandardPanel width="30%">
+            <StandardFlex>
+                <Center>
+                    <SignUpSuccessMessage />
+                </Center>
+                <StandardButton onClick={onClick}>
+                    Log in
+                </StandardButton>
+            </StandardFlex>
+        </StandardPanel>
+    </Center>;
 }

@@ -26,7 +26,7 @@ export const SignUpEnterPasswordPage: FC<SignUpEnterPasswordPageProps> = ({ subm
 
     return <Center height="100%">
         <StandardPanel width="40%">
-            return <StandardFlex>
+            <StandardFlex>
                 <Text textAlign="center">
                     Set a password
                 </Text>
@@ -40,7 +40,7 @@ export const SignUpEnterPasswordPage: FC<SignUpEnterPasswordPageProps> = ({ subm
                 <StandardButton onClick={onClick}>
                     Next
                 </StandardButton>
-            </StandardFlex>;
+            </StandardFlex>
         </StandardPanel>
     </Center >;
 }
