@@ -7,7 +7,7 @@ export enum ServiceCathegory {
     INTERNIST = "INTERNIST",
     PEDIATRICS = "PEDIATRICS",
     PSYCHIATRY = "PSYCHIATRY",
-    STOMATOGLOGY = "STOMATOGLOGY",
+    STOMATOLOGY = "STOMATOLOGY",
     GYNECOLOGY = "GYNECOLOGY",
 
     HANDYMAN = "HANDYMAN",
@@ -23,7 +23,7 @@ export const serviceCathegoryLabels = {
     [ServiceCathegory.INTERNIST]: "Internist",
     [ServiceCathegory.PEDIATRICS]: "Pediatrics",
     [ServiceCathegory.PSYCHIATRY]: "Psychiatry",
-    [ServiceCathegory.STOMATOGLOGY]: "Stomatology",
+    [ServiceCathegory.STOMATOLOGY]: "Stomatology",
     [ServiceCathegory.GYNECOLOGY]: "Gynecology",
     [ServiceCathegory.HANDYMAN]: "Handyman",
     [ServiceCathegory.PLUMBER]: "Plumber",

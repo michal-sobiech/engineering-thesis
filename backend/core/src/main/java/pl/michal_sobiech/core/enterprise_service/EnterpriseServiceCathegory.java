@@ -14,7 +14,7 @@ public enum EnterpriseServiceCathegory {
     INTERNIST,
     PEDIATRICS,
     PSYCHIATRY,
-    STOMATOGLOGY,
+    STOMATOLOGY,
     GYNECOLOGY,
 
     HANDYMAN,
@@ -30,7 +30,7 @@ public enum EnterpriseServiceCathegory {
                     Map.entry(EnterpriseServiceCathegory.INTERNIST, "INTERNIST"),
                     Map.entry(EnterpriseServiceCathegory.PEDIATRICS, "PEDIATRICS"),
                     Map.entry(EnterpriseServiceCathegory.PSYCHIATRY, "PSYCHIATRY"),
-                    Map.entry(EnterpriseServiceCathegory.STOMATOGLOGY, "STOMATOLOGY"),
+                    Map.entry(EnterpriseServiceCathegory.STOMATOLOGY, "STOMATOLOGY"),
                     Map.entry(EnterpriseServiceCathegory.GYNECOLOGY, "GYNECOLOGY"),
                     Map.entry(EnterpriseServiceCathegory.HANDYMAN, "HANDYMAN"),
                     Map.entry(EnterpriseServiceCathegory.PLUMBER, "PLUMBER"),

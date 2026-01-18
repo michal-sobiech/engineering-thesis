@@ -13,7 +13,7 @@ CREATE TYPE enterprise_service_cathegory AS ENUM (
     'INTERNIST',
     'PEDIATRICS',
     'PSYCHIATRY',
-    'STOMATOGLOGY',
+    'STOMATOLOGY',
     'GYNECOLOGY',
 
     'HANDYMAN',
