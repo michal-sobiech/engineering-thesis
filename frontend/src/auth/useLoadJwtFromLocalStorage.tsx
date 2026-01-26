@@ -2,6 +2,7 @@ import { ResultAsync } from "neverthrow";
 import { useUsersApi } from "../api/user-api";
 import { getJwtFromLocalStorage, removeJwtTokenFromLocalStorage } from "../common/local-storage";
 import { isUserGroup } from "../common/UserGroup";
+import { fetchMyUserGroup } from "../services/user-group";
 import { errorErrResultAsyncFromPromise } from "../utils/result";
 import { useAuth } from "./useAuth";
 
@@ -16,7 +17,7 @@ export function useLoadJwtFromLocalStorage() {
             return;
         }
 
-        const userGroupPromise = userApi.getMyUserGroup({ headers: { Authorization: `Bearer ${jwt}` } });
+        const userGroupPromise = fetchMyUserGroup(jwt, userApi);
         const userGroupResult = await errorErrResultAsyncFromPromise(userGroupPromise);
         if (userGroupResult.isErr()) {
             removeJwtTokenFromLocalStorage();
@@ -24,7 +25,7 @@ export function useLoadJwtFromLocalStorage() {
             return;
         }
 
-        const userGroup = userGroupResult.value.userGroup;
+        const userGroup = userGroupResult.value;
         if (!isUserGroup(userGroup)) {
             removeJwtTokenFromLocalStorage();
             setAuth({ isAuthenticated: false });

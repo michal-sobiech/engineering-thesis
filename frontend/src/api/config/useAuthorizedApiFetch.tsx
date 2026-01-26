@@ -2,10 +2,7 @@ import { useRef } from "react";
 import { useNavigate } from "react-router";
 import { useLogOut } from "../../auth/useLogOut";
 import { routes } from "../../router/routes";
-import { UnauthenticatedError } from "../../utils/error/UnauthenticatedError";
-import { UnauthorizedError } from "../../utils/error/UnauthorizedError";
 import { toastError } from "../../utils/toast";
-import { authorizedApiFetch } from "./authorized-api-fetch";
 
 export function useAuthorizedApiFetch(): typeof fetch {
     const isUnauthenticatedPopupShown = useRef(false);
@@ -14,34 +11,26 @@ export function useAuthorizedApiFetch(): typeof fetch {
     const logOut = useLogOut();
 
     return async (url: URL | RequestInfo, options?: RequestInit) => {
-        try {
-            return await authorizedApiFetch(url, options);
-        } catch (error: unknown) {
-            if (error instanceof UnauthenticatedError) {
-                if (!isUnauthenticatedPopupShown.current) {
-                    isUnauthenticatedPopupShown.current = true;
-
-                    toastError("Unauthenticated. Please log in.", {
-                        onClose: () => { isUnauthenticatedPopupShown.current = false; }
-                    });
-                }
-                logOut();
-                navigate(routes.mainPage);
-                return new Promise(() => { });
+        const response = await fetch(url, options);
+        if (response.status === 401) {
+            if (!isUnauthenticatedPopupShown.current) {
+                isUnauthenticatedPopupShown.current = true;
+                toastError("Unauthenticated. Please log in.", {
+                    onClose: () => { isUnauthenticatedPopupShown.current = false; }
+                });
             }
-            if (error instanceof UnauthorizedError) {
-                if (!isUnauthorizedPopupShown.current) {
-                    isUnauthorizedPopupShown.current = true;
-
-                    toastError("Unauthorized.", {
-                        onClose: () => { isUnauthorizedPopupShown.current = false; }
-                    });
-                }
-                logOut();
-                navigate(routes.mainPage);
-                return new Promise(() => { });
+            logOut();
+            navigate(routes.mainPage);
+        } else if (response.status === 403) {
+            if (!isUnauthorizedPopupShown.current) {
+                isUnauthorizedPopupShown.current = true;
+                toastError("Unauthorized.", {
+                    onClose: () => { isUnauthorizedPopupShown.current = false; }
+                });
             }
-            throw error;
+            logOut();
+            navigate(routes.mainPage);
         }
+        return response;
     };
 }
