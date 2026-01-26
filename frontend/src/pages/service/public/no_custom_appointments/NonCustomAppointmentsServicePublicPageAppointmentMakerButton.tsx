@@ -1,4 +1,4 @@
-import { LocalDateTime } from "@js-joda/core";
+import { LocalDate, LocalDateTime } from "@js-joda/core";
 import { useNavigate } from "react-router";
 import { useAppointmentsApi } from "../../../../api/appointments-api";
 import { useServiceIdFromLoader } from "../../../../common/loader/service-id-loader";
@@ -28,6 +28,12 @@ export const NonCustomAppointmentsServicePublicPageAppointmentMakerButton = () =
         }
         if (selectedSlot === null) {
             toastError("Select a slot");
+            return;
+        }
+
+        const yesterday = LocalDate.now().minusDays(1);
+        if (selectedDate.isBefore(yesterday)) {
+            toastError("Date cannot be from the past");
             return;
         }
 
