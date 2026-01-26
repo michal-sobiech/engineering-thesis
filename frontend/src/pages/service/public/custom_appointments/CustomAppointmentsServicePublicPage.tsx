@@ -38,6 +38,9 @@ export const CustomAppointmentsServicePublicPage = () => {
     const [selectedTimeWindowEnd, setSelectedTimeWindowEnd] = useState<LocalTime | null>(null);
     const [address, setAddress] = useState<string>("");
     const [position, setPosition] = useState<GeoPosition | null>(null);
+    const [timezone, setTimezone] = useState<string>("");
+    const [price, setPrice] = useState<number | null>(null);
+    const [currency, setCurrency] = useState<string>("");
 
     useEffect(() => {
         servicesApi.getCustomEnterpriseService(serviceId)
@@ -46,6 +49,9 @@ export const CustomAppointmentsServicePublicPage = () => {
                 setEnterpriseId(response.enterpriseId);
                 setServiceName(response.name);
                 setDescription(response.description);
+                setTimezone(response.timezone);
+                setPrice(response.price);
+                setCurrency(response.currencyIso);
             }).catch(() => {
                 toastError(DEFAULT_ERROR_MESSAGE_FOR_USER);
                 navigate(routes.mainPage);
@@ -105,6 +111,8 @@ export const CustomAppointmentsServicePublicPage = () => {
 
                     <Text>{description}</Text>
 
+                    <Text>Price: {price} {currency}</Text>
+
                     <StandardHorizontalSeparator />
 
                     <StandardLabeledContainer flexGrow={1} maxHeight="30%" label="Reviews">
@@ -114,6 +122,8 @@ export const CustomAppointmentsServicePublicPage = () => {
                     </StandardLabeledContainer>
 
                     <StandardHorizontalSeparator />
+
+                    <Text>Timezone: {timezone}</Text>
 
                     <Box flexShrink={0} height="100%">
                         <NonEditableCustomMonthlyCalendar

@@ -34,6 +34,9 @@ export const NoCustomAppointmentsServicePublicPage = () => {
     const [selectedDate, setSelectedDate] = useState<LocalDate | null>(null);
     const [freeSlotsOnSelectedDate, setFreeSlotsOnSelectedDate] = useState<[LocalTime, LocalTime][] | null>(null);
     const [selectedSlot, setSelectedSlot] = useState<[LocalTime, LocalTime] | null>(null);
+    const [timezone, setTimezone] = useState<string>("");
+    const [price, setPrice] = useState<number | null>(null);
+    const [currency, setCurrency] = useState<string>("");
 
     const contextValue: NoCustomAppointmentsServicePublicPageContextValue = {
         selectedDate,
@@ -53,6 +56,9 @@ export const NoCustomAppointmentsServicePublicPage = () => {
                 setEnterpriseId(response.enterpriseId);
                 setServiceName(response.name);
                 setDescription(response.description);
+                setTimezone(response.timezone);
+                setPrice(response.price);
+                setCurrency(response.currencyIso);
             }).catch(() => {
                 toastError(DEFAULT_ERROR_MESSAGE_FOR_USER);
                 navigate(routes.mainPage);
@@ -96,6 +102,8 @@ export const NoCustomAppointmentsServicePublicPage = () => {
 
                     <Text>{description}</Text>
 
+                    <Text>Price: {price} {currency}</Text>
+
                     <StandardHorizontalSeparator />
 
                     <StandardLabeledContainer flexGrow={1} maxHeight="30%" label="Reviews">
@@ -105,6 +113,8 @@ export const NoCustomAppointmentsServicePublicPage = () => {
                     </StandardLabeledContainer>
 
                     <StandardHorizontalSeparator />
+
+                    <Text>Timezone: {timezone}</Text>
 
                     <Box height="50vh">
                         <NonEditableCustomMonthlyCalendar
