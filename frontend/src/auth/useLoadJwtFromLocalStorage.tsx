@@ -1,5 +1,5 @@
 import { ResultAsync } from "neverthrow";
-import { useUsersApi } from "../api/user-api";
+import { useStdFetchUserApi } from "../api/std-fetch-user-api";
 import { getJwtFromLocalStorage, removeJwtTokenFromLocalStorage } from "../common/local-storage";
 import { isUserGroup } from "../common/UserGroup";
 import { fetchMyUserGroup } from "../services/user-group";
@@ -8,7 +8,7 @@ import { useAuth } from "./useAuth";
 
 export function useLoadJwtFromLocalStorage() {
     const { setAuth } = useAuth();
-    const userApi = useUsersApi();
+    const stdFetchUserApi = useStdFetchUserApi();
 
     async function createPromise(): Promise<void> {
         const jwt = getJwtFromLocalStorage();
@@ -17,7 +17,7 @@ export function useLoadJwtFromLocalStorage() {
             return;
         }
 
-        const userGroupPromise = fetchMyUserGroup(jwt, userApi);
+        const userGroupPromise = fetchMyUserGroup(jwt, stdFetchUserApi);
         const userGroupResult = await errorErrResultAsyncFromPromise(userGroupPromise);
         if (userGroupResult.isErr()) {
             removeJwtTokenFromLocalStorage();

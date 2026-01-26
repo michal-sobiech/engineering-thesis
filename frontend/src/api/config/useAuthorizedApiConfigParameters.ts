@@ -9,7 +9,6 @@ export function useAuthorizedApiConfigParameters() {
     const jwt = auth.isAuthenticated ? auth.jwtToken : "";
 
     const authorizedApiConfigurationParameters: ConfigurationParameters = {
-        // ...basicApiConfigParameters,
         basePath: "http://localhost:8080",
         accessToken: jwt,
         fetchApi: authorizedApiFetch,

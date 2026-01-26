@@ -7,6 +7,7 @@ import { Navbar } from "../common/navbar/Navbar";
 
 export function PageLayout() {
     const location = useNavigation();
+
     const loadJwtFromLocalStorage = useLoadJwtFromLocalStorage();
 
     const [jwtLoadingFinished, setJwtLoadingFinished] = useState<boolean>(false);
@@ -16,8 +17,7 @@ export function PageLayout() {
     }, [location]);
 
     useEffect(() => {
-        loadJwtFromLocalStorage()
-            .map(() => { setJwtLoadingFinished(true) });
+        loadJwtFromLocalStorage().then(() => setJwtLoadingFinished(true));
     }, []);
 
     if (!jwtLoadingFinished) {

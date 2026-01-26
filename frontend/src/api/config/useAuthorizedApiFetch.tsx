@@ -21,6 +21,7 @@ export function useAuthorizedApiFetch(): typeof fetch {
             }
             logOut();
             navigate(routes.mainPage);
+            return new Promise(() => { });
         } else if (response.status === 403) {
             if (!isUnauthorizedPopupShown.current) {
                 isUnauthorizedPopupShown.current = true;
@@ -30,6 +31,7 @@ export function useAuthorizedApiFetch(): typeof fetch {
             }
             logOut();
             navigate(routes.mainPage);
+            return new Promise(() => { });
         }
         return response;
     };
