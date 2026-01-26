@@ -38,6 +38,7 @@ export const ManageNonCustomServicePage = () => {
                 timezone: row.timezone,
                 price: row.price,
                 currency: row.currency,
+                isPaid: row.isPaid,
             } satisfies ManageNonCustomServicePageFutureScheduledAppointment));
             setFutureScheduledAppointments(appointments);
         }

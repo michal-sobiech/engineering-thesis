@@ -11,4 +11,5 @@ export interface ManageCustomServicePageFutureScheduledAppointment {
     timezone: string;
     price: number;
     currency: string;
+    isPaid: boolean;
 }

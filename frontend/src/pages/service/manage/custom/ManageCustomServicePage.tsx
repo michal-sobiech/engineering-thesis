@@ -41,6 +41,7 @@ export const ManageCustomServicePage = () => {
                 timezone: row.timezone,
                 price: row.price,
                 currency: row.currency,
+                isPaid: row.isPaid,
             } satisfies ManageCustomServicePageFutureScheduledAppointment));
             setFutureScheduledAppointments(appointments);
         }

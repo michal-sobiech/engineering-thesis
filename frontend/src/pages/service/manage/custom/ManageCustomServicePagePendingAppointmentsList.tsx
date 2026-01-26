@@ -14,7 +14,7 @@ import { DEFAULT_ERROR_MESSAGE_FOR_USER } from "../../../../utils/error";
 import { errorErrResultAsyncFromPromise } from "../../../../utils/result";
 import { toastError } from "../../../../utils/toast";
 import { ManageCustomServicePageContext } from "./ManageCustomServicePageContext";
-import { ManageCustomServicePageFutureScheduledAppointment } from "./ManageCustomServicePageFutureScheduledAppointment";
+import { ManageCustomServicePagePendingAppointment } from "./ManageCustomServicePagePendingAppointment";
 
 export const ManageCustomServicePagePendingAppointmentsList = () => {
     const { pendingAppointments } = useContextOrThrow(ManageCustomServicePageContext);
@@ -33,7 +33,7 @@ export const ManageCustomServicePagePendingAppointmentsList = () => {
 }
 
 interface ItemProps {
-    data: ManageCustomServicePageFutureScheduledAppointment,
+    data: ManageCustomServicePagePendingAppointment,
 }
 
 const Item: FC<ItemProps> = ({ data }) => {

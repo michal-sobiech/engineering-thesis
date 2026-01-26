@@ -67,6 +67,7 @@ function createItem(data: ManageNonCustomServicePageFutureScheduledAppointment, 
             <Text>
                 {data.price} {data.currency}
             </Text>
+            <Text>Did customer pay: {data.isPaid ? "yes" : "no"}</Text>
             <StandardButton backgroundColor="primary.darkRed" onClick={onCancelClick}>
                 Cancel
             </StandardButton>
