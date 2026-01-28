@@ -35,7 +35,6 @@ public class SecurityConfig {
         httpSecurity = csrfSetupper.setupCsrf(httpSecurity);
         httpSecurity = sessionManagementSetupper.setupSessionManagement(httpSecurity);
         httpSecurity.addFilterBefore(jwtAuthRequestFilter, UsernamePasswordAuthenticationFilter.class);
-        // httpSecurity = noAuthEndpointsSetupper.setupNoAuthEndpoints(httpSecurity);
 
         return buildSecurityFilterChain(httpSecurity);
     }

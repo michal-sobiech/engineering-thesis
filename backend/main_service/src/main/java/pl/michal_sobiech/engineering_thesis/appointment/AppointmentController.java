@@ -237,7 +237,6 @@ public class AppointmentController implements AppointmentsApi {
     @Override
     public ResponseEntity<Void> rejectPendingAppointment(Long appointmentId,
             RejectPendingAppointmentRequest request) {
-        // TODO auth everywhere
         EnterpriseMember enterpriseMember = authService.requireEnterpriseMember();
 
         if (!appointmentService.canUserManageAppointment(enterpriseMember.getUserId(), appointmentId)) {

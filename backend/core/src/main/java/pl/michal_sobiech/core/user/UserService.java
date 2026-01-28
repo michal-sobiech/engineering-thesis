@@ -22,7 +22,6 @@ public class UserService {
         return userRepository.findByEnterpriseIdAndUsername(enterpriseId, username);
     }
 
-    // TODO move to a different service?
     public Optional<UserEntity> findAdminByUsername(String username) {
         List<UserGroup> userGroups = List.of(UserGroup.REGULAR_ADMIN, UserGroup.HEAD_ADMIN);
         return userRepository.findByUserGroupInAndUsername(userGroups, username);

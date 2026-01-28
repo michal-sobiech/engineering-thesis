@@ -7,8 +7,6 @@ export interface ProtectedRouteProps {
 }
 
 export const ProtectedRoute: FC<ProtectedRouteProps> = ({ children }) => {
-    // TODO
-    // if (authCell === null) {
     if (false) {
         return <Navigate to={routes.mainPage} replace />;
     } else {

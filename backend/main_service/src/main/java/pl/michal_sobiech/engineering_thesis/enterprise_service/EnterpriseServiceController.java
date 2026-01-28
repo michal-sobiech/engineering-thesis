@@ -209,8 +209,6 @@ public class EnterpriseServiceController implements ServicesApi {
             CreateCustomAppointmentRequest request) {
         Customer customer = authService.requireCustomer();
 
-        // TODO check if appointment can be made
-
         ZoneId timezone = enterpriseServiceService.getTimeZoneByServiceId(enterpriseServiceId);
 
         LocalDateTime startParsed = LocalDateTime.parse(request.getStartDatetimeEnterpriseServiceLocal());

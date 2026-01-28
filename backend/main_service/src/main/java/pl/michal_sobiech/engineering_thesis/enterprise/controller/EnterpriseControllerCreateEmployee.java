@@ -38,7 +38,6 @@ public class EnterpriseControllerCreateEmployee {
             return HttpUtils.createForbiddenResponse();
         }
 
-        // TODO A race might take place here
         String newEmployeeUsername = request.getUsername();
         if (employeeService.checkEmployeeUsernameExists(enterpriseId, newEmployeeUsername)) {
             return HttpUtils.createConflictResponse();

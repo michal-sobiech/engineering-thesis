@@ -17,7 +17,6 @@ public class AppointmentRefundService {
     public void processCancelledScheduledFutureAppointmentRefund(
             long appointmentId,
             PaymentServiceProvider paymentServiceProvider) {
-        // TODO maybe domain objects?
         AppointmentEntity appointment = appointmentService.getById(appointmentId).orElseThrow();
         Money amount = Money.of(
                 appointment.getPrice(),

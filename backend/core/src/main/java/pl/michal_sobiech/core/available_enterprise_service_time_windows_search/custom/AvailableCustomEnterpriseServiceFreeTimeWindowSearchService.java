@@ -41,8 +41,6 @@ public class AvailableCustomEnterpriseServiceFreeTimeWindowSearchService {
                 .map(service -> getGlobalTimeWindowsForService(service, start, end))
                 .flatMap(List::stream)
                 .collect(Collectors.toList());
-
-        // TODO where is subtracting?????
     }
 
     private List<AvailableCustomEnterpriseServiceFreeTimeWindowSearchRow> getGlobalTimeWindowsForService(

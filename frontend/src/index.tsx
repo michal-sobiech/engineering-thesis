@@ -1,18 +1,14 @@
 import ReactDOM from 'react-dom/client';
 import App from './App';
-// import { loadAndSetAuth } from './auth/AuthProvider';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 
-// TODO
-// await loadAndSetAuth();
-
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+    document.getElementById('root') as HTMLElement
 );
 
 root.render(
-  <App />
+    <App />
 );
 
 // If you want to start measuring performance in your app, pass a function

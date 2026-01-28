@@ -164,7 +164,6 @@ public class EnterpriseController implements EnterprisesApi {
         return ResponseEntity.ok(body);
     }
 
-    // TODO cache invalidation
     @Override
     public ResponseEntity<Void> patchEnterprise(
             Long enterpriseId,

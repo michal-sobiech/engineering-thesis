@@ -13,11 +13,6 @@ export const ServicePublicPageNoCustomAppointmentsSlotList: FC<NoCustomAppointme
     const { selectedSlot: selectedAppointment, setSelectedSlot: setSelectedAppointment } = useContextOrThrow(NoCustomAppointmentsServicePublicPageContext);
 
     const onClick = () => {
-        // TODO
-        // setSelectedAppointment([
-        //     LocalTime.parse(start),
-        //     LocalTime.from(end)
-        // ]);
     }
 
     const startTimeString = extractHHmmTimeFromDate(start);

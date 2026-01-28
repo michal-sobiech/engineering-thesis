@@ -89,7 +89,6 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
                 enterpriseId, isCancelled, futureVsPast);
     }
 
-    // TODO maybe Optionals?
     @Override
     public List<AppointmentEntity> findCustomAppointments(
             Long customerUserId,

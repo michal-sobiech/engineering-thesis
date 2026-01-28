@@ -28,14 +28,7 @@ export const EditRegularAdminPage = () => {
     useEffect(() => {
         async function loadData() {
             const promise = regularAdminsApi.getRegularAdmin(adminUserId);
-            // const resultAsync = errorErrResultAsyncFromPromise(promise);
             const result = await promise;
-
-            // if (result.isErr()) {
-            //     toastError(DEFAULT_ERROR_MESSAGE_FOR_USER);
-            //     navigate(routes.mainPage);
-            //     return;
-            // }
 
             setUsername(result.username);
             setFirstName(result.firstName);

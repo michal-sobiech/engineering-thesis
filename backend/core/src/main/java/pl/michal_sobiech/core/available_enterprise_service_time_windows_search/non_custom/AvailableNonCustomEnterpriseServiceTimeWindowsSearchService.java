@@ -47,8 +47,6 @@ public class AvailableNonCustomEnterpriseServiceTimeWindowsSearchService {
                 .flatMap(List::stream)
                 .collect(Collectors.toList());
 
-        // TODO where is subtracting?
-
         return availableSlots;
     }
 

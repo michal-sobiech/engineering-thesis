@@ -27,7 +27,6 @@ public class RegularAdminController implements RegularAdminsApi {
 
     @Override
     public ResponseEntity<Void> createRegularAdmin(CreateRegularAdminRequest request) {
-        // TODO maybe do the authorization in security chain?
         authService.requireHeadAdmin();
 
         regularAdminsService.createRegularAdmin(

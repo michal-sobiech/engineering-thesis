@@ -37,11 +37,9 @@ public class EnterpriseServiceService {
     public List<? extends TimeSlot> findFreeSlots(long enterpriseServiceId, OffsetDateTime start, OffsetDateTime end) {
         TimeSlotWithOccupancy slot = new TimeSlotWithOccupancy(start, end, 10);
         return List.of(slot);
-        // TODO
     }
 
     public ZoneId getTimeZoneByServiceId(long enterpriseServiceId) {
-        // TODO java.util.NoSuchElementException causes error 500
         EnterpriseServiceDomain record = getById(enterpriseServiceId).orElseThrow();
         return record.timezone();
     }
