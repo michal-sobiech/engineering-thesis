@@ -16,7 +16,7 @@
    - Employee
      - Enterprise ID: `1`
      - Username: `anna.nowak.1`
-6. There is also an enterprise (`http://localhost:3000/enterprises/1`) with 2 services (`http://localhost:3000/services/1`, `http://localhost:3000/services/2`)
+6. There is also an enterprise (`http://localhost:3000/enterprises/1/public`) with 2 services (`http://localhost:3000/services/1`, `http://localhost:3000/services/2`)
 
 # Test VISA card
 Number: 4871 0499 9999 9910
