@@ -1,3 +1,6 @@
+# Written part of the engineering thesis
+Available in the `docs/` directory: [docs/Michał_Sobiech_Engineering_Thesis.pdf](docs/Michał_Sobiech_Engineering_Thesis.pdf)
+
 # How to run
 1. In main directory: create a copy of the `.env.template` file and name it `.env`
 2. Some fields will be missing, e.g. the adyen merchant account. You will need to provide those on your own or ask me (author, Michał Sobiech) for them.
